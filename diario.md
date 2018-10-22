@@ -12,3 +12,153 @@ Por lo pronto ya he pasado los sprites a formato SG. Estar¡a bien empezar trabaj
 Luego tendr‚ que coger la SGLib y darle un laneo para quitar morralla y luego hacerme un rotador de sprites autom tico, en el que yo env¡e sprites a la SAT pero que los vaya ciclando, usando m¢dulo todo el rollo de primos.
 
 Voy a pasar unos tiles y lo dejo descansar. 8x1, yippie.
+
+20181019
+========
+
+Me encantan estas distracciones. Me hacen volver a los proyectos en serio con más fuerza (principalmente, diseñar y hacer un juego molón en AGNES doble width).
+
+Veamos: tengo que conseguir exportar gráficos desde un script. Creo que como tengo que generar muchos binarios y luego comprimirlos con aplib de forma independiente, lo mejor es que modifique `mkts_om` que tien un script más dado a esto. Vamos al lío y a añadirle la plataforma sg1000 a `mkts_om`.
+
+20181022
+========
+
+Parece que tengo `mkts_om` básicamente apañado (al menos para chars, metatiles y sprites, que es lo básico). Ahora sería el momento de empezar a diseñar cómo montar el juego (portar AGNES, dicho con la boca chica), pero antes quiero hacer que `mkts_om` te saque ya los tilesets comprimidos en un array.
+
+~
+
+Ok! Tengo esto funcionando. Mira el script:
+
+```
+	mapfile mapfile.h
+
+	reset patterns
+	reset tmaps
+
+	open ts0.png
+	metatileset 0, 0, 16, 2, 2, 2
+
+	write tmaps ts0
+	output patterns ts0.patterns.bin ts0.colours.bin
+	write patterns ts0_patterns_c ts0_colours_c packed
+	reset patterns
+
+	open ss.png
+
+	reset metasprites
+	reset patterns
+	reset sprite_pattern_index
+	spriteset 0, 0, 8, 1, 1, 1, 0, 0
+	write metasprites ss_pl
+	write patterns ss_pl_patterns_c packed
+
+	reset metasprites
+	reset patterns
+	set sprite_pattern_index 64
+	spriteset 0, 2, 8, 2, 1, 1, 0, 0
+	write metasprites ss_en1
+	write patterns ss_en0_patterns_c packed
+
+	reset metasprites
+	reset patterns
+	set sprite_pattern_index 64
+	spriteset 0, 6, 8, 2, 1, 1, 0, 0
+	write metasprites ss_en2
+	write patterns ss_en1_patterns_c packed
+
+	reset patterns
+```
+
+El script va recortando y escribiendo los datos a un .h. También puede sacar binarios (es la forma de trabajar en la versión para ZX o CPC) pero para hacer juegos con esto lo suyo es así.
+
+¡De este modo tendré ya preparado mi .h con todos los tiestos! Voy a meter que crée constantes automáticamente con los tamaños, que siempre viene bien.
+
+~~
+
+Veamos, los tiestos de esto serán muy parecidos a como funciona AGNES en NES, de hecho iguales, pero cambiará el tema de cómo se cargan los patrones / colores en VRAM y cómo se referencian los metasprites (aunque será muy parecido). Vamos a organizar las cosas. En este juego sólo usamos metasprites bicolor, así que estamos ocupando el doble. En otros juegos ajustaremos más.
+
+- El metaspriteset de Cheril (player) formado por 8 metasprites de 2 sprites cada 1 (8 * 2 * 4 = 64 patrones) será fijo e irá cargado al principio de la tabla de patrones para sprites.
+
+- Los enemigos irán cargados después:
+	- 3 (enemigos) * 2 (frames) * 2 (direcciones) * 2 (colores) * 4 patrones = 96 patrones para enemigos lineales básicos 1-3, a partir de 64.
+	- 1 (fantasma) * 2 (frames) * 2 (direcciones) * 2 (colores) * 4 patrones = 32 patrones para fanty, a partir de 64+96 = 160
+	- 1 (plataforma) * 2 (frames) * 2 (colores) * 4 patrones = 16 patrones, a partir de 160+32 = 192
+
+Ahora mismo estamos en el patrón 192 + 16 = 208. Me quedan 48 patrones, o sea, 12 sprites monocolor, o 6 bicolor. ¡que son justo los que necesito: el set de spr_it compuesto por corazón, bragas, resonador apagado, resonador encendido, coco y explosión.
+
+El único trozo que cambia es el de los 96 patrones situados a partir de 64, que cambian por nivel. El resto permanece fijo. Por tanto, siempre habrá que cargar:
+
+- Jugador en patrón 0 (offset 0)
+- Fantasma en patrón 160 (offset 1280)
+- Plataforma en patrón 192 (offset 1536)
+- Items y cosas en patrón 208 (offset 1664)
+
+Voy a reordenar para poder juntar todos los patrones fijos en un único bloque, que así comprimirá mucho mejor y necesitará menos tiestos para descomprimir. Nos quedaría:
+
+- Jugador en patrón 0 (offset 0), 64 patrones.
+- Fantasma en patrón 64 (offset 512), 32 patrones.
+- Plataforma en patrón 96 (offset 768), 16 patrones.
+- Items y cosas en patrón 112 (offset 896), 48 patrones.
+
+Todo eso en un binario, y por separado:
+
+- Enemigos lineales en patrón 160 (offset 1289), 96 patrones.
+
+Este juego en concreto va a quedar muy bonito porque no he tenido que sacrificar nada.
+
+Lo primero entonces es hacer el binario completo con los patrones de los sprites para las cosas fijas. Sería algo así (ojo: el tipo de enemigo 3 de la fase 3 sólo lleva 2 frames, porque es igual a izquierda y derecha: eso se tomará en cuenta al construir los arrays de metasprites - no importaría desperdiciar espacio en VRAM, pero mola ahorrarse unos bytes en el cartucho ¿no?)
+
+```
+	mapfile spriteset.h
+
+	reset patterns
+	reset sprite_pattern_index
+
+	reset metasprites
+	spriteset 0, 0, 8, 1, 1, 1, 0, 0
+	write metasprites ss_pl
+
+	reset metasprites
+	spriteset 0, 2, 4, 1, 1, 1, 0, 0
+	write metasprites ss_fanty
+
+	reset metasprites
+	spriteset 8, 2, 2, 1, 1, 1, 0, 0
+	write metasprites ss_plat
+
+	reset metasprites
+	spriteset 0, 4, 6, 1, 1, 1, 0, 0
+	write metasprites ss_it
+
+	write patterns ss_fixed_patterns_c packed
+
+	# Enems level 0
+	reset patterns
+	set sprite_pattern_index 160
+	spriteset 0, 6, 8, 2, 1, 1, 0, 0, 12
+	write metasprites ss_en_0
+	write patterns ss_en_0_patterns_c packed
+
+	# Enems level 1
+	reset patterns
+	set sprite_pattern_index 160
+	spriteset 0, 10, 8, 2, 1, 1, 0, 0, 12
+	write metasprites ss_en_1
+	write patterns ss_en_1_patterns_c packed
+
+	# Enems level 2
+	reset patterns
+	set sprite_pattern_index 160
+	spriteset 0, 14, 8, 2, 1, 1, 0, 0, 10
+	write metasprites ss_en_2
+	write patterns ss_en_2_patterns_c packed
+```
+
+Todo esto, por ahora, se importa que es un gusto. Y lo que ocupan los patrones (estructuras de metasprites aparte) son 835 + 542 + 550 + 521 = 2448 bytes. Mola.
+
+~~
+
+Siguiendo con esto, y aunque aún me falta pasar gráficos, los metatiles irán parecido: habrá una zona "fija" y una zona "móvil". A unas malas, tengo 48 metatiles (en la fase 3 hay chac chacs) que, si tienen todos los patrones diferentes, ocuparían 48*4 = 192 patrones. Estos irán a partir del patrón 128, por tanto. A partir de 0 habrá 64 patrones con la fuente.
+
+~~
+
