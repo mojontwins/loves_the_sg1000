@@ -64,6 +64,8 @@ Dim Shared As Integer brickMultiplier
 Dim Shared As Integer patternSize
 Dim Shared As Integer patternWidthInPixels
 
+Dim Shared As Integer fHeaderFile, fMapFile
+
 Dim Shared As uInteger globalPalette (31), HWPalette (31)
 
 ' 255 is an out of bounds value meaning "undefined". 
@@ -675,8 +677,10 @@ Sub doTmaps (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As 
 			Next yy
 
 			tMapsIndex = tMapsIndex + 1: ctTmaps = ctTmaps + 1
+			If max > 0 And ctTmaps = max Then goto doTmapsBreak
 		Next x
 	Next y
+doTmapsBreak:
 
 	i = 1: If platform = PLATFORM_ZX Then i = 2
 	Puts "mkts_om v0.3.20181019 ~ Tmaps mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes) from " & ctTmaps & " metatiles (" & (ctTmaps * i * wMeta * hMeta) & " bytes)."
@@ -1115,82 +1119,89 @@ Sub writeColoursBinary (fileName As String)
 	fiPuts "+ " & bytes & " bytes written"
 End Sub
 
-Sub writeMainBinaryText (fOut As Integer, label As String)
+Sub writeMainBinaryText (label As String)
 	Dim As Integer bytes, i
 	Dim As uByte d
 
 	fiPuts "Writing patterns binary to array named " & label
 
-	Print #fOut, "// pattern data"
-	Print #fOut, "const unsigned char " & label & " [] = {"
+	Print #fMapFile, "// pattern data"
+	Print #fMapFile, "const unsigned char " & label & " [] = {"
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & " [];"
 
 	bytes = 0
 	For i = 0 To mainIndex - 1
-		If bytes Mod 8 = 0 Then Print #fOut, "    ";
-		d = mainBin (i): Print #fOut, "0x" & lCase (Hex (d, 2));
-		If i < mainIndex - 1 Then Print #fOut, ", ";
-		If bytes Mod 8 = 7 Then Print #fOut, ""
+		If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
+		d = mainBin (i): Print #fMapFile, "0x" & lCase (Hex (d, 2));
+		If i < mainIndex - 1 Then Print #fMapFile, ", ";
+		If bytes Mod 8 = 7 Then Print #fMapFile, ""
 		bytes = bytes + 1
 	Next i
 
-	Print #fOut, "};"
-	Print #fOut, "// " & bytes & " bytes."
-	Print #fOut, "#define " & Ucase (label) & "_SIZE " & bytes
-	Print #fOut, ""
+	Print #fMapFile, "};"
+	Print #fMapFile, "// " & bytes & " bytes."
+	Print #fHeaderFile, "#define " & Ucase (label) & "_SIZE " & bytes
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, ""
+	Print #fMapFile, ""
 	
 	fiPuts "+ " & bytes & " bytes written"
 End Sub
 
-Sub copyBinaryFileText (fOut As Integer, label As String, fileName As String, caption As String)
+Sub copyBinaryFileText (label As String, fileName As String, caption As String)
 	Dim As Integer bytes, i, fIn
 	Dim As uByte d
 
 	fiPuts "Copying file " & fileName & " to array named " & label
 
-	If caption <> "" Then Print #fOut, "// " & caption Else Print #fOut, "// binary data"
-	Print #fOut, "const unsigned char " & label & " [] = {"
+	If caption <> "" Then Print #fMapFile, "// " & caption Else Print #fMapFile, "// binary data"
+	Print #fMapFile, "const unsigned char " & label & " [] = {"
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & " [];"
 
 	fIn = FreeFile
 	Open fileName For Binary As #fIn
 	While Not Eof (fIn)
-		If bytes Mod 8 = 0 Then Print #fOut, "    ";
-		Get #fIn, , d: Print #fOut, "0x" & lCase (Hex (d, 2));
-		If Not Eof (fIn) Then Print #fOut, ", ";
-		If bytes Mod 8 = 7 Then Print #fOut, ""
+		If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
+		Get #fIn, , d: Print #fMapFile, "0x" & lCase (Hex (d, 2));
+		If Not Eof (fIn) Then Print #fMapFile, ", ";
+		If bytes Mod 8 = 7 Then Print #fMapFile, ""
 		bytes = bytes + 1
 	Wend
 	Close #fIn
 
-	Print #fOut, "};"
-	Print #fOut, "// " & bytes & " bytes."
-	Print #fOut, "#define " & Ucase (label) & "_SIZE " & bytes
-	Print #fOut, ""
+	If bytes Mod 8 <> 7 Then Print #fMapFile, ""
+	Print #fMapFile, "};"
+	Print #fMapFile, "// " & bytes & " bytes."
+	Print #fHeaderFile, "#define " & Ucase (label) & "_SIZE " & bytes
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, ""
+	Print #fMapFile, ""
 	
 	fiPuts "+ " & bytes & " bytes written"
 End Sub
 
-Sub writeColoursBinaryText (fOut As Integer, label As String)
+Sub writeColoursBinaryText (label As String)
 	Dim As Integer bytes, i
 	Dim As uByte d
 
 	fiPuts "Writing colours binary to array named " & label
 
-	Print #fOut, "// Colour data"
-	Print #fOut, "const unsigned char " & label & " [] = {"
+	Print #fMapFile, "// Colour data"
+	Print #fMapFile, "const unsigned char " & label & " [] = {"
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & " [];"
 
 	bytes = 0
 	For i = 0 To coloursIndex - 1
-		If bytes Mod 8 = 0 Then Print #fOut, "    ";
-		d = coloursBin (i): Print #fOut, "0x" & lCase (Hex (d, 2));
-		If i < coloursIndex - 1 Then Print #fOut, ", ";
-		If bytes Mod 8 = 7 Then Print #fOut, ""
+		If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
+		d = coloursBin (i): Print #fMapFile, "0x" & lCase (Hex (d, 2));
+		If i < coloursIndex - 1 Then Print #fMapFile, ", ";
+		If bytes Mod 8 = 7 Then Print #fMapFile, ""
 		bytes = bytes + 1
 	Next i
 
-	Print #fOut, "};"
-	Print #fOut, "// " & bytes & " bytes."
-	Print #fOut, "#define " & Ucase (label) & "_SIZE " & bytes
-	Print #fOut, ""
+	Print #fMapFile, "};"
+	Print #fMapFile, "// " & bytes & " bytes."
+	Print #fHeaderFile, "#define " & Ucase (label) & "_SIZE " & bytes
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, ""
+	Print #fMapFile, ""
 	
 	fiPuts "+ " & bytes & " bytes written"
 End Sub
@@ -1218,7 +1229,7 @@ Sub writeTsmaps (fileName As String)
 	fiPuts "+ " & bytes & " bytes written"
 End Sub
 
-Sub writeTsmapsText (fOut As Integer, label As String)
+Sub writeTsmapsText (label As String)
 	Dim As Integer bytes
 	Dim As Integer i, j, mult
 	Dim As uByte d
@@ -1227,24 +1238,25 @@ Sub writeTsmapsText (fOut As Integer, label As String)
 
 	fiPuts "Writing tsmaps to array named " & label
 	
-	Print #fOut, "// Metatileset data"
-	Print #fOut, "const unsigned char " & label & " [] = {"
+	Print #fMapFile, "// Metatileset data"
+	Print #fMapFile, "const unsigned char " & label & " [] = {"
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & " [];": Print #fHeaderFile, ""
 
 	bytes = 0
 	For i = 0 To tMapsIndex - 1
 		For j = 0 To lastwMeta * lasthMeta * mult - 1			
 			d = tMaps (i, j)
-			If bytes Mod 8 = 0 Then Print #fOut, "    ";
-			Print #fOut, "0x" & lCase (Hex (d, 2));
-			If bytes < tMapsIndex * lastwMeta * lasthMeta * mult - 1 Then Print #fOut, ", ";
-			If bytes Mod 8 = 7 Then Print #fOut, ""
+			If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
+			Print #fMapFile, "0x" & lCase (Hex (d, 2));
+			If bytes < tMapsIndex * lastwMeta * lasthMeta * mult - 1 Then Print #fMapFile, ", ";
+			If bytes Mod 8 = 7 Then Print #fMapFile, ""
 			bytes = bytes + 1
 		Next j
 	Next i
 
-	Print #fOut, "};"
-	Print #fOut, "// " & bytes & " bytes."
-	Print #fOut, ""
+	Print #fMapFile, "};"
+	Print #fMapFile, "// " & bytes & " bytes."
+	Print #fMapFile, ""
 	
 	fiPuts "+ " & bytes & " bytes written"
 End Sub
@@ -1275,34 +1287,37 @@ Sub writeMetaSprites (fileName As String)
 	fiPuts "+ " & bytes & " bytes written"
 End Sub
 
-Sub writeMetaSpritesText (fOut As Integer, label As String)
+Sub writeMetaSpritesText (label As String)
 	Dim As Integer bytes
 	Dim As Integer i, j
 	Dim As uByte d
 
 	fiPuts "Writing metasprites to array prefixed " & label
 		
-	Print #fOut, "// Metasprite data"
+	Print #fMapFile, "// Metasprite data"
 	
 	bytes = 0
 	For i = 0 To metaSpritesIndex - 1
-		Print #fOut, "const unsigned char " & label & "_" & lCase (Hex (i, 2)) & " [] = {"
+		Print #fMapFile, "const unsigned char " & label & "_" & lCase (Hex (i, 2)) & " [] = {"
+		If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & "_" & lCase (Hex (i, 2)) & " [];"
 		For j = 0 To metaSprites (i).nSprites - 1
-			Print #fout, "    ";
-			d = metaSprites (i).sprites (j).yOffset: Print #fOut, "0x" & lCase (Hex (d, 2)) & ", ";
-			d = metaSprites (i).sprites (j).xOffset: Print #fOut, "0x" & lCase (Hex (d, 2)) & ", ";
-			d = metaSprites (i).sprites (j).patternOffset: Print #fOut, "0x" & lCase (Hex (d, 2)) & ", ";
-			d = metaSprites (i).sprites (j).colour: Print #fOut, "0x" & lCase (Hex (d, 2)) & ", "
+			Print #fMapFile, "    ";
+			d = metaSprites (i).sprites (j).yOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
+			d = metaSprites (i).sprites (j).xOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
+			d = metaSprites (i).sprites (j).patternOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
+			d = metaSprites (i).sprites (j).colour: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", "
 			bytes = bytes + 4
 		Next j
-		Print #fOut, "    0x80"
-		Print #fOut, "};"
+		Print #fMapFile, "    0x80"
+		Print #fMapFile, "};"
 	Next i				
 	
-	Print #fOut, "// " & bytes & " bytes."
-	Print #fOut, ""
+	Print #fMapFile, "// " & bytes & " bytes."
+	Print #fMapFile, ""
 	
 	fiPuts "+ " & bytes & " bytes written"
+
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, ""
 End Sub
 
 Sub writeNametable (fileName As String)
@@ -1348,7 +1363,8 @@ Sub zxDoScripted (scriptFile As String)
 	Dim As Integer xc0, yc0, w, h, wMeta, hMeta, max, imgOn, palOn
 	Dim As Integer wIn, hIn
 	Dim As Any Ptr img, palimg
-	Dim As Integer mapFileOpen, fMapFile
+	Dim As Integer mapFileOpen
+	Dim As Integer headerFileOpen
 	Dim As Integer xOffs, yOffs
 
 	tMapsIndex = 0
@@ -1373,6 +1389,18 @@ Sub zxDoScripted (scriptFile As String)
 				If mapFileOpen Then Close fMapFile
 				fMapFile = FreeFile
 				Open tokens (1) For Output As fMapFile
+				If Not headerFileOpen Then fHeaderFile = fMapFile
+				Print #fMapFile, "// Generated by mkts_om v0.3.20181019"
+				Print #fMapFile, "// Copyleft 2017, 2018 The Mojon Twins"
+				Print #fMapFile, ""
+
+			Case "headerfile"
+				If headerFileOpen Then Close fHeaderFile
+				fHeaderFile = FreeFile
+				Open tokens (1) For Output As fHeaderFile
+				Print #fHeaderFile, "// Generated by mkts_om v0.3.20181019"
+				Print #fHeaderFile, "// Copyleft 2017, 2018 The Mojon Twins"
+				Print #fHeaderFile, ""
 
 			Case "brickinput"
 				If tokens (1) = "off" Then brickMultiplier = 1 Else brickMultiplier = 2
@@ -1423,25 +1451,25 @@ Sub zxDoScripted (scriptFile As String)
 						If tokens (3) = "packed" Then tokens (3) = ""
 						writeFullBinary "temp.tmp"
 						Shell EXEPATH & "/apack.exe temp.tmp temp.cmp > nul"
-						copyBinaryFileText fMapFile, tokens (2), "temp.cmp", "Aplib compressed pattern data"
+						copyBinaryFileText tokens (2), "temp.cmp", "Aplib compressed pattern data"
 						Kill "temp.tmp"
 						Kill "temp.cmp"
 						If tokens (3) <> "" Then
 							writeColoursBinary "temp.tmp"
 							Shell EXEPATH & "/apack.exe temp.tmp temp.cmp > nul"
-							copyBinaryFileText fMapFile, tokens (3), "temp.cmp", "Aplib compressed colour data"
+							copyBinaryFileText tokens (3), "temp.cmp", "Aplib compressed colour data"
 							Kill "temp.tmp"
 							Kill "temp.cmp"
 						End If
 					Else
-						writeMainBinaryText fMapFile, tokens (2)
+						writeMainBinaryText tokens (2)
 						If tokens (3) <> "" Then
-							writeColoursBinaryText fMapFile, tokens (3)
+							writeColoursBinaryText tokens (3)
 						End If
 					End If
 				End If
-				If tokens (1) = "tmaps" Then writeTsmapsText fMapFile, tokens (2)
-				If tokens (1) = "metasprites" Then writeMetaSpritesText fMapFile, tokens (2)
+				If tokens (1) = "tmaps" Then writeTsmapsText tokens (2)
+				If tokens (1) = "metasprites" Then writeMetaSpritesText tokens (2)
 
 			Case "reset"
 				If tokens (1) = "patterns" Then mainIndex = 0: cPoolIndex = 0: coloursIndex = 0

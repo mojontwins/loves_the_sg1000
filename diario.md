@@ -160,5 +160,147 @@ Todo esto, por ahora, se importa que es un gusto. Y lo que ocupan los patrones (
 
 Siguiendo con esto, y aunque aún me falta pasar gráficos, los metatiles irán parecido: habrá una zona "fija" y una zona "móvil". A unas malas, tengo 48 metatiles (en la fase 3 hay chac chacs) que, si tienen todos los patrones diferentes, ocuparían 48*4 = 192 patrones. Estos irán a partir del patrón 128, por tanto. A partir de 0 habrá 64 patrones con la fuente.
 
+20181023
+========
+
+He hecho el tileset de la segunda fase (fábrica) y he preparado mkts_om para que genere parejas .h / .c para compilar en módulos separados y ahorrar algo de tiempo en SDCC.
+
+~~
+
+Ya tengo todo convertido (lo básico : tiles + sprites) y creo que es el momento de empezar a montar esto.
+
+Para este (dicho con la boca chica) AGNES para SG-1000, tendré un nuevo punto de inyección que propagaré al principal: algo que se ejecute justo después de saltar del menú, un `on_game_reset.h` que será donde cargue los assets principales y compartidos.
+
+Pues bien, es el momento de copiar el código y empezar a adaptar las llamadas. Para ello primero echaré un vistazo a Super Uwol y veré las inicializaciones y demás miserias y haré unos pequeños apuntitos justo aqui:
+
+~~
+
+Primero:
+
+```c
+	#include "lib/SGlib.h"
+	#include "lib/PSGlib.h"
+	#include "lib/aPLib.h"
+```
+
+Esto creo que es necesario. Puedo intentar poner la mía de z88dk:
+
+```c
+	// Please please pretty please change this
+
+	#include "rand.h"
+```
+
+¡Ya es algo que tengo que hacer!
+
+Y empezamos por:
+
+```c
+	ticks = 60;
+
+	SG_displayOff ();
+	SG_setSpriteMode (SG_SPRITEMODE_LARGE);
+```
+
+Y parece que nada más. Veamos las tareas normales y corrientes. 
+
+## Tiles
+
+Por ejemplo, echar tiles para la pantalla:
+
+```c
+	SG_setTileatXY (x, y, c);
+```
+
+Pone un tile en (x, y) y mueve el cursor al siguiente, por lo que luego se puede ir llamando a 
+
+```c
+	SG_setTile (c);
+```
+
+para poner los siguientes. Para sólo mover el cursor tenemos otra:
+
+```c
+	SG_setNextTileatXY (x, y);
+```
+
+## Sprites
+
+Para poner un sprite simple 
+
+```c
+	SG_addSprite (x, y, pat, clr);
+```
+
+Pone un sprite con el patron pat o con ese y los tres siguientes, según el modo de sprites.
+
+```c
+	SG_addMetaSprite (x, y, *meta);
+```
+
+Pone un metasprite de tamaño general, pero esto es más rápido:
+
+```c
+	SG_addMetaSprite1x1 (x, y, *meta);
+```
+
+Porque asume que el meta es 2x2 y hace menos historias.
+
+Toda a historia de los sprites:
+
+```c
+	SG_initSprites ();
+	// Mandar sprites
+	SG_finalizeSprites ();
+```
+
+## Tramolla 
+
+vBlank:
+
+```c
+	SG_waitForVBlank ();
+	UNSAFE_SG_copySpritestoSAT ();
+
+	// Aquí hay tiempo para copiar muchas cosas a SAT, unos 256 bytes fácil
+	// Pero no lo necesito en este juego.
+```
+
+Apagar y encender:
+
+```c 
+	SG_displayOff ();
+	SG_displayOn ();
+```
+
+Callar el PSG:
+
+```c
+	PSGStop ();
+	PSGSFXStop ();
+```
+
+Música:
+
+```c
+	PSGPlay (tune);
+```
+
+Sonido:
+
+```c
+	PSGSFXPlay (sfx, vch)
+```
+
+¿Estamos preparados?
+
+~~
+
+Lo primero es empezar a crear el script de compilación para que se genere todo. Creo que lo suyo es que todo sea más SDCC friendly, por lo que voy a actualizar todos los conversores para que, mediante switch, saquen un par .h / .c.
+
+~~
+
+Sí, estoy retrasando el momento de ponerme a liarla, pero es que con un buen toolchain luego se curra menos.
+
 ~~
 
