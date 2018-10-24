@@ -68,6 +68,8 @@ void SG_addMetaSprite1x1 (unsigned char x, unsigned char y, const unsigned char 
 void SG_addMetaSprite (unsigned char x, unsigned char y, const unsigned char *mt);
 void SG_finalizeSprites (void);
 void SG_copySpritestoSAT (void);
+unsigned char *SG_getStp (void);
+void SG_setStp (unsigned char *s);
 
 /* functions to read joypad(s) */
 unsigned int SG_getKeysStatus (void);
@@ -118,3 +120,8 @@ void SG_nmi_isr (void) __critical __interrupt;
 #define PGT_BASE 0x0000
 #define CGT_BASE 0x2000
 #define SGT_BASE 0x3800
+
+#define VDP_PAL                 0x80
+#define VDP_NTSC                0x40
+
+unsigned char SMS_VDPType (void);

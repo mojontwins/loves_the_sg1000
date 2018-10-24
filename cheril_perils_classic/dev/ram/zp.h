@@ -1,5 +1,6 @@
 // NES MK1 v1.0
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
+// SG1000 Version
 
 // zp
 
@@ -40,7 +41,7 @@ unsigned char caux;                     // Auxiliar variable
 
 // Sprite related (neslib)
 
-unsigned char oam_index;
+unsigned char *cur_stp;                 // Copy of the (Internal) pointer to the SAT copy
 
 // Enemies
 

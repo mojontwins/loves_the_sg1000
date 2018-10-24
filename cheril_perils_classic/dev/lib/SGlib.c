@@ -33,8 +33,8 @@ __sfr __at 0xDC IOPortL;
 /* define IOPort (joypad) */
 __sfr __at 0xDD IOPortH;
 
-#define HI (x)					( (x)>>8)
-#define LO (x)					( (x)&0xFF)
+#define HI(x)					((x)>>8)
+#define LO(x)					((x)&0xFF)
 
 #ifndef MAXSPRITES
 #define MAXSPRITES 				32
@@ -98,7 +98,7 @@ volatile bool	VDPSpriteOverflow = false;
 
 volatile unsigned int KeysStatus, PreviousKeysStatus;
 
-#if MAXSPRITES = =32
+#if MAXSPRITES == 32
 unsigned char	SpriteTable [MAXSPRITES * 4];
 #else
 unsigned char	SpriteTable [(MAXSPRITES + 1) * 4];
@@ -112,11 +112,12 @@ unsigned char   first_sprite;
 #endif
 
 unsigned char   gpit;
+unsigned char   VDPType;
 
 #ifndef NESTED_DI_EI_SUPPORT
 /* macro definitions (no nested DI/EI support) */
-#define SG_write_to_VDPRegister (VDPReg,value)	{ DISABLE_INTERRUPTS; VDPControlPort= (value); VDPControlPort = (VDPReg) | 0x80; ENABLE_INTERRUPTS; }
-#define SG_set_address_VRAM (address)			{ DISABLE_INTERRUPTS; VDPControlPort = LO (address); VDPControlPort = HI (address) | 0x40; ENABLE_INTERRUPTS; }
+#define SG_write_to_VDPRegister(VDPReg,value)	{ DISABLE_INTERRUPTS; VDPControlPort= (value); VDPControlPort = (VDPReg) | 0x80; ENABLE_INTERRUPTS; }
+#define SG_set_address_VRAM(address)			{ DISABLE_INTERRUPTS; VDPControlPort = LO (address); VDPControlPort = HI (address) | 0x40; ENABLE_INTERRUPTS; }
 #else
 /* inline __critical functions (nested DI/EI supported!) */
 inline void SG_write_to_VDPRegister (unsigned char VDPReg, unsigned char value) {
@@ -175,8 +176,23 @@ void SG_VDPturnOnFeature (unsigned int feature) {
 
 void SG_VDPturnOffFeature (unsigned int feature) {
 	/* turns off a VDP feature */
-	VDPReg [HI (feature)]& = ~LO (feature);
+	VDPReg [HI (feature)] &= ~LO (feature);
 	SG_write_to_VDPRegister (HI (feature), VDPReg [HI (feature)]);
+}
+
+inline void SMS_detect_VDP_type (void) {
+  // INTERNAL FUNCTION
+  unsigned char old_value,new_value;
+  while (VDPVCounterPort!=0x80);      // wait for line 0x80
+  new_value=VDPVCounterPort;
+  do {
+    old_value=new_value;              // wait until VCounter 'goes back'
+    new_value=VDPVCounterPort;
+  } while (old_value<=new_value);
+  if (old_value>=0xE7)
+    VDPType=VDP_PAL;                  // old value should be 0xF2
+  else
+    VDPType=VDP_NTSC;                 // old value should be 0xDA
 }
 
 void SG_init (void) {
@@ -191,6 +207,8 @@ void SG_init (void) {
 	SG_initSprites ();
 	SG_finalizeSprites ();
 	UNSAFE_SG_copySpritestoSAT ();
+
+	SMS_detect_VDP_type();
 }
 
 void SG_setBackdropColor (unsigned char entry) {
@@ -263,7 +281,7 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 		*stp ++ = x;
 		*stp ++ = tile;
 		*stp ++ = attr;
-		spt += 4 * AUTOCYCLE_PRIME; if (spt > SpriteTableEnd) spt -= 128;
+		stp += 4 * AUTOCYCLE_PRIME; if (stp > SpriteTableEnd) stp -= 128;
 	}
 
 	void SG_addMetaSprite1x1 (unsigned char x, unsigned char y, const unsigned char *mt) {
@@ -272,13 +290,13 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 		*stp ++ = x;
 		*stp ++ = *mt ++;
 		*stp ++ = *mt ++;
-		spt += 4 * AUTOCYCLE_PRIME; if (spt > SpriteTableEnd) spt -= 128;
+		stp += 4 * AUTOCYCLE_PRIME; if (stp > SpriteTableEnd) stp -= 128;
 		mt += 2; 
 		*stp ++ = y;
 		*stp ++ = x;
 		*stp ++ = *mt ++;
 		*stp ++ = *mt ++;
-		spt += 4 * AUTOCYCLE_PRIME; if (spt > SpriteTableEnd) spt -= 128;
+		stp += 4 * AUTOCYCLE_PRIME; if (stp > SpriteTableEnd) stp -= 128;
 	}
 
 	void SG_addMetaSprite (unsigned char x, unsigned char y, const unsigned char *mt) {
@@ -287,7 +305,7 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 			*stp ++ = x + *mt++;
 			*stp ++ = *mt ++;
 			*stp ++ = *mt ++;
-			spt += 4 * AUTOCYCLE_PRIME; if (spt > SpriteTableEnd) spt -= 128;
+			stp += 4 * AUTOCYCLE_PRIME; if (stp > SpriteTableEnd) stp -= 128;
 		}
 	}	
 
@@ -295,6 +313,13 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 		// NOP
 	}
 	
+	unsigned char *SG_getStp (void) {
+		return stp;
+	}
+
+	void SG_setStp (unsigned char *s) {
+		stp = s;
+	}
 #else
 
 	void SG_initSprites (void) {
@@ -374,7 +399,7 @@ void UNSAFE_SG_copySpritestoSAT (void) {
 	__asm
 		ld c,#_VDPDataPort
 		ld hl,#_SpriteTable
-#if MAXSPRITES = =32
+#if MAXSPRITES == 32
 		call _outi_block-MAXSPRITES*4*2
 #else
 		call _outi_block- (MAXSPRITES+1)*4*2
@@ -413,3 +438,8 @@ void SG_isr (void) __interrupt {
 void SG_nmi_isr (void) __critical __interrupt {		/* this is for NMI */
 	PauseRequested = true;
 }
+
+unsigned char SMS_VDPType (void) {
+  return VDPType;
+}
+

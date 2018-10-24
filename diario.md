@@ -292,6 +292,10 @@ Sonido:
 	PSGSFXPlay (sfx, vch)
 ```
 
+Pads:
+
+
+
 ¿Estamos preparados?
 
 ~~
@@ -302,5 +306,14 @@ Lo primero es empezar a crear el script de compilación para que se genere todo. 
 
 Sí, estoy retrasando el momento de ponerme a liarla, pero es que con un buen toolchain luego se curra menos.
 
+20181024
+========
+
+Todo acabado, voy a hacer el script de construcción de assets y a recordar cómo se montaba el makefile fácil.
+
 ~~
+
+Ya tengo m ontado el proyecto, con el compilador, el crt0 custom, y toda la mierda necesaria. Ahora sólamente necesito ito coger el game.c y toda su mierda y adaptarlo :*)
+
+Empieza el port, y yo voy a tomarme un shocolara.
 

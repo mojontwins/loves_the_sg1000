@@ -13,7 +13,11 @@
 
 #define MAX_BOLTS 16 // max 32, make it as small as possible.
 
-#include "neslib.h"
+#include "lib/SGlib.h"
+#include "lib/PSGlib.h"
+#include "lib/aPLib.h"
+
+#include "utils/rand.h"
 
 #include "definitions.h"
 #include "config.h"
@@ -45,22 +49,14 @@
 #ifdef MULTI_LEVEL
 	#include "assets/levelset.h"
 #endif
-#include "assets/title_rle.h"
-#include "assets/hud_rle.h"
+//#include "assets/title_rle.h"
+//#include "assets/hud_rle.h"
 
-// Music
-extern const unsigned char m_ingame [];
+// Music + SFX
+#include "murcia.h"
 
-// Push to zero page:
-#pragma bssseg (push,"ZEROPAGE")
-#pragma dataseg(push,"ZEROPAGE")
-
+// RAM (make fit!)
 #include "ram/zp.h"
-
-// Everything else on normal RAM
-#pragma bssseg (push,"BSS")
-#pragma dataseg(push,"BSS")
-
 #include "ram/bss.h"
 
 // *************
@@ -111,12 +107,13 @@ extern const unsigned char m_ingame [];
 // *************
 
 void main(void) {
-	bank_spr (1);
-	bank_bg (0);
-
-	ppu_off ();
+	
+	SG_displayOff ();
+	SG_setSpriteMode (SG_SPRITEMODE_LARGE);
 	first_game = 1;
-	ntsc = ppu_system ();
+
+	// For master system:
+	ntsc = !!(SMS_VDPType () & VDP_NTSC);
 
 	//game_mode = 0;
 	mode_no_resonators = 0;
@@ -133,7 +130,6 @@ void main(void) {
 		// Game loop
 
 		while (1) {
-			scroll (0, SCROLL_Y);
 			pres (palts0, scr_level);
 			game_init (); 
 			game_loop ();

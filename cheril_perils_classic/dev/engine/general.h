@@ -1,5 +1,6 @@
 // NES MK1 v1.0
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
+// SG1000 Version
 
 // general.h
 // General functions, vars & buffers
@@ -71,7 +72,7 @@ void pad_read (void) {
 	// Thanks for this, Nicole & nesdev!
 	// https://forums.nesdev.com/viewtopic.php?p=179315#p179315
 	pad_this_frame = pad0;
-	pad0 = pad_poll (0);			// Read pads here.
+	pad0 = SG_getKeysStatus ();			// Read pads here.
 	pad_this_frame = (pad_this_frame ^ pad0) & pad0;
 }
 
@@ -91,7 +92,7 @@ void pad_read (void) {
 		pj = 1; pctj = 0; 
 		#ifdef ENABLE_TRAMPOLINES
 		if (ptrampoline) {
-			sfx_play (SFX_TRAMPOLINE, 0);
+			//PSGSFXPlay (SFX_TRAMPOLINE, 0);
 			#ifdef PLAYER_JUMP_TYPE_MK2
 				pvy = -PLAYER_VY_MK2_JUMP_INITIAL_TRAMPOLINE;
 			#else
@@ -100,7 +101,7 @@ void pad_read (void) {
 		} else
 		#endif
 		{
-			sfx_play (SFX_JUMP, 0);
+			//PSGSFXPlay (SFX_JUMP, 0);
 			#ifdef PLAYER_JUMP_TYPE_MK2
 				pvy = -PLAYER_VY_MK2_JUMP_INITIAL;
 			#else
@@ -111,8 +112,10 @@ void pad_read (void) {
 #endif
 
 void update_cycle (void) {
-	oam_hide_rest (oam_index);
-	ppu_waitnmi ();
+	SG_finalizeSprites ();
+	SG_waitForVBlank ();
+	UNSAFE_SG_copySpritestoSAT ();
+	SG_initSprites ();
 	clear_update_list ();
 	oam_index = 4;
 }

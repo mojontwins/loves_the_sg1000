@@ -1,5 +1,6 @@
 // NES MK1 v1.0
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
+// SG1000 Version
 
 // Main loop & helpers
 
@@ -9,9 +10,6 @@ void game_init (void) {
 
 	// Assets setup. Selects tileset, map, palettes, etc.
 	#include "mainloop/asset_setup.h"
-
-	pal_bg (c_pal_bg);
-	pal_spr (c_pal_fg);
 
 	cls ();
 
@@ -97,8 +95,8 @@ void game_init (void) {
 
 	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 		// Clear tile_got persistence
-		vram_adr (MAP_CLEAR_LIST_ADDRESS);
-		vram_fill (0, MAP_SIZE*24);
+		// vram_adr (MAP_CLEAR_LIST_ADDRESS);
+		// vram_fill (0, MAP_SIZE*24);
 	#endif
 
 	half_life = 0;
@@ -115,8 +113,7 @@ void game_init (void) {
 
 void prepare_scr (void) {
 	if (!ft) {
-		fade_out (); 
-		ppu_off ();
+		SG_displayOff ();
 		#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 			// Update tile_got persistence
 			rda = on_pant << 3;
@@ -164,7 +161,7 @@ void prepare_scr (void) {
 	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 		// Read tile_got persistence
 		rda = n_pant << 3;
-		vram_read (tile_got, MAP_CLEAR_LIST_ADDRESS + (rda << 1) + rda, 24);
+		//vram_read (tile_got, MAP_CLEAR_LIST_ADDRESS + (rda << 1) + rda, 24);
 	#endif
 
 		draw_scr ();
@@ -202,10 +199,11 @@ void prepare_scr (void) {
 	
 	// Reenable sprites and tiles now we are finished.
 	#ifdef CNROM
-		bankswitch (l_chr_rom_bank [level]);
+		// bankswitch (l_chr_rom_bank [level]);
 	#endif
 
-	ppu_on_all ();
+	SG_displayOn ();
+	SG_initSprites ();
 
 	#ifdef ACTIVATE_SCRIPTING
 		#if defined (ENABLE_PUSHED_SCRIPT)
@@ -248,30 +246,29 @@ void prepare_scr (void) {
 		#endif
 	#endif
 
-	oam_hide_rest (oam_index);
+	SG_finalizeSprites ();
 	hud_update ();
-	ppu_waitnmi ();
+	SG_waitForVBlank ();
+	UNSAFE_SG_copySpritestoSAT ();
 	clear_update_list ();
-	oam_index = 4;
-	fade_in ();
+	oam_index = 4;	
 }
 
 void game_loop (void) {
 	#ifdef MULTI_LEVEL
-		music_play (l_music [level]);
+		//PSGPlay (l_music [level]);
 	#else
-		music_play (MUSIC_INGAME);
+		//PSGPlay (MUSIC_INGAME);
 	#endif
 
 	clear_update_list ();
-	set_vram_update (UPDATE_LIST_SIZE, update_list);
+	// set_vram_update (UPDATE_LIST_SIZE, update_list);
 
 	on_pant = 99; ft = 1; fade_delay = 1;
 
 	// MAIN LOOP
 
-	pal_bright (0);
-	ppu_on_all ();
+	SG_displayOn ();
 	
 	#ifdef ACTIVATE_SCRIPTING
 		#ifdef CLEAR_FLAGS
@@ -405,7 +402,7 @@ void game_loop (void) {
 
 			// Paint player
 
-			oam_index_player = oam_index; 
+			cur_stp = SG_getStp (); 
 			if (!warp_to_level)	player_render ();
 
 			// Update enemies
@@ -470,10 +467,7 @@ void game_loop (void) {
 		#include "mainloop/pause.h"
 	}
 
-	fade_delay = 4;
-	music_stop ();
-	fade_out ();
-	set_vram_update (0, 0);
-	ppu_off ();
-	oam_clear ();
+	//PSGStop ();
+	//PSGSFXStop ();
+	SG_displayOff ();
 }

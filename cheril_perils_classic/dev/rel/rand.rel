@@ -1,0 +1,47 @@
+XL2
+H 9 areas 6 global symbols
+M rand
+O -mz80
+S .__.ABS. Def0000
+A _CODE size 36 flags 0 addr 0
+S _srand Def0029
+S _rand8 Def0000
+A _DATA size 5 flags 0 addr 0
+S _randres Def0004
+S _seed1 Def0000
+S _seed2 Def0002
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 01 00
+T 00 00
+R 00 00 01 00
+T 02 00
+R 00 00 01 00
+T 02 00
+R 00 00 01 00
+T 04 00
+R 00 00 01 00
+T 04 00
+R 00 00 01 00
+T 00 00
+R 00 00 00 00
+T 00 00
+R 00 00 00 00
+T 00 00 21 80 A2 11 DE C0 7C 87 AC 65 6A 53 5F 1F
+R 00 00 00 00
+T 0E 00 AB 5F 7A 87 87 87 AA AB 5F 22 01 00 ED 53
+R 00 00 00 00 00 0C 00 00
+T 1C 00 04 00 32 04 00 FD 21 04 00 FD 6E 00 C9
+R 00 00 00 00 00 02 00 00 00 05 01 00 00 09 01 00
+T 29 00
+R 00 00 00 00
+T 29 00 2A 00 00 22 01 00 2A 02 00 22
+R 00 00 00 00 00 03 01 00 00 06 00 00 00 09 01 00
+T 33 00 04 00 C9
+R 00 00 00 00 00 02 00 00

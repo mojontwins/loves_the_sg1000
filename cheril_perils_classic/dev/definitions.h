@@ -1,5 +1,6 @@
 // NES MK1 v1.0
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
+// SG1000 Version
 
 // definitions.h
 // Main definitions
@@ -57,3 +58,16 @@
 #define ENGINE_TYPE_JET_PAC 	1
 #define ENGINE_TYPE_SWIM 		2
 #define ENGINE_TYPE_AUTO_JUMP	3
+
+// SG1000
+
+#define PAD_UP 0x01
+#define PAD_DOWN 0x02
+#define PAD_LEFT 0x04
+#define PAD_RIGHT 0x08
+#define PAD_1 0x10
+#define PAD_2 0x20
+#define PAD_A 0x10
+#define PAD_B 0x20
+#define PAD_START 0x10
+#define PAD_SELECT 0x20
