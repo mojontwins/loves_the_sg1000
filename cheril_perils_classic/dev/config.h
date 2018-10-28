@@ -417,8 +417,8 @@
 #define COCO_V							128
 //#define COCO_COLLIDES
 
-#define COCO_PATTERN					0
-#define COCO_PALETTE 					0
+#define COCO_PATTERN					152
+#define COCO_COLOUR						15
 #define COCO_FAIR_D						32
 
 // Carry directives

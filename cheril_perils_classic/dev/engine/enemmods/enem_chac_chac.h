@@ -27,7 +27,7 @@ switch (_en_state) {
 			enems_draw_chac_chac (CHAC_CHAC_BASE_TILE + 5, CHAC_CHAC_BASE_TILE + 4, CHAC_CHAC_BASE_TILE + 5);
 			_en_mx = CHAC_CHAC_IDLE_4;
 			_en_state = 3;
-			sfx_play (SFX_STEPON, 1);
+			//PSGSFXPlay (SFX_STEPON, 1);
 			shaker_ct = 8;
 		}
 		break;

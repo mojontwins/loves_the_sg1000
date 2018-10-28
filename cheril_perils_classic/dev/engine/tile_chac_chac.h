@@ -46,7 +46,7 @@ void chac_chacs_do (void) {
 		gpit = chac_chacs_queue [chac_chacs_queue_read];
 		chac_chacs_queue_read = (chac_chacs_queue_read + 1) & (MAX_CHAC_CHACKS_QUEUED-1);
 		rdm = chac_chacs_state [gpit];
-		if (rdm == 3) { shaker_ct = 8; sfx_play (SFX_STEPON, 1); }
+		if (rdm == 3) { shaker_ct = 8; //PSGSFXPlay (SFX_STEPON, 1); }
 		rdx = chac_chacs_yx [gpit]; rdy = rdx >> 4; rdx &= 0xf;
 		_x = rdx; _y = rdy    ; _t = chac_chacs_t1 [rdm]; map_set ();
 		_x = rdx; _y = rdy + 1; _t = chac_chacs_t2 [rdm]; map_set ();

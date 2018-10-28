@@ -1566,7 +1566,7 @@ End If
 If actionsUsed (&HE0) Then
 	' SOUND n
 	' &HE0 n
-	Print #fOut, "                    case 0xe0: sfx_play (read_vbyte (), 1); break;"
+	Print #fOut, "                    case 0xe0: //PSGSFXPlay (read_vbyte (), 1); break;"
 End If
 If actionsUsed (&HE6) Then
 	' MUSIC n

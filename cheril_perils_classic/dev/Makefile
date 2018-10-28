@@ -6,7 +6,7 @@ all: cart.sg
 cart.sg: cart.ihx 
 	../utils/ihx2sms.exe cart.ihx cart.sg
 
-cart.ihx: rel/game.rel rel/rand.rel rel/enems0.rel rel/enems1.rel rel/enems2.rel rel/map0.rel rel/map1.rel rel/map2.rel rel/tileset.rel rel/spriteset.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel lib/crt0_sg.rel
+cart.ihx: rel/game.rel rel/rand.rel rel/delay.rel rel/enems0.rel rel/enems1.rel rel/enems2.rel rel/map0.rel rel/map1.rel rel/map2.rel rel/tileset.rel rel/spriteset.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel lib/crt0_sg.rel
 	$(CC) -o cart.ihx -mz80 --no-std-crt0 --data-loc 0xC000 lib/crt0_sg.rel rel/game.rel rel/rand.rel rel/enems0.rel rel/enems1.rel rel/enems2.rel rel/map0.rel rel/map1.rel rel/map2.rel rel/tileset.rel rel/spriteset.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel
 
 lib/PSGlib.rel: lib/PSGlib.c
@@ -50,6 +50,9 @@ rel/murcia.rel: murcia.c
 
 rel/rand.rel: utils/rand.c
 	$(CC) $(CFLAGS) utils/rand.c -o rel/rand.rel
+
+rel/delay.rel: utils/delay.c
+	$(CC) $(CFLAGS) utils/delay.c -o rel/delay.rel
 
 rel/game.rel: game.c
 	$(CC) $(CFLAGS) void.c -o rel/game.rel 

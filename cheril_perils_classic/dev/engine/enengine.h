@@ -12,88 +12,6 @@
 	}
 #endif
 
-#ifdef PERSISTENT_ENEMIES
-	void enems_persistent_load (void) {
-		#ifdef ENEMS_IN_CHRROM
-			bankswitch (l_enems_chr_rombank [level]);
-			vram_adr (c_enems);
-			rda = VRAM_READ; 	// Dummy read.			
-
-			for (gpjt = 0; gpjt < 3 * MAP_SIZE; gpjt ++) {
-				// Skip t
-				rdt = VRAM_READ;
-
-				// YX1
-				rda = VRAM_READ;
-				ep_y [gpjt] = rda & 0xf0;
-				ep_x [gpjt] = rda << 4;
-
-				// YX2
-				rda = VRAM_READ;
-				rdc = rda & 0xf0;
-				rdb = rda << 4;
-
-				// P, here used for speed
-				rda = VRAM_READ;
-				rda &= 0x0f;
-				if (rda > 1) rda >>= 1;	// Store converted!
-				ep_mx [gpjt] = ADD_SIGN2 (rdb, ep_x [gpjt], rda);
-				ep_my [gpjt] = ADD_SIGN2 (rdc, ep_y [gpjt], rda);
-			}
-		#else		
-			gp_gen = (unsigned char *) (c_enems);
-			for (gpjt = 0; gpjt < 3 * MAP_SIZE; gpjt ++) {
-				// Skip t
-				// rdt = *gp_gen ++; 
-				SET_FROM_PTR (rdt, gp_gen); gp_gen ++;
-
-				// YX1
-				//rda = *gp_gen ++;
-				SET_FROM_PTR (rda, gp_gen); gp_gen ++;
-				ep_y [gpjt] = rda & 0xf0;
-				ep_x [gpjt] = rda << 4;
-
-				// YX2
-				//rda = *gp_gen ++;
-				SET_FROM_PTR (rda, gp_gen); gp_gen ++;
-				rdc = rda & 0xf0;
-				rdb = rda << 4;
-
-				// P, here used for speed
-				//rda = (*gp_gen ++) & 0x0f;
-				SET_FROM_PTR (rda, gp_gen); gp_gen ++; rda &= 0x0f;
-				if (rda > 1) rda >>= 1;	// Store converted!
-				ep_mx [gpjt] = ADD_SIGN2 (rdb, ep_x [gpjt], rda);
-				ep_my [gpjt] = ADD_SIGN2 (rdc, ep_y [gpjt], rda);		
-			}
-		#endif
-	}
-
-	void enems_persistent_update (void) {
-		if (on_pant != 99) {
-			gpjt = on_pant + on_pant + on_pant;
-			for (gpit = 0; gpit < 3; gpit ++) {
-				__asm__ ("ldx %v", gpit);
-				__asm__ ("ldy %v", gpjt);
-
-				__asm__ ("lda %v,x", en_x);
-				__asm__ ("sta %v,y", ep_x);
-
-				__asm__ ("lda %v,x", en_y);
-				__asm__ ("sta %v,y", ep_y);
-
-				__asm__ ("lda %v,x", en_mx);
-				__asm__ ("sta %v,y", ep_mx);
-
-				__asm__ ("lda %v,x", en_my);
-				__asm__ ("sta %v,y", ep_my);
-
-				++ gpjt;	
-			}	
-		}
-	}
-#endif
-
 #ifdef PERSISTENT_DEATHS
 	void enems_persistent_deaths_load (void) {
 		memfill (ep_dead, 0, MAP_SIZE * 3);
@@ -101,46 +19,15 @@
 #endif
 
 void enems_update_unsigned_char_arrays (void) {
-	__asm__ ("ldy %v", gpit);
-
-	__asm__ ("lda %v", _en_t);
-	__asm__ ("sta %v, y", en_t);
-
-	__asm__ ("lda %v", _en_s);
-	__asm__ ("sta %v, y", en_s);
-
-	__asm__ ("lda %v", _en_x);
-	__asm__ ("sta %v, y", en_x);
-
-	__asm__ ("lda %v", _en_y);
-	__asm__ ("sta %v, y", en_y);
-
-	__asm__ ("lda %v", _en_x1);
-	__asm__ ("sta %v, y", en_x1);
-
-	__asm__ ("lda %v", _en_x2);
-	__asm__ ("sta %v, y", en_x2);
-
-	__asm__ ("lda %v", _en_y1);
-	__asm__ ("sta %v, y", en_y1);
-
-	__asm__ ("lda %v", _en_y2);
-	__asm__ ("sta %v, y", en_y2);
-
-	__asm__ ("lda %v", _en_mx);
-	__asm__ ("sta %v, y", en_mx);
-
-	__asm__ ("lda %v", _en_my);
-	__asm__ ("sta %v, y", en_my);
-
-	__asm__ ("lda %v", _en_ct);
-	__asm__ ("sta %v, y", en_ct);
-
-	__asm__ ("lda %v", _en_facing);
-	__asm__ ("sta %v, y", en_facing);
-
-	__asm__ ("lda %v", _en_state);
-	__asm__ ("sta %v, y", en_state);
+	en_t [gpit] = _en_t;
+	en_s [gpit] = _en_s;
+	en_x [gpit] = _en_x; en_y [gpit] = _en_y;
+	en_x1 [gpit] = _en_x1; en_y1 [gpit] = _en_y1;
+	en_x2 [gpit] = _en_x2; en_y2 [gpit] = _en_y2;
+	en_mx [gpit] = _en_mx; en_my [gpit] = _en_my;
+	en_ct [gpit] = _en_ct;
+	en_facing [gpit] = _en_facing;
+	en_state [gpit] = _en_state;
 
 	#ifdef ENEMS_NEED_FP
 		enf_x [gpit] = _enf_x; enf_vx [gpit] = _enf_vx;
@@ -169,16 +56,9 @@ void enems_boioiong_init (void) {
 }
 
 void enems_load (void) {
+	gp_gen = (unsigned char *) (c_enems + (n_pant << 2) + (n_pant << 3));
 
-	#ifdef ENEMS_IN_CHRROM
-		bankswitch (l_enems_chr_rombank [level]);
-		vram_adr (c_enems + (n_pant << 2) + (n_pant << 3));	
-		rda = VRAM_READ; 	// Dummy read.
-	#else
-		gp_gen = (unsigned char *) (c_enems + (n_pant << 2) + (n_pant << 3));
-	#endif
-
-	#if defined (PERSISTENT_DEATHS) || defined (PERSISTENT_ENEMIES)
+	#if defined (PERSISTENT_DEATHS) 
 		en_offs = rdc = (n_pant << 1) + n_pant;
 	#endif
 
@@ -188,75 +68,37 @@ void enems_load (void) {
 			// Fast hack. If enemy is dead, change for type 0 and skip data.
 			if (ep_dead [rdc]) {
 				_en_t = 0;
-				#ifdef ENEMS_IN_CHRROM
-					rda = VRAM_READ;
-					rda = VRAM_READ;
-					rda = VRAM_READ;
-					rda = VRAM_READ;
-				#else
-					gp_gen += 4;
-				#endif
+				gp_gen += 4;
 			} else 
 		#endif
 		{
-			#ifdef ENEMS_IN_CHRROM
-				// First get T, then do whatever I need
-				_en_t = VRAM_READ;
-
-				// General...
-				_en_state = 0;
-
-				// YX1
-				rda = VRAM_READ;
-				_en_y1 = rda & 0xf0;
-				_en_x1 = rda << 4;
-
-				// YX2
-				rda = VRAM_READ;
-				_en_y2 = rda & 0xf0;
-				_en_x2 = rda << 4;
+			// First get T, then do whatever I need
+			_en_t = *gp_gen ++;
 			
-				// P, here used for speed
-				rda = VRAM_READ;
-			#else
-				// First get T, then do whatever I need
-				// _en_t = *gp_gen ++;
-				SET_FROM_PTR (_en_t, gp_gen); gp_gen ++;
+			// General...
+			_en_state = 0;
 
-				// General...
-				_en_state = 0;
+			// YX1
+			rda = *gp_gen ++;
+			_en_y1 = rda & 0xf0;
+			_en_x1 = rda << 4;
 
-				// YX1
-				// rda = *gp_gen ++;
-				SET_FROM_PTR (rda, gp_gen); gp_gen ++;
-				_en_y1 = rda & 0xf0;
-				_en_x1 = rda << 4;
-
-				// YX2
-				// rda = *gp_gen ++;
-				SET_FROM_PTR (rda, gp_gen); gp_gen ++;
-				_en_y2 = rda & 0xf0;
-				_en_x2 = rda << 4;
-			
-				// P, here used for speed
-				// rda = *gp_gen ++;
-				SET_FROM_PTR (rda, gp_gen); gp_gen ++;
-			#endif
-
+			// YX2
+			rda = *gp_gen ++;
+			_en_y2 = rda & 0xf0;
+			_en_x2 = rda << 4;
+		
+			// P, here used for speed
+			rda = *gp_gen ++;
+						
 			// clean nibbles
 			rdd = rda & 0xf0; 	// Used for respawn speed!
 			rdm = rda & 0x0f; 	// Actual speed.
-
-			#ifdef PERSISTENT_ENEMIES
-				// Copy position & direction from ep_*
-				_en_x = ep_x [rdc];
-				_en_y = ep_y [rdc];
-			#else
-				// Initialize position & direction from ROM
-				_en_x = _en_x1;
-				_en_y = _en_y1;
-			#endif
-
+		
+			// Initialize position & direction from ROM
+			_en_x = _en_x1;
+			_en_y = _en_y1;
+			
 			switch (_en_t & 0x3f) {
 				case 1:
 				case 2:
@@ -274,24 +116,17 @@ void enems_load (void) {
 						if (_en_t & 0x80) _en_s += SHOOTIES_BASE_SPRID;
 					#endif
 
-					#ifdef PERSISTENT_ENEMIES
-						_en_mx = ep_mx [rdc];
-						_en_my = ep_my [rdc];
-					#else
-						_en_mx = ADD_SIGN2 (_en_x2, _en_x1, rdm);
-						_en_my = ADD_SIGN2 (_en_y2, _en_y1, rdm);
-					#endif
-
+					_en_mx = ADD_SIGN2 (_en_x2, _en_x1, rdm);
+					_en_my = ADD_SIGN2 (_en_y2, _en_y1, rdm);
+					
 					// HL conversion		
 
 					if (rdm == 1) {
 						en_status [gpit] = 1; 
 					} else {
 						en_status [gpit] = 0;
-						#ifndef PERSISTENT_ENEMIES
-							_en_mx >>= 1;
-							_en_my >>= 1;
-						#endif
+						_en_mx >>= 1;
+						_en_my >>= 1;						
 					}
 
 					// Fix limits so 1 < 2 always.
@@ -350,11 +185,6 @@ void enems_load (void) {
 				#ifdef ENABLE_SAW
 					case 8:
 						// Saws
-						#ifdef PERSISTENT_ENEMIES
-							// Initialize position from ROM
-							_en_x = _en_x1;
-							_en_y = _en_y1;							
-						#endif
 						_en_mx = ADD_SIGN2 (_en_x2, _en_x1, rdm);
 						_en_my = ADD_SIGN2 (_en_y2, _en_y1, rdm);
 
@@ -421,11 +251,6 @@ void enems_load (void) {
 				#ifdef ENABLE_BOIOIONG
 					case 13:
 						// Boioiongs
-						#ifdef PERSISTENT_ENEMIES
-							// Initialize position from ROM
-							_en_x = _en_x1;
-							_en_y = _en_y1;							
-						#endif
 						enems_boioiong_init ();
 						_en_mx = rdm; // Store
 						_en_s = BOIOIONG_BASE_SPRID;
@@ -434,11 +259,6 @@ void enems_load (void) {
 
 				#ifdef ENABLE_COMPILED_ENEMS
 					case 20:
-						#ifdef PERSISTENT_ENEMIES
-							// Initialize position from ROM
-							_en_x = _en_x1;
-							_en_y = _en_y1;							
-						#endif
 						_en_ct = 0;
 						en_rawv [gpit] = _en_s = COMPILED_ENEMS_BASE_SPRID;
 						en_behptr [gpit] = en_behptrs [rda];
@@ -464,7 +284,7 @@ void enems_load (void) {
 			en_cttouched [gpit] = 0;
 			en_flags [gpit] = 0;
 		}
-		#if defined (PERSISTENT_DEATHS) || defined (PERSISTENT_ENEMIES)
+		#if defined (PERSISTENT_DEATHS)
 			++ rdc;
 		#endif
 
@@ -535,47 +355,15 @@ void enems_move (void) {
 		gpit += 2; if (gpit > 2) gpit -=3;
 		
 		// Copy arrays -> temporal vars in ZP
-
-		__asm__ ("ldy %v", gpit);
-
-		__asm__ ("lda %v, y", en_t);
-		__asm__ ("sta %v", _en_t);
-
-		__asm__ ("lda %v, y", en_s);
-		__asm__ ("sta %v", _en_s);
-
-		__asm__ ("lda %v, y", en_x);
-		__asm__ ("sta %v", _en_x);
-
-		__asm__ ("lda %v, y", en_y);
-		__asm__ ("sta %v", _en_y);
-
-		__asm__ ("lda %v, y", en_x1);
-		__asm__ ("sta %v", _en_x1);
-
-		__asm__ ("lda %v, y", en_x2);
-		__asm__ ("sta %v", _en_x2);
-
-		__asm__ ("lda %v, y", en_y1);
-		__asm__ ("sta %v", _en_y1);
-
-		__asm__ ("lda %v, y", en_y2);
-		__asm__ ("sta %v", _en_y2);
-
-		__asm__ ("lda %v, y", en_mx);
-		__asm__ ("sta %v", _en_mx);
-
-		__asm__ ("lda %v, y", en_my);
-		__asm__ ("sta %v", _en_my);
-
-		__asm__ ("lda %v, y", en_ct);
-		__asm__ ("sta %v", _en_ct);
-
-		__asm__ ("lda %v, y", en_facing);
-		__asm__ ("sta %v", _en_facing);
-
-		__asm__ ("lda %v, y", en_state);
-		__asm__ ("sta %v", _en_state);
+		_en_t = en_t [gpit];
+		_en_s = en_s [gpit];
+		_en_x = en_x [gpit]; _en_y = en_y [gpit];
+		_en_x1 = en_x1 [gpit]; _en_y1 = en_y1 [gpit];
+		_en_x2 = en_x2 [gpit]; _en_y2 = en_y2 [gpit];
+		_en_mx = en_mx [gpit]; _en_my = en_my [gpit];
+		_en_ct = en_ct [gpit];
+		_en_facing = en_facing [gpit];
+		_en_state = en_state [gpit];
 
 		#ifdef ENEMS_NEED_FP
 			_enf_x = enf_x [gpit]; _enf_vx = enf_vx [gpit];
@@ -611,10 +399,9 @@ void enems_move (void) {
 					} 
 				#else
 					rda = frame_counter & 0xf;
-					oam_index = oam_meta_spr (
+					SG_addMetaSprite1x1 (
 						_en_x + jitter [rda],
 						_en_y + jitter [15 - rda] + SPRITE_ADJUST, 
-						oam_index, 
 						spr_enems [ENEMS_EXPLODING_CELL]
 					);
 					#ifndef ENEMS_EXPLODING_CELLS_HIDES
@@ -901,7 +688,7 @@ void enems_move (void) {
 					{
 						pvy = -PLAYER_VY_JUMP_INITIAL << 1;
 					}
-					sfx_play (SFX_STEPON, 1);
+					//PSGSFXPlay (SFX_STEPON, 1);
 
 					#ifdef PLAYER_AUTO_JUMP
 						jump_start ();
@@ -954,7 +741,7 @@ void enems_move (void) {
 						en_sg_2 = 0;
 						en_sg_1 = 1;
 						pvy = -pvy;
-						sfx_play (SFX_STEPON, 1);
+						//PSGSFXPlay (SFX_STEPON, 1);
 					}
 				#endif				
 
@@ -1005,7 +792,7 @@ void enems_move (void) {
 						phittery <= _en_y + 12
 					) {
 						enems_hit ();
-						sfx_play (SFX_STEPON, 1);
+						//PSGSFXPlay (SFX_STEPON, 1);
 						phitteract = 0;
 						pfrozen = PLAYER_FROZEN_FRAMES;
 						#ifdef ENEMS_RECOIL_ON_HIT
@@ -1035,7 +822,7 @@ void enems_move (void) {
 					#endif
 					
 					if (collide_in (bx [bi] + 3, by [bi] + 3, _en_x, _en_y)) {
-						sfx_play (SFX_ENHIT, 1);
+						//PSGSFXPlay (SFX_ENHIT, 1);
 						
 						#ifdef BULLETS_DONT_KILL
 							en_cttouched [gpit] = ENEMS_TOUCHED_FRAMES;
@@ -1101,9 +888,8 @@ skipdo:
 		// Render enemy metasprite en_spr
 
 		if (en_spr != 0xff) {
-			oam_index = oam_meta_spr (
+			SG_addMetaSprite1x1 (
 				_en_x + en_spr_x_mod, _en_y + SPRITE_ADJUST, 
-				oam_index, 
 				spr_enems [en_spr]
 			);
 		}

@@ -317,3 +317,18 @@ Ya tengo m ontado el proyecto, con el compilador, el crt0 custom, y toda la mier
 
 Empieza el port, y yo voy a tomarme un shocolara.
 
+20181025
+========
+
+Un cambio en el set de sprites: en vez de 6 spr_it, habrá 7, pero los dos últimos sólo llevan un sprite: disparo y NO!. Habíamos dicho que los items se cargaban a partir del patrón 112. 5 objetos de 2 capas más tarde son 40 patrones más tarde, por lo que *el disparo empieza en el patrón 152 y la explosión en el 156*. La explosión es `ss_it_06`, que uso metasprite en el motor para poder tener explosiones más elaboradas.
+
+He pensado que necesito hacer que `SG_addMetaSprite1x1` debería comprobar que lo que le paso sólo lleva un sprite. Tampoco pierdo mucho tiempo y gano mucha flexibilidad a la hora de hacer los sets, teniendo en cuenta que en estos juegos lo normal es tener bichos de 1 o 2 colores.
+
+Luego tendré que repasar qué cosas tengo que quitar completamente de AGNES por la poca RAM y cosas asín
+
+- Persistent enemies.
+- Cualquier cosa CHR_ROM.
+
+Otia, las cosas echas en ASM XD tengo que deshacerlas.
+
+Deshacer también `SET_FROM_PTR`

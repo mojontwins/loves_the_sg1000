@@ -34,7 +34,7 @@ void cocos_init (void) {
 
 			coco_on [coco_it] = 1;
 
-			sfx_play (SFX_COCO, 2);
+			//PSGSFXPlay (SFX_COCO, 2);
 		}	
 	}
 #endif
@@ -55,14 +55,14 @@ void cocos_init (void) {
 
 		coco_on [coco_it] = 1;
 
-		sfx_play (SFX_COCO, 2);
+		//PSGSFXPlay (SFX_COCO, 2);
 	}
 #endif
 
 void cocos_destroy (void) {
 	coco_on [coco_it] = 0;
 	coco_slots [coco_slots_i] = coco_it; coco_slots_i ++;
-	sfx_play (SFX_DUMMY1, 2);
+	//PSGSFXPlay (SFX_DUMMY1, 2);
 }
 
 void cocos_do (void) {
@@ -81,7 +81,7 @@ void cocos_do (void) {
 		rdy = coco_y [coco_it] >> 6;
 
 		// Render
-		oam_index = oam_spr (rdx, rdy + SPRITE_ADJUST, COCO_PATTERN, COCO_PALETTE, oam_index);
+		SG_addSprite (rdx, rdy + SPRITE_ADJUST, COCO_PATTERN, COCO_COLOUR);
 
 		#ifdef COCO_COLLIDES
 			rdm = map_attr [((rdx + 4) >> 4) | ((rdy + 4 - 16) & 0xf0)];

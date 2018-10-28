@@ -53,7 +53,7 @@ if (interactives_index) {
 					rdb = flags [rda];
 					flags [rda] = flags [FLAG_INVENTORY];
 					flags [FLAG_INVENTORY] = rdb;
-					sfx_play (SFX_OBJECT, 1);
+					//PSGSFXPlay (SFX_OBJECT, 1);
 				} 
 			#endif
 

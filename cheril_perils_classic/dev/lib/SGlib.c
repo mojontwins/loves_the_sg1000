@@ -9,6 +9,7 @@
 
 #define AUTOCYCLE_SPRITES				// Sprites cycle automaticly
 #define AUTOCYCLE_PRIME			7		// Prime to 32.
+#define AUTODETECT_ONE_COLOUR			// Detect 1 colour sprites in SG_addMetaSprite1x1
 
 #include "SGlib.h"
 
@@ -291,6 +292,9 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 		*stp ++ = *mt ++;
 		*stp ++ = *mt ++;
 		stp += 4 * AUTOCYCLE_PRIME; if (stp > SpriteTableEnd) stp -= 128;
+		#ifdef AUTODETECT_ONE_COLOUR
+			if (*mt == 0x80) return;
+		#endif
 		mt += 2; 
 		*stp ++ = y;
 		*stp ++ = x;

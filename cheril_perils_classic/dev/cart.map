@@ -32,11 +32,11 @@ Area                                    Addr        Size        Decimal Bytes (A
      000000B3  l__DATA                         
      0000011E  l__HEADER3                      
      00000200  s__CODE                         
-     000048CC  l__CODE                         
-     00004ACC  s__HOME                         
-     00004ACC  s__INITIALIZER                  
-     00004AD2  s__GSINIT                       
-     00004AE1  s__GSFINAL                      
+     000048EB  l__CODE                         
+     00004AEB  s__HOME                         
+     00004AEB  s__INITIALIZER                  
+     00004AF1  s__GSINIT                       
+     00004B00  s__GSFINAL                      
      0000C000  s__DATA                         
      0000C0B3  s__INITIALIZED                  
      0000C0B9  s__BSEG                         
@@ -48,7 +48,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000048CC =       18636. bytes (REL,CON)
+_CODE                               00000200    000048EB =       18667. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -107,7 +107,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000048CC =       18636. bytes (REL,CON)
+_CODE                               00000200    000048EB =       18667. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -167,7 +167,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000048CC =       18636. bytes (REL,CON)
+_CODE                               00000200    000048EB =       18667. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -190,178 +190,182 @@ _CODE                               00000200    000048CC =       18636. bytes (R
      0000315C  _ss_it_03                          spriteset
      00003165  _ss_it_04                          spriteset
      0000316E  _ss_it_05                          spriteset
-     00003177  _ss_fixed_patterns_c               spriteset
-     000034CC  _ss_en_0_00                        spriteset
-     000034D5  _ss_en_0_01                        spriteset
-     000034DE  _ss_en_0_02                        spriteset
-     000034E7  _ss_en_0_03                        spriteset
-     000034F0  _ss_en_0_04                        spriteset
-     000034F9  _ss_en_0_05                        spriteset
-     00003502  _ss_en_0_06                        spriteset
-     0000350B  _ss_en_0_07                        spriteset
-     00003514  _ss_en_0_08                        spriteset
-     0000351D  _ss_en_0_09                        spriteset
-     00003526  _ss_en_0_0a                        spriteset
-     0000352F  _ss_en_0_0b                        spriteset
-     00003538  _ss_en_0_0c                        spriteset
-     00003541  _ss_en_0_0d                        spriteset
-     0000354A  _ss_en_0_0e                        spriteset
-     00003553  _ss_en_0_0f                        spriteset
-     0000355C  _ss_en_0_10                        spriteset
-     00003565  _ss_en_0_11                        spriteset
-     0000356E  _ss_en_0_patterns_c                spriteset
-     0000378C  _ss_en_1_00                        spriteset
-     00003795  _ss_en_1_01                        spriteset
-     0000379E  _ss_en_1_02                        spriteset
-     000037A7  _ss_en_1_03                        spriteset
-     000037B0  _ss_en_1_04                        spriteset
-     000037B9  _ss_en_1_05                        spriteset
-     000037C2  _ss_en_1_06                        spriteset
-     000037CB  _ss_en_1_07                        spriteset
-     000037D4  _ss_en_1_08                        spriteset
-     000037DD  _ss_en_1_09                        spriteset
-     000037E6  _ss_en_1_0a                        spriteset
-     000037EF  _ss_en_1_0b                        spriteset
+     00003173  _ss_it_06                          spriteset
+     00003178  _ss_fixed_patterns_c               spriteset
+     000034DF  _ss_en_0_00                        spriteset
+     000034E8  _ss_en_0_01                        spriteset
+     000034F1  _ss_en_0_02                        spriteset
+     000034FA  _ss_en_0_03                        spriteset
+     00003503  _ss_en_0_04                        spriteset
+     0000350C  _ss_en_0_05                        spriteset
+     00003511  _ss_en_0_06                        spriteset
+     00003516  _ss_en_0_07                        spriteset
+     0000351F  _ss_en_0_08                        spriteset
+     00003528  _ss_en_0_09                        spriteset
+     00003531  _ss_en_0_0a                        spriteset
+     0000353A  _ss_en_0_0b                        spriteset
+     00003543  _ss_en_0_0c                        spriteset
+     0000354C  _ss_en_0_0d                        spriteset
+     00003555  _ss_en_0_0e                        spriteset
+     0000355E  _ss_en_0_0f                        spriteset
+     00003567  _ss_en_0_10                        spriteset
+     00003570  _ss_en_0_11                        spriteset
+     00003579  _ss_en_0_12                        spriteset
+     00003582  _ss_en_0_patterns_c                spriteset
+     000037A0  _ss_en_1_00                        spriteset
+     000037A9  _ss_en_1_01                        spriteset
+     000037B2  _ss_en_1_02                        spriteset
+     000037BB  _ss_en_1_03                        spriteset
+     000037C4  _ss_en_1_04                        spriteset
+     000037CD  _ss_en_1_05                        spriteset
+     000037D2  _ss_en_1_06                        spriteset
+     000037D7  _ss_en_1_07                        spriteset
+     000037E0  _ss_en_1_08                        spriteset
+     000037E9  _ss_en_1_09                        spriteset
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000048CC =       18636. bytes (REL,CON)
+_CODE                               00000200    000048EB =       18667. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000037F8  _ss_en_1_0c                        spriteset
-     00003801  _ss_en_1_0d                        spriteset
-     0000380A  _ss_en_1_0e                        spriteset
-     00003813  _ss_en_1_0f                        spriteset
-     0000381C  _ss_en_1_10                        spriteset
-     00003825  _ss_en_1_11                        spriteset
-     0000382E  _ss_en_1_12                        spriteset
-     00003837  _ss_en_1_13                        spriteset
-     00003840  _ss_en_1_14                        spriteset
-     00003849  _ss_en_1_15                        spriteset
-     00003852  _ss_en_1_16                        spriteset
-     0000385B  _ss_en_1_17                        spriteset
-     00003864  _ss_en_1_18                        spriteset
-     0000386D  _ss_en_1_19                        spriteset
-     00003876  _ss_en_1_1a                        spriteset
-     0000387F  _ss_en_1_1b                        spriteset
-     00003888  _ss_en_1_1c                        spriteset
-     00003891  _ss_en_1_1d                        spriteset
-     0000389A  _ss_en_1_patterns_c                spriteset
-     00003AC0  _ss_en_2_00                        spriteset
-     00003AC9  _ss_en_2_01                        spriteset
-     00003AD2  _ss_en_2_02                        spriteset
-     00003ADB  _ss_en_2_03                        spriteset
-     00003AE4  _ss_en_2_04                        spriteset
-     00003AED  _ss_en_2_05                        spriteset
-     00003AF6  _ss_en_2_06                        spriteset
-     00003AFF  _ss_en_2_07                        spriteset
-     00003B08  _ss_en_2_08                        spriteset
-     00003B11  _ss_en_2_09                        spriteset
-     00003B1A  _ss_en_2_0a                        spriteset
-     00003B23  _ss_en_2_0b                        spriteset
-     00003B2C  _ss_en_2_0c                        spriteset
-     00003B35  _ss_en_2_0d                        spriteset
-     00003B3E  _ss_en_2_0e                        spriteset
-     00003B47  _ss_en_2_0f                        spriteset
-     00003B50  _ss_en_2_10                        spriteset
-     00003B59  _ss_en_2_11                        spriteset
-     00003B62  _ss_en_2_12                        spriteset
-     00003B6B  _ss_en_2_13                        spriteset
-     00003B74  _ss_en_2_14                        spriteset
-     00003B7D  _ss_en_2_15                        spriteset
-     00003B86  _ss_en_2_16                        spriteset
-     00003B8F  _ss_en_2_17                        spriteset
-     00003B98  _ss_en_2_18                        spriteset
-     00003BA1  _ss_en_2_19                        spriteset
-     00003BAA  _ss_en_2_1a                        spriteset
-     00003BB3  _ss_en_2_1b                        spriteset
-     00003BBC  _ss_en_2_1c                        spriteset
-     00003BC5  _ss_en_2_1d                        spriteset
-     00003BCE  _ss_en_2_1e                        spriteset
-     00003BD7  _ss_en_2_1f                        spriteset
+     000037F2  _ss_en_1_0a                        spriteset
+     000037FB  _ss_en_1_0b                        spriteset
+     00003804  _ss_en_1_0c                        spriteset
+     0000380D  _ss_en_1_0d                        spriteset
+     00003816  _ss_en_1_0e                        spriteset
+     0000381F  _ss_en_1_0f                        spriteset
+     00003828  _ss_en_1_10                        spriteset
+     00003831  _ss_en_1_11                        spriteset
+     0000383A  _ss_en_1_12                        spriteset
+     00003843  _ss_en_1_13                        spriteset
+     0000384C  _ss_en_1_14                        spriteset
+     00003855  _ss_en_1_15                        spriteset
+     0000385E  _ss_en_1_16                        spriteset
+     00003867  _ss_en_1_17                        spriteset
+     00003870  _ss_en_1_18                        spriteset
+     00003879  _ss_en_1_19                        spriteset
+     00003882  _ss_en_1_1a                        spriteset
+     0000388B  _ss_en_1_1b                        spriteset
+     00003894  _ss_en_1_1c                        spriteset
+     0000389D  _ss_en_1_1d                        spriteset
+     000038A6  _ss_en_1_1e                        spriteset
+     000038AF  _ss_en_1_patterns_c                spriteset
+     00003AD5  _ss_en_2_00                        spriteset
+     00003ADE  _ss_en_2_01                        spriteset
+     00003AE7  _ss_en_2_02                        spriteset
+     00003AF0  _ss_en_2_03                        spriteset
+     00003AF9  _ss_en_2_04                        spriteset
+     00003B02  _ss_en_2_05                        spriteset
+     00003B07  _ss_en_2_06                        spriteset
+     00003B0C  _ss_en_2_07                        spriteset
+     00003B15  _ss_en_2_08                        spriteset
+     00003B1E  _ss_en_2_09                        spriteset
+     00003B27  _ss_en_2_0a                        spriteset
+     00003B30  _ss_en_2_0b                        spriteset
+     00003B39  _ss_en_2_0c                        spriteset
+     00003B42  _ss_en_2_0d                        spriteset
+     00003B4B  _ss_en_2_0e                        spriteset
+     00003B54  _ss_en_2_0f                        spriteset
+     00003B5D  _ss_en_2_10                        spriteset
+     00003B66  _ss_en_2_11                        spriteset
+     00003B6F  _ss_en_2_12                        spriteset
+     00003B78  _ss_en_2_13                        spriteset
+     00003B81  _ss_en_2_14                        spriteset
+     00003B8A  _ss_en_2_15                        spriteset
+     00003B93  _ss_en_2_16                        spriteset
+     00003B9C  _ss_en_2_17                        spriteset
+     00003BA5  _ss_en_2_18                        spriteset
+     00003BAE  _ss_en_2_19                        spriteset
+     00003BB7  _ss_en_2_1a                        spriteset
+     00003BC0  _ss_en_2_1b                        spriteset
+     00003BC9  _ss_en_2_1c                        spriteset
 ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000048CC =       18636. bytes (REL,CON)
+_CODE                               00000200    000048EB =       18667. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00003BE0  _ss_en_2_20                        spriteset
-     00003BE9  _ss_en_2_21                        spriteset
-     00003BF2  _ss_en_2_22                        spriteset
-     00003BFB  _ss_en_2_23                        spriteset
-     00003C04  _ss_en_2_24                        spriteset
-     00003C0D  _ss_en_2_25                        spriteset
-     00003C16  _ss_en_2_26                        spriteset
-     00003C1F  _ss_en_2_27                        spriteset
-     00003C28  _ss_en_2_patterns_c                spriteset
-     00003E31  _sfx_coins_psg                     murcia
-     00003E46  _sfx_fanty_psg                     murcia
-     00003ED9  _sfx_jump_psg                      murcia
-     00003F0D  _sfx_kill_psg                      murcia
-     00003F38  _sfx_select_psg                    murcia
-     00003F58  _sfx_shirt_psg                     murcia
-     00003F7B  _sfx_start_psg                     murcia
-     00003F9F  _PSGStop                           PSGlib
-     00003FC6  _PSGPlay                           PSGlib
-     00003FF3  _PSGCancelLoop                     PSGlib
-     00003FF9  _PSGPlayNoRepeat                   PSGlib
-     00004008  _PSGGetStatus                      PSGlib
-     00004010  _PSGSFXStop                        PSGlib
-     00004074  _PSGSFXPlay                        PSGlib
-     000040BF  _PSGSFXCancelLoop                  PSGlib
-     000040C5  _PSGSFXGetStatus                   PSGlib
-     000040CD  _PSGSFXPlayLoop                    PSGlib
-     000040E7  _PSGFrame                          PSGlib
-     000041EE  _PSGSFXFrame                       PSGlib
-     00004264  _SG_setReg                         SGlib
-     00004290  _VDPReg_init                       SGlib
-     00004298  _SG_VDPturnOnFeature               SGlib
-     000042D2  _SG_VDPturnOffFeature              SGlib
-     00004303  _SG_init                           SGlib
-     0000436B  _SG_setBackdropColor               SGlib
-     0000437F  _SG_setSpriteMode                  SGlib
-     000043B4  _SG_loadTilePatterns               SGlib
-     000043F5  _SG_loadTileColours                SGlib
-     0000443A  _SG_loadSpritePatterns             SGlib
-     0000447F  _SG_setTileatXY                    SGlib
-     000044BE  _SG_setNextTileatXY                SGlib
-     000044F8  _SG_setTile                        SGlib
-     00004500  _SG_fillTile                       SGlib
-     00004514  _SG_loadTileMapArea                SGlib
-     000045B0  _SG_initSprites                    SGlib
-     000045F3  _SG_addSprite                      SGlib
-     0000467D  _SG_addMetaSprite1x1               SGlib
-     000047B8  _SG_addMetaSprite                  SGlib
-     0000487E  _SG_finalizeSprites                SGlib
-     0000487F  _SG_getStp                         SGlib
-     00004883  _SG_setStp                         SGlib
-     00004894  _SG_copySpritestoSAT               SGlib
+     00003BD2  _ss_en_2_1d                        spriteset
+     00003BDB  _ss_en_2_1e                        spriteset
+     00003BE4  _ss_en_2_1f                        spriteset
+     00003BED  _ss_en_2_20                        spriteset
+     00003BF6  _ss_en_2_21                        spriteset
+     00003BFF  _ss_en_2_22                        spriteset
+     00003C08  _ss_en_2_23                        spriteset
+     00003C11  _ss_en_2_24                        spriteset
+     00003C1A  _ss_en_2_25                        spriteset
+     00003C23  _ss_en_2_26                        spriteset
+     00003C2C  _ss_en_2_27                        spriteset
+     00003C35  _ss_en_2_28                        spriteset
+     00003C3E  _ss_en_2_patterns_c                spriteset
+     00003E47  _sfx_coins_psg                     murcia
+     00003E5C  _sfx_fanty_psg                     murcia
+     00003EEF  _sfx_jump_psg                      murcia
+     00003F23  _sfx_kill_psg                      murcia
+     00003F4E  _sfx_select_psg                    murcia
+     00003F6E  _sfx_shirt_psg                     murcia
+     00003F91  _sfx_start_psg                     murcia
+     00003FB5  _PSGStop                           PSGlib
+     00003FDC  _PSGPlay                           PSGlib
+     00004009  _PSGCancelLoop                     PSGlib
+     0000400F  _PSGPlayNoRepeat                   PSGlib
+     0000401E  _PSGGetStatus                      PSGlib
+     00004026  _PSGSFXStop                        PSGlib
+     0000408A  _PSGSFXPlay                        PSGlib
+     000040D5  _PSGSFXCancelLoop                  PSGlib
+     000040DB  _PSGSFXGetStatus                   PSGlib
+     000040E3  _PSGSFXPlayLoop                    PSGlib
+     000040FD  _PSGFrame                          PSGlib
+     00004204  _PSGSFXFrame                       PSGlib
+     0000427A  _SG_setReg                         SGlib
+     000042A6  _VDPReg_init                       SGlib
+     000042AE  _SG_VDPturnOnFeature               SGlib
+     000042E8  _SG_VDPturnOffFeature              SGlib
+     00004319  _SG_init                           SGlib
+     00004381  _SG_setBackdropColor               SGlib
+     00004395  _SG_setSpriteMode                  SGlib
+     000043CA  _SG_loadTilePatterns               SGlib
+     0000440B  _SG_loadTileColours                SGlib
+     00004450  _SG_loadSpritePatterns             SGlib
+     00004495  _SG_setTileatXY                    SGlib
+     000044D4  _SG_setNextTileatXY                SGlib
+     0000450E  _SG_setTile                        SGlib
+     00004516  _SG_fillTile                       SGlib
+     0000452A  _SG_loadTileMapArea                SGlib
+     000045C6  _SG_initSprites                    SGlib
+     00004609  _SG_addSprite                      SGlib
+     00004693  _SG_addMetaSprite1x1               SGlib
+     000047D7  _SG_addMetaSprite                  SGlib
 ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000048CC =       18636. bytes (REL,CON)
+_CODE                               00000200    000048EB =       18667. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000048AA  _SG_waitForVBlank                  SGlib
-     000048B7  _SG_getKeysStatus                  SGlib
-     000048BB  _SG_queryPauseRequested            SGlib
-     000048C3  _SG_resetPauseRequest              SGlib
-     000048C9  _SG_VRAMmemset                     SGlib
-     000048F5  _UNSAFE_SG_copySpritestoSAT        SGlib
-     00004908  _UNSAFE_SG_VRAMmemcpy128           SGlib
-     0000492B  _SG_isr                            SGlib
-     0000497E  _SG_nmi_isr                        SGlib
-     00004991  _SMS_VDPType                       SGlib
-     00004999  _aPLib_depack_VRAM                 aPLib
+     0000489D  _SG_finalizeSprites                SGlib
+     0000489E  _SG_getStp                         SGlib
+     000048A2  _SG_setStp                         SGlib
+     000048B3  _SG_copySpritestoSAT               SGlib
+     000048C9  _SG_waitForVBlank                  SGlib
+     000048D6  _SG_getKeysStatus                  SGlib
+     000048DA  _SG_queryPauseRequested            SGlib
+     000048E2  _SG_resetPauseRequest              SGlib
+     000048E8  _SG_VRAMmemset                     SGlib
+     00004914  _UNSAFE_SG_copySpritestoSAT        SGlib
+     00004927  _UNSAFE_SG_VRAMmemcpy128           SGlib
+     0000494A  _SG_isr                            SGlib
+     0000499D  _SG_nmi_isr                        SGlib
+     000049B0  _SMS_VDPType                       SGlib
+     000049B8  _aPLib_depack_VRAM                 aPLib
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
@@ -406,7 +410,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_INITIALIZER                        00004ACC    00000006 =           6. bytes (REL,CON)
+_INITIALIZER                        00004AEB    00000006 =           6. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -415,18 +419,18 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSINIT                             00004AD2    0000000F =          15. bytes (REL,CON)
+_GSINIT                             00004AF1    0000000F =          15. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004AD2  gsinit                             crt0
+     00004AF1  gsinit                             crt0
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 14.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSFINAL                            00004AE1    00000001 =           1. bytes (REL,CON)
+_GSFINAL                            00004B00    00000001 =           1. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------

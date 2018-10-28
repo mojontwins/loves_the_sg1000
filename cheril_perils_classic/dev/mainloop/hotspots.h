@@ -20,7 +20,7 @@ if (hrt) {
 							pal_spr (RESONATOR_CHANGE_SPR_PAL);
 						#endif
 
-						sfx_play (SFX_BREAKH, 1);
+						//PSGSFXPlay (SFX_BREAKH, 1);
 					} 
 				}
 			} else
@@ -55,7 +55,7 @@ if (hrt) {
 							pinv = HS_OBJ_EMPTY;
 
 							b_button = 0;
-							sfx_play (SFX_TILE, 1);
+							//PSGSFXPlay (SFX_TILE, 1);
 						}
 
 					} else if (hrt >= HS_OBJ_MIN && hrt <= HS_OBJ_MAX) {
@@ -71,7 +71,7 @@ if (hrt) {
 							pinv = rda;
 
 							b_button = 0;
-							sfx_play (SFX_OBJECT, 1);
+							//PSGSFXPlay (SFX_OBJECT, 1);
 						}
 
 					} else if (hrt >= HS_OBJ_MIN + HS_USE_OFFS && hrt <= HS_OBJ_MAX + HS_USE_OFFS) {
@@ -100,7 +100,7 @@ if (hrt) {
 								#include "my/on_object_used.h"
 
 								b_button = 0;
-								sfx_play (SFX_USE, 1);
+								//PSGSFXPlay (SFX_USE, 1);
 
 							} 
 							#ifdef ENABLE_NO
@@ -190,7 +190,7 @@ if (hrt) {
 						#include "my/extra_hotspots.h"
 					}
 					if (rda) {
-						sfx_play (rda, 1);
+						//PSGSFXPlay (rda, 1);
 						hrt = 0;
 						hact [n_pant] = 0;
 					}

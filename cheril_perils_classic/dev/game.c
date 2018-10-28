@@ -1,8 +1,6 @@
 // NES MK1 v1.0
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
-// Uses neslib and related tools by Shiru
-
 // Comment this when you are done
 //#define DEBUG
 #define DEBUG_LEVEL		0

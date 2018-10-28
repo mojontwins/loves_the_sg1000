@@ -6,19 +6,10 @@
 
 void hotspots_load (void) {
 	// Copies hotspots from ROM to RAM and initializes them
-#ifdef ENEMS_IN_CHRROM
-	bankswitch (l_enems_chr_rombank [level]);
-	vram_adr (c_hotspots);
-	rda = VRAM_READ; 	// Dummy read.
-#else
 	gp_gen = (unsigned char *) c_hotspots;
-#endif
 
 	for (gpit = 0; gpit < MAP_SIZE; gpit ++) {
-#ifdef ENEMS_IN_CHRROM
-		ht [gpit] = VRAM_READ;
-		hyx [gpit] = VRAM_READ;
-#elif defined (HOTSPOTS_DYNAMIC)
+#if defined (HOTSPOTS_DYNAMIC)
 		ht [gpit] = *gp_gen ++;
 		hyx [gpit] = *gp_gen ++;
 #endif
@@ -42,16 +33,15 @@ void hotspots_paint (void) {
 	if (hrt == HOTSPOT_TYPE_RESONATOR && res_on) rda = HOTSPOT_TYPE_RESONATOR_ON;
 #endif
 
-	oam_index = oam_meta_spr (
+	SG_addMetaSprite1x1 (
 		hrx, hry + SPRITE_ADJUST, 
-		oam_index, 
 		spr_hs [rda]
 	);
 }
 
 void hotspots_create (void) {
 	
-#if defined (HOTSPOTS_DYNAMIC) || defined (ENEMS_IN_CHRROM)
+#if defined (HOTSPOTS_DYNAMIC)
 
 	if (ht [n_pant] && hact [n_pant]) {
 		hrt = ht [n_pant];
@@ -62,9 +52,7 @@ void hotspots_create (void) {
 #else
 
 	gp_gen = (unsigned char *) (c_hotspots + (n_pant << 1));
-	//hrt = *gp_gen ++; rda = *gp_gen; 
-	SET_FROM_PTR (hrt, gp_gen); gp_gen ++;
-	SET_FROM_PTR (rda, gp_gen);
+	hrt = *gp_gen ++; rda = *gp_gen; 
 	if (hrt && hact [n_pant]) {
 		hry = rda & 0xf0; hrx = rda << 4;
 	} else hrt = 0;

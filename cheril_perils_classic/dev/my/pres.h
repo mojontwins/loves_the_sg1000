@@ -55,10 +55,10 @@ void title (void) {
 		if (pad_this_frame & PAD_UP) {
 			if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
 		}
-		if (mode_no_resonators != rda) sfx_play (SFX_USE, 0);
+		if (mode_no_resonators != rda) //PSGSFXPlay (SFX_USE, 0);
 		if (pad_this_frame & PAD_START) break;
 	}
-	sfx_play (SFX_START, 0); delay (20);
+	//PSGSFXPlay (SFX_START, 0); delay (20);
 	
 	//level = game_mode & 1;
 	//mode_no_resonators = (game_mode > 1);

@@ -14,38 +14,38 @@ Symbol Table
   1 _PreviousKeysStatus                                            0004 GR
   0 _SG_VDPturnOffFeature                                          006E GR
   0 _SG_VDPturnOnFeature                                           0034 GR
-  0 _SG_VRAMmemset                                                 0665 GR
-  0 _SG_addMetaSprite                                              0554 GR
+  0 _SG_VRAMmemset                                                 066E GR
+  0 _SG_addMetaSprite                                              055D GR
   0 _SG_addMetaSprite1x1                                           0419 GR
   0 _SG_addSprite                                                  038F GR
-  0 _SG_copySpritestoSAT                                           0630 GR
+  0 _SG_copySpritestoSAT                                           0639 GR
   0 _SG_fillTile                                                   029C GR
-  0 _SG_finalizeSprites                                            061A GR
-  0 _SG_getKeysStatus                                              0653 GR
-  0 _SG_getStp                                                     061B GR
+  0 _SG_finalizeSprites                                            0623 GR
+  0 _SG_getKeysStatus                                              065C GR
+  0 _SG_getStp                                                     0624 GR
   0 _SG_init                                                       009F GR
   0 _SG_initSprites                                                034C GR
-  0 _SG_isr                                                        06C7 GR
+  0 _SG_isr                                                        06D0 GR
   0 _SG_loadSpritePatterns                                         01D6 GR
   0 _SG_loadTileColours                                            0191 GR
   0 _SG_loadTileMapArea                                            02B0 GR
   0 _SG_loadTilePatterns                                           0150 GR
-  0 _SG_nmi_isr                                                    071A GR
-  0 _SG_queryPauseRequested                                        0657 GR
-  0 _SG_resetPauseRequest                                          065F GR
+  0 _SG_nmi_isr                                                    0723 GR
+  0 _SG_queryPauseRequested                                        0660 GR
+  0 _SG_resetPauseRequest                                          0668 GR
   0 _SG_setBackdropColor                                           0107 GR
   0 _SG_setNextTileatXY                                            025A GR
   0 _SG_setReg                                                     0000 GR
   0 _SG_setSpriteMode                                              011B GR
-  0 _SG_setStp                                                     061F GR
+  0 _SG_setStp                                                     0628 GR
   0 _SG_setTile                                                    0294 GR
   0 _SG_setTileatXY                                                021B GR
-  0 _SG_waitForVBlank                                              0646 GR
-  0 _SMS_VDPType                                                   072D GR
+  0 _SG_waitForVBlank                                              064F GR
+  0 _SMS_VDPType                                                   0736 GR
   1 _SpriteTable                                                   0006 GR
   1 _SpriteTableEnd                                                0088 GR
-  0 _UNSAFE_SG_VRAMmemcpy128                                       06A4 GR
-  0 _UNSAFE_SG_copySpritestoSAT                                    0691 GR
+  0 _UNSAFE_SG_VRAMmemcpy128                                       06AD GR
+  0 _UNSAFE_SG_copySpritestoSAT                                    069A GR
   1 _VDPBlank                                                      0000 GR
     _VDPControlPort                                             =  00BF 
     _VDPDataPort                                                =  00BE 
@@ -71,7 +71,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  735   flags    0
+   0 _CODE                                      size  73E   flags    0
    1 _DATA                                      size   8D   flags    0
    2 _INITIALIZED                               size    2   flags    0
    3 _DABS                                      size    0   flags    8

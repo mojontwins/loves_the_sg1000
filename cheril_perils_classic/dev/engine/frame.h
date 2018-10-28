@@ -51,15 +51,13 @@ void hud_update (void) {
 
 #if defined (HS_INV_X)
 	#if (defined (ENABLE_INTERACTIVES) && defined (FLAG_INVENTORY)) || (defined (ENABLE_ONLY_ONE_OBJECT) && defined (ONLY_ONE_OBJECT_FLAG))
-		oam_index = oam_meta_spr (
+		SG_addMetaSprite1x1 (
 			HS_INV_X, HS_INV_Y,
-			oam_index,
 			spr_hs [flags [FLAG_INVENTORY]]
 		);
 	#else
-		oam_index = oam_meta_spr (
+		SG_addMetaSprite1x1 (
 			HS_INV_X, HS_INV_Y,
-			oam_index,
 			spr_hs [pinv]
 		);
 	#endif

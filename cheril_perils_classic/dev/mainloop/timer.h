@@ -9,7 +9,7 @@ if (timer_on && timer) {
 		-- timer; 
 
 		#ifdef TIMER_SOUND
-			if (timer < TIMER_SOUND) sfx_play (SFX_COUNT, 2);
+			if (timer < TIMER_SOUND) //PSGSFXPlay (SFX_COUNT, 2);
 		#endif
 
 		if (timer == 0) {

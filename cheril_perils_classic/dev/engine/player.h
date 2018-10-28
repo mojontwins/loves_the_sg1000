@@ -93,9 +93,8 @@ void player_init (void) {
 
 void player_render (void) {
 	if (0 == pflickering || half_life) 
-		oam_index = oam_meta_spr (
+		SG_addMetaSprite1x1 (
 			prx, pry + SPRITE_ADJUST, 
-			oam_index, 
 			spr_player [psprid]
 		);
 }
@@ -106,12 +105,12 @@ void player_to_pixels (void) {
 }
 
 void player_kill (void) {
-	oam_index = oam_index_player;
+	SG_setStp (cur_stp);
 	player_render ();
-	ppu_waitnmi ();
+	update_cycle ();
 
 	pkill = phit = 0;
-	sfx_play (SFX_PHIT, 0);
+	//PSGSFXPlay (SFX_PHIT, 0);
 	
 	if (plife) -- plife; else game_over = 1;
 
@@ -224,7 +223,7 @@ void player_move (void) {
 	#ifdef ENABLE_PROPELLERS
 		rda = pfloating;
 		pfloating = (at1 == 64 || at2 == 64);
-		if (rda != pfloating) sfx_play (SFX_FLOAT, 0);
+		if (rda != pfloating) //PSGSFXPlay (SFX_FLOAT, 0);
 	#endif
 
 	#ifdef ENABLE_SPRINGS
@@ -235,8 +234,8 @@ void player_move (void) {
 			if (ppossee)
 			#endif
 			{
-				if (QTILE (cx1, cy1 + 1) == SPRING_TILE && QTILE (cx1, cy1) != SPRING_SPIKE_TILE) { _x = cx1; _y = cy1; map_set (); sfx_play (SFX_SPRING, 1);}
-				if (QTILE (cx2, cy1 + 1) == SPRING_TILE && QTILE (cx2, cy1) != SPRING_SPIKE_TILE) { _x = cx2; _y = cy1; map_set (); sfx_play (SFX_SPRING, 1);}
+				if (QTILE (cx1, cy1 + 1) == SPRING_TILE && QTILE (cx1, cy1) != SPRING_SPIKE_TILE) { _x = cx1; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);}
+				if (QTILE (cx2, cy1 + 1) == SPRING_TILE && QTILE (cx2, cy1) != SPRING_SPIKE_TILE) { _x = cx2; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);}
 			}
 		}
 	#endif
@@ -613,7 +612,7 @@ void player_move (void) {
 	#ifdef PLAYER_SPINS
 		if (pad0 & PAD_DOWN) {
 			if (ppossee && ABS (pvx) > PLAYER_VX_MIN) {
-				if (!pspin) sfx_play (SFX_DUMMY2, 0);
+				if (!pspin) //PSGSFXPlay (SFX_DUMMY2, 0);
 				pspin = 1; 
 			}
 		}
@@ -826,7 +825,7 @@ void player_move (void) {
 			-- cy1;
 			
 			_x = cx1; _y = cy1; _t = 0; map_set ();
-			sfx_play (SFX_RING, 2);
+			//PSGSFXPlay (SFX_RING, 2);
 			
 			#include "my/on_tile_got.h"
 
@@ -878,11 +877,11 @@ void player_move (void) {
 			#endif		
 			
 			#ifdef PLAYER_PUNCHES
-				if (ppossee && ppunching == 0) { ppunching = 16; phitteract = 1; sfx_play (SFX_HITTER, 0); }
+				if (ppossee && ppunching == 0) { ppunching = 16; phitteract = 1; //PSGSFXPlay (SFX_HITTER, 0); }
 			#endif
 
 			#ifdef PLAYER_KICKS
-				if (!ppossee && pkicking == 0) { pkicking = 16; phitteract = 1; sfx_play (SFX_HITTER, 0); }
+				if (!ppossee && pkicking == 0) { pkicking = 16; phitteract = 1; //PSGSFXPlay (SFX_HITTER, 0); }
 			#endif
 		} 
 	#endif
