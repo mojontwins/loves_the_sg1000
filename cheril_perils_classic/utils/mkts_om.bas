@@ -61,7 +61,7 @@ Dim Shared As Integer lastWmeta, lasthMeta
 
 Dim Shared As Integer platform
 Dim Shared As Integer brickMultiplier
-Dim Shared As Integer patternSize
+Dim Shared As Integer patternSize, patternWriteSize
 Dim Shared As Integer patternWidthInPixels
 
 Dim Shared As Integer fHeaderFile, fMapFile
@@ -1119,6 +1119,36 @@ Sub writeColoursBinary (fileName As String)
 	fiPuts "+ " & bytes & " bytes written"
 End Sub
 
+Sub writePartialMainBinary (fileName As String, idxFrom As Integer, idxTo As Integer)
+	Dim As Integer fOut
+	Dim As Integer bytes
+
+	fiPuts "Opening " & fileName & " for output."
+	Kill fileName
+	fOut = FreeFile
+	Open fileName For Binary As #fOut
+	bytes = writeBin (fOut, mainBin (), idxFrom, idxTo - idxFrom + 1)
+	Close #fOut
+	fiPuts "+ " & bytes & " bytes written"
+End Sub
+
+Sub writePartialColoursBinary (fileName As String, idxFrom As Integer, idxTo As Integer)
+	Dim As Integer fOut, bytes, i
+	Dim As uByte d
+
+	fiPuts "Opening " & fileName & " for output."
+	Kill fileName
+	fOut = FreeFile
+	Open fileName For Binary As #fOut
+	For i = idxFrom To idxTo
+		d = coloursBin (i): Put #fOut, , d
+		bytes = bytes + 1
+	Next i
+	Close #fOut
+	fiPuts "Writing " & bytes & " bytes to output."
+	fiPuts "+ " & bytes & " bytes written"
+End Sub
+
 Sub writeMainBinaryText (label As String)
 	Dim As Integer bytes, i
 	Dim As uByte d
@@ -1131,6 +1161,34 @@ Sub writeMainBinaryText (label As String)
 
 	bytes = 0
 	For i = 0 To mainIndex - 1
+		If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
+		d = mainBin (i): Print #fMapFile, "0x" & lCase (Hex (d, 2));
+		If i < mainIndex - 1 Then Print #fMapFile, ", ";
+		If bytes Mod 8 = 7 Then Print #fMapFile, ""
+		bytes = bytes + 1
+	Next i
+
+	Print #fMapFile, "};"
+	Print #fMapFile, "// " & bytes & " bytes."
+	Print #fHeaderFile, "#define " & Ucase (label) & "_SIZE " & bytes
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, ""
+	Print #fMapFile, ""
+	
+	fiPuts "+ " & bytes & " bytes written"
+End Sub
+
+Sub writePartialMainBinaryText (label As String, idxFrom As Integer, idxTo As Integer)
+	Dim As Integer bytes, i
+	Dim As uByte d
+
+	fiPuts "Writing patterns binary to array named " & label
+
+	Print #fMapFile, "// pattern data"
+	Print #fMapFile, "const unsigned char " & label & " [] = {"
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & " [];"
+
+	bytes = 0
+	For i = idxFrom To idxTo
 		If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
 		d = mainBin (i): Print #fMapFile, "0x" & lCase (Hex (d, 2));
 		If i < mainIndex - 1 Then Print #fMapFile, ", ";
@@ -1190,6 +1248,34 @@ Sub writeColoursBinaryText (label As String)
 
 	bytes = 0
 	For i = 0 To coloursIndex - 1
+		If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
+		d = coloursBin (i): Print #fMapFile, "0x" & lCase (Hex (d, 2));
+		If i < coloursIndex - 1 Then Print #fMapFile, ", ";
+		If bytes Mod 8 = 7 Then Print #fMapFile, ""
+		bytes = bytes + 1
+	Next i
+
+	Print #fMapFile, "};"
+	Print #fMapFile, "// " & bytes & " bytes."
+	Print #fHeaderFile, "#define " & Ucase (label) & "_SIZE " & bytes
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, ""
+	Print #fMapFile, ""
+	
+	fiPuts "+ " & bytes & " bytes written"
+End Sub
+
+Sub writePartialColoursBinaryText (label As String, idxFrom As Integer, idxTo As Integer)
+	Dim As Integer bytes, i
+	Dim As uByte d
+
+	fiPuts "Writing colours binary to array named " & label
+
+	Print #fMapFile, "// Colour data"
+	Print #fMapFile, "const unsigned char " & label & " [] = {"
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & " [];"
+
+	bytes = 0
+	For i = idxFrom To idxTo
 		If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
 		d = coloursBin (i): Print #fMapFile, "0x" & lCase (Hex (d, 2));
 		If i < coloursIndex - 1 Then Print #fMapFile, ", ";
@@ -1360,12 +1446,14 @@ Sub zxDoScripted (scriptFile As String)
 	Dim As Integer fIn
 	Dim As String lineIn
 	Dim As String tokens (31)
+	Dim As Integer coords (10)
 	Dim As Integer xc0, yc0, w, h, wMeta, hMeta, max, imgOn, palOn
 	Dim As Integer wIn, hIn
 	Dim As Any Ptr img, palimg
 	Dim As Integer mapFileOpen
 	Dim As Integer headerFileOpen
 	Dim As Integer xOffs, yOffs
+	Dim As Integer idxFrom, idxTo
 
 	tMapsIndex = 0
 	metaSpritesIndex = 0
@@ -1447,24 +1535,41 @@ Sub zxDoScripted (scriptFile As String)
 
 			Case "write"
 				If tokens (1) = "patterns" Then
-					If tokens (4) = "packed" Or tokens (3) = "packed" Then
-						If tokens (3) = "packed" Then tokens (3) = ""
-						writeFullBinary "temp.tmp"
+					If left (tokens (3), 2) = "r:" Or left (tokens (4), 2) = "r:" Then
+						If left (tokens (3), 2) = "r:" Then
+							parseCoordinatesString right (tokens (3), len (tokens (3)) - 2), coords ()
+						Else 
+							parseCoordinatesString right (tokens (4), len (tokens (4)) - 2), coords ()
+						End If
+						idxFrom = coords (0) * patternWriteSize
+						If coords (1) = 32767 Then 
+							idxTo = mainIndex - 1
+						Else
+							idxTo = coords (1) * patternWriteSize
+						End If
+					Else
+						idxFrom = 0: idxTo = mainIndex - 1
+					End If
+
+					If parserFindTokenInTokens ("packed", tokens (), "lcase") Then
+						writePartialMainBinary "temp.tmp", idxFrom, idxTo
 						Shell EXEPATH & "/apack.exe temp.tmp temp.cmp > nul"
 						copyBinaryFileText tokens (2), "temp.cmp", "Aplib compressed pattern data"
 						Kill "temp.tmp"
 						Kill "temp.cmp"
-						If tokens (3) <> "" Then
-							writeColoursBinary "temp.tmp"
+						If tokens (3) <> "" And tokens (3) <> "packed" Then
+							writePartialColoursBinary "temp.tmp", idxFrom, idxTo
 							Shell EXEPATH & "/apack.exe temp.tmp temp.cmp > nul"
 							copyBinaryFileText tokens (3), "temp.cmp", "Aplib compressed colour data"
 							Kill "temp.tmp"
 							Kill "temp.cmp"
 						End If
 					Else
-						writeMainBinaryText tokens (2)
+						'writeMainBinaryText tokens (2)
+						writePartialMainBinaryText tokens (2), idxFrom, idxTo
 						If tokens (3) <> "" Then
-							writeColoursBinaryText tokens (3)
+							'writeColoursBinaryText tokens (3)
+							writePartialColoursBinaryText tokens (3), idxFrom, idxTo
 						End If
 					End If
 				End If
@@ -1599,6 +1704,7 @@ If sclpGetValue ("brickInput") <> "" Then brickMultiplier = 2
 If sclpGetValue ("platform") = "cpc" Then
 	platform = PLATFORM_CPC
 	patternSize = 16
+	patternWriteSize = 16
 	patternWidthInPixels = 4 * brickMultiplier
 
 	If sclpGetValue ("mode") <> "scripted" And sclpGetValue ("mode") <> "pal" And sclpGetValue ("mode") <> "pals" Then
@@ -1620,10 +1726,12 @@ If sclpGetValue ("platform") = "cpc" Then
 ElseIf sclpGetValue ("platform") = "sg1000" Then
 	platform = PLATFORM_SG1000
 	patternSize = 16
+	patternWriteSize = 8
 	patternWidthInPixels = 8
 Else
 	platform = PLATFORM_ZX
 	patternSize = 8
+	patternWriteSize = 8
 	patternWidthInPixels = 8
 End If
 

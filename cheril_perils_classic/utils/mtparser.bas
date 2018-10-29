@@ -15,8 +15,12 @@ Sub parseCoordinatesString (coordsString as String, coords () As Integer)
 	
 	For i = 1 To Len (coordsString)
 		m = Mid (coordsString, i, 1)
-		If m = "," Then
-			coords (idx) = Val (coordString)
+		If m = "," Or m = ":" Then
+			If coordString = "*" Then 
+				coords (idx) = 32767
+			Else
+				coords (idx) = Val (coordString)
+			End If
 			idx = idx + 1
 			coordString = ""			
 		Else

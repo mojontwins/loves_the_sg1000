@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Mon Oct 29 15:06:10 2018
+; This file was generated Mon Oct 29 21:30:55 2018
 ;--------------------------------------------------------
 	.module game
 	.optsdcc -mz80
@@ -65,8 +65,6 @@
 	.globl _unpack_bg_patterns
 	.globl _memfill
 	.globl _delay
-	.globl _set_rand
-	.globl _rand8
 	.globl _aPLib_depack_VRAM
 	.globl _PSGStop
 	.globl _UNSAFE_SG_copySpritestoSAT
@@ -1548,6 +1546,7 @@ _add_tile::
 ; Function draw_scr
 ; ---------------------------------
 _draw_scr::
+	dec	sp
 ;engine/../engine/mapmods/map_renderer_complex.h:20: rdm = 0;
 	ld	hl,#_rdm + 0
 	ld	(hl), #0x00
@@ -1556,38 +1555,35 @@ _draw_scr::
 	ld	l,0 (iy)
 	ld	h,#0x00
 	add	hl, hl
-	ex	de,hl
-	ld	hl,(_c_map)
+	ld	de,(_c_map)
 	add	hl,de
 	ld	a,(hl)
 	ld	iy,#_gp_gen
 	ld	0 (iy),a
 	inc	hl
 	ld	a,(hl)
-	ld	iy,#_gp_gen
-	ld	1 (iy),a
+	ld	(#_gp_gen + 1),a
 ;engine/../engine/mapmods/map_renderer_complex.h:88: while (rdm < 192) {
 00104$:
+;engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
+	ld	de,(_gp_gen)
+	ld	bc,(_gp_gen)
+	inc	bc
+;engine/../engine/mapmods/map_renderer_complex.h:88: while (rdm < 192) {
 	ld	a,(#_rdm + 0)
 	sub	a, #0xC0
 	jr	NC,00106$
 ;engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
-	ld	hl,(_gp_gen)
-	ld	a,(hl)
+	ld	a,(de)
 	ld	(#_rdt + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00241$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00241$:
+	ld	(_gp_gen),bc
 ;engine/../engine/mapmods/map_renderer_complex.h:90: gp_gen ++;
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00242$
+	jr	NZ,00218$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00242$:
+00218$:
 ;engine/../engine/mapmods/map_renderer_complex.h:91: rda = rdt & 0x0f;
 	ld	a,(#_rdt + 0)
 	and	a, #0x0F
@@ -1612,76 +1608,24 @@ _draw_scr::
 	call	_add_tile
 	jr	00104$
 00106$:
-;engine/../engine/mapmods/../../my/map_renderer_customization.h:10: set_rand (1 + n_pant);
-	ld	iy,#_n_pant
-	ld	h,0 (iy)
-	inc	h
-	push	hl
-	inc	sp
-	call	_set_rand
-	inc	sp
-;engine/../engine/mapmods/../../my/map_renderer_customization.h:11: gpit = 192; while (gpit --) {
-	ld	hl,#_gpit + 0
-	ld	(hl), #0xC0
-00111$:
-	ld	hl,#_gpit + 0
-	ld	d, (hl)
-	ld	hl, #_gpit+0
-	dec	(hl)
-	ld	a,d
-	or	a, a
-	jr	Z,00113$
-;engine/../engine/mapmods/../../my/map_renderer_customization.h:12: if (rand8 () & 1) {
-	call	_rand8
-	ld	a,l
-	rrca
-	jr	NC,00111$
-;engine/../engine/mapmods/../../my/map_renderer_customization.h:13: rda = map_buff [gpit];
-	ld	a,#<(_map_buff)
-	ld	hl,#_gpit
-	add	a, (hl)
-	ld	e,a
-	ld	a,#>(_map_buff)
-	adc	a, #0x00
-	ld	d,a
-	ld	a,(de)
-;engine/../engine/mapmods/../../my/map_renderer_customization.h:14: if (rda < 15) rda += 16;
-	ld	(#_rda + 0),a
-	sub	a, #0x0F
-	jr	NC,00108$
-	ld	hl,#_rda
-	ld	a,(hl)
-	add	a, #0x10
-	ld	(hl),a
-00108$:
-;engine/../engine/mapmods/../../my/map_renderer_customization.h:15: map_buff [gpit] = rda;
-	ld	a,(#_rda + 0)
-	ld	(de),a
-	jr	00111$
-00113$:
 ;engine/../engine/mapmods/map_renderer_complex.h:141: if (c_decos) {
 	ld	a,(#_c_decos + 0)
 	or	a, a
-	jr	Z,00124$
+	jr	Z,00117$
 ;engine/../engine/mapmods/map_renderer_complex.h:163: while (rda = *gp_gen ++) {
-00120$:
-	ld	hl,(_gp_gen)
-	ld	d,(hl)
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00244$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00244$:
+00113$:
+	ld	a,(de)
+	ld	d,a
+	ld	(_gp_gen),bc
 	ld	hl,#_rda + 0
 	ld	(hl), d
 	ld	a,d
 	or	a, a
-	jr	Z,00124$
+	jr	Z,00117$
 ;engine/../engine/mapmods/map_renderer_complex.h:164: if (rda & 0x80) {
 	ld	hl,#_rda+0
 	bit	7, (hl)
-	jr	Z,00115$
+	jr	Z,00108$
 ;engine/../engine/mapmods/map_renderer_complex.h:165: rda &= 0x7F;
 	ld	a,(#_rda + 0)
 	res	7, a
@@ -1689,55 +1633,58 @@ _draw_scr::
 ;engine/../engine/mapmods/map_renderer_complex.h:166: rdct = 1;
 	ld	hl,#_rdct + 0
 	ld	(hl), #0x01
-	jr	00117$
-00115$:
+	jr	00110$
+00108$:
 ;engine/../engine/mapmods/map_renderer_complex.h:168: rdct = *gp_gen ++;
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rdct + 0),a
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00246$
+	jr	NZ,00220$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00246$:
+00220$:
 ;engine/../engine/mapmods/map_renderer_complex.h:169: gp_gen ++;
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00247$
+	jr	NZ,00221$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00247$:
+00221$:
 ;engine/../engine/mapmods/map_renderer_complex.h:171: while (rdct --) {
-00117$:
-	ld	hl,#_rdct + 0
-	ld	d, (hl)
+00110$:
+	ld	a,(#_rdct + 0)
+	ld	iy,#0
+	add	iy,sp
+	ld	0 (iy),a
 	ld	hl, #_rdct+0
 	dec	(hl)
-	ld	a,d
+;engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
+	ld	de,(_gp_gen)
+	ld	bc,(_gp_gen)
+	inc	bc
+;engine/../engine/mapmods/map_renderer_complex.h:171: while (rdct --) {
+	ld	hl, #0+0
+	add	hl, sp
+	ld	a, (hl)
 	or	a, a
-	jr	Z,00120$
+	jr	Z,00113$
 ;engine/../engine/mapmods/map_renderer_complex.h:172: rdm = *gp_gen ++;
-	ld	hl,(_gp_gen)
-	ld	a,(hl)
+	ld	a,(de)
 	ld	(#_rdm + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00248$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00248$:
+	ld	(_gp_gen),bc
 ;engine/../engine/mapmods/map_renderer_complex.h:173: gp_gen ++;
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00249$
+	jr	NZ,00222$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00249$:
+00222$:
 ;engine/../engine/mapmods/map_renderer_complex.h:174: add_tile ();
 	call	_add_tile
-	jr	00117$
-00124$:
+	jr	00110$
+00117$:
 ;engine/../engine/mapmods/map_renderer_complex.h:185: gp_gen = c_locks; rda = 0;
 	ld	hl,(_c_locks)
 	ld	(_gp_gen),hl
@@ -1746,100 +1693,99 @@ _draw_scr::
 ;engine/../engine/mapmods/map_renderer_complex.h:186: gpit = c_max_bolts; while (gpit --) {
 	ld	a,(#_c_max_bolts + 0)
 	ld	(#_gpit + 0),a
-00129$:
+	ld	de,#_lkact+0
+00122$:
 	ld	hl,#_gpit + 0
-	ld	d, (hl)
+	ld	c, (hl)
 	ld	hl, #_gpit+0
 	dec	(hl)
-	ld	a,d
+	ld	a,c
 	or	a, a
-	jr	Z,00131$
+	jr	Z,00124$
 ;engine/../engine/mapmods/map_renderer_complex.h:187: rdb = *gp_gen ++;
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rdb + 0),a
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00250$
+	jr	NZ,00223$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00250$:
+00223$:
 ;engine/../engine/mapmods/map_renderer_complex.h:188: rdm = *gp_gen ++;
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rdm + 0),a
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00251$
+	jr	NZ,00224$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00251$:
+00224$:
 ;engine/../engine/mapmods/map_renderer_complex.h:189: if (n_pant == rdb) {
 	ld	a,(#_n_pant + 0)
 	ld	iy,#_rdb
 	sub	a, 0 (iy)
-	jr	NZ,00129$
+	jr	NZ,00122$
 ;engine/../engine/mapmods/map_renderer_complex.h:190: if (!lkact [gpit]) add_tile ();
-	ld	a,#<(_lkact)
-	ld	hl,#_gpit
-	add	a, (hl)
-	ld	e,a
-	ld	a,#>(_lkact)
-	adc	a, #0x00
-	ld	d,a
-	ld	a,(de)
+	ld	hl,(_gpit)
+	ld	h,#0x00
+	add	hl,de
+	ld	a,(hl)
 	or	a, a
-	jr	NZ,00129$
+	jr	NZ,00122$
+	push	de
 	call	_add_tile
-	jr	00129$
-00131$:
+	pop	de
+	jr	00122$
+00124$:
 ;engine/../engine/mapmods/map_renderer_complex.h:201: _x = 0; _y = TOP_ADJUST; gp_ram = map_buff;
 	ld	hl,#__x + 0
 	ld	(hl), #0x00
 	ld	hl,#__y + 0
 	ld	(hl), #0x01
-	ld	hl,#_map_buff
-	ld	(_gp_ram),hl
+	ld	de,#_map_buff+0
+	ld	(_gp_ram),de
 ;engine/../engine/mapmods/map_renderer_complex.h:202: for (rdm = 0; rdm < 192; rdm ++) {
 	ld	hl,#_rdm + 0
 	ld	(hl), #0x00
-00141$:
+00134$:
 ;engine/../engine/mapmods/map_renderer_complex.h:203: rdt = *gp_ram ++;
 	ld	hl,(_gp_ram)
 	ld	a,(hl)
 	ld	(#_rdt + 0),a
 	ld	hl, #_gp_ram+0
 	inc	(hl)
-	jr	NZ,00254$
+	jr	NZ,00227$
 	ld	hl, #_gp_ram+1
 	inc	(hl)
-00254$:
+00227$:
 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:40: if (rdt >= CHAC_CHAC_DETECT_TILE && rdt <= CHAC_CHAC_DETECT_TILE + 2) {
 	ld	a,(#_rdt + 0)
 	sub	a, #0x27
-	jr	C,00133$
+	jr	C,00126$
 	ld	a,#0x29
 	ld	iy,#_rdt
 	sub	a, 0 (iy)
-	jr	C,00133$
+	jr	C,00126$
 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:41: chac_chacs_add ();
+	push	de
 	call	_chac_chacs_add
+	pop	de
 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:43: rdt = map_buff [rdm] = 0;
-	ld	a,(#_rdm + 0)
-	add	a, #<(_map_buff)
-	ld	e,a
-	ld	a,#0x00
-	adc	a, #>(_map_buff)
-	ld	d,a
-	xor	a, a
-	ld	(de),a
+	ld	hl,(_rdm)
+	ld	h,#0x00
+	add	hl,de
+	ld	(hl),#0x00
 	ld	hl,#_rdt + 0
 	ld	(hl), #0x00
-00133$:
+00126$:
 ;engine/../engine/mapmods/map_renderer_complex.h:220: _t = rdt; draw_tile ();
 	ld	a,(#_rdt + 0)
 	ld	(#__t + 0),a
+	push	de
 	call	_draw_tile
+	pop	de
 ;engine/../engine/mapmods/map_renderer_complex.h:221: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
 	ld	a,(#__x + 0)
 	add	a, #0x02
@@ -1848,29 +1794,29 @@ _draw_scr::
 	ld	0 (iy),a
 	ld	a,(#__x + 0)
 	or	a, a
-	jr	NZ,00142$
+	jr	NZ,00135$
 	ld	iy,#__y
 	inc	0 (iy)
 	ld	iy,#__y
 	inc	0 (iy)
-00142$:
+00135$:
 ;engine/../engine/mapmods/map_renderer_complex.h:202: for (rdm = 0; rdm < 192; rdm ++) {
 	ld	iy,#_rdm
 	inc	0 (iy)
 	ld	a,(#_rdm + 0)
 	sub	a, #0xC0
-	jr	C,00141$
+	jr	C,00134$
 ;engine/../engine/mapmods/map_renderer_complex.h:225: gpit = max_chac_chacs; while (gpit --) {
 	ld	a,(#_max_chac_chacs + 0)
 	ld	(#_gpit + 0),a
-00138$:
+00131$:
 	ld	iy,#_gpit
 	ld	e,0 (iy)
 	ld	iy,#_gpit
 	dec	0 (iy)
 	ld	a,e
 	or	a, a
-	ret	Z
+	jr	Z,00136$
 ;engine/../engine/mapmods/map_renderer_complex.h:226: _t = CHAC_CHAC_BASE_TILE + 6;
 	ld	iy,#__t
 	ld	0 (iy),#0x26
@@ -1913,7 +1859,10 @@ _draw_scr::
 	inc	(hl)
 ;engine/../engine/mapmods/map_renderer_complex.h:233: draw_tile ();
 	call	_draw_tile
-	jr	00138$
+	jr	00131$
+00136$:
+	inc	sp
+	ret
 ;engine/printer.h:93: void pr_str (unsigned char *s) {
 ;	---------------------------------
 ; Function pr_str
@@ -2233,7 +2182,7 @@ _hotspots_paint::
 	ld	d,(hl)
 ;engine/hotspots.h:37: hrx, hry + SPRITE_ADJUST, 
 	ld	a,(#_hry + 0)
-	add	a, #0x08
+	add	a, #0xF8
 	ld	h,a
 	push	de
 	push	hl
@@ -2676,7 +2625,7 @@ _player_render::
 	ld	d,(hl)
 ;engine/player.h:97: prx, pry + SPRITE_ADJUST, 
 	ld	a,(#_pry + 0)
-	add	a, #0x08
+	add	a, #0xF8
 	ld	h,a
 	push	de
 	push	hl
@@ -5099,29 +5048,29 @@ _enems_move::
 	ld	a,#0x0F
 	sub	a, (hl)
 	add	a,#<(_jitter)
-	ld	-6 (ix),a
-	ld	a,#>(_jitter)
-	adc	a, #0x00
-	ld	-5 (ix),a
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
-	ld	a,(hl)
-	ld	-6 (ix),a
-	ld	a,(#__en_y + 0)
-	add	a, -6 (ix)
-	ld	-6 (ix), a
-	add	a, #0x08
-	ld	-6 (ix),a
-;engine/enengine.h:403: _en_x + jitter [rda],
-	ld	a,#<(_jitter)
-	ld	hl,#_rda
-	add	a, (hl)
 	ld	-4 (ix),a
 	ld	a,#>(_jitter)
 	adc	a, #0x00
 	ld	-3 (ix),a
 	ld	l,-4 (ix)
 	ld	h,-3 (ix)
+	ld	a,(hl)
+	ld	-4 (ix),a
+	ld	a,(#__en_y + 0)
+	add	a, -4 (ix)
+	ld	-4 (ix), a
+	add	a, #0xF8
+	ld	-4 (ix),a
+;engine/enengine.h:403: _en_x + jitter [rda],
+	ld	a,#<(_jitter)
+	ld	hl,#_rda
+	add	a, (hl)
+	ld	-6 (ix),a
+	ld	a,#>(_jitter)
+	adc	a, #0x00
+	ld	-5 (ix),a
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	h,(hl)
 	ld	a,(#__en_x + 0)
 	add	a, h
@@ -5129,7 +5078,7 @@ _enems_move::
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
 	push	hl
-	ld	a,-6 (ix)
+	ld	a,-4 (ix)
 	push	af
 	inc	sp
 	push	de
@@ -5173,26 +5122,26 @@ _enems_move::
 00588$:
 	jp	P,00240$
 00239$:
-	ld	-4 (ix),#0x00
+	ld	-6 (ix),#0x00
 	jr	00241$
 00240$:
-	ld	-4 (ix),#0x01
+	ld	-6 (ix),#0x01
 00241$:
-	ld	a,-4 (ix)
+	ld	a,-6 (ix)
 	ld	(#_pregotten + 0),a
 ;engine/enengine.h:430: en_fr = ((((_en_mx) ? _en_x : _en_y)+4) >> 3) & 1;
 	ld	a,(#__en_x + 0)
-	ld	-4 (ix),a
-	ld	a,(#__en_y + 0)
 	ld	-6 (ix),a
+	ld	a,(#__en_y + 0)
+	ld	-4 (ix),a
 	ld	a,(#__en_mx + 0)
 	or	a, a
 	jr	Z,00242$
-	ld	a,-4 (ix)
+	ld	a,-6 (ix)
 	ld	-9 (ix),a
 	jr	00243$
 00242$:
-	ld	a,-6 (ix)
+	ld	a,-4 (ix)
 	ld	-9 (ix),a
 00243$:
 	ld	a,-9 (ix)
@@ -5366,17 +5315,17 @@ _enems_move::
 ;engine/enengine.h:479: case 6:
 00122$:
 ;engine/../engine/enemmods/enem_homing_fanty.h:7: rdx = _en_x; rdy = _en_y; rdt = distance ();
-	ld	a,-4 (ix)
-	ld	(#_rdx + 0),a
 	ld	a,-6 (ix)
+	ld	(#_rdx + 0),a
+	ld	a,-4 (ix)
 	ld	(#_rdy + 0),a
 	call	_distance
 	ld	iy,#_rdt
 	ld	0 (iy),l
 ;engine/../engine/enemmods/enem_homing_fanty.h:35: _enf_y = _en_y << FIXBITS;
 	ld	a,(#__en_y + 0)
-	ld	-4 (ix),a
-	ld	-3 (ix),#0x00
+	ld	-6 (ix),a
+	ld	-5 (ix),#0x00
 ;engine/../engine/enemmods/enem_homing_fanty.h:11: switch (_en_state) {
 	ld	a,(#__en_state + 0)
 	or	a, a
@@ -5560,9 +5509,9 @@ _enems_move::
 	add	hl, hl
 	ld	(__enf_x),hl
 ;engine/../engine/enemmods/enem_homing_fanty.h:35: _enf_y = _en_y << FIXBITS;
-	ld	a,-4 (ix)
+	ld	a,-6 (ix)
 	ld	(#__enf_y + 0),a
-	ld	a,-3 (ix)
+	ld	a,-5 (ix)
 	ld	(#__enf_y + 1),a
 	ld	a,#0x06+1
 	jr	00609$
@@ -5637,10 +5586,10 @@ _enems_move::
 	or	a,(hl)
 	jp	Z,00155$
 ;engine/../engine/enemmods/enem_homing_fanty.h:51: cy1 = (_en_y + 4) >> 4;
-	ld	a,-4 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x04
 	ld	l,a
-	ld	a,-3 (ix)
+	ld	a,-5 (ix)
 	adc	a, #0x00
 	ld	h,a
 	sra	h
@@ -5654,10 +5603,10 @@ _enems_move::
 	ld	iy,#_cy1
 	ld	0 (iy),l
 ;engine/../engine/enemmods/enem_homing_fanty.h:52: cy2 = (_en_y + 11) >> 4;
-	ld	a,-4 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x0B
 	ld	h,a
-	ld	a,-3 (ix)
+	ld	a,-5 (ix)
 	adc	a, #0x00
 	ld	l,a
 	sra	l
@@ -6075,13 +6024,13 @@ _enems_move::
 00618$:
 	xor	a,a
 00619$:
-	ld	-4 (ix),a
+	ld	-6 (ix),a
 ;engine/../engine/enemmods/enem_homing_fanty.h:35: _enf_y = _en_y << FIXBITS;
 	ld	hl,#__en_y + 0
 	ld	b, (hl)
 	ld	e,#0x00
 ;engine/enengine.h:584: if (_en_t == 4 && pregotten && !pgotten && !pj) {
-	ld	a,-4 (ix)
+	ld	a,-6 (ix)
 	or	a, a
 	jp	Z,00188$
 	ld	a,(#_pregotten + 0)
@@ -6097,10 +6046,10 @@ _enems_move::
 	ld	a,#<(_en_status)
 	ld	hl,#_gpit
 	add	a, (hl)
-	ld	-6 (ix),a
+	ld	-4 (ix),a
 	ld	a,#>(_en_status)
 	adc	a, #0x00
-	ld	-5 (ix),a
+	ld	-3 (ix),a
 ;engine/enengine.h:592: py = (_en_y - 16) << 6; pry = py >> 6;
 	ld	a,b
 	add	a,#0xF0
@@ -6160,8 +6109,8 @@ _enems_move::
 	rla
 	sbc	a, a
 	ld	c,a
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	ld	h,(hl)
 	ld	l,#0x00
 	ld	a,#0x06
@@ -6292,8 +6241,8 @@ _enems_move::
 	ld	hl,#_pgotten + 0
 	ld	(hl), #0x01
 ;engine/enengine.h:603: pgtmy = _en_my << (6 - en_status [gpit]);
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	ld	l,(hl)
 	ld	h,#0x00
 	ld	a,#0x06
@@ -6357,7 +6306,7 @@ _enems_move::
 	or	a, a
 	jp	NZ,00230$
 ;engine/enengine.h:645: ) goto skipdo;
-	ld	a,-4 (ix)
+	ld	a,-6 (ix)
 	or	a, a
 	jp	NZ,00230$
 ;engine/enengine.h:589: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
@@ -6488,16 +6437,16 @@ _enems_move::
 	ld	c,#0x00
 	ld	a,d
 	add	a, #0x03
-	ld	-4 (ix),a
+	ld	-6 (ix),a
 	ld	a,c
 	adc	a, #0x00
-	ld	-3 (ix),a
+	ld	-5 (ix),a
 	ld	iy,#__en_x
 	ld	l,0 (iy)
 	ld	h,#0x00
-	ld	a,-4 (ix)
+	ld	a,-6 (ix)
 	sub	a, l
-	ld	a,-3 (ix)
+	ld	a,-5 (ix)
 	sbc	a, h
 	jp	PO, 00634$
 	xor	a, #0x80
@@ -6602,7 +6551,7 @@ _enems_move::
 	ld	b,(hl)
 ;engine/enengine.h:895: _en_x + en_spr_x_mod, _en_y + SPRITE_ADJUST, 
 	ld	a,(#__en_y + 0)
-	add	a, #0x08
+	add	a, #0xF8
 	ld	d,a
 	ld	hl,#_en_spr_x_mod
 	ld	a,(#__en_x + 0)
@@ -7346,13 +7295,13 @@ _game_init::
 	ld	hl,#7
 	add	hl,sp
 	ld	sp,hl
-;mainloop.h:18: cls ();
+;mainloop.h:17: cls ();
 	call	_cls
-;mainloop.h:20: draw_game_frame ();
+;mainloop.h:19: draw_game_frame ();
 	call	_draw_game_frame
-;mainloop.h:23: hotspots_load ();
+;mainloop.h:22: hotspots_load ();
 	call	_hotspots_load
-;mainloop.h:26: memfill (lkact, 1, c_max_bolts);
+;mainloop.h:25: memfill (lkact, 1, c_max_bolts);
 	ld	hl,#_c_max_bolts + 0
 	ld	c, (hl)
 	ld	b,#0x00
@@ -7366,18 +7315,18 @@ _game_init::
 	pop	af
 	pop	af
 	inc	sp
-;mainloop.h:29: if (!warp_to_level)	{
+;mainloop.h:28: if (!warp_to_level)	{
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00105$
-;mainloop.h:30: n_pant = SCR_INI;
+;mainloop.h:29: n_pant = SCR_INI;
 	ld	de,#_l_scr_ini+0
 	ld	hl,(_level)
 	ld	h,#0x00
 	add	hl,de
 	ld	a,(hl)
 	ld	(#_n_pant + 0),a
-;mainloop.h:31: px = (4 + (PLAYER_INI_X << 4)) << FIXBITS;
+;mainloop.h:30: px = (4 + (PLAYER_INI_X << 4)) << FIXBITS;
 	ld	de,#_l_ini_x+0
 	ld	hl,(_level)
 	ld	h,#0x00
@@ -7397,7 +7346,7 @@ _game_init::
 	add	hl, hl
 	add	hl, hl
 	ld	(_px),hl
-;mainloop.h:32: py = (PLAYER_INI_Y << 4) << FIXBITS;
+;mainloop.h:31: py = (PLAYER_INI_Y << 4) << FIXBITS;
 	ld	de,#_l_ini_y+0
 	ld	hl,(_level)
 	ld	h,#0x00
@@ -7416,31 +7365,31 @@ _game_init::
 	add	hl, hl
 	ld	(_py),hl
 00105$:
-;mainloop.h:34: player_to_pixels ();
+;mainloop.h:33: player_to_pixels ();
 	call	_player_to_pixels
-;mainloop.h:35: player_init ();
+;mainloop.h:34: player_init ();
 	call	_player_init
-;mainloop.h:42: enems_persistent_deaths_load ();
+;mainloop.h:41: enems_persistent_deaths_load ();
 	call	_enems_persistent_deaths_load
-;mainloop.h:54: pkeys = 0;
+;mainloop.h:53: pkeys = 0;
 	ld	hl,#_pkeys + 0
 	ld	(hl), #0x00
-;mainloop.h:58: res_on = 0;
+;mainloop.h:57: res_on = 0;
 	ld	hl,#_res_on + 0
 	ld	(hl), #0x00
-;mainloop.h:59: res_disable = 0;
+;mainloop.h:58: res_disable = 0;
 	ld	hl,#_res_disable + 0
 	ld	(hl), #0x00
-;mainloop.h:67: no_ct = 0;
+;mainloop.h:66: no_ct = 0;
 	ld	hl,#_no_ct + 0
 	ld	(hl), #0x00
-;mainloop.h:106: half_life = 0;
+;mainloop.h:105: half_life = 0;
 	ld	hl,#_half_life + 0
 	ld	(hl), #0x00
-;mainloop.h:107: frame_counter = 0;
+;mainloop.h:106: frame_counter = 0;
 	ld	hl,#_frame_counter + 0
 	ld	(hl), #0x00
-;mainloop.h:108: olife = oammo = oobjs = okeys = 0xff;
+;mainloop.h:107: olife = oammo = oobjs = okeys = 0xff;
 	ld	hl,#_okeys + 0
 	ld	(hl), #0xFF
 	ld	hl,#_oobjs + 0
@@ -7449,7 +7398,7 @@ _game_init::
 	ld	(hl), #0xFF
 	ld	hl,#_olife + 0
 	ld	(hl), #0xFF
-;mainloop.h:109: okilled = 0xff;
+;mainloop.h:108: okilled = 0xff;
 	ld	hl,#_okilled + 0
 	ld	(hl), #0xFF
 ;my/extra_inits.h:7: springs_on = (level == 1);
@@ -7463,41 +7412,41 @@ _game_init::
 00121$:
 	ld	(#_springs_on + 0),a
 	ret
-;mainloop.h:118: void prepare_scr (void) {
+;mainloop.h:117: void prepare_scr (void) {
 ;	---------------------------------
 ; Function prepare_scr
 ; ---------------------------------
 _prepare_scr::
-;mainloop.h:119: SG_displayOff ();
+;mainloop.h:118: SG_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
 	pop	af
-;mainloop.h:129: ft = 0;
+;mainloop.h:128: ft = 0;
 	ld	hl,#_ft + 0
 	ld	(hl), #0x00
-;mainloop.h:131: clear_update_list ();
+;mainloop.h:130: clear_update_list ();
 	call	_clear_update_list
-;mainloop.h:143: enems_load ();
+;mainloop.h:142: enems_load ();
 	call	_enems_load
-;mainloop.h:144: hotspots_create ();	
+;mainloop.h:143: hotspots_create ();	
 	call	_hotspots_create
-;mainloop.h:161: chac_chacs_queue_write = chac_chacs_queue_read = 0;
+;mainloop.h:160: chac_chacs_queue_write = chac_chacs_queue_read = 0;
 	ld	hl,#_chac_chacs_queue_read + 0
 	ld	(hl), #0x00
 	ld	hl,#_chac_chacs_queue_write + 0
 	ld	(hl), #0x00
-;mainloop.h:162: max_chac_chacs = 0;
+;mainloop.h:161: max_chac_chacs = 0;
 	ld	hl,#_max_chac_chacs + 0
 	ld	(hl), #0x00
-;mainloop.h:171: draw_scr ();
+;mainloop.h:170: draw_scr ();
 	call	_draw_scr
-;mainloop.h:209: SG_displayOn ();
+;mainloop.h:208: SG_displayOn ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOnFeature
 	pop	af
-;mainloop.h:210: SG_initSprites ();
+;mainloop.h:209: SG_initSprites ();
 	call	_SG_initSprites
 ;my/on_entering_screen.h:8: if (mode_no_resonators) {
 	ld	a,(#_mode_no_resonators + 0)
@@ -7513,7 +7462,7 @@ _prepare_scr::
 	ld	hl,#_hrt + 0
 	ld	(hl), #0x00
 00104$:
-;mainloop.h:227: gpit = 3; while (gpit --) en_spr_id [gpit] = en_s [gpit];
+;mainloop.h:226: gpit = 3; while (gpit --) en_spr_id [gpit] = en_s [gpit];
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x03
 00105$:
@@ -7539,7 +7488,7 @@ _prepare_scr::
 	ld	(de),a
 	jr	00105$
 00107$:
-;mainloop.h:229: prx = px >> FIXBITS; pry = py >> FIXBITS;
+;mainloop.h:228: prx = px >> FIXBITS; pry = py >> FIXBITS;
 	ld	hl,(_px)
 	sra	h
 	rr	l
@@ -7570,27 +7519,27 @@ _prepare_scr::
 	rr	l
 	ld	iy,#_pry
 	ld	0 (iy),l
-;mainloop.h:234: player_move ();
+;mainloop.h:233: player_move ();
 	call	_player_move
-;mainloop.h:235: enems_move ();
+;mainloop.h:234: enems_move ();
 	call	_enems_move
-;mainloop.h:237: if (hrt) hotspots_paint ();
+;mainloop.h:236: if (hrt) hotspots_paint ();
 	ld	a,(#_hrt + 0)
 	or	a, a
 	jr	Z,00109$
 	call	_hotspots_paint
 00109$:
-;mainloop.h:252: SG_finalizeSprites ();
+;mainloop.h:251: SG_finalizeSprites ();
 	call	_SG_finalizeSprites
-;mainloop.h:253: hud_update ();
+;mainloop.h:252: hud_update ();
 	call	_hud_update
-;mainloop.h:254: SG_waitForVBlank ();
+;mainloop.h:253: SG_waitForVBlank ();
 	call	_SG_waitForVBlank
-;mainloop.h:255: UNSAFE_SG_copySpritestoSAT ();
+;mainloop.h:254: UNSAFE_SG_copySpritestoSAT ();
 	call	_UNSAFE_SG_copySpritestoSAT
-;mainloop.h:256: clear_update_list ();	
+;mainloop.h:255: clear_update_list ();	
 	jp  _clear_update_list
-;mainloop.h:259: void game_loop (void) {
+;mainloop.h:258: void game_loop (void) {
 ;	---------------------------------
 ; Function game_loop
 ; ---------------------------------
@@ -7599,82 +7548,82 @@ _game_loop::
 	ld	ix,#0
 	add	ix,sp
 	dec	sp
-;mainloop.h:266: clear_update_list ();
+;mainloop.h:265: clear_update_list ();
 	call	_clear_update_list
-;mainloop.h:269: on_pant = 99; ft = 1; fade_delay = 1;
+;mainloop.h:268: on_pant = 99; ft = 1; fade_delay = 1;
 	ld	hl,#_on_pant + 0
 	ld	(hl), #0x63
 	ld	hl,#_ft + 0
 	ld	(hl), #0x01
 	ld	hl,#_fade_delay + 0
 	ld	(hl), #0x01
-;mainloop.h:273: SG_displayOn ();
+;mainloop.h:272: SG_displayOn ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOnFeature
 	pop	af
-;mainloop.h:284: ntsc_frame = level_reset = warp_to_level = 0; 
+;mainloop.h:283: ntsc_frame = level_reset = warp_to_level = 0; 
 	ld	hl,#_warp_to_level + 0
 	ld	(hl), #0x00
 	ld	hl,#_level_reset + 0
 	ld	(hl), #0x00
 	ld	hl,#_ntsc_frame + 0
 	ld	(hl), #0x00
-;mainloop.h:285: ticker = 50;
+;mainloop.h:284: ticker = 50;
 	ld	hl,#_ticker + 0
 	ld	(hl), #0x32
-;mainloop.h:287: while (1) {
+;mainloop.h:286: while (1) {
 00167$:
-;mainloop.h:294: hud_update ();
+;mainloop.h:293: hud_update ();
 	call	_hud_update
-;mainloop.h:298: if (pkill) player_kill ();
+;mainloop.h:297: if (pkill) player_kill ();
 	ld	a,(#_pkill + 0)
 	or	a, a
 	jr	Z,00102$
 	call	_player_kill
 00102$:
-;mainloop.h:299: if (game_over || level_reset) break;			
+;mainloop.h:298: if (game_over || level_reset) break;			
 	ld	a,(#_game_over + 0)
 	or	a, a
 	jp	NZ,00168$
 	ld	a,(#_level_reset + 0)
 	or	a, a
 	jp	NZ,00168$
-;mainloop.h:303: flick_override = 0;
+;mainloop.h:302: flick_override = 0;
 	ld	hl,#_flick_override + 0
 	ld	(hl), #0x00
-;mainloop.h:306: flickscreen_do_horizontal ();
+;mainloop.h:305: flickscreen_do_horizontal ();
 	call	_flickscreen_do_horizontal
-;mainloop.h:307: flickscreen_do_vertical ();
+;mainloop.h:306: flickscreen_do_vertical ();
 	call	_flickscreen_do_vertical
-;mainloop.h:312: if (on_pant != n_pant) {
+;mainloop.h:311: if (on_pant != n_pant) {
 	ld	a,(#_on_pant + 0)
 	ld	iy,#_n_pant
 	sub	a, 0 (iy)
 	jr	Z,00109$
-;mainloop.h:313: prepare_scr ();
+;mainloop.h:312: prepare_scr ();
 	call	_prepare_scr
-;mainloop.h:314: on_pant = n_pant;
+;mainloop.h:313: on_pant = n_pant;
 	ld	a,(#_n_pant + 0)
 	ld	(#_on_pant + 0),a
 00109$:
-;mainloop.h:333: update_cycle ();
+;mainloop.h:332: update_cycle ();
 	call	_update_cycle
-;mainloop.h:337: pad_read ();
+;mainloop.h:336: pad_read ();
 	call	_pad_read
-;mainloop.h:338: a_button = (pad_this_frame & PAD_A);
+;mainloop.h:337: a_button = (pad_this_frame & PAD_A);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x20
 	ld	h,a
 	ld	iy,#_a_button
 	ld	0 (iy),h
-;mainloop.h:339: b_button = (pad_this_frame & PAD_B);
+;mainloop.h:338: b_button = (pad_this_frame & PAD_B);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x10
 	ld	h,a
 	ld	iy,#_b_button
 	ld	0 (iy),h
-;mainloop.h:343: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
+;mainloop.h:342: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
 	ld	iy,#_ntsc_frame
 	inc	0 (iy)
 	ld	a,(#_ntsc_frame + 0)
@@ -7683,7 +7632,7 @@ _game_loop::
 	ld	iy,#_ntsc_frame
 	ld	0 (iy),#0x00
 00111$:
-;mainloop.h:345: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
+;mainloop.h:344: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
 	ld	a,(#_paused + 0)
 	or	a, a
 	jp	NZ,00159$
@@ -7694,7 +7643,7 @@ _game_loop::
 	or	a, a
 	jp	Z,00159$
 00158$:
-;mainloop.h:347: if (ticker) -- ticker; else ticker = 50;
+;mainloop.h:346: if (ticker) -- ticker; else ticker = 50;
 	ld	a,(#_ticker + 0)
 	or	a, a
 	jr	Z,00113$
@@ -7705,12 +7654,12 @@ _game_loop::
 	ld	iy,#_ticker
 	ld	0 (iy),#0x32
 00114$:
-;mainloop.h:348: half_life ^= 1;
+;mainloop.h:347: half_life ^= 1;
 	ld	a,(#_half_life + 0)
 	xor	a, #0x01
 	ld	iy,#_half_life
 	ld	0 (iy),a
-;mainloop.h:349: ++ frame_counter;
+;mainloop.h:348: ++ frame_counter;
 	ld	iy,#_frame_counter
 	inc	0 (iy)
 ;mainloop/hotspots.h:6: if (hrt) {
@@ -7848,11 +7797,11 @@ _game_loop::
 	xor	a, a
 	ld	(de),a
 00131$:
-;mainloop.h:369: if (!warp_to_level) {
+;mainloop.h:368: if (!warp_to_level) {
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00133$
-;mainloop.h:370: player_move ();
+;mainloop.h:369: player_move ();
 	call	_player_move
 00133$:
 ;my/extra_checks.h:14: if (c_max_enems == pkilled) {
@@ -7891,22 +7840,22 @@ _game_loop::
 ;mainloop/win_level_condition.h:25: break;
 	jp	00168$
 00141$:
-;mainloop.h:407: cur_stp = SG_getStp (); 
+;mainloop.h:406: cur_stp = SG_getStp (); 
 	call	_SG_getStp
 	ld	(_cur_stp),hl
-;mainloop.h:408: if (!warp_to_level)	player_render ();
+;mainloop.h:407: if (!warp_to_level)	player_render ();
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00143$
 	call	_player_render
 00143$:
-;mainloop.h:412: enems_move ();
+;mainloop.h:411: enems_move ();
 	call	_enems_move
-;mainloop.h:416: if (warp_to_level) {
+;mainloop.h:415: if (warp_to_level) {
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	Z,00145$
-;mainloop.h:417: update_cycle (); PSGStop (); break;
+;mainloop.h:416: update_cycle (); PSGStop (); break;
 	call	_update_cycle
 	call	_PSGStop
 	jp	00168$
@@ -7939,7 +7888,7 @@ _game_loop::
 	ld	iy,#_res_on
 	ld	0 (iy),#0x00
 00153$:
-;mainloop.h:428: if (hrt) hotspots_paint ();
+;mainloop.h:427: if (hrt) hotspots_paint ();
 	ld	a,(#_hrt + 0)
 	or	a, a
 	jr	Z,00155$
@@ -7956,7 +7905,7 @@ _game_loop::
 	ld	de,#_ss_it_06
 ;mainloop/no.h:8: prx + NO_OFFS_X, pry + NO_OFFS_Y + SPRITE_ADJUST,
 	ld	a,(#_pry + 0)
-	add	a, #0xF4
+	add	a, #0xE4
 	ld	h,a
 	push	de
 	push	hl
@@ -7968,7 +7917,7 @@ _game_loop::
 	pop	af
 	pop	af
 00157$:
-;mainloop.h:457: chac_chacs_do ();
+;mainloop.h:456: chac_chacs_do ();
 	call	_chac_chacs_do
 00159$:
 ;mainloop/cheat.h:5: if ((pad0 & (PAD_B|PAD_SELECT|PAD_UP)) == (PAD_B|PAD_SELECT|PAD_UP)) break;
@@ -7989,7 +7938,7 @@ _game_loop::
 	ld	(#_paused + 0),a
 	jp	00167$
 00168$:
-;mainloop.h:474: SG_displayOff ();
+;mainloop.h:473: SG_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature

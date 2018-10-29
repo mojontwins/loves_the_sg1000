@@ -7,15 +7,15 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 _ts0_colours_c                                                 0534 GR
+  0 _ts0_colours_c                                                 040C GR
   0 _ts0_patterns_c                                                0205 GR
   0 _ts0_tmaps                                                     0185 GR
-  0 _ts1_colours_c                                                 0B91 GR
-  0 _ts1_patterns_c                                                0707 GR
-  0 _ts1_tmaps                                                     0687 GR
-  0 _ts2_colours_c                                                 13C3 GR
-  0 _ts2_patterns_c                                                0E75 GR
-  0 _ts2_tmaps                                                     0DDD GR
+  0 _ts1_colours_c                                                 08F9 GR
+  0 _ts1_patterns_c                                                0593 GR
+  0 _ts1_tmaps                                                     0513 GR
+  0 _ts2_colours_c                                                 0FBB GR
+  0 _ts2_patterns_c                                                0B92 GR
+  0 _ts2_tmaps                                                     0AFA GR
   0 _tsfont_colours_c                                              0135 GR
   0 _tsfont_patterns_c                                             0000 GR
 
@@ -24,7 +24,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size 16E5   flags    0
+   0 _CODE                                      size 1292   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

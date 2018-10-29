@@ -16,7 +16,7 @@ set patterns 64
 reset tmaps
 metatileset 0, 0, 16, 2, 2, 2
 write tmaps ts0_tmaps
-write patterns ts0_patterns_c ts0_colours_c packed
+write patterns ts0_patterns_c ts0_colours_c r:64:* packed
 
 # Metatiles level 1
 open ts1.png
@@ -24,7 +24,7 @@ set patterns 64
 reset tmaps
 metatileset 0, 0, 16, 2, 2, 2
 write tmaps ts1_tmaps
-write patterns ts1_patterns_c ts1_colours_c packed
+write patterns ts1_patterns_c ts1_colours_c r:64:* packed
 
 # Metatiles level 2
 open ts2.png
@@ -32,7 +32,7 @@ set patterns 64
 reset tmaps
 metatileset 0, 0, 16, 3, 2, 2, 38
 write tmaps ts2_tmaps
-write patterns ts2_patterns_c ts2_colours_c packed
+write patterns ts2_patterns_c ts2_colours_c r:64:* packed
 
 # Cut spriteset
 

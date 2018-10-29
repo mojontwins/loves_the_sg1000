@@ -88,4 +88,3 @@
 #if defined (PLAYER_TOP_DOWN) && defined (NO_HORIZONTAL_EVIL_TILE)
 	#undef NO_HORIZONTAL_EVIL_TILE
 #endif
-

@@ -4,7 +4,7 @@
 // For a topmost two-lines status bar
 
 #define TOP_ADJUST 				1		
-#define SPRITE_ADJUST 			8
+#define SPRITE_ADJUST 			-8
 
 #define MAP_CLEAR_LIST_ADDRESS	0x2c40	// To store map persistence in VRAM.
 										// Each screen takes 24 bytes. move it where

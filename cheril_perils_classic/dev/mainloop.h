@@ -14,7 +14,6 @@ void game_init (void) {
 	// Load patterns
 	unpack_bg_patterns (l_ts_patterns [level], l_ts_colours [level], 64*8, 7);
 	
-
 	cls ();
 
 	draw_game_frame ();
