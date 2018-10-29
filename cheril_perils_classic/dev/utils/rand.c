@@ -1,4 +1,8 @@
-// random.h
+// NES MK1 v1.0
+// Copyleft Mojon Twins 2013, 2015, 2017, 2018
+
+// rand.c
+
 // Code by Patrick Rack, adapted by na_th_an
 // SDCC version.
 
@@ -45,3 +49,8 @@ void srand (void) {
 	__endasm;
 }
 #pragma restore
+
+void set_rand (unsigned char rdum) {
+	seed1 = rdum; seed2 = 0xff00 & rdum;
+	srand ();
+}

@@ -70,8 +70,7 @@ void draw_scr (void) {
 		gp_gen = c_map [n_pant];
 
 		while (rdm < 192) {
-			// rdt = *gp_gen ++;
-			SET_FROM_PTR (rdt, gp_gen); 
+			rdt = *gp_gen ++;
 			gp_gen ++;
 			rda = rdt & 0x1f;
 			
@@ -87,8 +86,7 @@ void draw_scr (void) {
 		gp_gen = c_map [n_pant];
 
 		while (rdm < 192) {
-			// rdt = *gp_gen ++;
-			SET_FROM_PTR (rdt, gp_gen); 
+			rdt = *gp_gen ++;
 			gp_gen ++;
 			rda = rdt & 0x0f;
 			
@@ -134,7 +132,7 @@ void draw_scr (void) {
 	#endif
 
 	// Edit this file to alter map_buff the way you need:
-	#include "my/map_renderer_customization.h"
+	#include "../../my/map_renderer_customization.h"
 
 	// Draw decorations
 
@@ -167,13 +165,11 @@ void draw_scr (void) {
 							rda &= 0x7F;
 							rdct = 1;
 						} else {
-							// rdct = *gp_gen ++;
-							SET_FROM_PTR (rdct, gp_gen); 
+							rdct = *gp_gen ++;
 							gp_gen ++;
 						}
 						while (rdct --) {
-							// rdm = *gp_gen ++;
-							SET_FROM_PTR (rdm, gp_gen); 
+							rdm = *gp_gen ++;
 							gp_gen ++;
 							add_tile ();
 						}
@@ -188,10 +184,8 @@ void draw_scr (void) {
 	#ifndef DEACTIVATE_KEYS	
 		gp_gen = c_locks; rda = 0;
 		gpit = c_max_bolts; while (gpit --) {
-			// rdb = *gp_gen ++;
-			SET_FROM_PTR (rdb, gp_gen); gp_gen ++;
-			// rdm = *gp_gen ++;
-			SET_FROM_PTR (rdm, gp_gen); gp_gen ++;
+			rdb = *gp_gen ++;
+			rdm = *gp_gen ++;
 			if (n_pant == rdb) {
 				if (!lkact [gpit]) add_tile ();
 			}
@@ -206,20 +200,22 @@ void draw_scr (void) {
 
 	_x = 0; _y = TOP_ADJUST; gp_ram = map_buff;
 	for (rdm = 0; rdm < 192; rdm ++) {
-		SET_FROM_PTR (rdt, gp_ram); gp_ram ++;
+		rdt = *gp_ram ++;
 
 		#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)			
 			if (tile_got [rdd] & bits [rdm & 7]) rdt = 0;
 			if ((rdm & 7) == 7) ++ rdd;
 		#endif
 
-		map_attr [rdm] = c_behs [rdt];
+		#ifndef SG1000
+			map_attr [rdm] = c_behs [rdt];
+		#endif
 
 		#if defined (ENABLE_BREAKABLE) && !defined (BREAKABLES_SOFT)
 			brk_buff [rdm] = 1;
 		#endif
 
-		#include "engine/mapmods/map_detectors.h"
+		#include "../../engine/mapmods/map_detectors.h"
 
 		_t = rdt; draw_tile ();
 		_x = (_x + 2) & 0x1f; if (!_x) _y += 2;
@@ -237,6 +233,4 @@ void draw_scr (void) {
 			draw_tile ();
 		}
 	#endif
-
-	vram_write (attr_table, 0x23c0, 64);
 }

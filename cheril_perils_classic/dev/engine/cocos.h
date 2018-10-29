@@ -84,7 +84,11 @@ void cocos_do (void) {
 		SG_addSprite (rdx, rdy + SPRITE_ADJUST, COCO_PATTERN, COCO_COLOUR);
 
 		#ifdef COCO_COLLIDES
-			rdm = map_attr [((rdx + 4) >> 4) | ((rdy + 4 - 16) & 0xf0)];
+			#ifdef SG1000
+				rdm = c_behs [map_buff [((rdx + 4) >> 4) | ((rdy + 4 - 16) & 0xf0)]];
+			#else
+				rdm = map_attr [((rdx + 4) >> 4) | ((rdy + 4 - 16) & 0xf0)];
+			#endif
 			if (rdm & 8) {
 				cocos_destroy (); continue;
 			}
@@ -98,7 +102,7 @@ void cocos_do (void) {
 			rdy <= pry + 12
 		) {
 			en_sg_2 = 1;
-			#include "my/on_player_coco.h"
+			#include "../my/on_player_coco.h"
 			pkill = !!en_sg_2;
 			cocos_destroy ();
 		}		

@@ -1,10 +1,10 @@
 // NES MK1 v1.0
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
-//#define GAME_AREA_TOP
-//#define GAME_AREA_MIDDLE
-//#define GAME_AREA_BOTTOM
-#define GAME_AREA_CUSTOM
+// For a topmost two-lines status bar
+
+#define TOP_ADJUST 				1		
+#define SPRITE_ADJUST 			8
 
 #define MAP_CLEAR_LIST_ADDRESS	0x2c40	// To store map persistence in VRAM.
 										// Each screen takes 24 bytes. move it where
@@ -195,13 +195,14 @@
 #define PROPELLERS_MAX_LENGTH			6	// In tiles; undef for infinite
 #define PROPELLER_TILE					14	// Tile # in map to detect a propeller
 #define PROPELLERS_ON_BY_DEFAULT			// Define so propellers are on by default
+#define PROPELLER_FLOATABLE_TILE 		31 	// Metatile index which is floatable (SG1000)
 
 // Killing tiles shine, beware!
 
 //#define ENABLE_SHINES
 #define SHINES_MAX 						8
 #define SHINES_BASE_PATTERN				10	// In the sprite bank, two patterns needed
-#define SHINES_PALETTE					3
+#define SHINES_COLOUR					3
 #define SHINING_TILE					23	// Tile # in map to add shines
 
 // Resonators. Not sure if you need this, but.
@@ -232,7 +233,7 @@
 // No!
 
 #define ENABLE_NO 
-#define NO_METASPRITE					ssit_04
+#define NO_METASPRITE					ss_it_06
 #define NO_OFFS_X						0
 #define NO_OFFS_Y						-20
 
@@ -278,7 +279,7 @@
 
 //#define ENEMS_TREMBLE						// Make enemies tremble when hit
 
-#define PERSISTENT_ENEMIES
+//#define PERSISTENT_ENEMIES
 #define PERSISTENT_DEATHS
 
 #define ENEMS_TOUCHED_FRAMES			8	// # frames to stay frozen after hit
@@ -476,7 +477,7 @@
 	#define AMMO_REFILL					50	// type 3 hotspots refill amo, using tile 20
 	//#define INITIAL_AMMO 				0	// If defined, ammo = X when entering game.
 
-#define BULLET_PALETTE					3
+#define BULLET_COLOUR					3
 #define BULLET_PATTERN					0	// To paint the bullet. Can be an expresion.
 
 // Scripting

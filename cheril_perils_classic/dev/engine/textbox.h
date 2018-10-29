@@ -25,7 +25,7 @@ void textbox_frame (void) {
 			update_list_tile (); 
 		}
 		_x = (_x + 2) & 0x1f; if (_x == 0) _y += 2;
-		++ rdct; if (rdct == 4) { ppu_waitnmi (); rdct = 0; }
+		++ rdct; if (rdct == 4) { do_update_list_and_wait (); rdct = 0; }
 	}
 }
 
@@ -45,7 +45,7 @@ void textbox_draw_text (void) {
 			if (rda) { clear_update_list (); rda = 0; gp_addr = 0x2000 + 6 + (rdy << 5); }
 		#endif
 		if (rdt == '%') rda = 1; else { _n = rdt - 32; ul_putc (); }
-		if (rda) { ppu_waitnmi (); ++ rdy; }
+		if (rda) { do_update_list_and_wait (); ++ rdy; }
 	}	
 }
 
@@ -57,21 +57,19 @@ void textbox_do (void) {
 	rdm = TEXT_BOX_FRAME_TILE_OFFSET; textbox_frame ();
 #ifdef TEXT_BOX_WITH_PORTRAITS
 	if (rdd) {
-		oam_meta_spr (
+		SG_initSprites ();
+		SG_addMetaSprite1x1 (
 			44, 103,
-			256-32,
 			spr_hs [rdd]);
 		rdm = 8;
 	} else rdm = 6;
 #endif	
 	textbox_draw_text ();
 	while (1) {
-		ppu_waitnmi ();
+		do_update_list_and_wait ();
 		pad_read (); if (pad_this_frame & (PAD_A|PAD_B)) break;
 	}
-#ifdef TEXT_BOX_WITH_PORTRAITS
-	if (rdd) oam_hide_rest (256-32);
-#endif
+
 	rdm = 0; textbox_frame ();
 	clear_update_list ();
 }

@@ -1,6 +1,8 @@
 // NES MK1 v1.0
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
+#define SG1000
+
 // Comment this when you are done
 //#define DEBUG
 #define DEBUG_LEVEL		0
@@ -16,6 +18,9 @@
 #include "lib/aPLib.h"
 
 #include "utils/rand.h"
+#include "utils/delay.h"
+#include "utils/memfill.h"
+#include "utils/unpacker.h"
 
 #include "definitions.h"
 #include "config.h"
@@ -26,7 +31,6 @@
 // **************
 
 #include "assets/precalcs.h"
-#include "assets/palettes.h"
 #include "assets/behs.h"
 #include "assets/map0.h"
 #include "assets/enems0.h"
@@ -34,8 +38,8 @@
 #include "assets/enems1.h"
 #include "assets/map2.h"
 #include "assets/enems2.h"
-#include "assets/spritedata.h"
-#include "assets/tiledata.h"
+#include "assets/spriteset.h"
+#include "assets/tileset.h"
 #include "assets/metasprites.h"
 #include "assets/custom_texts.h"
 #ifdef ENABLE_COMPILED_ENEMS
@@ -105,19 +109,21 @@
 // *************
 
 void main(void) {
-	
 	SG_displayOff ();
 	SG_setSpriteMode (SG_SPRITEMODE_LARGE);
 	first_game = 1;
 
 	// For master system:
-	ntsc = !!(SMS_VDPType () & VDP_NTSC);
+	// ntsc = !!(SMS_VDPType () & VDP_NTSC);
 
-	//game_mode = 0;
+	// Unpack font
+	unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);
+
 	mode_no_resonators = 0;
-	// Main loop
-
 	credits ();
+
+	// Unpack fixed sprites
+	aPLib_depack_VRAM (SGTADDRESS, ss_fixed_patterns_c);
 
 	while (1) {	
 		title ();
@@ -128,17 +134,17 @@ void main(void) {
 		// Game loop
 
 		while (1) {
-			pres (palts0, scr_level);
+			pres (scr_level);
 			game_init (); 
 			game_loop ();
 
 			if (game_over) {
-				pres (palts0, scr_game_over);
+				pres (scr_game_over);
 				break;
 			} else {
 				level ++;
 				if (level == MAX_LEVELS) {
-					pres (palts0, scr_the_end);
+					pres (scr_the_end);
 					break;
 				}
 			}

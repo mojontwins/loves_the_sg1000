@@ -11,6 +11,7 @@ Symbol Table
   1 _randres                                                       0004 GR
   1 _seed1                                                         0000 GR
   1 _seed2                                                         0002 GR
+  0 _set_rand                                                      0036 GR
   0 _srand                                                         0029 GR
   0 rnd                                                            0000 R
 
@@ -20,7 +21,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   36   flags    0
+   0 _CODE                                      size   4D   flags    0
    1 _DATA                                      size    5   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

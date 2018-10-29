@@ -2,11 +2,14 @@
 -i cart.ihx
 -b _CODE = 0x0200
 -b _DATA = 0xc000
--k C:\Users\na_th\Desktop\git\loves_the_sg1000\environment\sdcc-sg1000\bin\..\lib\z80
+-k D:\git\loves_the_sg1000\environment\sdcc-sg1000\bin\..\lib\z80
 -l z80
 lib/crt0_sg.rel
 rel/game.rel
 rel/rand.rel
+rel/delay.rel
+rel/memfill.rel
+rel/unpacker.rel
 rel/enems0.rel
 rel/enems1.rel
 rel/enems2.rel

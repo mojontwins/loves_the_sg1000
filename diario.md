@@ -332,3 +332,51 @@ Luego tendré que repasar qué cosas tengo que quitar completamente de AGNES por l
 Otia, las cosas echas en ASM XD tengo que deshacerlas.
 
 Deshacer también `SET_FROM_PTR`
+
+20181029
+========
+
+Tengo $480 bytes libres en VRAM en la dirección $1B80 que puedo usar para `PERSISTENT_TILE_GET` y quizá otras cosas como `PERSISTENT_ENEMS`. Son 1152 bytes, joder, no es moco de pavo :O
+
+Ya compila todo. AHora voy a empezar a adaptar cosas. Lo primero es descomprimir tablas de patrones y color. Acabo de recordar viendo código que hay que descomprimirlas tres veces: una para cada "tercio" de pantalla. Voy a hacerme un nuevo módulo para estas cosas.
+
+~~
+
+Pantalla negra, y yo sin saber dónde mirar. Busquemos a ver con emulicius.
+
+~~
+
+Parece ser que el problema es que me he colado con la RAM. Ocupo más de 1Kb. Quiero ver cuanto a ver qué se puede hacer.
+
+~~
+
+Es muy divertido, porque todo lo mío termina en C38B. Y luego viene la RAM que emplea la PSGlib y la SGlib. En concreto, la RAM se acaba a la mitad del `SpriteTable`, que son 128 bytes. La última varaible está en C438. Digamos que nos pasamos $40 bytes (64 bytes).
+
+He estado pensando en modificar todo para fumarme una de las tablas: la de atributos, `map_attr`, y usar sólo `map_buff`, de forma que todas las comprobaciones de atributos sean indirectas. Eso significa overhead, pero al menos me ahorro 192 bytes ¡que es el puto 15% de la RAM! Esto me jodería la habilidad de AGNES de engañar y modificar sólo los behs sin tocar los tiles que se muestran, y ahora de cabeza no sé si es requerimiento.
+
+Voy a investigar esta linea de acción.
+
+Obviamente, tengo que dejar por ahí un switch porque esta versión me valdrá para SMS y ahí sí que se podrá pitufar!
+
+~~
+
+Veamos: se asigna a `map_attr` directamente para los propellers, o sea, para marcar "volable" el tile. Esto habrá que implementarlo de otra forma: tener un tile especial "volable" y sustituir todo el tile por este.
+
+~~
+
+Con este cambio las variables terminan en $C37F, lo que deja una micurria para la pila... Veamos qué tal se comporta.
+
+~~
+
+AHora llego a la pantalla del menú. Puedo mover el sprite pero no puedo avanzar más allá. De entrada la rotación automática de sprites que diseñé está mal implementada, y tendré que revisarla. Pero no sé por qué no puedo seleccionar una opción.
+
+Revisar!
+
+~~
+
+Antes de nada, voy a comparar las variables de la versión 2.0 de AGNES porque eliminé un montón de morralla y eso siempre viene bien cuando sólo tienes 1Kb.
+
+~~
+
+Aún no es perfecto el rotado pero ya veo más cosas. Por el momento veo que he exportado mal los patrones, me he equivocado del orden de fila / columna.
+

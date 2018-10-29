@@ -5,12 +5,14 @@
 
 void draw_map_tile (void) {
 	map_buff [rdm] = rdt;		
-	map_attr [rdm] = c_behs [rdt];
+	#ifndef SG1000
+		map_attr [rdm] = c_behs [rdt];
+	#endif
 	#if defined (ENABLE_BREAKABLE) && !defined (BREAKABLES_SOFT)
 		brk_buff [rdm] = 1;
 	#endif
 
-	#include "engine/mapmods/map_detectors.h"
+	#include "../../engine/mapmods/map_detectors.h"
 
 	++ rdm;
 	_x = rdx << 1; _y = (rdy << 1) + TOP_ADJUST; _t = rdt;
@@ -144,6 +146,4 @@ void draw_scr (void) {
 			}
 		}	
 	#endif
-
-	vram_write (attr_table, 0x23c0, 64);
 }

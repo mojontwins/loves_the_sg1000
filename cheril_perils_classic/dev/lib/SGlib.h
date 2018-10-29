@@ -59,7 +59,7 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y, void *src, unsigned c
 void SG_setNextTileatXY (unsigned char x, unsigned char y);
 void SG_setTileatXY (unsigned char x, unsigned char y, unsigned char tile);
 void SG_setTile (unsigned char tile);
-void SG_fillTile (unsigned char tile, unsigned char count);
+void SG_fillTile (unsigned char tile, unsigned int count);
 
 /* functions for sprites handling */
 void SG_initSprites (void);
@@ -95,8 +95,8 @@ unsigned int SG_getKeysStatus (void);
 
 #define RESET_KEY_NOT		0x1000        /* 0 = pressed */
 #define CARTRIDGE_SLOT		0x2000        /* ??? */
-#define PORT_A_TH		0x4000        /* for light gun */
-#define PORT_B_TH		0x8000        /* for light gun */
+#define PORT_A_TH			0x4000        /* for light gun */
+#define PORT_B_TH			0x8000        /* for light gun */
 #endif
 
 _Bool SG_queryPauseRequested (void);          /* true if the pause key has been pressed */
@@ -117,11 +117,35 @@ void SG_nmi_isr (void) __critical __interrupt;
 #define PATTERN_DATA_BANK_A 0x0000
 #define PATTERN_DATA_BANK_B 0x0800
 #define PATTERN_DATA_BANK_C 0x1000
-#define PGT_BASE 0x0000
-#define CGT_BASE 0x2000
-#define SGT_BASE 0x3800
+#define PGT_BASE			0x0000
+#define CGT_BASE 			0x2000
+#define SGT_BASE 			0x3800
 
-#define VDP_PAL                 0x80
-#define VDP_NTSC                0x40
+#define VDP_PAL             0x80
+#define VDP_NTSC            0x40
 
 unsigned char SMS_VDPType (void);
+
+/* define VDPControlPort (SDCC z80 syntax) */
+__sfr __at 0xBF VDPControlPort;
+/* define VDPStatusPort */
+__sfr __at 0xBF VDPStatusPort;
+/* define VDPDataPort */
+__sfr __at 0xBE VDPDataPort;
+/* define VDPVcounter */
+__sfr __at 0x7E VDPVCounterPort;
+/* define VDPHcounter */
+__sfr __at 0x7F VDPHCounterPort;
+/* define IOPort (joypad) */
+__sfr __at 0xDC IOPortL;
+/* define IOPort (joypad) */
+__sfr __at 0xDD IOPortH;
+
+#define PNTADDRESS			0x1800
+#define SATADDRESS 			0x1B00
+#define PGTADDRESS 			0x0000
+#define CGTADDRESS			0x2000
+#define SGTADDRESS			0x3800
+
+#define HI(x)				((x)>>8)
+#define LO(x)				((x)&0xFF)

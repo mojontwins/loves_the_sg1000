@@ -4,9 +4,8 @@
 // No!
 if (no_ct) {
 	-- no_ct;
-	oam_index = oam_meta_spr (
+	SG_addMetaSprite1x1 (
 		prx + NO_OFFS_X, pry + NO_OFFS_Y + SPRITE_ADJUST,
-		oam_index,
 		NO_METASPRITE
 	);
 }

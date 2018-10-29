@@ -1,7 +1,7 @@
 // NES MK1 v1.0
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
-void player_process_tile (at, x0, y0, x1, y1) {
+void player_process_tile (unsigned char at, unsigned char x0, unsigned char y0, unsigned char x1, unsigned char y1) {
 	if (y0) -- y0;
 	// Boxes
 

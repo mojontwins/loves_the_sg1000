@@ -57,7 +57,7 @@ if (interactives_index) {
 				} 
 			#endif
 
-			#include "my/on_interactive.h"
+			#include "../my/on_interactive.h"
 
 			#ifdef ACTIVATE_SCRIPTING
 				// Run script; script_arg is set, always success

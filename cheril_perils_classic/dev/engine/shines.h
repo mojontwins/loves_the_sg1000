@@ -12,12 +12,11 @@ void shines_do (void) {
 	if (shine_active_ct) {
 		-- shine_active_ct;
 		if (shine_active_ct >= 48) {
-			oam_index = oam_spr (
+			SG_addSprite (
 				shine_active_x, 
 				shine_active_y, 
 				SHINES_BASE_PATTERN + (rand8() & 1), 
-				SHINES_PALETTE, 
-				oam_index
+				SHINES_COLOUR
 			);
 		}
 	} else {

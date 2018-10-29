@@ -100,15 +100,14 @@ void bullets_move (void) {
 			#ifdef PLAYER_BULLET_FLICKERS
 			if (bst [bi] > PLAYER_BULLET_FLICKERS || half_life)
 			#endif
-			oam_index = oam_spr (
+			SG_addSprite (
 				bx [bi], SPRITE_ADJUST + by [bi], 
-				BULLET_PATTERN, BULLET_PALETTE,
-				oam_index
+				BULLET_PATTERN, BULLET_COLOUR
 			);
 
 			cx1 = ((bx [bi] + 4) >> 4);
 			cy1 = ((by [bi] + 4 - 16) >> 4);
-			rdm = map_attr [COORDS (cx1, cy1)];
+			rdm = ATTR (cx1, cy1);
 
 			#ifdef PLAYER_BULLET_LIFE
 				-- bst [bi]; 

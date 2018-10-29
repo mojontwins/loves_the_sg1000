@@ -6,11 +6,7 @@
 
 #ifdef MULTI_LEVEL
 
-	c_pal_bg = 		l_pal_bg [level];
-	c_pal_fg = 		l_pal_fg [level];
-	
 	c_ts_tmaps = 	l_ts_tmaps [level];
-	c_ts_pals = 	l_ts_pals [level];
 	c_behs = 		l_behs [level];
 	spr_enems = 	l_spr_enems [level];
 
@@ -43,12 +39,8 @@
 	#endif
 	
 #else
-
-	c_pal_bg = 		palts0;
-	c_pal_fg = 		palss0;
 	
 	c_ts_tmaps = 	ts0_tmaps;
-	c_ts_pals = 	ts0_pals;
 	c_behs = 		behs0;
 	spr_enems = 	spr_enems0;
 

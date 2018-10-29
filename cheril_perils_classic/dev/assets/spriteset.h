@@ -27,7 +27,7 @@ extern const unsigned char ss_it_05 [];
 extern const unsigned char ss_it_06 [];
 
 extern const unsigned char ss_fixed_patterns_c [];
-#define SS_FIXED_PATTERNS_C_SIZE 871
+#define SS_FIXED_PATTERNS_C_SIZE 838
 
 extern const unsigned char ss_en_0_00 [];
 extern const unsigned char ss_en_0_01 [];
@@ -41,16 +41,9 @@ extern const unsigned char ss_en_0_08 [];
 extern const unsigned char ss_en_0_09 [];
 extern const unsigned char ss_en_0_0a [];
 extern const unsigned char ss_en_0_0b [];
-extern const unsigned char ss_en_0_0c [];
-extern const unsigned char ss_en_0_0d [];
-extern const unsigned char ss_en_0_0e [];
-extern const unsigned char ss_en_0_0f [];
-extern const unsigned char ss_en_0_10 [];
-extern const unsigned char ss_en_0_11 [];
-extern const unsigned char ss_en_0_12 [];
 
 extern const unsigned char ss_en_0_patterns_c [];
-#define SS_EN_0_PATTERNS_C_SIZE 542
+#define SS_EN_0_PATTERNS_C_SIZE 511
 
 extern const unsigned char ss_en_1_00 [];
 extern const unsigned char ss_en_1_01 [];
@@ -64,28 +57,9 @@ extern const unsigned char ss_en_1_08 [];
 extern const unsigned char ss_en_1_09 [];
 extern const unsigned char ss_en_1_0a [];
 extern const unsigned char ss_en_1_0b [];
-extern const unsigned char ss_en_1_0c [];
-extern const unsigned char ss_en_1_0d [];
-extern const unsigned char ss_en_1_0e [];
-extern const unsigned char ss_en_1_0f [];
-extern const unsigned char ss_en_1_10 [];
-extern const unsigned char ss_en_1_11 [];
-extern const unsigned char ss_en_1_12 [];
-extern const unsigned char ss_en_1_13 [];
-extern const unsigned char ss_en_1_14 [];
-extern const unsigned char ss_en_1_15 [];
-extern const unsigned char ss_en_1_16 [];
-extern const unsigned char ss_en_1_17 [];
-extern const unsigned char ss_en_1_18 [];
-extern const unsigned char ss_en_1_19 [];
-extern const unsigned char ss_en_1_1a [];
-extern const unsigned char ss_en_1_1b [];
-extern const unsigned char ss_en_1_1c [];
-extern const unsigned char ss_en_1_1d [];
-extern const unsigned char ss_en_1_1e [];
 
 extern const unsigned char ss_en_1_patterns_c [];
-#define SS_EN_1_PATTERNS_C_SIZE 550
+#define SS_EN_1_PATTERNS_C_SIZE 520
 
 extern const unsigned char ss_en_2_00 [];
 extern const unsigned char ss_en_2_01 [];
@@ -97,38 +71,7 @@ extern const unsigned char ss_en_2_06 [];
 extern const unsigned char ss_en_2_07 [];
 extern const unsigned char ss_en_2_08 [];
 extern const unsigned char ss_en_2_09 [];
-extern const unsigned char ss_en_2_0a [];
-extern const unsigned char ss_en_2_0b [];
-extern const unsigned char ss_en_2_0c [];
-extern const unsigned char ss_en_2_0d [];
-extern const unsigned char ss_en_2_0e [];
-extern const unsigned char ss_en_2_0f [];
-extern const unsigned char ss_en_2_10 [];
-extern const unsigned char ss_en_2_11 [];
-extern const unsigned char ss_en_2_12 [];
-extern const unsigned char ss_en_2_13 [];
-extern const unsigned char ss_en_2_14 [];
-extern const unsigned char ss_en_2_15 [];
-extern const unsigned char ss_en_2_16 [];
-extern const unsigned char ss_en_2_17 [];
-extern const unsigned char ss_en_2_18 [];
-extern const unsigned char ss_en_2_19 [];
-extern const unsigned char ss_en_2_1a [];
-extern const unsigned char ss_en_2_1b [];
-extern const unsigned char ss_en_2_1c [];
-extern const unsigned char ss_en_2_1d [];
-extern const unsigned char ss_en_2_1e [];
-extern const unsigned char ss_en_2_1f [];
-extern const unsigned char ss_en_2_20 [];
-extern const unsigned char ss_en_2_21 [];
-extern const unsigned char ss_en_2_22 [];
-extern const unsigned char ss_en_2_23 [];
-extern const unsigned char ss_en_2_24 [];
-extern const unsigned char ss_en_2_25 [];
-extern const unsigned char ss_en_2_26 [];
-extern const unsigned char ss_en_2_27 [];
-extern const unsigned char ss_en_2_28 [];
 
 extern const unsigned char ss_en_2_patterns_c [];
-#define SS_EN_2_PATTERNS_C_SIZE 521
+#define SS_EN_2_PATTERNS_C_SIZE 508
 

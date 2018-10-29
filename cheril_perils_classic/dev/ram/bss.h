@@ -20,7 +20,9 @@ unsigned char fade_delay;               // # of frames per brightness level in f
 
 // Current screen
 
-unsigned char map_attr [192];           // Current screen (room) tile behaviours
+#ifndef SG1000
+    unsigned char map_attr [192];       // Current screen (room) tile behaviours
+#endif    
 unsigned char map_buff [192];           // Current screen (room) tile numbers
 
 // Game flow
@@ -86,7 +88,9 @@ unsigned char oam_index_player;         // Index copy
     unsigned char b_slots [MAX_BULLETS];
     unsigned char b_slots_i;            // Array of free slots for active bullets & index.
 
+    #ifdef PLAYER_BULLET_LIFE
     unsigned char bst [MAX_BULLETS];    // Bullets states
+    #endif
     
     unsigned char bx [MAX_BULLETS];     // Bullets, X coordinates.
     unsigned char by [MAX_BULLETS];     // Bullets, Y coordinates.
@@ -100,8 +104,10 @@ unsigned char oam_index_player;         // Index copy
 
     #ifdef PLAYER_FIRE_RELOAD
         unsigned char pfirereload;      // Reload time. When != 0, block B_BUTTON & decrement.
-    #endif
+    #endif	
 #endif
+
+unsigned char pctfr;                    // Frame subcounter        
 
 // Cocos (projectiles shot by enemies)
 
@@ -217,6 +223,16 @@ unsigned char en_s [3];                 // Enemy base sprite index in spr_enems.
 unsigned char en_facing [3];            // Generally, 0 = facing right, 4 = facing left.
 
 unsigned char en_state [3];             // Enemy State
+unsigned char en_flags [3];             // Enemies flags
+
+unsigned char en_cttouched [3];         // Counters used to show explosions / flickering
+unsigned char en_life [3];              // Enemies life gauges
+unsigned char en_status [3];            // Enemies statused, repurposed per enemy type
+unsigned char en_ct [3];                // Enemies General repurposeable counter
+
+#if defined (ENABLE_COMPILED_ENEMS) || defined ENABLE_PURSUERS
+    unsigned char en_rawv [3];           // Speed, used for pursuer-type enemies
+#endif
 
 unsigned char en_spr_x_mod;             // Modifier to X position of sprite (for effects)
 
@@ -246,6 +262,12 @@ unsigned char en_spr_x_mod;             // Modifier to X position of sprite (for
 #endif
 
 unsigned char en_spr_id [3];
+
+// Temporal invincibility
+
+#ifdef ENEMS_INVINCIBILITY
+    unsigned char en_invincible [3];
+#endif
 
 // Persistent enemies (position / movement is remembered)
 
@@ -348,8 +370,8 @@ unsigned char en_spr_id [3];
 
 #ifdef ENABLE_TILE_GET
     #ifdef PERSISTENT_TILE_GET
-        unsigned char tile_got [24];        // Buffer for current screen
+        unsigned char tile_got [24];    // Buffer for current screen
     #endif
 #endif
 
-#include "my/extra_vars.h"              // Custom extra variables
+#include "../my/extra_vars.h"           // Custom extra variables

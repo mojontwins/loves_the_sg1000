@@ -23,7 +23,7 @@ if (timer_on && timer) {
 			#endif
 		}
 
-		#include "my/on_timer_tick.h"
+		#include "../my/on_timer_tick.h"
 	}
 }
 #ifdef TIMER_TIME_FLAG

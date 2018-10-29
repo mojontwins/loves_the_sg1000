@@ -127,7 +127,7 @@ void player_kill (void) {
 	#endif
 
 	#ifdef DIE_AND_RESPAWN
-		music_pause (1);
+		//music_pause (1);
 		delay (60);
 		
 		#ifdef DIE_AND_REINIT
@@ -138,7 +138,7 @@ void player_kill (void) {
 			player_to_pixels ();
 			n_pant = n_pant_safe;		
 			player_stop ();
-			music_pause (0);
+			//music_pause (0);
 		#endif
 
 		// May be necessary to find a proper cell later on
@@ -153,11 +153,11 @@ void player_kill (void) {
 }
 
 #if defined(PLAYER_PUSH_BOXES) || !defined(DEACTIVATE_KEYS)
-	#include "engine/playermods/process_tile.h"
+	#include "../engine/playermods/process_tile.h"
 #endif
 
 #ifdef PLAYER_CAN_FIRE
-	#include "engine/playermods/bullets.h"
+	#include "../engine/playermods/bullets.h"
 #endif
 
 void player_move (void) {
@@ -223,7 +223,7 @@ void player_move (void) {
 	#ifdef ENABLE_PROPELLERS
 		rda = pfloating;
 		pfloating = (at1 == 64 || at2 == 64);
-		if (rda != pfloating) //PSGSFXPlay (SFX_FLOAT, 0);
+		//if (rda != pfloating) PSGSFXPlay (SFX_FLOAT, 0);
 	#endif
 
 	#ifdef ENABLE_SPRINGS
@@ -234,8 +234,10 @@ void player_move (void) {
 			if (ppossee)
 			#endif
 			{
-				if (QTILE (cx1, cy1 + 1) == SPRING_TILE && QTILE (cx1, cy1) != SPRING_SPIKE_TILE) { _x = cx1; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);}
-				if (QTILE (cx2, cy1 + 1) == SPRING_TILE && QTILE (cx2, cy1) != SPRING_SPIKE_TILE) { _x = cx2; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);}
+				if (QTILE (cx1, cy1 + 1) == SPRING_TILE && QTILE (cx1, cy1) != SPRING_SPIKE_TILE) { _x = cx1; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);
+				}
+				if (QTILE (cx2, cy1 + 1) == SPRING_TILE && QTILE (cx2, cy1) != SPRING_SPIKE_TILE) { _x = cx2; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);
+				}
 			}
 		}
 	#endif
@@ -798,10 +800,13 @@ void player_move (void) {
 			player_to_pixels ();
 			en_sg_2 = 1;
 
-			#include "my/on_player_spike.h"
+			#include "../my/on_player_spike.h"
 
-			if (en_sg_2)
+			/*if (en_sg_2)
 				pkill = 1; 
+				*/
+			pkill = en_sg_2;
+			
 			#ifdef PLAYER_SPINS
 				pspin = 0;
 			#endif
@@ -817,7 +822,7 @@ void player_move (void) {
 		cy1 = cy2 = (pry + 8) >> 4;
 		cm_two_points ();
 
-		#include "my/custom_center_detections.h"
+		#include "../my/custom_center_detections.h"
 	#endif
 
 	#ifdef ENABLE_TILE_GET
@@ -827,7 +832,7 @@ void player_move (void) {
 			_x = cx1; _y = cy1; _t = 0; map_set ();
 			//PSGSFXPlay (SFX_RING, 2);
 			
-			#include "my/on_tile_got.h"
+			#include "../my/on_tile_got.h"
 
 			#ifdef PERSISTENT_TILE_GET
 				tile_got [(cy1 << 1) | (cx1 > 7)] |= bits [cx1 & 7];
@@ -864,7 +869,7 @@ void player_move (void) {
 			#endif
 		) {
 			#ifdef ACTIVATE_SCRIPTING
-				#include "engine/playermods/scripting.h"
+				#include "../engine/playermods/scripting.h"
 			#endif
 
 			#if defined (PLAYER_CAN_FIRE) && !defined (PLAYER_CHARGE_AND_FIRE)
@@ -877,11 +882,13 @@ void player_move (void) {
 			#endif		
 			
 			#ifdef PLAYER_PUNCHES
-				if (ppossee && ppunching == 0) { ppunching = 16; phitteract = 1; //PSGSFXPlay (SFX_HITTER, 0); }
+				if (ppossee && ppunching == 0) { ppunching = 16; phitteract = 1; //PSGSFXPlay (SFX_HITTER, 0); 
+				}
 			#endif
 
 			#ifdef PLAYER_KICKS
-				if (!ppossee && pkicking == 0) { pkicking = 16; phitteract = 1; //PSGSFXPlay (SFX_HITTER, 0); }
+				if (!ppossee && pkicking == 0) { pkicking = 16; phitteract = 1; //PSGSFXPlay (SFX_HITTER, 0); 
+				}
 			#endif
 		} 
 	#endif
@@ -918,7 +925,7 @@ void player_move (void) {
 	// **********
 	// Calc frame
 	// **********
-	#include "my/player_frame_selector.h"
+	#include "../my/player_frame_selector.h"
 
 	prx_old = prx;
 	pry_old = pry;

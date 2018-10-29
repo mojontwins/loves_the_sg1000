@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Thu Oct 25 10:16:02 2018
+; This file was generated Mon Oct 29 12:38:54 2018
 ;--------------------------------------------------------
 	.module rand
 	.optsdcc -mz80
@@ -9,6 +9,7 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _set_rand
 	.globl _srand
 	.globl _rand8
 	.globl _randres
@@ -51,12 +52,12 @@ _randres::
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;utils/rand.c:10: unsigned char rand8 (void) {
+;utils/rand.c:14: unsigned char rand8 (void) {
 ;	---------------------------------
 ; Function rand8
 ; ---------------------------------
 _rand8::
-;utils/rand.c:35: __endasm;
+;utils/rand.c:39: __endasm;
 	  rnd:
 	ld hl, #0xa280
 	ld de, #0xc0de
@@ -80,21 +81,38 @@ _rand8::
 	ld (rnd+1),hl
 	ld (rnd+4),de
 	ld (_randres), a
-;utils/rand.c:36: return randres;
+;utils/rand.c:40: return randres;
 	ld	iy,#_randres
 	ld	l,0 (iy)
 	ret
-;utils/rand.c:39: void srand (void) {
+;utils/rand.c:43: void srand (void) {
 ;	---------------------------------
 ; Function srand
 ; ---------------------------------
 _srand::
-;utils/rand.c:45: __endasm;
+;utils/rand.c:49: __endasm;
 	ld hl, (_seed1)
 	ld (rnd+1), hl
 	ld hl, (_seed2)
 	ld (rnd+4), hl
 	ret
+;utils/rand.c:53: void set_rand (unsigned char rdum) {
+;	---------------------------------
+; Function set_rand
+; ---------------------------------
+_set_rand::
+;utils/rand.c:54: seed1 = rdum; seed2 = 0xff00 & rdum;
+	ld	hl, #2+0
+	add	hl, sp
+	ld	e, (hl)
+	ld	d,#0x00
+	ld	(_seed1),de
+	ld	hl,#_seed2 + 0
+	ld	(hl), #0x00
+	ld	hl,#_seed2 + 1
+	ld	(hl), d
+;utils/rand.c:55: srand ();
+	jp  _srand
 	.area _CODE
 	.area _INITIALIZER
 	.area _CABS (ABS)

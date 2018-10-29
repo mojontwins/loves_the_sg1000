@@ -414,7 +414,7 @@ void enems_move (void) {
 				#endif
 
 				#ifdef ENEMS_RECOIL_ON_HIT
-					#include "engine/enemmods/enems_recoiling.h"
+					#include "../engine/enemmods/enems_recoiling.h"
 				#endif
 			} else
 		#endif
@@ -454,78 +454,78 @@ void enems_move (void) {
 					case 3:
 					case 4:
 					
-						#include "engine/enemmods/enem_linear.h"
+						#include "../engine/enemmods/enem_linear.h"
 						#ifdef ENABLE_SHOOTIES
-							#include "engine/enemmods/enem_shooty.h"
+							#include "../engine/enemmods/enem_shooty.h"
 						#endif				
 						#ifdef ENABLE_PUNCHIES
-							#include "engine/enemmods/enem_punchy.h"
+							#include "../engine/enemmods/enem_punchy.h"
 						#endif
 						break;
 
 					#ifdef ENABLE_STEADY_SHOOTERS
 						case 5:
-							#include "engine/enemmods/enem_steady_shooter.h"
+							#include "../engine/enemmods/enem_steady_shooter.h"
 							break;
 					#endif
 
 					#ifdef ENABLE_FANTY					
 						case 6:
-							#include "engine/enemmods/enem_fanty.h"
+							#include "../engine/enemmods/enem_fanty.h"
 							break;
 					#endif
 
 					#ifdef ENABLE_HOMING_FANTY
 						case 6:
-							#include "engine/enemmods/enem_homing_fanty.h"
+							#include "../engine/enemmods/enem_homing_fanty.h"
 							break;
 					#endif
 
 					#ifdef ENABLE_TIMED_FANTY
 						case 6:
-							#include "engine/enemmods/enem_timed_fanty.h"
+							#include "../engine/enemmods/enem_timed_fanty.h"
 							break;
 					#endif
 
 					#ifdef ENABLE_PURSUERS					
 						case 7:					
-							#include "engine/enemmods/enem_pursuers.h"
+							#include "../engine/enemmods/enem_pursuers.h"
 							break;
 					#endif
 
 					#ifdef ENABLE_SAW					
 						case 8:
-							#include "engine/enemmods/enem_saw.h"
+							#include "../engine/enemmods/enem_saw.h"
 							break;
 					#endif		
 
 					#ifdef ENABLE_PEZONS
 						case 9:
-							#include "engine/enemmods/enem_pezon.h"
+							#include "../engine/enemmods/enem_pezon.h"
 							break;
 					#endif
 
 					#ifdef ENABLE_CHAC_CHAC
 						case 10:
-							#include "engine/enemmods/enem_chac_chac.h"
+							#include "../engine/enemmods/enem_chac_chac.h"
 							break;
 					#endif
 
 					#ifdef ENABLE_MONOCOCOS
 						case 11:
-							#include "engine/enemmods/enem_monococo.h"
+							#include "../engine/enemmods/enem_monococo.h"
 							break;
 					#endif	
 
 					#ifdef ENABLE_CATACROCKS
 						case 12:
-							#include "engine/enemmods/enem_catacrock.h"
+							#include "../engine/enemmods/enem_catacrock.h"
 							break;
 					#endif
 
 					#ifdef ENABLE_BOIOIONG
 						case 13:
-							#include "engine/enemmods/enem_boioiong.h"
+							#include "../engine/enemmods/enem_boioiong.h"
 							break;
 					#endif
 
@@ -537,7 +537,7 @@ void enems_move (void) {
 
 					#ifdef ENABLE_COMPILED_ENEMS
 						case 20:
-							#include "engine/enemmods/enem_compiled.h"
+							#include "../engine/enemmods/enem_compiled.h"
 							break;
 					#endif
 				}
@@ -745,7 +745,7 @@ void enems_move (void) {
 					}
 				#endif				
 
-				#include "my/on_player_hit.h"
+				#include "../my/on_player_hit.h"
 
 				#ifdef ENEMS_MAY_DIE
 					if (en_sg_1) enems_hit ();
@@ -770,7 +770,10 @@ void enems_move (void) {
 			}
 
 			// Is enemy killable? If not, exit
-
+			// Compile may complain for if (touched || blah).
+#pragma save
+#pragma less_pedantic
+#pragma disable_warning 110
 			if (
 				touched
 				#ifndef STEADY_SHOOTER_KILLABLE
@@ -780,7 +783,7 @@ void enems_move (void) {
 					|| _en_t == 8
 				#endif
 			) goto skipdo;
-
+#pragma restore
 			// Hit enemy
 
 			#if defined (PLAYER_PUNCHES) || defined (PLAYER_KICKS)

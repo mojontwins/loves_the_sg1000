@@ -6,16 +6,16 @@
 // Player metasprites
 const unsigned char * const spr_player [] = {
 	// Facing right (offset 0)
-	sspl_00_a,										// Standing (offset 0)
-	sspl_00_a, sspl_01_a, sspl_02_a, sspl_03_a,		// Walk cycle (offset 1)
-	sspl_04_a, 										// Airborne (offset 5)
+	ss_pl_00,										// Standing (offset 0)
+	ss_pl_00, ss_pl_01, ss_pl_00, ss_pl_02,			// Walk cycle (offset 1)
+	ss_pl_03, 										// Airborne (offset 5)
 	0, 0,											// I like powers of two
 	
 
 	// Facing left (offset 8)
-	sspl_00_b,										// Standing (offset 0)
-	sspl_00_b, sspl_01_b, sspl_02_b, sspl_03_b,		// Walk cycle (offset 1)
-	sspl_04_b, 										// Airborne (offset 5)
+	ss_pl_04,										// Standing (offset 0)
+	ss_pl_04, ss_pl_06, ss_pl_04, ss_pl_05,			// Walk cycle (offset 1)
+	ss_pl_07, 										// Airborne (offset 5)
 	0, 0,											// I like powers of two
 	
 };
@@ -25,46 +25,46 @@ const unsigned char * const spr_player [] = {
 // Not every kind of enemy has every cell, just use 0 when N/A. dying cell will be used only if ENEMS_ENABLE_DYING_FRAME
 const unsigned char * const spr_enems0 [] = {
 	// Linear enems and platforms (ids 1-4)
-	ssen_00_a, ssen_01_a, 0, 0, ssen_00_b, ssen_01_b, 0, 0, // 1
-	ssen_02_a, ssen_03_a, 0, 0, ssen_02_b, ssen_03_b, 0, 0, // 2
-	ssen_04_a, ssen_05_a, 0, 0, ssen_04_b, ssen_05_b, 0, 0, // 3
-	ssen_0E_a, ssen_0F_a, 0, 0, ssen_0E_b, ssen_0F_b, 0, 0, // Platform (4)
+	ss_en_0_00, ss_en_0_01, 0, 0, ss_en_0_02, ss_en_0_03, 0, 0, // 1
+	ss_en_0_04, ss_en_0_05, 0, 0, ss_en_0_06, ss_en_0_07, 0, 0, // 1
+	ss_en_0_08, ss_en_0_09, 0, 0, ss_en_0_0a, ss_en_0_0b, 0, 0, // 3
+	ss_plat_00, ss_plat_01, 0, 0, ss_plat_00, ss_plat_01, 0, 0, // Platform (4)
 
-	ssen_0C_a, ssen_0D_a, 0, 0, ssen_0C_b, ssen_0D_b, 0, 0, // Fanty (offset 32)
+	ss_fanty_00, ss_fanty_01, 0, 0, ss_fanty_02, ss_fanty_03, 0, 0, // Fanty (offset 32)
 
 	// Explosion (offset 40)
-	ssen_10
+	ss_it_04
 };
 
 const unsigned char * const spr_enems1 [] = {
 	// Linear enems and platforms (ids 1-4)
-	ssen_06_a, ssen_07_a, 0, 0, ssen_06_b, ssen_07_b, 0, 0, // 1
-	ssen_08_a, ssen_09_a, 0, 0, ssen_08_b, ssen_09_b, 0, 0, // 2
-	ssen_0A_a, ssen_0B_a, 0, 0, ssen_0A_b, ssen_0B_b, 0, 0, // 3
-	ssen_0E_a, ssen_0F_a, 0, 0, ssen_0E_b, ssen_0F_b, 0, 0, // Platform (4)
+	ss_en_1_00, ss_en_1_01, 0, 0, ss_en_1_02, ss_en_1_03, 0, 0, // 1
+	ss_en_1_04, ss_en_1_05, 0, 0, ss_en_1_06, ss_en_1_07, 0, 0, // 1
+	ss_en_1_08, ss_en_1_09, 0, 0, ss_en_1_0a, ss_en_1_0b, 0, 0, // 3
+	ss_plat_00, ss_plat_01, 0, 0, ss_plat_00, ss_plat_01, 0, 0, // Platform (4)
 
-	ssen_0C_a, ssen_0D_a, 0, 0, ssen_0C_b, ssen_0D_b, 0, 0, // Fanty (offset 32)
+	ss_fanty_00, ss_fanty_01, 0, 0, ss_fanty_02, ss_fanty_03, 0, 0, // Fanty (offset 32)
 
 	// Explosion (offset 40)
-	ssen_10
+	ss_it_04
 };
 
 const unsigned char * const spr_enems2 [] = {
 	// Linear enems and platforms (ids 1-4)
-	ssen_11_a, ssen_12_a, 0, 0, ssen_11_b, ssen_12_b, 0, 0, // 1
-	ssen_13_a, ssen_14_a, 0, 0, ssen_13_b, ssen_14_b, 0, 0, // 2
-	ssen_15_a, ssen_16_a, 0, 0, ssen_15_b, ssen_16_b, 0, 0, // 3
-	ssen_0E_a, ssen_0F_a, 0, 0, ssen_0E_b, ssen_0F_b, 0, 0, // Platform (4)
+	ss_en_2_00, ss_en_2_01, 0, 0, ss_en_2_02, ss_en_2_03, 0, 0, // 1
+	ss_en_2_04, ss_en_2_05, 0, 0, ss_en_2_06, ss_en_2_07, 0, 0, // 1
+	ss_en_2_08, ss_en_2_09, 0, 0, ss_en_2_08, ss_en_2_09, 0, 0, // 3
+	ss_plat_00, ss_plat_01, 0, 0, ss_plat_00, ss_plat_01, 0, 0, // Platform (4)
 
-	ssen_0C_a, ssen_0D_a, 0, 0, ssen_0C_b, ssen_0D_b, 0, 0, // Fanty (offset 32)
+	ss_fanty_00, ss_fanty_01, 0, 0, ss_fanty_02, ss_fanty_03, 0, 0, // Fanty (offset 32)
 
 	// Explosion (offset 40)
-	ssen_10
+	ss_it_04
 };
 
 // Item metasprites
 // nothing, nothing, key, refill, res_on, res_off
 const unsigned char * const spr_hs [] = {
-	0, 0, ssit_01, ssit_00, ssit_02, ssit_03
+	0, 0, ss_it_01, ss_it_00, ss_it_02, ss_it_03
 };
 

@@ -21,7 +21,13 @@
 		#endif
 		{
 			rda -= 16;
-			if (map_attr [rda]) break; else map_attr [rda] = 64;
+			if (map_attr [rda]) break; else {
+				#ifdef SG1000
+					map_buff [rda] = PROPELLER_FLOATABLE_TILE;
+				#else
+					map_attr [rda] = 64;
+				#endif
+			}
 		}
 	}
 #endif
@@ -33,6 +39,10 @@
 #ifdef ENABLE_TILE_CHAC_CHAC
 	if (rdt >= CHAC_CHAC_DETECT_TILE && rdt <= CHAC_CHAC_DETECT_TILE + 2) {
 		chac_chacs_add ();
-		rdt = map_attr [rdm] = 0;
+		#ifdef SG1000
+			rdt = map_buff [rdm] = 0;
+		#else
+			rdt = map_attr [rdm] = 0;
+		#endif
 	}
 #endif

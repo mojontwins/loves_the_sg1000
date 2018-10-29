@@ -69,6 +69,7 @@ write patterns ss_fixed_patterns_c packed
 # 24 * 4 patterns (6 two-layer)
 reset patterns
 set sprite_pattern_index 160
+reset metasprites
 spriteset 0, 6, 8, 2, 1, 1, 0, 0, 12
 write metasprites ss_en_0
 write patterns ss_en_0_patterns_c packed
@@ -77,6 +78,7 @@ write patterns ss_en_0_patterns_c packed
 # 24 * 4 patterns (6 two-layer)
 reset patterns
 set sprite_pattern_index 160
+reset metasprites
 spriteset 0, 10, 8, 2, 1, 1, 0, 0, 12
 write metasprites ss_en_1
 write patterns ss_en_1_patterns_c packed
@@ -85,6 +87,7 @@ write patterns ss_en_1_patterns_c packed
 # 24 * 4 patterns (6 two-layer)
 reset patterns
 set sprite_pattern_index 160
+reset metasprites
 spriteset 0, 14, 8, 2, 1, 1, 0, 0, 10
 write metasprites ss_en_2
 write patterns ss_en_2_patterns_c packed

@@ -97,7 +97,7 @@ if (hrt) {
 								pinv = HS_OBJ_EMPTY;
 
 								// Object has been used. You may complete here
-								#include "my/on_object_used.h"
+								#include "../my/on_object_used.h"
 
 								b_button = 0;
 								//PSGSFXPlay (SFX_USE, 1);
@@ -187,7 +187,7 @@ if (hrt) {
 								++ pstars; rda = SFX_OBJECT;
 								break;
 						#endif
-						#include "my/extra_hotspots.h"
+						#include "../my/extra_hotspots.h"
 					}
 					if (rda) {
 						//PSGSFXPlay (rda, 1);
@@ -199,7 +199,7 @@ if (hrt) {
 				#if defined (ENABLE_ONLY_ONE_OBJECT) || defined (ENABLE_EASY_OBJECTS)
 					if (opinv != pinv) {
 						// Object has been got. You may complete here
-						#include "my/on_object_got.h"
+						#include "../my/on_object_got.h"
 					}
 				#endif
 			}		

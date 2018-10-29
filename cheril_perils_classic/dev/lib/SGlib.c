@@ -8,7 +8,7 @@
 // Please download the full version from github.com/sverx/devkitSMS
 
 #define AUTOCYCLE_SPRITES				// Sprites cycle automaticly
-#define AUTOCYCLE_PRIME			7		// Prime to 32.
+#define AUTOCYCLE_PRIME			3		// Prime to 32.
 #define AUTODETECT_ONE_COLOUR			// Detect 1 colour sprites in SG_addMetaSprite1x1
 
 #include "SGlib.h"
@@ -18,24 +18,6 @@
 #define false 0
 #define bool _Bool
 #define __bool_true_false_are_defined 1
-
-/* define VDPControlPort (SDCC z80 syntax) */
-__sfr __at 0xBF VDPControlPort;
-/* define VDPStatusPort */
-__sfr __at 0xBF VDPStatusPort;
-/* define VDPDataPort */
-__sfr __at 0xBE VDPDataPort;
-/* define VDPVcounter */
-__sfr __at 0x7E VDPVCounterPort;
-/* define VDPHcounter */
-__sfr __at 0x7F VDPHCounterPort;
-/* define IOPort (joypad) */
-__sfr __at 0xDC IOPortL;
-/* define IOPort (joypad) */
-__sfr __at 0xDD IOPortH;
-
-#define HI(x)					((x)>>8)
-#define LO(x)					((x)&0xFF)
 
 #ifndef MAXSPRITES
 #define MAXSPRITES 				32
@@ -66,11 +48,6 @@ __sfr __at 0xDD IOPortH;
                 +--------+
 */
 
-#define PNTADDRESS			0x1800
-#define SATADDRESS 			0x1B00
-#define PGTADDRESS 			0x0000
-#define CGTADDRESS			0x2000
-#define SGTADDRESS			0x3800
 
 /* the VDP registers initialization value */
 const unsigned char VDPReg_init [8] = {
@@ -112,12 +89,12 @@ unsigned char   *SpriteTableEnd;
 unsigned char   first_sprite;
 #endif
 
-unsigned char   gpit;
+unsigned char   libgpit;
 unsigned char   VDPType;
 
 #ifndef NESTED_DI_EI_SUPPORT
 /* macro definitions (no nested DI/EI support) */
-#define SG_write_to_VDPRegister(VDPReg,value)	{ DISABLE_INTERRUPTS; VDPControlPort= (value); VDPControlPort = (VDPReg) | 0x80; ENABLE_INTERRUPTS; }
+#define SG_write_to_VDPRegister(VDPReg,value)	{ DISABLE_INTERRUPTS; VDPControlPort = (value); VDPControlPort = (VDPReg) | 0x80; ENABLE_INTERRUPTS; }
 #define SG_set_address_VRAM(address)			{ DISABLE_INTERRUPTS; VDPControlPort = LO (address); VDPControlPort = HI (address) | 0x40; ENABLE_INTERRUPTS; }
 #else
 /* inline __critical functions (nested DI/EI supported!) */
@@ -197,8 +174,8 @@ inline void SMS_detect_VDP_type (void) {
 }
 
 void SG_init (void) {
-	for (gpit = 0; gpit < 8; gpit++)
-		SG_write_to_VDPRegister (gpit, VDPReg_init [gpit]);
+	for (libgpit = 0; libgpit < 8; libgpit++)
+		SG_write_to_VDPRegister (libgpit, VDPReg_init [libgpit]);
 
 	#ifdef AUTOCYCLE_SPRITES
 		first_sprite = 0;
@@ -209,7 +186,7 @@ void SG_init (void) {
 	SG_finalizeSprites ();
 	UNSAFE_SG_copySpritestoSAT ();
 
-	SMS_detect_VDP_type();
+	//SMS_detect_VDP_type();
 }
 
 void SG_setBackdropColor (unsigned char entry) {
@@ -258,13 +235,13 @@ void SG_setTile (unsigned char tile) {
 	SG_byte_to_VDP_data (tile);
 }
 
-void SG_fillTile (unsigned char tile, unsigned char count) {
+void SG_fillTile (unsigned char tile, unsigned int count) {
 	while (count --) SG_byte_to_VDP_data (tile);
 }
 
 void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned char width, unsigned char height) {
-	for (gpit = y; gpit < (y + height); gpit ++) {
-		SG_set_address_VRAM (PNTADDRESS+ (gpit << 5) + x);
+	for (libgpit = y; libgpit < (y + height); libgpit ++) {
+		SG_set_address_VRAM (PNTADDRESS+ (libgpit << 5) + x);
 		SG_byte_brief_array_to_VDP_data (src, width);
 		src = (unsigned char *) src + width;
 	}
@@ -272,9 +249,21 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 
 #ifdef AUTOCYCLE_SPRITES
 	void SG_initSprites (void) { 
-		for (gpit = 0; gpit < 128; gpit += 4) SpriteTable [gpit] = 0xd0;
+		//for (libgpit = 0; libgpit < 128; libgpit += 4) SpriteTable [libgpit] = 0xc0;
+		__asm
+			ld hl, #_SpriteTable
+			ld de, #_SpriteTable
+			ld (hl), #0xc0
+			inc de
+			ld bc, #128
+			ldir
+		__endasm;
 		stp = SpriteTable + (first_sprite << 2);
 		++ first_sprite; first_sprite &= 31;
+	}
+
+	inline void nextSprite (void) {
+		stp += 4 * AUTOCYCLE_PRIME; if (stp >= SpriteTableEnd) stp -= 128;
 	}
 
 	void SG_addSprite (unsigned char x, unsigned char y, unsigned char tile, unsigned char attr) {
@@ -282,7 +271,7 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 		*stp ++ = x;
 		*stp ++ = tile;
 		*stp ++ = attr;
-		stp += 4 * AUTOCYCLE_PRIME; if (stp > SpriteTableEnd) stp -= 128;
+		nextSprite ();
 	}
 
 	void SG_addMetaSprite1x1 (unsigned char x, unsigned char y, const unsigned char *mt) {
@@ -291,7 +280,7 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 		*stp ++ = x;
 		*stp ++ = *mt ++;
 		*stp ++ = *mt ++;
-		stp += 4 * AUTOCYCLE_PRIME; if (stp > SpriteTableEnd) stp -= 128;
+		nextSprite ();
 		#ifdef AUTODETECT_ONE_COLOUR
 			if (*mt == 0x80) return;
 		#endif
@@ -300,7 +289,7 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 		*stp ++ = x;
 		*stp ++ = *mt ++;
 		*stp ++ = *mt ++;
-		stp += 4 * AUTOCYCLE_PRIME; if (stp > SpriteTableEnd) stp -= 128;
+		nextSprite ();
 	}
 
 	void SG_addMetaSprite (unsigned char x, unsigned char y, const unsigned char *mt) {

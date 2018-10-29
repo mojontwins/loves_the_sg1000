@@ -11,6 +11,10 @@ void game_init (void) {
 	// Assets setup. Selects tileset, map, palettes, etc.
 	#include "mainloop/asset_setup.h"
 
+	// Load patterns
+	unpack_bg_patterns (l_ts_patterns [level], l_ts_colours [level], 64*8, 7);
+	
+
 	cls ();
 
 	draw_game_frame ();
@@ -112,17 +116,17 @@ void game_init (void) {
 }
 
 void prepare_scr (void) {
-	if (!ft) {
-		SG_displayOff ();
-		#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
+	SG_displayOff ();
+
+	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
+		if (!ft) {
 			// Update tile_got persistence
 			rda = on_pant << 3;
 			vram_write (tile_got, MAP_CLEAR_LIST_ADDRESS + (rda << 1) + rda, 24);
-		#endif
-	} else {
-		ft = 0;
-		ppu_off ();
-	}
+		}
+	#endif
+
+	ft = 0;
 
 	clear_update_list ();
 
@@ -222,7 +226,6 @@ void prepare_scr (void) {
 
 	gpit = 3; while (gpit --) en_spr_id [gpit] = en_s [gpit];
 
-	oam_index = 4;
 	prx = px >> FIXBITS; pry = py >> FIXBITS;
 	#if defined (PLAYER_PUNCHES) || defined (PLAYER_KICKS)
 		phitteract = 0;
@@ -250,8 +253,7 @@ void prepare_scr (void) {
 	hud_update ();
 	SG_waitForVBlank ();
 	UNSAFE_SG_copySpritestoSAT ();
-	clear_update_list ();
-	oam_index = 4;	
+	clear_update_list ();	
 }
 
 void game_loop (void) {
@@ -280,7 +282,7 @@ void game_loop (void) {
 	#endif
 
 	ntsc_frame = level_reset = warp_to_level = 0; 
-	oam_index = 4; ticker = 50;
+	ticker = 50;
 	
 	while (1) {
 
@@ -412,7 +414,7 @@ void game_loop (void) {
 			// Warp to level
 
 			if (warp_to_level) {
-				update_cycle (); music_stop (); break;
+				update_cycle (); PSGStop (); break;
 			}
 
 			// Do resonators

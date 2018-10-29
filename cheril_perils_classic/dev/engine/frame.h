@@ -4,7 +4,7 @@
 // frame.h
 // Custom game frame
 
-#include "my/game_frame.h"
+#include "../my/game_frame.h"
 
 void hud_update (void) {
 	// Update frame
@@ -70,5 +70,5 @@ void hud_update (void) {
 	}
 #endif
 
-#include "my/extra_hud_update.h"
+#include "../my/extra_hud_update.h"
 }

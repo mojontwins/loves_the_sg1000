@@ -8,27 +8,27 @@
 void cm_two_points (void) {
 	// Calculates at1 & at2 from cx1, cy1 & cx2, cy2
 	if (cy1 > 12 || cy2 > 12) { at1 = at2 = 0; return; }
-	at1 = map_attr [COORDS (cx1, cy1 ? cy1 - 1 : 0)];
-	at2 = map_attr [COORDS (cx2, cy2 ? cy2 - 1 : 0)];
+	at1 = ATTR (cx1, cy1 ? cy1 - 1 : 0);
+	at2 = ATTR (cx2, cy2 ? cy2 - 1 : 0);
 }
 
 #if PLAYER_COLLISION_VSTRETCH_BG > 0
 void cm_three_points (void) {
 	// Always vertical, upon pry and pre-calculated cx1.
 	cy1 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;
-	if (cy1 <= 12) at1 = map_attr [COORDS (cx1, cy1 ? cy1 - 1 : 0)];
+	if (cy1 <= 12) at1 = ATTR (cx1, cy1 ? cy1 - 1 : 0);
 	cy2 = pry >> 4;
-	if (cy2 <= 12) at2 = map_attr [COORDS (cx1, cy2 ? cy2 - 1 : 0)];
+	if (cy2 <= 12) at2 = ATTR (cx1, cy2 ? cy2 - 1 : 0);
 	cy3 = (pry + 15) >> 4;
-	if (cy3 <= 12) at3 = map_attr [COORDS (cx1, cy3 ? cy3 - 1 : 0)];
+	if (cy3 <= 12) at3 = ATTR (cx1, cy3 ? cy3 - 1 : 0);
 }
 #endif
 
-unsigned char collide_in (x0, y0, x1, y1) {
+inline unsigned char collide_in (unsigned char x0, unsigned char y0, unsigned char x1, unsigned char y1) {
 	return (x0 >= x1 && x0 <= x1 + 15 && y0 >= y1 && y0 <= y1 + 15);	
 }
 
-unsigned char collide (void) {
+inline unsigned char collide (void) {
 
 	// Player bounding box is:
 	//     prx to prx + 7
@@ -46,7 +46,7 @@ unsigned char collide (void) {
 
 }
 
-signed int add_sign (signed int sign, signed int value) {
+inline signed int add_sign (signed int sign, signed int value) {
 	return sign == 0 ? 0 : sign < 0 ? -value : value;
 }
 
@@ -64,7 +64,7 @@ void run_fire_script (void) {
 }
 #endif
 
-signed int saturate (signed int v, signed int max) {
+inline signed int saturate (signed int v, signed int max) {
 	return v >= 0 ? (v > max ? max : v) : (v < -max ? -max : v);
 }
 
@@ -115,7 +115,12 @@ void update_cycle (void) {
 	SG_finalizeSprites ();
 	SG_waitForVBlank ();
 	UNSAFE_SG_copySpritestoSAT ();
+	//SG_do_update_list ();
 	SG_initSprites ();
 	clear_update_list ();
-	oam_index = 4;
+}
+
+void do_update_list_and_wait (void) {
+	SG_waitForVBlank ();
+	//SG_do_update_list ();
 }

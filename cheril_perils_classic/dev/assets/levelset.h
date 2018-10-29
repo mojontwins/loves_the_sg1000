@@ -23,19 +23,16 @@ const unsigned char l_player_max_objects [] =	{ MAX_HOTSPOTS_TYPE_1_0, MAX_HOTSP
 
 const unsigned char l_player_max_enems [] = 	{ KILLABLE_ENEMS_0, KILLABLE_ENEMS_1, KILLABLE_ENEMS_2 };
 
-// Palettes
-
-const unsigned char * const l_pal_bg [] = 		{ palts0, palts1, palts2 };
-const unsigned char * const l_pal_fg [] = 		{ palss0, palss0, palss0 };
-
 // Metatiles
 
+const unsigned char * const l_ts_patterns [] =  { ts0_patterns_c, ts1_patterns_c, ts2_patterns_c };
+const unsigned char * const l_ts_colours [] =   { ts0_colours_c, ts1_colours_c, ts2_colours_c };
 const unsigned char * const l_ts_tmaps [] = 	{ ts0_tmaps, ts1_tmaps, ts2_tmaps };
-const unsigned char * const l_ts_pals [] = 		{ ts0_pals, ts1_pals, ts2_pals };
 const unsigned char * const l_behs [] = 		{ behs0, behs1, behs2 };
 
 // Enemy spriteset
 
+const unsigned char * const l_spr_patterns [] = { ss_en_0_patterns_c, ss_en_1_patterns_c, ss_en_2_patterns_c };
 const unsigned char * const * const l_spr_enems [] =
 												{ spr_enems0, spr_enems1, spr_enems2 };
 

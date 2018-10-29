@@ -6,19 +6,18 @@
 
 // Avoid parameters using these in critical functions.
 
-unsigned char _x, _y, _n, _t, _z;
+unsigned char _x, _y, _n, _t;
 
 // General, all-purpose variables
 
-unsigned char pad0;                     // (neslib) pad 0 read.
-unsigned char pad_this_frame;           // (neslib) pad 0 read, current frame presses.
+unsigned int pad0;                      // (neslib) pad 0 read.
+unsigned int pad_this_frame;            // (neslib) pad 0 read, current frame presses.
 unsigned char gpit, gpjt;               // General purpose iterators.
-unsigned char gpitu, gpaux;             // Auxiliary iterators.
 signed int rds16;                       // General purpose 16 bit signed variable.
 
 const unsigned char *gp_gen;            // General purpose pointer to read data in ROM.
-const unsigned char *gp_tmap, *gp_tma2; // Pointers used to read map data in ROM.
-unsigned char *gp_ram, *gp_ram_aux;     // General purpose pointers to read / write data in RAM.
+const unsigned char *gp_tmap;           // Pointers used to read map data in ROM.
+unsigned char *gp_ram;                  // General purpose pointers to read / write data in RAM.
 unsigned int gp_addr;                   // General purpose address, used for PPU addresses.
 unsigned char rdx, rdy;                 // General purpose coordinates
 unsigned char rdt;                      // General purpose "type"
@@ -55,14 +54,6 @@ unsigned char touched;                  // (Temporal) an enemy collided with the
 unsigned char en_is_alive;              // (Temporal) current enemy is alive, used when enemies respawning is on.
 unsigned char pregotten;                // (Temporal) player <-> current enemy horizontal overlap flag.
 
-unsigned char en_cttouched [3];         // Counters used to show explosions / flickering
-unsigned char en_flags [3];             // Enemies flags
-unsigned char en_life [3];              // Enemies life gauges
-unsigned char en_status [3];            // Enemies statused, repurposed per enemy type
-unsigned char en_ct [3];                // Enemies General repurposeable counter
-
-unsigned char en_rawv [3];              // Speed, used for pursuer-type enemies
-
 #ifdef ENEMS_RECOIL_ON_HIT
     signed char en_rmx [3];             // If recoiling, recoil direction in the X axis.
     #ifdef PLAYER_TOP_DOWN
@@ -96,7 +87,6 @@ unsigned char prx, pry;                 // Player pixel coordinates, calculated 
 unsigned char pcx, pcy;                 // Coordinates prior to movement.
 unsigned char pfacing;                  // Player facing left, right
 unsigned char pfr;                      // Player frame
-unsigned char pctfr;                    // Player counter (for animation)
 unsigned char psprid;                   // Player sprite ID set in my/player_frame_selector.h
 unsigned char a_button, b_button;       // True if A or B have been pressed *this* frame, respectively
 

@@ -4,23 +4,17 @@
 // Cutscenes, title screen, etc.
 
 void bat_in (void) {
-	pal_bright (0);
-	ppu_on_all ();
-	while (pad_poll (0));
-	fade_delay = 4;
-	fade_in ();
+	SG_displayOn ();
+	while (SG_getKeysStatus ());
 }
 
 void bat_out (void) {
-	music_stop ();
-	fade_out ();
-	oam_clear ();
-	ppu_off ();
+	PSGStop ();
+	SG_displayOff ();
 }
 
-void pres (const unsigned char *p, void (*func) (void)) {
+void pres (void (*func) (void)) {
 	cls ();
-	pal_bg (p);
 	(*func) ();
 	bat_in ();
 	while (1) {
@@ -28,38 +22,35 @@ void pres (const unsigned char *p, void (*func) (void)) {
 		if (pad_this_frame & (PAD_A|PAD_B|PAD_START)) break;
 	}
 	bat_out ();
-	bank_bg (0);
 }
 
 void title (void) {
-	scroll (0,0);
-	pal_spr (palss0);
-	pal_bg (palts1);
-	unrle_vram (title_rle, 0x2000);
+	//unrle_vram (title_rle, 0x2000);
+	cls (); // TODO:CHANGE
 
-	_x = 5; _y = 18; pr_str ("SELECT AND PUSH START!");
+	_x = 7; _y = 18; pr_str ("SELECT AND PUSH 1!");
 
-	_x = 12; _y = 22; pr_str ("RESONATORS");
-	         _y = 24; pr_str ("EASY MODE");
+	_x = 12; _y = 20; pr_str ("RESONATORS");
+	         _y = 22; pr_str ("EASY MODE");
 
 	bat_in ();
 
 	while (1) {
-		oam_meta_spr (84, 170 + (mode_no_resonators << 4), 0, sspl_00_a);
-		ppu_waitnmi ();
+		update_cycle ();
+		SG_addMetaSprite1x1 (84, 154 + (mode_no_resonators << 4), ss_pl_00);
 		pad_read ();
 		rda = mode_no_resonators;
-		if (pad_this_frame & (PAD_SELECT|PAD_DOWN)) {
+		if (pad_this_frame & PAD_DOWN) {
 			++ mode_no_resonators; if (mode_no_resonators == 2) mode_no_resonators = 0;
 		}
 		if (pad_this_frame & PAD_UP) {
 			if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
 		}
-		if (mode_no_resonators != rda) //PSGSFXPlay (SFX_USE, 0);
-		if (pad_this_frame & PAD_START) break;
+		//if (mode_no_resonators != rda) PSGSFXPlay (SFX_USE, 0);
+		if (pad_this_frame & PAD_1) break;
 	}
-	//PSGSFXPlay (SFX_START, 0); delay (20);
 	
+	//PSGSFXPlay (SFX_START, 0); delay (20);
 	//level = game_mode & 1;
 	//mode_no_resonators = (game_mode > 1);
 	plife = mode_no_resonators ? 5 : 3;
@@ -73,7 +64,7 @@ void scr_game_over (void) {
 
 void scr_the_end (void) {
 	_x = 6; _y = 6; pr_str (" CHERIL VANQUISHED%    ALL ZOMBIES%AND RETURNED SAFELY%   TO THE BOSQUE");
-	oam_meta_spr (100, 80, 0, ssending_00);
+	//oam_meta_spr (100, 80, 0, ssending_00);
 	_x = 12; _y = 25; pr_str ("THE  END");
 }
 
@@ -83,35 +74,25 @@ const unsigned char level2name [] = " THE FOREST";
 const unsigned char *const levelnames [] = { level0name, level1name, level2name };
 
 void scr_level (void) {
-	_x = 12; _y = 14; pr_str ("LEVEL 0"); vram_put (17+level);
-	_x = 10; _y = 16; pr_str ((unsigned char *) levelnames [level]);
+	_x = 12; _y = 14; pr_str ("LEVEL 0"); SG_setTile (17+level);
+	_x = 10; _y = 16; pr_str (levelnames [level]);
 }
 
 void credits (void) {
-	bankswitch (1);
-	pal_bg (palts0);
-	pal_spr (palss0);
 	cls ();
-	oam_clear (); scroll (0, 0);
-	
 	rds16 = 0; rdy = 240;
 
 	_x = 0; _y = 22; 
 	pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%   @ 2011 BY THE MOJON TWINS%       REPROGRAMMED GAME%@ 2014, 2018 BY THE MOJON TWINS");
 	
-	pal_bright (0);
-	ppu_on_all ();
-	fade_delay = 4;
-	fade_in ();
-	while (!(pad_poll (0) & PAD_START) && rds16 < 300) {
-		oam_meta_spr (102, rdy, 0, logo_00);
-		if (rdy > 112) rdy --;
-		ppu_waitnmi ();
+	SG_displayOn ();
+	
+	while (!(SG_getKeysStatus () & PAD_START) && rds16 < 300) {
+		/*oam_meta_spr (102, rdy, 0, logo_00);
+		if (rdy > 112) rdy --;*/
+		update_cycle ();
 		rds16 ++;
 	};
-	fade_out ();
 	
-	ppu_off ();
-	oam_clear ();
-	bankswitch (0);
+	SG_displayOff ();
 }

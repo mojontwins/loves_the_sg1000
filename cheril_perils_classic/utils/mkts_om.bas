@@ -875,8 +875,8 @@ Sub TMS9918DoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integ
 						curSpritePattern = curSpritePattern + 4
 						
 						' Extract four patterns.
-						For yPat = 0 To 1
-							For xPat = 0 To 1
+						For xPat = 0 To 1
+							For yPat = 0 To 1
 
 								For yy = 0 To 7
 									pattern (yy) = TMS9918GetBitmapFrom (xa + xPat * 8, ya + yPat * 8 + yy, colours (i), img)
@@ -884,8 +884,8 @@ Sub TMS9918DoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integ
 
 								copyFirstBytesOfArrayToMainBin pattern (), 8
 
-							Next xPat
-						Next yPat
+							Next yPat
+						Next xPat
 					Next i
 
 					xa = xa + 16

@@ -1,15 +1,15 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Wed Oct 24 12:02:04 2018
+; This file was generated Mon Oct 29 12:38:54 2018
 ;--------------------------------------------------------
-	.module void
+	.module memfill
 	.optsdcc -mz80
 	
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _main
+	.globl _memfill
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -41,11 +41,28 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;void.c:1: void main (void) {}
+;utils/memfill.c:8: void memfill (void *ptr, unsigned char value, unsigned int length) {
 ;	---------------------------------
-; Function main
+; Function memfill
 ; ---------------------------------
-_main::
+_memfill::
+;utils/memfill.c:27: __endasm;
+	ld hl, #2
+	add hl, sp
+	ld e, (hl)
+	inc hl
+	ld d, (hl) ; DE = *ptr
+	inc hl
+	ld a, (hl) ; A = value
+	inc hl
+	ld c, (hl)
+	inc hl
+	ld b, (hl) ; BC = length
+	ld h, d
+	ld l, e
+	inc de
+	ld (hl), a
+	ldir
 	ret
 	.area _CODE
 	.area _INITIALIZER

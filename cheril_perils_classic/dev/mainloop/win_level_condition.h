@@ -20,7 +20,7 @@
 		) 
 	#endif
 	) {
-		music_stop ();
+		PSGStop ();
 		delay (50);
 		break;
 	}

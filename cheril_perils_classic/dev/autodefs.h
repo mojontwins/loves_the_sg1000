@@ -36,28 +36,6 @@
 #define ENEMS_MAY_DIE
 #endif
 
-#ifdef GAME_AREA_TOP
-#define TOP_ADJUST				2
-#define SCROLL_Y				8
-#endif
-
-#ifdef GAME_AREA_MIDDLE
-#define TOP_ADJUST				4
-#define SCROLL_Y				8
-#endif
-
-#ifdef GAME_AREA_BOTTOM
-#define TOP_ADJUST				6
-#define SCROLL_Y				8
-#endif
-
-#ifdef GAME_AREA_CUSTOM
-#define TOP_ADJUST				6
-#define SCROLL_Y				12
-#endif
-
-#define SPRITE_ADJUST			8*TOP_ADJUST - SCROLL_Y - 16 - 1
-
 #if defined (SMALL_COLLISION) 
 	#define ENEMS_UPPER_COLLISION_BOUND 14
 #elif defined (TALL_COLLISION)
