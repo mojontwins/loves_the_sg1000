@@ -1,3 +1,3 @@
 @echo off
-set path=%path%;..\..\environment\sdcc-sg1000\bin
+set path=..\..\environment\sdcc-sg1000\bin;%path%
 sdcc --version

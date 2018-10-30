@@ -519,6 +519,15 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "cheril_perils_classic/dev/setenv.bat",
+			"settings":
+			{
+				"buffer_size": 75,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -596,13 +605,9 @@
 	},
 	"expanded_folders":
 	[
-		"/D/git/loves_the_sg1000",
-		"/D/git/loves_the_sg1000/cheril_perils_classic",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/ram",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/utils"
+		"/C/Users/NaThan/Desktop/Git Projects/loves_the_sg1000",
+		"/C/Users/NaThan/Desktop/Git Projects/loves_the_sg1000/cheril_perils_classic",
+		"/C/Users/NaThan/Desktop/Git Projects/loves_the_sg1000/cheril_perils_classic/dev"
 	],
 	"file_history":
 	[
@@ -737,7 +742,7 @@
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 27.0
 	},
 	"find_in_files":
 	{
@@ -868,8 +873,37 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "cheril_perils_classic/dev/setenv.bat",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 75,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								59,
+								59
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		},
 		{
@@ -928,7 +962,7 @@
 	"project": "loves_the_sg1000.sublime-project",
 	"replace":
 	{
-		"height": 74.0
+		"height": 50.0
 	},
 	"save_all_on_build": true,
 	"select_file":

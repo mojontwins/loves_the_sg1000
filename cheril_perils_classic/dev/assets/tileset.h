@@ -2,7 +2,7 @@
 // Copyleft 2017, 2018 The Mojon Twins
 
 extern const unsigned char tsfont_patterns_c [];
-#define TSFONT_PATTERNS_C_SIZE 316
+#define TSFONT_PATTERNS_C_SIZE 317
 
 extern const unsigned char tsfont_colours_c [];
 #define TSFONT_COLOURS_C_SIZE 86

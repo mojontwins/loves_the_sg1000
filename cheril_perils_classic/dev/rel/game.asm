@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Tue Oct 30 14:46:25 2018
+; This file was generated Tue Oct 30 17:20:46 2018
 ;--------------------------------------------------------
 	.module game
 	.optsdcc -mz80
@@ -2100,21 +2100,21 @@ _enems_move::
 	ld	a,#<(_en_cttouched)
 	ld	hl,#_gpit
 	add	a, (hl)
-	ld	-2 (ix),a
+	ld	-6 (ix),a
 	ld	a,#>(_en_cttouched)
 	adc	a, #0x00
-	ld	-1 (ix),a
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	-5 (ix),a
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	a,(hl)
-	ld	-3 (ix), a
+	ld	-7 (ix), a
 	or	a, a
 	jp	Z,00228$
 ;engine/enengine.h:385: -- en_cttouched [gpit];
-	ld	d,-3 (ix)
+	ld	d,-7 (ix)
 	dec	d
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	(hl),d
 ;engine/enengine.h:401: rda = frame_counter & 0xf;
 	ld	a,(#_frame_counter + 0)
@@ -2122,53 +2122,53 @@ _enems_move::
 	ld	(#_rda + 0),a
 ;engine/enengine.h:405: spr_enems [ENEMS_EXPLODING_CELL]
 	ld	hl,(_spr_enems)
-	ld	-2 (ix),l
-	ld	-1 (ix),h
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	-6 (ix),l
+	ld	-5 (ix),h
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	de, #0x0050
 	add	hl, de
 	ld	a,(hl)
-	ld	-2 (ix),a
+	ld	-6 (ix),a
 	inc	hl
 	ld	a,(hl)
-	ld	-1 (ix),a
+	ld	-5 (ix),a
 ;engine/enengine.h:404: _en_y + jitter [15 - rda] + SPRITE_ADJUST, 
 	ld	hl,#_rda
 	ld	a,#0x0F
 	sub	a, (hl)
 	add	a,#<(_jitter)
-	ld	-5 (ix),a
+	ld	-9 (ix),a
 	ld	a,#>(_jitter)
 	adc	a, #0x00
-	ld	-4 (ix),a
-	ld	l,-5 (ix)
-	ld	h,-4 (ix)
+	ld	-8 (ix),a
+	pop	hl
+	push	hl
 	ld	a,(hl)
-	ld	-5 (ix),a
+	ld	-9 (ix),a
 	ld	a,(#__en_y + 0)
-	add	a, -5 (ix)
-	ld	-5 (ix), a
+	add	a, -9 (ix)
+	ld	-9 (ix), a
 	add	a, #0xF7
-	ld	-5 (ix),a
+	ld	-9 (ix),a
 ;engine/enengine.h:403: _en_x + jitter [rda],
 	ld	a,#<(_jitter)
 	ld	hl,#_rda
 	add	a, (hl)
-	ld	-7 (ix),a
+	ld	-2 (ix),a
 	ld	a,#>(_jitter)
 	adc	a, #0x00
-	ld	-6 (ix),a
-	ld	l,-7 (ix)
-	ld	h,-6 (ix)
+	ld	-1 (ix),a
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	h,(hl)
 	ld	a,(#__en_x + 0)
 	add	a, h
 	ld	d,a
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	push	hl
-	ld	a,-5 (ix)
+	ld	a,-9 (ix)
 	push	af
 	inc	sp
 	push	de
@@ -2212,48 +2212,48 @@ _enems_move::
 00570$:
 	jp	P,00239$
 00238$:
-	ld	-7 (ix),#0x00
+	ld	-2 (ix),#0x00
 	jr	00240$
 00239$:
-	ld	-7 (ix),#0x01
+	ld	-2 (ix),#0x01
 00240$:
-	ld	a,-7 (ix)
+	ld	a,-2 (ix)
 	ld	(#_pregotten + 0),a
 ;engine/enengine.h:430: en_fr = ((((_en_mx) ? _en_x : _en_y)+4) >> 3) & 1;
 	ld	a,(#__en_x + 0)
-	ld	-7 (ix),a
+	ld	-2 (ix),a
 	ld	a,(#__en_y + 0)
-	ld	-5 (ix),a
+	ld	-9 (ix),a
 	ld	a,(#__en_mx + 0)
 	or	a, a
 	jr	Z,00241$
-	ld	a,-7 (ix)
-	ld	-3 (ix),a
+	ld	a,-2 (ix)
+	ld	-7 (ix),a
 	jr	00242$
 00241$:
-	ld	a,-5 (ix)
-	ld	-3 (ix),a
+	ld	a,-9 (ix)
+	ld	-7 (ix),a
 00242$:
-	ld	a,-3 (ix)
-	ld	-2 (ix),a
-	ld	-1 (ix),#0x00
-	ld	a,-2 (ix)
+	ld	a,-7 (ix)
+	ld	-6 (ix),a
+	ld	-5 (ix),#0x00
+	ld	a,-6 (ix)
 	add	a, #0x04
-	ld	-2 (ix),a
-	ld	a,-1 (ix)
+	ld	-6 (ix),a
+	ld	a,-5 (ix)
 	adc	a, #0x00
-	ld	-1 (ix),a
-	sra	-1 (ix)
-	rr	-2 (ix)
-	sra	-1 (ix)
-	rr	-2 (ix)
-	sra	-1 (ix)
-	rr	-2 (ix)
-	ld	a,-2 (ix)
+	ld	-5 (ix),a
+	sra	-5 (ix)
+	rr	-6 (ix)
+	sra	-5 (ix)
+	rr	-6 (ix)
+	sra	-5 (ix)
+	rr	-6 (ix)
+	ld	a,-6 (ix)
 	and	a, #0x01
-	ld	-2 (ix),a
-	ld	-1 (ix),#0x00
-	ld	a,-2 (ix)
+	ld	-6 (ix),a
+	ld	-5 (ix),#0x00
+	ld	a,-6 (ix)
 	ld	(#_en_fr + 0),a
 ;engine/enengine.h:433: if (res_on 
 	ld	a,(#_res_on + 0)
@@ -2405,17 +2405,17 @@ _enems_move::
 ;engine/enengine.h:479: case 6:
 00122$:
 ;engine/../engine/enemmods/enem_homing_fanty.h:7: rdx = _en_x; rdy = _en_y; rdt = distance ();
-	ld	a,-7 (ix)
+	ld	a,-2 (ix)
 	ld	(#_rdx + 0),a
-	ld	a,-5 (ix)
+	ld	a,-9 (ix)
 	ld	(#_rdy + 0),a
 	call	_distance
 	ld	iy,#_rdt
 	ld	0 (iy),l
 ;engine/../engine/enemmods/enem_homing_fanty.h:35: _enf_y = _en_y << FIXBITS;
 	ld	a,(#__en_y + 0)
-	ld	-7 (ix),a
-	ld	-6 (ix),#0x00
+	ld	-2 (ix),a
+	ld	-1 (ix),#0x00
 ;engine/../engine/enemmods/enem_homing_fanty.h:11: switch (_en_state) {
 	ld	a,(#__en_state + 0)
 	or	a, a
@@ -2599,9 +2599,9 @@ _enems_move::
 	add	hl, hl
 	ld	(__enf_x),hl
 ;engine/../engine/enemmods/enem_homing_fanty.h:35: _enf_y = _en_y << FIXBITS;
-	ld	a,-7 (ix)
+	ld	a,-2 (ix)
 	ld	(#__enf_y + 0),a
-	ld	a,-6 (ix)
+	ld	a,-1 (ix)
 	ld	(#__enf_y + 1),a
 	ld	a,#0x06+1
 	jr	00591$
@@ -2676,10 +2676,10 @@ _enems_move::
 	or	a,(hl)
 	jp	Z,00155$
 ;engine/../engine/enemmods/enem_homing_fanty.h:51: cy1 = (_en_y + 4) >> 4;
-	ld	a,-7 (ix)
+	ld	a,-2 (ix)
 	add	a, #0x04
 	ld	l,a
-	ld	a,-6 (ix)
+	ld	a,-1 (ix)
 	adc	a, #0x00
 	ld	h,a
 	sra	h
@@ -2693,10 +2693,10 @@ _enems_move::
 	ld	iy,#_cy1
 	ld	0 (iy),l
 ;engine/../engine/enemmods/enem_homing_fanty.h:52: cy2 = (_en_y + 11) >> 4;
-	ld	a,-7 (ix)
+	ld	a,-2 (ix)
 	add	a, #0x0B
 	ld	h,a
-	ld	a,-6 (ix)
+	ld	a,-1 (ix)
 	adc	a, #0x00
 	ld	l,a
 	sra	l
@@ -3114,13 +3114,13 @@ _enems_move::
 00600$:
 	xor	a,a
 00601$:
-	ld	-7 (ix),a
+	ld	-2 (ix),a
 ;engine/../engine/enemmods/enem_homing_fanty.h:35: _enf_y = _en_y << FIXBITS;
 	ld	hl,#__en_y + 0
 	ld	b, (hl)
 	ld	c,#0x00
 ;engine/enengine.h:584: if (_en_t == 4 && pregotten && !pgotten && !pj) {
-	ld	a,-7 (ix)
+	ld	a,-2 (ix)
 	or	a, a
 	jp	Z,00188$
 	ld	a,(#_pregotten + 0)
@@ -3136,10 +3136,10 @@ _enems_move::
 	ld	a,#<(_en_status)
 	ld	hl,#_gpit
 	add	a, (hl)
-	ld	-5 (ix),a
+	ld	-9 (ix),a
 	ld	a,#>(_en_status)
 	adc	a, #0x00
-	ld	-4 (ix),a
+	ld	-8 (ix),a
 ;engine/enengine.h:592: py = (_en_y - 16) << 6; pry = py >> 6;
 	ld	a,b
 	add	a,#0xF0
@@ -3153,8 +3153,8 @@ _enems_move::
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
-	ld	-2 (ix),l
-	ld	-1 (ix),h
+	ld	-6 (ix),l
+	ld	-5 (ix),h
 ;engine/enengine.h:588: if (_en_mx) {
 	ld	a,(#__en_mx + 0)
 	or	a, a
@@ -3193,8 +3193,8 @@ _enems_move::
 	rla
 	sbc	a, a
 	ld	e,a
-	ld	l,-5 (ix)
-	ld	h,-4 (ix)
+	pop	hl
+	push	hl
 	ld	l,(hl)
 	ld	h,#0x00
 	ld	a,#0x06
@@ -3220,8 +3220,8 @@ _enems_move::
 	dec	a
 	jr	NZ,00604$
 ;engine/enengine.h:592: py = (_en_y - 16) << 6; pry = py >> 6;
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	(_py),hl
 	ld	hl,(_py)
 	sra	h
@@ -3245,12 +3245,12 @@ _enems_move::
 	ld	d,#0x00
 ;engine/enengine.h:600: (_en_my > 0 && pry + 16 + _en_my >= _en_y && pry + 12 <= _en_y)
 	ld	a,(#__en_my + 0)
-	ld	-9 (ix),a
+	ld	-4 (ix),a
 	ld	iy,#__en_my
 	ld	a,0 (iy)
 	rla
 	sbc	a, a
-	ld	-8 (ix),a
+	ld	-3 (ix),a
 ;engine/enengine.h:599: (_en_my < 0 && pry + 17 >= _en_y && pry + 12 <= _en_y) ||
 	ld	hl,#0x000C
 	add	hl,de
@@ -3263,7 +3263,7 @@ _enems_move::
 00606$:
 	rlca
 	and	a,#0x01
-	ld	-3 (ix),a
+	ld	-7 (ix),a
 	ld	iy,#__en_my
 	bit	7,0 (iy)
 	jr	Z,00186$
@@ -3277,7 +3277,7 @@ _enems_move::
 	xor	a, #0x80
 00607$:
 	jp	M,00186$
-	ld	a,-3 (ix)
+	ld	a,-7 (ix)
 	or	a, a
 	jr	Z,00180$
 00186$:
@@ -3291,8 +3291,8 @@ _enems_move::
 	jp	P,00188$
 	ld	hl,#0x0010
 	add	hl,de
-	pop	de
-	push	de
+	ld	e,-4 (ix)
+	ld	d,-3 (ix)
 	add	hl,de
 	ld	a,l
 	sub	a, b
@@ -3302,7 +3302,7 @@ _enems_move::
 	xor	a, #0x80
 00609$:
 	jp	M,00188$
-	ld	a,-3 (ix)
+	ld	a,-7 (ix)
 	or	a, a
 	jr	NZ,00188$
 00180$:
@@ -3310,8 +3310,8 @@ _enems_move::
 	ld	hl,#_pgotten + 0
 	ld	(hl), #0x01
 ;engine/enengine.h:603: pgtmy = _en_my << (6 - en_status [gpit]);
-	ld	l,-5 (ix)
-	ld	h,-4 (ix)
+	pop	hl
+	push	hl
 	ld	l,(hl)
 	ld	h,#0x00
 	ld	a,#0x06
@@ -3320,10 +3320,10 @@ _enems_move::
 	ld	a,#0x00
 	sbc	a, h
 	push	af
-	ld	a,-9 (ix)
+	ld	a,-4 (ix)
 	ld	iy,#_pgtmy
 	ld	0 (iy),a
-	ld	a,-8 (ix)
+	ld	a,-3 (ix)
 	ld	iy,#_pgtmy
 	ld	1 (iy),a
 	pop	af
@@ -3338,8 +3338,8 @@ _enems_move::
 	dec	l
 	jr	NZ,00610$
 ;engine/enengine.h:604: py = (_en_y - 16) << 6; pry = py >> 6;
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	(_py),hl
 	ld	hl,(_py)
 	sra	h
@@ -3376,7 +3376,7 @@ _enems_move::
 	or	a, a
 	jp	NZ,00230$
 ;engine/enengine.h:645: ) goto skipdo;
-	ld	a,-7 (ix)
+	ld	a,-2 (ix)
 	or	a, a
 	jp	NZ,00230$
 ;engine/enengine.h:653: pregotten && 

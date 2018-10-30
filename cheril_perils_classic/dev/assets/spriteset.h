@@ -27,7 +27,7 @@ extern const unsigned char ss_it_05 [];
 extern const unsigned char ss_it_06 [];
 
 extern const unsigned char ss_fixed_patterns_c [];
-#define SS_FIXED_PATTERNS_C_SIZE 838
+#define SS_FIXED_PATTERNS_C_SIZE 836
 
 extern const unsigned char ss_en_0_00 [];
 extern const unsigned char ss_en_0_01 [];
@@ -43,7 +43,7 @@ extern const unsigned char ss_en_0_0a [];
 extern const unsigned char ss_en_0_0b [];
 
 extern const unsigned char ss_en_0_patterns_c [];
-#define SS_EN_0_PATTERNS_C_SIZE 511
+#define SS_EN_0_PATTERNS_C_SIZE 507
 
 extern const unsigned char ss_en_1_00 [];
 extern const unsigned char ss_en_1_01 [];
@@ -59,7 +59,7 @@ extern const unsigned char ss_en_1_0a [];
 extern const unsigned char ss_en_1_0b [];
 
 extern const unsigned char ss_en_1_patterns_c [];
-#define SS_EN_1_PATTERNS_C_SIZE 520
+#define SS_EN_1_PATTERNS_C_SIZE 518
 
 extern const unsigned char ss_en_2_00 [];
 extern const unsigned char ss_en_2_01 [];
@@ -73,5 +73,5 @@ extern const unsigned char ss_en_2_08 [];
 extern const unsigned char ss_en_2_09 [];
 
 extern const unsigned char ss_en_2_patterns_c [];
-#define SS_EN_2_PATTERNS_C_SIZE 508
+#define SS_EN_2_PATTERNS_C_SIZE 504
 

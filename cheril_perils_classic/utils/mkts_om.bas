@@ -852,7 +852,7 @@ Sub TMS9918DoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integ
 					Do 
 						swapped = 0
 						For i = 1 To nColours - 1
-							If colours (i - 1) > colours (i) Then
+							If colours (i - 1) < colours (i) Then
 								Swap colours (i), colours (i - 1)
 								swapped = -1
 							End If
@@ -1637,13 +1637,13 @@ Sub zxDoScripted (scriptFile As String)
 
 					If parserFindTokenInTokens ("packed", tokens (), "lcase") Then
 						writePartialMainBinary "temp.tmp", idxFrom, idxTo
-						Shell EXEPATH & "/apack.exe temp.tmp temp.cmp > nul"
+						Shell """" & EXEPATH & "/apack.exe"" temp.tmp temp.cmp > nul"
 						copyBinaryFileText tokens (2), "temp.cmp", "Aplib compressed pattern data"
 						Kill "temp.tmp"
 						Kill "temp.cmp"
 						If tokens (3) <> "" And tokens (3) <> "packed" Then
 							writePartialColoursBinary "temp.tmp", idxFrom, idxTo
-							Shell EXEPATH & "/apack.exe temp.tmp temp.cmp > nul"
+							Shell """" & EXEPATH & "/apack.exe"" temp.tmp temp.cmp > nul"
 							copyBinaryFileText tokens (3), "temp.cmp", "Aplib compressed colour data"
 							Kill "temp.tmp"
 							Kill "temp.cmp"
