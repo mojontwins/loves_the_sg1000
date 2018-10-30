@@ -4,17 +4,9 @@
 // Resonators code.
 if (res_on) {
 
-	// Resonator on screen, paint countdown
-	/*
-	if (hrt == HOTSPOT_TYPE_RESONATOR) {
-		oam_index = oam_spr (
-			hrx + RESONATOR_COUNTER_OFFS_X, 
-			hry + RESONATOR_COUNTER_OFFS_Y + SPRITE_ADJUST, 
-			RESONATOR_BASE_PATTERN + res_ct, 
-			RESONATOR_PALETTE, 
-			oam_index);
-	} 
-	*/
+	gp_addr = ((RESONATOR_COUNTER_Y << 5) | RESONATOR_COUNTER_X) + PNTADDRESS;
+	_n = 16 + res_ct; 
+	ul_putc ();
 
 	// Resonator logic
 	if (res_subct) -- res_subct; else {

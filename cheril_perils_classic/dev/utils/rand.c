@@ -14,8 +14,8 @@ unsigned char randres;
 unsigned char rand8 (void) {
 	__asm
 		rnd:
-			ld  hl, #0xa280
-			ld  de, #0xc0de 
+			ld  hl, (_seed1)
+			ld  de, (_seed2)
 	        ld  a,h         ; t = x ^ (x << 1)
 	        add a,a
 	        xor h
@@ -33,8 +33,8 @@ unsigned char rand8 (void) {
 	        xor d
 	        xor e
 	        ld  e,a
-	        ld  (rnd+1),hl
-	        ld  (rnd+4),de
+	        ld  (_seed1),hl
+	        ld  (_seed2),de
 	        ld	(_randres), a
 	__endasm;
 	return randres;

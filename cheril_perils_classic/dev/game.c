@@ -1,8 +1,6 @@
 // NES MK1 v1.0
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
-#define SG1000
-
 // Comment this when you are done
 //#define DEBUG
 #define DEBUG_LEVEL		0
@@ -21,6 +19,7 @@
 #include "utils/delay.h"
 #include "utils/memfill.h"
 #include "utils/unpacker.h"
+#include "utils/unrle.h"
 
 #include "definitions.h"
 #include "config.h"
@@ -111,6 +110,7 @@
 void main(void) {
 	SG_displayOff ();
 	SG_setSpriteMode (SG_SPRITEMODE_LARGE);
+	SG_setUpdateList (update_list);
 	first_game = 1;
 
 	// For master system:
@@ -123,7 +123,7 @@ void main(void) {
 	credits ();
 
 	// Unpack fixed sprites
-	aPLib_depack_VRAM (SGTADDRESS, ss_fixed_patterns_c);
+	aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
 
 	while (1) {	
 		title ();

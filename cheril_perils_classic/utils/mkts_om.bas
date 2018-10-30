@@ -1000,12 +1000,36 @@ Sub zxDoNametable (img As Any Ptr)
 	Puts "mkts_om v0.3.20181019 ~ Nametable mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes)."
 End Sub
 
+Sub TMS9918DoNametable (img As Any Ptr)
+	Dim As Integer x, y, ct, wasNew
+	Dim As uByte attr, pIndex
+	Dim As uByte pattern (15)
+
+	ct = 0
+	For y = 0 To 191 Step 8
+		For x = 0 To 255 Step 8
+			extractPatternFrom x, y, img, pattern (), attr
+			pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew)
+			If wasNew Then 
+				copyFirstBytesOfArrayToMainBin pattern (), 8
+				copyArrayToColourBinFrom pattern (), 8
+				ct = ct + 1
+			End If
+			nametable ((y\8)*32+(x\8)) = pIndex
+		Next x
+	Next y	
+
+	Puts "mkts_om v0.3.20181019 ~ Nametable mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes)."
+End Sub
+
 Sub doNametable (img As Any Ptr) 
 	Select Case platform
 		Case PLATFORM_CPC
 			cpcDoNametable img
 		Case PLATFORM_ZX
 			zxDoNametable img
+		Case PLATFORM_SG1000
+			TMS9918DoNametable img
 	End Select
 End Sub
 
@@ -1025,7 +1049,7 @@ Sub doNametableRLE (img As Any Ptr)
 
 	Select Case platform
 		case PLATFORM_ZX: sizeT = 1536
-		case PLATFORM_CPC: sizeT = 768
+		case PLATFORM_CPC, PLATFORM_SG1000: sizeT = 768
 	End Select
 	
 	' call doNametable, then RLE nametable.
@@ -1413,7 +1437,7 @@ Sub writeNametable (fileName As String)
 	
 	Select Case platform
 		Case PLATFORM_ZX: sizeT = 1535
-		Case PLATFORM_CPC: sizeT = 767
+		Case PLATFORM_CPC, PLATFORM_SG1000: sizeT = 767
 	End Select
 
 	fiPuts "Opening " & fileName & " for output."
@@ -1439,6 +1463,66 @@ Sub writeNametableRle (fileName As String)
 		Put #fOut, , nametablerle (i)
 	Next i
 	Close #fOut
+	fiPuts "+ " & rleIdx & " bytes written"
+End Sub
+
+Sub writeNametableText (label As String)
+	Dim As Integer i, bytes
+	Dim As Integer sizeT
+	Dim As uByte d
+	
+	Select Case platform
+		Case PLATFORM_ZX: sizeT = 1535
+		Case PLATFORM_CPC, PLATFORM_SG1000: sizeT = 767
+	End Select
+
+	fiPuts "Writing nametable data to array named " & label
+	
+	Print #fMapFile, "// nametable data"
+	Print #fMapFile, "const unsigned char " & label & " [] = {"
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & " [];"
+	bytes = 0
+	For i = 0 To sizeT
+		If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
+		d = nametable (i): Print #fMapFile, "0x" & lCase (Hex (d, 2));
+		If i < sizeT Then Print #fMapFile, ", ";
+		If bytes Mod 8 = 7 Then Print #fMapFile, ""
+		bytes = bytes + 1
+	Next i
+
+	Print #fMapFile, "};"
+	Print #fMapFile, "// " & bytes & " bytes."
+	Print #fHeaderFile, "#define " & Ucase (label) & "_SIZE " & bytes
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, ""
+	Print #fMapFile, ""
+	
+	fiPuts "+ " & (sizeT + 1) & " bytes written"
+End Sub
+
+Sub writeNametableRleText (label As String)
+	Dim As Integer i, bytes
+	Dim As uByte d
+	
+	fiPuts "Writing nametable RLE data to array named " & label
+	
+	Print #fMapFile, "// nametable RLE'd data"
+	Print #fMapFile, "const unsigned char " & label & " [] = {"
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & " [];"
+	bytes = 0
+	For i = 0 To rleIdx - 1
+		If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
+		d = nametablerle (i): Print #fMapFile, "0x" & lCase (Hex (d, 2));
+		If i < rleIdx - 1 Then Print #fMapFile, ", ";
+		If bytes Mod 8 = 7 Then Print #fMapFile, ""
+		bytes = bytes + 1
+	Next i
+
+	Print #fMapFile, "};"
+	Print #fMapFile, "// " & bytes & " bytes."
+	Print #fHeaderFile, "#define " & Ucase (label) & "_SIZE " & bytes
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, ""
+	Print #fMapFile, ""
+
 	fiPuts "+ " & rleIdx & " bytes written"
 End Sub
 
@@ -1575,6 +1659,8 @@ Sub zxDoScripted (scriptFile As String)
 				End If
 				If tokens (1) = "tmaps" Then writeTsmapsText tokens (2)
 				If tokens (1) = "metasprites" Then writeMetaSpritesText tokens (2)
+				If tokens (1) = "nametable" Then writeNametableText tokens (2)
+				If tokens (1) = "nametablerle" then writeNametableRleText tokens (2)
 
 			Case "reset"
 				If tokens (1) = "patterns" Then mainIndex = 0: cPoolIndex = 0: coloursIndex = 0
@@ -1583,7 +1669,7 @@ Sub zxDoScripted (scriptFile As String)
 				If tokens (1) = "metasprites" Then metaSpritesIndex = 0
 
 			Case "set"
-				If tokens (1) = "patterns" Then cPoolIndex = val (tokens (2))
+				If tokens (1) = "patterns" Then mainIndex = patternWriteSize * val (tokens (2)): coloursIndex = patternWriteSize * val (tokens (2)): cPoolIndex = val (tokens (2))
 				If tokens (1) = "sprite_pattern_index" Then curSpritePattern = val (tokens (2))
 				If tokens (1) = "tmaps" Then tMapsIndex = val (tokens (2))
 				If tokens (1) = "metasprites" Then metaSpritesIndex = val (tokens (2))

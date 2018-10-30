@@ -2,7 +2,8 @@
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Pause?
-if (pad_this_frame & PAD_START) {
+if (SG_queryPauseRequested ()) {
+	SG_resetPauseRequest ();
 	paused ^= 1;
 	//music_pause (paused);
 }

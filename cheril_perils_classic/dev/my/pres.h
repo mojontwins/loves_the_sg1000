@@ -11,6 +11,8 @@ void bat_in (void) {
 void bat_out (void) {
 	PSGStop ();
 	SG_displayOff ();
+	SG_initSprites ();
+	UNSAFE_SG_copySpritestoSAT ();	
 }
 
 void pres (void (*func) (void)) {
@@ -82,7 +84,7 @@ void credits (void) {
 	cls ();
 	rds16 = 0; rdy = 240;
 
-	_x = 0; _y = 22; 
+	_x = 0; _y = 19; 
 	pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%   @ 2011 BY THE MOJON TWINS%       REPROGRAMMED GAME%@ 2014, 2018 BY THE MOJON TWINS");
 	
 	SG_displayOn ();

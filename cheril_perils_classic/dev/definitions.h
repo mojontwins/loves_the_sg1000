@@ -2,6 +2,8 @@
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 // SG1000 Version
 
+#define SG1000
+
 // definitions.h
 // Main definitions
 

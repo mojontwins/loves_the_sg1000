@@ -12,7 +12,7 @@ void game_init (void) {
 	#include "mainloop/asset_setup.h"
 
 	// Load patterns
-	unpack_bg_patterns (l_ts_patterns [level], l_ts_colours [level], 64*8, 7);
+	#include "my/level_pattern_unpacker.h"
 	
 	cls ();
 
@@ -127,6 +127,8 @@ void prepare_scr (void) {
 
 	ft = 0;
 
+	update_list [update_index] = 0xff;
+	SG_doUpdateList ();
 	clear_update_list ();
 
 	#ifdef ENABLE_PROPELLERS
@@ -205,7 +207,6 @@ void prepare_scr (void) {
 		// bankswitch (l_chr_rom_bank [level]);
 	#endif
 
-	SG_displayOn ();
 	SG_initSprites ();
 
 	#ifdef ACTIVATE_SCRIPTING
@@ -248,11 +249,12 @@ void prepare_scr (void) {
 		#endif
 	#endif
 
-	SG_finalizeSprites ();
 	hud_update ();
-	SG_waitForVBlank ();
 	UNSAFE_SG_copySpritestoSAT ();
+	update_list [update_index] = 0xff;
+	SG_doUpdateList ();
 	clear_update_list ();	
+	SG_displayOn ();
 }
 
 void game_loop (void) {
@@ -329,7 +331,11 @@ void game_loop (void) {
 
 		// Finish frame and wait for NMI
 
-		update_cycle ();
+		SG_waitForVBlank ();
+		UNSAFE_SG_copySpritestoSAT ();
+		update_list [update_index] = 0xff;
+		SG_doUpdateList ();
+		clear_update_list ();
 
 		// Poll pads
 
@@ -342,6 +348,8 @@ void game_loop (void) {
 		ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
 
 		if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
+			SG_initSprites ();
+			
 			// Count frames		
 			if (ticker) -- ticker; else ticker = 50;
 			half_life ^= 1;
@@ -471,4 +479,6 @@ void game_loop (void) {
 	//PSGStop ();
 	//PSGSFXStop ();
 	SG_displayOff ();
+	SG_initSprites ();
+	UNSAFE_SG_copySpritestoSAT ();	
 }

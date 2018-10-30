@@ -92,6 +92,10 @@ unsigned char   first_sprite;
 unsigned char   libgpit;
 unsigned char   VDPType;
 
+unsigned char   *updateList;
+unsigned char   *ulp;
+unsigned char   ulpMsb;
+
 #ifndef NESTED_DI_EI_SUPPORT
 /* macro definitions (no nested DI/EI support) */
 #define SG_write_to_VDPRegister(VDPReg,value)	{ DISABLE_INTERRUPTS; VDPControlPort = (value); VDPControlPort = (VDPReg) | 0x80; ENABLE_INTERRUPTS; }
@@ -263,7 +267,7 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 	}
 
 	inline void nextSprite (void) {
-		stp += 4 * AUTOCYCLE_PRIME; if (stp >= SpriteTableEnd) stp -= 128;
+		stp += 4 * (AUTOCYCLE_PRIME-1); if (stp >= SpriteTableEnd) stp -= 128;
 	}
 
 	void SG_addSprite (unsigned char x, unsigned char y, unsigned char tile, unsigned char attr) {
@@ -351,6 +355,14 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 	void SG_finalizeSprites (void) {
 		*stp = 0xd0;
 	}
+
+	unsigned char *SG_getStp (void) {
+		return stp;
+	}
+
+	void SG_setStp (unsigned char *s) {
+		stp = s;
+	}	
 #endif
 
 void SG_copySpritestoSAT (void) {
@@ -436,3 +448,20 @@ unsigned char SMS_VDPType (void) {
   return VDPType;
 }
 
+// Update list functions:
+// Nametable updates during frame time are slow.
+// So we buffer them and send them to VRAM during VBlank
+void SG_setUpdateList (unsigned char *ul) {
+	updateList = ul;
+}
+
+void SG_doUpdateList (void) {
+	ulp = updateList;
+	while (1) {
+		ulpMsb = *ulp; ++ ulp;
+		if (ulpMsb == 0xff) break;
+		VDPControlPort = *ulp ++; 
+		VDPControlPort = ulpMsb | 0x40;
+		VDPDataPort = *ulp ++;
+	}
+}

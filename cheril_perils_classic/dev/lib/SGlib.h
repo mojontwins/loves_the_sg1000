@@ -149,3 +149,6 @@ __sfr __at 0xDD IOPortH;
 
 #define HI(x)				((x)>>8)
 #define LO(x)				((x)&0xFF)
+
+void SG_setUpdateList (unsigned char *ul);
+void SG_doUpdateList (void);

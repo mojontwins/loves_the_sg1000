@@ -8,7 +8,12 @@ headerfile ../dev/assets/tileset.h
 reset patterns
 open font.png
 charset 0, 0, 32, 2
+
 write patterns tsfont_patterns_c tsfont_colours_c packed
+
+open hud.png
+nametablerle
+write nametablerle hud_rle
 
 # Metatiles level 0
 open ts0.png
@@ -30,7 +35,7 @@ write patterns ts1_patterns_c ts1_colours_c r:64:* packed
 open ts2.png
 set patterns 64
 reset tmaps
-metatileset 0, 0, 16, 3, 2, 2, 38
+metatileset 0, 0, 16, 3, 2, 2, 39
 write tmaps ts2_tmaps
 write patterns ts2_patterns_c ts2_colours_c r:64:* packed
 

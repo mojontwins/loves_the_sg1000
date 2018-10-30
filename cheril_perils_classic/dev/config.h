@@ -4,7 +4,7 @@
 // For a topmost two-lines status bar
 
 #define TOP_ADJUST 				1		
-#define SPRITE_ADJUST 			-8
+#define SPRITE_ADJUST 			-9
 
 #define MAP_CLEAR_LIST_ADDRESS	0x2c40	// To store map persistence in VRAM.
 										// Each screen takes 24 bytes. move it where
@@ -208,10 +208,8 @@
 // Resonators. Not sure if you need this, but.
 
 #define ENABLE_RESONATORS
-#define RESONATOR_BASE_PATTERN			0
-#define RESONATOR_PALETTE				3
-#define RESONATOR_COUNTER_OFFS_X		4
-#define RESONATOR_COUNTER_OFFS_Y		7
+#define RESONATOR_COUNTER_X 			29
+#define RESONATOR_COUNTER_Y 			1
 //#define RESONATOR_CHANGE_BG_PAL		paltsgrey	// Define to change pal for this palette
 //#define RESONATOR_CHANGE_SPR_PAL		palssgrey	// Define to change pal for this palette
 
@@ -531,17 +529,17 @@
 // This sections defines how stuff is rendered, where to show counters, etcetera
 
 #define LIFE_X					4		//
-#define LIFE_Y					4		// Life gauge counter character coordinates
+#define LIFE_Y					1		// Life gauge counter character coordinates
 
 //#define OBJECTS_X				18		//
 //#define OBJECTS_Y				3		// Objects counter character coordinates
 #define OBJECTS_REMAINING				// Show # remaining instead of got
 
-#define KEYS_X					16		//
-#define KEYS_Y					4		// Keys counter character coordinates
+#define KEYS_X					12		//
+#define KEYS_Y					1		// Keys counter character coordinates
 
-#define KILLED_X				28		//
-#define KILLED_Y				4		// Kills counter character coordinates
+#define KILLED_X				21		//
+#define KILLED_Y				1		// Kills counter character coordinates
 
 //#define AMMO_X				8		// 
 //#define AMMO_Y				2		// Ammo counter character coordinates

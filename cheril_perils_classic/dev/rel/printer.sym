@@ -1,0 +1,86 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+    _IOPortH                                                    =  00DD 
+    _IOPortL                                                    =  00DC 
+    _SG_fillTile                                                   **** GX
+    _SG_setNextTileatXY                                            **** GX
+    _SG_setTile                                                    **** GX
+    _SG_setTileatXY                                                **** GX
+    _VDPControlPort                                             =  00BF 
+    _VDPDataPort                                                =  00BE 
+    _VDPHCounterPort                                            =  007F 
+    _VDPStatusPort                                              =  00BF 
+    _VDPVCounterPort                                            =  007E 
+    __divuchar                                                     **** GX
+    __moduchar                                                     **** GX
+    __n                                                            **** GX
+    __t                                                            **** GX
+    __x                                                            **** GX
+    __y                                                            **** GX
+  0 _add_tile                                                      0293 GR
+    _c_decos                                                       **** GX
+    _c_locks                                                       **** GX
+    _c_map                                                         **** GX
+    _c_max_bolts                                                   **** GX
+    _c_ts_tmaps                                                    **** GX
+    _chac_chacs_add                                                **** GX
+    _chac_chacs_yx                                                 **** GX
+  0 _clear_update_list                                             0000 GR
+  0 _cls                                                           0017 GR
+  0 _draw_scr                                                      02A5 GR
+  0 _draw_tile                                                     0102 GR
+  0 _get_byte                                                      027F GR
+    _gp_addr                                                       **** GX
+    _gp_gen                                                        **** GX
+    _gp_ram                                                        **** GX
+    _gp_tmap                                                       **** GX
+    _gpit                                                          **** GX
+    _lkact                                                         **** GX
+    _map_buff                                                      **** GX
+  0 _map_set                                                       024A GR
+    _max_chac_chacs                                                **** GX
+    _memfill                                                       **** GX
+    _n_pant                                                        **** GX
+  0 _p_t                                                           0075 GR
+  0 _p_tf                                                          00CA GR
+  0 _pr_str                                                        04F8 GR
+    _rand8                                                         **** GX
+    _rda                                                           **** GX
+    _rdb                                                           **** GX
+    _rdct                                                          **** GX
+    _rdit                                                          **** GX
+    _rdm                                                           **** GX
+    _rdt                                                           **** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    _set_rand                                                      **** GX
+  0 _ul_putc                                                       002B GR
+    _update_index                                                  **** GX
+    _update_list                                                   **** GX
+  0 _update_list_tile                                              01BC GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  53A   flags    0
+   1 _DATA                                      size    0   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Mon Oct 29 13:09:58 2018
+; This file was generated Tue Oct 30 14:32:51 2018
 ;--------------------------------------------------------
 	.module unpacker
 	.optsdcc -mz80
@@ -49,7 +49,7 @@ _IOPortH	=	0x00dd
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;utils/unpacker.c:10: void unpack_bg_patterns (unsigned char *c_pgt, unsigned char *c_cgt, unsigned int byte_offset, unsigned char banks_flag) {
+;utils/unpacker.c:10: void unpack_bg_patterns (const unsigned char *c_pgt, const unsigned char *c_cgt, unsigned int byte_offset, unsigned char banks_flag) {
 ;	---------------------------------
 ; Function unpack_bg_patterns
 ; ---------------------------------

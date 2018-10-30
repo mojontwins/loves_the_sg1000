@@ -87,7 +87,6 @@ void draw_scr (void) {
 
 		while (rdm < 192) {
 			rdt = *gp_gen ++;
-			gp_gen ++;
 			rda = rdt & 0x0f;
 			
 			rdct = rdt;
@@ -132,7 +131,7 @@ void draw_scr (void) {
 	#endif
 
 	// Edit this file to alter map_buff the way you need:
-	//#include "../../my/map_renderer_customization.h"
+	#include "../../my/map_renderer_customization.h"
 
 	// Draw decorations
 
@@ -166,11 +165,9 @@ void draw_scr (void) {
 							rdct = 1;
 						} else {
 							rdct = *gp_gen ++;
-							gp_gen ++;
 						}
 						while (rdct --) {
 							rdm = *gp_gen ++;
-							gp_gen ++;
 							add_tile ();
 						}
 					}

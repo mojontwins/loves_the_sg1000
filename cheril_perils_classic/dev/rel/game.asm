@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Mon Oct 29 21:30:55 2018
+; This file was generated Tue Oct 30 14:46:25 2018
 ;--------------------------------------------------------
 	.module game
 	.optsdcc -mz80
@@ -35,48 +35,43 @@
 	.globl _enems_update_unsigned_char_arrays
 	.globl _enems_persistent_deaths_load
 	.globl _player_move
-	.globl _player_process_tile
 	.globl _player_kill
 	.globl _player_to_pixels
+	.globl _player_render
 	.globl _player_init
-	.globl _player_stop
-	.globl _player_register_safe_spot
 	.globl _chac_chacs_do
 	.globl _hotspots_create
 	.globl _hotspots_paint
 	.globl _hotspots_load
-	.globl _do_update_list_and_wait
 	.globl _update_cycle
 	.globl _jump_start
 	.globl _distance
 	.globl _pad_read
+	.globl _collide
+	.globl _collide_in
 	.globl _cm_two_points
 	.globl _pr_str
 	.globl _draw_scr
-	.globl _add_tile
-	.globl _get_byte
-	.globl _map_set
-	.globl _update_list_tile
-	.globl _draw_tile
 	.globl _p_t
 	.globl _ul_putc
 	.globl _cls
 	.globl _clear_update_list
+	.globl _unrle
 	.globl _unpack_bg_patterns
 	.globl _memfill
 	.globl _delay
 	.globl _aPLib_depack_VRAM
 	.globl _PSGStop
+	.globl _SG_doUpdateList
+	.globl _SG_setUpdateList
 	.globl _UNSAFE_SG_copySpritestoSAT
+	.globl _SG_resetPauseRequest
+	.globl _SG_queryPauseRequested
 	.globl _SG_getKeysStatus
-	.globl _SG_setStp
 	.globl _SG_getStp
-	.globl _SG_finalizeSprites
 	.globl _SG_addMetaSprite1x1
 	.globl _SG_initSprites
-	.globl _SG_fillTile
 	.globl _SG_setTile
-	.globl _SG_setNextTileatXY
 	.globl _SG_waitForVBlank
 	.globl _SG_setSpriteMode
 	.globl _SG_VDPturnOffFeature
@@ -159,12 +154,9 @@
 	.globl _c_locks
 	.globl _c_decos
 	.globl _c_map
-	.globl _c_pal_fg
-	.globl _c_pal_bg
 	.globl _spr_enems
 	.globl _c_behs
 	.globl _c_ts_tmaps
-	.globl _c_ts_pals
 	.globl _c_map_size
 	.globl _c_map_h
 	.globl _c_map_w
@@ -313,8 +305,6 @@
 	.globl _chac_chacs_t2
 	.globl _chac_chacs_t1
 	.globl _chac_chacs_times
-	.globl _chac_chacs_add
-	.globl _player_render
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -549,17 +539,11 @@ _c_map_h::
 	.ds 1
 _c_map_size::
 	.ds 1
-_c_ts_pals::
-	.ds 2
 _c_ts_tmaps::
 	.ds 2
 _c_behs::
 	.ds 2
 _spr_enems::
-	.ds 2
-_c_pal_bg::
-	.ds 2
-_c_pal_fg::
 	.ds 2
 _c_map::
 	.ds 2
@@ -741,26 +725,30 @@ _game_mode::
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;engine/printer.h:8: void clear_update_list (void) {
+;engine/hotspots.h:7: void hotspots_load (void) {
 ;	---------------------------------
-; Function clear_update_list
+; Function hotspots_load
 ; ---------------------------------
-_clear_update_list::
-;engine/printer.h:9: memfill (update_list, 0, UPDATE_LIST_SIZE*3);
-	ld	de,#_update_list
-	ld	hl,#0x0060
-	push	hl
-	xor	a, a
-	push	af
-	inc	sp
-	push	de
-	call	_memfill
-	pop	af
-	pop	af
-	inc	sp
-;engine/printer.h:10: update_index = 0;
-	ld	hl,#_update_index + 0
+_hotspots_load::
+;engine/hotspots.h:9: gp_gen = (unsigned char *) c_hotspots;
+	ld	hl,(_c_hotspots)
+	ld	(_gp_gen),hl
+;engine/hotspots.h:11: for (gpit = 0; gpit < MAP_SIZE; gpit ++) {
+	ld	hl,#_gpit + 0
 	ld	(hl), #0x00
+	ld	de,#_hact+0
+00102$:
+;engine/hotspots.h:16: hact [gpit] = 1;
+	ld	hl,(_gpit)
+	ld	h,#0x00
+	add	hl,de
+	ld	(hl),#0x01
+;engine/hotspots.h:11: for (gpit = 0; gpit < MAP_SIZE; gpit ++) {
+	ld	hl, #_gpit+0
+	inc	(hl)
+	ld	a,(#_gpit + 0)
+	sub	a, #0x18
+	jr	C,00102$
 	ret
 _chac_chacs_times:
 	.db #0x00	; 0
@@ -1152,1006 +1140,6 @@ _l_music:
 	.db #0x00	; 0
 	.db #0x01	; 1
 	.db #0x02	; 2
-;engine/printer.h:13: void cls (void) {
-;	---------------------------------
-; Function cls
-; ---------------------------------
-_cls::
-;engine/printer.h:14: SG_setNextTileatXY (0, 0);
-	ld	hl,#0x0000
-	push	hl
-	call	_SG_setNextTileatXY
-;engine/printer.h:15: SG_fillTile (0, 768);
-	ld	hl, #0x0300
-	ex	(sp),hl
-	xor	a, a
-	push	af
-	inc	sp
-	call	_SG_fillTile
-	pop	af
-	inc	sp
-	ret
-;engine/printer.h:19: void ul_putc (void) {
-;	---------------------------------
-; Function ul_putc
-; ---------------------------------
-_ul_putc::
-;engine/printer.h:20: update_list [update_index++] = MSB (gp_addr);
-	ld	hl,#_update_index + 0
-	ld	e, (hl)
-	ld	hl, #_update_index+0
-	inc	(hl)
-	ld	hl,#_update_list
-	ld	d,#0x00
-	add	hl, de
-	ld	iy,#_gp_addr
-	ld	d,1 (iy)
-	ld	(hl),d
-;engine/printer.h:21: update_list [update_index++] = LSB (gp_addr++);
-	ld	hl,#_update_index + 0
-	ld	d, (hl)
-	ld	hl, #_update_index+0
-	inc	(hl)
-	ld	a,#<(_update_list)
-	add	a, d
-	ld	e,a
-	ld	a,#>(_update_list)
-	adc	a, #0x00
-	ld	d,a
-	ld	bc,(_gp_addr)
-	ld	hl, #_gp_addr+0
-	inc	(hl)
-	jr	NZ,00103$
-	ld	hl, #_gp_addr+1
-	inc	(hl)
-00103$:
-	ld	a,c
-	ld	(de),a
-;engine/printer.h:22: update_list [update_index++] = _n;
-	ld	hl,#_update_index + 0
-	ld	e, (hl)
-	ld	hl, #_update_index+0
-	inc	(hl)
-	ld	hl,#_update_list
-	ld	d,#0x00
-	add	hl, de
-	ld	a,(#__n + 0)
-	ld	(hl),a
-	ret
-;engine/printer.h:26: void p_t (void) {
-;	---------------------------------
-; Function p_t
-; ---------------------------------
-_p_t::
-;engine/printer.h:27: rda = _n; gp_addr = (_y << 5) + _x + PNTADDRESS;
-	ld	a,(#__n + 0)
-	ld	(#_rda + 0),a
-	ld	iy,#__y
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	ex	de,hl
-	ld	iy,#__x
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl,de
-	ex	de,hl
-	ld	hl,#0x1800
-	add	hl,de
-	ld	(_gp_addr),hl
-;engine/printer.h:28: _n = ((rda/10)+16); ul_putc ();
-	ld	a,#0x0A
-	push	af
-	inc	sp
-	ld	a,(_rda)
-	push	af
-	inc	sp
-	call	__divuchar
-	pop	af
-	ld	a,l
-	ld	hl,#__n
-	add	a, #0x10
-	ld	(hl),a
-	call	_ul_putc
-;engine/printer.h:29: _n = ((rda%10)+16); ul_putc ();
-	ld	a,#0x0A
-	push	af
-	inc	sp
-	ld	a,(_rda)
-	push	af
-	inc	sp
-	call	__moduchar
-	pop	af
-	ld	a,l
-	ld	hl,#__n
-	add	a, #0x10
-	ld	(hl),a
-	jp  _ul_putc
-;engine/printer.h:34: void draw_tile (void) {
-;	---------------------------------
-; Function draw_tile
-; ---------------------------------
-_draw_tile::
-;engine/printer.h:38: gp_tmap = c_ts_tmaps + (_t << 2);
-	ld	iy,#__t
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl, hl
-	ld	d,l
-	ld	e,h
-	ld	hl,#_gp_tmap
-	ld	a,(#_c_ts_tmaps + 0)
-	add	a, d
-	ld	(hl),a
-	ld	a,(#_c_ts_tmaps + 1)
-	adc	a, e
-	inc	hl
-	ld	(hl),a
-;engine/printer.h:39: gp_addr = (_y << 5) + _x + PNTADDRESS;
-	ld	iy,#__y
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	ex	de,hl
-	ld	iy,#__x
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl,de
-	ex	de,hl
-	ld	hl,#0x1800
-	add	hl,de
-	ld	(_gp_addr),hl
-;engine/printer.h:41: if (_y == TOP_ADJUST) {
-	ld	a,(#__y + 0)
-	dec	a
-	jr	NZ,00102$
-;engine/printer.h:42: gp_tmap += 2;		
-	ld	hl,#_gp_tmap
-	ld	a,(hl)
-	add	a, #0x02
-	ld	(hl),a
-	inc	hl
-	ld	a,(hl)
-	adc	a, #0x00
-	ld	(hl),a
-	jr	00103$
-00102$:
-;engine/printer.h:44: VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
-	ld	a,(#_gp_addr + 0)
-	out	(_VDPControlPort),a
-	ld	a,(#_gp_addr + 1)
-	set	6, a
-	out	(_VDPControlPort),a
-;engine/printer.h:45: VDPDataPort = *gp_tmap ++;
-	ld	hl,(_gp_tmap)
-	ld	a,(hl)
-	out	(_VDPDataPort),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
-	jr	NZ,00118$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
-00118$:
-;engine/printer.h:46: VDPDataPort = *gp_tmap ++;
-	ld	hl,(_gp_tmap)
-	ld	a,(hl)
-	out	(_VDPDataPort),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
-	jr	NZ,00119$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
-00119$:
-00103$:
-;engine/printer.h:49: if (_y < TOP_ADJUST + 22) {
-	ld	a,(#__y + 0)
-	sub	a, #0x17
-	ret	NC
-;engine/printer.h:50: gp_addr += 32;
-	ld	hl,#_gp_addr
-	ld	a,(hl)
-	add	a, #0x20
-	ld	(hl),a
-	inc	hl
-	ld	a,(hl)
-	adc	a, #0x00
-	ld	(hl),a
-;engine/printer.h:51: VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
-	ld	a,(#_gp_addr + 0)
-	out	(_VDPControlPort),a
-	ld	a,(#_gp_addr + 1)
-	set	6, a
-	out	(_VDPControlPort),a
-;engine/printer.h:52: VDPDataPort = *gp_tmap ++;
-	ld	hl,(_gp_tmap)
-	ld	a,(hl)
-	out	(_VDPDataPort),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
-	jr	NZ,00120$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
-00120$:
-;engine/printer.h:53: VDPDataPort = *gp_tmap ++;
-	ld	hl,(_gp_tmap)
-	ld	a,(hl)
-	out	(_VDPDataPort),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
-	ret	NZ
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
-	ret
-;engine/printer.h:59: void update_list_tile (void) {
-;	---------------------------------
-; Function update_list_tile
-; ---------------------------------
-_update_list_tile::
-;engine/printer.h:60: gp_tmap = c_ts_tmaps + (_t << 2);
-	ld	iy,#__t
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl, hl
-	ld	d,l
-	ld	e,h
-	ld	hl,#_gp_tmap
-	ld	a,(#_c_ts_tmaps + 0)
-	add	a, d
-	ld	(hl),a
-	ld	a,(#_c_ts_tmaps + 1)
-	adc	a, e
-	inc	hl
-	ld	(hl),a
-;engine/printer.h:61: gp_addr = ((_y << 5) + _x + PNTADDRESS);
-	ld	iy,#__y
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	ex	de,hl
-	ld	iy,#__x
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl,de
-	ex	de,hl
-	ld	hl,#0x1800
-	add	hl,de
-	ld	(_gp_addr),hl
-;engine/printer.h:63: _n = *gp_tmap ++; ul_putc ();
-	ld	hl,(_gp_tmap)
-	ld	a,(hl)
-	ld	(#__n + 0),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
-	jr	NZ,00103$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
-00103$:
-	call	_ul_putc
-;engine/printer.h:64: _n = *gp_tmap ++; ul_putc ();
-	ld	hl,(_gp_tmap)
-	ld	a,(hl)
-	ld	(#__n + 0),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
-	jr	NZ,00104$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
-00104$:
-	call	_ul_putc
-;engine/printer.h:65: gp_addr += 30;
-	ld	hl,#_gp_addr
-	ld	a,(hl)
-	add	a, #0x1E
-	ld	(hl),a
-	inc	hl
-	ld	a,(hl)
-	adc	a, #0x00
-	ld	(hl),a
-;engine/printer.h:67: _n = *gp_tmap ++; ul_putc ();
-	ld	hl,(_gp_tmap)
-	ld	a,(hl)
-	ld	(#__n + 0),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
-	jr	NZ,00105$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
-00105$:
-	call	_ul_putc
-;engine/printer.h:68: _n = *gp_tmap   ; ul_putc ();
-	ld	hl,(_gp_tmap)
-	ld	a,(hl)
-	ld	(#__n + 0),a
-	jp  _ul_putc
-;engine/printer.h:73: void map_set (void) {
-;	---------------------------------
-; Function map_set
-; ---------------------------------
-_map_set::
-;engine/printer.h:74: map_buff [COORDS (_x, _y)] = _t;
-	ld	de,#_map_buff+0
-	ld	a,(#__y + 0)
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-	ld	hl,#__x + 0
-	or	a,(hl)
-	ld	l, a
-	ld	h,#0x00
-	add	hl,de
-	ld	a,(#__t + 0)
-	ld	(hl),a
-;engine/printer.h:78: _x = _x << 1; _y = TOP_ADJUST + (_y << 1);
-	ld	iy,#__x
-	sla	0 (iy)
-	ld	a,(#__y + 0)
-	add	a, a
-	ld	hl,#__y
-	inc	a
-	ld	(hl),a
-;engine/printer.h:79: update_list_tile (); 
-	jp  _update_list_tile
-;engine/printer.h:82: unsigned char get_byte (void) {
-;	---------------------------------
-; Function get_byte
-; ---------------------------------
-_get_byte::
-;engine/printer.h:83: -- rdit; return *gp_gen ++;
-	ld	hl, #_rdit+0
-	dec	(hl)
-	ld	hl,(_gp_gen)
-	ld	d,(hl)
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00103$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00103$:
-	ld	l,d
-	ret
-;engine/../engine/mapmods/map_renderer_complex.h:11: void add_tile (void) {
-;	---------------------------------
-; Function add_tile
-; ---------------------------------
-_add_tile::
-;engine/../engine/mapmods/map_renderer_complex.h:12: map_buff [rdm] = rda;
-	ld	de,#_map_buff+0
-	ld	hl,(_rdm)
-	ld	h,#0x00
-	add	hl,de
-	ld	a,(#_rda + 0)
-	ld	(hl),a
-;engine/../engine/mapmods/map_renderer_complex.h:13: ++ rdm;
-	ld	hl, #_rdm+0
-	inc	(hl)
-	ret
-;engine/../engine/mapmods/map_renderer_complex.h:16: void draw_scr (void) {
-;	---------------------------------
-; Function draw_scr
-; ---------------------------------
-_draw_scr::
-	dec	sp
-;engine/../engine/mapmods/map_renderer_complex.h:20: rdm = 0;
-	ld	hl,#_rdm + 0
-	ld	(hl), #0x00
-;engine/../engine/mapmods/map_renderer_complex.h:86: gp_gen = c_map [n_pant];
-	ld	iy,#_n_pant
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	ld	de,(_c_map)
-	add	hl,de
-	ld	a,(hl)
-	ld	iy,#_gp_gen
-	ld	0 (iy),a
-	inc	hl
-	ld	a,(hl)
-	ld	(#_gp_gen + 1),a
-;engine/../engine/mapmods/map_renderer_complex.h:88: while (rdm < 192) {
-00104$:
-;engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
-	ld	de,(_gp_gen)
-	ld	bc,(_gp_gen)
-	inc	bc
-;engine/../engine/mapmods/map_renderer_complex.h:88: while (rdm < 192) {
-	ld	a,(#_rdm + 0)
-	sub	a, #0xC0
-	jr	NC,00106$
-;engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
-	ld	a,(de)
-	ld	(#_rdt + 0),a
-	ld	(_gp_gen),bc
-;engine/../engine/mapmods/map_renderer_complex.h:90: gp_gen ++;
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00218$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00218$:
-;engine/../engine/mapmods/map_renderer_complex.h:91: rda = rdt & 0x0f;
-	ld	a,(#_rdt + 0)
-	and	a, #0x0F
-	ld	(#_rda + 0),a
-;engine/../engine/mapmods/map_renderer_complex.h:93: rdct = rdt;
-	ld	a,(#_rdt + 0)
-	ld	(#_rdct + 0),a
-;engine/../engine/mapmods/map_renderer_complex.h:94: while (rdct >= 16) {
-00101$:
-	ld	a,(#_rdct + 0)
-	sub	a, #0x10
-	jr	C,00103$
-;engine/../engine/mapmods/map_renderer_complex.h:95: add_tile (); rdct -= 16;
-	call	_add_tile
-	ld	hl,#_rdct
-	ld	a,(hl)
-	add	a,#0xF0
-	ld	(hl),a
-	jr	00101$
-00103$:
-;engine/../engine/mapmods/map_renderer_complex.h:96: } add_tile ();
-	call	_add_tile
-	jr	00104$
-00106$:
-;engine/../engine/mapmods/map_renderer_complex.h:141: if (c_decos) {
-	ld	a,(#_c_decos + 0)
-	or	a, a
-	jr	Z,00117$
-;engine/../engine/mapmods/map_renderer_complex.h:163: while (rda = *gp_gen ++) {
-00113$:
-	ld	a,(de)
-	ld	d,a
-	ld	(_gp_gen),bc
-	ld	hl,#_rda + 0
-	ld	(hl), d
-	ld	a,d
-	or	a, a
-	jr	Z,00117$
-;engine/../engine/mapmods/map_renderer_complex.h:164: if (rda & 0x80) {
-	ld	hl,#_rda+0
-	bit	7, (hl)
-	jr	Z,00108$
-;engine/../engine/mapmods/map_renderer_complex.h:165: rda &= 0x7F;
-	ld	a,(#_rda + 0)
-	res	7, a
-	ld	(#_rda + 0),a
-;engine/../engine/mapmods/map_renderer_complex.h:166: rdct = 1;
-	ld	hl,#_rdct + 0
-	ld	(hl), #0x01
-	jr	00110$
-00108$:
-;engine/../engine/mapmods/map_renderer_complex.h:168: rdct = *gp_gen ++;
-	ld	hl,(_gp_gen)
-	ld	a,(hl)
-	ld	(#_rdct + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00220$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00220$:
-;engine/../engine/mapmods/map_renderer_complex.h:169: gp_gen ++;
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00221$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00221$:
-;engine/../engine/mapmods/map_renderer_complex.h:171: while (rdct --) {
-00110$:
-	ld	a,(#_rdct + 0)
-	ld	iy,#0
-	add	iy,sp
-	ld	0 (iy),a
-	ld	hl, #_rdct+0
-	dec	(hl)
-;engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
-	ld	de,(_gp_gen)
-	ld	bc,(_gp_gen)
-	inc	bc
-;engine/../engine/mapmods/map_renderer_complex.h:171: while (rdct --) {
-	ld	hl, #0+0
-	add	hl, sp
-	ld	a, (hl)
-	or	a, a
-	jr	Z,00113$
-;engine/../engine/mapmods/map_renderer_complex.h:172: rdm = *gp_gen ++;
-	ld	a,(de)
-	ld	(#_rdm + 0),a
-	ld	(_gp_gen),bc
-;engine/../engine/mapmods/map_renderer_complex.h:173: gp_gen ++;
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00222$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00222$:
-;engine/../engine/mapmods/map_renderer_complex.h:174: add_tile ();
-	call	_add_tile
-	jr	00110$
-00117$:
-;engine/../engine/mapmods/map_renderer_complex.h:185: gp_gen = c_locks; rda = 0;
-	ld	hl,(_c_locks)
-	ld	(_gp_gen),hl
-	ld	hl,#_rda + 0
-	ld	(hl), #0x00
-;engine/../engine/mapmods/map_renderer_complex.h:186: gpit = c_max_bolts; while (gpit --) {
-	ld	a,(#_c_max_bolts + 0)
-	ld	(#_gpit + 0),a
-	ld	de,#_lkact+0
-00122$:
-	ld	hl,#_gpit + 0
-	ld	c, (hl)
-	ld	hl, #_gpit+0
-	dec	(hl)
-	ld	a,c
-	or	a, a
-	jr	Z,00124$
-;engine/../engine/mapmods/map_renderer_complex.h:187: rdb = *gp_gen ++;
-	ld	hl,(_gp_gen)
-	ld	a,(hl)
-	ld	(#_rdb + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00223$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00223$:
-;engine/../engine/mapmods/map_renderer_complex.h:188: rdm = *gp_gen ++;
-	ld	hl,(_gp_gen)
-	ld	a,(hl)
-	ld	(#_rdm + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00224$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00224$:
-;engine/../engine/mapmods/map_renderer_complex.h:189: if (n_pant == rdb) {
-	ld	a,(#_n_pant + 0)
-	ld	iy,#_rdb
-	sub	a, 0 (iy)
-	jr	NZ,00122$
-;engine/../engine/mapmods/map_renderer_complex.h:190: if (!lkact [gpit]) add_tile ();
-	ld	hl,(_gpit)
-	ld	h,#0x00
-	add	hl,de
-	ld	a,(hl)
-	or	a, a
-	jr	NZ,00122$
-	push	de
-	call	_add_tile
-	pop	de
-	jr	00122$
-00124$:
-;engine/../engine/mapmods/map_renderer_complex.h:201: _x = 0; _y = TOP_ADJUST; gp_ram = map_buff;
-	ld	hl,#__x + 0
-	ld	(hl), #0x00
-	ld	hl,#__y + 0
-	ld	(hl), #0x01
-	ld	de,#_map_buff+0
-	ld	(_gp_ram),de
-;engine/../engine/mapmods/map_renderer_complex.h:202: for (rdm = 0; rdm < 192; rdm ++) {
-	ld	hl,#_rdm + 0
-	ld	(hl), #0x00
-00134$:
-;engine/../engine/mapmods/map_renderer_complex.h:203: rdt = *gp_ram ++;
-	ld	hl,(_gp_ram)
-	ld	a,(hl)
-	ld	(#_rdt + 0),a
-	ld	hl, #_gp_ram+0
-	inc	(hl)
-	jr	NZ,00227$
-	ld	hl, #_gp_ram+1
-	inc	(hl)
-00227$:
-;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:40: if (rdt >= CHAC_CHAC_DETECT_TILE && rdt <= CHAC_CHAC_DETECT_TILE + 2) {
-	ld	a,(#_rdt + 0)
-	sub	a, #0x27
-	jr	C,00126$
-	ld	a,#0x29
-	ld	iy,#_rdt
-	sub	a, 0 (iy)
-	jr	C,00126$
-;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:41: chac_chacs_add ();
-	push	de
-	call	_chac_chacs_add
-	pop	de
-;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:43: rdt = map_buff [rdm] = 0;
-	ld	hl,(_rdm)
-	ld	h,#0x00
-	add	hl,de
-	ld	(hl),#0x00
-	ld	hl,#_rdt + 0
-	ld	(hl), #0x00
-00126$:
-;engine/../engine/mapmods/map_renderer_complex.h:220: _t = rdt; draw_tile ();
-	ld	a,(#_rdt + 0)
-	ld	(#__t + 0),a
-	push	de
-	call	_draw_tile
-	pop	de
-;engine/../engine/mapmods/map_renderer_complex.h:221: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
-	ld	a,(#__x + 0)
-	add	a, #0x02
-	and	a, #0x1F
-	ld	iy,#__x
-	ld	0 (iy),a
-	ld	a,(#__x + 0)
-	or	a, a
-	jr	NZ,00135$
-	ld	iy,#__y
-	inc	0 (iy)
-	ld	iy,#__y
-	inc	0 (iy)
-00135$:
-;engine/../engine/mapmods/map_renderer_complex.h:202: for (rdm = 0; rdm < 192; rdm ++) {
-	ld	iy,#_rdm
-	inc	0 (iy)
-	ld	a,(#_rdm + 0)
-	sub	a, #0xC0
-	jr	C,00134$
-;engine/../engine/mapmods/map_renderer_complex.h:225: gpit = max_chac_chacs; while (gpit --) {
-	ld	a,(#_max_chac_chacs + 0)
-	ld	(#_gpit + 0),a
-00131$:
-	ld	iy,#_gpit
-	ld	e,0 (iy)
-	ld	iy,#_gpit
-	dec	0 (iy)
-	ld	a,e
-	or	a, a
-	jr	Z,00136$
-;engine/../engine/mapmods/map_renderer_complex.h:226: _t = CHAC_CHAC_BASE_TILE + 6;
-	ld	iy,#__t
-	ld	0 (iy),#0x26
-;engine/../engine/mapmods/map_renderer_complex.h:227: _x = (chac_chacs_yx [gpit] & 0xf) << 1;
-	ld	a,(#_gpit + 0)
-	add	a, #<(_chac_chacs_yx)
-	ld	e,a
-	ld	a,#0x00
-	adc	a, #>(_chac_chacs_yx)
-	ld	d,a
-	ld	a,(de)
-	ld	l,a
-	and	a, #0x0F
-	add	a, a
-	ld	iy,#__x
-	ld	0 (iy),a
-;engine/../engine/mapmods/map_renderer_complex.h:228: _y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
-	ld	a,l
-	and	a, #0xF0
-	rrca
-	rrca
-	rrca
-	and	a,#0x1F
-	ld	hl,#__y
-	inc	a
-	ld	(hl),a
-;engine/../engine/mapmods/map_renderer_complex.h:229: draw_tile ();
-	call	_draw_tile
-;engine/../engine/mapmods/map_renderer_complex.h:230: _y += 2;
-	ld	hl, #__y+0
-	inc	(hl)
-	ld	hl, #__y+0
-	inc	(hl)
-;engine/../engine/mapmods/map_renderer_complex.h:231: draw_tile ();
-	call	_draw_tile
-;engine/../engine/mapmods/map_renderer_complex.h:232: _y += 2;
-	ld	hl, #__y+0
-	inc	(hl)
-	ld	hl, #__y+0
-	inc	(hl)
-;engine/../engine/mapmods/map_renderer_complex.h:233: draw_tile ();
-	call	_draw_tile
-	jr	00131$
-00136$:
-	inc	sp
-	ret
-;engine/printer.h:93: void pr_str (unsigned char *s) {
-;	---------------------------------
-; Function pr_str
-; ---------------------------------
-_pr_str::
-;engine/printer.h:94: SG_setNextTileatXY (_x, _y);
-	ld	a,(__y)
-	push	af
-	inc	sp
-	ld	a,(__x)
-	push	af
-	inc	sp
-	call	_SG_setNextTileatXY
-	pop	af
-;engine/printer.h:95: while (gpit = *s++) {
-	pop	bc
-	pop	de
-	push	de
-	push	bc
-00104$:
-	ld	a,(de)
-	inc	de
-;engine/printer.h:96: if (gpit == '%') {
-	ld	(#_gpit + 0),a
-	or	a,a
-	ret	Z
-	sub	a, #0x25
-	jr	NZ,00102$
-;engine/printer.h:97: ++ _y; SG_setNextTileatXY (_x, _y);
-	ld	hl, #__y+0
-	inc	(hl)
-	push	de
-	ld	a,(__y)
-	push	af
-	inc	sp
-	ld	a,(__x)
-	push	af
-	inc	sp
-	call	_SG_setNextTileatXY
-	pop	af
-	pop	de
-	jr	00104$
-00102$:
-;engine/printer.h:99: else SG_setTile (gpit - 32); 
-	ld	a,(#_gpit + 0)
-	add	a,#0xE0
-	push	de
-	push	af
-	inc	sp
-	call	_SG_setTile
-	inc	sp
-	pop	de
-	jr	00104$
-;engine/general.h:8: void cm_two_points (void) {
-;	---------------------------------
-; Function cm_two_points
-; ---------------------------------
-_cm_two_points::
-;engine/general.h:10: if (cy1 > 12 || cy2 > 12) { at1 = at2 = 0; return; }
-	ld	a,#0x0C
-	ld	iy,#_cy1
-	sub	a, 0 (iy)
-	jr	C,00101$
-	ld	a,#0x0C
-	ld	iy,#_cy2
-	sub	a, 0 (iy)
-	jr	NC,00102$
-00101$:
-	ld	hl,#_at2 + 0
-	ld	(hl), #0x00
-	ld	hl,#_at1 + 0
-	ld	(hl), #0x00
-	ret
-00102$:
-;engine/general.h:11: at1 = ATTR (cx1, cy1 ? cy1 - 1 : 0);
-	ld	a,(#_cy1 + 0)
-	or	a, a
-	jr	Z,00106$
-	ld	a,(#_cy1 + 0)
-	add	a,#0xFF
-	jr	00107$
-00106$:
-	ld	a,#0x00
-00107$:
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-	ld	hl,#_cx1 + 0
-	or	a,(hl)
-	ld	e,a
-	ld	hl,#_map_buff
-	ld	d,#0x00
-	add	hl, de
-	ld	e,(hl)
-	ld	hl,(_c_behs)
-	ld	d,#0x00
-	add	hl, de
-	ld	a,(hl)
-	ld	(#_at1 + 0),a
-;engine/general.h:12: at2 = ATTR (cx2, cy2 ? cy2 - 1 : 0);
-	ld	a,(#_cy2 + 0)
-	or	a, a
-	jr	Z,00108$
-	ld	a,(#_cy2 + 0)
-	add	a,#0xFF
-	jr	00109$
-00108$:
-	ld	a,#0x00
-00109$:
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-	ld	hl,#_cx2 + 0
-	or	a,(hl)
-	ld	e,a
-	ld	hl,#_map_buff
-	ld	d,#0x00
-	add	hl, de
-	ld	e,(hl)
-	ld	hl,(_c_behs)
-	ld	d,#0x00
-	add	hl, de
-	ld	a,(hl)
-	ld	(#_at2 + 0),a
-	ret
-;engine/general.h:71: void pad_read (void) {
-;	---------------------------------
-; Function pad_read
-; ---------------------------------
-_pad_read::
-;engine/general.h:74: pad_this_frame = pad0;
-	ld	hl,(_pad0)
-	ld	(_pad_this_frame),hl
-;engine/general.h:75: pad0 = SG_getKeysStatus ();			// Read pads here.
-	call	_SG_getKeysStatus
-	ld	(_pad0),hl
-;engine/general.h:76: pad_this_frame = (pad_this_frame ^ pad0) & pad0;
-	ld	a,(#_pad_this_frame + 0)
-	ld	iy,#_pad0
-	xor	a, 0 (iy)
-	ld	d,a
-	ld	a,(#_pad_this_frame + 1)
-	ld	iy,#_pad0
-	xor	a, 1 (iy)
-	ld	e,a
-	ld	a,d
-	ld	iy,#_pad0
-	and	a, 0 (iy)
-	ld	(#_pad_this_frame + 0),a
-	ld	a,e
-	ld	iy,#_pad0
-	and	a, 1 (iy)
-	ld	(#_pad_this_frame + 1),a
-	ret
-;engine/general.h:82: unsigned char distance (void) {
-;	---------------------------------
-; Function distance
-; ---------------------------------
-_distance::
-;engine/general.h:83: rda = DELTA (prx, rdx); // dx
-	ld	hl,#_rdx
-	ld	a,(#_prx + 0)
-	sub	a, (hl)
-	jr	NC,00103$
-	ld	hl,#_prx
-	ld	a,(#_rdx + 0)
-	sub	a, (hl)
-	jr	00104$
-00103$:
-	ld	hl,#_rdx
-	ld	a,(#_prx + 0)
-	sub	a, (hl)
-00104$:
-	ld	(#_rda + 0),a
-;engine/general.h:84: rdb = DELTA (pry, rdy); // dy
-	ld	hl,#_rdy
-	ld	a,(#_pry + 0)
-	sub	a, (hl)
-	jr	NC,00105$
-	ld	hl,#_pry
-	ld	a,(#_rdy + 0)
-	sub	a, (hl)
-	jr	00106$
-00105$:
-	ld	hl,#_rdy
-	ld	a,(#_pry + 0)
-	sub	a, (hl)
-00106$:
-	ld	(#_rdb + 0),a
-;engine/general.h:85: rdc = MIN (rda, rdb);
-	ld	hl,#_rdb
-	ld	a,(#_rda + 0)
-	cp	a,(hl)
-	jr	C,00108$
-	ld	a,(#_rdb + 0)
-00108$:
-	ld	(#_rdc + 0),a
-;engine/general.h:86: return (rda + rdb - (rdc >> 1) - (rdc >> 2) + (rdc >> 4));
-	ld	hl,#_rdb
-	ld	a,(#_rda + 0)
-	add	a, (hl)
-	ld	d,a
-	ld	iy,#_rdc
-	ld	e,0 (iy)
-	srl	e
-	ld	a,d
-	sub	a, e
-	ld	d,a
-	ld	iy,#_rdc
-	ld	e,0 (iy)
-	srl	e
-	srl	e
-	ld	a,d
-	sub	a, e
-	ld	c,a
-	ld	a,(#_rdc + 0)
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0x0F
-	ld	l,a
-	add	hl, bc
-	ret
-;engine/general.h:91: void jump_start (void) {
-;	---------------------------------
-; Function jump_start
-; ---------------------------------
-_jump_start::
-;engine/general.h:92: pj = 1; pctj = 0; 
-	ld	hl,#_pj + 0
-	ld	(hl), #0x01
-	ld	hl,#_pctj + 0
-	ld	(hl), #0x00
-;engine/general.h:108: pvy = -PLAYER_VY_JUMP_INITIAL;
-	ld	hl,#0xFFC0
-	ld	(_pvy),hl
-	ret
-;engine/general.h:114: void update_cycle (void) {
-;	---------------------------------
-; Function update_cycle
-; ---------------------------------
-_update_cycle::
-;engine/general.h:115: SG_finalizeSprites ();
-	call	_SG_finalizeSprites
-;engine/general.h:116: SG_waitForVBlank ();
-	call	_SG_waitForVBlank
-;engine/general.h:117: UNSAFE_SG_copySpritestoSAT ();
-	call	_UNSAFE_SG_copySpritestoSAT
-;engine/general.h:119: SG_initSprites ();
-	call	_SG_initSprites
-;engine/general.h:120: clear_update_list ();
-	jp  _clear_update_list
-;engine/general.h:123: void do_update_list_and_wait (void) {
-;	---------------------------------
-; Function do_update_list_and_wait
-; ---------------------------------
-_do_update_list_and_wait::
-;engine/general.h:124: SG_waitForVBlank ();
-	jp  _SG_waitForVBlank
-;engine/hotspots.h:7: void hotspots_load (void) {
-;	---------------------------------
-; Function hotspots_load
-; ---------------------------------
-_hotspots_load::
-;engine/hotspots.h:9: gp_gen = (unsigned char *) c_hotspots;
-	ld	hl,(_c_hotspots)
-	ld	(_gp_gen),hl
-;engine/hotspots.h:11: for (gpit = 0; gpit < MAP_SIZE; gpit ++) {
-	ld	hl,#_gpit + 0
-	ld	(hl), #0x00
-	ld	de,#_hact+0
-00102$:
-;engine/hotspots.h:16: hact [gpit] = 1;
-	ld	hl,(_gpit)
-	ld	h,#0x00
-	add	hl,de
-	ld	(hl),#0x01
-;engine/hotspots.h:11: for (gpit = 0; gpit < MAP_SIZE; gpit ++) {
-	ld	hl, #_gpit+0
-	inc	(hl)
-	ld	a,(#_gpit + 0)
-	sub	a, #0x18
-	jr	C,00102$
-	ret
 ;engine/hotspots.h:20: void hotspots_paint (void) {
 ;	---------------------------------
 ; Function hotspots_paint
@@ -2182,7 +1170,7 @@ _hotspots_paint::
 	ld	d,(hl)
 ;engine/hotspots.h:37: hrx, hry + SPRITE_ADJUST, 
 	ld	a,(#_hry + 0)
-	add	a, #0xF8
+	add	a, #0xF7
 	ld	h,a
 	push	de
 	push	hl
@@ -2254,1904 +1242,6 @@ _hotspots_create::
 ;engine/hotspots.h:58: } else hrt = 0;
 	ld	hl,#_hrt + 0
 	ld	(hl), #0x00
-	ret
-;engine/tile_chac_chac.h:6: void chac_chacs_add (void) {
-;	---------------------------------
-; Function chac_chacs_add
-; ---------------------------------
-_chac_chacs_add::
-;engine/tile_chac_chac.h:8: if (max_chac_chacs == MAX_CHAC_CHACS) return;
-	ld	a,(#_max_chac_chacs + 0)
-	sub	a, #0x04
-	ret	Z
-	jr	00102$
-00102$:
-;engine/tile_chac_chac.h:9: rda = 1 + (rdt - CHAC_CHAC_DETECT_TILE);
-	ld	hl,#_rda
-	ld	a,(#_rdt + 0)
-	add	a, #0xDA
-	ld	(hl),a
-;engine/tile_chac_chac.h:10: rdb = rda << 4;
-	ld	a,(#_rda + 0)
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-;engine/tile_chac_chac.h:11: rdc = (rdb << 1) + rdb;
-	ld	(#_rdb + 0),a
-	add	a, a
-	ld	hl,#_rdb
-	ld	iy,#_rdc
-	add	a, (hl)
-	ld	0 (iy),a
-;engine/tile_chac_chac.h:13: chac_chacs_yx [max_chac_chacs] = rdm;
-	ld	de,#_chac_chacs_yx+0
-	ld	hl,(_max_chac_chacs)
-	ld	h,#0x00
-	add	hl,de
-	ld	a,(#_rdm + 0)
-	ld	(hl),a
-;engine/tile_chac_chac.h:14: chac_chacs_state [max_chac_chacs] = 0;
-	ld	de,#_chac_chacs_state+0
-	ld	hl,(_max_chac_chacs)
-	ld	h,#0x00
-	add	hl,de
-	ld	(hl),#0x00
-;engine/tile_chac_chac.h:15: chac_chacs_idlewait [max_chac_chacs] = rdc;
-	ld	de,#_chac_chacs_idlewait+0
-	ld	hl,(_max_chac_chacs)
-	ld	h,#0x00
-	add	hl,de
-	ld	a,(#_rdc + 0)
-	ld	(hl),a
-;engine/tile_chac_chac.h:16: chac_chacs_ct [max_chac_chacs] = rdc;
-	ld	de,#_chac_chacs_ct+0
-	ld	hl,(_max_chac_chacs)
-	ld	h,#0x00
-	add	hl,de
-	ld	a,(#_rdc + 0)
-	ld	(hl),a
-;engine/tile_chac_chac.h:18: ++ max_chac_chacs;
-	ld	hl, #_max_chac_chacs+0
-	inc	(hl)
-	ret
-;engine/tile_chac_chac.h:21: void chac_chacs_do (void) {
-;	---------------------------------
-; Function chac_chacs_do
-; ---------------------------------
-_chac_chacs_do::
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-	push	af
-;engine/tile_chac_chac.h:22: gpit = max_chac_chacs; while (gpit --) {
-	ld	a,(#_max_chac_chacs + 0)
-	ld	(#_gpit + 0),a
-00106$:
-	ld	iy,#_gpit
-	ld	d,0 (iy)
-	ld	iy,#_gpit
-	dec	0 (iy)
-	ld	a,d
-	or	a, a
-	jp	Z,00108$
-;engine/tile_chac_chac.h:23: if (chac_chacs_ct [gpit]) -- chac_chacs_ct [gpit]; else {
-	ld	a,(#_gpit + 0)
-	add	a, #<(_chac_chacs_ct)
-	ld	-2 (ix),a
-	ld	a,#0x00
-	adc	a, #>(_chac_chacs_ct)
-	ld	-1 (ix),a
-	pop	hl
-	push	hl
-	ld	a,(hl)
-	or	a, a
-	jr	Z,00104$
-	add	a,#0xFF
-	pop	hl
-	push	hl
-	ld	(hl),a
-	jr	00106$
-00104$:
-;engine/tile_chac_chac.h:24: ++ chac_chacs_state [gpit];
-	ld	a,#<(_chac_chacs_state)
-	ld	hl,#_gpit
-	add	a, (hl)
-	ld	e,a
-	ld	a,#>(_chac_chacs_state)
-	adc	a, #0x00
-	ld	d,a
-	ld	a,(de)
-	inc	a
-	ld	(de),a
-;engine/tile_chac_chac.h:25: if (chac_chacs_state [gpit] == 6) chac_chacs_state [gpit] = 0;
-	ld	a,#<(_chac_chacs_state)
-	ld	hl,#_gpit
-	add	a, (hl)
-	ld	e,a
-	ld	a,#>(_chac_chacs_state)
-	adc	a, #0x00
-	ld	d,a
-	ld	a,(de)
-	sub	a, #0x06
-	jr	NZ,00102$
-	xor	a, a
-	ld	(de),a
-00102$:
-;engine/tile_chac_chac.h:26: chac_chacs_ct [gpit] = chac_chacs_state [gpit] ? 
-	ld	a,#<(_chac_chacs_ct)
-	ld	hl,#_gpit
-	add	a, (hl)
-	ld	c,a
-	ld	a,#>(_chac_chacs_ct)
-	adc	a, #0x00
-	ld	b,a
-	ld	iy,#_chac_chacs_state
-	ld	de,(_gpit)
-	ld	d,#0x00
-	add	iy, de
-	ld	e, 0 (iy)
-	ld	a,e
-	or	a, a
-	jr	Z,00115$
-;engine/tile_chac_chac.h:27: (chac_chacs_times [chac_chacs_state [gpit]]) :
-	ld	hl,#_chac_chacs_times
-	ld	d,#0x00
-	add	hl, de
-	ld	a,(hl)
-	jr	00116$
-00115$:
-;engine/tile_chac_chac.h:28: chac_chacs_idlewait [gpit];
-	ld	iy,#_chac_chacs_idlewait
-	ld	de,(_gpit)
-	ld	d,#0x00
-	add	iy, de
-	ld	a, 0 (iy)
-00116$:
-	ld	(bc),a
-;engine/tile_chac_chac.h:31: chac_chacs_queue [chac_chacs_queue_write] = gpit;
-	ld	a,#<(_chac_chacs_queue)
-	ld	hl,#_chac_chacs_queue_write
-	add	a, (hl)
-	ld	e,a
-	ld	a,#>(_chac_chacs_queue)
-	adc	a, #0x00
-	ld	d,a
-	ld	a,(#_gpit + 0)
-	ld	(de),a
-;engine/tile_chac_chac.h:32: chac_chacs_queue_write = (chac_chacs_queue_write + 1) & (MAX_CHAC_CHACKS_QUEUED-1);
-	ld	a,(#_chac_chacs_queue_write + 0)
-	inc	a
-	and	a, #0x0F
-	ld	iy,#_chac_chacs_queue_write
-	ld	0 (iy),a
-	jp	00106$
-00108$:
-;engine/tile_chac_chac.h:36: if (chac_chacs_queue_write != chac_chacs_queue_read) {
-	ld	a,(#_chac_chacs_queue_write + 0)
-	ld	iy,#_chac_chacs_queue_read
-	sub	a, 0 (iy)
-	jp	Z,00113$
-;engine/tile_chac_chac.h:37: gpit = chac_chacs_queue [chac_chacs_queue_read];
-	ld	a,#<(_chac_chacs_queue)
-	ld	hl,#_chac_chacs_queue_read
-	add	a, (hl)
-	ld	e,a
-	ld	a,#>(_chac_chacs_queue)
-	adc	a, #0x00
-	ld	d,a
-	ld	a,(de)
-	ld	(#_gpit + 0),a
-;engine/tile_chac_chac.h:38: chac_chacs_queue_read = (chac_chacs_queue_read + 1) & (MAX_CHAC_CHACKS_QUEUED-1);
-	ld	a,(#_chac_chacs_queue_read + 0)
-	inc	a
-	and	a, #0x0F
-	ld	(#_chac_chacs_queue_read + 0),a
-;engine/tile_chac_chac.h:39: rdm = chac_chacs_state [gpit];
-	ld	a,#<(_chac_chacs_state)
-	ld	hl,#_gpit
-	add	a, (hl)
-	ld	e,a
-	ld	a,#>(_chac_chacs_state)
-	adc	a, #0x00
-	ld	d,a
-	ld	a,(de)
-;engine/tile_chac_chac.h:40: if (rdm == 3) { 
-	ld	(#_rdm + 0),a
-	sub	a, #0x03
-	jr	NZ,00110$
-;engine/tile_chac_chac.h:41: shaker_ct = 8; 
-	ld	hl,#_shaker_ct + 0
-	ld	(hl), #0x08
-00110$:
-;engine/tile_chac_chac.h:44: rdx = chac_chacs_yx [gpit]; rdy = rdx >> 4; rdx &= 0xf;
-	ld	de,#_chac_chacs_yx+0
-	ld	hl,(_gpit)
-	ld	h,#0x00
-	add	hl,de
-	ld	a,(hl)
-	ld	(#_rdx + 0),a
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0x0F
-	ld	(#_rdy + 0),a
-	ld	a,(#_rdx + 0)
-	and	a, #0x0F
-;engine/tile_chac_chac.h:45: _x = rdx; _y = rdy    ; _t = chac_chacs_t1 [rdm]; map_set ();
-	ld	(#_rdx + 0),a
-	ld	(#__x + 0),a
-	ld	a,(#_rdy + 0)
-	ld	(#__y + 0),a
-	ld	de,#_chac_chacs_t1+0
-	ld	hl,(_rdm)
-	ld	h,#0x00
-	add	hl,de
-	ld	a,(hl)
-	ld	(#__t + 0),a
-	call	_map_set
-;engine/tile_chac_chac.h:46: _x = rdx; _y = rdy + 1; _t = chac_chacs_t2 [rdm]; map_set ();
-	ld	a,(#_rdx + 0)
-	ld	(#__x + 0),a
-	ld	hl,#__y
-	ld	a,(#_rdy + 0)
-	inc	a
-	ld	(hl),a
-	ld	de,#_chac_chacs_t2+0
-	ld	hl,(_rdm)
-	ld	h,#0x00
-	add	hl,de
-	ld	a,(hl)
-	ld	(#__t + 0),a
-	call	_map_set
-;engine/tile_chac_chac.h:47: _x = rdx; _y = rdy + 2; _t = chac_chacs_t3 [rdm]; map_set ();
-	ld	a,(#_rdx + 0)
-	ld	(#__x + 0),a
-	ld	hl,#__y
-	ld	a,(#_rdy + 0)
-	add	a, #0x02
-	ld	(hl),a
-	ld	de,#_chac_chacs_t3+0
-	ld	hl,(_rdm)
-	ld	h,#0x00
-	add	hl,de
-	ld	a,(hl)
-	ld	(#__t + 0),a
-	call	_map_set
-00113$:
-	ld	sp, ix
-	pop	ix
-	ret
-;engine/player.h:8: void player_register_safe_spot (void) {
-;	---------------------------------
-; Function player_register_safe_spot
-; ---------------------------------
-_player_register_safe_spot::
-;engine/player.h:9: px_safe = px;
-	ld	hl,(_px)
-	ld	(_px_safe),hl
-;engine/player.h:10: py_safe = py;
-	ld	hl,(_py)
-	ld	(_py_safe),hl
-;engine/player.h:11: n_pant_safe = n_pant;
-	ld	a,(#_n_pant + 0)
-	ld	(#_n_pant_safe + 0),a
-	ret
-;engine/player.h:15: void player_stop (void) {
-;	---------------------------------
-; Function player_stop
-; ---------------------------------
-_player_stop::
-;engine/player.h:16: pvx = pvy = 0;
-	ld	hl,#0x0000
-	ld	(_pvy),hl
-	ld	l, #0x00
-	ld	(_pvx),hl
-	ret
-;engine/player.h:19: void player_init (void) {
-;	---------------------------------
-; Function player_init
-; ---------------------------------
-_player_init::
-;engine/player.h:22: if (!warp_to_level) player_stop ();
-	ld	a,(#_warp_to_level + 0)
-	or	a, a
-	jr	NZ,00102$
-	call	_player_stop
-00102$:
-;engine/player.h:27: pfacing = 0;
-	ld	hl,#_pfacing + 0
-	ld	(hl), #0x00
-;engine/player.h:30: pfr = pctfr = 0;
-	ld	hl,#_pctfr + 0
-	ld	(hl), #0x00
-	ld	hl,#_pfr + 0
-	ld	(hl), #0x00
-;engine/player.h:31: pj = pctj = 0;
-	ld	hl,#_pctj + 0
-	ld	(hl), #0x00
-	ld	hl,#_pj + 0
-	ld	(hl), #0x00
-;engine/player.h:32: psprid = 0;
-	ld	hl,#_psprid + 0
-	ld	(hl), #0x00
-;engine/player.h:39: pkeys = 0;
-	ld	hl,#_pkeys + 0
-	ld	(hl), #0x00
-;engine/player.h:42: pgotten = 0;
-	ld	hl,#_pgotten + 0
-	ld	(hl), #0x00
-;engine/player.h:43: pfiring = 0;
-	ld	hl,#_pfiring + 0
-	ld	(hl), #0x00
-;engine/player.h:46: pkilled = 0;
-	ld	hl,#_pkilled + 0
-	ld	(hl), #0x00
-;engine/player.h:62: pflickering = pbouncing = 0;
-	ld	hl,#_pbouncing + 0
-	ld	(hl), #0x00
-	ld	hl,#_pflickering + 0
-	ld	(hl), #0x00
-;engine/player.h:65: player_register_safe_spot ();
-	call	_player_register_safe_spot
-;engine/player.h:75: vertical_engine_type = ENGINE_TYPE_JUMP;
-	ld	hl,#_vertical_engine_type + 0
-	ld	(hl), #0x00
-	ret
-;engine/player.h:94: void player_render (void) {
-;	---------------------------------
-; Function player_render
-; ---------------------------------
-_player_render::
-;engine/player.h:95: if (0 == pflickering || half_life) 
-	ld	a,(#_pflickering + 0)
-	or	a, a
-	jr	Z,00101$
-	ld	a,(#_half_life + 0)
-	or	a, a
-	ret	Z
-00101$:
-;engine/player.h:98: spr_player [psprid]
-	ld	de,#_spr_player+0
-	ld	iy,#_psprid
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl,de
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-;engine/player.h:97: prx, pry + SPRITE_ADJUST, 
-	ld	a,(#_pry + 0)
-	add	a, #0xF8
-	ld	h,a
-	push	de
-	push	hl
-	inc	sp
-	ld	a,(_prx)
-	push	af
-	inc	sp
-	call	_SG_addMetaSprite1x1
-	pop	af
-	pop	af
-	ret
-;engine/player.h:102: void player_to_pixels (void) {
-;	---------------------------------
-; Function player_to_pixels
-; ---------------------------------
-_player_to_pixels::
-;engine/player.h:103: prx = px >> FIXBITS;
-	ld	hl,(_px)
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	ld	iy,#_prx
-	ld	0 (iy),l
-;engine/player.h:104: pry = py >> FIXBITS;
-	ld	hl,(_py)
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	ld	iy,#_pry
-	ld	0 (iy),l
-	ret
-;engine/player.h:107: void player_kill (void) {
-;	---------------------------------
-; Function player_kill
-; ---------------------------------
-_player_kill::
-;engine/player.h:108: SG_setStp (cur_stp);
-	ld	hl,(_cur_stp)
-	push	hl
-	call	_SG_setStp
-	pop	af
-;engine/player.h:109: player_render ();
-	call	_player_render
-;engine/player.h:110: update_cycle ();
-	call	_update_cycle
-;engine/player.h:112: pkill = phit = 0;
-	ld	hl,#_phit + 0
-	ld	(hl), #0x00
-	ld	hl,#_pkill + 0
-	ld	(hl), #0x00
-;engine/player.h:115: if (plife) -- plife; else game_over = 1;
-	ld	a,(#_plife + 0)
-	or	a, a
-	jr	Z,00102$
-	ld	hl, #_plife+0
-	dec	(hl)
-	jr	00103$
-00102$:
-	ld	hl,#_game_over + 0
-	ld	(hl), #0x01
-00103$:
-;engine/player.h:118: pflickering = PLAYER_FLICKERS;
-	ld	hl,#_pflickering + 0
-	ld	(hl), #0x64
-;engine/player.h:131: delay (60);
-	ld	a,#0x3C
-	push	af
-	inc	sp
-	call	_delay
-	inc	sp
-;engine/player.h:136: px = px_safe; 
-	ld	hl,(_px_safe)
-	ld	(_px),hl
-;engine/player.h:137: py = py_safe; 
-	ld	hl,(_py_safe)
-	ld	(_py),hl
-;engine/player.h:138: player_to_pixels ();
-	call	_player_to_pixels
-;engine/player.h:139: n_pant = n_pant_safe;		
-	ld	a,(#_n_pant_safe + 0)
-	ld	(#_n_pant + 0),a
-;engine/player.h:140: player_stop ();
-	jp  _player_stop
-;engine/../engine/playermods/process_tile.h:4: void player_process_tile (unsigned char at, unsigned char x0, unsigned char y0, unsigned char x1, unsigned char y1) {
-;	---------------------------------
-; Function player_process_tile
-; ---------------------------------
-_player_process_tile::
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-;engine/../engine/playermods/process_tile.h:5: if (y0) -- y0;
-	ld	a,6 (ix)
-	or	a, a
-	jr	Z,00102$
-	dec	6 (ix)
-00102$:
-;engine/../engine/playermods/process_tile.h:46: at == 10 &&
-	ld	a,4 (ix)
-	sub	a, #0x0A
-	jp	NZ,00110$
-;engine/../engine/playermods/process_tile.h:47: pkeys
-	ld	a,(#_pkeys + 0)
-	or	a, a
-	jp	Z,00110$
-;engine/../engine/playermods/process_tile.h:49: _x = x0; _y = y0; _t = 0; map_set ();
-	ld	a,5 (ix)
-	ld	(#__x + 0),a
-	ld	a,6 (ix)
-	ld	(#__y + 0),a
-	ld	hl,#__t + 0
-	ld	(hl), #0x00
-	call	_map_set
-;engine/../engine/playermods/process_tile.h:52: gp_gen = (unsigned char *) c_locks;
-	ld	hl,(_c_locks)
-	ld	(_gp_gen),hl
-;engine/../engine/playermods/process_tile.h:53: gpit = c_max_bolts; while (gpit --) {
-	ld	a,(#_c_max_bolts + 0)
-	ld	(#_gpit + 0),a
-00106$:
-	ld	hl,#_gpit + 0
-	ld	e, (hl)
-	ld	hl, #_gpit+0
-	dec	(hl)
-	ld	a,e
-	or	a, a
-	jr	Z,00108$
-;engine/../engine/playermods/process_tile.h:54: rda = *gp_gen ++; rdb = *gp_gen ++;
-	ld	hl,(_gp_gen)
-	ld	a,(hl)
-	ld	(#_rda + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00145$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00145$:
-	ld	hl,(_gp_gen)
-	ld	a,(hl)
-	ld	(#_rdb + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
-	jr	NZ,00146$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
-00146$:
-;engine/../engine/playermods/process_tile.h:55: if (n_pant == rda && COORDS (x0, y0) == rdb) {
-	ld	a,(#_n_pant + 0)
-	ld	iy,#_rda
-	sub	a, 0 (iy)
-	jr	NZ,00106$
-	ld	l,6 (ix)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	ld	a, 5 (ix)
-	ld	d, #0x00
-	or	a, l
-	ld	e,a
-	ld	a,d
-	or	a, h
-	ld	d,a
-	ld	hl,#_rdb + 0
-	ld	c, (hl)
-	ld	b,#0x00
-	ld	a,e
-	sub	a, c
-	jr	NZ,00106$
-	ld	a,d
-	sub	a, b
-	jr	NZ,00106$
-;engine/../engine/playermods/process_tile.h:56: lkact [gpit] = 0;
-	ld	a,#<(_lkact)
-	ld	hl,#_gpit
-	add	a, (hl)
-	ld	e,a
-	ld	a,#>(_lkact)
-	adc	a, #0x00
-	ld	d,a
-	xor	a, a
-	ld	(de),a
-	jr	00106$
-00108$:
-;engine/../engine/playermods/process_tile.h:60: -- pkeys;
-	ld	hl, #_pkeys+0
-	dec	(hl)
-	jr	00113$
-00110$:
-;engine/../engine/playermods/process_tile.h:64: no_ct = 100;
-	ld	hl,#_no_ct + 0
-	ld	(hl), #0x64
-00113$:
-	pop	ix
-	ret
-;engine/player.h:163: void player_move (void) {
-;	---------------------------------
-; Function player_move
-; ---------------------------------
-_player_move::
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-	push	af
-;engine/player.h:164: if (pflickering) -- pflickering;
-	ld	a,(#_pflickering + 0)
-	or	a, a
-	jr	Z,00102$
-	ld	hl, #_pflickering+0
-	dec	(hl)
-00102$:
-;engine/player.h:165: if (pbouncing) -- pbouncing;
-	ld	a,(#_pbouncing + 0)
-	or	a, a
-	jr	Z,00104$
-	ld	hl, #_pbouncing+0
-	dec	(hl)
-00104$:
-;engine/player.h:201: hitv = hith = 0;
-	ld	hl,#_hith + 0
-	ld	(hl), #0x00
-	ld	hl,#_hitv + 0
-	ld	(hl), #0x00
-;engine/player.h:202: pcx = prx; pcy = pry;
-	ld	a,(#_prx + 0)
-	ld	(#_pcx + 0),a
-	ld	a,(#_pry + 0)
-	ld	(#_pcy + 0),a
-;engine/player.h:203: pnotsafe = 0;
-	ld	hl,#_pnotsafe + 0
-	ld	(hl), #0x00
-;engine/player.h:213: cx1 = prx >> 4; cx2 = (prx + 7) >> 4;
-	ld	a,(#_prx + 0)
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0x0F
-	ld	(#_cx1 + 0),a
-	ld	iy,#_prx
-	ld	l,0 (iy)
-	ld	h,#0x00
-	ld	bc,#0x0007
-	add	hl,bc
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	ld	iy,#_cx2
-	ld	0 (iy),l
-;engine/player.h:214: cy1 = cy2 = (pry + 15) >> 4;
-	ld	iy,#_pry
-	ld	l,0 (iy)
-	ld	h,#0x00
-	ld	bc,#0x000F
-	add	hl,bc
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	ld	a,l
-	ld	(#_cy2 + 0),a
-	ld	(#_cy1 + 0),a
-;engine/player.h:215: cm_two_points ();
-	call	_cm_two_points
-;engine/player.h:230: if (springs_on && cy1 < 12) {
-	ld	a,(#_springs_on + 0)
-	or	a, a
-	jp	Z,00116$
-;engine/player.h:231: if (cy1) -- cy1;
-	ld	a,(#_cy1 + 0)
-	cp	a,#0x0C
-	jp	NC,00116$
-	or	a, a
-	jr	Z,00106$
-	ld	hl, #_cy1+0
-	dec	(hl)
-00106$:
-;engine/player.h:232: _t = SPRING_SPIKE_TILE; 
-	ld	hl,#__t + 0
-	ld	(hl), #0x0A
-;engine/player.h:234: if (ppossee)
-	ld	a,(#_ppossee + 0)
-	or	a, a
-	jp	Z,00116$
-;engine/player.h:237: if (QTILE (cx1, cy1 + 1) == SPRING_TILE && QTILE (cx1, cy1) != SPRING_SPIKE_TILE) { _x = cx1; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);
-	ld	a,(#_cy1 + 0)
-	inc	a
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-	ld	hl,#_cx1 + 0
-	or	a,(hl)
-	ld	e,a
-	ld	hl,#_map_buff
-	ld	d,#0x00
-	add	hl, de
-	ld	a,(hl)
-	sub	a, #0x1F
-	jr	NZ,00108$
-	ld	a,(#_cy1 + 0)
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-	ld	hl,#_cx1 + 0
-	or	a,(hl)
-	ld	e,a
-	ld	hl,#_map_buff
-	ld	d,#0x00
-	add	hl, de
-	ld	a,(hl)
-	sub	a, #0x0A
-	jr	Z,00108$
-	ld	a,(#_cx1 + 0)
-	ld	(#__x + 0),a
-	ld	a,(#_cy1 + 0)
-	ld	(#__y + 0),a
-	call	_map_set
-00108$:
-;engine/player.h:239: if (QTILE (cx2, cy1 + 1) == SPRING_TILE && QTILE (cx2, cy1) != SPRING_SPIKE_TILE) { _x = cx2; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);
-	ld	a,(#_cy1 + 0)
-	inc	a
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-	ld	hl,#_cx2 + 0
-	or	a,(hl)
-	ld	e,a
-	ld	hl,#_map_buff
-	ld	d,#0x00
-	add	hl, de
-	ld	a,(hl)
-	sub	a, #0x1F
-	jr	NZ,00116$
-	ld	a,(#_cy1 + 0)
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-	ld	hl,#_cx2 + 0
-	or	a,(hl)
-	ld	e,a
-	ld	hl,#_map_buff
-	ld	d,#0x00
-	add	hl, de
-	ld	a,(hl)
-	sub	a, #0x0A
-	jr	Z,00116$
-	ld	a,(#_cx2 + 0)
-	ld	(#__x + 0),a
-	ld	a,(#_cy1 + 0)
-	ld	(#__y + 0),a
-	call	_map_set
-00116$:
-;engine/player.h:245: oppossee = ppossee;
-	ld	a,(#_ppossee + 0)
-	ld	(#_oppossee + 0),a
-;engine/player.h:246: ppossee = 0;
-	ld	hl,#_ppossee + 0
-	ld	(hl), #0x00
-;engine/player.h:318: if (vertical_engine_type != ENGINE_TYPE_SWIM) {
-	ld	a,(#_vertical_engine_type + 0)
-	sub	a, #0x02
-	jr	Z,00123$
-;engine/player.h:329: if (!pj) {
-	ld	a,(#_pj + 0)
-	or	a, a
-	jr	NZ,00123$
-;engine/player.h:330: pvy += PLAYER_G;
-	ld	hl,#_pvy
-	ld	a,(hl)
-	add	a, #0x08
-	ld	(hl),a
-	inc	hl
-	ld	a,(hl)
-	adc	a, #0x00
-	ld	(hl),a
-;engine/player.h:331: if (pvy > PLAYER_VY_FALLING_MAX) pvy = PLAYER_VY_FALLING_MAX; 
-	xor	a, a
-	ld	iy,#_pvy
-	cp	a, 0 (iy)
-	ld	a,#0x01
-	ld	iy,#_pvy
-	sbc	a, 1 (iy)
-	jp	PO, 00584$
-	xor	a, #0x80
-00584$:
-	jp	P,00123$
-	ld	hl,#0x0100
-	ld	(_pvy),hl
-00123$:
-;engine/player.h:338: if (pgotten) pvy = 0;			
-	ld	a,(#_pgotten + 0)
-	or	a, a
-	jr	Z,00125$
-	ld	hl,#0x0000
-	ld	(_pvy),hl
-00125$:
-;engine/player.h:375: py += pvy;
-	ld	hl,#_pvy
-	push	de
-	ld	iy,#_py
-	push	iy
-	pop	de
-	ld	a,(de)
-	add	a, (hl)
-	ld	(de),a
-	inc	de
-	ld	a,(de)
-	inc	hl
-	adc	a, (hl)
-	ld	(de),a
-	pop	de
-;engine/player.h:376: if (py < 0) py = 0;
-	ld	a,(#_py + 1)
-	bit	7,a
-	jr	Z,00127$
-	ld	hl,#0x0000
-	ld	(_py),hl
-00127$:
-;engine/player.h:377: pry = py >> FIXBITS;
-	ld	hl,(_py)
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	ld	iy,#_pry
-	ld	0 (iy),l
-;engine/player.h:380: player_to_pixels ();
-	call	_player_to_pixels
-;engine/player.h:382: cx1 = prx >> 4;
-	ld	a,(#_prx + 0)
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0x0F
-	ld	(#_cx1 + 0),a
-;engine/player.h:383: cx2 = (prx + 7) >> 4;
-	ld	iy,#_prx
-	ld	l,0 (iy)
-	ld	h,#0x00
-	ld	bc,#0x0007
-	add	hl,bc
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	ld	iy,#_cx2
-	ld	0 (iy),l
-;engine/player.h:388: rds16 = pvy + pgtmy;
-	ld	hl,#_pgtmy
-	push	de
-	ld	iy,#_rds16
-	push	iy
-	pop	de
-	ld	a,(#_pvy + 0)
-	add	a, (hl)
-	ld	(de),a
-	ld	a,(#_pvy + 1)
-	inc	hl
-	adc	a, (hl)
-	inc	de
-	ld	(de),a
-	pop	de
-;engine/player.h:214: cy1 = cy2 = (pry + 15) >> 4;
-	ld	a,(#_pry + 0)
-	ld	-2 (ix),a
-	ld	-1 (ix),#0x00
-;engine/player.h:389: if (rds16 < 0)
-	ld	a,(#_rds16 + 1)
-	bit	7,a
-	jp	Z,00163$
-;engine/player.h:392: cy1 = cy2 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;			
-	ld	a,-2 (ix)
-	add	a,#0x04
-	ld	d,a
-	ld	a,-1 (ix)
-	adc	a,#0x00
-	ld	l,a
-	sra	l
-	rr	d
-	sra	l
-	rr	d
-	sra	l
-	rr	d
-	sra	l
-	rr	d
-	ld	hl,#_cy2 + 0
-	ld	(hl), d
-	ld	hl,#_cy1 + 0
-	ld	(hl), d
-;engine/player.h:393: cm_two_points ();
-	call	_cm_two_points
-;engine/player.h:394: if ((at1 & 8) || (at2 & 8)) {
-	ld	iy,#_at1
-	bit	3, 0 (iy)
-	jr	NZ,00131$
-	ld	iy,#_at2
-	bit	3, 0 (iy)
-	jr	Z,00132$
-00131$:
-;engine/player.h:395: pry = ((cy1 + 1) << 4) + PLAYER_COLLISION_VSTRETCH_BG;
-	ld	a,(#_cy1 + 0)
-	inc	a
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-	ld	hl,#_pry
-	add	a, #0xFC
-	ld	(hl),a
-;engine/player.h:396: pvy = 0; py = pry << FIXBITS;
-	ld	hl,#0x0000
-	ld	(_pvy),hl
-	ld	iy,#_pry
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	ld	(_py),hl
-;engine/player.h:397: pgotten = 0;
-	ld	iy,#_pgotten
-	ld	0 (iy),#0x00
-;engine/player.h:398: pfiring = 1;
-	ld	iy,#_pfiring
-	ld	0 (iy),#0x01
-	jp	00164$
-00132$:
-;engine/player.h:404: } else if ((at1 & 1) || (at2 & 1)) {
-	ld	iy,#_at1
-	bit	0, 0 (iy)
-	jr	NZ,00128$
-	ld	iy,#_at2
-	bit	0, 0 (iy)
-	jp	Z,00164$
-00128$:
-;engine/player.h:405: hitv = 1;
-	ld	iy,#_hitv
-	ld	0 (iy),#0x01
-	jp	00164$
-00163$:
-;engine/player.h:416: } else if (rds16 > 0)
-	xor	a, a
-	ld	iy,#_rds16
-	cp	a, 0 (iy)
-	ld	iy,#_rds16
-	sbc	a, 1 (iy)
-	jp	PO, 00591$
-	xor	a, #0x80
-00591$:
-	jp	P,00164$
-;engine/player.h:419: cy1 = cy2 = (pry + 16) >> 4; 
-	ld	a,-2 (ix)
-	add	a, #0x10
-	ld	d,a
-	ld	a,-1 (ix)
-	adc	a, #0x00
-	ld	h,a
-	sra	h
-	rr	d
-	sra	h
-	rr	d
-	sra	h
-	rr	d
-	sra	h
-	rr	d
-	ld	hl,#_cy2 + 0
-	ld	(hl), d
-	ld	hl,#_cy1 + 0
-	ld	(hl), d
-;engine/player.h:420: cm_two_points (); 
-	call	_cm_two_points
-;engine/player.h:425: pry < ((cy1 - 1) << 4) + 4 && 
-	ld	iy,#_cy1
-	ld	l,0 (iy)
-	ld	h,#0x00
-	dec	hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	ld	c, l
-	ld	b, h
-	inc	bc
-	inc	bc
-	inc	bc
-	inc	bc
-	ld	a,(#_pry + 0)
-	ld	-2 (ix),a
-	ld	-1 (ix),#0x00
-;engine/player.h:404: } else if ((at1 & 1) || (at2 & 1)) {
-	ld	a,(#_at1 + 0)
-	and	a, #0x01
-	ld	e,a
-	ld	iy,#_at2
-	ld	a,0 (iy)
-	and	a, #0x01
-	ld	d,a
-;engine/player.h:425: pry < ((cy1 - 1) << 4) + 4 && 
-	ld	a,-2 (ix)
-	sub	a, c
-	ld	a,-1 (ix)
-	sbc	a, b
-	jp	PO, 00592$
-	xor	a, #0x80
-00592$:
-	jp	P,00156$
-;engine/player.h:427: (at1 & 12) || (at2 & 12)
-	ld	a,(#_at1 + 0)
-	and	a, #0x0C
-	jr	NZ,00155$
-	ld	a,(#_at2 + 0)
-	and	a, #0x0C
-	jp	Z,00156$
-00155$:
-;engine/player.h:435: pvy = 0; pry = ((cy1 - 1) << 4);py = pry << FIXBITS;
-	ld	hl,#0x0000
-	ld	(_pvy),hl
-	ld	a,(#_cy1 + 0)
-	add	a,#0xFF
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-	ld	(#_pry + 0),a
-	ld	iy,#_pry
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	ld	(_py),hl
-;engine/player.h:436: pgotten = 0;
-	ld	iy,#_pgotten
-	ld	0 (iy),#0x00
-;engine/player.h:437: pfiring = 1;
-	ld	iy,#_pfiring
-	ld	0 (iy),#0x01
-;engine/player.h:438: ppossee = 1;
-	ld	iy,#_ppossee
-	ld	0 (iy),#0x01
-;engine/player.h:462: cfx = 0;
-	ld	iy,#_cfx
-	ld	0 (iy),#0x00
-;engine/player.h:463: if ((at1 & 40) == 40) { if (at1 & 1) cfx = pgtmx = PLAYER_VX_CONVEYORS; else cfx = pgtmx = -PLAYER_VX_CONVEYORS; pgotten = 1; } 
-	ld	a,(#_at1 + 0)
-	and	a, #0x28
-	sub	a,#0x28
-	jr	NZ,00139$
-	or	a,e
-	jr	Z,00136$
-	ld	hl,#0x0030
-	ld	(_pgtmx),hl
-	ld	iy,#_cfx
-	ld	0 (iy),#0x30
-	jr	00137$
-00136$:
-	ld	hl,#0xFFD0
-	ld	(_pgtmx),hl
-	ld	iy,#_cfx
-	ld	0 (iy),#0xD0
-00137$:
-	ld	iy,#_pgotten
-	ld	0 (iy),#0x01
-00139$:
-;engine/player.h:464: if (cx1 != cx2) if ((at2 & 40) == 40) { if (at2 & 1) cfx = pgtmx = PLAYER_VX_CONVEYORS; else cfx = pgtmx = -PLAYER_VX_CONVEYORS; pgotten = 1; } 
-	ld	a,(#_cx1 + 0)
-	ld	iy,#_cx2
-	sub	a, 0 (iy)
-	jr	Z,00146$
-	ld	a,(#_at2 + 0)
-	and	a, #0x28
-	sub	a,#0x28
-	jr	NZ,00146$
-	or	a,d
-	jr	Z,00141$
-	ld	hl,#0x0030
-	ld	(_pgtmx),hl
-	ld	iy,#_cfx
-	ld	0 (iy),#0x30
-	jr	00142$
-00141$:
-	ld	hl,#0xFFD0
-	ld	(_pgtmx),hl
-	ld	iy,#_cfx
-	ld	0 (iy),#0xD0
-00142$:
-	ld	iy,#_pgotten
-	ld	0 (iy),#0x01
-00146$:
-;engine/player.h:472: if ((at1 & 1) || (at2 & 1)) pnotsafe = 1; 
-	ld	a,e
-	or	a,a
-	jr	NZ,00147$
-	or	a,d
-	jr	Z,00164$
-00147$:
-	ld	iy,#_pnotsafe
-	ld	0 (iy),#0x01
-	jr	00164$
-00156$:
-;engine/player.h:473: } else if ((at1 & 1) || (at2 & 1)) {
-	ld	a,e
-	or	a,a
-	jr	NZ,00152$
-	or	a,d
-	jr	Z,00164$
-00152$:
-;engine/player.h:474: if ((pry & 15) > 4) hitv = 1;
-	ld	a,(#_pry + 0)
-	and	a, #0x0F
-	ld	h,a
-	ld	a,#0x04
-	sub	a, h
-	jr	NC,00164$
-	ld	iy,#_hitv
-	ld	0 (iy),#0x01
-00164$:
-;engine/player.h:491: if (vertical_engine_type == ENGINE_TYPE_JUMP) {
-	ld	a,(#_vertical_engine_type + 0)
-	or	a, a
-	jp	NZ,00187$
-;engine/player.h:537: a_button 
-	ld	a,(#_a_button + 0)
-	or	a, a
-	jr	Z,00170$
-;engine/player.h:538: && !pj
-	ld	a,(#_pj + 0)
-	or	a, a
-	jr	NZ,00170$
-;engine/player.h:540: pgotten || ppossee || hitv
-	ld	a,(#_pgotten + 0)
-	or	a, a
-	jr	NZ,00169$
-	ld	a,(#_ppossee + 0)
-	or	a, a
-	jr	NZ,00169$
-	ld	a,(#_hitv + 0)
-	or	a, a
-	jr	Z,00170$
-00169$:
-;engine/player.h:546: jump_start ();
-	call	_jump_start
-;engine/player.h:549: if (!(pgotten || hitv || pnotsafe)) {
-	ld	a,(#_pgotten + 0)
-	or	a, a
-	jr	NZ,00170$
-	ld	a,(#_hitv + 0)
-	or	a, a
-	jr	NZ,00170$
-	ld	a,(#_pnotsafe + 0)
-	or	a, a
-	jr	NZ,00170$
-;engine/player.h:550: player_register_safe_spot ();
-	call	_player_register_safe_spot
-00170$:
-;engine/player.h:569: if (pad0 & PAD_A) {
-	ld	iy,#_pad0
-	bit	5, 0 (iy)
-	jr	Z,00184$
-;engine/player.h:570: if (pj) {
-	ld	a,(#_pj + 0)
-	or	a, a
-	jr	Z,00187$
-;engine/player.h:571: if (pctj < PLAYER_AY_JUMP) pvy -= (PLAYER_AY_JUMP - (pctj));
-	ld	a,(#_pctj + 0)
-	sub	a, #0x0C
-	jr	NC,00176$
-	ld	hl,#_pctj + 0
-	ld	h, (hl)
-	ld	l,#0x00
-	ld	a,#0x0C
-	sub	a, h
-	ld	d,a
-	ld	a,#0x00
-	sbc	a, l
-	ld	e,a
-	ld	hl,#_pvy
-	ld	a,(hl)
-	sub	a, d
-	ld	(hl),a
-	inc	hl
-	ld	a,(hl)
-	sbc	a, e
-	ld	(hl),a
-00176$:
-;engine/player.h:572: if (pvy < -PLAYER_VY_JUMP_MAX) pvy = -PLAYER_VY_JUMP_MAX;
-	ld	a,(#_pvy + 0)
-	sub	a, #0x60
-	ld	a,(#_pvy + 1)
-	rla
-	ccf
-	rra
-	sbc	a, #0x7F
-	jr	NC,00178$
-	ld	hl,#0xFF60
-	ld	(_pvy),hl
-00178$:
-;engine/player.h:573: ++ pctj; if (pctj == 16) pj = 0;	
-	ld	iy,#_pctj
-	inc	0 (iy)
-	ld	a,(#_pctj + 0)
-	sub	a, #0x10
-	jr	NZ,00187$
-	ld	iy,#_pj
-	ld	0 (iy),#0x00
-	jr	00187$
-00184$:
-;engine/player.h:576: pj = 0; 
-	ld	iy,#_pj
-	ld	0 (iy),#0x00
-00187$:
-;engine/player.h:628: if (!(pad0 & PAD_LEFT || pad0 & PAD_RIGHT)) {
-	ld	a,(#_pad0 + 0)
-	and	a, #0x04
-	ld	d,a
-	ld	e,#0x00
-	ld	a,(#_pad0 + 0)
-	and	a, #0x08
-	ld	b,a
-	ld	c,#0x00
-	ld	a,e
-	or	a,d
-	jr	NZ,00198$
-	ld	a,c
-	or	a,b
-	jr	NZ,00198$
-;engine/player.h:636: if (pvx > 0) {
-	xor	a, a
-	ld	iy,#_pvx
-	cp	a, 0 (iy)
-	ld	iy,#_pvx
-	sbc	a, 1 (iy)
-	jp	PO, 00604$
-	xor	a, #0x80
-00604$:
-	jp	P,00195$
-;engine/player.h:641: pvx -= PLAYER_RX;
-	ld	hl,#_pvx
-	ld	a,(hl)
-	add	a,#0xF4
-	ld	(hl),a
-	inc	hl
-	ld	a,(hl)
-	adc	a,#0xFF
-	ld	(hl),a
-;engine/player.h:644: if (pvx < 0) pvx = 0;
-	ld	a,(#_pvx + 1)
-	bit	7,a
-	jr	Z,00198$
-	ld	hl,#0x0000
-	ld	(_pvx),hl
-	jr	00198$
-00195$:
-;engine/player.h:645: } else if (pvx < 0) {
-	ld	a,(#_pvx + 1)
-	bit	7,a
-	jr	Z,00198$
-;engine/player.h:650: pvx += PLAYER_RX;
-	ld	hl,#_pvx
-	ld	a,(hl)
-	add	a, #0x0C
-	ld	(hl),a
-	inc	hl
-	ld	a,(hl)
-	adc	a, #0x00
-	ld	(hl),a
-;engine/player.h:653: if (pvx > 0) pvx = 0;
-	xor	a, a
-	ld	iy,#_pvx
-	cp	a, 0 (iy)
-	ld	iy,#_pvx
-	sbc	a, 1 (iy)
-	jp	PO, 00605$
-	xor	a, #0x80
-00605$:
-	jp	P,00198$
-	ld	hl,#0x0000
-	ld	(_pvx),hl
-00198$:
-;engine/player.h:658: if (pad0 & PAD_LEFT) {
-	ld	a,e
-	or	a,d
-	jr	Z,00203$
-;engine/player.h:662: pfacing = CELL_FACING_LEFT;		
-	ld	iy,#_pfacing
-	ld	0 (iy),#0x08
-;engine/player.h:665: if (pvx > -PLAYER_VX_MAX) {
-	ld	a,#0x90
-	ld	iy,#_pvx
-	cp	a, 0 (iy)
-	ld	a,#0xFF
-	ld	iy,#_pvx
-	sbc	a, 1 (iy)
-	jp	PO, 00606$
-	xor	a, #0x80
-00606$:
-	jp	P,00203$
-;engine/player.h:670: pvx -= PLAYER_AX;
-	ld	hl,#_pvx
-	ld	a,(hl)
-	add	a,#0xF4
-	ld	(hl),a
-	inc	hl
-	ld	a,(hl)
-	adc	a,#0xFF
-	ld	(hl),a
-00203$:
-;engine/player.h:675: if (pad0 & PAD_RIGHT) {
-	ld	a,c
-	or	a,b
-	jr	Z,00207$
-;engine/player.h:679: pfacing = CELL_FACING_RIGHT;
-	ld	hl,#_pfacing + 0
-	ld	(hl), #0x00
-;engine/player.h:682: if (pvx < PLAYER_VX_MAX) {
-	ld	a,(#_pvx + 0)
-	sub	a, #0x70
-	ld	a,(#_pvx + 1)
-	rla
-	ccf
-	rra
-	sbc	a, #0x80
-	jr	NC,00207$
-;engine/player.h:687: pvx += PLAYER_AX;
-	ld	hl,#_pvx
-	ld	a,(hl)
-	add	a, #0x0C
-	ld	(hl),a
-	inc	hl
-	ld	a,(hl)
-	adc	a, #0x00
-	ld	(hl),a
-00207$:
-;engine/player.h:693: px += pvx;
-	ld	hl,#_pvx
-	push	de
-	ld	iy,#_px
-	push	iy
-	pop	de
-	ld	a,(de)
-	add	a, (hl)
-	ld	(de),a
-	inc	de
-	ld	a,(de)
-	inc	hl
-	adc	a, (hl)
-	ld	(de),a
-	pop	de
-;engine/player.h:695: if (pgotten) px += pgtmx;
-	ld	a,(#_pgotten + 0)
-	or	a, a
-	jr	Z,00209$
-	ld	hl,#_pgtmx
-	push	de
-	ld	iy,#_px
-	push	iy
-	pop	de
-	ld	a,(de)
-	add	a, (hl)
-	ld	(de),a
-	inc	de
-	ld	a,(de)
-	inc	hl
-	adc	a, (hl)
-	ld	(de),a
-	pop	de
-00209$:
-;engine/player.h:698: if (px < (4<<FIXBITS)) { px = 4 << FIXBITS; prx = 4;}
-	ld	a,(#_px + 1)
-	xor	a, #0x80
-	sub	a, #0x81
-	jr	NC,00214$
-	ld	hl,#0x0100
-	ld	(_px),hl
-	ld	hl,#_prx + 0
-	ld	(hl), #0x04
-	jr	00215$
-00214$:
-;engine/player.h:699: else if (px > (244<<FIXBITS)) { px = 244 << FIXBITS; prx = 244; }
-	xor	a, a
-	ld	iy,#_px
-	cp	a, 0 (iy)
-	ld	a,#0x3D
-	ld	iy,#_px
-	sbc	a, 1 (iy)
-	jp	PO, 00607$
-	xor	a, #0x80
-00607$:
-	jp	P,00211$
-	ld	hl,#0x3D00
-	ld	(_px),hl
-	ld	hl,#_prx + 0
-	ld	(hl), #0xF4
-	jr	00215$
-00211$:
-;engine/player.h:700: else player_to_pixels ();
-	call	_player_to_pixels
-00215$:
-;engine/player.h:705: cy1 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;
-	ld	hl,#_pry + 0
-	ld	e, (hl)
-	ld	d,#0x00
-	ld	a,e
-	add	a,#0x04
-	ld	l,a
-	ld	a,d
-	adc	a,#0x00
-	ld	h,a
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	ld	iy,#_cy1
-	ld	0 (iy),l
-;engine/player.h:706: cy2 = (pry + 15) >> 4;
-	ld	hl,#0x000F
-	add	hl,de
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	ld	iy,#_cy2
-	ld	0 (iy),l
-;engine/player.h:709: rds16 = pvx + pgtmx;
-	ld	hl,#_pgtmx
-	push	de
-	ld	iy,#_rds16
-	push	iy
-	pop	de
-	ld	a,(#_pvx + 0)
-	add	a, (hl)
-	ld	(de),a
-	ld	a,(#_pvx + 1)
-	inc	hl
-	adc	a, (hl)
-	inc	de
-	ld	(de),a
-	pop	de
-;engine/player.h:710: if (rds16) 	{
-	ld	a,(#_rds16 + 1)
-	ld	iy,#_rds16
-	or	a,0 (iy)
-	jp	Z,00232$
-;engine/player.h:711: if (rds16 < 0) {
-	ld	a,(#_rds16 + 1)
-	bit	7,a
-	jr	Z,00217$
-;engine/player.h:712: cx1 = cx2 = prx >> 4; 
-	ld	a,(#_prx + 0)
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0x0F
-	ld	(#_cx2 + 0),a
-;engine/player.h:713: rda = (cx1 + 1) << 4;
-	ld	(#_cx1 + 0),a
-	inc	a
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-	ld	(#_rda + 0),a
-;engine/player.h:714: rdm = cx1 - 1;
-	ld	hl,#_rdm
-	ld	a,(#_cx1 + 0)
-	add	a,#0xFF
-	ld	(hl),a
-	jr	00218$
-00217$:
-;engine/player.h:716: cx1 = cx2 = (prx + 8) >> 4;
-	ld	iy,#_prx
-	ld	l,0 (iy)
-	ld	h,#0x00
-	ld	bc,#0x0008
-	add	hl,bc
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	ld	a,l
-	ld	(#_cx2 + 0),a
-;engine/player.h:717: rda = ((cx1 - 1) << 4) + 8;
-	ld	(#_cx1 + 0),a
-	add	a,#0xFF
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0xF0
-	ld	hl,#_rda
-	add	a, #0x08
-	ld	(hl),a
-;engine/player.h:718: rdm = cx1 + 1;
-	ld	hl,#_rdm
-	ld	a,(#_cx1 + 0)
-	inc	a
-	ld	(hl),a
-00218$:
-;engine/player.h:734: cm_two_points ();
-	call	_cm_two_points
-;engine/player.h:735: if ((at1 & 8) || (at2 & 8)) {
-	ld	iy,#_at1
-	bit	3, 0 (iy)
-	jr	NZ,00225$
-	ld	iy,#_at2
-	bit	3, 0 (iy)
-	jp	Z,00226$
-00225$:
-;engine/player.h:736: pvx = 0; prx = rda; px = prx << FIXBITS; pfiring = 1;
-	ld	hl,#0x0000
-	ld	(_pvx),hl
-	ld	a,(#_rda + 0)
-	ld	(#_prx + 0),a
-	ld	iy,#_prx
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	ld	(_px),hl
-	ld	iy,#_pfiring
-	ld	0 (iy),#0x01
-;engine/player.h:740: if (at1 & 2) player_process_tile (at1, cx1, cy1, rdm, cy1);
-	ld	iy,#_at1
-	bit	1, 0 (iy)
-	jr	Z,00220$
-	ld	a,(_cy1)
-	push	af
-	inc	sp
-	ld	a,(_rdm)
-	push	af
-	inc	sp
-	ld	a,(_cy1)
-	push	af
-	inc	sp
-	ld	a,(_cx1)
-	push	af
-	inc	sp
-	ld	a,(_at1)
-	push	af
-	inc	sp
-	call	_player_process_tile
-	pop	af
-	pop	af
-	inc	sp
-00220$:
-;engine/player.h:741: if (cy1 != cy2) if (at2 & 2) player_process_tile (at2, cx1, cy2, rdm, cy2);
-	ld	a,(#_cy1 + 0)
-	ld	iy,#_cy2
-	sub	a, 0 (iy)
-	jr	Z,00227$
-	ld	iy,#_at2
-	bit	1, 0 (iy)
-	jr	Z,00227$
-	ld	a,(_cy2)
-	push	af
-	inc	sp
-	ld	a,(_rdm)
-	push	af
-	inc	sp
-	ld	a,(_cy2)
-	push	af
-	inc	sp
-	ld	a,(_cx1)
-	push	af
-	inc	sp
-	ld	a,(_at2)
-	push	af
-	inc	sp
-	call	_player_process_tile
-	pop	af
-	pop	af
-	inc	sp
-	jr	00227$
-00226$:
-;engine/player.h:744: hith = ((at1 & 1) || (at2 & 1));
-	ld	iy,#_at1
-	bit	0, 0 (iy)
-	jr	NZ,00259$
-	ld	iy,#_at2
-	bit	0, 0 (iy)
-	jr	NZ,00259$
-	ld	a,#0x00
-	jr	00260$
-00259$:
-	ld	a,#0x01
-00260$:
-	ld	iy,#_hith
-	ld	0 (iy),a
-00227$:
-;engine/player.h:747: if (pvy > 0) hith &= ((pry & 15) > 4);
-	xor	a, a
-	ld	iy,#_pvy
-	cp	a, 0 (iy)
-	ld	iy,#_pvy
-	sbc	a, 1 (iy)
-	jp	PO, 00618$
-	xor	a, #0x80
-00618$:
-	jp	P,00232$
-	ld	a,(#_pry + 0)
-	and	a, #0x0F
-	ld	h,a
-	ld	a,#0x04
-	sub	a, h
-	ld	a,#0x00
-	rla
-	ld	d,a
-	ld	a,(#_hith + 0)
-	and	a, d
-;engine/player.h:775: phit = 0;
-	ld	(#_hith + 0),a
-00232$:
-	ld	iy,#_phit
-	ld	0 (iy),#0x00
-;engine/player.h:777: if (pgotten == 0) {
-	ld	a,(#_pgotten + 0)
-	or	a, a
-	jp	NZ,00247$
-;engine/player.h:785: if (hitv) { phit = 1; pvy = ADD_SIGN (-pvy, PLAYER_V_REBOUND); pry = pcy; py = pry << FIXBITS; } 
-	ld	a,(#_hitv + 0)
-	or	a, a
-	jr	Z,00236$
-	ld	hl,#_phit + 0
-	ld	(hl), #0x01
-	xor	a, a
-	ld	iy,#_pvy
-	sub	a, 0 (iy)
-	ld	h,a
-	ld	a, #0x00
-	ld	iy,#_pvy
-	sbc	a, 1 (iy)
-	ld	l,a
-	or	a,h
-	jr	Z,00261$
-	xor	a, a
-	cp	a, h
-	sbc	a, l
-	jp	PO, 00619$
-	xor	a, #0x80
-00619$:
-	jp	P,00263$
-	ld	hl,#0x00E0
-	jr	00262$
-00263$:
-	ld	hl,#0xFF20
-	jr	00262$
-00261$:
-	ld	hl,#0x0000
-00262$:
-	ld	(_pvy),hl
-	ld	a,(#_pcy + 0)
-	ld	(#_pry + 0),a
-	ld	iy,#_pry
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	ld	(_py),hl
-	jr	00237$
-00236$:
-;engine/player.h:789: if (hith) { phit = 1; pvx = ADD_SIGN (-pvx, PLAYER_V_REBOUND); prx = pcx; px = prx << FIXBITS; }
-	ld	a,(#_hith + 0)
-	or	a, a
-	jr	Z,00237$
-	ld	hl,#_phit + 0
-	ld	(hl), #0x01
-	xor	a, a
-	ld	iy,#_pvx
-	sub	a, 0 (iy)
-	ld	h,a
-	ld	a, #0x00
-	ld	iy,#_pvx
-	sbc	a, 1 (iy)
-	ld	l,a
-	or	a,h
-	jr	Z,00265$
-	xor	a, a
-	cp	a, h
-	sbc	a, l
-	jp	PO, 00620$
-	xor	a, #0x80
-00620$:
-	jp	P,00267$
-	ld	hl,#0x00E0
-	jr	00266$
-00267$:
-	ld	hl,#0xFF20
-	jr	00266$
-00265$:
-	ld	hl,#0x0000
-00266$:
-	ld	(_pvx),hl
-	ld	a,(#_pcx + 0)
-	ld	(#_prx + 0),a
-	ld	iy,#_prx
-	ld	l,0 (iy)
-	ld	h,#0x00
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	ld	(_px),hl
-00237$:
-;engine/player.h:793: cx1 = cx2 = (prx + 4) >> 4;
-	ld	hl,#_prx + 0
-	ld	e, (hl)
-	ld	d,#0x00
-	inc	de
-	inc	de
-	inc	de
-	inc	de
-	sra	d
-	rr	e
-	sra	d
-	rr	e
-	sra	d
-	rr	e
-	sra	d
-	rr	e
-	ld	hl,#_cx2 + 0
-	ld	(hl), e
-	ld	hl,#_cx1 + 0
-	ld	(hl), e
-;engine/player.h:794: cy1 = pry >> 4; cy2 = (pry + 15) >> 4;
-	ld	a,(#_pry + 0)
-	rlca
-	rlca
-	rlca
-	rlca
-	and	a,#0x0F
-	ld	(#_cy1 + 0),a
-	ld	iy,#_pry
-	ld	l,0 (iy)
-	ld	h,#0x00
-	ld	bc,#0x000F
-	add	hl,bc
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	sra	h
-	rr	l
-	ld	iy,#_cy2
-	ld	0 (iy),l
-;engine/player.h:795: cm_two_points ();
-	call	_cm_two_points
-;engine/player.h:796: if ((at1 & 1) || (at2 & 1)) phit = 1;
-	ld	iy,#_at1
-	bit	0, 0 (iy)
-	jr	NZ,00238$
-	ld	iy,#_at2
-	bit	0, 0 (iy)
-	jr	Z,00239$
-00238$:
-	ld	iy,#_phit
-	ld	0 (iy),#0x01
-00239$:
-;engine/player.h:799: if (!pflickering && !pbouncing) if (phit) { 
-	ld	a,(#_pflickering + 0)
-	or	a, a
-	jr	NZ,00247$
-	ld	a,(#_pbouncing + 0)
-	or	a, a
-	jr	NZ,00247$
-	ld	a,(#_phit + 0)
-	or	a, a
-	jr	Z,00247$
-;engine/player.h:800: player_to_pixels ();
-	call	_player_to_pixels
-;engine/player.h:801: en_sg_2 = 1;
-	ld	iy,#_en_sg_2
-	ld	0 (iy),#0x01
-;engine/player.h:808: pkill = en_sg_2;
-	ld	iy,#_pkill
-	ld	0 (iy),#0x01
-00247$:
-;engine/../my/player_frame_selector.h:37: if (ppossee || pgotten) {
-	ld	a,(#_ppossee + 0)
-	or	a, a
-	jr	NZ,00252$
-	ld	a,(#_pgotten + 0)
-	or	a, a
-	jr	Z,00253$
-00252$:
-;engine/../my/player_frame_selector.h:39: if (pvx > PLAYER_VX_MIN || pvx < -PLAYER_VX_MIN) {
-	ld	a,#0x18
-	ld	iy,#_pvx
-	cp	a, 0 (iy)
-	ld	a,#0x00
-	ld	iy,#_pvx
-	sbc	a, 1 (iy)
-	jp	PO, 00624$
-	xor	a, #0x80
-00624$:
-	jp	M,00248$
-	ld	a,(#_pvx + 0)
-	sub	a, #0xE8
-	ld	a,(#_pvx + 1)
-	rla
-	ccf
-	rra
-	sbc	a, #0x7F
-	jr	NC,00249$
-00248$:
-;engine/../my/player_frame_selector.h:40: psprid = CELL_WALK_CYCLE + ((prx >> 3) & 3);
-	ld	a,(#_prx + 0)
-	rrca
-	rrca
-	rrca
-	and	a,#0x1F
-	and	a, #0x03
-	ld	hl,#_psprid
-	inc	a
-	ld	(hl),a
-	jr	00254$
-00249$:
-;engine/../my/player_frame_selector.h:42: psprid = CELL_IDLE;
-	ld	hl,#_psprid + 0
-	ld	(hl), #0x00
-	jr	00254$
-00253$:
-;engine/../my/player_frame_selector.h:45: psprid = CELL_AIRBORNE;
-	ld	hl,#_psprid + 0
-	ld	(hl), #0x05
-00254$:
-;engine/../my/player_frame_selector.h:55: psprid += pfacing;
-	ld	hl,#_pfacing
-	push	de
-	ld	iy,#_psprid
-	push	iy
-	pop	de
-	ld	a,(de)
-	add	a, (hl)
-	ld	(de),a
-	pop	de
-;engine/player.h:930: prx_old = prx;
-	ld	a,(#_prx + 0)
-	ld	(#_prx_old + 0),a
-;engine/player.h:931: pry_old = pry;
-	ld	a,(#_pry + 0)
-	ld	(#_pry_old + 0),a
-	ld	sp, ix
-	pop	ix
 	ret
 ;engine/enengine.h:16: void enems_persistent_deaths_load (void) {
 ;	---------------------------------
@@ -4807,7 +1897,7 @@ _enems_move::
 	dec	(hl)
 	ld	a,d
 	or	a, a
-	jp	Z,00237$
+	jp	Z,00236$
 ;engine/enengine.h:355: gpit += 2; if (gpit > 2) gpit -=3;
 	ld	hl, #_gpit+0
 	inc	(hl)
@@ -5017,11 +2107,11 @@ _enems_move::
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
 	ld	a,(hl)
-	ld	-9 (ix), a
+	ld	-3 (ix), a
 	or	a, a
 	jp	Z,00228$
 ;engine/enengine.h:385: -- en_cttouched [gpit];
-	ld	d,-9 (ix)
+	ld	d,-3 (ix)
 	dec	d
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
@@ -5048,29 +2138,29 @@ _enems_move::
 	ld	a,#0x0F
 	sub	a, (hl)
 	add	a,#<(_jitter)
-	ld	-4 (ix),a
+	ld	-5 (ix),a
 	ld	a,#>(_jitter)
 	adc	a, #0x00
-	ld	-3 (ix),a
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	-4 (ix),a
+	ld	l,-5 (ix)
+	ld	h,-4 (ix)
 	ld	a,(hl)
-	ld	-4 (ix),a
+	ld	-5 (ix),a
 	ld	a,(#__en_y + 0)
-	add	a, -4 (ix)
-	ld	-4 (ix), a
-	add	a, #0xF8
-	ld	-4 (ix),a
+	add	a, -5 (ix)
+	ld	-5 (ix), a
+	add	a, #0xF7
+	ld	-5 (ix),a
 ;engine/enengine.h:403: _en_x + jitter [rda],
 	ld	a,#<(_jitter)
 	ld	hl,#_rda
 	add	a, (hl)
-	ld	-6 (ix),a
+	ld	-7 (ix),a
 	ld	a,#>(_jitter)
 	adc	a, #0x00
-	ld	-5 (ix),a
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	-6 (ix),a
+	ld	l,-7 (ix)
+	ld	h,-6 (ix)
 	ld	h,(hl)
 	ld	a,(#__en_x + 0)
 	add	a, h
@@ -5078,7 +2168,7 @@ _enems_move::
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
 	push	hl
-	ld	a,-4 (ix)
+	ld	a,-5 (ix)
 	push	af
 	inc	sp
 	push	de
@@ -5107,44 +2197,44 @@ _enems_move::
 	sub	a, l
 	ld	a,b
 	sbc	a, h
-	jp	PO, 00587$
+	jp	PO, 00569$
 	xor	a, #0x80
-00587$:
-	jp	M,00239$
+00569$:
+	jp	M,00238$
 	ld	bc,#0x000F
 	add	hl,bc
 	ld	a,l
 	sub	a, e
 	ld	a,h
 	sbc	a, d
-	jp	PO, 00588$
+	jp	PO, 00570$
 	xor	a, #0x80
-00588$:
-	jp	P,00240$
+00570$:
+	jp	P,00239$
+00238$:
+	ld	-7 (ix),#0x00
+	jr	00240$
 00239$:
-	ld	-6 (ix),#0x00
-	jr	00241$
+	ld	-7 (ix),#0x01
 00240$:
-	ld	-6 (ix),#0x01
-00241$:
-	ld	a,-6 (ix)
+	ld	a,-7 (ix)
 	ld	(#_pregotten + 0),a
 ;engine/enengine.h:430: en_fr = ((((_en_mx) ? _en_x : _en_y)+4) >> 3) & 1;
 	ld	a,(#__en_x + 0)
-	ld	-6 (ix),a
+	ld	-7 (ix),a
 	ld	a,(#__en_y + 0)
-	ld	-4 (ix),a
+	ld	-5 (ix),a
 	ld	a,(#__en_mx + 0)
 	or	a, a
-	jr	Z,00242$
-	ld	a,-6 (ix)
-	ld	-9 (ix),a
-	jr	00243$
+	jr	Z,00241$
+	ld	a,-7 (ix)
+	ld	-3 (ix),a
+	jr	00242$
+00241$:
+	ld	a,-5 (ix)
+	ld	-3 (ix),a
 00242$:
-	ld	a,-4 (ix)
-	ld	-9 (ix),a
-00243$:
-	ld	a,-9 (ix)
+	ld	a,-3 (ix)
 	ld	-2 (ix),a
 	ld	-1 (ix),#0x00
 	ld	a,-2 (ix)
@@ -5264,9 +2354,9 @@ _enems_move::
 	ld	(#__en_y + 0),a
 	ld	a,c
 	or	a, a
-	jr	Z,00244$
+	jr	Z,00243$
 	ld	e,d
-00244$:
+00243$:
 	ld	hl,#__en_my + 0
 	ld	(hl), e
 	jr	00120$
@@ -5280,9 +2370,9 @@ _enems_move::
 	ld	(#__en_y + 0),a
 	ld	a,c
 	or	a, a
-	jr	NZ,00247$
+	jr	NZ,00246$
 	ld	d,e
-00247$:
+00246$:
 	xor	a, a
 	sub	a, d
 	ld	(#__en_my + 0),a
@@ -5290,16 +2380,16 @@ _enems_move::
 ;engine/../engine/enemmods/enem_linear.h:77: rda = _en_mx ? (_en_mx < 0) : (_en_my < 0); enems_facing ();
 	ld	a,(#__en_mx + 0)
 	or	a, a
-	jr	Z,00248$
+	jr	Z,00247$
 	ld	a,(#__en_mx + 0)
 	rlca
 	and	a,#0x01
-	jr	00249$
-00248$:
+	jr	00248$
+00247$:
 	ld	a,(#__en_my + 0)
 	rlca
 	and	a,#0x01
-00249$:
+00248$:
 	ld	(#_rda + 0),a
 	call	_enems_facing
 ;engine/../engine/enemmods/enem_linear.h:79: en_spr = _en_s + en_fr + _en_facing;
@@ -5315,17 +2405,17 @@ _enems_move::
 ;engine/enengine.h:479: case 6:
 00122$:
 ;engine/../engine/enemmods/enem_homing_fanty.h:7: rdx = _en_x; rdy = _en_y; rdt = distance ();
-	ld	a,-6 (ix)
+	ld	a,-7 (ix)
 	ld	(#_rdx + 0),a
-	ld	a,-4 (ix)
+	ld	a,-5 (ix)
 	ld	(#_rdy + 0),a
 	call	_distance
 	ld	iy,#_rdt
 	ld	0 (iy),l
 ;engine/../engine/enemmods/enem_homing_fanty.h:35: _enf_y = _en_y << FIXBITS;
 	ld	a,(#__en_y + 0)
-	ld	-6 (ix),a
-	ld	-5 (ix),#0x00
+	ld	-7 (ix),a
+	ld	-6 (ix),#0x00
 ;engine/../engine/enemmods/enem_homing_fanty.h:11: switch (_en_state) {
 	ld	a,(#__en_state + 0)
 	or	a, a
@@ -5340,20 +2430,20 @@ _enems_move::
 	ld	a,(#__en_x1 + 0)
 	ld	iy,#__en_x
 	sub	a, 0 (iy)
-	jr	NZ,00250$
+	jr	NZ,00249$
 	ld	a,#0x00
-	jr	00251$
-00250$:
+	jr	00250$
+00249$:
 	ld	a,(#__en_x)
 	ld	iy,#__en_x1
 	sub	a, 0 (iy)
-	jr	NC,00252$
+	jr	NC,00251$
 	ld	a,#0x10
-	jr	00253$
-00252$:
-	ld	a,#0xF0
-00253$:
+	jr	00252$
 00251$:
+	ld	a,#0xF0
+00252$:
+00250$:
 	ld	(#__enf_vx + 0),a
 	rla
 	sbc	a, a
@@ -5362,20 +2452,20 @@ _enems_move::
 	ld	a,(#__en_y1 + 0)
 	ld	iy,#__en_y
 	sub	a, 0 (iy)
-	jr	NZ,00254$
+	jr	NZ,00253$
 	ld	a,#0x00
-	jr	00255$
-00254$:
+	jr	00254$
+00253$:
 	ld	a,(#__en_y)
 	ld	iy,#__en_y1
 	sub	a, 0 (iy)
-	jr	NC,00256$
+	jr	NC,00255$
 	ld	a,#0x10
-	jr	00257$
-00256$:
-	ld	a,#0xF0
-00257$:
+	jr	00256$
 00255$:
+	ld	a,#0xF0
+00256$:
+00254$:
 	ld	(#__enf_vy + 0),a
 	rla
 	sbc	a, a
@@ -5398,9 +2488,9 @@ _enems_move::
 	ld	a,1 (iy)
 	inc	hl
 	sbc	a, (hl)
-	jp	PO, 00604$
+	jp	PO, 00586$
 	xor	a, #0x80
-00604$:
+00586$:
 	jp	P,00132$
 ;engine/../engine/enemmods/enem_homing_fanty.h:21: _enf_vx -= FANTY_A; if (_enf_vx < -FANTY_MAXV) _enf_vx = -FANTY_MAXV;
 	ld	hl,(__enf_vx)
@@ -5434,9 +2524,9 @@ _enems_move::
 	ld	a,#0x00
 	ld	iy,#__enf_vx
 	sbc	a, 1 (iy)
-	jp	PO, 00605$
+	jp	PO, 00587$
 	xor	a, #0x80
-00605$:
+00587$:
 	jp	P,00133$
 	ld	hl,#0x0020
 	ld	(__enf_vx),hl
@@ -5449,9 +2539,9 @@ _enems_move::
 	ld	a,1 (iy)
 	inc	hl
 	sbc	a, (hl)
-	jp	PO, 00606$
+	jp	PO, 00588$
 	xor	a, #0x80
-00606$:
+00588$:
 	jp	P,00139$
 ;engine/../engine/enemmods/enem_homing_fanty.h:27: _enf_vy -= FANTY_A; if (_enf_vy < -FANTY_MAXV) _enf_vy = -FANTY_MAXV;
 	ld	hl,(__enf_vy)
@@ -5485,9 +2575,9 @@ _enems_move::
 	ld	a,#0x00
 	ld	iy,#__enf_vy
 	sbc	a, 1 (iy)
-	jp	PO, 00607$
+	jp	PO, 00589$
 	xor	a, #0x80
-00607$:
+00589$:
 	jp	P,00140$
 	ld	hl,#0x0020
 	ld	(__enf_vy),hl
@@ -5509,20 +2599,20 @@ _enems_move::
 	add	hl, hl
 	ld	(__enf_x),hl
 ;engine/../engine/enemmods/enem_homing_fanty.h:35: _enf_y = _en_y << FIXBITS;
-	ld	a,-6 (ix)
+	ld	a,-7 (ix)
 	ld	(#__enf_y + 0),a
-	ld	a,-5 (ix)
+	ld	a,-6 (ix)
 	ld	(#__enf_y + 1),a
 	ld	a,#0x06+1
-	jr	00609$
-00608$:
+	jr	00591$
+00590$:
 	ld	iy,#__enf_y
 	sla	0 (iy)
 	ld	iy,#__enf_y
 	rl	1 (iy)
-00609$:
+00591$:
 	dec	a
-	jr	NZ,00608$
+	jr	NZ,00590$
 ;engine/../engine/enemmods/enem_homing_fanty.h:36: _en_state = 0;
 	ld	hl,#__en_state + 0
 	ld	(hl), #0x00
@@ -5557,9 +2647,9 @@ _enems_move::
 	ld	a,#0x3C
 	ld	iy,#__enf_x
 	sbc	a, 1 (iy)
-	jp	PO, 00610$
+	jp	PO, 00592$
 	xor	a, #0x80
-00610$:
+00592$:
 	jp	P,00147$
 	ld	hl,#0x3C00
 	ld	(__enf_x),hl
@@ -5586,10 +2676,10 @@ _enems_move::
 	or	a,(hl)
 	jp	Z,00155$
 ;engine/../engine/enemmods/enem_homing_fanty.h:51: cy1 = (_en_y + 4) >> 4;
-	ld	a,-6 (ix)
+	ld	a,-7 (ix)
 	add	a, #0x04
 	ld	l,a
-	ld	a,-5 (ix)
+	ld	a,-6 (ix)
 	adc	a, #0x00
 	ld	h,a
 	sra	h
@@ -5603,10 +2693,10 @@ _enems_move::
 	ld	iy,#_cy1
 	ld	0 (iy),l
 ;engine/../engine/enemmods/enem_homing_fanty.h:52: cy2 = (_en_y + 11) >> 4;
-	ld	a,-6 (ix)
+	ld	a,-7 (ix)
 	add	a, #0x0B
 	ld	h,a
-	ld	a,-5 (ix)
+	ld	a,-6 (ix)
 	adc	a, #0x00
 	ld	l,a
 	sra	l
@@ -5629,9 +2719,9 @@ _enems_move::
 	cp	a, 0 (iy)
 	ld	iy,#__enf_vx
 	sbc	a, 1 (iy)
-	jp	PO, 00611$
+	jp	PO, 00593$
 	xor	a, #0x80
-00611$:
+00593$:
 	jp	P,00149$
 ;engine/../engine/enemmods/enem_homing_fanty.h:55: cx1 = cx2 = (_en_x + 11) >> 4;
 	ld	hl,#0x000B
@@ -5752,9 +2842,9 @@ _enems_move::
 	ld	a,#0x2C
 	ld	iy,#__enf_y
 	sbc	a, 1 (iy)
-	jp	PO, 00615$
+	jp	PO, 00597$
 	xor	a, #0x80
-00615$:
+00597$:
 	jp	P,00159$
 	ld	hl,#0x2C00
 	ld	(__enf_y),hl
@@ -5819,9 +2909,9 @@ _enems_move::
 	cp	a, 0 (iy)
 	ld	iy,#__enf_vy
 	sbc	a, 1 (iy)
-	jp	PO, 00616$
+	jp	PO, 00598$
 	xor	a, #0x80
-00616$:
+00598$:
 	jp	P,00161$
 ;engine/../engine/enemmods/enem_homing_fanty.h:85: rdb = 12;
 	ld	hl,#_rdb + 0
@@ -6018,19 +3108,19 @@ _enems_move::
 ;engine/enengine.h:446: ) {
 	ld	a,(#__en_t + 0)
 	sub	a, #0x04
-	jr	NZ,00618$
+	jr	NZ,00600$
 	ld	a,#0x01
-	jr	00619$
-00618$:
+	jr	00601$
+00600$:
 	xor	a,a
-00619$:
-	ld	-6 (ix),a
+00601$:
+	ld	-7 (ix),a
 ;engine/../engine/enemmods/enem_homing_fanty.h:35: _enf_y = _en_y << FIXBITS;
 	ld	hl,#__en_y + 0
 	ld	b, (hl)
-	ld	e,#0x00
+	ld	c,#0x00
 ;engine/enengine.h:584: if (_en_t == 4 && pregotten && !pgotten && !pj) {
-	ld	a,-6 (ix)
+	ld	a,-7 (ix)
 	or	a, a
 	jp	Z,00188$
 	ld	a,(#_pregotten + 0)
@@ -6046,15 +3136,15 @@ _enems_move::
 	ld	a,#<(_en_status)
 	ld	hl,#_gpit
 	add	a, (hl)
-	ld	-4 (ix),a
+	ld	-5 (ix),a
 	ld	a,#>(_en_status)
 	adc	a, #0x00
-	ld	-3 (ix),a
+	ld	-4 (ix),a
 ;engine/enengine.h:592: py = (_en_y - 16) << 6; pry = py >> 6;
 	ld	a,b
 	add	a,#0xF0
 	ld	l,a
-	ld	a,e
+	ld	a,c
 	adc	a,#0xFF
 	ld	h,a
 	add	hl, hl
@@ -6071,33 +3161,27 @@ _enems_move::
 	jp	Z,00179$
 ;engine/enengine.h:589: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
 	ld	iy,#_pry
-	ld	l,0 (iy)
-	ld	h,#0x00
+	ld	e,0 (iy)
+	ld	d,#0x00
+	ld	hl,#0x0010
+	add	hl,de
 	ld	a,l
-	add	a, #0x10
-	ld	d,a
-	ld	a,h
-	adc	a, #0x00
-	ld	c,a
-	ld	a,d
 	sub	a, b
-	ld	a,c
-	sbc	a, e
-	jp	PO, 00620$
+	ld	a,h
+	sbc	a, c
+	jp	PO, 00602$
 	xor	a, #0x80
-00620$:
+00602$:
 	jp	M,00179$
-	push	de
-	ld	de,#0x000C
-	add	hl, de
-	pop	de
+	ld	hl,#0x000C
+	add	hl,de
 	ld	a,b
 	sub	a, l
-	ld	a,e
+	ld	a,c
 	sbc	a, h
-	jp	PO, 00621$
+	jp	PO, 00603$
 	xor	a, #0x80
-00621$:
+00603$:
 	jp	M,00179$
 ;engine/enengine.h:590: pgotten = 1;
 	ld	hl,#_pgotten + 0
@@ -6108,33 +3192,33 @@ _enems_move::
 	ld	a,(#__en_mx + 0)
 	rla
 	sbc	a, a
-	ld	c,a
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
-	ld	h,(hl)
-	ld	l,#0x00
+	ld	e,a
+	ld	l,-5 (ix)
+	ld	h,-4 (ix)
+	ld	l,(hl)
+	ld	h,#0x00
 	ld	a,#0x06
-	sub	a, h
-	ld	h,a
+	sub	a, l
+	ld	l,a
 	ld	a,#0x00
-	sbc	a, l
-	ld	a,h
+	sbc	a, h
+	ld	a,l
 	push	af
 	ld	hl,#_pgtmx + 0
 	ld	(hl), d
 	ld	hl,#_pgtmx + 1
-	ld	(hl), c
+	ld	(hl), e
 	pop	af
 	inc	a
-	jr	00623$
-00622$:
+	jr	00605$
+00604$:
 	ld	iy,#_pgtmx
 	sla	0 (iy)
 	ld	iy,#_pgtmx
 	rl	1 (iy)
-00623$:
+00605$:
 	dec	a
-	jr	NZ,00622$
+	jr	NZ,00604$
 ;engine/enengine.h:592: py = (_en_y - 16) << 6; pry = py >> 6;
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
@@ -6157,51 +3241,43 @@ _enems_move::
 00179$:
 ;engine/enengine.h:589: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
 	ld	hl,#_pry + 0
-	ld	d, (hl)
-	ld	c,#0x00
+	ld	e, (hl)
+	ld	d,#0x00
 ;engine/enengine.h:600: (_en_my > 0 && pry + 16 + _en_my >= _en_y && pry + 12 <= _en_y)
 	ld	a,(#__en_my + 0)
-	ld	-8 (ix),a
+	ld	-9 (ix),a
 	ld	iy,#__en_my
 	ld	a,0 (iy)
 	rla
 	sbc	a, a
-	ld	-7 (ix),a
+	ld	-8 (ix),a
 ;engine/enengine.h:599: (_en_my < 0 && pry + 17 >= _en_y && pry + 12 <= _en_y) ||
-	ld	a,d
-	add	a, #0x0C
-	ld	h,a
-	ld	a,c
-	adc	a, #0x00
-	ld	l,a
+	ld	hl,#0x000C
+	add	hl,de
 	ld	a,b
-	sub	a, h
-	ld	a,e
-	sbc	a, l
-	jp	PO, 00624$
+	sub	a, l
+	ld	a,c
+	sbc	a, h
+	jp	PO, 00606$
 	xor	a, #0x80
-00624$:
+00606$:
 	rlca
 	and	a,#0x01
-	ld	-9 (ix),a
+	ld	-3 (ix),a
 	ld	iy,#__en_my
 	bit	7,0 (iy)
 	jr	Z,00186$
-	ld	a,d
-	add	a, #0x11
-	ld	h,a
-	ld	a,c
-	adc	a, #0x00
-	ld	l,a
-	ld	a,h
-	sub	a, b
+	ld	hl,#0x0011
+	add	hl,de
 	ld	a,l
-	sbc	a, e
-	jp	PO, 00625$
+	sub	a, b
+	ld	a,h
+	sbc	a, c
+	jp	PO, 00607$
 	xor	a, #0x80
-00625$:
+00607$:
 	jp	M,00186$
-	ld	a,-9 (ix)
+	ld	a,-3 (ix)
 	or	a, a
 	jr	Z,00180$
 00186$:
@@ -6209,31 +3285,24 @@ _enems_move::
 	xor	a, a
 	ld	iy,#__en_my
 	sub	a, 0 (iy)
-	jp	PO, 00626$
+	jp	PO, 00608$
 	xor	a, #0x80
-00626$:
+00608$:
 	jp	P,00188$
-	ld	a,d
-	add	a, #0x10
-	ld	l,a
-	ld	a,c
-	adc	a, #0x00
-	ld	h,a
-	ld	a,l
-	add	a, -8 (ix)
-	ld	l,a
-	ld	a,h
-	adc	a, -7 (ix)
-	ld	h,a
+	ld	hl,#0x0010
+	add	hl,de
+	pop	de
+	push	de
+	add	hl,de
 	ld	a,l
 	sub	a, b
 	ld	a,h
-	sbc	a, e
-	jp	PO, 00627$
+	sbc	a, c
+	jp	PO, 00609$
 	xor	a, #0x80
-00627$:
+00609$:
 	jp	M,00188$
-	ld	a,-9 (ix)
+	ld	a,-3 (ix)
 	or	a, a
 	jr	NZ,00188$
 00180$:
@@ -6241,8 +3310,8 @@ _enems_move::
 	ld	hl,#_pgotten + 0
 	ld	(hl), #0x01
 ;engine/enengine.h:603: pgtmy = _en_my << (6 - en_status [gpit]);
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	l,-5 (ix)
+	ld	h,-4 (ix)
 	ld	l,(hl)
 	ld	h,#0x00
 	ld	a,#0x06
@@ -6251,23 +3320,23 @@ _enems_move::
 	ld	a,#0x00
 	sbc	a, h
 	push	af
-	ld	a,-8 (ix)
+	ld	a,-9 (ix)
 	ld	iy,#_pgtmy
 	ld	0 (iy),a
-	ld	a,-7 (ix)
+	ld	a,-8 (ix)
 	ld	iy,#_pgtmy
 	ld	1 (iy),a
 	pop	af
 	inc	l
-	jr	00629$
-00628$:
+	jr	00611$
+00610$:
 	ld	iy,#_pgtmy
 	sla	0 (iy)
 	ld	iy,#_pgtmy
 	rl	1 (iy)
-00629$:
+00611$:
 	dec	l
-	jr	NZ,00628$
+	jr	NZ,00610$
 ;engine/enengine.h:604: py = (_en_y - 16) << 6; pry = py >> 6;
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
@@ -6296,47 +3365,42 @@ _enems_move::
 	or	a, a
 	jp	Z,00230$
 ;engine/enengine.h:619: || en_cttouched [gpit]
-	ld	iy,#_en_cttouched
-	push	bc
-	ld	bc,(_gpit)
-	ld	b,#0x00
-	add	iy, bc
-	pop	bc
-	ld	a, 0 (iy)
+	ld	a,#<(_en_cttouched)
+	ld	hl,#_gpit
+	add	a, (hl)
+	ld	e,a
+	ld	a,#>(_en_cttouched)
+	adc	a, #0x00
+	ld	d,a
+	ld	a,(de)
 	or	a, a
 	jp	NZ,00230$
 ;engine/enengine.h:645: ) goto skipdo;
-	ld	a,-6 (ix)
+	ld	a,-7 (ix)
 	or	a, a
 	jp	NZ,00230$
-;engine/enengine.h:589: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
-	ld	a,(#_pry + 0)
-	ld	-8 (ix),a
-	ld	-7 (ix),#0x00
 ;engine/enengine.h:653: pregotten && 
 	ld	a,(#_pregotten + 0)
 	or	a, a
 	jp	Z,00216$
 ;engine/enengine.h:654: pry < _en_y && 
 	ld	hl,#__en_y
-	ld	iy,#_pry
-	ld	a,0 (iy)
+	ld	a,(#_pry + 0)
 	sub	a, (hl)
 	jp	NC,00216$
 ;engine/enengine.h:655: pry + 15 + ENEMS_COLLISION_VSTRETCH_FG >= _en_y &&
-	ld	a,-8 (ix)
-	add	a, #0x0D
-	ld	h,a
-	ld	a,-7 (ix)
-	adc	a, #0x00
-	ld	l,a
-	ld	a,h
-	sub	a, b
+	ld	iy,#_pry
+	ld	l,0 (iy)
+	ld	h,#0x00
+	ld	de,#0x000D
+	add	hl,de
 	ld	a,l
-	sbc	a, e
-	jp	PO, 00630$
+	sub	a, b
+	ld	a,h
+	sbc	a, c
+	jp	PO, 00612$
 	xor	a, #0x80
-00630$:
+00612$:
 	jp	M,00216$
 ;engine/enengine.h:656: pgotten == 0 &&	ppossee == 0
 	ld	a,(#_pgotten + 0)
@@ -6352,9 +3416,9 @@ _enems_move::
 	ld	a,#0x00
 	ld	iy,#_pvy
 	sbc	a, 1 (iy)
-	jp	PO, 00631$
+	jp	PO, 00613$
 	xor	a, #0x80
-00631$:
+00613$:
 	jp	P,00216$
 ;engine/enengine.h:672: if (res_on || res_disable)
 	ld	a,(#_res_on + 0)
@@ -6403,9 +3467,9 @@ _enems_move::
 	sub	a, l
 	ld	a,d
 	sbc	a, h
-	jp	PO, 00633$
+	jp	PO, 00615$
 	xor	a, #0x80
-00633$:
+00615$:
 	jp	P,00205$
 	ld	hl,#_pry
 	ld	a,(#__en_y + 0)
@@ -6425,88 +3489,29 @@ _enems_move::
 ;engine/enengine.h:699: touched = 1;
 	ld	hl,#_touched + 0
 	ld	(hl), #0x01
-	jp	00230$
+	jr	00230$
 00216$:
 ;engine/enengine.h:707: touched == 0 &&
 	ld	a,(#_touched + 0)
 	or	a, a
-	jp	NZ,00230$
-;engine/general.h:41: prx + 3 >= _en_x && 
-	ld	hl,#_prx + 0
-	ld	d, (hl)
-	ld	c,#0x00
-	ld	a,d
-	add	a, #0x03
-	ld	-6 (ix),a
-	ld	a,c
-	adc	a, #0x00
-	ld	-5 (ix),a
-	ld	iy,#__en_x
-	ld	l,0 (iy)
-	ld	h,#0x00
-	ld	a,-6 (ix)
-	sub	a, l
-	ld	a,-5 (ix)
-	sbc	a, h
-	jp	PO, 00634$
-	xor	a, #0x80
-00634$:
-	jp	M,00230$
-;engine/general.h:42: prx <= _en_x + 11 && 
-	push	de
-	ld	de,#0x000B
-	add	hl, de
-	pop	de
+	jr	NZ,00230$
+;engine/enengine.h:708: collide ()
+	call	_collide
 	ld	a,l
-	sub	a, d
-	ld	a,h
-	sbc	a, c
-	jp	PO, 00635$
-	xor	a, #0x80
-00635$:
-	jp	M,00230$
-;engine/general.h:43: pry + 13 + ENEMS_COLLISION_VSTRETCH_FG >= _en_y &&
-	ld	a,-8 (ix)
-	add	a, #0x0B
-	ld	h,a
-	ld	a,-7 (ix)
-	adc	a, #0x00
-	ld	l,a
-	ld	a,h
-	sub	a, b
-	ld	a,l
-	sbc	a, e
-	jp	PO, 00636$
-	xor	a, #0x80
-00636$:
-	jp	M,00230$
-;engine/general.h:44: pry <= _en_y + 13 + PLAYER_COLLISION_VSTRETCH_FG
-	ld	a,b
-	add	a, #0x09
-	ld	h,a
-	ld	a,e
-	adc	a, #0x00
-	ld	l,a
-	ld	a,h
-	sub	a, -8 (ix)
-	ld	a,l
-	sbc	a, -7 (ix)
-	jp	PO, 00637$
-	xor	a, #0x80
-00637$:
-	jp	M,00230$
+	or	a, a
+	jr	Z,00230$
 ;engine/enengine.h:714: en_sg_1 = 0;
 	ld	hl,#_en_sg_1 + 0
 	ld	(hl), #0x00
 ;engine/enengine.h:718: en_sg_2 = (pflickering == 0);
 	ld	a,(#_pflickering + 0)
 	or	a, a
-	jr	NZ,00638$
+	jr	NZ,00616$
 	ld	a,#0x01
-	jr	00639$
-00638$:
+	jr	00617$
+00616$:
 	xor	a,a
-00639$:
+00617$:
 	ld	(#_en_sg_2 + 0),a
 ;engine/enengine.h:727: ) en_sg_2 = 0;
 	ld	a,(#_res_on + 0)
@@ -6551,7 +3556,7 @@ _enems_move::
 	ld	b,(hl)
 ;engine/enengine.h:895: _en_x + en_spr_x_mod, _en_y + SPRITE_ADJUST, 
 	ld	a,(#__en_y + 0)
-	add	a, #0xF8
+	add	a, #0xF7
 	ld	d,a
 	ld	hl,#_en_spr_x_mod
 	ld	a,(#__en_x + 0)
@@ -6568,7 +3573,7 @@ _enems_move::
 ;engine/enengine.h:902: enems_update_unsigned_char_arrays ();
 	call	_enems_update_unsigned_char_arrays
 	jp	00233$
-00237$:
+00236$:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -6577,8 +3582,10 @@ _enems_move::
 ; Function draw_game_frame
 ; ---------------------------------
 _draw_game_frame::
-;engine/../my/game_frame.h:9: }
-	ret
+;engine/../my/game_frame.h:8: gp_gen = hud_rle; unrle ();
+	ld	hl,#_hud_rle+0
+	ld	(_gp_gen),hl
+	jp  _unrle
 ;engine/frame.h:9: void hud_update (void) {
 ;	---------------------------------
 ; Function hud_update
@@ -6594,9 +3601,9 @@ _hud_update::
 	ld	(#_okilled + 0),a
 ;engine/frame.h:14: _x = KILLED_X; _y = KILLED_Y; _n = c_max_enems - pkilled; p_t ();
 	ld	hl,#__x + 0
-	ld	(hl), #0x1C
+	ld	(hl), #0x15
 	ld	hl,#__y + 0
-	ld	(hl), #0x04
+	ld	(hl), #0x01
 	ld	hl,#_pkilled
 	push	de
 	ld	iy,#__n
@@ -6620,9 +3627,9 @@ _hud_update::
 	ld	(hl), d
 ;engine/frame.h:34: _x = KEYS_X; _y = KEYS_Y; _n = pkeys; p_t ();
 	ld	hl,#__x + 0
-	ld	(hl), #0x10
+	ld	(hl), #0x0C
 	ld	hl,#__y + 0
-	ld	(hl), #0x04
+	ld	(hl), #0x01
 	ld	hl,#__n + 0
 	ld	(hl), d
 	call	_p_t
@@ -6641,7 +3648,7 @@ _hud_update::
 	ld	hl,#__x + 0
 	ld	(hl), #0x04
 	ld	hl,#__y + 0
-	ld	(hl), #0x04
+	ld	(hl), #0x01
 	ld	hl,#__n + 0
 	ld	(hl), d
 	jp  _p_t
@@ -6674,40 +3681,43 @@ _bat_out::
 	push	hl
 	call	_SG_VDPturnOffFeature
 	pop	af
-	ret
-;my/pres.h:16: void pres (void (*func) (void)) {
+;my/pres.h:14: SG_initSprites ();
+	call	_SG_initSprites
+;my/pres.h:15: UNSAFE_SG_copySpritestoSAT ();	
+	jp  _UNSAFE_SG_copySpritestoSAT
+;my/pres.h:18: void pres (void (*func) (void)) {
 ;	---------------------------------
 ; Function pres
 ; ---------------------------------
 _pres::
-;my/pres.h:17: cls ();
+;my/pres.h:19: cls ();
 	call	_cls
-;my/pres.h:18: (*func) ();
+;my/pres.h:20: (*func) ();
 	pop	bc
 	pop	hl
 	push	hl
 	push	bc
 	call	___sdcc_call_hl
-;my/pres.h:19: bat_in ();
+;my/pres.h:21: bat_in ();
 	call	_bat_in
-;my/pres.h:20: while (1) {
+;my/pres.h:22: while (1) {
 00104$:
-;my/pres.h:21: pad_read ();
+;my/pres.h:23: pad_read ();
 	call	_pad_read
-;my/pres.h:22: if (pad_this_frame & (PAD_A|PAD_B|PAD_START)) break;
+;my/pres.h:24: if (pad_this_frame & (PAD_A|PAD_B|PAD_START)) break;
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x30
 	jr	Z,00104$
-;my/pres.h:24: bat_out ();
+;my/pres.h:26: bat_out ();
 	jp  _bat_out
-;my/pres.h:27: void title (void) {
+;my/pres.h:29: void title (void) {
 ;	---------------------------------
 ; Function title
 ; ---------------------------------
 _title::
-;my/pres.h:29: cls (); // TODO:CHANGE
+;my/pres.h:31: cls (); // TODO:CHANGE
 	call	_cls
-;my/pres.h:31: _x = 7; _y = 18; pr_str ("SELECT AND PUSH 1!");
+;my/pres.h:33: _x = 7; _y = 18; pr_str ("SELECT AND PUSH 1!");
 	ld	hl,#__x + 0
 	ld	(hl), #0x07
 	ld	hl,#__y + 0
@@ -6716,7 +3726,7 @@ _title::
 	push	hl
 	call	_pr_str
 	pop	af
-;my/pres.h:33: _x = 12; _y = 20; pr_str ("RESONATORS");
+;my/pres.h:35: _x = 12; _y = 20; pr_str ("RESONATORS");
 	ld	hl,#__x + 0
 	ld	(hl), #0x0C
 	ld	hl,#__y + 0
@@ -6725,20 +3735,20 @@ _title::
 	push	hl
 	call	_pr_str
 	pop	af
-;my/pres.h:34: _y = 22; pr_str ("EASY MODE");
+;my/pres.h:36: _y = 22; pr_str ("EASY MODE");
 	ld	hl,#__y + 0
 	ld	(hl), #0x16
 	ld	hl,#___str_2
 	push	hl
 	call	_pr_str
 	pop	af
-;my/pres.h:36: bat_in ();
+;my/pres.h:38: bat_in ();
 	call	_bat_in
-;my/pres.h:38: while (1) {
+;my/pres.h:40: while (1) {
 00113$:
-;my/pres.h:39: update_cycle ();
+;my/pres.h:41: update_cycle ();
 	call	_update_cycle
-;my/pres.h:40: SG_addMetaSprite1x1 (84, 154 + (mode_no_resonators << 4), ss_pl_00);
+;my/pres.h:42: SG_addMetaSprite1x1 (84, 154 + (mode_no_resonators << 4), ss_pl_00);
 	ld	hl,#_ss_pl_00
 	ld	a,(#_mode_no_resonators + 0)
 	rlca
@@ -6754,16 +3764,16 @@ _title::
 	call	_SG_addMetaSprite1x1
 	pop	af
 	pop	af
-;my/pres.h:41: pad_read ();
+;my/pres.h:43: pad_read ();
 	call	_pad_read
-;my/pres.h:42: rda = mode_no_resonators;
+;my/pres.h:44: rda = mode_no_resonators;
 	ld	a,(#_mode_no_resonators + 0)
 	ld	(#_rda + 0),a
-;my/pres.h:43: if (pad_this_frame & PAD_DOWN) {
+;my/pres.h:45: if (pad_this_frame & PAD_DOWN) {
 	ld	hl,#_pad_this_frame+0
 	bit	1, (hl)
 	jr	Z,00104$
-;my/pres.h:44: ++ mode_no_resonators; if (mode_no_resonators == 2) mode_no_resonators = 0;
+;my/pres.h:46: ++ mode_no_resonators; if (mode_no_resonators == 2) mode_no_resonators = 0;
 	ld	hl, #_mode_no_resonators+0
 	inc	(hl)
 	ld	a,(#_mode_no_resonators + 0)
@@ -6772,11 +3782,11 @@ _title::
 	ld	hl,#_mode_no_resonators + 0
 	ld	(hl), #0x00
 00104$:
-;my/pres.h:46: if (pad_this_frame & PAD_UP) {
+;my/pres.h:48: if (pad_this_frame & PAD_UP) {
 	ld	hl,#_pad_this_frame+0
 	bit	0, (hl)
 	jr	Z,00109$
-;my/pres.h:47: if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
+;my/pres.h:49: if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
 	ld	a,(#_mode_no_resonators + 0)
 	or	a, a
 	jr	Z,00106$
@@ -6787,11 +3797,11 @@ _title::
 	ld	hl,#_mode_no_resonators + 0
 	ld	(hl), #0x01
 00109$:
-;my/pres.h:50: if (pad_this_frame & PAD_1) break;
+;my/pres.h:52: if (pad_this_frame & PAD_1) break;
 	ld	hl,#_pad_this_frame+0
 	bit	4, (hl)
 	jr	Z,00113$
-;my/pres.h:56: plife = mode_no_resonators ? 5 : 3;
+;my/pres.h:58: plife = mode_no_resonators ? 5 : 3;
 	ld	a,(#_mode_no_resonators + 0)
 	or	a, a
 	jr	Z,00117$
@@ -6801,7 +3811,7 @@ _title::
 	ld	a,#0x03
 00118$:
 	ld	(#_plife + 0),a
-;my/pres.h:58: bat_out ();
+;my/pres.h:60: bat_out ();
 	jp  _bat_out
 ___str_0:
 	.ascii "SELECT AND PUSH 1!"
@@ -6812,12 +3822,12 @@ ___str_1:
 ___str_2:
 	.ascii "EASY MODE"
 	.db 0x00
-;my/pres.h:61: void scr_game_over (void) {
+;my/pres.h:63: void scr_game_over (void) {
 ;	---------------------------------
 ; Function scr_game_over
 ; ---------------------------------
 _scr_game_over::
-;my/pres.h:62: _x = 11; _y = 15; pr_str ("GAME OVER!");
+;my/pres.h:64: _x = 11; _y = 15; pr_str ("GAME OVER!");
 	ld	hl,#__x + 0
 	ld	(hl), #0x0B
 	ld	hl,#__y + 0
@@ -6830,12 +3840,12 @@ _scr_game_over::
 ___str_3:
 	.ascii "GAME OVER!"
 	.db 0x00
-;my/pres.h:65: void scr_the_end (void) {
+;my/pres.h:67: void scr_the_end (void) {
 ;	---------------------------------
 ; Function scr_the_end
 ; ---------------------------------
 _scr_the_end::
-;my/pres.h:66: _x = 6; _y = 6; pr_str (" CHERIL VANQUISHED%    ALL ZOMBIES%AND RETURNED SAFELY%   TO THE BOSQUE");
+;my/pres.h:68: _x = 6; _y = 6; pr_str (" CHERIL VANQUISHED%    ALL ZOMBIES%AND RETURNED SAFELY%   TO THE BOSQUE");
 	ld	hl,#__x + 0
 	ld	(hl), #0x06
 	ld	hl,#__y + 0
@@ -6844,7 +3854,7 @@ _scr_the_end::
 	push	hl
 	call	_pr_str
 	pop	af
-;my/pres.h:68: _x = 12; _y = 25; pr_str ("THE  END");
+;my/pres.h:70: _x = 12; _y = 25; pr_str ("THE  END");
 	ld	hl,#__x + 0
 	ld	(hl), #0x0C
 	ld	hl,#__y + 0
@@ -6861,12 +3871,12 @@ ___str_4:
 ___str_5:
 	.ascii "THE  END"
 	.db 0x00
-;my/pres.h:76: void scr_level (void) {
+;my/pres.h:78: void scr_level (void) {
 ;	---------------------------------
 ; Function scr_level
 ; ---------------------------------
 _scr_level::
-;my/pres.h:77: _x = 12; _y = 14; pr_str ("LEVEL 0"); SG_setTile (17+level);
+;my/pres.h:79: _x = 12; _y = 14; pr_str ("LEVEL 0"); SG_setTile (17+level);
 	ld	hl,#__x + 0
 	ld	(hl), #0x0C
 	ld	hl,#__y + 0
@@ -6881,7 +3891,7 @@ _scr_level::
 	inc	sp
 	call	_SG_setTile
 	inc	sp
-;my/pres.h:78: _x = 10; _y = 16; pr_str (levelnames [level]);
+;my/pres.h:80: _x = 10; _y = 16; pr_str (levelnames [level]);
 	ld	hl,#__x + 0
 	ld	(hl), #0x0A
 	ld	hl,#__y + 0
@@ -6915,33 +3925,33 @@ _levelnames:
 ___str_6:
 	.ascii "LEVEL 0"
 	.db 0x00
-;my/pres.h:81: void credits (void) {
+;my/pres.h:83: void credits (void) {
 ;	---------------------------------
 ; Function credits
 ; ---------------------------------
 _credits::
-;my/pres.h:82: cls ();
+;my/pres.h:84: cls ();
 	call	_cls
-;my/pres.h:83: rds16 = 0; rdy = 240;
+;my/pres.h:85: rds16 = 0; rdy = 240;
 	ld	hl,#0x0000
 	ld	(_rds16),hl
 	ld	hl,#_rdy + 0
 	ld	(hl), #0xF0
-;my/pres.h:85: _x = 0; _y = 22; 
+;my/pres.h:87: _x = 0; _y = 19; 
 	ld	hl,#__x + 0
 	ld	(hl), #0x00
 	ld	hl,#__y + 0
-	ld	(hl), #0x16
-;my/pres.h:86: pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%   @ 2011 BY THE MOJON TWINS%       REPROGRAMMED GAME%@ 2014, 2018 BY THE MOJON TWINS");
+	ld	(hl), #0x13
+;my/pres.h:88: pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%   @ 2011 BY THE MOJON TWINS%       REPROGRAMMED GAME%@ 2014, 2018 BY THE MOJON TWINS");
 	ld	hl,#___str_10+0
 	push	hl
 	call	_pr_str
-;my/pres.h:88: SG_displayOn ();
+;my/pres.h:90: SG_displayOn ();
 	ld	hl, #0x0140
 	ex	(sp),hl
 	call	_SG_VDPturnOnFeature
 	pop	af
-;my/pres.h:90: while (!(SG_getKeysStatus () & PAD_START) && rds16 < 300) {
+;my/pres.h:92: while (!(SG_getKeysStatus () & PAD_START) && rds16 < 300) {
 00102$:
 	call	_SG_getKeysStatus
 	bit	4, l
@@ -6954,9 +3964,9 @@ _credits::
 	rra
 	sbc	a, #0x81
 	jr	NC,00104$
-;my/pres.h:93: update_cycle ();
+;my/pres.h:95: update_cycle ();
 	call	_update_cycle
-;my/pres.h:94: rds16 ++;
+;my/pres.h:96: rds16 ++;
 	ld	hl, #_rds16+0
 	inc	(hl)
 	jr	NZ,00102$
@@ -6964,7 +3974,7 @@ _credits::
 	inc	(hl)
 	jr	00102$
 00104$:
-;my/pres.h:97: SG_displayOff ();
+;my/pres.h:99: SG_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
@@ -7273,7 +4283,7 @@ _game_init::
 	pop	de
 	jr	00101$
 00103$:
-;mainloop.h:15: unpack_bg_patterns (l_ts_patterns [level], l_ts_colours [level], 64*8, 7);
+;my/level_pattern_unpacker.h:3: unpack_bg_patterns (l_ts_patterns [level], l_ts_colours [level], 64*8, 7);
 	ld	hl,#_l_ts_colours
 	add	hl,bc
 	ld	e,(hl)
@@ -7295,6 +4305,22 @@ _game_init::
 	ld	hl,#7
 	add	hl,sp
 	ld	sp,hl
+;my/level_pattern_unpacker.h:4: aPLib_depack_VRAM (SGT_BASE + 160*8, l_spr_patterns [level]);
+	ld	iy,#_level
+	ld	l,0 (iy)
+	ld	h,#0x00
+	add	hl, hl
+	ld	de,#_l_spr_patterns
+	add	hl,de
+	ld	e,(hl)
+	inc	hl
+	ld	d,(hl)
+	push	de
+	ld	hl,#0x3D00
+	push	hl
+	call	_aPLib_depack_VRAM
+	pop	af
+	pop	af
 ;mainloop.h:17: cls ();
 	call	_cls
 ;mainloop.h:19: draw_game_frame ();
@@ -7423,30 +4449,35 @@ _prepare_scr::
 	call	_SG_VDPturnOffFeature
 	pop	af
 ;mainloop.h:128: ft = 0;
-	ld	hl,#_ft + 0
-	ld	(hl), #0x00
-;mainloop.h:130: clear_update_list ();
+	ld	iy,#_ft
+	ld	0 (iy),#0x00
+;mainloop.h:130: update_list [update_index] = 0xff;
+	ld	a,(#_update_index + 0)
+	add	a, #<(_update_list)
+	ld	l, a
+	ld	a, #0x00
+	adc	a, #>(_update_list)
+	ld	h, a
+	ld	(hl),#0xFF
+;mainloop.h:131: SG_doUpdateList ();
+	call	_SG_doUpdateList
+;mainloop.h:132: clear_update_list ();
 	call	_clear_update_list
-;mainloop.h:142: enems_load ();
+;mainloop.h:144: enems_load ();
 	call	_enems_load
-;mainloop.h:143: hotspots_create ();	
+;mainloop.h:145: hotspots_create ();	
 	call	_hotspots_create
-;mainloop.h:160: chac_chacs_queue_write = chac_chacs_queue_read = 0;
+;mainloop.h:162: chac_chacs_queue_write = chac_chacs_queue_read = 0;
 	ld	hl,#_chac_chacs_queue_read + 0
 	ld	(hl), #0x00
 	ld	hl,#_chac_chacs_queue_write + 0
 	ld	(hl), #0x00
-;mainloop.h:161: max_chac_chacs = 0;
+;mainloop.h:163: max_chac_chacs = 0;
 	ld	hl,#_max_chac_chacs + 0
 	ld	(hl), #0x00
-;mainloop.h:170: draw_scr ();
+;mainloop.h:172: draw_scr ();
 	call	_draw_scr
-;mainloop.h:208: SG_displayOn ();
-	ld	hl,#0x0140
-	push	hl
-	call	_SG_VDPturnOnFeature
-	pop	af
-;mainloop.h:209: SG_initSprites ();
+;mainloop.h:210: SG_initSprites ();
 	call	_SG_initSprites
 ;my/on_entering_screen.h:8: if (mode_no_resonators) {
 	ld	a,(#_mode_no_resonators + 0)
@@ -7462,7 +4493,7 @@ _prepare_scr::
 	ld	hl,#_hrt + 0
 	ld	(hl), #0x00
 00104$:
-;mainloop.h:226: gpit = 3; while (gpit --) en_spr_id [gpit] = en_s [gpit];
+;mainloop.h:227: gpit = 3; while (gpit --) en_spr_id [gpit] = en_s [gpit];
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x03
 00105$:
@@ -7488,7 +4519,7 @@ _prepare_scr::
 	ld	(de),a
 	jr	00105$
 00107$:
-;mainloop.h:228: prx = px >> FIXBITS; pry = py >> FIXBITS;
+;mainloop.h:229: prx = px >> FIXBITS; pry = py >> FIXBITS;
 	ld	hl,(_px)
 	sra	h
 	rr	l
@@ -7519,120 +4550,143 @@ _prepare_scr::
 	rr	l
 	ld	iy,#_pry
 	ld	0 (iy),l
-;mainloop.h:233: player_move ();
+;mainloop.h:234: player_move ();
 	call	_player_move
-;mainloop.h:234: enems_move ();
+;mainloop.h:235: enems_move ();
 	call	_enems_move
-;mainloop.h:236: if (hrt) hotspots_paint ();
+;mainloop.h:237: if (hrt) hotspots_paint ();
 	ld	a,(#_hrt + 0)
 	or	a, a
 	jr	Z,00109$
 	call	_hotspots_paint
 00109$:
-;mainloop.h:251: SG_finalizeSprites ();
-	call	_SG_finalizeSprites
 ;mainloop.h:252: hud_update ();
 	call	_hud_update
-;mainloop.h:253: SG_waitForVBlank ();
-	call	_SG_waitForVBlank
-;mainloop.h:254: UNSAFE_SG_copySpritestoSAT ();
+;mainloop.h:253: UNSAFE_SG_copySpritestoSAT ();
 	call	_UNSAFE_SG_copySpritestoSAT
-;mainloop.h:255: clear_update_list ();	
-	jp  _clear_update_list
-;mainloop.h:258: void game_loop (void) {
+;mainloop.h:254: update_list [update_index] = 0xff;
+	ld	a,(#_update_index + 0)
+	add	a, #<(_update_list)
+	ld	l, a
+	ld	a, #0x00
+	adc	a, #>(_update_list)
+	ld	h, a
+	ld	(hl),#0xFF
+;mainloop.h:255: SG_doUpdateList ();
+	call	_SG_doUpdateList
+;mainloop.h:256: clear_update_list ();	
+	call	_clear_update_list
+;mainloop.h:257: SG_displayOn ();
+	ld	hl,#0x0140
+	push	hl
+	call	_SG_VDPturnOnFeature
+	pop	af
+	ret
+;mainloop.h:260: void game_loop (void) {
 ;	---------------------------------
 ; Function game_loop
 ; ---------------------------------
 _game_loop::
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-	dec	sp
-;mainloop.h:265: clear_update_list ();
+;mainloop.h:267: clear_update_list ();
 	call	_clear_update_list
-;mainloop.h:268: on_pant = 99; ft = 1; fade_delay = 1;
+;mainloop.h:270: on_pant = 99; ft = 1; fade_delay = 1;
 	ld	hl,#_on_pant + 0
 	ld	(hl), #0x63
 	ld	hl,#_ft + 0
 	ld	(hl), #0x01
 	ld	hl,#_fade_delay + 0
 	ld	(hl), #0x01
-;mainloop.h:272: SG_displayOn ();
+;mainloop.h:274: SG_displayOn ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOnFeature
 	pop	af
-;mainloop.h:283: ntsc_frame = level_reset = warp_to_level = 0; 
+;mainloop.h:285: ntsc_frame = level_reset = warp_to_level = 0; 
 	ld	hl,#_warp_to_level + 0
 	ld	(hl), #0x00
 	ld	hl,#_level_reset + 0
 	ld	(hl), #0x00
 	ld	hl,#_ntsc_frame + 0
 	ld	(hl), #0x00
-;mainloop.h:284: ticker = 50;
+;mainloop.h:286: ticker = 50;
 	ld	hl,#_ticker + 0
 	ld	(hl), #0x32
-;mainloop.h:286: while (1) {
+;mainloop.h:288: while (1) {
 00167$:
-;mainloop.h:293: hud_update ();
+;mainloop.h:295: hud_update ();
 	call	_hud_update
-;mainloop.h:297: if (pkill) player_kill ();
+;mainloop.h:299: if (pkill) player_kill ();
 	ld	a,(#_pkill + 0)
 	or	a, a
 	jr	Z,00102$
 	call	_player_kill
 00102$:
-;mainloop.h:298: if (game_over || level_reset) break;			
+;mainloop.h:300: if (game_over || level_reset) break;			
 	ld	a,(#_game_over + 0)
 	or	a, a
 	jp	NZ,00168$
 	ld	a,(#_level_reset + 0)
 	or	a, a
 	jp	NZ,00168$
-;mainloop.h:302: flick_override = 0;
+;mainloop.h:304: flick_override = 0;
 	ld	hl,#_flick_override + 0
 	ld	(hl), #0x00
-;mainloop.h:305: flickscreen_do_horizontal ();
+;mainloop.h:307: flickscreen_do_horizontal ();
 	call	_flickscreen_do_horizontal
-;mainloop.h:306: flickscreen_do_vertical ();
+;mainloop.h:308: flickscreen_do_vertical ();
 	call	_flickscreen_do_vertical
-;mainloop.h:311: if (on_pant != n_pant) {
+;mainloop.h:313: if (on_pant != n_pant) {
 	ld	a,(#_on_pant + 0)
 	ld	iy,#_n_pant
 	sub	a, 0 (iy)
 	jr	Z,00109$
-;mainloop.h:312: prepare_scr ();
+;mainloop.h:314: prepare_scr ();
 	call	_prepare_scr
-;mainloop.h:313: on_pant = n_pant;
+;mainloop.h:315: on_pant = n_pant;
 	ld	a,(#_n_pant + 0)
 	ld	(#_on_pant + 0),a
 00109$:
-;mainloop.h:332: update_cycle ();
-	call	_update_cycle
-;mainloop.h:336: pad_read ();
+;mainloop.h:334: SG_waitForVBlank ();
+	call	_SG_waitForVBlank
+;mainloop.h:335: UNSAFE_SG_copySpritestoSAT ();
+	call	_UNSAFE_SG_copySpritestoSAT
+;mainloop.h:336: update_list [update_index] = 0xff;
+	ld	a,#<(_update_list)
+	ld	hl,#_update_index
+	add	a, (hl)
+	ld	l, a
+	ld	a, #>(_update_list)
+	adc	a, #0x00
+	ld	h, a
+	ld	(hl),#0xFF
+;mainloop.h:337: SG_doUpdateList ();
+	call	_SG_doUpdateList
+;mainloop.h:338: clear_update_list ();
+	call	_clear_update_list
+;mainloop.h:342: pad_read ();
 	call	_pad_read
-;mainloop.h:337: a_button = (pad_this_frame & PAD_A);
+;mainloop.h:343: a_button = (pad_this_frame & PAD_A);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x20
 	ld	h,a
 	ld	iy,#_a_button
 	ld	0 (iy),h
-;mainloop.h:338: b_button = (pad_this_frame & PAD_B);
+;mainloop.h:344: b_button = (pad_this_frame & PAD_B);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x10
 	ld	h,a
 	ld	iy,#_b_button
 	ld	0 (iy),h
-;mainloop.h:342: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
-	ld	iy,#_ntsc_frame
-	inc	0 (iy)
+;mainloop.h:348: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
+	ld	hl, #_ntsc_frame+0
+	inc	(hl)
 	ld	a,(#_ntsc_frame + 0)
 	sub	a, #0x06
 	jr	NZ,00111$
-	ld	iy,#_ntsc_frame
-	ld	0 (iy),#0x00
+	ld	hl,#_ntsc_frame + 0
+	ld	(hl), #0x00
 00111$:
-;mainloop.h:344: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
+;mainloop.h:350: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
 	ld	a,(#_paused + 0)
 	or	a, a
 	jp	NZ,00159$
@@ -7643,7 +4697,9 @@ _game_loop::
 	or	a, a
 	jp	Z,00159$
 00158$:
-;mainloop.h:346: if (ticker) -- ticker; else ticker = 50;
+;mainloop.h:351: SG_initSprites ();
+	call	_SG_initSprites
+;mainloop.h:354: if (ticker) -- ticker; else ticker = 50;
 	ld	a,(#_ticker + 0)
 	or	a, a
 	jr	Z,00113$
@@ -7654,68 +4710,42 @@ _game_loop::
 	ld	iy,#_ticker
 	ld	0 (iy),#0x32
 00114$:
-;mainloop.h:347: half_life ^= 1;
+;mainloop.h:355: half_life ^= 1;
 	ld	a,(#_half_life + 0)
 	xor	a, #0x01
 	ld	iy,#_half_life
 	ld	0 (iy),a
-;mainloop.h:348: ++ frame_counter;
+;mainloop.h:356: ++ frame_counter;
 	ld	iy,#_frame_counter
 	inc	0 (iy)
 ;mainloop/hotspots.h:6: if (hrt) {
 	ld	a,(#_hrt + 0)
 	or	a, a
 	jp	Z,00131$
-;mainloop.h:7: void game_init (void) {
-	ld	iy,#_hry
-	ld	e,0 (iy)
-	ld	iy,#_hrx
-	ld	c,0 (iy)
+;mainloop/hotspots.h:7: if (collide_in (prx + 4, pry + 8, hrx, hry)) {
 	ld	a,(#_pry + 0)
 	add	a, #0x08
-	ld	d,a
-	ld	iy,#_prx
-	ld	l,0 (iy)
-	inc	l
-	inc	l
-	inc	l
-	inc	l
-;engine/general.h:28: return (x0 >= x1 && x0 <= x1 + 15 && y0 >= y1 && y0 <= y1 + 15);	
-	ld	a,l
-	sub	a, c
-	jp	C,00131$
-	ld	b,#0x00
-	ld	a,c
-	add	a, #0x0F
-	ld	c,a
-	ld	a,b
-	adc	a, #0x00
 	ld	b,a
-	ld	h,#0x00
-	ld	a,c
-	sub	a, l
-	ld	a,b
-	sbc	a, h
-	jp	PO, 00325$
-	xor	a, #0x80
-00325$:
-	jp	M,00131$
-	ld	a,d
-	sub	a, e
-	jp	C,00131$
-	ld	l,e
-	ld	h,#0x00
-	ld	bc,#0x000F
-	add	hl,bc
-	ld	e,#0x00
+	ld	hl,#_prx + 0
+	ld	d, (hl)
+	inc	d
+	inc	d
+	inc	d
+	inc	d
+	ld	a,(_hry)
+	push	af
+	inc	sp
+	ld	a,(_hrx)
+	push	af
+	inc	sp
+	ld	c, d
+	push	bc
+	call	_collide_in
+	pop	af
+	pop	af
 	ld	a,l
-	sub	a, d
-	ld	a,h
-	sbc	a, e
-	jp	PO, 00326$
-	xor	a, #0x80
-00326$:
-	jp	M,00131$
+	or	a, a
+	jp	Z,00131$
 ;mainloop/hotspots.h:9: if (hrt == HOTSPOT_TYPE_RESONATOR) {
 	ld	a,(#_hrt + 0)
 	sub	a, #0x04
@@ -7726,9 +4756,9 @@ _game_loop::
 	cp	a, 0 (iy)
 	ld	iy,#_pvy
 	sbc	a, 1 (iy)
-	jp	PO, 00329$
+	jp	PO, 00309$
 	xor	a, #0x80
-00329$:
+00309$:
 	jp	P,00131$
 	ld	hl,#_hry
 	ld	a,(#_pry + 0)
@@ -7797,11 +4827,11 @@ _game_loop::
 	xor	a, a
 	ld	(de),a
 00131$:
-;mainloop.h:368: if (!warp_to_level) {
+;mainloop.h:376: if (!warp_to_level) {
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00133$
-;mainloop.h:369: player_move ();
+;mainloop.h:377: player_move ();
 	call	_player_move
 00133$:
 ;my/extra_checks.h:14: if (c_max_enems == pkilled) {
@@ -7840,22 +4870,22 @@ _game_loop::
 ;mainloop/win_level_condition.h:25: break;
 	jp	00168$
 00141$:
-;mainloop.h:406: cur_stp = SG_getStp (); 
+;mainloop.h:414: cur_stp = SG_getStp (); 
 	call	_SG_getStp
 	ld	(_cur_stp),hl
-;mainloop.h:407: if (!warp_to_level)	player_render ();
+;mainloop.h:415: if (!warp_to_level)	player_render ();
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00143$
 	call	_player_render
 00143$:
-;mainloop.h:411: enems_move ();
+;mainloop.h:419: enems_move ();
 	call	_enems_move
-;mainloop.h:415: if (warp_to_level) {
+;mainloop.h:423: if (warp_to_level) {
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	Z,00145$
-;mainloop.h:416: update_cycle (); PSGStop (); break;
+;mainloop.h:424: update_cycle (); PSGStop (); break;
 	call	_update_cycle
 	call	_PSGStop
 	jp	00168$
@@ -7864,7 +4894,17 @@ _game_loop::
 	ld	a,(#_res_on + 0)
 	or	a, a
 	jr	Z,00153$
-;mainloop/resonators.h:20: if (res_subct) -- res_subct; else {
+;mainloop/resonators.h:7: gp_addr = ((RESONATOR_COUNTER_Y << 5) | RESONATOR_COUNTER_X) + PNTADDRESS;
+	ld	hl,#0x183D
+	ld	(_gp_addr),hl
+;mainloop/resonators.h:8: _n = 16 + res_ct; 
+	ld	hl,#__n
+	ld	a,(#_res_ct + 0)
+	add	a, #0x10
+	ld	(hl),a
+;mainloop/resonators.h:9: ul_putc ();
+	call	_ul_putc
+;mainloop/resonators.h:12: if (res_subct) -- res_subct; else {
 	ld	a,(#_res_subct + 0)
 	or	a, a
 	jr	Z,00150$
@@ -7872,23 +4912,23 @@ _game_loop::
 	dec	0 (iy)
 	jr	00153$
 00150$:
-;mainloop/resonators.h:21: res_subct = 50;
+;mainloop/resonators.h:13: res_subct = 50;
 	ld	iy,#_res_subct
 	ld	0 (iy),#0x32
-;mainloop/resonators.h:22: if (res_ct) { 
+;mainloop/resonators.h:14: if (res_ct) { 
 	ld	a,(#_res_ct + 0)
 	or	a, a
 	jr	Z,00147$
-;mainloop/resonators.h:23: -- res_ct; 
+;mainloop/resonators.h:15: -- res_ct; 
 	ld	iy,#_res_ct
 	dec	0 (iy)
 	jr	00153$
 00147$:
-;mainloop/resonators.h:26: res_on = 0;
+;mainloop/resonators.h:18: res_on = 0;
 	ld	iy,#_res_on
 	ld	0 (iy),#0x00
 00153$:
-;mainloop.h:427: if (hrt) hotspots_paint ();
+;mainloop.h:435: if (hrt) hotspots_paint ();
 	ld	a,(#_hrt + 0)
 	or	a, a
 	jr	Z,00155$
@@ -7905,7 +4945,7 @@ _game_loop::
 	ld	de,#_ss_it_06
 ;mainloop/no.h:8: prx + NO_OFFS_X, pry + NO_OFFS_Y + SPRITE_ADJUST,
 	ld	a,(#_pry + 0)
-	add	a, #0xE4
+	add	a, #0xE3
 	ld	h,a
 	push	de
 	push	hl
@@ -7917,7 +4957,7 @@ _game_loop::
 	pop	af
 	pop	af
 00157$:
-;mainloop.h:456: chac_chacs_do ();
+;mainloop.h:464: chac_chacs_do ();
 	call	_chac_chacs_do
 00159$:
 ;mainloop/cheat.h:5: if ((pad0 & (PAD_B|PAD_SELECT|PAD_UP)) == (PAD_B|PAD_SELECT|PAD_UP)) break;
@@ -7925,42 +4965,50 @@ _game_loop::
 	and	a, #0x31
 	ld	l, #0x00
 	sub	a,#0x31
-	jr	NZ,00334$
+	jr	NZ,00314$
 	or	a,l
 	jr	Z,00168$
-00334$:
-	ld	hl,#_pad_this_frame+0
-	bit	4, (hl)
+00314$:
+	call	_SG_queryPauseRequested
+	bit	0,l
 	jp	Z,00167$
-;mainloop/pause.h:6: paused ^= 1;
+;mainloop/pause.h:6: SG_resetPauseRequest ();
+	call	_SG_resetPauseRequest
+;mainloop/pause.h:7: paused ^= 1;
 	ld	a,(#_paused + 0)
 	xor	a, #0x01
 	ld	(#_paused + 0),a
 	jp	00167$
 00168$:
-;mainloop.h:473: SG_displayOff ();
+;mainloop.h:481: SG_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
 	pop	af
-	inc	sp
-	pop	ix
-	ret
-;game.c:111: void main(void) {
+;mainloop.h:482: SG_initSprites ();
+	call	_SG_initSprites
+;mainloop.h:483: UNSAFE_SG_copySpritestoSAT ();	
+	jp  _UNSAFE_SG_copySpritestoSAT
+;game.c:110: void main(void) {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;game.c:112: SG_displayOff ();
+;game.c:111: SG_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
-;game.c:113: SG_setSpriteMode (SG_SPRITEMODE_LARGE);
+;game.c:112: SG_setSpriteMode (SG_SPRITEMODE_LARGE);
 	ld	h,#0x01
 	ex	(sp),hl
 	inc	sp
 	call	_SG_setSpriteMode
 	inc	sp
+;game.c:113: SG_setUpdateList (update_list);
+	ld	hl,#_update_list+0
+	push	hl
+	call	_SG_setUpdateList
+	pop	af
 ;game.c:114: first_game = 1;
 	ld	hl,#_first_game + 0
 	ld	(hl), #0x01
@@ -7983,7 +5031,7 @@ _main::
 	ld	(hl), #0x00
 ;game.c:123: credits ();
 	call	_credits
-;game.c:126: aPLib_depack_VRAM (SGTADDRESS, ss_fixed_patterns_c);
+;game.c:126: aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
 	ld	hl,#_ss_fixed_patterns_c+0
 	push	hl
 	ld	hl,#0x3800

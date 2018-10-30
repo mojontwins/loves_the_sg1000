@@ -380,3 +380,85 @@ Antes de nada, voy a comparar las variables de la versión 2.0 de AGNES porque el
 
 Aún no es perfecto el rotado pero ya veo más cosas. Por el momento veo que he exportado mal los patrones, me he equivocado del orden de fila / columna.
 
+20181030
+========
+
+Poco a poco voy montando esto más y mejor. He separado ya algunos includes en modulos. Ahora tocaré `player.h`, así que haré `player.c`.  Tengo el renderer perfe, pero el sprite del jugador no se muestra. Voy a apañarlo a ver.
+
+~~
+
+Tiene que ser el rotado de sprites lo que está mal, porque el jugador se muestra depende de los elementos que haya en la pantalla. Voy a volver a revisarlo.
+
+~~
+
+OK - Rotador de sprites apañado (estaba incrementando el puntero y luego sumaba el primo, con lo que el resultado no era primo y sobrescribía sprites).
+
+Ahora voy a hacer el actualizador de tiles en VBlank (igual que el de neslib):
+
+```c
+	void SG_setUpdateList (unsigned char *ul);
+	void SG_do_update_list (void);
+```
+
+Se encargará de recorrer el update_list y mandar todos los cambios a VRAM.
+
+El contenido del update list no es más que un array que trae MSB y LSB de direcciones de VRAM y contenidos que copiar. Se termina con un 0xff.
+
+¡Listo!
+
+~~
+
+Llega el momento en el que tengo que hacer el compresor de pantallas en RLE para las fijas, en concreto el marco.
+
+~~
+
+Genial con el HUD, pero se jode al cambiar de fase (corrupción creciente) y además parece que sigue habiendo algún glitch (se ve algo en el BG que no debería estar en algunas pantallas y además NO es consistente!).
+
+Busco y tal.
+
+¡No! No es al pasar de fase, es al cargar las fases siguientes. ¿Será que los assets están mal? Porque es bien raro que los patterns sets ocupen:
+
+Ts0: 519 bytes
+Ts1: 870 bytes!
+Ts2: 1074 bytes!!
+
+Sobre todo cuando al construir me dice que:
+
+Ts0: 79 patterns.
+Ts1: 68 patterns.
+Ts2: 81 patterns.
+
+Como que no, esto está mal.
+
+¡Vale! set patterns debería también establecer el index del main bin y el colour bin en mkts_om!
+
+Ahora parecen resultados más normales:
+
+Ts0: 519 bytes
+Ts1: 397 bytes
+Ts2: 537 bytes
+
+Ahora mapa fase 2 mal, ¿mal convertido? No creo no? Jodo.
+
+El forest (fase 3) directamente no va, pero supongo que será por los `tile_chac_chacs`. Pues no, pero la cosa es que tengo instant game over!
+
+Bueno, lo dejo ahí, sigo con la fase 2 ¿por qué se ve mal?
+
+Espérate que me da a mi que esto son decoraciones dando por saco (las decos deberían ser sólo y únicamente para el tile 31, la trampa "spring", pero el hecho de que se vea la pantalla "bien" y sobre ella un montón de mierda me da muy mala espina. Y si veo que hay mierda de la buena quizá incluso tenga que revisar MK1_NES!
+
+~~
+
+BINGOW - son las decos. Los datos están bien. Revisemos el código. Vale, lo de las otras veces. He deshecho mal los `WRITE_FROM_PTR` del original.
+
+~~
+
+Bosque funcionando también, con Chac Chacs del tirona dando chac chacazos. Ahora habrá que ponerse a pulir y buscar glitches a base de jugar. Es posible que tenga que tocar las conexiones verticales entre pantallas por el tema de que creo que la SG no deja poner sprites en el borde.
+
+También quiero terminar de modularizar el engine, por lo menos los enemigos, para que los rebuilds sean más cortos.
+
+~~
+
+Ay, pues no, las conexiones verticales son super geniales.
+
+~~
+

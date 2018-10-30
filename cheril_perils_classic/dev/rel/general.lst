@@ -1,0 +1,476 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.2 #9293 (MINGW32)
+                              4 ; This file was generated Tue Oct 30 14:32:52 2018
+                              5 ;--------------------------------------------------------
+                              6 	.module general
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _do_update_list_and_wait
+                             13 	.globl _update_cycle
+                             14 	.globl _jump_start
+                             15 	.globl _distance
+                             16 	.globl _pad_read
+                             17 	.globl _add_sign
+                             18 	.globl _collide
+                             19 	.globl _collide_in
+                             20 	.globl _cm_two_points
+                             21 	.globl _clear_update_list
+                             22 	.globl _SG_doUpdateList
+                             23 	.globl _UNSAFE_SG_copySpritestoSAT
+                             24 	.globl _SG_getKeysStatus
+                             25 	.globl _SG_finalizeSprites
+                             26 	.globl _SG_initSprites
+                             27 	.globl _SG_waitForVBlank
+                             28 ;--------------------------------------------------------
+                             29 ; special function registers
+                             30 ;--------------------------------------------------------
+                     00BF    31 _VDPControlPort	=	0x00bf
+                     00BF    32 _VDPStatusPort	=	0x00bf
+                     00BE    33 _VDPDataPort	=	0x00be
+                     007E    34 _VDPVCounterPort	=	0x007e
+                     007F    35 _VDPHCounterPort	=	0x007f
+                     00DC    36 _IOPortL	=	0x00dc
+                     00DD    37 _IOPortH	=	0x00dd
+                             38 ;--------------------------------------------------------
+                             39 ; ram data
+                             40 ;--------------------------------------------------------
+                             41 	.area _DATA
+                             42 ;--------------------------------------------------------
+                             43 ; ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area _INITIALIZED
+                             46 ;--------------------------------------------------------
+                             47 ; absolute external ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area _DABS (ABS)
+                             50 ;--------------------------------------------------------
+                             51 ; global & static initialisations
+                             52 ;--------------------------------------------------------
+                             53 	.area _HOME
+                             54 	.area _GSINIT
+                             55 	.area _GSFINAL
+                             56 	.area _GSINIT
+                             57 ;--------------------------------------------------------
+                             58 ; Home
+                             59 ;--------------------------------------------------------
+                             60 	.area _HOME
+                             61 	.area _HOME
+                             62 ;--------------------------------------------------------
+                             63 ; code
+                             64 ;--------------------------------------------------------
+                             65 	.area _CODE
+                             66 ;engine/general.c:20: void cm_two_points (void) {
+                             67 ;	---------------------------------
+                             68 ; Function cm_two_points
+                             69 ; ---------------------------------
+   0000                      70 _cm_two_points::
+                             71 ;engine/general.c:22: if (cy1 > 12 || cy2 > 12) { at1 = at2 = 0; return; }
+   0000 3E 0C         [ 7]   72 	ld	a,#0x0C
+   0002 FD 21r00r00   [14]   73 	ld	iy,#_cy1
+   0006 FD 96 00      [19]   74 	sub	a, 0 (iy)
+   0009 38 0B         [12]   75 	jr	C,00101$
+   000B 3E 0C         [ 7]   76 	ld	a,#0x0C
+   000D FD 21r00r00   [14]   77 	ld	iy,#_cy2
+   0011 FD 96 00      [19]   78 	sub	a, 0 (iy)
+   0014 30 0B         [12]   79 	jr	NC,00102$
+   0016                      80 00101$:
+   0016 21r00r00      [10]   81 	ld	hl,#_at2 + 0
+   0019 36 00         [10]   82 	ld	(hl), #0x00
+   001B 21r00r00      [10]   83 	ld	hl,#_at1 + 0
+   001E 36 00         [10]   84 	ld	(hl), #0x00
+   0020 C9            [10]   85 	ret
+   0021                      86 00102$:
+                             87 ;engine/general.c:23: at1 = ATTR (cx1, cy1 ? cy1 - 1 : 0);
+   0021 01r00r00      [10]   88 	ld	bc,#_map_buff+0
+   0024 3Ar00r00      [13]   89 	ld	a,(#_cy1 + 0)
+   0027 B7            [ 4]   90 	or	a, a
+   0028 28 0C         [12]   91 	jr	Z,00106$
+   002A FD 21r00r00   [14]   92 	ld	iy,#_cy1
+   002E FD 6E 00      [19]   93 	ld	l,0 (iy)
+   0031 26 00         [ 7]   94 	ld	h,#0x00
+   0033 2B            [ 6]   95 	dec	hl
+   0034 18 03         [12]   96 	jr	00107$
+   0036                      97 00106$:
+   0036 21 00 00      [10]   98 	ld	hl,#0x0000
+   0039                      99 00107$:
+   0039 29            [11]  100 	add	hl, hl
+   003A 29            [11]  101 	add	hl, hl
+   003B 29            [11]  102 	add	hl, hl
+   003C 29            [11]  103 	add	hl, hl
+   003D 55            [ 4]  104 	ld	d,l
+   003E 5C            [ 4]  105 	ld	e,h
+   003F 3Ar00r00      [13]  106 	ld	a,(#_cx1 + 0)
+   0042 26 00         [ 7]  107 	ld	h, #0x00
+   0044 B2            [ 4]  108 	or	a, d
+   0045 6F            [ 4]  109 	ld	l,a
+   0046 7C            [ 4]  110 	ld	a,h
+   0047 B3            [ 4]  111 	or	a, e
+   0048 67            [ 4]  112 	ld	h,a
+   0049 09            [11]  113 	add	hl,bc
+   004A 56            [ 7]  114 	ld	d,(hl)
+   004B 3Ar00r00      [13]  115 	ld	a,(#_c_behs + 0)
+   004E 82            [ 4]  116 	add	a, d
+   004F 5F            [ 4]  117 	ld	e,a
+   0050 3Ar01r00      [13]  118 	ld	a,(#_c_behs + 1)
+   0053 CE 00         [ 7]  119 	adc	a, #0x00
+   0055 57            [ 4]  120 	ld	d,a
+   0056 1A            [ 7]  121 	ld	a,(de)
+   0057 32r00r00      [13]  122 	ld	(#_at1 + 0),a
+                            123 ;engine/general.c:24: at2 = ATTR (cx2, cy2 ? cy2 - 1 : 0);
+   005A 3Ar00r00      [13]  124 	ld	a,(#_cy2 + 0)
+   005D B7            [ 4]  125 	or	a, a
+   005E 28 0C         [12]  126 	jr	Z,00108$
+   0060 FD 21r00r00   [14]  127 	ld	iy,#_cy2
+   0064 FD 6E 00      [19]  128 	ld	l,0 (iy)
+   0067 26 00         [ 7]  129 	ld	h,#0x00
+   0069 2B            [ 6]  130 	dec	hl
+   006A 18 03         [12]  131 	jr	00109$
+   006C                     132 00108$:
+   006C 21 00 00      [10]  133 	ld	hl,#0x0000
+   006F                     134 00109$:
+   006F 29            [11]  135 	add	hl, hl
+   0070 29            [11]  136 	add	hl, hl
+   0071 29            [11]  137 	add	hl, hl
+   0072 29            [11]  138 	add	hl, hl
+   0073 EB            [ 4]  139 	ex	de,hl
+   0074 3Ar00r00      [13]  140 	ld	a,(#_cx2 + 0)
+   0077 26 00         [ 7]  141 	ld	h, #0x00
+   0079 B3            [ 4]  142 	or	a, e
+   007A 6F            [ 4]  143 	ld	l,a
+   007B 7C            [ 4]  144 	ld	a,h
+   007C B2            [ 4]  145 	or	a, d
+   007D 67            [ 4]  146 	ld	h,a
+   007E 09            [11]  147 	add	hl,bc
+   007F 5E            [ 7]  148 	ld	e,(hl)
+   0080 2Ar00r00      [16]  149 	ld	hl,(_c_behs)
+   0083 16 00         [ 7]  150 	ld	d,#0x00
+   0085 19            [11]  151 	add	hl, de
+   0086 7E            [ 7]  152 	ld	a,(hl)
+   0087 32r00r00      [13]  153 	ld	(#_at2 + 0),a
+   008A C9            [10]  154 	ret
+                            155 ;engine/general.c:39: unsigned char collide_in (unsigned char x0, unsigned char y0, unsigned char x1, unsigned char y1) {
+                            156 ;	---------------------------------
+                            157 ; Function collide_in
+                            158 ; ---------------------------------
+   008B                     159 _collide_in::
+   008B DD E5         [15]  160 	push	ix
+   008D DD 21 00 00   [14]  161 	ld	ix,#0
+   0091 DD 39         [15]  162 	add	ix,sp
+   0093 3B            [ 6]  163 	dec	sp
+                            164 ;engine/general.c:40: return (x0 >= x1 && x0 <= x1 + 15 && y0 >= y1 && y0 <= y1 + 15);	
+   0094 DD 7E 04      [19]  165 	ld	a,4 (ix)
+   0097 DD 96 06      [19]  166 	sub	a, 6 (ix)
+   009A 38 3C         [12]  167 	jr	C,00103$
+   009C DD 6E 06      [19]  168 	ld	l,6 (ix)
+   009F 26 00         [ 7]  169 	ld	h,#0x00
+   00A1 01 0F 00      [10]  170 	ld	bc,#0x000F
+   00A4 09            [11]  171 	add	hl,bc
+   00A5 DD 56 04      [19]  172 	ld	d,4 (ix)
+   00A8 1E 00         [ 7]  173 	ld	e,#0x00
+   00AA 7D            [ 4]  174 	ld	a,l
+   00AB 92            [ 4]  175 	sub	a, d
+   00AC 7C            [ 4]  176 	ld	a,h
+   00AD 9B            [ 4]  177 	sbc	a, e
+   00AE E2rB3r00      [10]  178 	jp	PO, 00122$
+   00B1 EE 80         [ 7]  179 	xor	a, #0x80
+   00B3                     180 00122$:
+   00B3 FArD8r00      [10]  181 	jp	M,00103$
+   00B6 DD 7E 05      [19]  182 	ld	a,5 (ix)
+   00B9 DD 96 07      [19]  183 	sub	a, 7 (ix)
+   00BC 38 1A         [12]  184 	jr	C,00103$
+   00BE DD 6E 07      [19]  185 	ld	l,7 (ix)
+   00C1 26 00         [ 7]  186 	ld	h,#0x00
+   00C3 01 0F 00      [10]  187 	ld	bc,#0x000F
+   00C6 09            [11]  188 	add	hl,bc
+   00C7 DD 56 05      [19]  189 	ld	d,5 (ix)
+   00CA 1E 00         [ 7]  190 	ld	e,#0x00
+   00CC 7D            [ 4]  191 	ld	a,l
+   00CD 92            [ 4]  192 	sub	a, d
+   00CE 7C            [ 4]  193 	ld	a,h
+   00CF 9B            [ 4]  194 	sbc	a, e
+   00D0 E2rD5r00      [10]  195 	jp	PO, 00123$
+   00D3 EE 80         [ 7]  196 	xor	a, #0x80
+   00D5                     197 00123$:
+   00D5 F2rDCr00      [10]  198 	jp	P,00104$
+   00D8                     199 00103$:
+   00D8 2E 00         [ 7]  200 	ld	l,#0x00
+   00DA 18 02         [12]  201 	jr	00105$
+   00DC                     202 00104$:
+   00DC 2E 01         [ 7]  203 	ld	l,#0x01
+   00DE                     204 00105$:
+   00DE 33            [ 6]  205 	inc	sp
+   00DF DD E1         [14]  206 	pop	ix
+   00E1 C9            [10]  207 	ret
+                            208 ;engine/general.c:43: unsigned char collide (void) {
+                            209 ;	---------------------------------
+                            210 ; Function collide
+                            211 ; ---------------------------------
+   00E2                     212 _collide::
+   00E2 DD E5         [15]  213 	push	ix
+   00E4 DD 21 00 00   [14]  214 	ld	ix,#0
+   00E8 DD 39         [15]  215 	add	ix,sp
+   00EA 3B            [ 6]  216 	dec	sp
+                            217 ;engine/general.c:53: prx + 3 >= _en_x && 
+   00EB 21r00r00      [10]  218 	ld	hl,#_prx + 0
+   00EE 5E            [ 7]  219 	ld	e, (hl)
+   00EF 16 00         [ 7]  220 	ld	d,#0x00
+   00F1 4B            [ 4]  221 	ld	c, e
+   00F2 42            [ 4]  222 	ld	b, d
+   00F3 03            [ 6]  223 	inc	bc
+   00F4 03            [ 6]  224 	inc	bc
+   00F5 03            [ 6]  225 	inc	bc
+   00F6 FD 21r00r00   [14]  226 	ld	iy,#__en_x
+   00FA FD 6E 00      [19]  227 	ld	l,0 (iy)
+   00FD 26 00         [ 7]  228 	ld	h,#0x00
+   00FF 79            [ 4]  229 	ld	a,c
+   0100 95            [ 4]  230 	sub	a, l
+   0101 78            [ 4]  231 	ld	a,b
+   0102 9C            [ 4]  232 	sbc	a, h
+   0103 E2r08r01      [10]  233 	jp	PO, 00122$
+   0106 EE 80         [ 7]  234 	xor	a, #0x80
+   0108                     235 00122$:
+   0108 FAr4Cr01      [10]  236 	jp	M,00103$
+                            237 ;engine/general.c:54: prx <= _en_x + 11 && 
+   010B 01 0B 00      [10]  238 	ld	bc,#0x000B
+   010E 09            [11]  239 	add	hl,bc
+   010F 7D            [ 4]  240 	ld	a,l
+   0110 93            [ 4]  241 	sub	a, e
+   0111 7C            [ 4]  242 	ld	a,h
+   0112 9A            [ 4]  243 	sbc	a, d
+   0113 E2r18r01      [10]  244 	jp	PO, 00123$
+   0116 EE 80         [ 7]  245 	xor	a, #0x80
+   0118                     246 00123$:
+   0118 FAr4Cr01      [10]  247 	jp	M,00103$
+                            248 ;engine/general.c:55: pry + 13 + ENEMS_COLLISION_VSTRETCH_FG >= _en_y &&
+   011B 21r00r00      [10]  249 	ld	hl,#_pry + 0
+   011E 5E            [ 7]  250 	ld	e, (hl)
+   011F 16 00         [ 7]  251 	ld	d,#0x00
+   0121 21 0B 00      [10]  252 	ld	hl,#0x000B
+   0124 19            [11]  253 	add	hl,de
+   0125 4D            [ 4]  254 	ld	c,l
+   0126 44            [ 4]  255 	ld	b,h
+   0127 FD 21r00r00   [14]  256 	ld	iy,#__en_y
+   012B FD 6E 00      [19]  257 	ld	l,0 (iy)
+   012E 26 00         [ 7]  258 	ld	h,#0x00
+   0130 79            [ 4]  259 	ld	a,c
+   0131 95            [ 4]  260 	sub	a, l
+   0132 78            [ 4]  261 	ld	a,b
+   0133 9C            [ 4]  262 	sbc	a, h
+   0134 E2r39r01      [10]  263 	jp	PO, 00124$
+   0137 EE 80         [ 7]  264 	xor	a, #0x80
+   0139                     265 00124$:
+   0139 FAr4Cr01      [10]  266 	jp	M,00103$
+                            267 ;engine/general.c:56: pry <= _en_y + 13 + PLAYER_COLLISION_VSTRETCH_FG
+   013C 01 09 00      [10]  268 	ld	bc,#0x0009
+   013F 09            [11]  269 	add	hl,bc
+   0140 7D            [ 4]  270 	ld	a,l
+   0141 93            [ 4]  271 	sub	a, e
+   0142 7C            [ 4]  272 	ld	a,h
+   0143 9A            [ 4]  273 	sbc	a, d
+   0144 E2r49r01      [10]  274 	jp	PO, 00125$
+   0147 EE 80         [ 7]  275 	xor	a, #0x80
+   0149                     276 00125$:
+   0149 F2r50r01      [10]  277 	jp	P,00104$
+   014C                     278 00103$:
+   014C 2E 00         [ 7]  279 	ld	l,#0x00
+   014E 18 02         [12]  280 	jr	00105$
+   0150                     281 00104$:
+   0150 2E 01         [ 7]  282 	ld	l,#0x01
+   0152                     283 00105$:
+   0152 33            [ 6]  284 	inc	sp
+   0153 DD E1         [14]  285 	pop	ix
+   0155 C9            [10]  286 	ret
+                            287 ;engine/general.c:61: signed int add_sign (signed int sign, signed int value) {
+                            288 ;	---------------------------------
+                            289 ; Function add_sign
+                            290 ; ---------------------------------
+   0156                     291 _add_sign::
+                            292 ;engine/general.c:62: return sign == 0 ? 0 : sign < 0 ? -value : value;
+   0156 21 03 00      [10]  293 	ld	hl, #2+1
+   0159 39            [11]  294 	add	hl, sp
+   015A 7E            [ 7]  295 	ld	a, (hl)
+   015B 2B            [ 6]  296 	dec	hl
+   015C B6            [ 7]  297 	or	a,(hl)
+   015D 20 04         [12]  298 	jr	NZ,00103$
+   015F 21 00 00      [10]  299 	ld	hl,#0x0000
+   0162 C9            [10]  300 	ret
+   0163                     301 00103$:
+   0163 21 03 00      [10]  302 	ld	hl, #2+1
+   0166 39            [11]  303 	add	hl, sp
+   0167 CB 7E         [12]  304 	bit	7,(hl)
+   0169 28 12         [12]  305 	jr	Z,00105$
+   016B AF            [ 4]  306 	xor	a, a
+   016C FD 21 04 00   [14]  307 	ld	iy,#4
+   0170 FD 39         [15]  308 	add	iy,sp
+   0172 FD 96 00      [19]  309 	sub	a, 0 (iy)
+   0175 6F            [ 4]  310 	ld	l,a
+   0176 3E 00         [ 7]  311 	ld	a, #0x00
+   0178 FD 9E 01      [19]  312 	sbc	a, 1 (iy)
+   017B 67            [ 4]  313 	ld	h,a
+   017C C9            [10]  314 	ret
+   017D                     315 00105$:
+   017D 21 04 00      [10]  316 	ld	hl, #4
+   0180 39            [11]  317 	add	hl, sp
+   0181 7E            [ 7]  318 	ld	a, (hl)
+   0182 23            [ 6]  319 	inc	hl
+   0183 66            [ 7]  320 	ld	h, (hl)
+   0184 6F            [ 4]  321 	ld	l, a
+   0185 C9            [10]  322 	ret
+                            323 ;engine/general.c:83: void pad_read (void) {
+                            324 ;	---------------------------------
+                            325 ; Function pad_read
+                            326 ; ---------------------------------
+   0186                     327 _pad_read::
+                            328 ;engine/general.c:86: pad_this_frame = pad0;
+   0186 2Ar00r00      [16]  329 	ld	hl,(_pad0)
+   0189 22r00r00      [16]  330 	ld	(_pad_this_frame),hl
+                            331 ;engine/general.c:87: pad0 = SG_getKeysStatus ();			// Read pads here.
+   018C CDr00r00      [17]  332 	call	_SG_getKeysStatus
+   018F 22r00r00      [16]  333 	ld	(_pad0),hl
+                            334 ;engine/general.c:88: pad_this_frame = (pad_this_frame ^ pad0) & pad0;
+   0192 3Ar00r00      [13]  335 	ld	a,(#_pad_this_frame + 0)
+   0195 FD 21r00r00   [14]  336 	ld	iy,#_pad0
+   0199 FD AE 00      [19]  337 	xor	a, 0 (iy)
+   019C 57            [ 4]  338 	ld	d,a
+   019D 3Ar01r00      [13]  339 	ld	a,(#_pad_this_frame + 1)
+   01A0 FD 21r00r00   [14]  340 	ld	iy,#_pad0
+   01A4 FD AE 01      [19]  341 	xor	a, 1 (iy)
+   01A7 5F            [ 4]  342 	ld	e,a
+   01A8 7A            [ 4]  343 	ld	a,d
+   01A9 FD 21r00r00   [14]  344 	ld	iy,#_pad0
+   01AD FD A6 00      [19]  345 	and	a, 0 (iy)
+   01B0 32r00r00      [13]  346 	ld	(#_pad_this_frame + 0),a
+   01B3 7B            [ 4]  347 	ld	a,e
+   01B4 FD 21r00r00   [14]  348 	ld	iy,#_pad0
+   01B8 FD A6 01      [19]  349 	and	a, 1 (iy)
+   01BB 32r01r00      [13]  350 	ld	(#_pad_this_frame + 1),a
+   01BE C9            [10]  351 	ret
+                            352 ;engine/general.c:94: unsigned char distance (void) {
+                            353 ;	---------------------------------
+                            354 ; Function distance
+                            355 ; ---------------------------------
+   01BF                     356 _distance::
+                            357 ;engine/general.c:95: rda = DELTA (prx, rdx); // dx
+   01BF 21r00r00      [10]  358 	ld	hl,#_rdx
+   01C2 3Ar00r00      [13]  359 	ld	a,(#_prx + 0)
+   01C5 96            [ 7]  360 	sub	a, (hl)
+   01C6 30 09         [12]  361 	jr	NC,00103$
+   01C8 21r00r00      [10]  362 	ld	hl,#_prx
+   01CB 3Ar00r00      [13]  363 	ld	a,(#_rdx + 0)
+   01CE 96            [ 7]  364 	sub	a, (hl)
+   01CF 18 07         [12]  365 	jr	00104$
+   01D1                     366 00103$:
+   01D1 21r00r00      [10]  367 	ld	hl,#_rdx
+   01D4 3Ar00r00      [13]  368 	ld	a,(#_prx + 0)
+   01D7 96            [ 7]  369 	sub	a, (hl)
+   01D8                     370 00104$:
+   01D8 32r00r00      [13]  371 	ld	(#_rda + 0),a
+                            372 ;engine/general.c:96: rdb = DELTA (pry, rdy); // dy
+   01DB 21r00r00      [10]  373 	ld	hl,#_rdy
+   01DE 3Ar00r00      [13]  374 	ld	a,(#_pry + 0)
+   01E1 96            [ 7]  375 	sub	a, (hl)
+   01E2 30 09         [12]  376 	jr	NC,00105$
+   01E4 21r00r00      [10]  377 	ld	hl,#_pry
+   01E7 3Ar00r00      [13]  378 	ld	a,(#_rdy + 0)
+   01EA 96            [ 7]  379 	sub	a, (hl)
+   01EB 18 07         [12]  380 	jr	00106$
+   01ED                     381 00105$:
+   01ED 21r00r00      [10]  382 	ld	hl,#_rdy
+   01F0 3Ar00r00      [13]  383 	ld	a,(#_pry + 0)
+   01F3 96            [ 7]  384 	sub	a, (hl)
+   01F4                     385 00106$:
+   01F4 32r00r00      [13]  386 	ld	(#_rdb + 0),a
+                            387 ;engine/general.c:97: rdc = MIN (rda, rdb);
+   01F7 21r00r00      [10]  388 	ld	hl,#_rdb
+   01FA 3Ar00r00      [13]  389 	ld	a,(#_rda + 0)
+   01FD BE            [ 7]  390 	cp	a,(hl)
+   01FE 38 03         [12]  391 	jr	C,00108$
+   0200 3Ar00r00      [13]  392 	ld	a,(#_rdb + 0)
+   0203                     393 00108$:
+   0203 32r00r00      [13]  394 	ld	(#_rdc + 0),a
+                            395 ;engine/general.c:98: return (rda + rdb - (rdc >> 1) - (rdc >> 2) + (rdc >> 4));
+   0206 21r00r00      [10]  396 	ld	hl,#_rdb
+   0209 3Ar00r00      [13]  397 	ld	a,(#_rda + 0)
+   020C 86            [ 7]  398 	add	a, (hl)
+   020D 57            [ 4]  399 	ld	d,a
+   020E FD 21r00r00   [14]  400 	ld	iy,#_rdc
+   0212 FD 5E 00      [19]  401 	ld	e,0 (iy)
+   0215 CB 3B         [ 8]  402 	srl	e
+   0217 7A            [ 4]  403 	ld	a,d
+   0218 93            [ 4]  404 	sub	a, e
+   0219 57            [ 4]  405 	ld	d,a
+   021A FD 21r00r00   [14]  406 	ld	iy,#_rdc
+   021E FD 5E 00      [19]  407 	ld	e,0 (iy)
+   0221 CB 3B         [ 8]  408 	srl	e
+   0223 CB 3B         [ 8]  409 	srl	e
+   0225 7A            [ 4]  410 	ld	a,d
+   0226 93            [ 4]  411 	sub	a, e
+   0227 4F            [ 4]  412 	ld	c,a
+   0228 3Ar00r00      [13]  413 	ld	a,(#_rdc + 0)
+   022B 07            [ 4]  414 	rlca
+   022C 07            [ 4]  415 	rlca
+   022D 07            [ 4]  416 	rlca
+   022E 07            [ 4]  417 	rlca
+   022F E6 0F         [ 7]  418 	and	a,#0x0F
+   0231 6F            [ 4]  419 	ld	l,a
+   0232 09            [11]  420 	add	hl, bc
+   0233 C9            [10]  421 	ret
+                            422 ;engine/general.c:103: void jump_start (void) {
+                            423 ;	---------------------------------
+                            424 ; Function jump_start
+                            425 ; ---------------------------------
+   0234                     426 _jump_start::
+                            427 ;engine/general.c:104: pj = 1; pctj = 0; 
+   0234 21r00r00      [10]  428 	ld	hl,#_pj + 0
+   0237 36 01         [10]  429 	ld	(hl), #0x01
+   0239 21r00r00      [10]  430 	ld	hl,#_pctj + 0
+   023C 36 00         [10]  431 	ld	(hl), #0x00
+                            432 ;engine/general.c:120: pvy = -PLAYER_VY_JUMP_INITIAL;
+   023E 21 C0 FF      [10]  433 	ld	hl,#0xFFC0
+   0241 22r00r00      [16]  434 	ld	(_pvy),hl
+   0244 C9            [10]  435 	ret
+                            436 ;engine/general.c:126: void update_cycle (void) {
+                            437 ;	---------------------------------
+                            438 ; Function update_cycle
+                            439 ; ---------------------------------
+   0245                     440 _update_cycle::
+                            441 ;engine/general.c:127: SG_finalizeSprites ();
+   0245 CDr00r00      [17]  442 	call	_SG_finalizeSprites
+                            443 ;engine/general.c:128: SG_waitForVBlank ();
+   0248 CDr00r00      [17]  444 	call	_SG_waitForVBlank
+                            445 ;engine/general.c:129: UNSAFE_SG_copySpritestoSAT ();
+   024B CDr00r00      [17]  446 	call	_UNSAFE_SG_copySpritestoSAT
+                            447 ;engine/general.c:130: update_list [update_index] = 0xff;
+   024E 11r00r00      [10]  448 	ld	de,#_update_list+0
+   0251 2Ar00r00      [16]  449 	ld	hl,(_update_index)
+   0254 26 00         [ 7]  450 	ld	h,#0x00
+   0256 19            [11]  451 	add	hl,de
+   0257 36 FF         [10]  452 	ld	(hl),#0xFF
+                            453 ;engine/general.c:131: SG_doUpdateList ();
+   0259 CDr00r00      [17]  454 	call	_SG_doUpdateList
+                            455 ;engine/general.c:132: SG_initSprites ();
+   025C CDr00r00      [17]  456 	call	_SG_initSprites
+                            457 ;engine/general.c:133: clear_update_list ();
+   025F C3r00r00      [10]  458 	jp  _clear_update_list
+                            459 ;engine/general.c:136: void do_update_list_and_wait (void) {
+                            460 ;	---------------------------------
+                            461 ; Function do_update_list_and_wait
+                            462 ; ---------------------------------
+   0262                     463 _do_update_list_and_wait::
+                            464 ;engine/general.c:137: SG_waitForVBlank ();
+   0262 CDr00r00      [17]  465 	call	_SG_waitForVBlank
+                            466 ;engine/general.c:138: update_list [update_index] = 0xff;
+   0265 11r00r00      [10]  467 	ld	de,#_update_list+0
+   0268 2Ar00r00      [16]  468 	ld	hl,(_update_index)
+   026B 26 00         [ 7]  469 	ld	h,#0x00
+   026D 19            [11]  470 	add	hl,de
+   026E 36 FF         [10]  471 	ld	(hl),#0xFF
+                            472 ;engine/general.c:139: SG_doUpdateList ();
+   0270 C3r00r00      [10]  473 	jp  _SG_doUpdateList
+                            474 	.area _CODE
+                            475 	.area _INITIALIZER
+                            476 	.area _CABS (ABS)

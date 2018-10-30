@@ -7,7 +7,7 @@
 #include "../lib/SGlib.h"
 
 // Use banks_flag = 7 for all three banks (111).
-void unpack_bg_patterns (unsigned char *c_pgt, unsigned char *c_cgt, unsigned int byte_offset, unsigned char banks_flag) {
+void unpack_bg_patterns (const unsigned char *c_pgt, const unsigned char *c_cgt, unsigned int byte_offset, unsigned char banks_flag) {
 	if (banks_flag & 1) {
 		aPLib_depack_VRAM (PGT_BASE + PATTERN_DATA_BANK_A + byte_offset, c_pgt);
 		aPLib_depack_VRAM (CGT_BASE + PATTERN_DATA_BANK_A + byte_offset, c_cgt);

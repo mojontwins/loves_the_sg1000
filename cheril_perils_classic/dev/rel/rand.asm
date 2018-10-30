@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Mon Oct 29 12:38:54 2018
+; This file was generated Tue Oct 30 14:32:51 2018
 ;--------------------------------------------------------
 	.module rand
 	.optsdcc -mz80
@@ -59,8 +59,8 @@ _randres::
 _rand8::
 ;utils/rand.c:39: __endasm;
 	  rnd:
-	ld hl, #0xa280
-	ld de, #0xc0de
+	ld hl, (_seed1)
+	ld de, (_seed2)
 	ld a,h ; t = x ^ (x << 1)
 	add a,a
 	xor h
@@ -78,8 +78,8 @@ _rand8::
 	xor d
 	xor e
 	ld e,a
-	ld (rnd+1),hl
-	ld (rnd+4),de
+	ld (_seed1),hl
+	ld (_seed2),de
 	ld (_randres), a
 ;utils/rand.c:40: return randres;
 	ld	iy,#_randres

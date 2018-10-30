@@ -199,14 +199,10 @@ unsigned char c_map_w;                  // Map width for current level
 unsigned char c_map_h;                  // Map height for current level
 unsigned char c_map_size;               // Map size for current level
 
-const unsigned char *c_ts_pals;         // Pointer to metatile palettes array
 const unsigned char *c_ts_tmaps;        // Pointer to metatile tilemaps array
 const unsigned char *c_behs;            // Pointer to metatile behaviours (attributes) array
 
 const unsigned char * const *spr_enems; // Pointer to metasprite array for enemies
-
-const unsigned char *c_pal_bg;          // Pointer to current background palette
-const unsigned char *c_pal_fg;          // Pointer to current foreground palette (sprites)
 
 // Pointer to current map, several formats:
 

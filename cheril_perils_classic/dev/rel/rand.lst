@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.2 #9293 (MINGW32)
-                              4 ; This file was generated Mon Oct 29 12:38:54 2018
+                              4 ; This file was generated Tue Oct 30 14:32:51 2018
                               5 ;--------------------------------------------------------
                               6 	.module rand
                               7 	.optsdcc -mz80
@@ -59,60 +59,60 @@
    0000                      59 _rand8::
                              60 ;utils/rand.c:39: __endasm;
    0000                      61 	  rnd:
-   0000 21 80 A2      [10]   62 	ld hl, #0xa280
-   0003 11 DE C0      [10]   63 	ld de, #0xc0de
-   0006 7C            [ 4]   64 	ld a,h ; t = x ^ (x << 1)
-   0007 87            [ 4]   65 	add a,a
-   0008 AC            [ 4]   66 	xor h
-   0009 65            [ 4]   67 	ld h,l ; x = y
-   000A 6A            [ 4]   68 	ld l,d ; y = z
-   000B 53            [ 4]   69 	ld d,e ; z = w
-   000C 5F            [ 4]   70 	ld e,a
-   000D 1F            [ 4]   71 	rra ; t = t ^ (t >> 1)
-   000E AB            [ 4]   72 	xor e
-   000F 5F            [ 4]   73 	ld e,a
-   0010 7A            [ 4]   74 	ld a,d ; w = w ^ ( w << 3 ) ^ t
-   0011 87            [ 4]   75 	add a,a
-   0012 87            [ 4]   76 	add a,a
-   0013 87            [ 4]   77 	add a,a
-   0014 AA            [ 4]   78 	xor d
-   0015 AB            [ 4]   79 	xor e
-   0016 5F            [ 4]   80 	ld e,a
-   0017 22r01r00      [16]   81 	ld (rnd+1),hl
-   001A ED 53r04r00   [20]   82 	ld (rnd+4),de
-   001E 32r04r00      [13]   83 	ld (_randres), a
+   0000 2Ar00r00      [16]   62 	ld hl, (_seed1)
+   0003 ED 5Br02r00   [20]   63 	ld de, (_seed2)
+   0007 7C            [ 4]   64 	ld a,h ; t = x ^ (x << 1)
+   0008 87            [ 4]   65 	add a,a
+   0009 AC            [ 4]   66 	xor h
+   000A 65            [ 4]   67 	ld h,l ; x = y
+   000B 6A            [ 4]   68 	ld l,d ; y = z
+   000C 53            [ 4]   69 	ld d,e ; z = w
+   000D 5F            [ 4]   70 	ld e,a
+   000E 1F            [ 4]   71 	rra ; t = t ^ (t >> 1)
+   000F AB            [ 4]   72 	xor e
+   0010 5F            [ 4]   73 	ld e,a
+   0011 7A            [ 4]   74 	ld a,d ; w = w ^ ( w << 3 ) ^ t
+   0012 87            [ 4]   75 	add a,a
+   0013 87            [ 4]   76 	add a,a
+   0014 87            [ 4]   77 	add a,a
+   0015 AA            [ 4]   78 	xor d
+   0016 AB            [ 4]   79 	xor e
+   0017 5F            [ 4]   80 	ld e,a
+   0018 22r00r00      [16]   81 	ld (_seed1),hl
+   001B ED 53r02r00   [20]   82 	ld (_seed2),de
+   001F 32r04r00      [13]   83 	ld (_randres), a
                              84 ;utils/rand.c:40: return randres;
-   0021 FD 21r04r00   [14]   85 	ld	iy,#_randres
-   0025 FD 6E 00      [19]   86 	ld	l,0 (iy)
-   0028 C9            [10]   87 	ret
+   0022 FD 21r04r00   [14]   85 	ld	iy,#_randres
+   0026 FD 6E 00      [19]   86 	ld	l,0 (iy)
+   0029 C9            [10]   87 	ret
                              88 ;utils/rand.c:43: void srand (void) {
                              89 ;	---------------------------------
                              90 ; Function srand
                              91 ; ---------------------------------
-   0029                      92 _srand::
+   002A                      92 _srand::
                              93 ;utils/rand.c:49: __endasm;
-   0029 2Ar00r00      [16]   94 	ld hl, (_seed1)
-   002C 22r01r00      [16]   95 	ld (rnd+1), hl
-   002F 2Ar02r00      [16]   96 	ld hl, (_seed2)
-   0032 22r04r00      [16]   97 	ld (rnd+4), hl
-   0035 C9            [10]   98 	ret
+   002A 2Ar00r00      [16]   94 	ld hl, (_seed1)
+   002D 22r01r00      [16]   95 	ld (rnd+1), hl
+   0030 2Ar02r00      [16]   96 	ld hl, (_seed2)
+   0033 22r04r00      [16]   97 	ld (rnd+4), hl
+   0036 C9            [10]   98 	ret
                              99 ;utils/rand.c:53: void set_rand (unsigned char rdum) {
                             100 ;	---------------------------------
                             101 ; Function set_rand
                             102 ; ---------------------------------
-   0036                     103 _set_rand::
+   0037                     103 _set_rand::
                             104 ;utils/rand.c:54: seed1 = rdum; seed2 = 0xff00 & rdum;
-   0036 21 02 00      [10]  105 	ld	hl, #2+0
-   0039 39            [11]  106 	add	hl, sp
-   003A 5E            [ 7]  107 	ld	e, (hl)
-   003B 16 00         [ 7]  108 	ld	d,#0x00
-   003D ED 53r00r00   [20]  109 	ld	(_seed1),de
-   0041 21r02r00      [10]  110 	ld	hl,#_seed2 + 0
-   0044 36 00         [10]  111 	ld	(hl), #0x00
-   0046 21r03r00      [10]  112 	ld	hl,#_seed2 + 1
-   0049 72            [ 7]  113 	ld	(hl), d
+   0037 21 02 00      [10]  105 	ld	hl, #2+0
+   003A 39            [11]  106 	add	hl, sp
+   003B 5E            [ 7]  107 	ld	e, (hl)
+   003C 16 00         [ 7]  108 	ld	d,#0x00
+   003E ED 53r00r00   [20]  109 	ld	(_seed1),de
+   0042 21r02r00      [10]  110 	ld	hl,#_seed2 + 0
+   0045 36 00         [10]  111 	ld	(hl), #0x00
+   0047 21r03r00      [10]  112 	ld	hl,#_seed2 + 1
+   004A 72            [ 7]  113 	ld	(hl), d
                             114 ;utils/rand.c:55: srand ();
-   004A C3r29r00      [10]  115 	jp  _srand
+   004B C3r2Ar00      [10]  115 	jp  _srand
                             116 	.area _CODE
                             117 	.area _INITIALIZER
                             118 	.area _CABS (ABS)

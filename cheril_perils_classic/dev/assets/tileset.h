@@ -2,10 +2,13 @@
 // Copyleft 2017, 2018 The Mojon Twins
 
 extern const unsigned char tsfont_patterns_c [];
-#define TSFONT_PATTERNS_C_SIZE 309
+#define TSFONT_PATTERNS_C_SIZE 316
 
 extern const unsigned char tsfont_colours_c [];
-#define TSFONT_COLOURS_C_SIZE 80
+#define TSFONT_COLOURS_C_SIZE 86
+
+extern const unsigned char hud_rle [];
+#define HUD_RLE_SIZE 39
 
 extern const unsigned char ts0_tmaps [];
 
@@ -13,21 +16,21 @@ extern const unsigned char ts0_patterns_c [];
 #define TS0_PATTERNS_C_SIZE 519
 
 extern const unsigned char ts0_colours_c [];
-#define TS0_COLOURS_C_SIZE 263
+#define TS0_COLOURS_C_SIZE 265
 
 extern const unsigned char ts1_tmaps [];
 
 extern const unsigned char ts1_patterns_c [];
-#define TS1_PATTERNS_C_SIZE 870
+#define TS1_PATTERNS_C_SIZE 397
 
 extern const unsigned char ts1_colours_c [];
-#define TS1_COLOURS_C_SIZE 513
+#define TS1_COLOURS_C_SIZE 260
 
 extern const unsigned char ts2_tmaps [];
 
 extern const unsigned char ts2_patterns_c [];
-#define TS2_PATTERNS_C_SIZE 1065
+#define TS2_PATTERNS_C_SIZE 537
 
 extern const unsigned char ts2_colours_c [];
-#define TS2_COLOURS_C_SIZE 727
+#define TS2_COLOURS_C_SIZE 286
 
