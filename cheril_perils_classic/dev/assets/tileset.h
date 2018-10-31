@@ -10,6 +10,15 @@ extern const unsigned char tsfont_colours_c [];
 extern const unsigned char hud_rle [];
 #define HUD_RLE_SIZE 39
 
+extern const unsigned char title_rle [];
+#define TITLE_RLE_SIZE 506
+
+extern const unsigned char tstitle_patterns_c [];
+#define TSTITLE_PATTERNS_C_SIZE 348
+
+extern const unsigned char tstitle_colours_c [];
+#define TSTITLE_COLOURS_C_SIZE 182
+
 extern const unsigned char ts0_tmaps [];
 
 extern const unsigned char ts0_patterns_c [];
@@ -21,10 +30,10 @@ extern const unsigned char ts0_colours_c [];
 extern const unsigned char ts1_tmaps [];
 
 extern const unsigned char ts1_patterns_c [];
-#define TS1_PATTERNS_C_SIZE 397
+#define TS1_PATTERNS_C_SIZE 408
 
 extern const unsigned char ts1_colours_c [];
-#define TS1_COLOURS_C_SIZE 260
+#define TS1_COLOURS_C_SIZE 267
 
 extern const unsigned char ts2_tmaps [];
 

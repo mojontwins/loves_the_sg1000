@@ -8,17 +8,20 @@ Symbol Table
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
   0 _hud_rle                                                       0193 GR
-  0 _ts0_colours_c                                                 0441 GR
-  0 _ts0_patterns_c                                                023A GR
-  0 _ts0_tmaps                                                     01BA GR
-  0 _ts1_colours_c                                                 0757 GR
-  0 _ts1_patterns_c                                                05CA GR
-  0 _ts1_tmaps                                                     054A GR
-  0 _ts2_colours_c                                                 0B10 GR
-  0 _ts2_patterns_c                                                08F7 GR
-  0 _ts2_tmaps                                                     085B GR
+  0 _title_rle                                                     01BA GR
+  0 _ts0_colours_c                                                 084D GR
+  0 _ts0_patterns_c                                                0646 GR
+  0 _ts0_tmaps                                                     05C6 GR
+  0 _ts1_colours_c                                                 0B6E GR
+  0 _ts1_patterns_c                                                09D6 GR
+  0 _ts1_tmaps                                                     0956 GR
+  0 _ts2_colours_c                                                 0F2E GR
+  0 _ts2_patterns_c                                                0D15 GR
+  0 _ts2_tmaps                                                     0C79 GR
   0 _tsfont_colours_c                                              013D GR
   0 _tsfont_patterns_c                                             0000 GR
+  0 _tstitle_colours_c                                             0510 GR
+  0 _tstitle_patterns_c                                            03B4 GR
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -26,7 +29,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  C2E   flags    0
+   0 _CODE                                      size 104C   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

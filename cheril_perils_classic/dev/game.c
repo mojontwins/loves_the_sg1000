@@ -119,12 +119,12 @@ void main(void) {
 	// Unpack font
 	unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);
 
-	mode_no_resonators = 0;
 	credits ();
 
 	// Unpack fixed sprites
 	aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
-
+	
+	mode_no_resonators = 0;
 	while (1) {	
 		title ();
 		

@@ -11,9 +11,18 @@ charset 0, 0, 32, 2
 
 write patterns tsfont_patterns_c tsfont_colours_c packed
 
+# Fixed screens
+# Hud uses patterns in font
 open hud.png
 nametablerle
 write nametablerle hud_rle
+
+# Title uses extra patterns
+open title.png
+set patterns 64
+nametablerle
+write nametablerle title_rle
+write patterns tstitle_patterns_c tstitle_colours_c r:64:* packed
 
 # Metatiles level 0
 open ts0.png

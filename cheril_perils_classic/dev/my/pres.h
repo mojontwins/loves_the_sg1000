@@ -27,19 +27,21 @@ void pres (void (*func) (void)) {
 }
 
 void title (void) {
-	//unrle_vram (title_rle, 0x2000);
-	cls (); // TODO:CHANGE
+	unpack_bg_patterns (tstitle_patterns_c, tstitle_colours_c, 64*8, 7);
+	gp_gen = title_rle; unrle ();
+	
+	_x = 7; _y = 12; pr_str ("SELECT AND PUSH 1!");
 
-	_x = 7; _y = 18; pr_str ("SELECT AND PUSH 1!");
+	_x = 12; _y = 16; pr_str ("RESONATORS");
+	         _y = 18; pr_str ("EASY MODE");
 
-	_x = 12; _y = 20; pr_str ("RESONATORS");
-	         _y = 22; pr_str ("EASY MODE");
+	_x = 5; _y = 23; pr_str ("@ 2018 THE MOJON TWINS");
 
 	bat_in ();
 
 	while (1) {
 		update_cycle ();
-		SG_addMetaSprite1x1 (84, 154 + (mode_no_resonators << 4), ss_pl_00);
+		SG_addMetaSprite1x1 (82, 122 + (mode_no_resonators << 4), ss_pl_00);
 		pad_read ();
 		rda = mode_no_resonators;
 		if (pad_this_frame & PAD_DOWN) {
