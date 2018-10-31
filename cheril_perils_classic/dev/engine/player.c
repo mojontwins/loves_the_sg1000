@@ -109,7 +109,7 @@ void player_init (void) {
 void player_render (void) {
 	if (0 == pflickering || half_life) 
 		SG_addMetaSprite1x1 (
-			prx, pry + SPRITE_ADJUST, 
+			prx - 4, pry + SPRITE_ADJUST, 
 			spr_player [psprid]
 		);
 }

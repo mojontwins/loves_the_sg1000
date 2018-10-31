@@ -460,5 +460,20 @@ También quiero terminar de modularizar el engine, por lo menos los enemigos, par
 
 Ay, pues no, las conexiones verticales son super geniales.
 
+20181031
+========
+
+El motor necesita persistencia de enemigos. Hablamos de que teníamos $480 bytes en VRAM a partir de $1B80.
+
+Los enemigos persistentes necesitan almacenar 4 bytes por enemigo y por pantalla: ep_x, ep_y, ep_mx y ep_my. Esto significa que ocuparían en VRAM el número de pantallas por 12. En el caso de Cheril Perils tenemos 24 pantallas máximo que tomarían 288 bytes, ¡lo cual es bastante usable!
+
+Necesito antes que nada un `enems_persistent_load` que se encargue de precargar todos estos datos.
+
+Para escribir en VRAM uso el método milton, claro.
+
 ~~
+
+¡¡Persistencia funcionando!! Jodó, qué crack, a la puta primera y sin un fallo. Me flipo.
+
+Ahora quiero investigar por qué aparecen dos patrones glitcheros de vez en cuando en el fondo. Tengo sueño pero puedo permitirme mirar en que punto del proceso aparecen. Como he sacado `enengine.h` a un módulo esto compila mucho más rápido, incluso en el Core 2 Duo de 2007 que estoy usando ahora.
 

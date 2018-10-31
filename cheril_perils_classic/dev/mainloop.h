@@ -301,12 +301,15 @@ void game_loop (void) {
 
 		// Flick the screen
 
+#pragma save
+#pragma disable_warning 110
 		flick_override = 0;
 		#include "my/custom_flickscreen.h"
 		if (flick_override == 0) {
 			flickscreen_do_horizontal ();
 			flickscreen_do_vertical ();
 		}
+#pragma restore
 		
 		// Change screen ?
 

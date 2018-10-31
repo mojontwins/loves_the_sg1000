@@ -13,7 +13,7 @@ void update_list_tile (void);
 void map_set (void);
 unsigned char get_byte (void);
 void draw_scr (void);
-void pr_str (unsigned char *s);
+void pr_str (const unsigned char *s);
 #ifdef ENABLE_UL_PRINTER
 	void pr_ul_str ();
 #endif

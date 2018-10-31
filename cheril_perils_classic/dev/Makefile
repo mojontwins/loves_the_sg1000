@@ -8,8 +8,8 @@ all: cart.sg
 cart.sg: cart.ihx 
 	../utils/ihx2sms.exe cart.ihx cart.sg
 
-cart.ihx: rel/game.rel rel/rand.rel rel/delay.rel rel/memfill.rel rel/unpacker.rel rel/unrle.rel rel/propellers.rel rel/tile_chac_chac.rel rel/printer.rel rel/general.rel rel/player.rel rel/enems0.rel rel/enems1.rel rel/enems2.rel rel/map0.rel rel/map1.rel rel/map2.rel rel/tileset.rel rel/spriteset.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel lib/crt0_sg.rel
-	$(CC) -o cart.ihx -mz80 --no-std-crt0 --data-loc 0xC000 lib/crt0_sg.rel rel/game.rel rel/rand.rel rel/delay.rel rel/memfill.rel rel/unpacker.rel rel/unrle.rel rel/propellers.rel rel/tile_chac_chac.rel rel/printer.rel rel/general.rel rel/player.rel rel/enems0.rel rel/enems1.rel rel/enems2.rel rel/map0.rel rel/map1.rel rel/map2.rel rel/tileset.rel rel/spriteset.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel
+cart.ihx: rel/game.rel rel/rand.rel rel/delay.rel rel/memfill.rel rel/unpacker.rel rel/unrle.rel rel/propellers.rel rel/tile_chac_chac.rel rel/printer.rel rel/general.rel rel/player.rel rel/enengine.rel rel/enems0.rel rel/enems1.rel rel/enems2.rel rel/map0.rel rel/map1.rel rel/map2.rel rel/tileset.rel rel/spriteset.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel lib/crt0_sg.rel
+	$(CC) -o cart.ihx -mz80 --no-std-crt0 --data-loc 0xC000 lib/crt0_sg.rel rel/game.rel rel/rand.rel rel/delay.rel rel/memfill.rel rel/unpacker.rel rel/unrle.rel rel/propellers.rel rel/tile_chac_chac.rel rel/printer.rel rel/general.rel rel/player.rel rel/enengine.rel rel/enems0.rel rel/enems1.rel rel/enems2.rel rel/map0.rel rel/map1.rel rel/map2.rel rel/tileset.rel rel/spriteset.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel
 
 lib/crt0_sg.rel:  lib/crt0_sg.s
 	sdasz80 -g -o lib/crt0_sg.rel lib/crt0_sg.s
@@ -76,6 +76,9 @@ rel/tile_chac_chac.rel: engine/tile_chac_chac.c
 
 rel/player.rel: engine/player.c
 	$(CC) $(CFLAGS) engine/player.c -o rel/player.rel
+
+rel/enengine.rel: engine/enengine.c
+	$(CC) $(CFLAGS) engine/enengine.c -o rel/enengine.rel
 
 rel/general.rel: engine/general.c
 	$(CC) $(CFLAGS) engine/general.c -o rel/general.rel

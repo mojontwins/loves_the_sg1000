@@ -110,7 +110,7 @@ unsigned char get_byte (void) {
 #endif
 
 // Needs _x, _y set.
-void pr_str (unsigned char *s) {
+void pr_str (const unsigned char *s) {
 	SG_setNextTileatXY (_x, _y);
 	while (gpit = *s++) {
 		if (gpit == '%') {

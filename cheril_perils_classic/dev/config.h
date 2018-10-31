@@ -277,7 +277,7 @@
 
 //#define ENEMS_TREMBLE						// Make enemies tremble when hit
 
-//#define PERSISTENT_ENEMIES
+#define PERSISTENT_ENEMIES
 #define PERSISTENT_DEATHS
 
 #define ENEMS_TOUCHED_FRAMES			8	// # frames to stay frozen after hit

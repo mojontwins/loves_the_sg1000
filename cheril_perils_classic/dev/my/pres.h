@@ -86,8 +86,8 @@ void credits (void) {
 	cls ();
 	rds16 = 0; rdy = 240;
 
-	_x = 0; _y = 19; 
-	pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%   @ 2011 BY THE MOJON TWINS%       REPROGRAMMED GAME%@ 2014, 2018 BY THE MOJON TWINS");
+	_x = 0; _y = 18; 
+	pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%     @ 2011 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2018 THE MOJON TWINS");
 	
 	SG_displayOn ();
 	

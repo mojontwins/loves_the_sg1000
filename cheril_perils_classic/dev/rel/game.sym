@@ -30,15 +30,15 @@ Symbol Table
     _VDPStatusPort                                              =  00BF 
     _VDPVCounterPort                                            =  007E 
     ___sdcc_call_hl                                                **** GX
-  0 ___str_0                                                       14C3 R
-  0 ___str_1                                                       14D6 R
-  0 ___str_11                                                      165A R
-  0 ___str_2                                                       14E1 R
-  0 ___str_3                                                       14EB R
-  0 ___str_4                                                       1515 R
-  0 ___str_5                                                       1545 R
-  0 ___str_6                                                       158D R
-  0 ___str_7                                                       15FD R
+  0 ___str_0                                                       0462 R
+  0 ___str_1                                                       0475 R
+  0 ___str_11                                                      05F9 R
+  0 ___str_2                                                       0480 R
+  0 ___str_3                                                       048A R
+  0 ___str_4                                                       04B4 R
+  0 ___str_5                                                       04E4 R
+  0 ___str_6                                                       052C R
+  0 ___str_7                                                       059C R
   1 __en_ct                                                        003C GR
   1 __en_facing                                                    003D GR
   1 __en_mx                                                        003A GR
@@ -70,8 +70,8 @@ Symbol Table
   1 _at1                                                           0020 GR
   1 _at2                                                           0021 GR
   1 _b_button                                                      005A GR
-  0 _bat_in                                                        13B5 GR
-  0 _bat_out                                                       13C5 GR
+  0 _bat_in                                                        0354 GR
+  0 _bat_out                                                       0364 GR
   0 _behs0                                                         0052 GR
   0 _behs1                                                         0072 GR
   0 _behs2                                                         0092 GR
@@ -89,43 +89,40 @@ Symbol Table
   1 _c_max_enems                                                   01B9 GR
   1 _c_ts_tmaps                                                    0082 GR
   1 _caux                                                          0026 GR
-  1 _cfx                                                           02B4 GR
-  1 _chac_chacs_ct                                                 029A GR
+  1 _cfx                                                           03D4 GR
+  1 _chac_chacs_ct                                                 03BA GR
     _chac_chacs_do                                                 **** GX
-  1 _chac_chacs_idlewait                                           0296 GR
-  1 _chac_chacs_queue                                              029E GR
-  1 _chac_chacs_queue_read                                         02AE GR
-  1 _chac_chacs_queue_write                                        02AF GR
-  1 _chac_chacs_state                                              0292 GR
+  1 _chac_chacs_idlewait                                           03B6 GR
+  1 _chac_chacs_queue                                              03BE GR
+  1 _chac_chacs_queue_read                                         03CE GR
+  1 _chac_chacs_queue_write                                        03CF GR
+  1 _chac_chacs_state                                              03B2 GR
   0 _chac_chacs_t1                                                 0028 GR
   0 _chac_chacs_t2                                                 002E GR
   0 _chac_chacs_t3                                                 0034 GR
   0 _chac_chacs_times                                              0022 GR
-  1 _chac_chacs_yx                                                 028E GR
+  1 _chac_chacs_yx                                                 03AE GR
     _clear_update_list                                             **** GX
     _cls                                                           **** GX
-    _cm_two_points                                                 **** GX
-    _collide                                                       **** GX
     _collide_in                                                    **** GX
-  0 _credits                                                       1605 GR
+  0 _credits                                                       05A4 GR
   1 _cur_stp                                                       0027 GR
   1 _cx1                                                           0022 GR
   1 _cx2                                                           0023 GR
   1 _cy1                                                           0024 GR
   1 _cy2                                                           0025 GR
     _delay                                                         **** GX
-    _distance                                                      **** GX
   1 _do_process_breakable                                          007D GR
-  0 _draw_game_frame                                               1333 GR
+  0 _draw_game_frame                                               02D2 GR
     _draw_scr                                                      **** GX
+  1 _en_collx                                                      002C GR
+  1 _en_colly                                                      002D GR
+  1 _en_ct                                                         0226 GR
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-  1 _en_collx                                                      002C GR
-  1 _en_colly                                                      002D GR
-  1 _en_ct                                                         0226 GR
   1 _en_cttouched                                                  021D GR
   1 _en_facing                                                     0214 GR
   1 _en_flags                                                      021A GR
@@ -154,38 +151,38 @@ Symbol Table
     _enems_0                                                       **** GX
     _enems_1                                                       **** GX
     _enems_2                                                       **** GX
-  0 _enems_boioiong_init                                           0418 GR
-  0 _enems_facing                                                  03EA GR
-  0 _enems_hit                                                     06A1 GR
-  0 _enems_init_fp                                                 03F3 GR
-  0 _enems_kill                                                    0680 GR
-  0 _enems_load                                                    045F GR
-  0 _enems_move                                                    06C1 GR
-  0 _enems_persistent_deaths_load                                  02D2 GR
-  0 _enems_update_unsigned_char_arrays                             02E4 GR
+    _enems_load                                                    **** GX
+    _enems_move                                                    **** GX
+    _enems_persistent_deaths_load                                  **** GX
+    _enems_persistent_load                                         **** GX
+    _enems_persistent_update                                       **** GX
   1 _enf_vx                                                        0230 GR
   1 _enf_vy                                                        023C GR
   1 _enf_x                                                         022A GR
   1 _enf_y                                                         0236 GR
-  1 _ep_dead                                                       0245 GR
+  1 _ep_dead                                                       0365 GR
+  1 _ep_mx                                                         02D5 GR
+  1 _ep_my                                                         031D GR
+  1 _ep_x                                                          0245 GR
+  1 _ep_y                                                          028D GR
   1 _fade_delay                                                    00F6 GR
   1 _fader                                                         00F5 GR
   1 _first_game                                                    01B7 GR
   1 _flags                                                         01F4 GR
   1 _flick_override                                                01C3 GR
-  0 _flickscreen_do_horizontal                                     16E2 GR
-  0 _flickscreen_do_vertical                                       172D GR
+  0 _flickscreen_do_horizontal                                     067C GR
+  0 _flickscreen_do_vertical                                       06C7 GR
   1 _frame_counter                                                 01BD GR
   1 _ft                                                            007E GR
-  0 _game_init                                                     17D0 GR
+  0 _game_init                                                     076A GR
+  0 _game_loop                                                     0A5C GR
+  1 _game_mode                                                     03D8 GR
+  1 _game_over                                                     01C0 GR
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-  0 _game_loop                                                     1ABC GR
-  1 _game_mode                                                     02B8 GR
-  1 _game_over                                                     01C0 GR
   1 _gp_addr                                                       0012 GR
   1 _gp_gen                                                        000C GR
   1 _gp_ram                                                        0010 GR
@@ -206,7 +203,7 @@ Symbol Table
   1 _hrx                                                           007A GR
   1 _hry                                                           007B GR
     _hud_rle                                                       **** GX
-  0 _hud_update                                                    133C GR
+  0 _hud_update                                                    02DB GR
   0 _jitter                                                        0042 GR
     _jump_start                                                    **** GX
   0 _l_behs                                                        0202 GR
@@ -230,28 +227,28 @@ Symbol Table
   0 _l_ts_patterns                                                 01F0 GR
   0 _l_ts_tmaps                                                    01FC GR
   1 _level                                                         01B8 GR
-  0 _level0name                                                    15D4 GR
-  0 _level1name                                                    15DF GR
-  0 _level2name                                                    15EB GR
+  0 _level0name                                                    0573 GR
+  0 _level1name                                                    057E GR
+  0 _level2name                                                    058A GR
   1 _level_reset                                                   01C2 GR
-  0 _levelnames                                                    15F7 GR
+  0 _levelnames                                                    0596 GR
   1 _lkact                                                         01E4 GR
-  0 _main                                                          1D6E GR
+  0 _main                                                          0D0E GR
     _map_0                                                         **** GX
+    _map_0_locks                                                   **** GX
+    _map_1                                                         **** GX
+    _map_1_locks                                                   **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-    _map_0_locks                                                   **** GX
-    _map_1                                                         **** GX
-    _map_1_locks                                                   **** GX
     _map_2                                                         **** GX
     _map_2_locks                                                   **** GX
   1 _map_buff                                                      00F7 GR
-  1 _max_chac_chacs                                                028D GR
+  1 _max_chac_chacs                                                03AD GR
     _memfill                                                       **** GX
-  1 _mode_no_resonators                                            02B7 GR
+  1 _mode_no_resonators                                            03D7 GR
   1 _n_pant                                                        01BA GR
   1 _n_pant_safe                                                   0075 GR
   1 _no_ct                                                         01CA GR
@@ -298,16 +295,16 @@ Symbol Table
   1 _plife                                                         006F GR
   1 _pnotsafe                                                      006D GR
   1 _pobjs                                                         0071 GR
+  1 _ppossee                                                       005E GR
+    _pr_str                                                        **** GX
+  1 _pregotten                                                     0031 GR
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-  1 _ppossee                                                       005E GR
-    _pr_str                                                        **** GX
-  1 _pregotten                                                     0031 GR
-  0 _prepare_scr                                                   19C3 GR
-  0 _pres                                                          13D6 GR
+  0 _prepare_scr                                                   0960 GR
+  0 _pres                                                          0375 GR
   1 _prx                                                           0052 GR
   1 _prx_old                                                       0069 GR
   1 _pry                                                           0053 GR
@@ -331,21 +328,21 @@ Symbol Table
   1 _rdt                                                           0016 GR
   1 _rdx                                                           0014 GR
   1 _rdy                                                           0015 GR
-  1 _res_ct                                                        02B2 GR
-  1 _res_disable                                                   02B0 GR
-  1 _res_on                                                        02B1 GR
-  1 _res_subct                                                     02B3 GR
-  0 _scr_game_over                                                 1502 GR
-  0 _scr_level                                                     1596 GR
-  0 _scr_the_end                                                   1520 GR
-  1 _shaker_ct                                                     02B6 GR
+  1 _res_ct                                                        03D2 GR
+  1 _res_disable                                                   03D0 GR
+  1 _res_on                                                        03D1 GR
+  1 _res_subct                                                     03D3 GR
+  0 _scr_game_over                                                 04A1 GR
+  0 _scr_level                                                     0535 GR
+  0 _scr_the_end                                                   04BF GR
+  1 _shaker_ct                                                     03D6 GR
   1 _spr_enems                                                     0086 GR
   0 _spr_enems0                                                    00D9 GR
   0 _spr_enems1                                                    012B GR
   0 _spr_enems2                                                    017D GR
   0 _spr_hs                                                        01CF GR
   0 _spr_player                                                    00B9 GR
-  1 _springs_on                                                    02B5 GR
+  1 _springs_on                                                    03D5 GR
     _ss_en_0_00                                                    **** GX
     _ss_en_0_01                                                    **** GX
     _ss_en_0_02                                                    **** GX
@@ -358,14 +355,14 @@ Symbol Table
     _ss_en_0_09                                                    **** GX
     _ss_en_0_0a                                                    **** GX
     _ss_en_0_0b                                                    **** GX
+    _ss_en_0_patterns_c                                            **** GX
+    _ss_en_1_00                                                    **** GX
+    _ss_en_1_01                                                    **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-    _ss_en_0_patterns_c                                            **** GX
-    _ss_en_1_00                                                    **** GX
-    _ss_en_1_01                                                    **** GX
     _ss_en_1_02                                                    **** GX
     _ss_en_1_03                                                    **** GX
     _ss_en_1_04                                                    **** GX
@@ -410,7 +407,7 @@ Symbol Table
     _ss_plat_00                                                    **** GX
     _ss_plat_01                                                    **** GX
   1 _ticker                                                        001F GR
-  0 _title                                                         13F0 GR
+  0 _title                                                         038F GR
     _title_rle                                                     **** GX
   1 _touched                                                       002F GR
     _ts0_colours_c                                                 **** GX
@@ -418,14 +415,14 @@ Symbol Table
     _ts0_tmaps                                                     **** GX
     _ts1_colours_c                                                 **** GX
     _ts1_patterns_c                                                **** GX
+    _ts1_tmaps                                                     **** GX
+    _ts2_colours_c                                                 **** GX
+    _ts2_patterns_c                                                **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-    _ts1_tmaps                                                     **** GX
-    _ts2_colours_c                                                 **** GX
-    _ts2_patterns_c                                                **** GX
     _ts2_tmaps                                                     **** GX
     _tsfont_colours_c                                              **** GX
     _tsfont_patterns_c                                             **** GX
@@ -446,8 +443,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size 1DFC   flags    0
-   1 _DATA                                      size  2B9   flags    0
+   0 _CODE                                      size  D9C   flags    0
+   1 _DATA                                      size  3D9   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

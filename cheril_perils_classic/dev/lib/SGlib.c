@@ -8,7 +8,7 @@
 // Please download the full version from github.com/sverx/devkitSMS
 
 #define AUTOCYCLE_SPRITES				// Sprites cycle automaticly
-#define AUTOCYCLE_PRIME			7		// Prime to 32.
+#define AUTOCYCLE_PRIME			3		// Prime to 32.
 #define AUTODETECT_ONE_COLOUR			// Detect 1 colour sprites in SG_addMetaSprite1x1
 
 #include "SGlib.h"

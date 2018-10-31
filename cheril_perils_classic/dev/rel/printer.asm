@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Wed Oct 31 11:50:06 2018
+; This file was generated Wed Oct 31 22:58:49 2018
 ;--------------------------------------------------------
 	.module printer
 	.optsdcc -mz80
@@ -876,7 +876,7 @@ _draw_scr::
 ;engine/../engine/mapmods/map_renderer_complex.h:230: draw_tile ();
 	call	_draw_tile
 	jr	00138$
-;engine/printer.c:113: void pr_str (unsigned char *s) {
+;engine/printer.c:113: void pr_str (const unsigned char *s) {
 ;	---------------------------------
 ; Function pr_str
 ; ---------------------------------
