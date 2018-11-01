@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Wed Oct 31 22:59:09 2018
+; This file was generated Thu Nov 01 21:39:58 2018
 ;--------------------------------------------------------
 	.module enengine
 	.optsdcc -mz80
@@ -69,37 +69,39 @@ _IOPortH	=	0x00dd
 ; Function enems_persistent_load
 ; ---------------------------------
 _enems_persistent_load::
-;engine/enengine.c:33: VDPControlPort = 0x80;
+;engine/enengine.c:32: DISABLE_INTERRUPTS;
+	di 
+;engine/enengine.c:35: VDPControlPort = 0x80;
 	ld	a,#0x80
 	out	(_VDPControlPort),a
-;engine/enengine.c:34: VDPControlPort = 0x1B | 0x40;
+;engine/enengine.c:36: VDPControlPort = 0x1B | 0x40;
 	ld	a,#0x5B
 	out	(_VDPControlPort),a
-;engine/enengine.c:37: gp_gen = (unsigned char *) (c_enems);
+;engine/enengine.c:39: gp_gen = (unsigned char *) (c_enems);
 	ld	hl,(_c_enems)
 	ld	(_gp_gen),hl
-;engine/enengine.c:38: for (gpjt = 0; gpjt < 3 * MAP_SIZE; gpjt ++) {
+;engine/enengine.c:40: for (gpjt = 0; gpjt < 3 * MAP_SIZE; gpjt ++) {
 	ld	hl,#_gpjt + 0
 	ld	(hl), #0x00
 00104$:
-;engine/enengine.c:39: gp_gen ++;									// Skip t
+;engine/enengine.c:41: gp_gen ++;									// Skip t
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00140$
+	jr	NZ,00144$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00140$:
-;engine/enengine.c:41: rda = *gp_gen ++;							// Read YX1
+00144$:
+;engine/enengine.c:43: rda = *gp_gen ++;							// Read YX1
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rda + 0),a
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00141$
+	jr	NZ,00145$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00141$:
-;engine/enengine.c:42: VDPDataPort = rdx = rda << 4;				// Write x
+00145$:
+;engine/enengine.c:44: VDPDataPort = rdx = rda << 4;				// Write x
 	ld	a,(#_rda + 0)
 	rlca
 	rlca
@@ -108,22 +110,22 @@ _enems_persistent_load::
 	and	a,#0xF0
 	ld	(#_rdx + 0),a
 	out	(_VDPDataPort),a
-;engine/enengine.c:43: VDPDataPort = rdy = rda & 0xf0;				// Write y
+;engine/enengine.c:45: VDPDataPort = rdy = rda & 0xf0;				// Write y
 	ld	a,(#_rda + 0)
 	and	a, #0xF0
 	ld	(#_rdy + 0),a
 	out	(_VDPDataPort),a
-;engine/enengine.c:45: rda = *gp_gen ++;							// Read YX2
+;engine/enengine.c:47: rda = *gp_gen ++;							// Read YX2
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rda + 0),a
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00142$
+	jr	NZ,00146$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00142$:
-;engine/enengine.c:46: rdb = rda << 4;
+00146$:
+;engine/enengine.c:48: rdb = rda << 4;
 	ld	a,(#_rda + 0)
 	rlca
 	rlca
@@ -131,23 +133,23 @@ _enems_persistent_load::
 	rlca
 	and	a,#0xF0
 	ld	(#_rdb + 0),a
-;engine/enengine.c:47: rdc = rda & 0xf0;
+;engine/enengine.c:49: rdc = rda & 0xf0;
 	ld	a,(#_rda + 0)
 	and	a, #0xF0
 	ld	(#_rdc + 0),a
-;engine/enengine.c:49: rda = (*gp_gen ++) & 0x0f;					// Read P
+;engine/enengine.c:51: rda = (*gp_gen ++) & 0x0f;					// Read P
 	ld	hl,(_gp_gen)
 	ld	d,(hl)
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00143$
+	jr	NZ,00147$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00143$:
+00147$:
 	ld	a,d
 	and	a, #0x0F
 	ld	(#_rda + 0),a
-;engine/enengine.c:50: if (rda > 1) rda >>= 1;						// Store converted
+;engine/enengine.c:52: if (rda > 1) rda >>= 1;						// Store converted
 	ld	a,#0x01
 	ld	iy,#_rda
 	sub	a, 0 (iy)
@@ -156,7 +158,7 @@ _enems_persistent_load::
 	srl	a
 	ld	(#_rda + 0),a
 00102$:
-;engine/enengine.c:51: VDPDataPort = ADD_SIGN2 (rdb, rdx, rda);	// Write mx
+;engine/enengine.c:53: VDPDataPort = ADD_SIGN2 (rdb, rdx, rda);	// Write mx
 	ld	hl,#_rda + 0
 	ld	d, (hl)
 	xor	a, a
@@ -181,7 +183,7 @@ _enems_persistent_load::
 00111$:
 00109$:
 	out	(_VDPDataPort),a
-;engine/enengine.c:52: VDPDataPort = ADD_SIGN2 (rdc, rdy, rda); 	// Write my 
+;engine/enengine.c:54: VDPDataPort = ADD_SIGN2 (rdc, rdy, rda); 	// Write my 
 	ld	a,(#_rdc + 0)
 	ld	iy,#_rdy
 	sub	a, 0 (iy)
@@ -200,23 +202,27 @@ _enems_persistent_load::
 00115$:
 00113$:
 	out	(_VDPDataPort),a
-;engine/enengine.c:38: for (gpjt = 0; gpjt < 3 * MAP_SIZE; gpjt ++) {
+;engine/enengine.c:40: for (gpjt = 0; gpjt < 3 * MAP_SIZE; gpjt ++) {
 	ld	hl, #_gpjt+0
 	inc	(hl)
 	ld	a,(#_gpjt + 0)
 	sub	a, #0x48
 	jp	C,00104$
+;engine/enengine.c:57: ENABLE_INTERRUPTS;
+	ei 
 	ret
-;engine/enengine.c:56: void enems_persistent_update (void) {
+;engine/enengine.c:60: void enems_persistent_update (void) {
 ;	---------------------------------
 ; Function enems_persistent_update
 ; ---------------------------------
 _enems_persistent_update::
-;engine/enengine.c:57: if (on_pant != 99) {
+;engine/enengine.c:61: DISABLE_INTERRUPTS;
+	di 
+;engine/enengine.c:63: if (on_pant != 99) {
 	ld	a,(#_on_pant + 0)
 	sub	a, #0x63
-	ret	Z
-;engine/enengine.c:59: gp_addr = 0x1b80 + (on_pant << 3) + (on_pant << 2);
+	jr	Z,00103$
+;engine/enengine.c:65: gp_addr = 0x1b80 + (on_pant << 3) + (on_pant << 2);
 	ld	hl,#_on_pant + 0
 	ld	c, (hl)
 	ld	b,#0x00
@@ -243,19 +249,19 @@ _enems_persistent_update::
 	adc	a, b
 	inc	hl
 	ld	(hl),a
-;engine/enengine.c:60: VDPControlPort = LO (gp_addr);
+;engine/enengine.c:66: VDPControlPort = LO (gp_addr);
 	ld	a,(#_gp_addr + 0)
 	out	(_VDPControlPort),a
-;engine/enengine.c:61: VDPControlPort = HI (gp_addr) | 0x40;
+;engine/enengine.c:67: VDPControlPort = HI (gp_addr) | 0x40;
 	ld	a,(#_gp_addr + 1)
 	set	6, a
 	out	(_VDPControlPort),a
-;engine/enengine.c:64: for (gpit = 0; gpit < 3; gpit ++) {
+;engine/enengine.c:70: for (gpit = 0; gpit < 3; gpit ++) {
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x00
 	ld	de,#_en_my+0
 00104$:
-;engine/enengine.c:65: VDPDataPort = en_x [gpit];				// Write x
+;engine/enengine.c:71: VDPDataPort = en_x [gpit];				// Write x
 	ld	a,#<(_en_x)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -265,7 +271,7 @@ _enems_persistent_update::
 	ld	b,a
 	ld	a,(bc)
 	out	(_VDPDataPort),a
-;engine/enengine.c:66: VDPDataPort = en_y [gpit]; 				// Write y
+;engine/enengine.c:72: VDPDataPort = en_y [gpit]; 				// Write y
 	ld	a,#<(_en_y)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -275,7 +281,7 @@ _enems_persistent_update::
 	ld	b,a
 	ld	a,(bc)
 	out	(_VDPDataPort),a
-;engine/enengine.c:67: VDPDataPort = en_mx [gpit];				// Write mx
+;engine/enengine.c:73: VDPDataPort = en_mx [gpit];				// Write mx
 	ld	a,#<(_en_mx)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -285,25 +291,28 @@ _enems_persistent_update::
 	ld	b,a
 	ld	a,(bc)
 	out	(_VDPDataPort),a
-;engine/enengine.c:68: VDPDataPort = en_my [gpit];				// Write my
+;engine/enengine.c:74: VDPDataPort = en_my [gpit];				// Write my
 	ld	hl,(_gpit)
 	ld	h,#0x00
 	add	hl,de
 	ld	a,(hl)
 	out	(_VDPDataPort),a
-;engine/enengine.c:64: for (gpit = 0; gpit < 3; gpit ++) {
+;engine/enengine.c:70: for (gpit = 0; gpit < 3; gpit ++) {
 	ld	hl, #_gpit+0
 	inc	(hl)
 	ld	a,(#_gpit + 0)
 	sub	a, #0x03
 	jr	C,00104$
+00103$:
+;engine/enengine.c:78: ENABLE_INTERRUPTS;
+	ei 
 	ret
-;engine/enengine.c:75: void enems_persistent_deaths_load (void) {
+;engine/enengine.c:83: void enems_persistent_deaths_load (void) {
 ;	---------------------------------
 ; Function enems_persistent_deaths_load
 ; ---------------------------------
 _enems_persistent_deaths_load::
-;engine/enengine.c:76: memfill (ep_dead, 0, MAP_SIZE * 3);
+;engine/enengine.c:84: memfill (ep_dead, 0, MAP_SIZE * 3);
 	ld	de,#_ep_dead
 	ld	hl,#0x0048
 	push	hl
@@ -316,26 +325,26 @@ _enems_persistent_deaths_load::
 	pop	af
 	inc	sp
 	ret
-;engine/enengine.c:80: void enems_update_unsigned_char_arrays (void) {
+;engine/enengine.c:88: void enems_update_unsigned_char_arrays (void) {
 ;	---------------------------------
 ; Function enems_update_unsigned_char_arrays
 ; ---------------------------------
 _enems_update_unsigned_char_arrays::
-;engine/enengine.c:81: en_t [gpit] = _en_t;
+;engine/enengine.c:89: en_t [gpit] = _en_t;
 	ld	de,#_en_t+0
 	ld	hl,(_gpit)
 	ld	h,#0x00
 	add	hl,de
 	ld	a,(#__en_t + 0)
 	ld	(hl),a
-;engine/enengine.c:82: en_s [gpit] = _en_s;
+;engine/enengine.c:90: en_s [gpit] = _en_s;
 	ld	de,#_en_s+0
 	ld	hl,(_gpit)
 	ld	h,#0x00
 	add	hl,de
 	ld	a,(#__en_s + 0)
 	ld	(hl),a
-;engine/enengine.c:83: en_x [gpit] = _en_x; en_y [gpit] = _en_y;
+;engine/enengine.c:91: en_x [gpit] = _en_x; en_y [gpit] = _en_y;
 	ld	de,#_en_x+0
 	ld	hl,(_gpit)
 	ld	h,#0x00
@@ -348,7 +357,7 @@ _enems_update_unsigned_char_arrays::
 	add	hl,de
 	ld	a,(#__en_y + 0)
 	ld	(hl),a
-;engine/enengine.c:84: en_x1 [gpit] = _en_x1; en_y1 [gpit] = _en_y1;
+;engine/enengine.c:92: en_x1 [gpit] = _en_x1; en_y1 [gpit] = _en_y1;
 	ld	de,#_en_x1+0
 	ld	hl,(_gpit)
 	ld	h,#0x00
@@ -361,7 +370,7 @@ _enems_update_unsigned_char_arrays::
 	add	hl,de
 	ld	a,(#__en_y1 + 0)
 	ld	(hl),a
-;engine/enengine.c:85: en_x2 [gpit] = _en_x2; en_y2 [gpit] = _en_y2;
+;engine/enengine.c:93: en_x2 [gpit] = _en_x2; en_y2 [gpit] = _en_y2;
 	ld	de,#_en_x2+0
 	ld	hl,(_gpit)
 	ld	h,#0x00
@@ -374,7 +383,7 @@ _enems_update_unsigned_char_arrays::
 	add	hl,de
 	ld	a,(#__en_y2 + 0)
 	ld	(hl),a
-;engine/enengine.c:86: en_mx [gpit] = _en_mx; en_my [gpit] = _en_my;
+;engine/enengine.c:94: en_mx [gpit] = _en_mx; en_my [gpit] = _en_my;
 	ld	de,#_en_mx+0
 	ld	hl,(_gpit)
 	ld	h,#0x00
@@ -387,28 +396,28 @@ _enems_update_unsigned_char_arrays::
 	add	hl,de
 	ld	a,(#__en_my + 0)
 	ld	(hl),a
-;engine/enengine.c:87: en_ct [gpit] = _en_ct;
+;engine/enengine.c:95: en_ct [gpit] = _en_ct;
 	ld	de,#_en_ct+0
 	ld	hl,(_gpit)
 	ld	h,#0x00
 	add	hl,de
 	ld	a,(#__en_ct + 0)
 	ld	(hl),a
-;engine/enengine.c:88: en_facing [gpit] = _en_facing;
+;engine/enengine.c:96: en_facing [gpit] = _en_facing;
 	ld	de,#_en_facing+0
 	ld	hl,(_gpit)
 	ld	h,#0x00
 	add	hl,de
 	ld	a,(#__en_facing + 0)
 	ld	(hl),a
-;engine/enengine.c:89: en_state [gpit] = _en_state;
+;engine/enengine.c:97: en_state [gpit] = _en_state;
 	ld	de,#_en_state+0
 	ld	hl,(_gpit)
 	ld	h,#0x00
 	add	hl,de
 	ld	a,(#__en_state + 0)
 	ld	(hl),a
-;engine/enengine.c:92: enf_x [gpit] = _enf_x; enf_vx [gpit] = _enf_vx;
+;engine/enengine.c:100: enf_x [gpit] = _enf_x; enf_vx [gpit] = _enf_vx;
 	ld	iy,#_gpit
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -431,7 +440,7 @@ _enems_update_unsigned_char_arrays::
 	inc	hl
 	ld	a,(#__enf_vx + 1)
 	ld	(hl),a
-;engine/enengine.c:93: enf_y [gpit] = _enf_y; enf_vy [gpit] = _enf_vy;
+;engine/enengine.c:101: enf_y [gpit] = _enf_y; enf_vy [gpit] = _enf_vy;
 	ld	iy,#_gpit
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -455,23 +464,23 @@ _enems_update_unsigned_char_arrays::
 	ld	a,(#__enf_vy + 1)
 	ld	(hl),a
 	ret
-;engine/enengine.c:97: void enems_facing (void) {
+;engine/enengine.c:105: void enems_facing (void) {
 ;	---------------------------------
 ; Function enems_facing
 ; ---------------------------------
 _enems_facing::
-;engine/enengine.c:98: _en_facing = rda << 2;
+;engine/enengine.c:106: _en_facing = rda << 2;
 	ld	a,(#_rda + 0)
 	add	a, a
 	add	a, a
 	ld	(#__en_facing + 0),a
 	ret
-;engine/enengine.c:101: void enems_init_fp (void) {
+;engine/enengine.c:109: void enems_init_fp (void) {
 ;	---------------------------------
 ; Function enems_init_fp
 ; ---------------------------------
 _enems_init_fp::
-;engine/enengine.c:102: _enf_x = _en_x << 6;
+;engine/enengine.c:110: _enf_x = _en_x << 6;
 	ld	iy,#__en_x
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -482,7 +491,7 @@ _enems_init_fp::
 	add	hl, hl
 	add	hl, hl
 	ld	(__enf_x),hl
-;engine/enengine.c:103: _enf_y = _en_y << 6;
+;engine/enengine.c:111: _enf_y = _en_y << 6;
 	ld	iy,#__en_y
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -494,17 +503,17 @@ _enems_init_fp::
 	add	hl, hl
 	ld	(__enf_y),hl
 	ret
-;engine/enengine.c:106: void enems_boioiong_init (void) {
+;engine/enengine.c:114: void enems_boioiong_init (void) {
 ;	---------------------------------
 ; Function enems_boioiong_init
 ; ---------------------------------
 _enems_boioiong_init::
-;engine/enengine.c:107: enems_init_fp ();
+;engine/enengine.c:115: enems_init_fp ();
 	call	_enems_init_fp
-;engine/enengine.c:108: _enf_vy = 0; 
+;engine/enengine.c:116: _enf_vy = 0; 
 	ld	hl,#0x0000
 	ld	(__enf_vy),hl
-;engine/enengine.c:109: _enf_vx = ADD_SIGN2 (_en_x2, _en_x1, rdm << FIXBITS);
+;engine/enengine.c:117: _enf_vx = ADD_SIGN2 (_en_x2, _en_x1, rdm << FIXBITS);
 	ld	a,(#__en_x2 + 0)
 	ld	iy,#__en_x1
 	sub	a, 0 (iy)
@@ -535,11 +544,11 @@ _enems_boioiong_init::
 00106$:
 00104$:
 	ld	(__enf_vx),de
-;engine/enengine.c:113: _en_ct = 0;
+;engine/enengine.c:121: _en_ct = 0;
 	ld	hl,#__en_ct + 0
 	ld	(hl), #0x00
 	ret
-;engine/enengine.c:117: void enems_load (void) {
+;engine/enengine.c:125: void enems_load (void) {
 ;	---------------------------------
 ; Function enems_load
 ; ---------------------------------
@@ -548,7 +557,7 @@ _enems_load::
 	ld	ix,#0
 	add	ix,sp
 	push	af
-;engine/enengine.c:118: gp_gen = (unsigned char *) (c_enems + (n_pant << 2) + (n_pant << 3));
+;engine/enengine.c:126: gp_gen = (unsigned char *) (c_enems + (n_pant << 2) + (n_pant << 3));
 	ld	hl,#_n_pant + 0
 	ld	c, (hl)
 	ld	b,#0x00
@@ -578,14 +587,14 @@ _enems_load::
 	adc	a, b
 	inc	hl
 	ld	(hl),a
-;engine/enengine.c:121: en_offs = rdc = (n_pant << 1) + n_pant;
+;engine/enengine.c:129: en_offs = rdc = (n_pant << 1) + n_pant;
 	ld	a,(#_n_pant + 0)
 	add	a, a
 	ld	hl,#_n_pant
 	add	a, (hl)
 	ld	(#_rdc + 0),a
 	ld	(#_en_offs + 0),a
-;engine/enengine.c:126: gp_addr = 0x1b80 + (n_pant << 3) + (n_pant << 2);
+;engine/enengine.c:134: gp_addr = 0x1b80 + (n_pant << 3) + (n_pant << 2);
 	ld	hl,#0x1B80
 	add	hl,bc
 	ld	c,l
@@ -598,28 +607,28 @@ _enems_load::
 	adc	a, e
 	inc	hl
 	ld	(hl),a
-;engine/enengine.c:127: VDPControlPort = LO (gp_addr);
+;engine/enengine.c:135: VDPControlPort = LO (gp_addr);
 	ld	a,(#_gp_addr + 0)
 	out	(_VDPControlPort),a
-;engine/enengine.c:128: VDPControlPort = HI (gp_addr);	// Set up for reading. Note there's no | 0x40!
+;engine/enengine.c:136: VDPControlPort = HI (gp_addr);	// Set up for reading. Note there's no | 0x40!
 	ld	a,(#_gp_addr + 1)
 	out	(_VDPControlPort),a
-;engine/enengine.c:131: for (gpit = 0; gpit < 3; gpit ++) {
+;engine/enengine.c:139: for (gpit = 0; gpit < 3; gpit ++) {
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x00
 	ld	bc,#_ep_dead+0
 00118$:
-;engine/enengine.c:135: if (ep_dead [rdc]) {
+;engine/enengine.c:143: if (ep_dead [rdc]) {
 	ld	hl,(_rdc)
 	ld	h,#0x00
 	add	hl,bc
 	ld	a,(hl)
 	or	a, a
 	jr	Z,00115$
-;engine/enengine.c:136: _en_t = 0;
+;engine/enengine.c:144: _en_t = 0;
 	ld	hl,#__en_t + 0
 	ld	(hl), #0x00
-;engine/enengine.c:137: gp_gen += 4;
+;engine/enengine.c:145: gp_gen += 4;
 	ld	hl,#_gp_gen
 	ld	a,(hl)
 	add	a, #0x04
@@ -628,21 +637,21 @@ _enems_load::
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-;engine/enengine.c:140: rda = VDPDataPort;
+;engine/enengine.c:148: rda = VDPDataPort;
 	in	a,(_VDPDataPort)
 	ld	(#_rda + 0),a
-;engine/enengine.c:141: rdb = VDPDataPort;
+;engine/enengine.c:149: rdb = VDPDataPort;
 	in	a,(_VDPDataPort)
 	ld	(#_rdb + 0),a
-;engine/enengine.c:142: rdc = VDPDataPort;
+;engine/enengine.c:150: rdm = VDPDataPort;
 	in	a,(_VDPDataPort)
-	ld	(#_rdc + 0),a
-;engine/enengine.c:143: rdt = VDPDataPort;
+	ld	(#_rdm + 0),a
+;engine/enengine.c:151: rdt = VDPDataPort;
 	in	a,(_VDPDataPort)
 	ld	(#_rdt + 0),a
 	jp	00116$
 00115$:
-;engine/enengine.c:149: _en_t = *gp_gen ++;
+;engine/enengine.c:157: _en_t = *gp_gen ++;
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#__en_t + 0),a
@@ -652,10 +661,10 @@ _enems_load::
 	ld	hl, #_gp_gen+1
 	inc	(hl)
 00166$:
-;engine/enengine.c:152: _en_state = 0;
+;engine/enengine.c:160: _en_state = 0;
 	ld	hl,#__en_state + 0
 	ld	(hl), #0x00
-;engine/enengine.c:155: rda = *gp_gen ++;
+;engine/enengine.c:163: rda = *gp_gen ++;
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rda + 0),a
@@ -665,11 +674,11 @@ _enems_load::
 	ld	hl, #_gp_gen+1
 	inc	(hl)
 00167$:
-;engine/enengine.c:156: _en_y1 = rda & 0xf0;
+;engine/enengine.c:164: _en_y1 = rda & 0xf0;
 	ld	a,(#_rda + 0)
 	and	a, #0xF0
 	ld	(#__en_y1 + 0),a
-;engine/enengine.c:157: _en_x1 = rda << 4;
+;engine/enengine.c:165: _en_x1 = rda << 4;
 	ld	a,(#_rda + 0)
 	rlca
 	rlca
@@ -677,7 +686,7 @@ _enems_load::
 	rlca
 	and	a,#0xF0
 	ld	(#__en_x1 + 0),a
-;engine/enengine.c:160: rda = *gp_gen ++;
+;engine/enengine.c:168: rda = *gp_gen ++;
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rda + 0),a
@@ -687,11 +696,11 @@ _enems_load::
 	ld	hl, #_gp_gen+1
 	inc	(hl)
 00168$:
-;engine/enengine.c:161: _en_y2 = rda & 0xf0;
+;engine/enengine.c:169: _en_y2 = rda & 0xf0;
 	ld	a,(#_rda + 0)
 	and	a, #0xF0
 	ld	(#__en_y2 + 0),a
-;engine/enengine.c:162: _en_x2 = rda << 4;
+;engine/enengine.c:170: _en_x2 = rda << 4;
 	ld	a,(#_rda + 0)
 	rlca
 	rlca
@@ -699,7 +708,7 @@ _enems_load::
 	rlca
 	and	a,#0xF0
 	ld	(#__en_x2 + 0),a
-;engine/enengine.c:165: rda = *gp_gen ++;
+;engine/enengine.c:173: rda = *gp_gen ++;
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rda + 0),a
@@ -709,27 +718,27 @@ _enems_load::
 	ld	hl, #_gp_gen+1
 	inc	(hl)
 00169$:
-;engine/enengine.c:168: rdd = rda & 0xf0; 	// Used for respawn speed!
+;engine/enengine.c:176: rdd = rda & 0xf0; 	// Used for respawn speed!
 	ld	a,(#_rda + 0)
 	and	a, #0xF0
 	ld	(#_rdd + 0),a
-;engine/enengine.c:169: rdm = rda & 0x0f; 	// Actual speed.
+;engine/enengine.c:177: rdm = rda & 0x0f; 	// Actual speed.
 	ld	a,(#_rda + 0)
 	and	a, #0x0F
 	ld	(#_rdm + 0),a
-;engine/enengine.c:173: _en_x = VDPDataPort;
+;engine/enengine.c:181: _en_x = VDPDataPort;
 	in	a,(_VDPDataPort)
 	ld	(#__en_x + 0),a
-;engine/enengine.c:174: _en_y = VDPDataPort;
+;engine/enengine.c:182: _en_y = VDPDataPort;
 	in	a,(_VDPDataPort)
 	ld	(#__en_y + 0),a
-;engine/enengine.c:175: _en_mx = VDPDataPort;
+;engine/enengine.c:183: _en_mx = VDPDataPort;
 	in	a,(_VDPDataPort)
 	ld	(#__en_mx + 0),a
-;engine/enengine.c:176: _en_my = VDPDataPort;
+;engine/enengine.c:184: _en_my = VDPDataPort;
 	in	a,(_VDPDataPort)
 	ld	(#__en_my + 0),a
-;engine/enengine.c:183: switch (_en_t & 0x3f) {
+;engine/enengine.c:191: switch (_en_t & 0x3f) {
 	ld	a,(#__en_t + 0)
 	and	a, #0x3F
 	ld	h,a
@@ -745,12 +754,12 @@ _enems_load::
 	sub	a, #0x06
 	jr	Z,00112$
 	jp	00113$
-;engine/enengine.c:187: case 4:
+;engine/enengine.c:195: case 4:
 00104$:
-;engine/enengine.c:190: _en_ct = 0;			
+;engine/enengine.c:198: _en_ct = 0;			
 	ld	hl,#__en_ct + 0
 	ld	(hl), #0x00
-;engine/enengine.c:191: _en_s = (_en_t - 1) << 3;
+;engine/enengine.c:199: _en_s = (_en_t - 1) << 3;
 	ld	a,(#__en_t + 0)
 	add	a,#0xFF
 	rlca
@@ -758,7 +767,7 @@ _enems_load::
 	rlca
 	and	a,#0xF8
 	ld	(#__en_s + 0),a
-;engine/enengine.c:208: en_status [gpit] = 1; 
+;engine/enengine.c:216: en_status [gpit] = 1; 
 	ld	a,#<(_en_status)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -766,20 +775,20 @@ _enems_load::
 	ld	a,#>(_en_status)
 	adc	a, #0x00
 	ld	d,a
-;engine/enengine.c:207: if (rdm == 1) {
+;engine/enengine.c:215: if (rdm == 1) {
 	ld	a,(#_rdm + 0)
 	dec	a
 	jr	NZ,00106$
-;engine/enengine.c:208: en_status [gpit] = 1; 
+;engine/enengine.c:216: en_status [gpit] = 1; 
 	ld	a,#0x01
 	ld	(de),a
 	jr	00107$
 00106$:
-;engine/enengine.c:210: en_status [gpit] = 0;
+;engine/enengine.c:218: en_status [gpit] = 0;
 	xor	a, a
 	ld	(de),a
 00107$:
-;engine/enengine.c:218: if (_en_x1 > _en_x2) { rda = _en_x1; _en_x1 = _en_x2; _en_x2 = rda; }
+;engine/enengine.c:226: if (_en_x1 > _en_x2) { rda = _en_x1; _en_x1 = _en_x2; _en_x2 = rda; }
 	ld	a,(#__en_x2)
 	ld	iy,#__en_x1
 	sub	a, 0 (iy)
@@ -791,7 +800,7 @@ _enems_load::
 	ld	a,(#_rda + 0)
 	ld	(#__en_x2 + 0),a
 00109$:
-;engine/enengine.c:219: if (_en_y1 > _en_y2) { rda = _en_y1; _en_y1 = _en_y2; _en_y2 = rda; }
+;engine/enengine.c:227: if (_en_y1 > _en_y2) { rda = _en_y1; _en_y1 = _en_y2; _en_y2 = rda; }
 	ld	a,(#__en_y2)
 	ld	iy,#__en_y1
 	sub	a, 0 (iy)
@@ -802,25 +811,25 @@ _enems_load::
 	ld	(#__en_y1 + 0),a
 	ld	a,(#_rda + 0)
 	ld	(#__en_y2 + 0),a
-;engine/enengine.c:229: break;
+;engine/enengine.c:237: break;
 	jr	00113$
-;engine/enengine.c:246: case 6:
+;engine/enengine.c:254: case 6:
 00112$:
-;engine/enengine.c:248: enems_init_fp ();
+;engine/enengine.c:256: enems_init_fp ();
 	push	bc
 	call	_enems_init_fp
 	pop	bc
-;engine/enengine.c:249: _enf_vx = _enf_vy = 0;
+;engine/enengine.c:257: _enf_vx = _enf_vy = 0;
 	ld	hl,#0x0000
 	ld	(__enf_vy),hl
 	ld	l, #0x00
 	ld	(__enf_vx),hl
-;engine/enengine.c:254: _en_s = FANTY_BASE_SPRID;
+;engine/enengine.c:262: _en_s = FANTY_BASE_SPRID;
 	ld	hl,#__en_s + 0
 	ld	(hl), #0x20
-;engine/enengine.c:375: }
+;engine/enengine.c:383: }
 00113$:
-;engine/enengine.c:385: en_cttouched [gpit] = 0;
+;engine/enengine.c:393: en_cttouched [gpit] = 0;
 	ld	a,#<(_en_cttouched)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -830,7 +839,7 @@ _enems_load::
 	ld	d,a
 	xor	a, a
 	ld	(de),a
-;engine/enengine.c:386: en_flags [gpit] = 0;
+;engine/enengine.c:394: en_flags [gpit] = 0;
 	ld	a,#<(_en_flags)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -841,14 +850,14 @@ _enems_load::
 	xor	a, a
 	ld	(de),a
 00116$:
-;engine/enengine.c:389: ++ rdc;
+;engine/enengine.c:397: ++ rdc;
 	ld	hl, #_rdc+0
 	inc	(hl)
-;engine/enengine.c:392: enems_update_unsigned_char_arrays ();
+;engine/enengine.c:400: enems_update_unsigned_char_arrays ();
 	push	bc
 	call	_enems_update_unsigned_char_arrays
 	pop	bc
-;engine/enengine.c:131: for (gpit = 0; gpit < 3; gpit ++) {
+;engine/enengine.c:139: for (gpit = 0; gpit < 3; gpit ++) {
 	ld	hl, #_gpit+0
 	inc	(hl)
 	ld	a,(#_gpit + 0)
@@ -857,19 +866,19 @@ _enems_load::
 	ld	sp, ix
 	pop	ix
 	ret
-;engine/enengine.c:397: void enems_kill () {
+;engine/enengine.c:405: void enems_kill () {
 ;	---------------------------------
 ; Function enems_kill
 ; ---------------------------------
 _enems_kill::
-;engine/enengine.c:398: en_flags [gpit] |= EN_STATE_DEAD;
+;engine/enengine.c:406: en_flags [gpit] |= EN_STATE_DEAD;
 	ld	de,#_en_flags+0
 	ld	hl,(_gpit)
 	ld	h,#0x00
 	add	hl,de
 	set	0, (hl)
 	ld	a, (hl)
-;engine/enengine.c:404: ep_dead [en_offs + gpit] = 1;
+;engine/enengine.c:412: ep_dead [en_offs + gpit] = 1;
 	ld	hl,#_en_offs + 0
 	ld	e, (hl)
 	ld	d,#0x00
@@ -880,16 +889,16 @@ _enems_kill::
 	ld	de,#_ep_dead
 	add	hl,de
 	ld	(hl),#0x01
-;engine/enengine.c:415: ++ pkilled;
+;engine/enengine.c:423: ++ pkilled;
 	ld	hl, #_pkilled+0
 	inc	(hl)
 	ret
-;engine/enengine.c:422: void enems_hit (void) {
+;engine/enengine.c:430: void enems_hit (void) {
 ;	---------------------------------
 ; Function enems_hit
 ; ---------------------------------
 _enems_hit::
-;engine/enengine.c:423: _en_facing = ((_en_x < prx) ? 0 : 4);
+;engine/enengine.c:431: _en_facing = ((_en_x < prx) ? 0 : 4);
 	ld	hl,#_prx
 	ld	a,(#__en_x + 0)
 	sub	a, (hl)
@@ -900,15 +909,15 @@ _enems_hit::
 	ld	a,#0x04
 00104$:
 	ld	(#__en_facing + 0),a
-;engine/enengine.c:424: en_cttouched [gpit] = ENEMS_TOUCHED_FRAMES;
+;engine/enengine.c:432: en_cttouched [gpit] = ENEMS_TOUCHED_FRAMES;
 	ld	de,#_en_cttouched+0
 	ld	hl,(_gpit)
 	ld	h,#0x00
 	add	hl,de
 	ld	(hl),#0x08
-;engine/enengine.c:440: enems_kill ();
+;engine/enengine.c:448: enems_kill ();
 	jp  _enems_kill
-;engine/enengine.c:446: void enems_move (void) {
+;engine/enengine.c:454: void enems_move (void) {
 ;	---------------------------------
 ; Function enems_move
 ; ---------------------------------
@@ -919,17 +928,17 @@ _enems_move::
 	ld	hl,#-9
 	add	hl,sp
 	ld	sp,hl
-;engine/enengine.c:448: pgotten = pgtmx = pgtmy = 0;
+;engine/enengine.c:456: pgotten = pgtmx = pgtmy = 0;
 	ld	hl,#0x0000
 	ld	(_pgtmy),hl
 	ld	l, #0x00
 	ld	(_pgtmx),hl
 	ld	hl,#_pgotten + 0
 	ld	(hl), #0x00
-;engine/enengine.c:452: touched = 0;
+;engine/enengine.c:460: touched = 0;
 	ld	hl,#_touched + 0
 	ld	(hl), #0x00
-;engine/enengine.c:453: ++ en_initial; if (en_initial >= 3) en_initial = 0;
+;engine/enengine.c:461: ++ en_initial; if (en_initial >= 3) en_initial = 0;
 	ld	hl, #_en_initial+0
 	inc	(hl)
 	ld	a,(#_en_initial + 0)
@@ -938,10 +947,10 @@ _enems_move::
 	ld	hl,#_en_initial + 0
 	ld	(hl), #0x00
 00102$:
-;engine/enengine.c:454: gpit = en_initial;
+;engine/enengine.c:462: gpit = en_initial;
 	ld	a,(#_en_initial + 0)
 	ld	(#_gpit + 0),a
-;engine/enengine.c:455: gpjt = 3; while (gpjt --) {
+;engine/enengine.c:463: gpjt = 3; while (gpjt --) {
 	ld	hl,#_gpjt + 0
 	ld	(hl), #0x03
 00233$:
@@ -952,7 +961,7 @@ _enems_move::
 	ld	a,d
 	or	a, a
 	jp	Z,00236$
-;engine/enengine.c:456: gpit += 2; if (gpit > 2) gpit -=3;
+;engine/enengine.c:464: gpit += 2; if (gpit > 2) gpit -=3;
 	ld	hl, #_gpit+0
 	inc	(hl)
 	ld	hl, #_gpit+0
@@ -966,7 +975,7 @@ _enems_move::
 	add	a,#0xFD
 	ld	(hl),a
 00104$:
-;engine/enengine.c:459: _en_t = en_t [gpit];
+;engine/enengine.c:467: _en_t = en_t [gpit];
 	ld	a,#<(_en_t)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -976,7 +985,7 @@ _enems_move::
 	ld	d,a
 	ld	a,(de)
 	ld	(#__en_t + 0),a
-;engine/enengine.c:460: _en_s = en_s [gpit];
+;engine/enengine.c:468: _en_s = en_s [gpit];
 	ld	a,#<(_en_s)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -986,7 +995,7 @@ _enems_move::
 	ld	d,a
 	ld	a,(de)
 	ld	(#__en_s + 0),a
-;engine/enengine.c:461: _en_x = en_x [gpit]; _en_y = en_y [gpit];
+;engine/enengine.c:469: _en_x = en_x [gpit]; _en_y = en_y [gpit];
 	ld	a,#<(_en_x)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -1005,7 +1014,7 @@ _enems_move::
 	ld	d,a
 	ld	a,(de)
 	ld	(#__en_y + 0),a
-;engine/enengine.c:462: _en_x1 = en_x1 [gpit]; _en_y1 = en_y1 [gpit];
+;engine/enengine.c:470: _en_x1 = en_x1 [gpit]; _en_y1 = en_y1 [gpit];
 	ld	a,#<(_en_x1)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -1024,7 +1033,7 @@ _enems_move::
 	ld	d,a
 	ld	a,(de)
 	ld	(#__en_y1 + 0),a
-;engine/enengine.c:463: _en_x2 = en_x2 [gpit]; _en_y2 = en_y2 [gpit];
+;engine/enengine.c:471: _en_x2 = en_x2 [gpit]; _en_y2 = en_y2 [gpit];
 	ld	a,#<(_en_x2)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -1043,7 +1052,7 @@ _enems_move::
 	ld	d,a
 	ld	a,(de)
 	ld	(#__en_y2 + 0),a
-;engine/enengine.c:464: _en_mx = en_mx [gpit]; _en_my = en_my [gpit];
+;engine/enengine.c:472: _en_mx = en_mx [gpit]; _en_my = en_my [gpit];
 	ld	a,#<(_en_mx)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -1062,7 +1071,7 @@ _enems_move::
 	ld	d,a
 	ld	a,(de)
 	ld	(#__en_my + 0),a
-;engine/enengine.c:465: _en_ct = en_ct [gpit];
+;engine/enengine.c:473: _en_ct = en_ct [gpit];
 	ld	a,#<(_en_ct)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -1072,7 +1081,7 @@ _enems_move::
 	ld	d,a
 	ld	a,(de)
 	ld	(#__en_ct + 0),a
-;engine/enengine.c:466: _en_facing = en_facing [gpit];
+;engine/enengine.c:474: _en_facing = en_facing [gpit];
 	ld	a,#<(_en_facing)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -1082,7 +1091,7 @@ _enems_move::
 	ld	d,a
 	ld	a,(de)
 	ld	(#__en_facing + 0),a
-;engine/enengine.c:467: _en_state = en_state [gpit];
+;engine/enengine.c:475: _en_state = en_state [gpit];
 	ld	a,#<(_en_state)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -1092,7 +1101,7 @@ _enems_move::
 	ld	d,a
 	ld	a,(de)
 	ld	(#__en_state + 0),a
-;engine/enengine.c:470: _enf_x = enf_x [gpit]; _enf_vx = enf_vx [gpit];
+;engine/enengine.c:478: _enf_x = enf_x [gpit]; _enf_vx = enf_vx [gpit];
 	ld	iy,#_gpit
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -1114,7 +1123,7 @@ _enems_move::
 	inc	hl
 	ld	a,(hl)
 	ld	(#__enf_vx + 1),a
-;engine/enengine.c:471: _enf_y = enf_y [gpit]; _enf_vy = enf_vy [gpit];
+;engine/enengine.c:479: _enf_y = enf_y [gpit]; _enf_vy = enf_vy [gpit];
 	ld	hl,#_enf_y
 	add	hl,de
 	ld	a,(hl)
@@ -1131,11 +1140,11 @@ _enems_move::
 	inc	hl
 	ld	a,(hl)
 	ld	(#__enf_vy + 1),a
-;engine/enengine.c:474: if (_en_t == 0) continue;
+;engine/enengine.c:482: if (_en_t == 0) continue;
 	ld	a,(#__en_t + 0)
 	or	a, a
 	jp	Z,00233$
-;engine/enengine.c:475: en_is_alive = !(en_flags [gpit] & EN_STATE_DEAD);
+;engine/enengine.c:483: en_is_alive = !(en_flags [gpit] & EN_STATE_DEAD);
 	ld	iy,#_en_flags
 	ld	de,(_gpit)
 	ld	d,#0x00
@@ -1147,13 +1156,13 @@ _enems_move::
 	ld	a,#0x00
 	rla
 	ld	(#_en_is_alive + 0),a
-;engine/enengine.c:479: en_spr = 0xff;
+;engine/enengine.c:487: en_spr = 0xff;
 	ld	hl,#_en_spr + 0
 	ld	(hl), #0xFF
-;engine/enengine.c:482: en_spr_x_mod = 0;
+;engine/enengine.c:490: en_spr_x_mod = 0;
 	ld	hl,#_en_spr_x_mod + 0
 	ld	(hl), #0x00
-;engine/enengine.c:485: if (en_cttouched [gpit]) {
+;engine/enengine.c:493: if (en_cttouched [gpit]) {
 	ld	a,#<(_en_cttouched)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -1167,17 +1176,17 @@ _enems_move::
 	ld	-3 (ix), a
 	or	a, a
 	jp	Z,00228$
-;engine/enengine.c:486: -- en_cttouched [gpit];
+;engine/enengine.c:494: -- en_cttouched [gpit];
 	ld	d,-3 (ix)
 	dec	d
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
 	ld	(hl),d
-;engine/enengine.c:502: rda = frame_counter & 0xf;
+;engine/enengine.c:510: rda = frame_counter & 0xf;
 	ld	a,(#_frame_counter + 0)
 	and	a, #0x0F
 	ld	(#_rda + 0),a
-;engine/enengine.c:506: spr_enems [ENEMS_EXPLODING_CELL]
+;engine/enengine.c:514: spr_enems [ENEMS_EXPLODING_CELL]
 	ld	hl,(_spr_enems)
 	ld	-2 (ix),l
 	ld	-1 (ix),h
@@ -1190,7 +1199,7 @@ _enems_move::
 	inc	hl
 	ld	a,(hl)
 	ld	-1 (ix),a
-;engine/enengine.c:505: _en_y + jitter [15 - rda] + SPRITE_ADJUST, 
+;engine/enengine.c:513: _en_y + jitter [15 - rda] + SPRITE_ADJUST, 
 	ld	a,(#_rda + 0)
 	ld	-5 (ix),a
 	ld	-4 (ix),#0x00
@@ -1214,7 +1223,7 @@ _enems_move::
 	ld	-5 (ix), a
 	add	a, #0xF7
 	ld	-5 (ix),a
-;engine/enengine.c:504: _en_x + jitter [rda],
+;engine/enengine.c:512: _en_x + jitter [rda],
 	ld	a,#<(_jitter)
 	ld	hl,#_rda
 	add	a, (hl)
@@ -1241,11 +1250,11 @@ _enems_move::
 	pop	af
 	jp	00230$
 00228$:
-;engine/enengine.c:525: if (en_is_alive) {
+;engine/enengine.c:533: if (en_is_alive) {
 	ld	a,(#_en_is_alive + 0)
 	or	a, a
 	jp	Z,00230$
-;engine/enengine.c:528: pregotten = (prx + 7 >= _en_x && prx <= _en_x + 15);
+;engine/enengine.c:536: pregotten = (prx + 7 >= _en_x && prx <= _en_x + 15);
 	ld	a,(#_prx + 0)
 	ld	-7 (ix),a
 	ld	-6 (ix),#0x00
@@ -1289,7 +1298,7 @@ _enems_move::
 00240$:
 	ld	a,-7 (ix)
 	ld	(#_pregotten + 0),a
-;engine/enengine.c:531: en_fr = ((((_en_mx) ? _en_x : _en_y)+4) >> 3) & 1;
+;engine/enengine.c:539: en_fr = ((((_en_mx) ? _en_x : _en_y)+4) >> 3) & 1;
 	ld	a,(#__en_x + 0)
 	ld	-7 (ix),a
 	ld	a,(#__en_y + 0)
@@ -1325,15 +1334,15 @@ _enems_move::
 	ld	-1 (ix),#0x00
 	ld	a,-2 (ix)
 	ld	(#_en_fr + 0),a
-;engine/enengine.c:534: if (res_on 
+;engine/enengine.c:542: if (res_on 
 	ld	a,(#_res_on + 0)
 	or	a, a
 	jr	Z,00172$
-;engine/enengine.c:547: ) {
+;engine/enengine.c:555: ) {
 	ld	a,(#__en_t + 0)
 	sub	a, #0x04
 	jr	Z,00172$
-;engine/enengine.c:548: en_spr = en_spr_id [gpit];
+;engine/enengine.c:556: en_spr = en_spr_id [gpit];
 	ld	a,#<(_en_spr_id)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -1345,7 +1354,7 @@ _enems_move::
 	ld	(#_en_spr + 0),a
 	jp	00173$
 00172$:
-;engine/enengine.c:552: switch (_en_t & 63) {
+;engine/enengine.c:560: switch (_en_t & 63) {
 	ld	a,(#__en_t + 0)
 	and	a, #0x3F
 	ld	h,a
@@ -1361,7 +1370,7 @@ _enems_move::
 	sub	a, #0x06
 	jp	Z,00122$
 	jp	00170$
-;engine/enengine.c:556: case 4:
+;engine/enengine.c:564: case 4:
 00110$:
 ;engine/../engine/enemmods/enem_linear.h:11: if (!en_status [gpit] || half_life) {
 	ld	a,#<(_en_status)
@@ -1470,9 +1479,9 @@ _enems_move::
 	ld	iy,#_en_spr
 	add	a, (hl)
 	ld	0 (iy),a
-;engine/enengine.c:565: break;
+;engine/enengine.c:573: break;
 	jp	00170$
-;engine/enengine.c:580: case 6:
+;engine/enengine.c:588: case 6:
 00122$:
 ;engine/../engine/enemmods/enem_homing_fanty.h:7: rdx = _en_x; rdy = _en_y; rdt = distance ();
 	ld	a,-7 (ix)
@@ -1779,7 +1788,7 @@ _enems_move::
 	rr	h
 	ld	iy,#_cy2
 	ld	0 (iy),h
-;engine/enengine.c:528: pregotten = (prx + 7 >= _en_x && prx <= _en_x + 15);
+;engine/enengine.c:536: pregotten = (prx + 7 >= _en_x && prx <= _en_x + 15);
 	ld	iy,#__en_x
 	ld	c,0 (iy)
 	ld	b,#0x00
@@ -2162,9 +2171,9 @@ _enems_move::
 	ld	iy,#_en_spr
 	add	a, (hl)
 	ld	0 (iy),a
-;engine/enengine.c:644: }
+;engine/enengine.c:652: }
 00170$:
-;engine/enengine.c:648: en_spr_id [gpit] = en_spr;
+;engine/enengine.c:656: en_spr_id [gpit] = en_spr;
 	ld	a,#<(_en_spr_id)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -2175,7 +2184,7 @@ _enems_move::
 	ld	a,(#_en_spr + 0)
 	ld	(de),a
 00173$:
-;engine/enengine.c:547: ) {
+;engine/enengine.c:555: ) {
 	ld	a,(#__en_t + 0)
 	sub	a, #0x04
 	jr	NZ,00600$
@@ -2189,7 +2198,7 @@ _enems_move::
 	ld	hl,#__en_y + 0
 	ld	b, (hl)
 	ld	c,#0x00
-;engine/enengine.c:685: if (_en_t == 4 && pregotten && !pgotten && !pj) {
+;engine/enengine.c:693: if (_en_t == 4 && pregotten && !pgotten && !pj) {
 	ld	a,-7 (ix)
 	or	a, a
 	jp	Z,00188$
@@ -2210,7 +2219,7 @@ _enems_move::
 	ld	a,#>(_en_status)
 	adc	a, #0x00
 	ld	-4 (ix),a
-;engine/enengine.c:693: py = (_en_y - 16) << 6; pry = py >> 6;
+;engine/enengine.c:701: py = (_en_y - 16) << 6; pry = py >> 6;
 	ld	a,b
 	add	a,#0xF0
 	ld	l,a
@@ -2225,11 +2234,11 @@ _enems_move::
 	add	hl, hl
 	ld	-2 (ix),l
 	ld	-1 (ix),h
-;engine/enengine.c:689: if (_en_mx) {
+;engine/enengine.c:697: if (_en_mx) {
 	ld	a,(#__en_mx + 0)
 	or	a, a
 	jp	Z,00179$
-;engine/enengine.c:690: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
+;engine/enengine.c:698: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
 	ld	iy,#_pry
 	ld	e,0 (iy)
 	ld	d,#0x00
@@ -2253,10 +2262,10 @@ _enems_move::
 	xor	a, #0x80
 00603$:
 	jp	M,00179$
-;engine/enengine.c:691: pgotten = 1;
+;engine/enengine.c:699: pgotten = 1;
 	ld	hl,#_pgotten + 0
 	ld	(hl), #0x01
-;engine/enengine.c:692: pgtmx = _en_mx << (6 - en_status [gpit]);
+;engine/enengine.c:700: pgtmx = _en_mx << (6 - en_status [gpit]);
 	ld	hl,#__en_mx + 0
 	ld	d, (hl)
 	ld	a,(#__en_mx + 0)
@@ -2289,7 +2298,7 @@ _enems_move::
 00605$:
 	dec	a
 	jr	NZ,00604$
-;engine/enengine.c:693: py = (_en_y - 16) << 6; pry = py >> 6;
+;engine/enengine.c:701: py = (_en_y - 16) << 6; pry = py >> 6;
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
 	ld	(_py),hl
@@ -2309,11 +2318,11 @@ _enems_move::
 	ld	iy,#_pry
 	ld	0 (iy),l
 00179$:
-;engine/enengine.c:690: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
+;engine/enengine.c:698: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
 	ld	hl,#_pry + 0
 	ld	e, (hl)
 	ld	d,#0x00
-;engine/enengine.c:701: (_en_my > 0 && pry + 16 + _en_my >= _en_y && pry + 12 <= _en_y)
+;engine/enengine.c:709: (_en_my > 0 && pry + 16 + _en_my >= _en_y && pry + 12 <= _en_y)
 	ld	a,(#__en_my + 0)
 	ld	-9 (ix),a
 	ld	iy,#__en_my
@@ -2321,7 +2330,7 @@ _enems_move::
 	rla
 	sbc	a, a
 	ld	-8 (ix),a
-;engine/enengine.c:700: (_en_my < 0 && pry + 17 >= _en_y && pry + 12 <= _en_y) ||
+;engine/enengine.c:708: (_en_my < 0 && pry + 17 >= _en_y && pry + 12 <= _en_y) ||
 	ld	hl,#0x000C
 	add	hl,de
 	ld	a,b
@@ -2351,7 +2360,7 @@ _enems_move::
 	or	a, a
 	jr	Z,00180$
 00186$:
-;engine/enengine.c:701: (_en_my > 0 && pry + 16 + _en_my >= _en_y && pry + 12 <= _en_y)
+;engine/enengine.c:709: (_en_my > 0 && pry + 16 + _en_my >= _en_y && pry + 12 <= _en_y)
 	xor	a, a
 	ld	iy,#__en_my
 	sub	a, 0 (iy)
@@ -2376,10 +2385,10 @@ _enems_move::
 	or	a, a
 	jr	NZ,00188$
 00180$:
-;engine/enengine.c:703: pgotten = 1;
+;engine/enengine.c:711: pgotten = 1;
 	ld	hl,#_pgotten + 0
 	ld	(hl), #0x01
-;engine/enengine.c:704: pgtmy = _en_my << (6 - en_status [gpit]);
+;engine/enengine.c:712: pgtmy = _en_my << (6 - en_status [gpit]);
 	ld	l,-5 (ix)
 	ld	h,-4 (ix)
 	ld	l,(hl)
@@ -2407,7 +2416,7 @@ _enems_move::
 00611$:
 	dec	l
 	jr	NZ,00610$
-;engine/enengine.c:705: py = (_en_y - 16) << 6; pry = py >> 6;
+;engine/enengine.c:713: py = (_en_y - 16) << 6; pry = py >> 6;
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
 	ld	(_py),hl
@@ -2426,15 +2435,15 @@ _enems_move::
 	rr	l
 	ld	iy,#_pry
 	ld	0 (iy),l
-;engine/enengine.c:706: pvy = 0;
+;engine/enengine.c:714: pvy = 0;
 	ld	hl,#0x0000
 	ld	(_pvy),hl
 00188$:
-;engine/enengine.c:718: en_is_alive == 0	// General condition.
+;engine/enengine.c:726: en_is_alive == 0	// General condition.
 	ld	a,(#_en_is_alive + 0)
 	or	a, a
 	jp	Z,00230$
-;engine/enengine.c:720: || en_cttouched [gpit]
+;engine/enengine.c:728: || en_cttouched [gpit]
 	ld	a,#<(_en_cttouched)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -2445,20 +2454,20 @@ _enems_move::
 	ld	a,(de)
 	or	a, a
 	jp	NZ,00230$
-;engine/enengine.c:746: ) goto skipdo;
+;engine/enengine.c:754: ) goto skipdo;
 	ld	a,-7 (ix)
 	or	a, a
 	jp	NZ,00230$
-;engine/enengine.c:754: pregotten && 
+;engine/enengine.c:762: pregotten && 
 	ld	a,(#_pregotten + 0)
 	or	a, a
 	jp	Z,00216$
-;engine/enengine.c:755: pry < _en_y && 
+;engine/enengine.c:763: pry < _en_y && 
 	ld	hl,#__en_y
 	ld	a,(#_pry + 0)
 	sub	a, (hl)
 	jp	NC,00216$
-;engine/enengine.c:756: pry + 15 + ENEMS_COLLISION_VSTRETCH_FG >= _en_y &&
+;engine/enengine.c:764: pry + 15 + ENEMS_COLLISION_VSTRETCH_FG >= _en_y &&
 	ld	iy,#_pry
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2472,14 +2481,14 @@ _enems_move::
 	xor	a, #0x80
 00612$:
 	jp	M,00216$
-;engine/enengine.c:757: pgotten == 0 &&	ppossee == 0
+;engine/enengine.c:765: pgotten == 0 &&	ppossee == 0
 	ld	a,(#_pgotten + 0)
 	or	a, a
 	jp	NZ,00216$
 	ld	a,(#_ppossee + 0)
 	or	a, a
 	jp	NZ,00216$
-;engine/enengine.c:770: ) {
+;engine/enengine.c:778: ) {
 	ld	a,#0x20
 	ld	iy,#_pvy
 	cp	a, 0 (iy)
@@ -2490,7 +2499,7 @@ _enems_move::
 	xor	a, #0x80
 00613$:
 	jp	P,00216$
-;engine/enengine.c:773: if (res_on || res_disable)
+;engine/enengine.c:781: if (res_on || res_disable)
 	ld	a,(#_res_on + 0)
 	or	a, a
 	jr	NZ,00196$
@@ -2498,10 +2507,10 @@ _enems_move::
 	or	a, a
 	jr	Z,00197$
 00196$:
-;engine/enengine.c:778: enems_hit ();
+;engine/enengine.c:786: enems_hit ();
 	call	_enems_hit
 00197$:
-;engine/enengine.c:781: if (_en_my < 0) _en_my = -_en_my;
+;engine/enengine.c:789: if (_en_my < 0) _en_my = -_en_my;
 	ld	a,(#__en_my + 0)
 	bit	7,a
 	jr	Z,00200$
@@ -2510,19 +2519,19 @@ _enems_move::
 	sub	a, 0 (iy)
 	ld	(#__en_my + 0),a
 00200$:
-;engine/enengine.c:785: if (pad0 & PAD_A) {
+;engine/enengine.c:793: if (pad0 & PAD_A) {
 	ld	hl,#_pad0+0
 	bit	5, (hl)
 	jr	Z,00202$
-;engine/enengine.c:786: jump_start ();
+;engine/enengine.c:794: jump_start ();
 	call	_jump_start
 	jr	00203$
 00202$:
-;engine/enengine.c:790: pvy = -PLAYER_VY_JUMP_INITIAL << 1;
+;engine/enengine.c:798: pvy = -PLAYER_VY_JUMP_INITIAL << 1;
 	ld	hl,#0xFF80
 	ld	(_pvy),hl
 00203$:
-;engine/enengine.c:798: if (pry > _en_y - ENEMS_UPPER_COLLISION_BOUND) { pry = _en_y - ENEMS_UPPER_COLLISION_BOUND; py = pry << FIXBITS; }
+;engine/enengine.c:806: if (pry > _en_y - ENEMS_UPPER_COLLISION_BOUND) { pry = _en_y - ENEMS_UPPER_COLLISION_BOUND; py = pry << FIXBITS; }
 	ld	a,(#__en_y + 0)
 	ld	l, #0x00
 	add	a,#0xF4
@@ -2556,24 +2565,24 @@ _enems_move::
 	add	hl, hl
 	ld	(_py),hl
 00205$:
-;engine/enengine.c:800: touched = 1;
+;engine/enengine.c:808: touched = 1;
 	ld	hl,#_touched + 0
 	ld	(hl), #0x01
 	jr	00230$
 00216$:
-;engine/enengine.c:808: touched == 0 &&
+;engine/enengine.c:816: touched == 0 &&
 	ld	a,(#_touched + 0)
 	or	a, a
 	jr	NZ,00230$
-;engine/enengine.c:809: collide ()
+;engine/enengine.c:817: collide ()
 	call	_collide
 	ld	a,l
 	or	a, a
 	jr	Z,00230$
-;engine/enengine.c:815: en_sg_1 = 0;
+;engine/enengine.c:823: en_sg_1 = 0;
 	ld	hl,#_en_sg_1 + 0
 	ld	(hl), #0x00
-;engine/enengine.c:819: en_sg_2 = (pflickering == 0);
+;engine/enengine.c:827: en_sg_2 = (pflickering == 0);
 	ld	a,(#_pflickering + 0)
 	or	a, a
 	jr	NZ,00616$
@@ -2583,37 +2592,37 @@ _enems_move::
 	xor	a,a
 00617$:
 	ld	(#_en_sg_2 + 0),a
-;engine/enengine.c:828: ) en_sg_2 = 0;
+;engine/enengine.c:836: ) en_sg_2 = 0;
 	ld	a,(#_res_on + 0)
 	dec	a
 	jr	NZ,00207$
 	ld	hl,#_en_sg_2 + 0
 	ld	(hl), #0x00
 00207$:
-;engine/enengine.c:852: if (en_sg_1) enems_hit ();
+;engine/enengine.c:860: if (en_sg_1) enems_hit ();
 	ld	a,(#_en_sg_1 + 0)
 	or	a, a
 	jr	Z,00209$
 	call	_enems_hit
 00209$:
-;engine/enengine.c:854: if (en_sg_2) { 
+;engine/enengine.c:862: if (en_sg_2) { 
 	ld	a,(#_en_sg_2 + 0)
 	or	a, a
 	jr	Z,00211$
-;engine/enengine.c:855: pkill = 1; 
+;engine/enengine.c:863: pkill = 1; 
 	ld	hl,#_pkill + 0
 	ld	(hl), #0x01
 00211$:
-;engine/enengine.c:870: touched = 1; 
+;engine/enengine.c:878: touched = 1; 
 	ld	hl,#_touched + 0
 	ld	(hl), #0x01
-;engine/enengine.c:991: skipdo: 
+;engine/enengine.c:999: skipdo: 
 00230$:
-;engine/enengine.c:994: if (en_spr != 0xff) {
+;engine/enengine.c:1002: if (en_spr != 0xff) {
 	ld	a,(#_en_spr + 0)
 	inc	a
 	jr	Z,00232$
-;engine/enengine.c:997: spr_enems [en_spr]
+;engine/enengine.c:1005: spr_enems [en_spr]
 	ld	iy,#_en_spr
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2624,7 +2633,7 @@ _enems_move::
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
-;engine/enengine.c:996: _en_x + en_spr_x_mod, _en_y + SPRITE_ADJUST, 
+;engine/enengine.c:1004: _en_x + en_spr_x_mod, _en_y + SPRITE_ADJUST, 
 	ld	a,(#__en_y + 0)
 	add	a, #0xF7
 	ld	d,a
@@ -2640,7 +2649,7 @@ _enems_move::
 	pop	af
 	pop	af
 00232$:
-;engine/enengine.c:1003: enems_update_unsigned_char_arrays ();
+;engine/enengine.c:1011: enems_update_unsigned_char_arrays ();
 	call	_enems_update_unsigned_char_arrays
 	jp	00233$
 00236$:

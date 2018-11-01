@@ -10,8 +10,13 @@
 #define AUTOCYCLE_SPRITES				// Sprites cycle automaticly
 #define AUTOCYCLE_PRIME			3		// Prime to 32.
 #define AUTODETECT_ONE_COLOUR			// Detect 1 colour sprites in SG_addMetaSprite1x1
+#define AUTOMUSIC
 
 #include "SGlib.h"
+
+#ifdef AUTOMUSIC
+#include "PSGlib.h"
+#endif
 
 //#include <stdbool.h>
 #define true 1
@@ -436,6 +441,11 @@ void SG_isr (void) __interrupt {
 		/* read key input */
 		PreviousKeysStatus = KeysStatus;
 		KeysStatus = ~ (( (IOPortH)<<8)|IOPortL);
+#ifdef AUTOMUSIC
+		// Call music
+		PSGSFXFrame ();
+		PSGFrame ();
+#endif
 	}
 	/* Z80 disable the interrupts on ISR, so we should re-enable them explicitly */
 	ENABLE_INTERRUPTS;

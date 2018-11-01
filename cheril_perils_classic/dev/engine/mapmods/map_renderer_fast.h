@@ -23,6 +23,7 @@ void draw_map_tile (void) {
 void draw_scr (void) {
 
 	// Draw Map
+	DISABLE_INTERRUPTS;
 
 	rdx = rdy = rdm = 0;
 
@@ -146,4 +147,6 @@ void draw_scr (void) {
 			}
 		}	
 	#endif
+
+	ENABLE_INTERRUPTS;
 }

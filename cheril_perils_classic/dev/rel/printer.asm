@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Wed Oct 31 22:58:49 2018
+; This file was generated Thu Nov 01 21:39:36 2018
 ;--------------------------------------------------------
 	.module printer
 	.optsdcc -mz80
@@ -67,12 +67,12 @@ _IOPortH	=	0x00dd
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;engine/printer.c:23: void clear_update_list (void) {
+;engine/printer.c:24: void clear_update_list (void) {
 ;	---------------------------------
 ; Function clear_update_list
 ; ---------------------------------
 _clear_update_list::
-;engine/printer.c:24: memfill (update_list, 0, UPDATE_LIST_SIZE*3);
+;engine/printer.c:25: memfill (update_list, 0, UPDATE_LIST_SIZE*3);
 	ld	de,#_update_list
 	ld	hl,#0x0060
 	push	hl
@@ -84,20 +84,20 @@ _clear_update_list::
 	pop	af
 	pop	af
 	inc	sp
-;engine/printer.c:25: update_index = 0;
+;engine/printer.c:26: update_index = 0;
 	ld	hl,#_update_index + 0
 	ld	(hl), #0x00
 	ret
-;engine/printer.c:28: void cls (void) {
+;engine/printer.c:29: void cls (void) {
 ;	---------------------------------
 ; Function cls
 ; ---------------------------------
 _cls::
-;engine/printer.c:29: SG_setNextTileatXY (0, 0);
+;engine/printer.c:30: SG_setNextTileatXY (0, 0);
 	ld	hl,#0x0000
 	push	hl
 	call	_SG_setNextTileatXY
-;engine/printer.c:30: SG_fillTile (0, 768);
+;engine/printer.c:31: SG_fillTile (0, 768);
 	ld	hl, #0x0300
 	ex	(sp),hl
 	xor	a, a
@@ -107,12 +107,12 @@ _cls::
 	pop	af
 	inc	sp
 	ret
-;engine/printer.c:34: void ul_putc (void) {
+;engine/printer.c:35: void ul_putc (void) {
 ;	---------------------------------
 ; Function ul_putc
 ; ---------------------------------
 _ul_putc::
-;engine/printer.c:35: update_list [update_index++] = MSB (gp_addr);
+;engine/printer.c:36: update_list [update_index++] = MSB (gp_addr);
 	ld	hl,#_update_index + 0
 	ld	e, (hl)
 	ld	hl, #_update_index+0
@@ -123,7 +123,7 @@ _ul_putc::
 	ld	iy,#_gp_addr
 	ld	d,1 (iy)
 	ld	(hl),d
-;engine/printer.c:36: update_list [update_index++] = LSB (gp_addr++);
+;engine/printer.c:37: update_list [update_index++] = LSB (gp_addr++);
 	ld	hl,#_update_index + 0
 	ld	d, (hl)
 	ld	hl, #_update_index+0
@@ -143,7 +143,7 @@ _ul_putc::
 00103$:
 	ld	a,c
 	ld	(de),a
-;engine/printer.c:37: update_list [update_index++] = _n;
+;engine/printer.c:38: update_list [update_index++] = _n;
 	ld	hl,#_update_index + 0
 	ld	e, (hl)
 	ld	hl, #_update_index+0
@@ -154,12 +154,12 @@ _ul_putc::
 	ld	a,(#__n + 0)
 	ld	(hl),a
 	ret
-;engine/printer.c:41: void p_t (void) {
+;engine/printer.c:42: void p_t (void) {
 ;	---------------------------------
 ; Function p_t
 ; ---------------------------------
 _p_t::
-;engine/printer.c:42: rda = _n; gp_addr = (_y << 5) + _x + PNTADDRESS;
+;engine/printer.c:43: rda = _n; gp_addr = (_y << 5) + _x + PNTADDRESS;
 	ld	a,(#__n + 0)
 	ld	(#_rda + 0),a
 	ld	iy,#__y
@@ -179,7 +179,7 @@ _p_t::
 	ld	hl,#0x1800
 	add	hl,de
 	ld	(_gp_addr),hl
-;engine/printer.c:43: _n = ((rda/10)+16); ul_putc ();
+;engine/printer.c:44: _n = ((rda/10)+16); ul_putc ();
 	ld	a,#0x0A
 	push	af
 	inc	sp
@@ -193,7 +193,7 @@ _p_t::
 	add	a, #0x10
 	ld	(hl),a
 	call	_ul_putc
-;engine/printer.c:44: _n = ((rda%10)+16); ul_putc ();
+;engine/printer.c:45: _n = ((rda%10)+16); ul_putc ();
 	ld	a,#0x0A
 	push	af
 	inc	sp
@@ -207,12 +207,12 @@ _p_t::
 	add	a, #0x10
 	ld	(hl),a
 	jp  _ul_putc
-;engine/printer.c:47: void p_tf (void) {
+;engine/printer.c:48: void p_tf (void) {
 ;	---------------------------------
 ; Function p_tf
 ; ---------------------------------
 _p_tf::
-;engine/printer.c:48: SG_setTileatXY (_x, _y, (_n / 10) + 16);
+;engine/printer.c:49: SG_setTileatXY (_x, _y, (_n / 10) + 16);
 	ld	a,#0x0A
 	push	af
 	inc	sp
@@ -234,7 +234,7 @@ _p_tf::
 	call	_SG_setTileatXY
 	pop	af
 	inc	sp
-;engine/printer.c:49: SG_setTile ((_n % 10) + 16);
+;engine/printer.c:50: SG_setTile ((_n % 10) + 16);
 	ld	a,#0x0A
 	push	af
 	inc	sp
@@ -250,12 +250,12 @@ _p_tf::
 	call	_SG_setTile
 	inc	sp
 	ret
-;engine/printer.c:54: void draw_tile (void) {
+;engine/printer.c:55: void draw_tile (void) {
 ;	---------------------------------
 ; Function draw_tile
 ; ---------------------------------
 _draw_tile::
-;engine/printer.c:58: gp_tmap = c_ts_tmaps + (_t << 2);
+;engine/printer.c:59: gp_tmap = c_ts_tmaps + (_t << 2);
 	ld	iy,#__t
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -271,7 +271,7 @@ _draw_tile::
 	adc	a, e
 	inc	hl
 	ld	(hl),a
-;engine/printer.c:59: gp_addr = (_y << 5) + _x + PNTADDRESS;
+;engine/printer.c:60: gp_addr = (_y << 5) + _x + PNTADDRESS;
 	ld	iy,#__y
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -289,11 +289,11 @@ _draw_tile::
 	ld	hl,#0x1800
 	add	hl,de
 	ld	(_gp_addr),hl
-;engine/printer.c:61: if (_y == TOP_ADJUST) {
+;engine/printer.c:62: if (_y == TOP_ADJUST) {
 	ld	a,(#__y + 0)
 	dec	a
 	jr	NZ,00102$
-;engine/printer.c:62: gp_tmap += 2;		
+;engine/printer.c:63: gp_tmap += 2;		
 	ld	hl,#_gp_tmap
 	ld	a,(hl)
 	add	a, #0x02
@@ -304,13 +304,13 @@ _draw_tile::
 	ld	(hl),a
 	jr	00103$
 00102$:
-;engine/printer.c:64: VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
+;engine/printer.c:65: VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
 	ld	a,(#_gp_addr + 0)
 	out	(_VDPControlPort),a
 	ld	a,(#_gp_addr + 1)
 	set	6, a
 	out	(_VDPControlPort),a
-;engine/printer.c:65: VDPDataPort = *gp_tmap ++;
+;engine/printer.c:66: VDPDataPort = *gp_tmap ++;
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	out	(_VDPDataPort),a
@@ -320,7 +320,7 @@ _draw_tile::
 	ld	hl, #_gp_tmap+1
 	inc	(hl)
 00118$:
-;engine/printer.c:66: VDPDataPort = *gp_tmap ++;
+;engine/printer.c:67: VDPDataPort = *gp_tmap ++;
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	out	(_VDPDataPort),a
@@ -331,11 +331,11 @@ _draw_tile::
 	inc	(hl)
 00119$:
 00103$:
-;engine/printer.c:69: if (_y < TOP_ADJUST + 22) {
+;engine/printer.c:70: if (_y < TOP_ADJUST + 22) {
 	ld	a,(#__y + 0)
 	sub	a, #0x17
 	ret	NC
-;engine/printer.c:70: gp_addr += 32;
+;engine/printer.c:71: gp_addr += 32;
 	ld	hl,#_gp_addr
 	ld	a,(hl)
 	add	a, #0x20
@@ -344,13 +344,13 @@ _draw_tile::
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-;engine/printer.c:71: VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
+;engine/printer.c:72: VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
 	ld	a,(#_gp_addr + 0)
 	out	(_VDPControlPort),a
 	ld	a,(#_gp_addr + 1)
 	set	6, a
 	out	(_VDPControlPort),a
-;engine/printer.c:72: VDPDataPort = *gp_tmap ++;
+;engine/printer.c:73: VDPDataPort = *gp_tmap ++;
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	out	(_VDPDataPort),a
@@ -360,7 +360,7 @@ _draw_tile::
 	ld	hl, #_gp_tmap+1
 	inc	(hl)
 00120$:
-;engine/printer.c:73: VDPDataPort = *gp_tmap ++;
+;engine/printer.c:74: VDPDataPort = *gp_tmap ++;
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	out	(_VDPDataPort),a
@@ -370,12 +370,12 @@ _draw_tile::
 	ld	hl, #_gp_tmap+1
 	inc	(hl)
 	ret
-;engine/printer.c:79: void update_list_tile (void) {
+;engine/printer.c:80: void update_list_tile (void) {
 ;	---------------------------------
 ; Function update_list_tile
 ; ---------------------------------
 _update_list_tile::
-;engine/printer.c:80: gp_tmap = c_ts_tmaps + (_t << 2);
+;engine/printer.c:81: gp_tmap = c_ts_tmaps + (_t << 2);
 	ld	iy,#__t
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -391,7 +391,7 @@ _update_list_tile::
 	adc	a, e
 	inc	hl
 	ld	(hl),a
-;engine/printer.c:81: gp_addr = ((_y << 5) + _x + PNTADDRESS);
+;engine/printer.c:82: gp_addr = ((_y << 5) + _x + PNTADDRESS);
 	ld	iy,#__y
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -409,7 +409,7 @@ _update_list_tile::
 	ld	hl,#0x1800
 	add	hl,de
 	ld	(_gp_addr),hl
-;engine/printer.c:83: _n = *gp_tmap ++; ul_putc ();
+;engine/printer.c:84: _n = *gp_tmap ++; ul_putc ();
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	ld	(#__n + 0),a
@@ -420,7 +420,7 @@ _update_list_tile::
 	inc	(hl)
 00103$:
 	call	_ul_putc
-;engine/printer.c:84: _n = *gp_tmap ++; ul_putc ();
+;engine/printer.c:85: _n = *gp_tmap ++; ul_putc ();
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	ld	(#__n + 0),a
@@ -431,7 +431,7 @@ _update_list_tile::
 	inc	(hl)
 00104$:
 	call	_ul_putc
-;engine/printer.c:85: gp_addr += 30;
+;engine/printer.c:86: gp_addr += 30;
 	ld	hl,#_gp_addr
 	ld	a,(hl)
 	add	a, #0x1E
@@ -440,7 +440,7 @@ _update_list_tile::
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-;engine/printer.c:87: _n = *gp_tmap ++; ul_putc ();
+;engine/printer.c:88: _n = *gp_tmap ++; ul_putc ();
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	ld	(#__n + 0),a
@@ -451,17 +451,17 @@ _update_list_tile::
 	inc	(hl)
 00105$:
 	call	_ul_putc
-;engine/printer.c:88: _n = *gp_tmap   ; ul_putc ();
+;engine/printer.c:89: _n = *gp_tmap   ; ul_putc ();
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	ld	(#__n + 0),a
 	jp  _ul_putc
-;engine/printer.c:93: void map_set (void) {
+;engine/printer.c:94: void map_set (void) {
 ;	---------------------------------
 ; Function map_set
 ; ---------------------------------
 _map_set::
-;engine/printer.c:94: map_buff [COORDS (_x, _y)] = _t;
+;engine/printer.c:95: map_buff [COORDS (_x, _y)] = _t;
 	ld	de,#_map_buff+0
 	ld	iy,#__y
 	ld	l,0 (iy)
@@ -482,7 +482,7 @@ _map_set::
 	add	hl,de
 	ld	a,(#__t + 0)
 	ld	(hl),a
-;engine/printer.c:98: _x = _x << 1; _y = TOP_ADJUST + (_y << 1);
+;engine/printer.c:99: _x = _x << 1; _y = TOP_ADJUST + (_y << 1);
 	ld	iy,#__x
 	sla	0 (iy)
 	ld	a,(#__y + 0)
@@ -490,14 +490,14 @@ _map_set::
 	ld	hl,#__y
 	inc	a
 	ld	(hl),a
-;engine/printer.c:99: update_list_tile (); 
+;engine/printer.c:100: update_list_tile (); 
 	jp  _update_list_tile
-;engine/printer.c:102: unsigned char get_byte (void) {
+;engine/printer.c:103: unsigned char get_byte (void) {
 ;	---------------------------------
 ; Function get_byte
 ; ---------------------------------
 _get_byte::
-;engine/printer.c:103: -- rdit; return *gp_gen ++;
+;engine/printer.c:104: -- rdit; return *gp_gen ++;
 	ld	hl, #_rdit+0
 	dec	(hl)
 	ld	hl,(_gp_gen)
@@ -755,18 +755,20 @@ _draw_scr::
 	call	_add_tile
 	jr	00129$
 00131$:
-;engine/../engine/mapmods/map_renderer_complex.h:198: _x = 0; _y = TOP_ADJUST; gp_ram = map_buff;
+;engine/../engine/mapmods/map_renderer_complex.h:198: DISABLE_INTERRUPTS;
+	di 
+;engine/../engine/mapmods/map_renderer_complex.h:200: _x = 0; _y = TOP_ADJUST; gp_ram = map_buff;
 	ld	hl,#__x + 0
 	ld	(hl), #0x00
 	ld	hl,#__y + 0
 	ld	(hl), #0x01
 	ld	hl,#_map_buff
 	ld	(_gp_ram),hl
-;engine/../engine/mapmods/map_renderer_complex.h:199: for (rdm = 0; rdm < 192; rdm ++) {
+;engine/../engine/mapmods/map_renderer_complex.h:201: for (rdm = 0; rdm < 192; rdm ++) {
 	ld	hl,#_rdm + 0
 	ld	(hl), #0x00
 00141$:
-;engine/../engine/mapmods/map_renderer_complex.h:200: rdt = *gp_ram ++;
+;engine/../engine/mapmods/map_renderer_complex.h:202: rdt = *gp_ram ++;
 	ld	hl,(_gp_ram)
 	ld	a,(hl)
 	ld	(#_rdt + 0),a
@@ -798,11 +800,11 @@ _draw_scr::
 	ld	hl,#_rdt + 0
 	ld	(hl), #0x00
 00133$:
-;engine/../engine/mapmods/map_renderer_complex.h:217: _t = rdt; draw_tile ();
+;engine/../engine/mapmods/map_renderer_complex.h:219: _t = rdt; draw_tile ();
 	ld	a,(#_rdt + 0)
 	ld	(#__t + 0),a
 	call	_draw_tile
-;engine/../engine/mapmods/map_renderer_complex.h:218: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
+;engine/../engine/mapmods/map_renderer_complex.h:220: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
 	ld	a,(#__x + 0)
 	add	a, #0x02
 	and	a, #0x1F
@@ -816,13 +818,13 @@ _draw_scr::
 	ld	iy,#__y
 	inc	0 (iy)
 00142$:
-;engine/../engine/mapmods/map_renderer_complex.h:199: for (rdm = 0; rdm < 192; rdm ++) {
+;engine/../engine/mapmods/map_renderer_complex.h:201: for (rdm = 0; rdm < 192; rdm ++) {
 	ld	iy,#_rdm
 	inc	0 (iy)
 	ld	a,(#_rdm + 0)
 	sub	a, #0xC0
 	jr	C,00141$
-;engine/../engine/mapmods/map_renderer_complex.h:222: gpit = max_chac_chacs; while (gpit --) {
+;engine/../engine/mapmods/map_renderer_complex.h:224: gpit = max_chac_chacs; while (gpit --) {
 	ld	a,(#_max_chac_chacs + 0)
 	ld	(#_gpit + 0),a
 00138$:
@@ -832,11 +834,11 @@ _draw_scr::
 	dec	0 (iy)
 	ld	a,e
 	or	a, a
-	ret	Z
-;engine/../engine/mapmods/map_renderer_complex.h:223: _t = CHAC_CHAC_BASE_TILE + 6;
+	jr	Z,00140$
+;engine/../engine/mapmods/map_renderer_complex.h:225: _t = CHAC_CHAC_BASE_TILE + 6;
 	ld	iy,#__t
 	ld	0 (iy),#0x26
-;engine/../engine/mapmods/map_renderer_complex.h:224: _x = (chac_chacs_yx [gpit] & 0xf) << 1;
+;engine/../engine/mapmods/map_renderer_complex.h:226: _x = (chac_chacs_yx [gpit] & 0xf) << 1;
 	ld	a,(#_gpit + 0)
 	add	a, #<(_chac_chacs_yx)
 	ld	e,a
@@ -849,7 +851,7 @@ _draw_scr::
 	add	a, a
 	ld	iy,#__x
 	ld	0 (iy),a
-;engine/../engine/mapmods/map_renderer_complex.h:225: _y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
+;engine/../engine/mapmods/map_renderer_complex.h:227: _y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
 	ld	a,l
 	and	a, #0xF0
 	rrca
@@ -859,13 +861,6 @@ _draw_scr::
 	ld	hl,#__y
 	inc	a
 	ld	(hl),a
-;engine/../engine/mapmods/map_renderer_complex.h:226: draw_tile ();
-	call	_draw_tile
-;engine/../engine/mapmods/map_renderer_complex.h:227: _y += 2;
-	ld	hl, #__y+0
-	inc	(hl)
-	ld	hl, #__y+0
-	inc	(hl)
 ;engine/../engine/mapmods/map_renderer_complex.h:228: draw_tile ();
 	call	_draw_tile
 ;engine/../engine/mapmods/map_renderer_complex.h:229: _y += 2;
@@ -875,13 +870,24 @@ _draw_scr::
 	inc	(hl)
 ;engine/../engine/mapmods/map_renderer_complex.h:230: draw_tile ();
 	call	_draw_tile
+;engine/../engine/mapmods/map_renderer_complex.h:231: _y += 2;
+	ld	hl, #__y+0
+	inc	(hl)
+	ld	hl, #__y+0
+	inc	(hl)
+;engine/../engine/mapmods/map_renderer_complex.h:232: draw_tile ();
+	call	_draw_tile
 	jr	00138$
-;engine/printer.c:113: void pr_str (const unsigned char *s) {
+00140$:
+;engine/../engine/mapmods/map_renderer_complex.h:236: ENABLE_INTERRUPTS;
+	ei 
+	ret
+;engine/printer.c:114: void pr_str (const unsigned char *s) {
 ;	---------------------------------
 ; Function pr_str
 ; ---------------------------------
 _pr_str::
-;engine/printer.c:114: SG_setNextTileatXY (_x, _y);
+;engine/printer.c:115: SG_setNextTileatXY (_x, _y);
 	ld	a,(__y)
 	push	af
 	inc	sp
@@ -890,7 +896,7 @@ _pr_str::
 	inc	sp
 	call	_SG_setNextTileatXY
 	pop	af
-;engine/printer.c:115: while (gpit = *s++) {
+;engine/printer.c:116: while (gpit = *s++) {
 	pop	bc
 	pop	de
 	push	de
@@ -898,13 +904,13 @@ _pr_str::
 00104$:
 	ld	a,(de)
 	inc	de
-;engine/printer.c:116: if (gpit == '%') {
+;engine/printer.c:117: if (gpit == '%') {
 	ld	(#_gpit + 0),a
 	or	a,a
 	ret	Z
 	sub	a, #0x25
 	jr	NZ,00102$
-;engine/printer.c:117: ++ _y; SG_setNextTileatXY (_x, _y);
+;engine/printer.c:118: ++ _y; SG_setNextTileatXY (_x, _y);
 	ld	hl, #__y+0
 	inc	(hl)
 	push	de
@@ -919,7 +925,7 @@ _pr_str::
 	pop	de
 	jr	00104$
 00102$:
-;engine/printer.c:119: else SG_setTile (gpit - 32); 
+;engine/printer.c:120: else SG_setTile (gpit - 32); 
 	ld	a,(#_gpit + 0)
 	add	a,#0xE0
 	push	de

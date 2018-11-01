@@ -269,15 +269,6 @@ unsigned char en_spr_id [3];
     unsigned char en_invincible [3];
 #endif
 
-// Persistent enemies (position / movement is remembered)
-
-#ifdef PERSISTENT_ENEMIES
-    unsigned char ep_x [3 * MAP_SIZE];  // Buffer for X coordinates.
-    unsigned char ep_y [3 * MAP_SIZE];  // Buffer for Y coordinates.
-    signed char ep_mx [3 * MAP_SIZE];   // Buffer for direction + speed in the X axis.
-    signed char ep_my [3 * MAP_SIZE];   // Buffer for direction + speed in the Y axis.
-#endif
-
 // Persistent deaths (death enemies stay dead in current level)
 
 #ifdef PERSISTENT_DEATHS

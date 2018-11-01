@@ -39,6 +39,8 @@
 #define ENEMS_RECOIL_X          ((_en_t == 5 || _en_t == 9 || _en_t == 11) ? 0 : ADD_SIGN2 (_en_x, prx, ENEMS_RECOIL_ON_HIT))
 #define ENEMS_RECOIL_Y          ((_en_t == 5 || _en_t == 9 || _en_t == 11) ? 0 : ADD_SIGN2 (_en_y, pry, ENEMS_RECOIL_ON_HIT))
 #define IF_PLAYER_TOUCHES(x,y)  rdx=(x)<<4;rdy=16+((y)<<4);if(prx+7>=rdx&&prx<=rdx+15&&pry+15>=rdt&&pry<=rdy+15)
+#define DISABLE_INTERRUPTS		__asm di __endasm
+#define ENABLE_INTERRUPTS		__asm ei __endasm
 
 // Wall hits
 

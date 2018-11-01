@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Wed Oct 31 22:58:45 2018
+; This file was generated Thu Nov 01 21:39:33 2018
 ;--------------------------------------------------------
 	.module game
 	.optsdcc -mz80
@@ -87,10 +87,6 @@
 	.globl _chac_chacs_yx
 	.globl _max_chac_chacs
 	.globl _ep_dead
-	.globl _ep_my
-	.globl _ep_mx
-	.globl _ep_y
-	.globl _ep_x
 	.globl _en_spr_id
 	.globl _enf_vy
 	.globl _enf_y
@@ -662,14 +658,6 @@ _enf_vy::
 	.ds 6
 _en_spr_id::
 	.ds 3
-_ep_x::
-	.ds 72
-_ep_y::
-	.ds 72
-_ep_mx::
-	.ds 72
-_ep_my::
-	.ds 72
 _ep_dead::
 	.ds 72
 _max_chac_chacs::

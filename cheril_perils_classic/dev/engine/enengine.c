@@ -29,6 +29,8 @@
 
 #ifdef PERSISTENT_ENEMIES
 	void enems_persistent_load (void) {
+		DISABLE_INTERRUPTS;
+
 		// Point to free VRAM @ $1B80
 		VDPControlPort = 0x80;
 		VDPControlPort = 0x1B | 0x40;
@@ -51,9 +53,13 @@
 			VDPDataPort = ADD_SIGN2 (rdb, rdx, rda);	// Write mx
 			VDPDataPort = ADD_SIGN2 (rdc, rdy, rda); 	// Write my 
 		}
+
+		ENABLE_INTERRUPTS;
 	}
 
 	void enems_persistent_update (void) {
+		DISABLE_INTERRUPTS;
+
 		if (on_pant != 99) {
 			// Point to VRAM @ 1B80 + on_pant * 12
 			gp_addr = 0x1b80 + (on_pant << 3) + (on_pant << 2);
@@ -68,6 +74,8 @@
 				VDPDataPort = en_my [gpit];				// Write my
 			}
 		}
+
+		ENABLE_INTERRUPTS;
 	}
 #endif
 
@@ -139,7 +147,7 @@ void enems_load (void) {
 					// Skip in VRAM as well
 					rda = VDPDataPort;
 					rdb = VDPDataPort;
-					rdc = VDPDataPort;
+					rdm = VDPDataPort;
 					rdt = VDPDataPort;
 				#endif
 			} else 

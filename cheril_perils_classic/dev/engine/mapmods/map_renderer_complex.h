@@ -195,6 +195,8 @@ void draw_scr (void) {
 		rdd = 0;
 	#endif
 
+	DISABLE_INTERRUPTS;
+
 	_x = 0; _y = TOP_ADJUST; gp_ram = map_buff;
 	for (rdm = 0; rdm < 192; rdm ++) {
 		rdt = *gp_ram ++;
@@ -230,4 +232,6 @@ void draw_scr (void) {
 			draw_tile ();
 		}
 	#endif
+
+	ENABLE_INTERRUPTS;
 }

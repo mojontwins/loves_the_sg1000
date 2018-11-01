@@ -14,6 +14,7 @@
 
 #include "../utils/rand.h"
 #include "../utils/memfill.h"
+#include "../utils/delay.h"
 #include "../engine/propellers.h"
 #include "../engine/tile_chac_chac.h"
 
