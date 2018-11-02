@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Thu Nov 01 21:39:37 2018
+; This file was generated Fri Nov 02 11:34:09 2018
 ;--------------------------------------------------------
 	.module general
 	.optsdcc -mz80
@@ -19,8 +19,9 @@
 	.globl _collide_in
 	.globl _cm_two_points
 	.globl _clear_update_list
+	.globl _PSGSFXPlay
 	.globl _SG_doUpdateList
-	.globl _UNSAFE_SG_copySpritestoSAT
+	.globl _SG_copySpritestoSAT
 	.globl _SG_getKeysStatus
 	.globl _SG_finalizeSprites
 	.globl _SG_initSprites
@@ -63,12 +64,12 @@ _IOPortH	=	0x00dd
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;engine/general.c:20: void cm_two_points (void) {
+;engine/general.c:22: void cm_two_points (void) {
 ;	---------------------------------
 ; Function cm_two_points
 ; ---------------------------------
 _cm_two_points::
-;engine/general.c:22: if (cy1 > 12 || cy2 > 12) { at1 = at2 = 0; return; }
+;engine/general.c:24: if (cy1 > 12 || cy2 > 12) { at1 = at2 = 0; return; }
 	ld	a,#0x0C
 	ld	iy,#_cy1
 	sub	a, 0 (iy)
@@ -84,7 +85,7 @@ _cm_two_points::
 	ld	(hl), #0x00
 	ret
 00102$:
-;engine/general.c:23: at1 = ATTR (cx1, cy1 ? cy1 - 1 : 0);
+;engine/general.c:25: at1 = ATTR (cx1, cy1 ? cy1 - 1 : 0);
 	ld	bc,#_map_buff+0
 	ld	a,(#_cy1 + 0)
 	or	a, a
@@ -120,7 +121,7 @@ _cm_two_points::
 	ld	d,a
 	ld	a,(de)
 	ld	(#_at1 + 0),a
-;engine/general.c:24: at2 = ATTR (cx2, cy2 ? cy2 - 1 : 0);
+;engine/general.c:26: at2 = ATTR (cx2, cy2 ? cy2 - 1 : 0);
 	ld	a,(#_cy2 + 0)
 	or	a, a
 	jr	Z,00108$
@@ -152,7 +153,7 @@ _cm_two_points::
 	ld	a,(hl)
 	ld	(#_at2 + 0),a
 	ret
-;engine/general.c:39: unsigned char collide_in (unsigned char x0, unsigned char y0, unsigned char x1, unsigned char y1) {
+;engine/general.c:41: unsigned char collide_in (unsigned char x0, unsigned char y0, unsigned char x1, unsigned char y1) {
 ;	---------------------------------
 ; Function collide_in
 ; ---------------------------------
@@ -161,7 +162,7 @@ _collide_in::
 	ld	ix,#0
 	add	ix,sp
 	dec	sp
-;engine/general.c:40: return (x0 >= x1 && x0 <= x1 + 15 && y0 >= y1 && y0 <= y1 + 15);	
+;engine/general.c:42: return (x0 >= x1 && x0 <= x1 + 15 && y0 >= y1 && y0 <= y1 + 15);	
 	ld	a,4 (ix)
 	sub	a, 6 (ix)
 	jr	C,00103$
@@ -205,7 +206,7 @@ _collide_in::
 	inc	sp
 	pop	ix
 	ret
-;engine/general.c:43: unsigned char collide (void) {
+;engine/general.c:45: unsigned char collide (void) {
 ;	---------------------------------
 ; Function collide
 ; ---------------------------------
@@ -214,7 +215,7 @@ _collide::
 	ld	ix,#0
 	add	ix,sp
 	dec	sp
-;engine/general.c:53: prx + 3 >= _en_x && 
+;engine/general.c:55: prx + 3 >= _en_x && 
 	ld	hl,#_prx + 0
 	ld	e, (hl)
 	ld	d,#0x00
@@ -234,7 +235,7 @@ _collide::
 	xor	a, #0x80
 00122$:
 	jp	M,00103$
-;engine/general.c:54: prx <= _en_x + 11 && 
+;engine/general.c:56: prx <= _en_x + 11 && 
 	ld	bc,#0x000B
 	add	hl,bc
 	ld	a,l
@@ -245,7 +246,7 @@ _collide::
 	xor	a, #0x80
 00123$:
 	jp	M,00103$
-;engine/general.c:55: pry + 13 + ENEMS_COLLISION_VSTRETCH_FG >= _en_y &&
+;engine/general.c:57: pry + 13 + ENEMS_COLLISION_VSTRETCH_FG >= _en_y &&
 	ld	hl,#_pry + 0
 	ld	e, (hl)
 	ld	d,#0x00
@@ -264,7 +265,7 @@ _collide::
 	xor	a, #0x80
 00124$:
 	jp	M,00103$
-;engine/general.c:56: pry <= _en_y + 13 + PLAYER_COLLISION_VSTRETCH_FG
+;engine/general.c:58: pry <= _en_y + 13 + PLAYER_COLLISION_VSTRETCH_FG
 	ld	bc,#0x0009
 	add	hl,bc
 	ld	a,l
@@ -284,12 +285,12 @@ _collide::
 	inc	sp
 	pop	ix
 	ret
-;engine/general.c:61: signed int add_sign (signed int sign, signed int value) {
+;engine/general.c:63: signed int add_sign (signed int sign, signed int value) {
 ;	---------------------------------
 ; Function add_sign
 ; ---------------------------------
 _add_sign::
-;engine/general.c:62: return sign == 0 ? 0 : sign < 0 ? -value : value;
+;engine/general.c:64: return sign == 0 ? 0 : sign < 0 ? -value : value;
 	ld	hl, #2+1
 	add	hl, sp
 	ld	a, (hl)
@@ -320,18 +321,18 @@ _add_sign::
 	ld	h, (hl)
 	ld	l, a
 	ret
-;engine/general.c:83: void pad_read (void) {
+;engine/general.c:85: void pad_read (void) {
 ;	---------------------------------
 ; Function pad_read
 ; ---------------------------------
 _pad_read::
-;engine/general.c:86: pad_this_frame = pad0;
+;engine/general.c:88: pad_this_frame = pad0;
 	ld	hl,(_pad0)
 	ld	(_pad_this_frame),hl
-;engine/general.c:87: pad0 = SG_getKeysStatus ();			// Read pads here.
+;engine/general.c:89: pad0 = SG_getKeysStatus ();			// Read pads here.
 	call	_SG_getKeysStatus
 	ld	(_pad0),hl
-;engine/general.c:88: pad_this_frame = (pad_this_frame ^ pad0) & pad0;
+;engine/general.c:90: pad_this_frame = (pad_this_frame ^ pad0) & pad0;
 	ld	a,(#_pad_this_frame + 0)
 	ld	iy,#_pad0
 	xor	a, 0 (iy)
@@ -349,12 +350,12 @@ _pad_read::
 	and	a, 1 (iy)
 	ld	(#_pad_this_frame + 1),a
 	ret
-;engine/general.c:94: unsigned char distance (void) {
+;engine/general.c:96: unsigned char distance (void) {
 ;	---------------------------------
 ; Function distance
 ; ---------------------------------
 _distance::
-;engine/general.c:95: rda = DELTA (prx, rdx); // dx
+;engine/general.c:97: rda = DELTA (prx, rdx); // dx
 	ld	hl,#_rdx
 	ld	a,(#_prx + 0)
 	sub	a, (hl)
@@ -369,7 +370,7 @@ _distance::
 	sub	a, (hl)
 00104$:
 	ld	(#_rda + 0),a
-;engine/general.c:96: rdb = DELTA (pry, rdy); // dy
+;engine/general.c:98: rdb = DELTA (pry, rdy); // dy
 	ld	hl,#_rdy
 	ld	a,(#_pry + 0)
 	sub	a, (hl)
@@ -384,7 +385,7 @@ _distance::
 	sub	a, (hl)
 00106$:
 	ld	(#_rdb + 0),a
-;engine/general.c:97: rdc = MIN (rda, rdb);
+;engine/general.c:99: rdc = MIN (rda, rdb);
 	ld	hl,#_rdb
 	ld	a,(#_rda + 0)
 	cp	a,(hl)
@@ -392,7 +393,7 @@ _distance::
 	ld	a,(#_rdb + 0)
 00108$:
 	ld	(#_rdc + 0),a
-;engine/general.c:98: return (rda + rdb - (rdc >> 1) - (rdc >> 2) + (rdc >> 4));
+;engine/general.c:100: return (rda + rdb - (rdc >> 1) - (rdc >> 2) + (rdc >> 4));
 	ld	hl,#_rdb
 	ld	a,(#_rda + 0)
 	add	a, (hl)
@@ -419,57 +420,66 @@ _distance::
 	ld	l,a
 	add	hl, bc
 	ret
-;engine/general.c:103: void jump_start (void) {
+;engine/general.c:105: void jump_start (void) {
 ;	---------------------------------
 ; Function jump_start
 ; ---------------------------------
 _jump_start::
-;engine/general.c:104: pj = 1; pctj = 0; 
+;engine/general.c:106: pj = 1; pctj = 0; 
 	ld	hl,#_pj + 0
 	ld	(hl), #0x01
 	ld	hl,#_pctj + 0
 	ld	(hl), #0x00
-;engine/general.c:120: pvy = -PLAYER_VY_JUMP_INITIAL;
+;engine/general.c:119: PSGSFXPlay (sfx_01_tile_psg, 2);
+	ld	de,#_sfx_01_tile_psg
+	ld	a,#0x02
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
+;engine/general.c:123: pvy = -PLAYER_VY_JUMP_INITIAL;
 	ld	hl,#0xFFC0
 	ld	(_pvy),hl
 	ret
-;engine/general.c:126: void update_cycle (void) {
+;engine/general.c:129: void update_cycle (void) {
 ;	---------------------------------
 ; Function update_cycle
 ; ---------------------------------
 _update_cycle::
-;engine/general.c:127: SG_finalizeSprites ();
+;engine/general.c:130: SG_finalizeSprites ();
 	call	_SG_finalizeSprites
-;engine/general.c:128: SG_waitForVBlank ();
+;engine/general.c:131: SG_waitForVBlank ();
 	call	_SG_waitForVBlank
-;engine/general.c:129: UNSAFE_SG_copySpritestoSAT ();
-	call	_UNSAFE_SG_copySpritestoSAT
-;engine/general.c:130: update_list [update_index] = 0xff;
+;engine/general.c:132: SG_copySpritestoSAT ();
+	call	_SG_copySpritestoSAT
+;engine/general.c:133: update_list [update_index] = 0xff;
 	ld	de,#_update_list+0
 	ld	hl,(_update_index)
 	ld	h,#0x00
 	add	hl,de
 	ld	(hl),#0xFF
-;engine/general.c:131: SG_doUpdateList ();
+;engine/general.c:134: SG_doUpdateList ();
 	call	_SG_doUpdateList
-;engine/general.c:132: SG_initSprites ();
+;engine/general.c:135: SG_initSprites ();
 	call	_SG_initSprites
-;engine/general.c:133: clear_update_list ();
+;engine/general.c:136: clear_update_list ();
 	jp  _clear_update_list
-;engine/general.c:136: void do_update_list_and_wait (void) {
+;engine/general.c:139: void do_update_list_and_wait (void) {
 ;	---------------------------------
 ; Function do_update_list_and_wait
 ; ---------------------------------
 _do_update_list_and_wait::
-;engine/general.c:137: SG_waitForVBlank ();
+;engine/general.c:140: SG_waitForVBlank ();
 	call	_SG_waitForVBlank
-;engine/general.c:138: update_list [update_index] = 0xff;
+;engine/general.c:141: update_list [update_index] = 0xff;
 	ld	de,#_update_list+0
 	ld	hl,(_update_index)
 	ld	h,#0x00
 	add	hl,de
 	ld	(hl),#0xFF
-;engine/general.c:139: SG_doUpdateList ();
+;engine/general.c:142: SG_doUpdateList ();
 	jp  _SG_doUpdateList
 	.area _CODE
 	.area _INITIALIZER

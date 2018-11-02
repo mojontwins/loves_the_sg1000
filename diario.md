@@ -477,3 +477,10 @@ Para escribir en VRAM uso el método milton, claro.
 
 Ahora quiero investigar por qué aparecen dos patrones glitcheros de vez en cuando en el fondo. Tengo sueño pero puedo permitirme mirar en que punto del proceso aparecen. Como he sacado `enengine.h` a un módulo esto compila mucho más rápido, incluso en el Core 2 Duo de 2007 que estoy usando ahora.
 
+20181102
+========
+
+¡Pues creo que, a falta de música y probaturas, el tema está terminado! Ahora sólo hace falta ampliar con el tema de los destructibles con más de un disparo para el Sgt. Helmet y esto estará bastante presentable. 
+
+Antes quiero adecentar un poco el código de algunas partes. Voy a ello rápidow.
+

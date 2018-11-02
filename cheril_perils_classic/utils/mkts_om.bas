@@ -1732,7 +1732,7 @@ Sub zxDoScripted (scriptFile As String)
 				cPoolIndex = Val (tokens (1))
 
 			Case "stats"
-				Puts "stats: " & (mainIndex\patternSize) & " patterns in pool (" & mainIndex & " bytes)"
+				Puts "stats: " & (mainIndex\patternWriteSize) & " patterns in pool (" & mainIndex & " bytes)"
 
 		End Select
 	Wend

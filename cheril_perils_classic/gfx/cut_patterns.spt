@@ -24,6 +24,13 @@ nametablerle
 write nametablerle title_rle
 write patterns tstitle_patterns_c tstitle_colours_c r:64:* packed
 
+# Ending does, as well, the same thing
+open ending.png
+set patterns 64
+nametablerle
+write nametablerle ending_rle
+write patterns tsending_patterns_c tsending_colours_c r:64:* packed
+
 # Metatiles level 0
 open ts0.png
 set patterns 64

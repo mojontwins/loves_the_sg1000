@@ -57,8 +57,7 @@
 #include "murcia.h"
 
 // RAM (make fit!)
-#include "ram/zp.h"
-#include "ram/bss.h"
+#include "ram/globals.h"
 
 // *************
 // Main includes
@@ -114,7 +113,7 @@ void main(void) {
 	first_game = 1;
 
 	// For master system:
-	// ntsc = !!(SMS_VDPType () & VDP_NTSC);
+	ntsc = !!(SMS_VDPType () & VDP_NTSC);
 
 	// Unpack font
 	unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);

@@ -12,7 +12,7 @@ void bat_out (void) {
 	PSGStop ();
 	SG_displayOff ();
 	SG_initSprites ();
-	UNSAFE_SG_copySpritestoSAT ();	
+	SG_copySpritestoSAT ();	
 }
 
 void pres (void (*func) (void)) {
@@ -39,6 +39,7 @@ void title (void) {
 
 	bat_in ();
 
+	PSGPlay (m_helmet_psg);
 	while (1) {
 		update_cycle ();
 		SG_addMetaSprite1x1 (82, 122 + (mode_no_resonators << 4), ss_pl_00);
@@ -55,8 +56,7 @@ void title (void) {
 	}
 	
 	//PSGSFXPlay (SFX_START, 0); delay (20);
-	//level = game_mode & 1;
-	//mode_no_resonators = (game_mode > 1);
+	
 	plife = mode_no_resonators ? 5 : 3;
 
 	bat_out ();
@@ -67,9 +67,9 @@ void scr_game_over (void) {
 }
 
 void scr_the_end (void) {
-	_x = 6; _y = 6; pr_str (" CHERIL VANQUISHED%    ALL ZOMBIES%AND RETURNED SAFELY%   TO THE BOSQUE");
-	//oam_meta_spr (100, 80, 0, ssending_00);
-	_x = 12; _y = 25; pr_str ("THE  END");
+	unpack_bg_patterns (tsending_patterns_c, tsending_colours_c, 64*8, 7);
+	gp_gen = ending_rle; unrle ();
+	_x = 4; _y = 13; pr_str ("'CONGRATS, CHERIL'- SAID%%THE MAJOR -'YOU HAVE WON%%LA COPA DEL MEAO!', AND%%THEN CHERIL RETURNED TO%%THE FOREST . . .");
 }
 
 const unsigned char level0name [] = "  THE CITY";
@@ -84,8 +84,10 @@ void scr_level (void) {
 
 void credits (void) {
 	cls ();
-	rds16 = 0; rdy = 240;
 
+	_x = 0; _y = 0; if (ntsc) pr_str ("NTSC"); else pr_str ("PAL");
+
+	rds16 = 0; rdy = 240;
 	_x = 0; _y = 18; 
 	pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%     @ 2011 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2018 THE MOJON TWINS");
 	

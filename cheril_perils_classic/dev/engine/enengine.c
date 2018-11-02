@@ -11,7 +11,7 @@
 #include "../config.h"
 #include "../autodefs.h"
 
-#include "../ram/global_externs.h"
+#include "../ram/extern_globals.h"
 #include "../assets/extern_precalcs.h"
 #include "../assets/extern_metasprites.h"
 #include "../utils/memfill.h"

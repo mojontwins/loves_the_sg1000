@@ -2,7 +2,7 @@
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 #include "../lib/SGlib.h"
-#include "../ram/global_externs.h"
+#include "../ram/extern_globals.h"
 
 void unrle_adv (void) {
 	VDPDataPort = rdb;

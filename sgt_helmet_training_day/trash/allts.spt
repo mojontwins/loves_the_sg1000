@@ -1,0 +1,48 @@
+# Attempt to load all game tiles at once.
+
+mapfile tileset.c
+headerfile tileset.h
+
+reset patterns
+open ..\gfx\font.png
+charset 0, 0, 32, 2
+
+write patterns tsfont_patterns_c tsfont_colours_c packed
+
+# Not needed but not harmful
+set patterns 64
+
+# Metatiles level 0
+open ..\gfx\ts0.png
+reset tmaps
+metatileset 0, 0, 16, 2, 2, 2, 28
+write tmaps ts1_tmaps
+
+# Metatiles level 1
+open ..\gfx\ts1.png
+reset tmaps
+metatileset 0, 0, 16, 2, 2, 2, 28
+write tmaps ts1_tmaps
+
+# Metatiles level 2
+open ..\gfx\ts2.png
+reset tmaps
+metatileset 0, 0, 16, 2, 2, 2, 28
+write tmaps ts2_tmaps
+
+# Fixed screens
+open ..\gfx\title.png
+nametablerle
+write nametablerle title_rle
+
+open ..\gfx\cuts.png
+nametablerle
+write nametablerle cuts_rle
+
+open ..\gfx\frame.png
+nametablerle
+write nametablerle frame_rle
+
+stats
+
+write patterns tsALL_patterns_c ts2_colours_c r:64:* packed

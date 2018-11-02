@@ -12,10 +12,12 @@
 #include "../config.h"
 #include "../autodefs.h"
 
-#include "../ram/global_externs.h"
+#include "../ram/extern_globals.h"
 #include "../assets/extern_precalcs.h"
 
-#include "printer.h"
+#include "../engine/printer.h"
+
+#include "../murcia.h"
 
 void cm_two_points (void) {
 	// Calculates at1 & at2 from cx1, cy1 & cx2, cy2
@@ -114,6 +116,7 @@ void pad_read (void) {
 		#endif
 		{
 			//PSGSFXPlay (SFX_JUMP, 0);
+			PSGSFXPlay (sfx_01_tile_psg, 2);
 			#ifdef PLAYER_JUMP_TYPE_MK2
 				pvy = -PLAYER_VY_MK2_JUMP_INITIAL;
 			#else
@@ -126,7 +129,7 @@ void pad_read (void) {
 void update_cycle (void) {
 	SG_finalizeSprites ();
 	SG_waitForVBlank ();
-	UNSAFE_SG_copySpritestoSAT ();
+	SG_copySpritestoSAT ();
 	update_list [update_index] = 0xff;
 	SG_doUpdateList ();
 	SG_initSprites ();

@@ -9,12 +9,13 @@ Symbol Table
     .__.H$L.                                                    =  0000 L
     _IOPortH                                                    =  00DD 
     _IOPortL                                                    =  00DC 
+    _PSGSFXPlay                                                    **** GX
+    _SG_copySpritestoSAT                                           **** GX
     _SG_doUpdateList                                               **** GX
     _SG_finalizeSprites                                            **** GX
     _SG_getKeysStatus                                              **** GX
     _SG_initSprites                                                **** GX
     _SG_waitForVBlank                                              **** GX
-    _UNSAFE_SG_copySpritestoSAT                                    **** GX
     _VDPControlPort                                             =  00BF 
     _VDPDataPort                                                =  00BE 
     _VDPHCounterPort                                            =  007F 
@@ -35,7 +36,7 @@ Symbol Table
     _cy1                                                           **** GX
     _cy2                                                           **** GX
   0 _distance                                                      01BF GR
-  0 _do_update_list_and_wait                                       0262 GR
+  0 _do_update_list_and_wait                                       026F GR
   0 _jump_start                                                    0234 GR
     _map_buff                                                      **** GX
     _pad0                                                          **** GX
@@ -51,16 +52,18 @@ Symbol Table
     _rdc                                                           **** GX
     _rdx                                                           **** GX
     _rdy                                                           **** GX
-  0 _update_cycle                                                  0245 GR
+    _sfx_01_tile_psg                                               **** GX
+  0 _update_cycle                                                  0252 GR
     _update_index                                                  **** GX
     _update_list                                                   **** GX
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  273   flags    0
+   0 _CODE                                      size  280   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

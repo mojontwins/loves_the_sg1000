@@ -9,7 +9,7 @@
 
 #ifdef ENABLE_PROPELLERS
 
-#include "../ram/global_externs.h"
+#include "../ram/extern_globals.h"
 
 #include "printer.h"
 #include "propellers.h"

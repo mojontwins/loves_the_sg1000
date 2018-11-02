@@ -106,8 +106,8 @@ void SG_resetPauseRequest (void);             /* reset/acknowledge pause request
 void SG_VRAMmemset (unsigned int dst, unsigned char value, unsigned int size);
 
 /* VRAM unsafe functions. Fast, but dangerous! */
-void UNSAFE_SG_copySpritestoSAT (void);
-void UNSAFE_SG_VRAMmemcpy128 (unsigned int dst, void *src);
+void SG_copySpritestoSAT (void);
+void SG_VRAMmemcpy128 (unsigned int dst, void *src);
 
 /* the Interrupt Service Routines (do not modify) */
 void SG_isr (void) __interrupt;

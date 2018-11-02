@@ -9,7 +9,7 @@
 
 #ifdef ENABLE_TILE_CHAC_CHAC
 
-#include "../ram/global_externs.h"
+#include "../ram/extern_globals.h"
 #include "../assets/extern_precalcs.h"
 
 #include "printer.h"

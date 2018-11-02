@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Thu Nov 01 21:39:33 2018
+; This file was generated Fri Nov 02 11:34:07 2018
 ;--------------------------------------------------------
 	.module game
 	.optsdcc -mz80
@@ -54,10 +54,13 @@
 	.globl _memfill
 	.globl _delay
 	.globl _aPLib_depack_VRAM
+	.globl _PSGSFXStop
 	.globl _PSGStop
+	.globl _PSGPlay
 	.globl _SG_doUpdateList
 	.globl _SG_setUpdateList
-	.globl _UNSAFE_SG_copySpritestoSAT
+	.globl _SMS_VDPType
+	.globl _SG_copySpritestoSAT
 	.globl _SG_resetPauseRequest
 	.globl _SG_queryPauseRequested
 	.globl _SG_getKeysStatus
@@ -1342,8 +1345,8 @@ _bat_out::
 	pop	af
 ;my/pres.h:14: SG_initSprites ();
 	call	_SG_initSprites
-;my/pres.h:15: UNSAFE_SG_copySpritestoSAT ();	
-	jp  _UNSAFE_SG_copySpritestoSAT
+;my/pres.h:15: SG_copySpritestoSAT ();	
+	jp  _SG_copySpritestoSAT
 ;my/pres.h:18: void pres (void (*func) (void)) {
 ;	---------------------------------
 ; Function pres
@@ -1428,11 +1431,16 @@ _title::
 	pop	af
 ;my/pres.h:40: bat_in ();
 	call	_bat_in
-;my/pres.h:42: while (1) {
+;my/pres.h:42: PSGPlay (m_helmet_psg);
+	ld	hl,#_m_helmet_psg
+	push	hl
+	call	_PSGPlay
+	pop	af
+;my/pres.h:43: while (1) {
 00113$:
-;my/pres.h:43: update_cycle ();
+;my/pres.h:44: update_cycle ();
 	call	_update_cycle
-;my/pres.h:44: SG_addMetaSprite1x1 (82, 122 + (mode_no_resonators << 4), ss_pl_00);
+;my/pres.h:45: SG_addMetaSprite1x1 (82, 122 + (mode_no_resonators << 4), ss_pl_00);
 	ld	hl,#_ss_pl_00
 	ld	a,(#_mode_no_resonators + 0)
 	rlca
@@ -1448,16 +1456,16 @@ _title::
 	call	_SG_addMetaSprite1x1
 	pop	af
 	pop	af
-;my/pres.h:45: pad_read ();
+;my/pres.h:46: pad_read ();
 	call	_pad_read
-;my/pres.h:46: rda = mode_no_resonators;
+;my/pres.h:47: rda = mode_no_resonators;
 	ld	a,(#_mode_no_resonators + 0)
 	ld	(#_rda + 0),a
-;my/pres.h:47: if (pad_this_frame & PAD_DOWN) {
+;my/pres.h:48: if (pad_this_frame & PAD_DOWN) {
 	ld	hl,#_pad_this_frame+0
 	bit	1, (hl)
 	jr	Z,00104$
-;my/pres.h:48: ++ mode_no_resonators; if (mode_no_resonators == 2) mode_no_resonators = 0;
+;my/pres.h:49: ++ mode_no_resonators; if (mode_no_resonators == 2) mode_no_resonators = 0;
 	ld	hl, #_mode_no_resonators+0
 	inc	(hl)
 	ld	a,(#_mode_no_resonators + 0)
@@ -1466,11 +1474,11 @@ _title::
 	ld	hl,#_mode_no_resonators + 0
 	ld	(hl), #0x00
 00104$:
-;my/pres.h:50: if (pad_this_frame & PAD_UP) {
+;my/pres.h:51: if (pad_this_frame & PAD_UP) {
 	ld	hl,#_pad_this_frame+0
 	bit	0, (hl)
 	jr	Z,00109$
-;my/pres.h:51: if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
+;my/pres.h:52: if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
 	ld	a,(#_mode_no_resonators + 0)
 	or	a, a
 	jr	Z,00106$
@@ -1481,7 +1489,7 @@ _title::
 	ld	hl,#_mode_no_resonators + 0
 	ld	(hl), #0x01
 00109$:
-;my/pres.h:54: if (pad_this_frame & PAD_1) break;
+;my/pres.h:55: if (pad_this_frame & PAD_1) break;
 	ld	hl,#_pad_this_frame+0
 	bit	4, (hl)
 	jr	Z,00113$
@@ -1532,31 +1540,37 @@ ___str_4:
 ; Function scr_the_end
 ; ---------------------------------
 _scr_the_end::
-;my/pres.h:70: _x = 6; _y = 6; pr_str (" CHERIL VANQUISHED%    ALL ZOMBIES%AND RETURNED SAFELY%   TO THE BOSQUE");
-	ld	hl,#__x + 0
-	ld	(hl), #0x06
-	ld	hl,#__y + 0
-	ld	(hl), #0x06
-	ld	hl,#___str_5
+;my/pres.h:70: unpack_bg_patterns (tsending_patterns_c, tsending_colours_c, 64*8, 7);
+	ld	de,#_tsending_patterns_c
+	ld	a,#0x07
+	push	af
+	inc	sp
+	ld	hl,#0x0200
 	push	hl
-	call	_pr_str
-	pop	af
-;my/pres.h:72: _x = 12; _y = 25; pr_str ("THE  END");
+	ld	hl,#_tsending_colours_c
+	push	hl
+	push	de
+	call	_unpack_bg_patterns
+	ld	hl,#7
+	add	hl,sp
+	ld	sp,hl
+;my/pres.h:71: gp_gen = ending_rle; unrle ();
+	ld	hl,#_ending_rle+0
+	ld	(_gp_gen),hl
+	call	_unrle
+;my/pres.h:72: _x = 4; _y = 13; pr_str ("'CONGRATS, CHERIL'- SAID%%THE MAJOR -'YOU HAVE WON%%LA COPA DEL MEAO!', AND%%THEN CHERIL RETURNED TO%%THE FOREST . . .");
 	ld	hl,#__x + 0
-	ld	(hl), #0x0C
+	ld	(hl), #0x04
 	ld	hl,#__y + 0
-	ld	(hl), #0x19
-	ld	hl,#___str_6
+	ld	(hl), #0x0D
+	ld	hl,#___str_5
 	push	hl
 	call	_pr_str
 	pop	af
 	ret
 ___str_5:
-	.ascii " CHERIL VANQUISHED%    ALL ZOMBIES%AND RETURNED SAFELY%   TO"
-	.ascii " THE BOSQUE"
-	.db 0x00
-___str_6:
-	.ascii "THE  END"
+	.ascii "'CONGRATS, CHERIL'- SAID%%THE MAJOR -'YOU HAVE WON%%LA COPA "
+	.ascii "DEL MEAO!', AND%%THEN CHERIL RETURNED TO%%THE FOREST . . ."
 	.db 0x00
 ;my/pres.h:80: void scr_level (void) {
 ;	---------------------------------
@@ -1568,7 +1582,7 @@ _scr_level::
 	ld	(hl), #0x0C
 	ld	hl,#__y + 0
 	ld	(hl), #0x0E
-	ld	hl,#___str_7
+	ld	hl,#___str_6
 	push	hl
 	call	_pr_str
 	pop	af
@@ -1609,7 +1623,7 @@ _levelnames:
 	.dw _level0name
 	.dw _level1name
 	.dw _level2name
-___str_7:
+___str_6:
 	.ascii "LEVEL 0"
 	.db 0x00
 ;my/pres.h:85: void credits (void) {
@@ -1619,30 +1633,49 @@ ___str_7:
 _credits::
 ;my/pres.h:86: cls ();
 	call	_cls
-;my/pres.h:87: rds16 = 0; rdy = 240;
+;my/pres.h:88: _x = 0; _y = 0; if (ntsc) pr_str ("NTSC"); else pr_str ("PAL");
+	ld	hl,#__x + 0
+	ld	(hl), #0x00
+	ld	hl,#__y + 0
+	ld	(hl), #0x00
+	ld	a,(#_ntsc + 0)
+	or	a, a
+	jr	Z,00102$
+	ld	hl,#___str_10
+	push	hl
+	call	_pr_str
+	pop	af
+	jr	00103$
+00102$:
+	ld	hl,#___str_11
+	push	hl
+	call	_pr_str
+	pop	af
+00103$:
+;my/pres.h:90: rds16 = 0; rdy = 240;
 	ld	hl,#0x0000
 	ld	(_rds16),hl
 	ld	hl,#_rdy + 0
 	ld	(hl), #0xF0
-;my/pres.h:89: _x = 0; _y = 18; 
+;my/pres.h:91: _x = 0; _y = 18; 
 	ld	hl,#__x + 0
 	ld	(hl), #0x00
 	ld	hl,#__y + 0
 	ld	(hl), #0x12
-;my/pres.h:90: pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%     @ 2011 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2018 THE MOJON TWINS");
-	ld	hl,#___str_11+0
+;my/pres.h:92: pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%     @ 2011 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2018 THE MOJON TWINS");
+	ld	hl,#___str_12+0
 	push	hl
 	call	_pr_str
-;my/pres.h:92: SG_displayOn ();
+;my/pres.h:94: SG_displayOn ();
 	ld	hl, #0x0140
 	ex	(sp),hl
 	call	_SG_VDPturnOnFeature
 	pop	af
-;my/pres.h:94: while (!(SG_getKeysStatus () & PAD_START) && rds16 < 300) {
-00102$:
+;my/pres.h:96: while (!(SG_getKeysStatus () & PAD_START) && rds16 < 300) {
+00105$:
 	call	_SG_getKeysStatus
 	bit	4, l
-	jr	NZ,00104$
+	jr	NZ,00107$
 	ld	a,(#_rds16 + 0)
 	sub	a, #0x2C
 	ld	a,(#_rds16 + 1)
@@ -1650,24 +1683,30 @@ _credits::
 	ccf
 	rra
 	sbc	a, #0x81
-	jr	NC,00104$
-;my/pres.h:97: update_cycle ();
+	jr	NC,00107$
+;my/pres.h:99: update_cycle ();
 	call	_update_cycle
-;my/pres.h:98: rds16 ++;
+;my/pres.h:100: rds16 ++;
 	ld	hl, #_rds16+0
 	inc	(hl)
-	jr	NZ,00102$
+	jr	NZ,00105$
 	ld	hl, #_rds16+1
 	inc	(hl)
-	jr	00102$
-00104$:
-;my/pres.h:101: SG_displayOff ();
+	jr	00105$
+00107$:
+;my/pres.h:103: SG_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
 	pop	af
 	ret
+___str_10:
+	.ascii "NTSC"
+	.db 0x00
 ___str_11:
+	.ascii "PAL"
+	.db 0x00
+___str_12:
 	.ascii "     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%     @ 201"
 	.ascii "1 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2018 THE M"
 	.ascii "OJON TWINS"
@@ -2253,8 +2292,8 @@ _prepare_scr::
 00109$:
 ;mainloop.h:252: hud_update ();
 	call	_hud_update
-;mainloop.h:253: UNSAFE_SG_copySpritestoSAT ();
-	call	_UNSAFE_SG_copySpritestoSAT
+;mainloop.h:253: SG_copySpritestoSAT ();
+	call	_SG_copySpritestoSAT
 ;mainloop.h:254: update_list [update_index] = 0xff;
 	ld	a,(#_update_index + 0)
 	add	a, #<(_update_list)
@@ -2302,46 +2341,51 @@ _game_loop::
 ;mainloop.h:286: ticker = 50;
 	ld	hl,#_ticker + 0
 	ld	(hl), #0x32
-;mainloop.h:288: while (1) {
+;mainloop.h:288: PSGPlay (m_yun_psg);
+	ld	hl,#_m_yun_psg
+	push	hl
+	call	_PSGPlay
+	pop	af
+;mainloop.h:290: while (1) {
 00167$:
-;mainloop.h:295: hud_update ();
+;mainloop.h:297: hud_update ();
 	call	_hud_update
-;mainloop.h:299: if (pkill) player_kill ();
+;mainloop.h:301: if (pkill) player_kill ();
 	ld	a,(#_pkill + 0)
 	or	a, a
 	jr	Z,00102$
 	call	_player_kill
 00102$:
-;mainloop.h:300: if (game_over || level_reset) break;			
+;mainloop.h:302: if (game_over || level_reset) break;			
 	ld	a,(#_game_over + 0)
 	or	a, a
 	jp	NZ,00168$
 	ld	a,(#_level_reset + 0)
 	or	a, a
 	jp	NZ,00168$
-;mainloop.h:306: flick_override = 0;
+;mainloop.h:308: flick_override = 0;
 	ld	hl,#_flick_override + 0
 	ld	(hl), #0x00
-;mainloop.h:309: flickscreen_do_horizontal ();
+;mainloop.h:311: flickscreen_do_horizontal ();
 	call	_flickscreen_do_horizontal
-;mainloop.h:310: flickscreen_do_vertical ();
+;mainloop.h:312: flickscreen_do_vertical ();
 	call	_flickscreen_do_vertical
-;mainloop.h:316: if (on_pant != n_pant) {
+;mainloop.h:318: if (on_pant != n_pant) {
 	ld	a,(#_on_pant + 0)
 	ld	iy,#_n_pant
 	sub	a, 0 (iy)
 	jr	Z,00109$
-;mainloop.h:317: prepare_scr ();
+;mainloop.h:319: prepare_scr ();
 	call	_prepare_scr
-;mainloop.h:318: on_pant = n_pant;
+;mainloop.h:320: on_pant = n_pant;
 	ld	a,(#_n_pant + 0)
 	ld	(#_on_pant + 0),a
 00109$:
-;mainloop.h:337: SG_waitForVBlank ();
+;mainloop.h:339: SG_waitForVBlank ();
 	call	_SG_waitForVBlank
-;mainloop.h:338: UNSAFE_SG_copySpritestoSAT ();
-	call	_UNSAFE_SG_copySpritestoSAT
-;mainloop.h:339: update_list [update_index] = 0xff;
+;mainloop.h:340: SG_copySpritestoSAT ();
+	call	_SG_copySpritestoSAT
+;mainloop.h:341: update_list [update_index] = 0xff;
 	ld	a,#<(_update_list)
 	ld	hl,#_update_index
 	add	a, (hl)
@@ -2350,25 +2394,25 @@ _game_loop::
 	adc	a, #0x00
 	ld	h, a
 	ld	(hl),#0xFF
-;mainloop.h:340: SG_doUpdateList ();
+;mainloop.h:342: SG_doUpdateList ();
 	call	_SG_doUpdateList
-;mainloop.h:341: clear_update_list ();
+;mainloop.h:343: clear_update_list ();
 	call	_clear_update_list
-;mainloop.h:345: pad_read ();
+;mainloop.h:347: pad_read ();
 	call	_pad_read
-;mainloop.h:346: a_button = (pad_this_frame & PAD_A);
+;mainloop.h:348: a_button = (pad_this_frame & PAD_A);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x20
 	ld	h,a
 	ld	iy,#_a_button
 	ld	0 (iy),h
-;mainloop.h:347: b_button = (pad_this_frame & PAD_B);
+;mainloop.h:349: b_button = (pad_this_frame & PAD_B);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x10
 	ld	h,a
 	ld	iy,#_b_button
 	ld	0 (iy),h
-;mainloop.h:351: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
+;mainloop.h:353: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
 	ld	hl, #_ntsc_frame+0
 	inc	(hl)
 	ld	a,(#_ntsc_frame + 0)
@@ -2377,7 +2421,7 @@ _game_loop::
 	ld	hl,#_ntsc_frame + 0
 	ld	(hl), #0x00
 00111$:
-;mainloop.h:353: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
+;mainloop.h:355: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
 	ld	a,(#_paused + 0)
 	or	a, a
 	jp	NZ,00159$
@@ -2388,9 +2432,9 @@ _game_loop::
 	or	a, a
 	jp	Z,00159$
 00158$:
-;mainloop.h:354: SG_initSprites ();
+;mainloop.h:356: SG_initSprites ();
 	call	_SG_initSprites
-;mainloop.h:357: if (ticker) -- ticker; else ticker = 50;
+;mainloop.h:359: if (ticker) -- ticker; else ticker = 50;
 	ld	a,(#_ticker + 0)
 	or	a, a
 	jr	Z,00113$
@@ -2401,12 +2445,12 @@ _game_loop::
 	ld	iy,#_ticker
 	ld	0 (iy),#0x32
 00114$:
-;mainloop.h:358: half_life ^= 1;
+;mainloop.h:360: half_life ^= 1;
 	ld	a,(#_half_life + 0)
 	xor	a, #0x01
 	ld	iy,#_half_life
 	ld	0 (iy),a
-;mainloop.h:359: ++ frame_counter;
+;mainloop.h:361: ++ frame_counter;
 	ld	iy,#_frame_counter
 	inc	0 (iy)
 ;mainloop/hotspots.h:6: if (hrt) {
@@ -2518,11 +2562,11 @@ _game_loop::
 	xor	a, a
 	ld	(de),a
 00131$:
-;mainloop.h:379: if (!warp_to_level) {
+;mainloop.h:381: if (!warp_to_level) {
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00133$
-;mainloop.h:380: player_move ();
+;mainloop.h:382: player_move ();
 	call	_player_move
 00133$:
 ;my/extra_checks.h:14: if (c_max_enems == pkilled) {
@@ -2561,22 +2605,22 @@ _game_loop::
 ;mainloop/win_level_condition.h:25: break;
 	jp	00168$
 00141$:
-;mainloop.h:417: cur_stp = SG_getStp (); 
+;mainloop.h:419: cur_stp = SG_getStp (); 
 	call	_SG_getStp
 	ld	(_cur_stp),hl
-;mainloop.h:418: if (!warp_to_level)	player_render ();
+;mainloop.h:420: if (!warp_to_level)	player_render ();
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00143$
 	call	_player_render
 00143$:
-;mainloop.h:422: enems_move ();
+;mainloop.h:424: enems_move ();
 	call	_enems_move
-;mainloop.h:426: if (warp_to_level) {
+;mainloop.h:428: if (warp_to_level) {
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	Z,00145$
-;mainloop.h:427: update_cycle (); PSGStop (); break;
+;mainloop.h:429: update_cycle (); PSGStop (); break;
 	call	_update_cycle
 	call	_PSGStop
 	jp	00168$
@@ -2619,7 +2663,7 @@ _game_loop::
 	ld	iy,#_res_on
 	ld	0 (iy),#0x00
 00153$:
-;mainloop.h:438: if (hrt) hotspots_paint ();
+;mainloop.h:440: if (hrt) hotspots_paint ();
 	ld	a,(#_hrt + 0)
 	or	a, a
 	jr	Z,00155$
@@ -2648,7 +2692,7 @@ _game_loop::
 	pop	af
 	pop	af
 00157$:
-;mainloop.h:467: chac_chacs_do ();
+;mainloop.h:469: chac_chacs_do ();
 	call	_chac_chacs_do
 00159$:
 ;mainloop/cheat.h:5: if ((pad0 & (PAD_B|PAD_SELECT|PAD_UP)) == (PAD_B|PAD_SELECT|PAD_UP)) break;
@@ -2671,39 +2715,53 @@ _game_loop::
 	ld	(#_paused + 0),a
 	jp	00167$
 00168$:
-;mainloop.h:484: SG_displayOff ();
+;mainloop.h:484: PSGStop ();
+	call	_PSGStop
+;mainloop.h:485: PSGSFXStop ();
+	call	_PSGSFXStop
+;mainloop.h:486: SG_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
 	pop	af
-;mainloop.h:485: SG_initSprites ();
+;mainloop.h:487: SG_initSprites ();
 	call	_SG_initSprites
-;mainloop.h:486: UNSAFE_SG_copySpritestoSAT ();	
-	jp  _UNSAFE_SG_copySpritestoSAT
-;game.c:110: void main(void) {
+;mainloop.h:488: SG_copySpritestoSAT ();	
+	jp  _SG_copySpritestoSAT
+;game.c:109: void main(void) {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;game.c:111: SG_displayOff ();
+;game.c:110: SG_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
-;game.c:112: SG_setSpriteMode (SG_SPRITEMODE_LARGE);
+;game.c:111: SG_setSpriteMode (SG_SPRITEMODE_LARGE);
 	ld	h,#0x01
 	ex	(sp),hl
 	inc	sp
 	call	_SG_setSpriteMode
 	inc	sp
-;game.c:113: SG_setUpdateList (update_list);
+;game.c:112: SG_setUpdateList (update_list);
 	ld	hl,#_update_list+0
 	push	hl
 	call	_SG_setUpdateList
 	pop	af
-;game.c:114: first_game = 1;
+;game.c:113: first_game = 1;
 	ld	hl,#_first_game + 0
 	ld	(hl), #0x01
-;game.c:120: unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);
+;game.c:116: ntsc = !!(SMS_VDPType () & VDP_NTSC);
+	call	_SMS_VDPType
+	bit	6, l
+	jr	Z,00114$
+	ld	a,#0x01
+	jr	00115$
+00114$:
+	ld	a,#0x00
+00115$:
+	ld	(#_ntsc + 0),a
+;game.c:119: unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);
 	ld	de,#_tsfont_colours_c+0
 	ld	bc,#_tsfont_patterns_c+0
 	ld	a,#0x07
@@ -2717,9 +2775,9 @@ _main::
 	ld	hl,#7
 	add	hl,sp
 	ld	sp,hl
-;game.c:122: credits ();
+;game.c:121: credits ();
 	call	_credits
-;game.c:125: aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
+;game.c:124: aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
 	ld	hl,#_ss_fixed_patterns_c+0
 	push	hl
 	ld	hl,#0x3800
@@ -2727,57 +2785,57 @@ _main::
 	call	_aPLib_depack_VRAM
 	pop	af
 	pop	af
-;game.c:127: mode_no_resonators = 0;
+;game.c:126: mode_no_resonators = 0;
 	ld	hl,#_mode_no_resonators + 0
 	ld	(hl), #0x00
-;game.c:128: while (1) {	
+;game.c:127: while (1) {	
 00110$:
-;game.c:129: title ();
+;game.c:128: title ();
 	call	_title
-;game.c:131: level = 0;
+;game.c:130: level = 0;
 	ld	hl,#_level + 0
 	ld	(hl), #0x00
-;game.c:132: plife = PLAYER_LIFE;
+;game.c:131: plife = PLAYER_LIFE;
 	ld	hl,#_plife + 0
 	ld	(hl), #0x05
-;game.c:136: while (1) {
+;game.c:135: while (1) {
 00107$:
-;game.c:137: pres (scr_level);
+;game.c:136: pres (scr_level);
 	ld	hl,#_scr_level
 	push	hl
 	call	_pres
 	pop	af
-;game.c:138: game_init (); 
+;game.c:137: game_init (); 
 	call	_game_init
-;game.c:139: game_loop ();
+;game.c:138: game_loop ();
 	call	_game_loop
-;game.c:141: if (game_over) {
+;game.c:140: if (game_over) {
 	ld	a,(#_game_over + 0)
 	or	a, a
 	jr	Z,00104$
-;game.c:142: pres (scr_game_over);
+;game.c:141: pres (scr_game_over);
 	ld	hl,#_scr_game_over
 	push	hl
 	call	_pres
 	pop	af
-;game.c:143: break;
+;game.c:142: break;
 	jr	00108$
 00104$:
-;game.c:145: level ++;
+;game.c:144: level ++;
 	ld	hl, #_level+0
 	inc	(hl)
-;game.c:146: if (level == MAX_LEVELS) {
+;game.c:145: if (level == MAX_LEVELS) {
 	ld	a,(#_level + 0)
 	sub	a, #0x03
 	jr	NZ,00107$
-;game.c:147: pres (scr_the_end);
+;game.c:146: pres (scr_the_end);
 	ld	hl,#_scr_the_end
 	push	hl
 	call	_pres
 	pop	af
-;game.c:148: break;
+;game.c:147: break;
 00108$:
-;game.c:153: first_game = 0;
+;game.c:152: first_game = 0;
 	ld	hl,#_first_game + 0
 	ld	(hl), #0x00
 	jr	00110$

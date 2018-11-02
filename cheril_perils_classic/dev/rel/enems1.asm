@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Thu Nov 01 21:39:58 2018
+; This file was generated Fri Nov 02 11:34:18 2018
 ;--------------------------------------------------------
 	.module enems1
 	.optsdcc -mz80
@@ -372,7 +372,7 @@ _hotspots_1:
 	.db #0x00	; 0
 	.db #0x10	; 16
 	.db #0x04	; 4
-	.db #0x6C	; 108	'l'
+	.db #0x6B	; 107	'k'
 	.db #0x04	; 4
 	.db #0x31	; 49	'1'
 	.db #0x00	; 0

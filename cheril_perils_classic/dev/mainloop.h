@@ -250,7 +250,7 @@ void prepare_scr (void) {
 	#endif
 
 	hud_update ();
-	UNSAFE_SG_copySpritestoSAT ();
+	SG_copySpritestoSAT ();
 	update_list [update_index] = 0xff;
 	SG_doUpdateList ();
 	clear_update_list ();	
@@ -284,6 +284,8 @@ void game_loop (void) {
 
 	ntsc_frame = level_reset = warp_to_level = 0; 
 	ticker = 50;
+
+	PSGPlay (m_yun_psg);
 	
 	while (1) {
 
@@ -335,7 +337,7 @@ void game_loop (void) {
 		// Finish frame and wait for NMI
 
 		SG_waitForVBlank ();
-		UNSAFE_SG_copySpritestoSAT ();
+		SG_copySpritestoSAT ();
 		update_list [update_index] = 0xff;
 		SG_doUpdateList ();
 		clear_update_list ();
@@ -479,9 +481,9 @@ void game_loop (void) {
 		#include "mainloop/pause.h"
 	}
 
-	//PSGStop ();
-	//PSGSFXStop ();
+	PSGStop ();
+	PSGSFXStop ();
 	SG_displayOff ();
 	SG_initSprites ();
-	UNSAFE_SG_copySpritestoSAT ();	
+	SG_copySpritestoSAT ();	
 }

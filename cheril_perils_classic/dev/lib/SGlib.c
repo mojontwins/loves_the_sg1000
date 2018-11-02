@@ -4,29 +4,29 @@
 	 code: na_th_an, sverx
 	 ************************************************** */
 
-// WARNING! Modified, trimmed, cut-downversion for this project.
+// WARNING! Modified, trimmed, cut-downversion for this AGNES/AGSG1000
 // Please download the full version from github.com/sverx/devkitSMS
+
+// Configure add-ons by The Mojon Twins:
 
 #define AUTOCYCLE_SPRITES				// Sprites cycle automaticly
 #define AUTOCYCLE_PRIME			3		// Prime to 32.
+#define AUTOCYCLE_INIT_PRIME 	3		// Prime to 32.
 #define AUTODETECT_ONE_COLOUR			// Detect 1 colour sprites in SG_addMetaSprite1x1
-#define AUTOMUSIC
+#define AUTOMUSIC						// ISR calls PSGPlay and PSGSFXPlay
 
 #include "SGlib.h"
 
 #ifdef AUTOMUSIC
-#include "PSGlib.h"
+	#include "PSGlib.h"
 #endif
 
-//#include <stdbool.h>
 #define true 1
 #define false 0
 #define bool _Bool
 #define __bool_true_false_are_defined 1
 
-#ifndef MAXSPRITES
 #define MAXSPRITES 				32
-#endif
 
 #define DISABLE_INTERRUPTS		__asm di __endasm
 #define ENABLE_INTERRUPTS		__asm ei __endasm
@@ -53,8 +53,7 @@
                 +--------+
 */
 
-
-/* the VDP registers initialization value */
+// the VDP registers initialization value
 const unsigned char VDPReg_init [8] = {
 	0x02,	// Mode2
 	0xa0,	// 16KB, screen off, VBlank IRQ, sprite 8x8, no zoom
@@ -66,87 +65,71 @@ const unsigned char VDPReg_init [8] = {
 	0x01	// text color (unused in Mode2) / backdrop (black)
 };
 
-/* the VDP registers #0 and #1 'shadow' RAM */
+// the VDP registers #0 and #1 'shadow' RAM 
 unsigned char	VDPReg [2] = {0x02, 0xa0};
 
-volatile bool	VDPBlank;			// used by INTerrupt
-volatile bool 	PauseRequested; 	// used by NMI
-
-#ifdef AUTODETECT_SPRITE_OVERFLOW
-unsigned char	spriteOverflowFlipflop = 0;
-unsigned char	spriteOverflowCounter;
-volatile bool	VDPSpriteCollision = false;
-volatile bool	VDPSpriteOverflow = false;
-#endif
+volatile bool	VDPBlank;				// used by INTerrupt
+volatile bool 	PauseRequested; 		// used by NMI
 
 volatile unsigned int KeysStatus, PreviousKeysStatus;
 
-#if MAXSPRITES == 32
 unsigned char	SpriteTable [MAXSPRITES * 4];
-#else
-unsigned char	SpriteTable [(MAXSPRITES + 1) * 4];
-#endif
-//unsigned char	SpriteNextFree;
-unsigned char   *stp;
+unsigned char   *stp;					// Pointer to spritetable
 
 #ifdef AUTOCYCLE_SPRITES
-unsigned char   *SpriteTableEnd;
-unsigned char   first_sprite;
+	unsigned char   *SpriteTableEnd;	// Pointer to the end of spritetable
+	unsigned char   first_sprite;		// First sprite slot for this loop
 #endif
 
 unsigned char   libgpit;
 unsigned char   VDPType;
 
+// Update list support: blast bg updates in VBLANK 
+// (simple, preliminary version, mimicks old neslib's)
 unsigned char   *updateList;
 unsigned char   *ulp;
 unsigned char   ulpMsb;
 
 #ifndef NESTED_DI_EI_SUPPORT
-/* macro definitions (no nested DI/EI support) */
-#define SG_write_to_VDPRegister(VDPReg,value)	{ DISABLE_INTERRUPTS; VDPControlPort = (value); VDPControlPort = (VDPReg) | 0x80; ENABLE_INTERRUPTS; }
-#define SG_set_address_VRAM(address)			{ DISABLE_INTERRUPTS; VDPControlPort = LO (address); VDPControlPort = HI (address) | 0x40; ENABLE_INTERRUPTS; }
+	// macro definitions (no nested DI/EI support)
+	#define SG_write_to_VDPRegister(VDPReg,value)	{ DISABLE_INTERRUPTS; VDPControlPort = (value); VDPControlPort = (VDPReg) | 0x80; ENABLE_INTERRUPTS; }
+	#define SG_set_address_VRAM(address)			{ DISABLE_INTERRUPTS; VDPControlPort = LO (address); VDPControlPort = HI (address) | 0x40; ENABLE_INTERRUPTS; }
 #else
-/* inline __critical functions (nested DI/EI supported!) */
-inline void SG_write_to_VDPRegister (unsigned char VDPReg, unsigned char value) {
-	/* INTERNAL FUNCTION */
-	__critical {
-		VDPControlPort = value;
-		VDPControlPort = VDPReg | 0x80;
+	// inline __critical functions (nested DI/EI supported!) */
+	inline void SG_write_to_VDPRegister (unsigned char VDPReg, unsigned char value) {
+		__critical {
+			VDPControlPort = value;
+			VDPControlPort = VDPReg | 0x80;
+		}
 	}
-}
 
-inline void SG_set_address_VRAM (unsigned int address) {
-	/* INTERNAL FUNCTION */
-	__critical {
-		VDPControlPort = LO (address);
-		VDPControlPort = HI (address) | 0x40;
+	inline void SG_set_address_VRAM (unsigned int address) {
+		__critical {
+			VDPControlPort = LO (address);
+			VDPControlPort = HI (address) | 0x40;
+		}
 	}
-}
 #endif
 
 inline void SG_byte_to_VDP_data (unsigned char data) {
-	/* INTERNAL FUNCTION */
 	VDPDataPort = data;
 }
 
 inline void SG_byte_array_to_VDP_data (const unsigned char *data, unsigned int size) {
-	/* INTERNAL FUNCTION */
 	do {
 		VDPDataPort = *(data ++);
 	} while (-- size);
 }
 
 inline void SG_byte_brief_array_to_VDP_data (const unsigned char *data, unsigned char size) {
-	/* INTERNAL FUNCTION */
 	do {
 		VDPDataPort = *(data ++);
 	} while (-- size);
 }
 
 inline void SG_word_to_VDP_data (unsigned int data) {
-	/* INTERNAL FUNCTION */
 	VDPDataPort = LO (data);
-	WAIT_VRAM;				/* ensure we're not pushing data too fast */
+	WAIT_VRAM;
 	VDPDataPort = HI (data);
 }
 
@@ -168,7 +151,6 @@ void SG_VDPturnOffFeature (unsigned int feature) {
 }
 
 inline void SMS_detect_VDP_type (void) {
-  // INTERNAL FUNCTION
   unsigned char old_value,new_value;
   while (VDPVCounterPort!=0x80);      // wait for line 0x80
   new_value=VDPVCounterPort;
@@ -193,9 +175,9 @@ void SG_init (void) {
 
 	SG_initSprites ();
 	SG_finalizeSprites ();
-	UNSAFE_SG_copySpritestoSAT ();
+	SG_copySpritestoSAT ();
 
-	//SMS_detect_VDP_type();
+	SMS_detect_VDP_type();
 }
 
 void SG_setBackdropColor (unsigned char entry) {
@@ -257,8 +239,14 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 }
 
 #ifdef AUTOCYCLE_SPRITES
-	void SG_initSprites (void) { 
-		//for (libgpit = 0; libgpit < 128; libgpit += 4) SpriteTable [libgpit] = 0xc0;
+	// Just add sprites via SG_sddSprite after a call to
+	// SG_initSprites and the sprites will be inserted in a
+	// different order for each game frame.
+
+	// This is very useful on the SG as it will make sprites
+	// blink instead of disappearing.
+
+	void SG_initSprites (void) { 		
 		__asm
 			ld hl, #_SpriteTable
 			ld de, #_SpriteTable
@@ -267,9 +255,8 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 			ld bc, #128
 			ldir
 		__endasm;
-		stp = SpriteTable + (first_sprite << 2);
-		/*++ first_sprite; first_sprite &= 31;*/
-		first_sprite = (first_sprite + AUTOCYCLE_PRIME) & 31;
+		stp = SpriteTable + (first_sprite << 2);		
+		first_sprite = (first_sprite + AUTOCYCLE_INIT_PRIME) & 31;
 	}
 
 	inline void nextSprite (void) {
@@ -324,6 +311,7 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 		stp = s;
 	}
 #else
+	// Normal, in-order insertion.
 
 	void SG_initSprites (void) {
 		stp = SpriteTable;
@@ -371,11 +359,6 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 	}	
 #endif
 
-void SG_copySpritestoSAT (void) {
-	SG_set_address_VRAM (SATADDRESS);
-	SG_byte_brief_array_to_VDP_data (SpriteTable, MAXSPRITES*4);
-}
-
 void SG_waitForVBlank (void) {
 	VDPBlank = false;
 	while (!VDPBlank);
@@ -393,7 +376,6 @@ void SG_resetPauseRequest (void) {
 	PauseRequested = false;
 }
 
-/* low level functions, just to be used for dirty tricks ;) */
 void SG_VRAMmemset (unsigned int dst, unsigned char value, unsigned int size) {
 	SG_set_address_VRAM (dst);
 	while (size>0) {
@@ -404,8 +386,10 @@ void SG_VRAMmemset (unsigned int dst, unsigned char value, unsigned int size) {
 
 #pragma save
 #pragma disable_warning 85
-/* VRAM unsafe functions. Fast, but dangerous! */
-void UNSAFE_SG_copySpritestoSAT (void) {
+
+// Call those during vBlank!
+
+void SG_copySpritestoSAT (void) {
 	SG_set_address_VRAM (SATADDRESS);
 	__asm
 		ld c,#_VDPDataPort
@@ -418,7 +402,7 @@ void UNSAFE_SG_copySpritestoSAT (void) {
 	__endasm;
 }
 
-void UNSAFE_SG_VRAMmemcpy128 (unsigned int dst, void *src) {
+void SG_VRAMmemcpy128 (unsigned int dst, void *src) {
 	SG_set_address_VRAM (dst);
 	__asm
 		ld c,#_VDPDataPort
@@ -426,37 +410,6 @@ void UNSAFE_SG_VRAMmemcpy128 (unsigned int dst, void *src) {
 		ld h, 3 (iy)
 		call _outi_block-128*2
 	__endasm;
-}
-#pragma restore
-
-/* Interrupt Service Routines */
-void SG_isr (void) __interrupt {
-	volatile unsigned char VDPStatus = VDPStatusPort;	/* this also aknowledge interrupt at VDP */
-#ifdef AUTODETECT_SPRITE_OVERFLOW
-	VDPSpriteOverflow= (VDPStatus & 0x40);
-	VDPSpriteCollision= (VDPStatus & 0x20);
-#endif
-	if (VDPStatus & 0x80) {
-		VDPBlank = true;				 /* frame interrupt */
-		/* read key input */
-		PreviousKeysStatus = KeysStatus;
-		KeysStatus = ~ (( (IOPortH)<<8)|IOPortL);
-#ifdef AUTOMUSIC
-		// Call music
-		PSGSFXFrame ();
-		PSGFrame ();
-#endif
-	}
-	/* Z80 disable the interrupts on ISR, so we should re-enable them explicitly */
-	ENABLE_INTERRUPTS;
-}
-
-void SG_nmi_isr (void) __critical __interrupt {		/* this is for NMI */
-	PauseRequested = true;
-}
-
-unsigned char SMS_VDPType (void) {
-  return VDPType;
 }
 
 // Update list functions:
@@ -475,4 +428,34 @@ void SG_doUpdateList (void) {
 		VDPControlPort = ulpMsb | 0x40;
 		VDPDataPort = *ulp ++;
 	}
+}
+
+#pragma restore
+
+// Interrupt Service Routines 
+void SG_isr (void) __interrupt {
+	volatile unsigned char VDPStatus = VDPStatusPort;	// Aknowledges interrupt at the VDP
+	if (VDPStatus & 0x80) {
+		VDPBlank = true;								// Frame Interrupt
+		PreviousKeysStatus = KeysStatus;
+		KeysStatus = ~ (( (IOPortH)<<8)|IOPortL);		// Update key status
+
+		#ifdef AUTOMUSIC
+			// Call music
+			PSGSFXFrame ();
+			PSGFrame ();
+		#endif
+
+	}
+
+	// Z80s perform an auto-di when aknowledging ints, so:
+	ENABLE_INTERRUPTS;
+}
+
+void SG_nmi_isr (void) __critical __interrupt {
+	PauseRequested = true;
+}
+
+unsigned char SMS_VDPType (void) {
+  return VDPType;
 }

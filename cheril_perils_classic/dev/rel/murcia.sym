@@ -7,13 +7,9 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 _sfx_coins_psg                                                 0000 GR
-  0 _sfx_fanty_psg                                                 0015 GR
-  0 _sfx_jump_psg                                                  00A8 GR
-  0 _sfx_kill_psg                                                  00DC GR
-  0 _sfx_select_psg                                                0107 GR
-  0 _sfx_shirt_psg                                                 0127 GR
-  0 _sfx_start_psg                                                 014A GR
+  0 _m_helmet_psg                                                  0000 GR
+  0 _m_yun_psg                                                     0AA9 GR
+  0 _sfx_01_tile_psg                                               1FEF GR
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -21,7 +17,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  16E   flags    0
+   0 _CODE                                      size 200E   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

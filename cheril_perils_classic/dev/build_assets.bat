@@ -14,3 +14,5 @@ cd ..\map
 ..\utils\rle44mapMK1.exe ..\map\level2.map ..\dev\assets\map2 8 3 15 2 0 scrsizes cwithheader
 
 cd ..\dev
+
+..\utils\folder2c.exe ..\ogt murcia

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Thu Nov 01 21:39:41 2018
+; This file was generated Fri Nov 02 11:34:10 2018
 ;--------------------------------------------------------
 	.module player
 	.optsdcc -mz80
@@ -478,10 +478,10 @@ _player_move::
 	jp	Z,00116$
 ;engine/player.c:252: if (QTILE (cx1, cy1 + 1) == SPRING_TILE && QTILE (cx1, cy1) != SPRING_SPIKE_TILE) { _x = cx1; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);
 	ld	a,(#_cy1 + 0)
-	ld	-2 (ix),a
-	ld	-1 (ix),#0x00
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	-4 (ix),a
+	ld	-3 (ix),#0x00
+	pop	hl
+	push	hl
 	inc	hl
 	add	hl, hl
 	add	hl, hl
@@ -490,12 +490,12 @@ _player_move::
 	ld	d,l
 	ld	e,h
 	ld	a,(#_cx1 + 0)
-	ld	-4 (ix),a
-	ld	-3 (ix),#0x00
-	ld	a,-4 (ix)
+	ld	-2 (ix),a
+	ld	-1 (ix),#0x00
+	ld	a,-2 (ix)
 	or	a, d
 	ld	l,a
-	ld	a,-3 (ix)
+	ld	a,-1 (ix)
 	or	a, e
 	ld	h,a
 	ld	de,#_map_buff
@@ -503,19 +503,17 @@ _player_move::
 	ld	a,(hl)
 	sub	a, #0x1F
 	jr	NZ,00108$
-	pop	bc
 	pop	hl
 	push	hl
-	push	bc
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
 	ld	a,l
-	or	a, -4 (ix)
+	or	a, -2 (ix)
 	ld	l,a
 	ld	a,h
-	or	a, -3 (ix)
+	or	a, -1 (ix)
 	ld	h,a
 	ld	de,#_map_buff
 	add	hl,de
@@ -529,8 +527,8 @@ _player_move::
 	call	_map_set
 00108$:
 ;engine/player.c:254: if (QTILE (cx2, cy1 + 1) == SPRING_TILE && QTILE (cx2, cy1) != SPRING_SPIKE_TILE) { _x = cx2; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);
-	ld	iy,#_cy1
-	ld	e,0 (iy)
+	ld	hl,#_cy1 + 0
+	ld	e, (hl)
 	ld	d,#0x00
 	ld	l, e
 	ld	h, d
@@ -539,15 +537,16 @@ _player_move::
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
-	ex	(sp), hl
+	ld	-2 (ix),l
+	ld	-1 (ix),h
 	ld	hl,#_cx2 + 0
 	ld	c, (hl)
 	ld	b,#0x00
 	ld	a,c
-	or	a, -4 (ix)
+	or	a, -2 (ix)
 	ld	l,a
 	ld	a,b
-	or	a, -3 (ix)
+	or	a, -1 (ix)
 	ld	h,a
 	ld	a,#<(_map_buff)
 	add	a, l
@@ -827,8 +826,8 @@ _player_move::
 	inc	de
 	inc	de
 	ld	a,(#_pry + 0)
-	ld	-4 (ix),a
-	ld	-3 (ix),#0x00
+	ld	-2 (ix),a
+	ld	-1 (ix),#0x00
 ;engine/player.c:419: } else if ((at1 & 1) || (at2 & 1)) {
 	ld	a,(#_at1 + 0)
 	and	a, #0x01
@@ -836,11 +835,11 @@ _player_move::
 	ld	iy,#_at2
 	ld	a,0 (iy)
 	and	a, #0x01
-	ld	-2 (ix),a
+	ld	-4 (ix),a
 ;engine/player.c:440: pry < ((cy1 - 1) << 4) + 4 && 
-	ld	a,-4 (ix)
+	ld	a,-2 (ix)
 	sub	a, e
-	ld	a,-3 (ix)
+	ld	a,-1 (ix)
 	sbc	a, d
 	jp	PO, 00592$
 	xor	a, #0x80
@@ -917,7 +916,7 @@ _player_move::
 	and	a, #0x28
 	sub	a, #0x28
 	jr	NZ,00146$
-	ld	a,-2 (ix)
+	ld	a,-4 (ix)
 	or	a, a
 	jr	Z,00141$
 	ld	hl,#0x0030
@@ -938,7 +937,7 @@ _player_move::
 	ld	a,c
 	or	a, a
 	jr	NZ,00147$
-	ld	a,-2 (ix)
+	ld	a,-4 (ix)
 	or	a, a
 	jr	Z,00164$
 00147$:
@@ -950,7 +949,7 @@ _player_move::
 	ld	a,c
 	or	a, a
 	jr	NZ,00152$
-	ld	a,-2 (ix)
+	ld	a,-4 (ix)
 	or	a, a
 	jr	Z,00164$
 00152$:
