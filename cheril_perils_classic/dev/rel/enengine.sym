@@ -9,6 +9,7 @@ Symbol Table
     .__.H$L.                                                    =  0000 L
     _IOPortH                                                    =  00DD 
     _IOPortL                                                    =  00DC 
+    _PSGSFXPlay                                                    **** GX
     _SG_addMetaSprite1x1                                           **** GX
     _VDPControlPort                                             =  00BF 
     _VDPDataPort                                                =  00BE 
@@ -57,12 +58,12 @@ Symbol Table
     _en_sg_2                                                       **** GX
     _en_spr                                                        **** GX
     _en_spr_id                                                     **** GX
-    _en_spr_x_mod                                                  **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
+    _en_spr_x_mod                                                  **** GX
     _en_state                                                      **** GX
     _en_status                                                     **** GX
     _en_t                                                          **** GX
@@ -117,28 +118,28 @@ Symbol Table
     _rda                                                           **** GX
     _rdb                                                           **** GX
     _rdc                                                           **** GX
-    _rdd                                                           **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
+    _rdd                                                           **** GX
     _rdm                                                           **** GX
     _rdt                                                           **** GX
     _rdx                                                           **** GX
     _rdy                                                           **** GX
     _res_disable                                                   **** GX
     _res_on                                                        **** GX
+    _s_15_stepon3_psg                                              **** GX
     _spr_enems                                                     **** GX
     _touched                                                       **** GX
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size 120B   flags    0
+   0 _CODE                                      size 1218   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

@@ -258,14 +258,7 @@ void prepare_scr (void) {
 }
 
 void game_loop (void) {
-	#ifdef MULTI_LEVEL
-		//PSGPlay (l_music [level]);
-	#else
-		//PSGPlay (MUSIC_INGAME);
-	#endif
-
 	clear_update_list ();
-	// set_vram_update (UPDATE_LIST_SIZE, update_list);
 
 	on_pant = 99; ft = 1; fade_delay = 1;
 
@@ -285,8 +278,12 @@ void game_loop (void) {
 	ntsc_frame = level_reset = warp_to_level = 0; 
 	ticker = 50;
 
-	PSGPlay (m_yun_psg);
-	
+	#ifdef MULTI_LEVEL
+		PSGPlay (l_music [level]);
+	#else
+		PSGPlay (MUSIC_INGAME);
+	#endif
+
 	while (1) {
 
 		// Update hud

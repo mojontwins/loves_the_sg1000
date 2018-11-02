@@ -3,6 +3,9 @@
 
 // Tile based chac chacs
 
+#include "../lib/PSGlib.h"
+#include "../murcia.h"
+
 #include "../definitions.h"
 #include "../config.h"
 #include "../autodefs.h"
@@ -10,10 +13,10 @@
 #ifdef ENABLE_TILE_CHAC_CHAC
 
 #include "../ram/extern_globals.h"
-#include "../assets/extern_precalcs.h"
+#include "../engine/extern_precalcs.h"
 
-#include "printer.h"
-#include "tile_chac_chac.h"
+#include "../engine/printer.h"
+#include "../engine/tile_chac_chac.h"
 
 void chac_chacs_add (void) {
 	// Adds chac chac @ YX = rdm
@@ -51,7 +54,7 @@ void chac_chacs_do (void) {
 		rdm = chac_chacs_state [gpit];
 		if (rdm == 3) { 
 			shaker_ct = 8; 
-			//PSGSFXPlay (SFX_STEPON, 1); 
+			PSGSFXPlay (SFX_STEPON, 2); 
 		}
 		rdx = chac_chacs_yx [gpit]; rdy = rdx >> 4; rdx &= 0xf;
 		_x = rdx; _y = rdy    ; _t = chac_chacs_t1 [rdm]; map_set ();

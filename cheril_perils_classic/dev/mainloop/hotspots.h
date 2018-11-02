@@ -20,7 +20,7 @@ if (hrt) {
 							pal_spr (RESONATOR_CHANGE_SPR_PAL);
 						#endif
 
-						//PSGSFXPlay (SFX_BREAKH, 1);
+						PSGSFXPlay (SFX_BREAKH, 2);
 					} 
 				}
 			} else
@@ -55,7 +55,7 @@ if (hrt) {
 							pinv = HS_OBJ_EMPTY;
 
 							b_button = 0;
-							//PSGSFXPlay (SFX_TILE, 1);
+							PSGSFXPlay (SFX_TILE, 2);
 						}
 
 					} else if (hrt >= HS_OBJ_MIN && hrt <= HS_OBJ_MAX) {
@@ -71,7 +71,7 @@ if (hrt) {
 							pinv = rda;
 
 							b_button = 0;
-							//PSGSFXPlay (SFX_OBJECT, 1);
+							PSGSFXPlay (SFX_OBJECT, 1);
 						}
 
 					} else if (hrt >= HS_OBJ_MIN + HS_USE_OFFS && hrt <= HS_OBJ_MAX + HS_USE_OFFS) {
@@ -100,7 +100,7 @@ if (hrt) {
 								#include "../my/on_object_used.h"
 
 								b_button = 0;
-								//PSGSFXPlay (SFX_USE, 1);
+								PSGSFXPlay (SFX_USE, 2);
 
 							} 
 							#ifdef ENABLE_NO
@@ -125,7 +125,7 @@ if (hrt) {
 				#endif
 
 				{
-					rda = 0;
+					rda = 0; rdm = 1;
 					switch (hrt) {
 						#ifndef DEACTIVATE_OBJECTS
 							case HOTSPOT_TYPE_OBJECT:
@@ -133,24 +133,24 @@ if (hrt) {
 									#ifdef ONLY_ONE_OBJECT_FLAG
 										if (flags [ONLY_ONE_OBJECT_FLAG] == 0) {
 											flags [ONLY_ONE_OBJECT_FLAG] = 1;
-											rda = SFX_OBJECT;
+											gp_gen = SFX_OBJECT;
 										}
 									#else
 										if (pinv == 0) {
 											pinv = 1;
-											rda = SFX_OBJECT;
+											gp_gen = SFX_OBJECT;
 										}
 									#endif
 								#else
 									++ pobjs;
-									rda = SFX_OBJECT;
+									gp_gen = SFX_OBJECT;
 								#endif
 								break;
 						#endif
 						#ifndef DEACTIVATE_KEYS
 							case HOTSPOT_TYPE_KEYS:
 								++ pkeys;
-								rda = SFX_OBJECT;
+								gp_gen = SFX_OBJECT;
 								break;
 						#endif
 							case HOTSPOT_TYPE_REFILL:
@@ -158,11 +158,12 @@ if (hrt) {
 								#ifdef LIMIT_LIFE
 									if (plife > PLAYER_LIFE) plife = PLAYER_LIFE;
 								#endif
-								rda = SFX_USE;
+								gp_gen = SFX_USE;
+								rdm = 2;
 								break;
 						#ifdef MAX_AMMO
 							case HOTSPOT_TYPE_AMMO:
-								rda = SFX_OBJECT;
+								gp_gen = SFX_OBJECT;
 								if (MAX_AMMO - pammo > AMMO_REFILL)
 									pammo += AMMO_REFILL;
 								else
@@ -171,7 +172,7 @@ if (hrt) {
 						#endif
 						#if defined (ENABLE_TIMER) && defined (HOTSPOT_TYPE_TIME)
 							case HOTSPOT_TYPE_TIME:
-								rda = SFX_OBJECT;
+								gp_gen = SFX_OBJECT;
 								#if TIMER_REFILL == 0
 									timer = TIMER_INITIAL;
 								#else
@@ -184,13 +185,13 @@ if (hrt) {
 						#endif
 						#ifdef HOTSPOT_TYPE_STAR
 							case HOTSPOT_TYPE_STAR:
-								++ pstars; rda = SFX_OBJECT;
+								++ pstars; gp_gen = SFX_OBJECT;
 								break;
 						#endif
 						#include "../my/extra_hotspots.h"
 					}
 					if (rda) {
-						//PSGSFXPlay (rda, 1);
+						PSGSFXPlay (gp_gen, rdm);
 						hrt = 0;
 						hact [n_pant] = 0;
 					}

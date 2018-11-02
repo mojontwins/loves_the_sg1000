@@ -15,10 +15,11 @@ void bat_out (void) {
 	SG_copySpritestoSAT ();	
 }
 
-void pres (void (*func) (void)) {
+void pres (void (*func) (void), unsigned char *music) {
 	cls ();
 	(*func) ();
 	bat_in ();
+	if (music) PSGPlay (music);
 	while (1) {
 		pad_read ();
 		if (pad_this_frame & (PAD_A|PAD_B|PAD_START)) break;
@@ -39,7 +40,7 @@ void title (void) {
 
 	bat_in ();
 
-	PSGPlay (m_helmet_psg);
+	PSGPlay (MUSIC_TITLE);
 	while (1) {
 		update_cycle ();
 		SG_addMetaSprite1x1 (82, 122 + (mode_no_resonators << 4), ss_pl_00);
@@ -51,11 +52,11 @@ void title (void) {
 		if (pad_this_frame & PAD_UP) {
 			if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
 		}
-		//if (mode_no_resonators != rda) PSGSFXPlay (SFX_USE, 0);
+		if (mode_no_resonators != rda) PSGSFXPlay (SFX_USE, 2);
 		if (pad_this_frame & PAD_1) break;
 	}
 	
-	//PSGSFXPlay (SFX_START, 0); delay (20);
+	PSGSFXPlay (SFX_START, 1); delay (20);
 	
 	plife = mode_no_resonators ? 5 : 3;
 

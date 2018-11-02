@@ -52,7 +52,7 @@ Symbol Table
     _rdc                                                           **** GX
     _rdx                                                           **** GX
     _rdy                                                           **** GX
-    _sfx_01_tile_psg                                               **** GX
+    _s_08_jump2_psg                                                **** GX
   0 _update_cycle                                                  0252 GR
     _update_index                                                  **** GX
     _update_list                                                   **** GX

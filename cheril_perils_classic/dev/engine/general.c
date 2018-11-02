@@ -13,7 +13,7 @@
 #include "../autodefs.h"
 
 #include "../ram/extern_globals.h"
-#include "../assets/extern_precalcs.h"
+#include "../engine/extern_precalcs.h"
 
 #include "../engine/printer.h"
 
@@ -106,7 +106,7 @@ void pad_read (void) {
 		pj = 1; pctj = 0; 
 		#ifdef ENABLE_TRAMPOLINES
 		if (ptrampoline) {
-			//PSGSFXPlay (SFX_TRAMPOLINE, 0);
+			PSGSFXPlay (SFX_TRAMPOLINE, 1);
 			#ifdef PLAYER_JUMP_TYPE_MK2
 				pvy = -PLAYER_VY_MK2_JUMP_INITIAL_TRAMPOLINE;
 			#else
@@ -115,8 +115,7 @@ void pad_read (void) {
 		} else
 		#endif
 		{
-			//PSGSFXPlay (SFX_JUMP, 0);
-			PSGSFXPlay (sfx_01_tile_psg, 2);
+			PSGSFXPlay (SFX_JUMP, 1);
 			#ifdef PLAYER_JUMP_TYPE_MK2
 				pvy = -PLAYER_VY_MK2_JUMP_INITIAL;
 			#else

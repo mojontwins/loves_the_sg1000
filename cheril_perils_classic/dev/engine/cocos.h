@@ -34,7 +34,7 @@ void cocos_init (void) {
 
 			coco_on [coco_it] = 1;
 
-			//PSGSFXPlay (SFX_COCO, 2);
+			PSGSFXPlay (SFX_COCO, 1);
 		}	
 	}
 #endif
@@ -55,14 +55,14 @@ void cocos_init (void) {
 
 		coco_on [coco_it] = 1;
 
-		//PSGSFXPlay (SFX_COCO, 2);
+		PSGSFXPlay (SFX_COCO, 1);
 	}
 #endif
 
 void cocos_destroy (void) {
 	coco_on [coco_it] = 0;
 	coco_slots [coco_slots_i] = coco_it; coco_slots_i ++;
-	//PSGSFXPlay (SFX_DUMMY1, 2);
+	PSGSFXPlay (SFX_DUMMY1, 3);
 }
 
 void cocos_do (void) {

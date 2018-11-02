@@ -82,13 +82,13 @@ void fire_bullet (void) {
 		#endif
 	#endif
 
-	//PSGSFXPlay (SFX_BULLET, 2);
+	PSGSFXPlay (SFX_BULLET, 2);
 }
 
 void bullets_destroy (void) {
 	bst [bi] = 0;
 	b_slots [b_slots_i] = bi; ++ b_slots_i;
-	//PSGSFXPlay (SFX_DUMMY1, 2);
+	PSGSFXPlay (SFX_DUMMY1, 2);
 }
 
 void bullets_move (void) {

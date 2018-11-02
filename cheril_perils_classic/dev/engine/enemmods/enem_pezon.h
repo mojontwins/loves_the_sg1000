@@ -18,7 +18,7 @@ switch (_en_state) {
 			_en_state = 1;
 			_enf_y = _en_y1 << 6;
 			_enf_vy = -PEZON_THRUST;
-			//PSGSFXPlay (SFX_FLOAT, 1);
+			PSGSFXPlay (SFX_FLOAT, 2);
 		}
 		break;
 

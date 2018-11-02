@@ -6,7 +6,9 @@
 
 /*
 	case HOTSPOT_TYPE_MY_OWN:
-		rda = SFX_OBJECT;
+		gp_gen = SFX_OBJECT;
+		// if gp_gen needs channel 3 or channels 2+3
+		// do rdm = 2 or rdm = 3 as fit.
 		// do stuff
 		break;
 */

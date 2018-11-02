@@ -6,18 +6,19 @@
 
 #include "../lib/SGlib.h"
 #include "../lib/PSGlib.h"
+#include "../murcia.h"
 
 #include "../definitions.h"
 #include "../config.h"
 #include "../autodefs.h"
 
 #include "../ram/extern_globals.h"
-#include "../assets/extern_precalcs.h"
-#include "../assets/extern_metasprites.h"
+#include "../engine/extern_precalcs.h"
+#include "../engine/extern_metasprites.h"
 #include "../utils/memfill.h"
 #include "../utils/rand.h"
 
-#include "general.h"
+#include "../engine/general.h"
 
 #ifdef ENABLE_CHAC_CHAC
 	void enems_draw_chac_chac (unsigned char a1, unsigned char a2, unsigned char a3) {
@@ -797,7 +798,7 @@ void enems_move (void) {
 					{
 						pvy = -PLAYER_VY_JUMP_INITIAL << 1;
 					}
-					//PSGSFXPlay (SFX_STEPON, 1);
+					PSGSFXPlay (SFX_STEPON, 3);
 
 					#ifdef PLAYER_AUTO_JUMP
 						jump_start ();
@@ -850,7 +851,7 @@ void enems_move (void) {
 						en_sg_2 = 0;
 						en_sg_1 = 1;
 						pvy = -pvy;
-						//PSGSFXPlay (SFX_STEPON, 1);
+						PSGSFXPlay (SFX_STEPON, 3);
 					}
 				#endif				
 
@@ -904,7 +905,7 @@ void enems_move (void) {
 						phittery <= _en_y + 12
 					) {
 						enems_hit ();
-						//PSGSFXPlay (SFX_STEPON, 1);
+						PSGSFXPlay (SFX_STEPON, 3);
 						phitteract = 0;
 						pfrozen = PLAYER_FROZEN_FRAMES;
 						#ifdef ENEMS_RECOIL_ON_HIT
@@ -934,7 +935,7 @@ void enems_move (void) {
 					#endif
 					
 					if (collide_in (bx [bi] + 3, by [bi] + 3, _en_x, _en_y)) {
-						//PSGSFXPlay (SFX_ENHIT, 1);
+						PSGSFXPlay (SFX_ENHIT, 3);
 						
 						#ifdef BULLETS_DONT_KILL
 							en_cttouched [gpit] = ENEMS_TOUCHED_FRAMES;

@@ -29,7 +29,8 @@
 // * const data *
 // **************
 
-#include "assets/precalcs.h"
+#include "murcia.h"					// Music + SFX
+#include "engine/precalcs.h"
 #include "assets/behs.h"
 #include "assets/map0.h"
 #include "assets/enems0.h"
@@ -52,9 +53,6 @@
 #endif
 //#include "assets/title_rle.h"
 //#include "assets/hud_rle.h"
-
-// Music + SFX
-#include "murcia.h"
 
 // RAM (make fit!)
 #include "ram/globals.h"
@@ -133,17 +131,17 @@ void main(void) {
 		// Game loop
 
 		while (1) {
-			pres (scr_level);
+			pres (scr_level, 0);
 			game_init (); 
 			game_loop ();
 
 			if (game_over) {
-				pres (scr_game_over);
+				pres (scr_game_over, MUSIC_GOVER);
 				break;
 			} else {
 				level ++;
 				if (level == MAX_LEVELS) {
-					pres (scr_the_end);
+					pres (scr_the_end, 0);
 					break;
 				}
 			}

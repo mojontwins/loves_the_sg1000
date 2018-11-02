@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Nov 02 11:34:07 2018
+; This file was generated Fri Nov 02 19:01:08 2018
 ;--------------------------------------------------------
 	.module game
 	.optsdcc -mz80
@@ -55,6 +55,7 @@
 	.globl _delay
 	.globl _aPLib_depack_VRAM
 	.globl _PSGSFXStop
+	.globl _PSGSFXPlay
 	.globl _PSGStop
 	.globl _PSGPlay
 	.globl _SG_doUpdateList
@@ -1133,9 +1134,9 @@ _l_hotspots:
 	.dw _hotspots_1
 	.dw _hotspots_2
 _l_music:
-	.db #0x00	; 0
-	.db #0x01	; 1
-	.db #0x02	; 2
+	.dw _m_yun_psg
+	.dw _m_yun_psg
+	.dw _m_yun_psg
 ;engine/hotspots.h:20: void hotspots_paint (void) {
 ;	---------------------------------
 ; Function hotspots_paint
@@ -1347,7 +1348,7 @@ _bat_out::
 	call	_SG_initSprites
 ;my/pres.h:15: SG_copySpritestoSAT ();	
 	jp  _SG_copySpritestoSAT
-;my/pres.h:18: void pres (void (*func) (void)) {
+;my/pres.h:18: void pres (void (*func) (void), unsigned char *music) {
 ;	---------------------------------
 ; Function pres
 ; ---------------------------------
@@ -1362,22 +1363,33 @@ _pres::
 	call	___sdcc_call_hl
 ;my/pres.h:21: bat_in ();
 	call	_bat_in
-;my/pres.h:22: while (1) {
-00104$:
-;my/pres.h:23: pad_read ();
+;my/pres.h:22: if (music) PSGPlay (music);
+	ld	iy,#4
+	add	iy,sp
+	ld	a,1 (iy)
+	or	a,0 (iy)
+	jr	Z,00106$
+	ld	l,0 (iy)
+	ld	h,1 (iy)
+	push	hl
+	call	_PSGPlay
+	pop	af
+;my/pres.h:23: while (1) {
+00106$:
+;my/pres.h:24: pad_read ();
 	call	_pad_read
-;my/pres.h:24: if (pad_this_frame & (PAD_A|PAD_B|PAD_START)) break;
+;my/pres.h:25: if (pad_this_frame & (PAD_A|PAD_B|PAD_START)) break;
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x30
-	jr	Z,00104$
-;my/pres.h:26: bat_out ();
+	jr	Z,00106$
+;my/pres.h:27: bat_out ();
 	jp  _bat_out
-;my/pres.h:29: void title (void) {
+;my/pres.h:30: void title (void) {
 ;	---------------------------------
 ; Function title
 ; ---------------------------------
 _title::
-;my/pres.h:30: unpack_bg_patterns (tstitle_patterns_c, tstitle_colours_c, 64*8, 7);
+;my/pres.h:31: unpack_bg_patterns (tstitle_patterns_c, tstitle_colours_c, 64*8, 7);
 	ld	de,#_tstitle_patterns_c
 	ld	a,#0x07
 	push	af
@@ -1391,11 +1403,11 @@ _title::
 	ld	hl,#7
 	add	hl,sp
 	ld	sp,hl
-;my/pres.h:31: gp_gen = title_rle; unrle ();
+;my/pres.h:32: gp_gen = title_rle; unrle ();
 	ld	hl,#_title_rle+0
 	ld	(_gp_gen),hl
 	call	_unrle
-;my/pres.h:33: _x = 7; _y = 12; pr_str ("SELECT AND PUSH 1!");
+;my/pres.h:34: _x = 7; _y = 12; pr_str ("SELECT AND PUSH 1!");
 	ld	hl,#__x + 0
 	ld	(hl), #0x07
 	ld	hl,#__y + 0
@@ -1404,7 +1416,7 @@ _title::
 	push	hl
 	call	_pr_str
 	pop	af
-;my/pres.h:35: _x = 12; _y = 16; pr_str ("RESONATORS");
+;my/pres.h:36: _x = 12; _y = 16; pr_str ("RESONATORS");
 	ld	hl,#__x + 0
 	ld	(hl), #0x0C
 	ld	hl,#__y + 0
@@ -1413,14 +1425,14 @@ _title::
 	push	hl
 	call	_pr_str
 	pop	af
-;my/pres.h:36: _y = 18; pr_str ("EASY MODE");
+;my/pres.h:37: _y = 18; pr_str ("EASY MODE");
 	ld	hl,#__y + 0
 	ld	(hl), #0x12
 	ld	hl,#___str_2
 	push	hl
 	call	_pr_str
 	pop	af
-;my/pres.h:38: _x = 5; _y = 23; pr_str ("@ 2018 THE MOJON TWINS");
+;my/pres.h:39: _x = 5; _y = 23; pr_str ("@ 2018 THE MOJON TWINS");
 	ld	hl,#__x + 0
 	ld	(hl), #0x05
 	ld	hl,#__y + 0
@@ -1429,18 +1441,18 @@ _title::
 	push	hl
 	call	_pr_str
 	pop	af
-;my/pres.h:40: bat_in ();
+;my/pres.h:41: bat_in ();
 	call	_bat_in
-;my/pres.h:42: PSGPlay (m_helmet_psg);
-	ld	hl,#_m_helmet_psg
+;my/pres.h:43: PSGPlay (MUSIC_TITLE);
+	ld	hl,#_m_title_psg
 	push	hl
 	call	_PSGPlay
 	pop	af
-;my/pres.h:43: while (1) {
-00113$:
-;my/pres.h:44: update_cycle ();
+;my/pres.h:44: while (1) {
+00115$:
+;my/pres.h:45: update_cycle ();
 	call	_update_cycle
-;my/pres.h:45: SG_addMetaSprite1x1 (82, 122 + (mode_no_resonators << 4), ss_pl_00);
+;my/pres.h:46: SG_addMetaSprite1x1 (82, 122 + (mode_no_resonators << 4), ss_pl_00);
 	ld	hl,#_ss_pl_00
 	ld	a,(#_mode_no_resonators + 0)
 	rlca
@@ -1456,16 +1468,16 @@ _title::
 	call	_SG_addMetaSprite1x1
 	pop	af
 	pop	af
-;my/pres.h:46: pad_read ();
+;my/pres.h:47: pad_read ();
 	call	_pad_read
-;my/pres.h:47: rda = mode_no_resonators;
+;my/pres.h:48: rda = mode_no_resonators;
 	ld	a,(#_mode_no_resonators + 0)
 	ld	(#_rda + 0),a
-;my/pres.h:48: if (pad_this_frame & PAD_DOWN) {
+;my/pres.h:49: if (pad_this_frame & PAD_DOWN) {
 	ld	hl,#_pad_this_frame+0
 	bit	1, (hl)
 	jr	Z,00104$
-;my/pres.h:49: ++ mode_no_resonators; if (mode_no_resonators == 2) mode_no_resonators = 0;
+;my/pres.h:50: ++ mode_no_resonators; if (mode_no_resonators == 2) mode_no_resonators = 0;
 	ld	hl, #_mode_no_resonators+0
 	inc	(hl)
 	ld	a,(#_mode_no_resonators + 0)
@@ -1474,11 +1486,11 @@ _title::
 	ld	hl,#_mode_no_resonators + 0
 	ld	(hl), #0x00
 00104$:
-;my/pres.h:51: if (pad_this_frame & PAD_UP) {
+;my/pres.h:52: if (pad_this_frame & PAD_UP) {
 	ld	hl,#_pad_this_frame+0
 	bit	0, (hl)
 	jr	Z,00109$
-;my/pres.h:52: if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
+;my/pres.h:53: if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
 	ld	a,(#_mode_no_resonators + 0)
 	or	a, a
 	jr	Z,00106$
@@ -1489,21 +1501,49 @@ _title::
 	ld	hl,#_mode_no_resonators + 0
 	ld	(hl), #0x01
 00109$:
-;my/pres.h:55: if (pad_this_frame & PAD_1) break;
+;my/pres.h:55: if (mode_no_resonators != rda) PSGSFXPlay (SFX_USE, 2);
+	ld	a,(#_mode_no_resonators + 0)
+	ld	iy,#_rda
+	sub	a, 0 (iy)
+	jr	Z,00111$
+	ld	de,#_s_03_use3_psg
+	ld	a,#0x02
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
+00111$:
+;my/pres.h:56: if (pad_this_frame & PAD_1) break;
 	ld	hl,#_pad_this_frame+0
 	bit	4, (hl)
-	jr	Z,00113$
-;my/pres.h:60: plife = mode_no_resonators ? 5 : 3;
+	jr	Z,00115$
+;my/pres.h:59: PSGSFXPlay (SFX_START, 1); delay (20);
+	ld	de,#_s_00_start2_psg+0
+	ld	a,#0x01
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
+	ld	a,#0x14
+	push	af
+	inc	sp
+	call	_delay
+	inc	sp
+;my/pres.h:61: plife = mode_no_resonators ? 5 : 3;
 	ld	a,(#_mode_no_resonators + 0)
 	or	a, a
-	jr	Z,00117$
+	jr	Z,00119$
 	ld	a,#0x05
-	jr	00118$
-00117$:
+	jr	00120$
+00119$:
 	ld	a,#0x03
-00118$:
+00120$:
 	ld	(#_plife + 0),a
-;my/pres.h:62: bat_out ();
+;my/pres.h:63: bat_out ();
 	jp  _bat_out
 ___str_0:
 	.ascii "SELECT AND PUSH 1!"
@@ -1517,12 +1557,12 @@ ___str_2:
 ___str_3:
 	.ascii "@ 2018 THE MOJON TWINS"
 	.db 0x00
-;my/pres.h:65: void scr_game_over (void) {
+;my/pres.h:66: void scr_game_over (void) {
 ;	---------------------------------
 ; Function scr_game_over
 ; ---------------------------------
 _scr_game_over::
-;my/pres.h:66: _x = 11; _y = 15; pr_str ("GAME OVER!");
+;my/pres.h:67: _x = 11; _y = 15; pr_str ("GAME OVER!");
 	ld	hl,#__x + 0
 	ld	(hl), #0x0B
 	ld	hl,#__y + 0
@@ -1535,12 +1575,12 @@ _scr_game_over::
 ___str_4:
 	.ascii "GAME OVER!"
 	.db 0x00
-;my/pres.h:69: void scr_the_end (void) {
+;my/pres.h:70: void scr_the_end (void) {
 ;	---------------------------------
 ; Function scr_the_end
 ; ---------------------------------
 _scr_the_end::
-;my/pres.h:70: unpack_bg_patterns (tsending_patterns_c, tsending_colours_c, 64*8, 7);
+;my/pres.h:71: unpack_bg_patterns (tsending_patterns_c, tsending_colours_c, 64*8, 7);
 	ld	de,#_tsending_patterns_c
 	ld	a,#0x07
 	push	af
@@ -1554,11 +1594,11 @@ _scr_the_end::
 	ld	hl,#7
 	add	hl,sp
 	ld	sp,hl
-;my/pres.h:71: gp_gen = ending_rle; unrle ();
+;my/pres.h:72: gp_gen = ending_rle; unrle ();
 	ld	hl,#_ending_rle+0
 	ld	(_gp_gen),hl
 	call	_unrle
-;my/pres.h:72: _x = 4; _y = 13; pr_str ("'CONGRATS, CHERIL'- SAID%%THE MAJOR -'YOU HAVE WON%%LA COPA DEL MEAO!', AND%%THEN CHERIL RETURNED TO%%THE FOREST . . .");
+;my/pres.h:73: _x = 4; _y = 13; pr_str ("'CONGRATS, CHERIL'- SAID%%THE MAJOR -'YOU HAVE WON%%LA COPA DEL MEAO!', AND%%THEN CHERIL RETURNED TO%%THE FOREST . . .");
 	ld	hl,#__x + 0
 	ld	(hl), #0x04
 	ld	hl,#__y + 0
@@ -1572,12 +1612,12 @@ ___str_5:
 	.ascii "'CONGRATS, CHERIL'- SAID%%THE MAJOR -'YOU HAVE WON%%LA COPA "
 	.ascii "DEL MEAO!', AND%%THEN CHERIL RETURNED TO%%THE FOREST . . ."
 	.db 0x00
-;my/pres.h:80: void scr_level (void) {
+;my/pres.h:81: void scr_level (void) {
 ;	---------------------------------
 ; Function scr_level
 ; ---------------------------------
 _scr_level::
-;my/pres.h:81: _x = 12; _y = 14; pr_str ("LEVEL 0"); SG_setTile (17+level);
+;my/pres.h:82: _x = 12; _y = 14; pr_str ("LEVEL 0"); SG_setTile (17+level);
 	ld	hl,#__x + 0
 	ld	(hl), #0x0C
 	ld	hl,#__y + 0
@@ -1592,7 +1632,7 @@ _scr_level::
 	inc	sp
 	call	_SG_setTile
 	inc	sp
-;my/pres.h:82: _x = 10; _y = 16; pr_str (levelnames [level]);
+;my/pres.h:83: _x = 10; _y = 16; pr_str (levelnames [level]);
 	ld	hl,#__x + 0
 	ld	(hl), #0x0A
 	ld	hl,#__y + 0
@@ -1626,14 +1666,14 @@ _levelnames:
 ___str_6:
 	.ascii "LEVEL 0"
 	.db 0x00
-;my/pres.h:85: void credits (void) {
+;my/pres.h:86: void credits (void) {
 ;	---------------------------------
 ; Function credits
 ; ---------------------------------
 _credits::
-;my/pres.h:86: cls ();
+;my/pres.h:87: cls ();
 	call	_cls
-;my/pres.h:88: _x = 0; _y = 0; if (ntsc) pr_str ("NTSC"); else pr_str ("PAL");
+;my/pres.h:89: _x = 0; _y = 0; if (ntsc) pr_str ("NTSC"); else pr_str ("PAL");
 	ld	hl,#__x + 0
 	ld	(hl), #0x00
 	ld	hl,#__y + 0
@@ -1652,26 +1692,26 @@ _credits::
 	call	_pr_str
 	pop	af
 00103$:
-;my/pres.h:90: rds16 = 0; rdy = 240;
+;my/pres.h:91: rds16 = 0; rdy = 240;
 	ld	hl,#0x0000
 	ld	(_rds16),hl
 	ld	hl,#_rdy + 0
 	ld	(hl), #0xF0
-;my/pres.h:91: _x = 0; _y = 18; 
+;my/pres.h:92: _x = 0; _y = 18; 
 	ld	hl,#__x + 0
 	ld	(hl), #0x00
 	ld	hl,#__y + 0
 	ld	(hl), #0x12
-;my/pres.h:92: pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%     @ 2011 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2018 THE MOJON TWINS");
+;my/pres.h:93: pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%     @ 2011 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2018 THE MOJON TWINS");
 	ld	hl,#___str_12+0
 	push	hl
 	call	_pr_str
-;my/pres.h:94: SG_displayOn ();
+;my/pres.h:95: SG_displayOn ();
 	ld	hl, #0x0140
 	ex	(sp),hl
 	call	_SG_VDPturnOnFeature
 	pop	af
-;my/pres.h:96: while (!(SG_getKeysStatus () & PAD_START) && rds16 < 300) {
+;my/pres.h:97: while (!(SG_getKeysStatus () & PAD_START) && rds16 < 300) {
 00105$:
 	call	_SG_getKeysStatus
 	bit	4, l
@@ -1684,9 +1724,9 @@ _credits::
 	rra
 	sbc	a, #0x81
 	jr	NC,00107$
-;my/pres.h:99: update_cycle ();
+;my/pres.h:100: update_cycle ();
 	call	_update_cycle
-;my/pres.h:100: rds16 ++;
+;my/pres.h:101: rds16 ++;
 	ld	hl, #_rds16+0
 	inc	(hl)
 	jr	NZ,00105$
@@ -1694,7 +1734,7 @@ _credits::
 	inc	(hl)
 	jr	00105$
 00107$:
-;my/pres.h:103: SG_displayOff ();
+;my/pres.h:104: SG_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
@@ -2317,75 +2357,83 @@ _prepare_scr::
 ; Function game_loop
 ; ---------------------------------
 _game_loop::
-;mainloop.h:267: clear_update_list ();
+;mainloop.h:261: clear_update_list ();
 	call	_clear_update_list
-;mainloop.h:270: on_pant = 99; ft = 1; fade_delay = 1;
+;mainloop.h:263: on_pant = 99; ft = 1; fade_delay = 1;
 	ld	hl,#_on_pant + 0
 	ld	(hl), #0x63
 	ld	hl,#_ft + 0
 	ld	(hl), #0x01
 	ld	hl,#_fade_delay + 0
 	ld	(hl), #0x01
-;mainloop.h:274: SG_displayOn ();
+;mainloop.h:267: SG_displayOn ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOnFeature
 	pop	af
-;mainloop.h:285: ntsc_frame = level_reset = warp_to_level = 0; 
+;mainloop.h:278: ntsc_frame = level_reset = warp_to_level = 0; 
 	ld	hl,#_warp_to_level + 0
 	ld	(hl), #0x00
 	ld	hl,#_level_reset + 0
 	ld	(hl), #0x00
 	ld	hl,#_ntsc_frame + 0
 	ld	(hl), #0x00
-;mainloop.h:286: ticker = 50;
+;mainloop.h:279: ticker = 50;
 	ld	hl,#_ticker + 0
 	ld	(hl), #0x32
-;mainloop.h:288: PSGPlay (m_yun_psg);
-	ld	hl,#_m_yun_psg
-	push	hl
+;mainloop.h:282: PSGPlay (l_music [level]);
+	ld	iy,#_level
+	ld	l,0 (iy)
+	ld	h,#0x00
+	add	hl, hl
+	ld	de,#_l_music
+	add	hl,de
+	ld	e,(hl)
+	inc	hl
+	ld	d,(hl)
+	push	de
 	call	_PSGPlay
 	pop	af
-;mainloop.h:290: while (1) {
-00167$:
-;mainloop.h:297: hud_update ();
+;mainloop.h:287: while (1) {
+00169$:
+;mainloop.h:294: hud_update ();
 	call	_hud_update
-;mainloop.h:301: if (pkill) player_kill ();
+;mainloop.h:298: if (pkill) player_kill ();
 	ld	a,(#_pkill + 0)
 	or	a, a
 	jr	Z,00102$
 	call	_player_kill
 00102$:
-;mainloop.h:302: if (game_over || level_reset) break;			
+;mainloop.h:299: if (game_over || level_reset) break;			
 	ld	a,(#_game_over + 0)
 	or	a, a
-	jp	NZ,00168$
+	jp	NZ,00170$
 	ld	a,(#_level_reset + 0)
 	or	a, a
-	jp	NZ,00168$
-;mainloop.h:308: flick_override = 0;
+	jp	NZ,00170$
+;mainloop.h:305: flick_override = 0;
 	ld	hl,#_flick_override + 0
 	ld	(hl), #0x00
-;mainloop.h:311: flickscreen_do_horizontal ();
+;mainloop.h:308: flickscreen_do_horizontal ();
 	call	_flickscreen_do_horizontal
-;mainloop.h:312: flickscreen_do_vertical ();
+;mainloop.h:309: flickscreen_do_vertical ();
 	call	_flickscreen_do_vertical
-;mainloop.h:318: if (on_pant != n_pant) {
+;mainloop.h:315: if (on_pant != n_pant) {
 	ld	a,(#_on_pant + 0)
 	ld	iy,#_n_pant
 	sub	a, 0 (iy)
 	jr	Z,00109$
-;mainloop.h:319: prepare_scr ();
+;mainloop.h:316: prepare_scr ();
 	call	_prepare_scr
-;mainloop.h:320: on_pant = n_pant;
+;mainloop.h:317: on_pant = n_pant;
 	ld	a,(#_n_pant + 0)
 	ld	(#_on_pant + 0),a
 00109$:
-;mainloop.h:339: SG_waitForVBlank ();
+;mainloop.h:336: SG_waitForVBlank ();
 	call	_SG_waitForVBlank
-;mainloop.h:340: SG_copySpritestoSAT ();
+;mainloop.h:337: SG_copySpritestoSAT ();
 	call	_SG_copySpritestoSAT
-;mainloop.h:341: update_list [update_index] = 0xff;
+;mainloop.h:338: update_list [update_index] = 0xff;
 	ld	a,#<(_update_list)
 	ld	hl,#_update_index
 	add	a, (hl)
@@ -2394,25 +2442,25 @@ _game_loop::
 	adc	a, #0x00
 	ld	h, a
 	ld	(hl),#0xFF
-;mainloop.h:342: SG_doUpdateList ();
+;mainloop.h:339: SG_doUpdateList ();
 	call	_SG_doUpdateList
-;mainloop.h:343: clear_update_list ();
+;mainloop.h:340: clear_update_list ();
 	call	_clear_update_list
-;mainloop.h:347: pad_read ();
+;mainloop.h:344: pad_read ();
 	call	_pad_read
-;mainloop.h:348: a_button = (pad_this_frame & PAD_A);
+;mainloop.h:345: a_button = (pad_this_frame & PAD_A);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x20
 	ld	h,a
 	ld	iy,#_a_button
 	ld	0 (iy),h
-;mainloop.h:349: b_button = (pad_this_frame & PAD_B);
+;mainloop.h:346: b_button = (pad_this_frame & PAD_B);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x10
 	ld	h,a
 	ld	iy,#_b_button
 	ld	0 (iy),h
-;mainloop.h:353: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
+;mainloop.h:350: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
 	ld	hl, #_ntsc_frame+0
 	inc	(hl)
 	ld	a,(#_ntsc_frame + 0)
@@ -2421,20 +2469,20 @@ _game_loop::
 	ld	hl,#_ntsc_frame + 0
 	ld	(hl), #0x00
 00111$:
-;mainloop.h:355: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
+;mainloop.h:352: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
 	ld	a,(#_paused + 0)
 	or	a, a
-	jp	NZ,00159$
+	jp	NZ,00161$
 	ld	a,(#_ntsc + 0)
 	or	a, a
-	jr	Z,00158$
+	jr	Z,00160$
 	ld	a,(#_ntsc_frame + 0)
 	or	a, a
-	jp	Z,00159$
-00158$:
-;mainloop.h:356: SG_initSprites ();
+	jp	Z,00161$
+00160$:
+;mainloop.h:353: SG_initSprites ();
 	call	_SG_initSprites
-;mainloop.h:359: if (ticker) -- ticker; else ticker = 50;
+;mainloop.h:356: if (ticker) -- ticker; else ticker = 50;
 	ld	a,(#_ticker + 0)
 	or	a, a
 	jr	Z,00113$
@@ -2445,12 +2493,12 @@ _game_loop::
 	ld	iy,#_ticker
 	ld	0 (iy),#0x32
 00114$:
-;mainloop.h:360: half_life ^= 1;
+;mainloop.h:357: half_life ^= 1;
 	ld	a,(#_half_life + 0)
 	xor	a, #0x01
 	ld	iy,#_half_life
 	ld	0 (iy),a
-;mainloop.h:361: ++ frame_counter;
+;mainloop.h:358: ++ frame_counter;
 	ld	iy,#_frame_counter
 	inc	0 (iy)
 ;mainloop/hotspots.h:6: if (hrt) {
@@ -2460,7 +2508,7 @@ _game_loop::
 ;mainloop/hotspots.h:7: if (collide_in (prx + 4, pry + 8, hrx, hry)) {
 	ld	a,(#_pry + 0)
 	add	a, #0x08
-	ld	b,a
+	ld	e,a
 	ld	hl,#_prx + 0
 	ld	d, (hl)
 	inc	d
@@ -2473,8 +2521,11 @@ _game_loop::
 	ld	a,(_hrx)
 	push	af
 	inc	sp
-	ld	c, d
-	push	bc
+	ld	a,e
+	push	af
+	inc	sp
+	push	de
+	inc	sp
 	call	_collide_in
 	pop	af
 	pop	af
@@ -2491,18 +2542,18 @@ _game_loop::
 	cp	a, 0 (iy)
 	ld	iy,#_pvy
 	sbc	a, 1 (iy)
-	jp	PO, 00309$
+	jp	PO, 00315$
 	xor	a, #0x80
-00309$:
+00315$:
 	jp	P,00131$
 	ld	hl,#_hry
 	ld	a,(#_pry + 0)
 	sub	a, (hl)
-	jr	NC,00131$
+	jp	NC,00131$
 ;mainloop/hotspots.h:11: if (res_on == 0) {
 	ld	a,(#_res_on + 0)
 	or	a, a
-	jr	NZ,00131$
+	jp	NZ,00131$
 ;mainloop/hotspots.h:12: res_on = 1; res_ct = 9; res_subct = 50;
 	ld	hl,#_res_on + 0
 	ld	(hl), #0x01
@@ -2512,11 +2563,22 @@ _game_loop::
 	ld	(hl), #0x32
 ;mainloop/hotspots.h:13: jump_start ();
 	call	_jump_start
+;mainloop/hotspots.h:23: PSGSFXPlay (SFX_BREAKH, 2);
+	ld	de,#_s_13_breakh3_psg
+	ld	a,#0x02
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
 	jr	00131$
 00126$:
-;mainloop/hotspots.h:128: rda = 0;
+;mainloop/hotspots.h:128: rda = 0; rdm = 1;
 	ld	iy,#_rda
 	ld	0 (iy),#0x00
+	ld	iy,#_rdm
+	ld	0 (iy),#0x01
 ;mainloop/hotspots.h:129: switch (hrt) {
 	ld	a,(#_hrt + 0)
 	cp	a,#0x02
@@ -2529,9 +2591,11 @@ _game_loop::
 ;mainloop/hotspots.h:152: ++ pkeys;
 	ld	iy,#_pkeys
 	inc	0 (iy)
-;mainloop/hotspots.h:153: rda = SFX_OBJECT;
-	ld	iy,#_rda
-	ld	0 (iy),#0x02
+;mainloop/hotspots.h:153: gp_gen = SFX_OBJECT;
+	ld	iy,#_gp_gen
+	ld	0 (iy),#<(_s_02_object2_psg)
+	ld	iy,#_gp_gen
+	ld	1 (iy),#>(_s_02_object2_psg)
 ;mainloop/hotspots.h:154: break;
 	jr	00122$
 ;mainloop/hotspots.h:156: case HOTSPOT_TYPE_REFILL:
@@ -2539,19 +2603,33 @@ _game_loop::
 ;mainloop/hotspots.h:157: plife += PLAYER_REFILL;
 	ld	iy,#_plife
 	inc	0 (iy)
-;mainloop/hotspots.h:161: rda = SFX_USE;
-	ld	iy,#_rda
-	ld	0 (iy),#0x03
-;mainloop/hotspots.h:191: }
+;mainloop/hotspots.h:161: gp_gen = SFX_USE;
+	ld	iy,#_gp_gen
+	ld	0 (iy),#<(_s_03_use3_psg)
+	ld	iy,#_gp_gen
+	ld	1 (iy),#>(_s_03_use3_psg)
+;mainloop/hotspots.h:162: rdm = 2;
+	ld	iy,#_rdm
+	ld	0 (iy),#0x02
+;mainloop/hotspots.h:192: }
 00122$:
-;mainloop/hotspots.h:192: if (rda) {
+;mainloop/hotspots.h:193: if (rda) {
 	ld	a,(#_rda + 0)
 	or	a, a
 	jr	Z,00131$
-;mainloop/hotspots.h:194: hrt = 0;
+;mainloop/hotspots.h:194: PSGSFXPlay (gp_gen, rdm);
+	ld	de,(_gp_gen)
+	ld	a,(_rdm)
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
+;mainloop/hotspots.h:195: hrt = 0;
 	ld	hl,#_hrt + 0
 	ld	(hl), #0x00
-;mainloop/hotspots.h:195: hact [n_pant] = 0;
+;mainloop/hotspots.h:196: hact [n_pant] = 0;
 	ld	a,#<(_hact)
 	ld	hl,#_n_pant
 	add	a, (hl)
@@ -2562,11 +2640,11 @@ _game_loop::
 	xor	a, a
 	ld	(de),a
 00131$:
-;mainloop.h:381: if (!warp_to_level) {
+;mainloop.h:378: if (!warp_to_level) {
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00133$
-;mainloop.h:382: player_move ();
+;mainloop.h:379: player_move ();
 	call	_player_move
 00133$:
 ;my/extra_checks.h:14: if (c_max_enems == pkilled) {
@@ -2603,32 +2681,32 @@ _game_loop::
 	call	_delay
 	inc	sp
 ;mainloop/win_level_condition.h:25: break;
-	jp	00168$
+	jp	00170$
 00141$:
-;mainloop.h:419: cur_stp = SG_getStp (); 
+;mainloop.h:416: cur_stp = SG_getStp (); 
 	call	_SG_getStp
 	ld	(_cur_stp),hl
-;mainloop.h:420: if (!warp_to_level)	player_render ();
+;mainloop.h:417: if (!warp_to_level)	player_render ();
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00143$
 	call	_player_render
 00143$:
-;mainloop.h:424: enems_move ();
+;mainloop.h:421: enems_move ();
 	call	_enems_move
-;mainloop.h:428: if (warp_to_level) {
+;mainloop.h:425: if (warp_to_level) {
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	Z,00145$
-;mainloop.h:429: update_cycle (); PSGStop (); break;
+;mainloop.h:426: update_cycle (); PSGStop (); break;
 	call	_update_cycle
 	call	_PSGStop
-	jp	00168$
+	jp	00170$
 00145$:
 ;mainloop/resonators.h:5: if (res_on) {
 	ld	a,(#_res_on + 0)
 	or	a, a
-	jr	Z,00153$
+	jr	Z,00155$
 ;mainloop/resonators.h:7: gp_addr = ((RESONATOR_COUNTER_Y << 5) | RESONATOR_COUNTER_X) + PNTADDRESS;
 	ld	hl,#0x183D
 	ld	(_gp_addr),hl
@@ -2642,37 +2720,59 @@ _game_loop::
 ;mainloop/resonators.h:12: if (res_subct) -- res_subct; else {
 	ld	a,(#_res_subct + 0)
 	or	a, a
-	jr	Z,00150$
+	jr	Z,00152$
 	ld	iy,#_res_subct
 	dec	0 (iy)
-	jr	00153$
-00150$:
+	jr	00155$
+00152$:
 ;mainloop/resonators.h:13: res_subct = 50;
 	ld	iy,#_res_subct
 	ld	0 (iy),#0x32
 ;mainloop/resonators.h:14: if (res_ct) { 
 	ld	a,(#_res_ct + 0)
 	or	a, a
-	jr	Z,00147$
+	jr	Z,00149$
 ;mainloop/resonators.h:15: -- res_ct; 
 	ld	iy,#_res_ct
 	dec	0 (iy)
-	jr	00153$
-00147$:
+;mainloop/resonators.h:16: if (res_ct <= 5) PSGSFXPlay (SFX_COUNT, 1);
+	ld	a,#0x05
+	ld	iy,#_res_ct
+	sub	a, 0 (iy)
+	jr	C,00155$
+	ld	de,#_s_12_count2_psg
+	ld	a,#0x01
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
+	jr	00155$
+00149$:
 ;mainloop/resonators.h:18: res_on = 0;
-	ld	iy,#_res_on
-	ld	0 (iy),#0x00
-00153$:
-;mainloop.h:440: if (hrt) hotspots_paint ();
+	ld	hl,#_res_on + 0
+	ld	(hl), #0x00
+;mainloop/resonators.h:19: PSGSFXPlay (SFX_SPRING, 1); 
+	ld	de,#_s_11_spring2_psg
+	ld	a,#0x01
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
+00155$:
+;mainloop.h:437: if (hrt) hotspots_paint ();
 	ld	a,(#_hrt + 0)
 	or	a, a
-	jr	Z,00155$
+	jr	Z,00157$
 	call	_hotspots_paint
-00155$:
+00157$:
 ;mainloop/no.h:5: if (no_ct) {
 	ld	a,(#_no_ct + 0)
 	or	a, a
-	jr	Z,00157$
+	jr	Z,00159$
 ;mainloop/no.h:6: -- no_ct;
 	ld	iy,#_no_ct
 	dec	0 (iy)
@@ -2691,67 +2791,67 @@ _game_loop::
 	call	_SG_addMetaSprite1x1
 	pop	af
 	pop	af
-00157$:
-;mainloop.h:469: chac_chacs_do ();
-	call	_chac_chacs_do
 00159$:
+;mainloop.h:466: chac_chacs_do ();
+	call	_chac_chacs_do
+00161$:
 ;mainloop/cheat.h:5: if ((pad0 & (PAD_B|PAD_SELECT|PAD_UP)) == (PAD_B|PAD_SELECT|PAD_UP)) break;
 	ld	a,(#_pad0 + 0)
 	and	a, #0x31
 	ld	l, #0x00
 	sub	a,#0x31
-	jr	NZ,00314$
+	jr	NZ,00320$
 	or	a,l
-	jr	Z,00168$
-00314$:
+	jr	Z,00170$
+00320$:
 	call	_SG_queryPauseRequested
 	bit	0,l
-	jp	Z,00167$
+	jp	Z,00169$
 ;mainloop/pause.h:6: SG_resetPauseRequest ();
 	call	_SG_resetPauseRequest
 ;mainloop/pause.h:7: paused ^= 1;
 	ld	a,(#_paused + 0)
 	xor	a, #0x01
 	ld	(#_paused + 0),a
-	jp	00167$
-00168$:
-;mainloop.h:484: PSGStop ();
+	jp	00169$
+00170$:
+;mainloop.h:481: PSGStop ();
 	call	_PSGStop
-;mainloop.h:485: PSGSFXStop ();
+;mainloop.h:482: PSGSFXStop ();
 	call	_PSGSFXStop
-;mainloop.h:486: SG_displayOff ();
+;mainloop.h:483: SG_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
 	pop	af
-;mainloop.h:487: SG_initSprites ();
+;mainloop.h:484: SG_initSprites ();
 	call	_SG_initSprites
-;mainloop.h:488: SG_copySpritestoSAT ();	
+;mainloop.h:485: SG_copySpritestoSAT ();	
 	jp  _SG_copySpritestoSAT
-;game.c:109: void main(void) {
+;game.c:107: void main(void) {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;game.c:110: SG_displayOff ();
+;game.c:108: SG_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
-;game.c:111: SG_setSpriteMode (SG_SPRITEMODE_LARGE);
+;game.c:109: SG_setSpriteMode (SG_SPRITEMODE_LARGE);
 	ld	h,#0x01
 	ex	(sp),hl
 	inc	sp
 	call	_SG_setSpriteMode
 	inc	sp
-;game.c:112: SG_setUpdateList (update_list);
-	ld	hl,#_update_list+0
+;game.c:110: SG_setUpdateList (update_list);
+	ld	hl,#_update_list
 	push	hl
 	call	_SG_setUpdateList
 	pop	af
-;game.c:113: first_game = 1;
+;game.c:111: first_game = 1;
 	ld	hl,#_first_game + 0
 	ld	(hl), #0x01
-;game.c:116: ntsc = !!(SMS_VDPType () & VDP_NTSC);
+;game.c:114: ntsc = !!(SMS_VDPType () & VDP_NTSC);
 	call	_SMS_VDPType
 	bit	6, l
 	jr	Z,00114$
@@ -2761,81 +2861,90 @@ _main::
 	ld	a,#0x00
 00115$:
 	ld	(#_ntsc + 0),a
-;game.c:119: unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);
-	ld	de,#_tsfont_colours_c+0
-	ld	bc,#_tsfont_patterns_c+0
+;game.c:117: unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);
+	ld	de,#_tsfont_patterns_c
 	ld	a,#0x07
 	push	af
 	inc	sp
 	ld	hl,#0x0000
 	push	hl
+	ld	hl,#_tsfont_colours_c
+	push	hl
 	push	de
-	push	bc
 	call	_unpack_bg_patterns
 	ld	hl,#7
 	add	hl,sp
 	ld	sp,hl
-;game.c:121: credits ();
+;game.c:119: credits ();
 	call	_credits
-;game.c:124: aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
-	ld	hl,#_ss_fixed_patterns_c+0
+;game.c:122: aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
+	ld	hl,#_ss_fixed_patterns_c
 	push	hl
 	ld	hl,#0x3800
 	push	hl
 	call	_aPLib_depack_VRAM
 	pop	af
 	pop	af
-;game.c:126: mode_no_resonators = 0;
+;game.c:124: mode_no_resonators = 0;
 	ld	hl,#_mode_no_resonators + 0
 	ld	(hl), #0x00
-;game.c:127: while (1) {	
+;game.c:125: while (1) {	
 00110$:
-;game.c:128: title ();
+;game.c:126: title ();
 	call	_title
-;game.c:130: level = 0;
+;game.c:128: level = 0;
 	ld	hl,#_level + 0
 	ld	(hl), #0x00
-;game.c:131: plife = PLAYER_LIFE;
+;game.c:129: plife = PLAYER_LIFE;
 	ld	hl,#_plife + 0
 	ld	(hl), #0x05
-;game.c:135: while (1) {
+;game.c:133: while (1) {
 00107$:
-;game.c:136: pres (scr_level);
+;game.c:134: pres (scr_level, 0);
+	ld	hl,#0x0000
+	push	hl
 	ld	hl,#_scr_level
 	push	hl
 	call	_pres
 	pop	af
-;game.c:137: game_init (); 
+	pop	af
+;game.c:135: game_init (); 
 	call	_game_init
-;game.c:138: game_loop ();
+;game.c:136: game_loop ();
 	call	_game_loop
-;game.c:140: if (game_over) {
+;game.c:138: if (game_over) {
 	ld	a,(#_game_over + 0)
 	or	a, a
 	jr	Z,00104$
-;game.c:141: pres (scr_game_over);
+;game.c:139: pres (scr_game_over, MUSIC_GOVER);
+	ld	hl,#_m_gover_psg
+	push	hl
 	ld	hl,#_scr_game_over
 	push	hl
 	call	_pres
 	pop	af
-;game.c:142: break;
+	pop	af
+;game.c:140: break;
 	jr	00108$
 00104$:
-;game.c:144: level ++;
+;game.c:142: level ++;
 	ld	hl, #_level+0
 	inc	(hl)
-;game.c:145: if (level == MAX_LEVELS) {
+;game.c:143: if (level == MAX_LEVELS) {
 	ld	a,(#_level + 0)
 	sub	a, #0x03
 	jr	NZ,00107$
-;game.c:146: pres (scr_the_end);
+;game.c:144: pres (scr_the_end, 0);
+	ld	hl,#0x0000
+	push	hl
 	ld	hl,#_scr_the_end
 	push	hl
 	call	_pres
 	pop	af
-;game.c:147: break;
+	pop	af
+;game.c:145: break;
 00108$:
-;game.c:152: first_game = 0;
+;game.c:150: first_game = 0;
 	ld	hl,#_first_game + 0
 	ld	(hl), #0x00
 	jr	00110$

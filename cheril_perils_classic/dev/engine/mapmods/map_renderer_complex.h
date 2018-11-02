@@ -199,8 +199,6 @@ void draw_scr (void) {
 	for (rdm = 0; rdm < 192; rdm ++) {
 		rdt = *gp_ram ++;
 
-		if (rdb & 0xf == 0) DISABLE_INTERRUPTS;
-
 		#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)			
 			if (tile_got [rdd] & bits [rdm & 7]) rdt = 0;
 			if ((rdm & 7) == 7) ++ rdd;
@@ -216,10 +214,10 @@ void draw_scr (void) {
 
 		#include "../../engine/mapmods/map_detectors.h"
 
+		DISABLE_INTERRUPTS;
 		_t = rdt; draw_tile ();
 		_x = (_x + 2) & 0x1f; if (!_x) _y += 2;
-
-		if (rdb & 0xf == 0) ENABLE_INTERRUPTS;
+		ENABLE_INTERRUPTS;
 	}
 
 	#if defined (ENABLE_TILE_CHAC_CHAC) && defined (CHAC_CHACS_CLEAR)

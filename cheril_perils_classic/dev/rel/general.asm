@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Nov 02 11:34:09 2018
+; This file was generated Fri Nov 02 19:01:12 2018
 ;--------------------------------------------------------
 	.module general
 	.optsdcc -mz80
@@ -430,56 +430,56 @@ _jump_start::
 	ld	(hl), #0x01
 	ld	hl,#_pctj + 0
 	ld	(hl), #0x00
-;engine/general.c:119: PSGSFXPlay (sfx_01_tile_psg, 2);
-	ld	de,#_sfx_01_tile_psg
-	ld	a,#0x02
+;engine/general.c:118: PSGSFXPlay (SFX_JUMP, 1);
+	ld	de,#_s_08_jump2_psg
+	ld	a,#0x01
 	push	af
 	inc	sp
 	push	de
 	call	_PSGSFXPlay
 	pop	af
 	inc	sp
-;engine/general.c:123: pvy = -PLAYER_VY_JUMP_INITIAL;
+;engine/general.c:122: pvy = -PLAYER_VY_JUMP_INITIAL;
 	ld	hl,#0xFFC0
 	ld	(_pvy),hl
 	ret
-;engine/general.c:129: void update_cycle (void) {
+;engine/general.c:128: void update_cycle (void) {
 ;	---------------------------------
 ; Function update_cycle
 ; ---------------------------------
 _update_cycle::
-;engine/general.c:130: SG_finalizeSprites ();
+;engine/general.c:129: SG_finalizeSprites ();
 	call	_SG_finalizeSprites
-;engine/general.c:131: SG_waitForVBlank ();
+;engine/general.c:130: SG_waitForVBlank ();
 	call	_SG_waitForVBlank
-;engine/general.c:132: SG_copySpritestoSAT ();
+;engine/general.c:131: SG_copySpritestoSAT ();
 	call	_SG_copySpritestoSAT
-;engine/general.c:133: update_list [update_index] = 0xff;
+;engine/general.c:132: update_list [update_index] = 0xff;
 	ld	de,#_update_list+0
 	ld	hl,(_update_index)
 	ld	h,#0x00
 	add	hl,de
 	ld	(hl),#0xFF
-;engine/general.c:134: SG_doUpdateList ();
+;engine/general.c:133: SG_doUpdateList ();
 	call	_SG_doUpdateList
-;engine/general.c:135: SG_initSprites ();
+;engine/general.c:134: SG_initSprites ();
 	call	_SG_initSprites
-;engine/general.c:136: clear_update_list ();
+;engine/general.c:135: clear_update_list ();
 	jp  _clear_update_list
-;engine/general.c:139: void do_update_list_and_wait (void) {
+;engine/general.c:138: void do_update_list_and_wait (void) {
 ;	---------------------------------
 ; Function do_update_list_and_wait
 ; ---------------------------------
 _do_update_list_and_wait::
-;engine/general.c:140: SG_waitForVBlank ();
+;engine/general.c:139: SG_waitForVBlank ();
 	call	_SG_waitForVBlank
-;engine/general.c:141: update_list [update_index] = 0xff;
+;engine/general.c:140: update_list [update_index] = 0xff;
 	ld	de,#_update_list+0
 	ld	hl,(_update_index)
 	ld	h,#0x00
 	add	hl,de
 	ld	(hl),#0xFF
-;engine/general.c:142: SG_doUpdateList ();
+;engine/general.c:141: SG_doUpdateList ();
 	jp  _SG_doUpdateList
 	.area _CODE
 	.area _INITIALIZER

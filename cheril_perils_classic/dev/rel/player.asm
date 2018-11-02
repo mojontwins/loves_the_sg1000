@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Nov 02 11:34:10 2018
+; This file was generated Fri Nov 02 19:01:16 2018
 ;--------------------------------------------------------
 	.module player
 	.optsdcc -mz80
@@ -22,6 +22,7 @@
 	.globl _cm_two_points
 	.globl _map_set
 	.globl _delay
+	.globl _PSGSFXPlay
 	.globl _SG_setStp
 	.globl _SG_addMetaSprite1x1
 ;--------------------------------------------------------
@@ -62,88 +63,88 @@ _IOPortH	=	0x00dd
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;engine/player.c:23: void player_register_safe_spot (void) {
+;engine/player.c:24: void player_register_safe_spot (void) {
 ;	---------------------------------
 ; Function player_register_safe_spot
 ; ---------------------------------
 _player_register_safe_spot::
-;engine/player.c:24: px_safe = px;
+;engine/player.c:25: px_safe = px;
 	ld	hl,(_px)
 	ld	(_px_safe),hl
-;engine/player.c:25: py_safe = py;
+;engine/player.c:26: py_safe = py;
 	ld	hl,(_py)
 	ld	(_py_safe),hl
-;engine/player.c:26: n_pant_safe = n_pant;
+;engine/player.c:27: n_pant_safe = n_pant;
 	ld	a,(#_n_pant + 0)
 	ld	(#_n_pant_safe + 0),a
 	ret
-;engine/player.c:30: void player_stop (void) {
+;engine/player.c:31: void player_stop (void) {
 ;	---------------------------------
 ; Function player_stop
 ; ---------------------------------
 _player_stop::
-;engine/player.c:31: pvx = pvy = 0;
+;engine/player.c:32: pvx = pvy = 0;
 	ld	hl,#0x0000
 	ld	(_pvy),hl
 	ld	l, #0x00
 	ld	(_pvx),hl
 	ret
-;engine/player.c:34: void player_init (void) {
+;engine/player.c:35: void player_init (void) {
 ;	---------------------------------
 ; Function player_init
 ; ---------------------------------
 _player_init::
-;engine/player.c:37: if (!warp_to_level) player_stop ();
+;engine/player.c:38: if (!warp_to_level) player_stop ();
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00102$
 	call	_player_stop
 00102$:
-;engine/player.c:42: pfacing = 0;
+;engine/player.c:43: pfacing = 0;
 	ld	hl,#_pfacing + 0
 	ld	(hl), #0x00
-;engine/player.c:45: pfr = pctfr = 0;
+;engine/player.c:46: pfr = pctfr = 0;
 	ld	hl,#_pctfr + 0
 	ld	(hl), #0x00
 	ld	hl,#_pfr + 0
 	ld	(hl), #0x00
-;engine/player.c:46: pj = pctj = 0;
+;engine/player.c:47: pj = pctj = 0;
 	ld	hl,#_pctj + 0
 	ld	(hl), #0x00
 	ld	hl,#_pj + 0
 	ld	(hl), #0x00
-;engine/player.c:47: psprid = 0;
+;engine/player.c:48: psprid = 0;
 	ld	hl,#_psprid + 0
 	ld	(hl), #0x00
-;engine/player.c:54: pkeys = 0;
+;engine/player.c:55: pkeys = 0;
 	ld	hl,#_pkeys + 0
 	ld	(hl), #0x00
-;engine/player.c:57: pgotten = 0;
+;engine/player.c:58: pgotten = 0;
 	ld	hl,#_pgotten + 0
 	ld	(hl), #0x00
-;engine/player.c:58: pfiring = 0;
+;engine/player.c:59: pfiring = 0;
 	ld	hl,#_pfiring + 0
 	ld	(hl), #0x00
-;engine/player.c:61: pkilled = 0;
+;engine/player.c:62: pkilled = 0;
 	ld	hl,#_pkilled + 0
 	ld	(hl), #0x00
-;engine/player.c:77: pflickering = pbouncing = 0;
+;engine/player.c:78: pflickering = pbouncing = 0;
 	ld	hl,#_pbouncing + 0
 	ld	(hl), #0x00
 	ld	hl,#_pflickering + 0
 	ld	(hl), #0x00
-;engine/player.c:80: player_register_safe_spot ();
+;engine/player.c:81: player_register_safe_spot ();
 	call	_player_register_safe_spot
-;engine/player.c:90: vertical_engine_type = ENGINE_TYPE_JUMP;
+;engine/player.c:91: vertical_engine_type = ENGINE_TYPE_JUMP;
 	ld	hl,#_vertical_engine_type + 0
 	ld	(hl), #0x00
 	ret
-;engine/player.c:109: void player_render (void) {
+;engine/player.c:110: void player_render (void) {
 ;	---------------------------------
 ; Function player_render
 ; ---------------------------------
 _player_render::
-;engine/player.c:110: if (0 == pflickering || half_life) 
+;engine/player.c:111: if (0 == pflickering || half_life) 
 	ld	a,(#_pflickering + 0)
 	or	a, a
 	jr	Z,00101$
@@ -151,7 +152,7 @@ _player_render::
 	or	a, a
 	ret	Z
 00101$:
-;engine/player.c:113: spr_player [psprid]
+;engine/player.c:114: spr_player [psprid]
 	ld	de,#_spr_player+0
 	ld	iy,#_psprid
 	ld	l,0 (iy)
@@ -161,7 +162,7 @@ _player_render::
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
-;engine/player.c:112: prx - 4, pry + SPRITE_ADJUST, 
+;engine/player.c:113: prx - 4, pry + SPRITE_ADJUST, 
 	ld	a,(#_pry + 0)
 	add	a, #0xF7
 	ld	b,a
@@ -174,12 +175,12 @@ _player_render::
 	pop	af
 	pop	af
 	ret
-;engine/player.c:117: void player_to_pixels (void) {
+;engine/player.c:118: void player_to_pixels (void) {
 ;	---------------------------------
 ; Function player_to_pixels
 ; ---------------------------------
 _player_to_pixels::
-;engine/player.c:118: prx = px >> FIXBITS;
+;engine/player.c:119: prx = px >> FIXBITS;
 	ld	hl,(_px)
 	sra	h
 	rr	l
@@ -195,7 +196,7 @@ _player_to_pixels::
 	rr	l
 	ld	iy,#_prx
 	ld	0 (iy),l
-;engine/player.c:119: pry = py >> FIXBITS;
+;engine/player.c:120: pry = py >> FIXBITS;
 	ld	hl,(_py)
 	sra	h
 	rr	l
@@ -212,26 +213,35 @@ _player_to_pixels::
 	ld	iy,#_pry
 	ld	0 (iy),l
 	ret
-;engine/player.c:122: void player_kill (void) {
+;engine/player.c:123: void player_kill (void) {
 ;	---------------------------------
 ; Function player_kill
 ; ---------------------------------
 _player_kill::
-;engine/player.c:123: SG_setStp (cur_stp);
+;engine/player.c:124: SG_setStp (cur_stp);
 	ld	hl,(_cur_stp)
 	push	hl
 	call	_SG_setStp
 	pop	af
-;engine/player.c:124: player_render ();
+;engine/player.c:125: player_render ();
 	call	_player_render
-;engine/player.c:125: update_cycle ();
+;engine/player.c:126: update_cycle ();
 	call	_update_cycle
-;engine/player.c:127: pkill = phit = 0;
+;engine/player.c:128: pkill = phit = 0;
 	ld	hl,#_phit + 0
 	ld	(hl), #0x00
 	ld	hl,#_pkill + 0
 	ld	(hl), #0x00
-;engine/player.c:130: if (plife) -- plife; else game_over = 1;
+;engine/player.c:129: PSGSFXPlay (SFX_PHIT, 2);
+	ld	de,#_s_05_phit3_psg+0
+	ld	a,#0x02
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
+;engine/player.c:131: if (plife) -- plife; else game_over = 1;
 	ld	a,(#_plife + 0)
 	or	a, a
 	jr	Z,00102$
@@ -242,27 +252,27 @@ _player_kill::
 	ld	hl,#_game_over + 0
 	ld	(hl), #0x01
 00103$:
-;engine/player.c:133: pflickering = PLAYER_FLICKERS;
+;engine/player.c:134: pflickering = PLAYER_FLICKERS;
 	ld	hl,#_pflickering + 0
 	ld	(hl), #0x64
-;engine/player.c:146: delay (60);
+;engine/player.c:147: delay (60);
 	ld	a,#0x3C
 	push	af
 	inc	sp
 	call	_delay
 	inc	sp
-;engine/player.c:151: px = px_safe; 
+;engine/player.c:152: px = px_safe; 
 	ld	hl,(_px_safe)
 	ld	(_px),hl
-;engine/player.c:152: py = py_safe; 
+;engine/player.c:153: py = py_safe; 
 	ld	hl,(_py_safe)
 	ld	(_py),hl
-;engine/player.c:153: player_to_pixels ();
+;engine/player.c:154: player_to_pixels ();
 	call	_player_to_pixels
-;engine/player.c:154: n_pant = n_pant_safe;		
+;engine/player.c:155: n_pant = n_pant_safe;		
 	ld	a,(#_n_pant_safe + 0)
 	ld	(#_n_pant + 0),a
-;engine/player.c:155: player_stop ();
+;engine/player.c:156: player_stop ();
 	jp  _player_stop
 ;engine/../engine/playermods/process_tile.h:4: void player_process_tile (unsigned char at, unsigned char x0, unsigned char y0, unsigned char x1, unsigned char y1) {
 ;	---------------------------------
@@ -369,6 +379,15 @@ _player_process_tile::
 ;engine/../engine/playermods/process_tile.h:60: -- pkeys;
 	ld	hl, #_pkeys+0
 	dec	(hl)
+;engine/../engine/playermods/process_tile.h:61: PSGSFXPlay (SFX_TILE, 2);
+	ld	de,#_s_01_tile3_psg+0
+	ld	a,#0x02
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
 	jr	00113$
 00110$:
 ;engine/../engine/playermods/process_tile.h:64: no_ct = 100;
@@ -377,7 +396,7 @@ _player_process_tile::
 00113$:
 	pop	ix
 	ret
-;engine/player.c:178: void player_move (void) {
+;engine/player.c:179: void player_move (void) {
 ;	---------------------------------
 ; Function player_move
 ; ---------------------------------
@@ -387,34 +406,34 @@ _player_move::
 	add	ix,sp
 	push	af
 	push	af
-;engine/player.c:179: if (pflickering) -- pflickering;
+;engine/player.c:180: if (pflickering) -- pflickering;
 	ld	a,(#_pflickering + 0)
 	or	a, a
 	jr	Z,00102$
 	ld	hl, #_pflickering+0
 	dec	(hl)
 00102$:
-;engine/player.c:180: if (pbouncing) -- pbouncing;
+;engine/player.c:181: if (pbouncing) -- pbouncing;
 	ld	a,(#_pbouncing + 0)
 	or	a, a
 	jr	Z,00104$
 	ld	hl, #_pbouncing+0
 	dec	(hl)
 00104$:
-;engine/player.c:216: hitv = hith = 0;
+;engine/player.c:217: hitv = hith = 0;
 	ld	hl,#_hith + 0
 	ld	(hl), #0x00
 	ld	hl,#_hitv + 0
 	ld	(hl), #0x00
-;engine/player.c:217: pcx = prx; pcy = pry;
+;engine/player.c:218: pcx = prx; pcy = pry;
 	ld	a,(#_prx + 0)
 	ld	(#_pcx + 0),a
 	ld	a,(#_pry + 0)
 	ld	(#_pcy + 0),a
-;engine/player.c:218: pnotsafe = 0;
+;engine/player.c:219: pnotsafe = 0;
 	ld	hl,#_pnotsafe + 0
 	ld	(hl), #0x00
-;engine/player.c:228: cx1 = prx >> 4; cx2 = (prx + 7) >> 4;
+;engine/player.c:229: cx1 = prx >> 4; cx2 = (prx + 7) >> 4;
 	ld	a,(#_prx + 0)
 	rlca
 	rlca
@@ -437,7 +456,7 @@ _player_move::
 	rr	l
 	ld	iy,#_cx2
 	ld	0 (iy),l
-;engine/player.c:229: cy1 = cy2 = (pry + 15) >> 4;
+;engine/player.c:230: cy1 = cy2 = (pry + 15) >> 4;
 	ld	iy,#_pry
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -454,13 +473,13 @@ _player_move::
 	ld	a,l
 	ld	(#_cy2 + 0),a
 	ld	(#_cy1 + 0),a
-;engine/player.c:230: cm_two_points ();
+;engine/player.c:231: cm_two_points ();
 	call	_cm_two_points
-;engine/player.c:245: if (springs_on && cy1 < 12) {
+;engine/player.c:246: if (springs_on && cy1 < 12) {
 	ld	a,(#_springs_on + 0)
 	or	a, a
 	jp	Z,00116$
-;engine/player.c:246: if (cy1) -- cy1;
+;engine/player.c:247: if (cy1) -- cy1;
 	ld	a,(#_cy1 + 0)
 	cp	a,#0x0C
 	jp	NC,00116$
@@ -469,19 +488,19 @@ _player_move::
 	ld	hl, #_cy1+0
 	dec	(hl)
 00106$:
-;engine/player.c:247: _t = SPRING_SPIKE_TILE; 
+;engine/player.c:248: _t = SPRING_SPIKE_TILE; 
 	ld	hl,#__t + 0
 	ld	(hl), #0x0A
-;engine/player.c:249: if (ppossee)
+;engine/player.c:250: if (ppossee)
 	ld	a,(#_ppossee + 0)
 	or	a, a
 	jp	Z,00116$
-;engine/player.c:252: if (QTILE (cx1, cy1 + 1) == SPRING_TILE && QTILE (cx1, cy1) != SPRING_SPIKE_TILE) { _x = cx1; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);
+;engine/player.c:253: if (QTILE (cx1, cy1 + 1) == SPRING_TILE && QTILE (cx1, cy1) != SPRING_SPIKE_TILE) { _x = cx1; _y = cy1; map_set (); PSGSFXPlay (SFX_SPRING, 1); }
 	ld	a,(#_cy1 + 0)
-	ld	-4 (ix),a
-	ld	-3 (ix),#0x00
-	pop	hl
-	push	hl
+	ld	-2 (ix),a
+	ld	-1 (ix),#0x00
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	inc	hl
 	add	hl, hl
 	add	hl, hl
@@ -490,12 +509,12 @@ _player_move::
 	ld	d,l
 	ld	e,h
 	ld	a,(#_cx1 + 0)
-	ld	-2 (ix),a
-	ld	-1 (ix),#0x00
-	ld	a,-2 (ix)
+	ld	-4 (ix),a
+	ld	-3 (ix),#0x00
+	ld	a,-4 (ix)
 	or	a, d
 	ld	l,a
-	ld	a,-1 (ix)
+	ld	a,-3 (ix)
 	or	a, e
 	ld	h,a
 	ld	de,#_map_buff
@@ -503,17 +522,19 @@ _player_move::
 	ld	a,(hl)
 	sub	a, #0x1F
 	jr	NZ,00108$
+	pop	bc
 	pop	hl
 	push	hl
+	push	bc
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
 	ld	a,l
-	or	a, -2 (ix)
+	or	a, -4 (ix)
 	ld	l,a
 	ld	a,h
-	or	a, -1 (ix)
+	or	a, -3 (ix)
 	ld	h,a
 	ld	de,#_map_buff
 	add	hl,de
@@ -525,10 +546,18 @@ _player_move::
 	ld	a,(#_cy1 + 0)
 	ld	(#__y + 0),a
 	call	_map_set
+	ld	de,#_s_11_spring2_psg+0
+	ld	a,#0x01
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
 00108$:
-;engine/player.c:254: if (QTILE (cx2, cy1 + 1) == SPRING_TILE && QTILE (cx2, cy1) != SPRING_SPIKE_TILE) { _x = cx2; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);
-	ld	hl,#_cy1 + 0
-	ld	e, (hl)
+;engine/player.c:254: if (QTILE (cx2, cy1 + 1) == SPRING_TILE && QTILE (cx2, cy1) != SPRING_SPIKE_TILE) { _x = cx2; _y = cy1; map_set (); PSGSFXPlay (SFX_SPRING, 1);	}
+	ld	iy,#_cy1
+	ld	e,0 (iy)
 	ld	d,#0x00
 	ld	l, e
 	ld	h, d
@@ -537,16 +566,15 @@ _player_move::
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
-	ld	-2 (ix),l
-	ld	-1 (ix),h
+	ex	(sp), hl
 	ld	hl,#_cx2 + 0
 	ld	c, (hl)
 	ld	b,#0x00
 	ld	a,c
-	or	a, -2 (ix)
+	or	a, -4 (ix)
 	ld	l,a
 	ld	a,b
-	or	a, -1 (ix)
+	or	a, -3 (ix)
 	ld	h,a
 	ld	a,#<(_map_buff)
 	add	a, l
@@ -578,22 +606,30 @@ _player_move::
 	ld	a,(#_cy1 + 0)
 	ld	(#__y + 0),a
 	call	_map_set
+	ld	de,#_s_11_spring2_psg+0
+	ld	a,#0x01
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
 00116$:
-;engine/player.c:260: oppossee = ppossee;
+;engine/player.c:259: oppossee = ppossee;
 	ld	a,(#_ppossee + 0)
 	ld	(#_oppossee + 0),a
-;engine/player.c:261: ppossee = 0;
+;engine/player.c:260: ppossee = 0;
 	ld	hl,#_ppossee + 0
 	ld	(hl), #0x00
-;engine/player.c:333: if (vertical_engine_type != ENGINE_TYPE_SWIM) {
+;engine/player.c:332: if (vertical_engine_type != ENGINE_TYPE_SWIM) {
 	ld	a,(#_vertical_engine_type + 0)
 	sub	a, #0x02
 	jr	Z,00123$
-;engine/player.c:344: if (!pj) {
+;engine/player.c:343: if (!pj) {
 	ld	a,(#_pj + 0)
 	or	a, a
 	jr	NZ,00123$
-;engine/player.c:345: pvy += PLAYER_G;
+;engine/player.c:344: pvy += PLAYER_G;
 	ld	hl,#_pvy
 	ld	a,(hl)
 	add	a, #0x08
@@ -602,7 +638,7 @@ _player_move::
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-;engine/player.c:346: if (pvy > PLAYER_VY_FALLING_MAX) pvy = PLAYER_VY_FALLING_MAX; 
+;engine/player.c:345: if (pvy > PLAYER_VY_FALLING_MAX) pvy = PLAYER_VY_FALLING_MAX; 
 	xor	a, a
 	ld	iy,#_pvy
 	cp	a, 0 (iy)
@@ -616,14 +652,14 @@ _player_move::
 	ld	hl,#0x0100
 	ld	(_pvy),hl
 00123$:
-;engine/player.c:353: if (pgotten) pvy = 0;			
+;engine/player.c:352: if (pgotten) pvy = 0;			
 	ld	a,(#_pgotten + 0)
 	or	a, a
 	jr	Z,00125$
 	ld	hl,#0x0000
 	ld	(_pvy),hl
 00125$:
-;engine/player.c:390: py += pvy;
+;engine/player.c:389: py += pvy;
 	ld	hl,#_pvy
 	push	de
 	ld	iy,#_py
@@ -638,14 +674,14 @@ _player_move::
 	adc	a, (hl)
 	ld	(de),a
 	pop	de
-;engine/player.c:391: if (py < 0) py = 0;
+;engine/player.c:390: if (py < 0) py = 0;
 	ld	a,(#_py + 1)
 	bit	7,a
 	jr	Z,00127$
 	ld	hl,#0x0000
 	ld	(_py),hl
 00127$:
-;engine/player.c:392: pry = py >> FIXBITS;
+;engine/player.c:391: pry = py >> FIXBITS;
 	ld	hl,(_py)
 	sra	h
 	rr	l
@@ -661,9 +697,9 @@ _player_move::
 	rr	l
 	ld	iy,#_pry
 	ld	0 (iy),l
-;engine/player.c:395: player_to_pixels ();
+;engine/player.c:394: player_to_pixels ();
 	call	_player_to_pixels
-;engine/player.c:397: cx1 = prx >> 4;
+;engine/player.c:396: cx1 = prx >> 4;
 	ld	a,(#_prx + 0)
 	rlca
 	rlca
@@ -671,7 +707,7 @@ _player_move::
 	rlca
 	and	a,#0x0F
 	ld	(#_cx1 + 0),a
-;engine/player.c:398: cx2 = (prx + 7) >> 4;
+;engine/player.c:397: cx2 = (prx + 7) >> 4;
 	ld	iy,#_prx
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -687,7 +723,7 @@ _player_move::
 	rr	l
 	ld	iy,#_cx2
 	ld	0 (iy),l
-;engine/player.c:403: rds16 = pvy + pgtmy;
+;engine/player.c:402: rds16 = pvy + pgtmy;
 	ld	hl,#_pgtmy
 	push	de
 	ld	iy,#_rds16
@@ -702,15 +738,15 @@ _player_move::
 	inc	de
 	ld	(de),a
 	pop	de
-;engine/player.c:229: cy1 = cy2 = (pry + 15) >> 4;
+;engine/player.c:230: cy1 = cy2 = (pry + 15) >> 4;
 	ld	iy,#_pry
 	ld	e,0 (iy)
 	ld	d,#0x00
-;engine/player.c:404: if (rds16 < 0)
+;engine/player.c:403: if (rds16 < 0)
 	ld	a,(#_rds16 + 1)
 	bit	7,a
 	jp	Z,00163$
-;engine/player.c:407: cy1 = cy2 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;			
+;engine/player.c:406: cy1 = cy2 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;			
 	ld	a,e
 	add	a,#0x04
 	ld	e,a
@@ -729,9 +765,9 @@ _player_move::
 	ld	(hl), e
 	ld	hl,#_cy1 + 0
 	ld	(hl), e
-;engine/player.c:408: cm_two_points ();
+;engine/player.c:407: cm_two_points ();
 	call	_cm_two_points
-;engine/player.c:409: if ((at1 & 8) || (at2 & 8)) {
+;engine/player.c:408: if ((at1 & 8) || (at2 & 8)) {
 	ld	iy,#_at1
 	bit	3, 0 (iy)
 	jr	NZ,00131$
@@ -739,7 +775,7 @@ _player_move::
 	bit	3, 0 (iy)
 	jr	Z,00132$
 00131$:
-;engine/player.c:410: pry = ((cy1 + 1) << 4) + PLAYER_COLLISION_VSTRETCH_BG;
+;engine/player.c:409: pry = ((cy1 + 1) << 4) + PLAYER_COLLISION_VSTRETCH_BG;
 	ld	a,(#_cy1 + 0)
 	inc	a
 	rlca
@@ -750,7 +786,7 @@ _player_move::
 	ld	hl,#_pry
 	add	a, #0xFC
 	ld	(hl),a
-;engine/player.c:411: pvy = 0; py = pry << FIXBITS;
+;engine/player.c:410: pvy = 0; py = pry << FIXBITS;
 	ld	hl,#0x0000
 	ld	(_pvy),hl
 	ld	iy,#_pry
@@ -763,15 +799,15 @@ _player_move::
 	add	hl, hl
 	add	hl, hl
 	ld	(_py),hl
-;engine/player.c:412: pgotten = 0;
+;engine/player.c:411: pgotten = 0;
 	ld	iy,#_pgotten
 	ld	0 (iy),#0x00
-;engine/player.c:413: pfiring = 1;
+;engine/player.c:412: pfiring = 1;
 	ld	iy,#_pfiring
 	ld	0 (iy),#0x01
 	jp	00164$
 00132$:
-;engine/player.c:419: } else if ((at1 & 1) || (at2 & 1)) {
+;engine/player.c:418: } else if ((at1 & 1) || (at2 & 1)) {
 	ld	iy,#_at1
 	bit	0, 0 (iy)
 	jr	NZ,00128$
@@ -779,12 +815,12 @@ _player_move::
 	bit	0, 0 (iy)
 	jp	Z,00164$
 00128$:
-;engine/player.c:420: hitv = 1;
+;engine/player.c:419: hitv = 1;
 	ld	iy,#_hitv
 	ld	0 (iy),#0x01
 	jp	00164$
 00163$:
-;engine/player.c:431: } else if (rds16 > 0)
+;engine/player.c:430: } else if (rds16 > 0)
 	xor	a, a
 	ld	iy,#_rds16
 	cp	a, 0 (iy)
@@ -794,7 +830,7 @@ _player_move::
 	xor	a, #0x80
 00591$:
 	jp	P,00164$
-;engine/player.c:434: cy1 = cy2 = (pry + 16) >> 4; 
+;engine/player.c:433: cy1 = cy2 = (pry + 16) >> 4; 
 	ld	hl,#0x0010
 	add	hl,de
 	sra	h
@@ -808,9 +844,9 @@ _player_move::
 	ld	a,l
 	ld	(#_cy2 + 0),a
 	ld	(#_cy1 + 0),a
-;engine/player.c:435: cm_two_points (); 
+;engine/player.c:434: cm_two_points (); 
 	call	_cm_two_points
-;engine/player.c:440: pry < ((cy1 - 1) << 4) + 4 && 
+;engine/player.c:439: pry < ((cy1 - 1) << 4) + 4 && 
 	ld	iy,#_cy1
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -826,26 +862,26 @@ _player_move::
 	inc	de
 	inc	de
 	ld	a,(#_pry + 0)
-	ld	-2 (ix),a
-	ld	-1 (ix),#0x00
-;engine/player.c:419: } else if ((at1 & 1) || (at2 & 1)) {
+	ld	-4 (ix),a
+	ld	-3 (ix),#0x00
+;engine/player.c:418: } else if ((at1 & 1) || (at2 & 1)) {
 	ld	a,(#_at1 + 0)
 	and	a, #0x01
 	ld	c,a
 	ld	iy,#_at2
 	ld	a,0 (iy)
 	and	a, #0x01
-	ld	-4 (ix),a
-;engine/player.c:440: pry < ((cy1 - 1) << 4) + 4 && 
-	ld	a,-2 (ix)
+	ld	-2 (ix),a
+;engine/player.c:439: pry < ((cy1 - 1) << 4) + 4 && 
+	ld	a,-4 (ix)
 	sub	a, e
-	ld	a,-1 (ix)
+	ld	a,-3 (ix)
 	sbc	a, d
 	jp	PO, 00592$
 	xor	a, #0x80
 00592$:
 	jp	P,00156$
-;engine/player.c:442: (at1 & 12) || (at2 & 12)
+;engine/player.c:441: (at1 & 12) || (at2 & 12)
 	ld	a,(#_at1 + 0)
 	and	a, #0x0C
 	jr	NZ,00155$
@@ -853,7 +889,7 @@ _player_move::
 	and	a, #0x0C
 	jp	Z,00156$
 00155$:
-;engine/player.c:450: pvy = 0; pry = ((cy1 - 1) << 4);py = pry << FIXBITS;
+;engine/player.c:449: pvy = 0; pry = ((cy1 - 1) << 4);py = pry << FIXBITS;
 	ld	hl,#0x0000
 	ld	(_pvy),hl
 	ld	a,(#_cy1 + 0)
@@ -874,19 +910,19 @@ _player_move::
 	add	hl, hl
 	add	hl, hl
 	ld	(_py),hl
-;engine/player.c:451: pgotten = 0;
+;engine/player.c:450: pgotten = 0;
 	ld	iy,#_pgotten
 	ld	0 (iy),#0x00
-;engine/player.c:452: pfiring = 1;
+;engine/player.c:451: pfiring = 1;
 	ld	iy,#_pfiring
 	ld	0 (iy),#0x01
-;engine/player.c:453: ppossee = 1;
+;engine/player.c:452: ppossee = 1;
 	ld	iy,#_ppossee
 	ld	0 (iy),#0x01
-;engine/player.c:477: cfx = 0;
+;engine/player.c:476: cfx = 0;
 	ld	iy,#_cfx
 	ld	0 (iy),#0x00
-;engine/player.c:478: if ((at1 & 40) == 40) { if (at1 & 1) cfx = pgtmx = PLAYER_VX_CONVEYORS; else cfx = pgtmx = -PLAYER_VX_CONVEYORS; pgotten = 1; } 
+;engine/player.c:477: if ((at1 & 40) == 40) { if (at1 & 1) cfx = pgtmx = PLAYER_VX_CONVEYORS; else cfx = pgtmx = -PLAYER_VX_CONVEYORS; pgotten = 1; } 
 	ld	a,(#_at1 + 0)
 	and	a, #0x28
 	sub	a,#0x28
@@ -907,7 +943,7 @@ _player_move::
 	ld	iy,#_pgotten
 	ld	0 (iy),#0x01
 00139$:
-;engine/player.c:479: if (cx1 != cx2) if ((at2 & 40) == 40) { if (at2 & 1) cfx = pgtmx = PLAYER_VX_CONVEYORS; else cfx = pgtmx = -PLAYER_VX_CONVEYORS; pgotten = 1; } 
+;engine/player.c:478: if (cx1 != cx2) if ((at2 & 40) == 40) { if (at2 & 1) cfx = pgtmx = PLAYER_VX_CONVEYORS; else cfx = pgtmx = -PLAYER_VX_CONVEYORS; pgotten = 1; } 
 	ld	a,(#_cx1 + 0)
 	ld	iy,#_cx2
 	sub	a, 0 (iy)
@@ -916,7 +952,7 @@ _player_move::
 	and	a, #0x28
 	sub	a, #0x28
 	jr	NZ,00146$
-	ld	a,-4 (ix)
+	ld	a,-2 (ix)
 	or	a, a
 	jr	Z,00141$
 	ld	hl,#0x0030
@@ -933,11 +969,11 @@ _player_move::
 	ld	iy,#_pgotten
 	ld	0 (iy),#0x01
 00146$:
-;engine/player.c:487: if ((at1 & 1) || (at2 & 1)) pnotsafe = 1; 
+;engine/player.c:486: if ((at1 & 1) || (at2 & 1)) pnotsafe = 1; 
 	ld	a,c
 	or	a, a
 	jr	NZ,00147$
-	ld	a,-4 (ix)
+	ld	a,-2 (ix)
 	or	a, a
 	jr	Z,00164$
 00147$:
@@ -945,15 +981,15 @@ _player_move::
 	ld	0 (iy),#0x01
 	jr	00164$
 00156$:
-;engine/player.c:488: } else if ((at1 & 1) || (at2 & 1)) {
+;engine/player.c:487: } else if ((at1 & 1) || (at2 & 1)) {
 	ld	a,c
 	or	a, a
 	jr	NZ,00152$
-	ld	a,-4 (ix)
+	ld	a,-2 (ix)
 	or	a, a
 	jr	Z,00164$
 00152$:
-;engine/player.c:489: if ((pry & 15) > 4) hitv = 1;
+;engine/player.c:488: if ((pry & 15) > 4) hitv = 1;
 	ld	a,(#_pry + 0)
 	and	a, #0x0F
 	ld	h,a
@@ -963,19 +999,19 @@ _player_move::
 	ld	iy,#_hitv
 	ld	0 (iy),#0x01
 00164$:
-;engine/player.c:506: if (vertical_engine_type == ENGINE_TYPE_JUMP) {
+;engine/player.c:505: if (vertical_engine_type == ENGINE_TYPE_JUMP) {
 	ld	a,(#_vertical_engine_type + 0)
 	or	a, a
 	jp	NZ,00187$
-;engine/player.c:552: a_button 
+;engine/player.c:551: a_button 
 	ld	a,(#_a_button + 0)
 	or	a, a
 	jr	Z,00170$
-;engine/player.c:553: && !pj
+;engine/player.c:552: && !pj
 	ld	a,(#_pj + 0)
 	or	a, a
 	jr	NZ,00170$
-;engine/player.c:555: pgotten || ppossee || hitv
+;engine/player.c:554: pgotten || ppossee || hitv
 	ld	a,(#_pgotten + 0)
 	or	a, a
 	jr	NZ,00169$
@@ -986,9 +1022,9 @@ _player_move::
 	or	a, a
 	jr	Z,00170$
 00169$:
-;engine/player.c:561: jump_start ();
+;engine/player.c:560: jump_start ();
 	call	_jump_start
-;engine/player.c:564: if (!(pgotten || hitv || pnotsafe)) {
+;engine/player.c:563: if (!(pgotten || hitv || pnotsafe)) {
 	ld	a,(#_pgotten + 0)
 	or	a, a
 	jr	NZ,00170$
@@ -998,18 +1034,18 @@ _player_move::
 	ld	a,(#_pnotsafe + 0)
 	or	a, a
 	jr	NZ,00170$
-;engine/player.c:565: player_register_safe_spot ();
+;engine/player.c:564: player_register_safe_spot ();
 	call	_player_register_safe_spot
 00170$:
-;engine/player.c:584: if (pad0 & PAD_A) {
+;engine/player.c:583: if (pad0 & PAD_A) {
 	ld	iy,#_pad0
 	bit	5, 0 (iy)
 	jr	Z,00184$
-;engine/player.c:585: if (pj) {
+;engine/player.c:584: if (pj) {
 	ld	a,(#_pj + 0)
 	or	a, a
 	jr	Z,00187$
-;engine/player.c:586: if (pctj < PLAYER_AY_JUMP) pvy -= (PLAYER_AY_JUMP - (pctj));
+;engine/player.c:585: if (pctj < PLAYER_AY_JUMP) pvy -= (PLAYER_AY_JUMP - (pctj));
 	ld	a,(#_pctj + 0)
 	sub	a, #0x0C
 	jr	NC,00176$
@@ -1031,7 +1067,7 @@ _player_move::
 	sbc	a, e
 	ld	(hl),a
 00176$:
-;engine/player.c:587: if (pvy < -PLAYER_VY_JUMP_MAX) pvy = -PLAYER_VY_JUMP_MAX;
+;engine/player.c:586: if (pvy < -PLAYER_VY_JUMP_MAX) pvy = -PLAYER_VY_JUMP_MAX;
 	ld	a,(#_pvy + 0)
 	sub	a, #0x60
 	ld	a,(#_pvy + 1)
@@ -1043,7 +1079,7 @@ _player_move::
 	ld	hl,#0xFF60
 	ld	(_pvy),hl
 00178$:
-;engine/player.c:588: ++ pctj; if (pctj == 16) pj = 0;	
+;engine/player.c:587: ++ pctj; if (pctj == 16) pj = 0;	
 	ld	iy,#_pctj
 	inc	0 (iy)
 	ld	a,(#_pctj + 0)
@@ -1053,11 +1089,11 @@ _player_move::
 	ld	0 (iy),#0x00
 	jr	00187$
 00184$:
-;engine/player.c:591: pj = 0; 
+;engine/player.c:590: pj = 0; 
 	ld	iy,#_pj
 	ld	0 (iy),#0x00
 00187$:
-;engine/player.c:643: if (!(pad0 & PAD_LEFT || pad0 & PAD_RIGHT)) {
+;engine/player.c:642: if (!(pad0 & PAD_LEFT || pad0 & PAD_RIGHT)) {
 	ld	a,(#_pad0 + 0)
 	and	a, #0x04
 	ld	d,a
@@ -1072,7 +1108,7 @@ _player_move::
 	ld	a,c
 	or	a,b
 	jr	NZ,00198$
-;engine/player.c:651: if (pvx > 0) {
+;engine/player.c:650: if (pvx > 0) {
 	xor	a, a
 	ld	iy,#_pvx
 	cp	a, 0 (iy)
@@ -1082,7 +1118,7 @@ _player_move::
 	xor	a, #0x80
 00604$:
 	jp	P,00195$
-;engine/player.c:656: pvx -= PLAYER_RX;
+;engine/player.c:655: pvx -= PLAYER_RX;
 	ld	hl,#_pvx
 	ld	a,(hl)
 	add	a,#0xF4
@@ -1091,7 +1127,7 @@ _player_move::
 	ld	a,(hl)
 	adc	a,#0xFF
 	ld	(hl),a
-;engine/player.c:659: if (pvx < 0) pvx = 0;
+;engine/player.c:658: if (pvx < 0) pvx = 0;
 	ld	a,(#_pvx + 1)
 	bit	7,a
 	jr	Z,00198$
@@ -1099,11 +1135,11 @@ _player_move::
 	ld	(_pvx),hl
 	jr	00198$
 00195$:
-;engine/player.c:660: } else if (pvx < 0) {
+;engine/player.c:659: } else if (pvx < 0) {
 	ld	a,(#_pvx + 1)
 	bit	7,a
 	jr	Z,00198$
-;engine/player.c:665: pvx += PLAYER_RX;
+;engine/player.c:664: pvx += PLAYER_RX;
 	ld	hl,#_pvx
 	ld	a,(hl)
 	add	a, #0x0C
@@ -1112,7 +1148,7 @@ _player_move::
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-;engine/player.c:668: if (pvx > 0) pvx = 0;
+;engine/player.c:667: if (pvx > 0) pvx = 0;
 	xor	a, a
 	ld	iy,#_pvx
 	cp	a, 0 (iy)
@@ -1125,14 +1161,14 @@ _player_move::
 	ld	hl,#0x0000
 	ld	(_pvx),hl
 00198$:
-;engine/player.c:673: if (pad0 & PAD_LEFT) {
+;engine/player.c:672: if (pad0 & PAD_LEFT) {
 	ld	a,e
 	or	a,d
 	jr	Z,00203$
-;engine/player.c:677: pfacing = CELL_FACING_LEFT;		
+;engine/player.c:676: pfacing = CELL_FACING_LEFT;		
 	ld	iy,#_pfacing
 	ld	0 (iy),#0x08
-;engine/player.c:680: if (pvx > -PLAYER_VX_MAX) {
+;engine/player.c:679: if (pvx > -PLAYER_VX_MAX) {
 	ld	a,#0x90
 	ld	iy,#_pvx
 	cp	a, 0 (iy)
@@ -1143,7 +1179,7 @@ _player_move::
 	xor	a, #0x80
 00606$:
 	jp	P,00203$
-;engine/player.c:685: pvx -= PLAYER_AX;
+;engine/player.c:684: pvx -= PLAYER_AX;
 	ld	hl,#_pvx
 	ld	a,(hl)
 	add	a,#0xF4
@@ -1153,14 +1189,14 @@ _player_move::
 	adc	a,#0xFF
 	ld	(hl),a
 00203$:
-;engine/player.c:690: if (pad0 & PAD_RIGHT) {
+;engine/player.c:689: if (pad0 & PAD_RIGHT) {
 	ld	a,c
 	or	a,b
 	jr	Z,00207$
-;engine/player.c:694: pfacing = CELL_FACING_RIGHT;
+;engine/player.c:693: pfacing = CELL_FACING_RIGHT;
 	ld	hl,#_pfacing + 0
 	ld	(hl), #0x00
-;engine/player.c:697: if (pvx < PLAYER_VX_MAX) {
+;engine/player.c:696: if (pvx < PLAYER_VX_MAX) {
 	ld	a,(#_pvx + 0)
 	sub	a, #0x70
 	ld	a,(#_pvx + 1)
@@ -1169,7 +1205,7 @@ _player_move::
 	rra
 	sbc	a, #0x80
 	jr	NC,00207$
-;engine/player.c:702: pvx += PLAYER_AX;
+;engine/player.c:701: pvx += PLAYER_AX;
 	ld	hl,#_pvx
 	ld	a,(hl)
 	add	a, #0x0C
@@ -1179,7 +1215,7 @@ _player_move::
 	adc	a, #0x00
 	ld	(hl),a
 00207$:
-;engine/player.c:708: px += pvx;
+;engine/player.c:707: px += pvx;
 	ld	hl,#_pvx
 	push	de
 	ld	iy,#_px
@@ -1194,7 +1230,7 @@ _player_move::
 	adc	a, (hl)
 	ld	(de),a
 	pop	de
-;engine/player.c:710: if (pgotten) px += pgtmx;
+;engine/player.c:709: if (pgotten) px += pgtmx;
 	ld	a,(#_pgotten + 0)
 	or	a, a
 	jr	Z,00209$
@@ -1213,7 +1249,7 @@ _player_move::
 	ld	(de),a
 	pop	de
 00209$:
-;engine/player.c:713: if (px < (4<<FIXBITS)) { px = 4 << FIXBITS; prx = 4;}
+;engine/player.c:712: if (px < (4<<FIXBITS)) { px = 4 << FIXBITS; prx = 4;}
 	ld	a,(#_px + 1)
 	xor	a, #0x80
 	sub	a, #0x81
@@ -1224,7 +1260,7 @@ _player_move::
 	ld	(hl), #0x04
 	jr	00215$
 00214$:
-;engine/player.c:714: else if (px > (244<<FIXBITS)) { px = 244 << FIXBITS; prx = 244; }
+;engine/player.c:713: else if (px > (244<<FIXBITS)) { px = 244 << FIXBITS; prx = 244; }
 	xor	a, a
 	ld	iy,#_px
 	cp	a, 0 (iy)
@@ -1241,10 +1277,10 @@ _player_move::
 	ld	(hl), #0xF4
 	jr	00215$
 00211$:
-;engine/player.c:715: else player_to_pixels ();
+;engine/player.c:714: else player_to_pixels ();
 	call	_player_to_pixels
 00215$:
-;engine/player.c:720: cy1 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;
+;engine/player.c:719: cy1 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;
 	ld	hl,#_pry + 0
 	ld	e, (hl)
 	ld	d,#0x00
@@ -1264,7 +1300,7 @@ _player_move::
 	rr	l
 	ld	iy,#_cy1
 	ld	0 (iy),l
-;engine/player.c:721: cy2 = (pry + 15) >> 4;
+;engine/player.c:720: cy2 = (pry + 15) >> 4;
 	ld	hl,#0x000F
 	add	hl,de
 	sra	h
@@ -1277,7 +1313,7 @@ _player_move::
 	rr	l
 	ld	iy,#_cy2
 	ld	0 (iy),l
-;engine/player.c:724: rds16 = pvx + pgtmx;
+;engine/player.c:723: rds16 = pvx + pgtmx;
 	ld	hl,#_pgtmx
 	push	de
 	ld	iy,#_rds16
@@ -1292,16 +1328,16 @@ _player_move::
 	inc	de
 	ld	(de),a
 	pop	de
-;engine/player.c:725: if (rds16) 	{
+;engine/player.c:724: if (rds16) 	{
 	ld	a,(#_rds16 + 1)
 	ld	iy,#_rds16
 	or	a,0 (iy)
 	jp	Z,00232$
-;engine/player.c:726: if (rds16 < 0) {
+;engine/player.c:725: if (rds16 < 0) {
 	ld	a,(#_rds16 + 1)
 	bit	7,a
 	jr	Z,00217$
-;engine/player.c:727: cx1 = cx2 = prx >> 4; 
+;engine/player.c:726: cx1 = cx2 = prx >> 4; 
 	ld	a,(#_prx + 0)
 	rlca
 	rlca
@@ -1309,7 +1345,7 @@ _player_move::
 	rlca
 	and	a,#0x0F
 	ld	(#_cx2 + 0),a
-;engine/player.c:728: rda = (cx1 + 1) << 4;
+;engine/player.c:727: rda = (cx1 + 1) << 4;
 	ld	(#_cx1 + 0),a
 	inc	a
 	rlca
@@ -1318,14 +1354,14 @@ _player_move::
 	rlca
 	and	a,#0xF0
 	ld	(#_rda + 0),a
-;engine/player.c:729: rdm = cx1 - 1;
+;engine/player.c:728: rdm = cx1 - 1;
 	ld	hl,#_rdm
 	ld	a,(#_cx1 + 0)
 	add	a,#0xFF
 	ld	(hl),a
 	jr	00218$
 00217$:
-;engine/player.c:731: cx1 = cx2 = (prx + 8) >> 4;
+;engine/player.c:730: cx1 = cx2 = (prx + 8) >> 4;
 	ld	iy,#_prx
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -1341,7 +1377,7 @@ _player_move::
 	rr	l
 	ld	a,l
 	ld	(#_cx2 + 0),a
-;engine/player.c:732: rda = ((cx1 - 1) << 4) + 8;
+;engine/player.c:731: rda = ((cx1 - 1) << 4) + 8;
 	ld	(#_cx1 + 0),a
 	add	a,#0xFF
 	rlca
@@ -1352,15 +1388,15 @@ _player_move::
 	ld	hl,#_rda
 	add	a, #0x08
 	ld	(hl),a
-;engine/player.c:733: rdm = cx1 + 1;
+;engine/player.c:732: rdm = cx1 + 1;
 	ld	hl,#_rdm
 	ld	a,(#_cx1 + 0)
 	inc	a
 	ld	(hl),a
 00218$:
-;engine/player.c:749: cm_two_points ();
+;engine/player.c:748: cm_two_points ();
 	call	_cm_two_points
-;engine/player.c:750: if ((at1 & 8) || (at2 & 8)) {
+;engine/player.c:749: if ((at1 & 8) || (at2 & 8)) {
 	ld	iy,#_at1
 	bit	3, 0 (iy)
 	jr	NZ,00225$
@@ -1368,7 +1404,7 @@ _player_move::
 	bit	3, 0 (iy)
 	jp	Z,00226$
 00225$:
-;engine/player.c:751: pvx = 0; prx = rda; px = prx << FIXBITS; pfiring = 1;
+;engine/player.c:750: pvx = 0; prx = rda; px = prx << FIXBITS; pfiring = 1;
 	ld	hl,#0x0000
 	ld	(_pvx),hl
 	ld	a,(#_rda + 0)
@@ -1385,7 +1421,7 @@ _player_move::
 	ld	(_px),hl
 	ld	iy,#_pfiring
 	ld	0 (iy),#0x01
-;engine/player.c:755: if (at1 & 2) player_process_tile (at1, cx1, cy1, rdm, cy1);
+;engine/player.c:754: if (at1 & 2) player_process_tile (at1, cx1, cy1, rdm, cy1);
 	ld	iy,#_at1
 	bit	1, 0 (iy)
 	jr	Z,00220$
@@ -1409,7 +1445,7 @@ _player_move::
 	pop	af
 	inc	sp
 00220$:
-;engine/player.c:756: if (cy1 != cy2) if (at2 & 2) player_process_tile (at2, cx1, cy2, rdm, cy2);
+;engine/player.c:755: if (cy1 != cy2) if (at2 & 2) player_process_tile (at2, cx1, cy2, rdm, cy2);
 	ld	a,(#_cy1 + 0)
 	ld	iy,#_cy2
 	sub	a, 0 (iy)
@@ -1438,7 +1474,7 @@ _player_move::
 	inc	sp
 	jr	00227$
 00226$:
-;engine/player.c:759: hith = ((at1 & 1) || (at2 & 1));
+;engine/player.c:758: hith = ((at1 & 1) || (at2 & 1));
 	ld	iy,#_at1
 	bit	0, 0 (iy)
 	jr	NZ,00259$
@@ -1453,7 +1489,7 @@ _player_move::
 	ld	iy,#_hith
 	ld	0 (iy),a
 00227$:
-;engine/player.c:762: if (pvy > 0) hith &= ((pry & 15) > 4);
+;engine/player.c:761: if (pvy > 0) hith &= ((pry & 15) > 4);
 	xor	a, a
 	ld	iy,#_pvy
 	cp	a, 0 (iy)
@@ -1473,16 +1509,16 @@ _player_move::
 	ld	d,a
 	ld	a,(#_hith + 0)
 	and	a, d
-;engine/player.c:790: phit = 0;
+;engine/player.c:789: phit = 0;
 	ld	(#_hith + 0),a
 00232$:
 	ld	iy,#_phit
 	ld	0 (iy),#0x00
-;engine/player.c:792: if (pgotten == 0) {
+;engine/player.c:791: if (pgotten == 0) {
 	ld	a,(#_pgotten + 0)
 	or	a, a
 	jp	NZ,00247$
-;engine/player.c:800: if (hitv) { phit = 1; pvy = ADD_SIGN (-pvy, PLAYER_V_REBOUND); pry = pcy; py = pry << FIXBITS; } 
+;engine/player.c:799: if (hitv) { phit = 1; pvy = ADD_SIGN (-pvy, PLAYER_V_REBOUND); pry = pcy; py = pry << FIXBITS; } 
 	ld	a,(#_hitv + 0)
 	or	a, a
 	jr	Z,00236$
@@ -1528,7 +1564,7 @@ _player_move::
 	ld	(_py),hl
 	jr	00237$
 00236$:
-;engine/player.c:804: if (hith) { phit = 1; pvx = ADD_SIGN (-pvx, PLAYER_V_REBOUND); prx = pcx; px = prx << FIXBITS; }
+;engine/player.c:803: if (hith) { phit = 1; pvx = ADD_SIGN (-pvx, PLAYER_V_REBOUND); prx = pcx; px = prx << FIXBITS; }
 	ld	a,(#_hith + 0)
 	or	a, a
 	jr	Z,00237$
@@ -1573,7 +1609,7 @@ _player_move::
 	add	hl, hl
 	ld	(_px),hl
 00237$:
-;engine/player.c:808: cx1 = cx2 = (prx + 4) >> 4;
+;engine/player.c:807: cx1 = cx2 = (prx + 4) >> 4;
 	ld	hl,#_prx + 0
 	ld	e, (hl)
 	ld	d,#0x00
@@ -1593,7 +1629,7 @@ _player_move::
 	ld	(hl), e
 	ld	hl,#_cx1 + 0
 	ld	(hl), e
-;engine/player.c:809: cy1 = pry >> 4; cy2 = (pry + 15) >> 4;
+;engine/player.c:808: cy1 = pry >> 4; cy2 = (pry + 15) >> 4;
 	ld	a,(#_pry + 0)
 	rlca
 	rlca
@@ -1616,9 +1652,9 @@ _player_move::
 	rr	l
 	ld	iy,#_cy2
 	ld	0 (iy),l
-;engine/player.c:810: cm_two_points ();
+;engine/player.c:809: cm_two_points ();
 	call	_cm_two_points
-;engine/player.c:811: if ((at1 & 1) || (at2 & 1)) phit = 1;
+;engine/player.c:810: if ((at1 & 1) || (at2 & 1)) phit = 1;
 	ld	iy,#_at1
 	bit	0, 0 (iy)
 	jr	NZ,00238$
@@ -1629,7 +1665,7 @@ _player_move::
 	ld	iy,#_phit
 	ld	0 (iy),#0x01
 00239$:
-;engine/player.c:814: if (!pflickering && !pbouncing) if (phit) { 
+;engine/player.c:813: if (!pflickering && !pbouncing) if (phit) { 
 	ld	a,(#_pflickering + 0)
 	or	a, a
 	jr	NZ,00247$
@@ -1639,12 +1675,12 @@ _player_move::
 	ld	a,(#_phit + 0)
 	or	a, a
 	jr	Z,00247$
-;engine/player.c:815: player_to_pixels ();
+;engine/player.c:814: player_to_pixels ();
 	call	_player_to_pixels
-;engine/player.c:816: en_sg_2 = 1;
+;engine/player.c:815: en_sg_2 = 1;
 	ld	iy,#_en_sg_2
 	ld	0 (iy),#0x01
-;engine/player.c:823: pkill = en_sg_2;
+;engine/player.c:822: pkill = en_sg_2;
 	ld	iy,#_pkill
 	ld	0 (iy),#0x01
 00247$:
@@ -1707,10 +1743,10 @@ _player_move::
 	add	a, (hl)
 	ld	(de),a
 	pop	de
-;engine/player.c:945: prx_old = prx;
+;engine/player.c:942: prx_old = prx;
 	ld	a,(#_prx + 0)
 	ld	(#_prx_old + 0),a
-;engine/player.c:946: pry_old = pry;
+;engine/player.c:943: pry_old = pry;
 	ld	a,(#_pry + 0)
 	ld	(#_pry_old + 0),a
 	ld	sp, ix

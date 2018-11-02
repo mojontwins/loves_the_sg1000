@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Nov 02 11:34:08 2018
+; This file was generated Fri Nov 02 19:04:19 2018
 ;--------------------------------------------------------
 	.module printer
 	.optsdcc -mz80
@@ -560,10 +560,10 @@ _draw_scr::
 	ld	(#_rdt + 0),a
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00247$
+	jr	NZ,00241$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00247$:
+00241$:
 ;engine/../engine/mapmods/map_renderer_complex.h:90: rda = rdt & 0x0f;
 	ld	a,(#_rdt + 0)
 	and	a, #0x0F
@@ -645,10 +645,10 @@ _draw_scr::
 	ld	d,(hl)
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00249$
+	jr	NZ,00243$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00249$:
+00243$:
 	ld	hl,#_rda + 0
 	ld	(hl), d
 	ld	a,d
@@ -673,10 +673,10 @@ _draw_scr::
 	ld	(#_rdct + 0),a
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00251$
+	jr	NZ,00245$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00251$:
+00245$:
 ;engine/../engine/mapmods/map_renderer_complex.h:169: while (rdct --) {
 00117$:
 	ld	hl,#_rdct + 0
@@ -692,10 +692,10 @@ _draw_scr::
 	ld	(#_rdm + 0),a
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00252$
+	jr	NZ,00246$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00252$:
+00246$:
 ;engine/../engine/mapmods/map_renderer_complex.h:171: add_tile ();
 	call	_add_tile
 	jr	00117$
@@ -722,20 +722,20 @@ _draw_scr::
 	ld	(#_rdb + 0),a
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00253$
+	jr	NZ,00247$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00253$:
+00247$:
 ;engine/../engine/mapmods/map_renderer_complex.h:185: rdm = *gp_gen ++;
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rdm + 0),a
 	ld	hl, #_gp_gen+0
 	inc	(hl)
-	jr	NZ,00254$
+	jr	NZ,00248$
 	ld	hl, #_gp_gen+1
 	inc	(hl)
-00254$:
+00248$:
 ;engine/../engine/mapmods/map_renderer_complex.h:186: if (n_pant == rdb) {
 	ld	a,(#_n_pant + 0)
 	ld	iy,#_rdb
@@ -765,25 +765,25 @@ _draw_scr::
 ;engine/../engine/mapmods/map_renderer_complex.h:199: for (rdm = 0; rdm < 192; rdm ++) {
 	ld	hl,#_rdm + 0
 	ld	(hl), #0x00
-00145$:
+00141$:
 ;engine/../engine/mapmods/map_renderer_complex.h:200: rdt = *gp_ram ++;
 	ld	hl,(_gp_ram)
 	ld	a,(hl)
 	ld	(#_rdt + 0),a
 	ld	hl, #_gp_ram+0
 	inc	(hl)
-	jr	NZ,00257$
+	jr	NZ,00251$
 	ld	hl, #_gp_ram+1
 	inc	(hl)
-00257$:
+00251$:
 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:40: if (rdt >= CHAC_CHAC_DETECT_TILE && rdt <= CHAC_CHAC_DETECT_TILE + 2) {
 	ld	a,(#_rdt + 0)
 	sub	a, #0x27
-	jr	C,00135$
+	jr	C,00133$
 	ld	a,#0x29
 	ld	iy,#_rdt
 	sub	a, 0 (iy)
-	jr	C,00135$
+	jr	C,00133$
 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:41: chac_chacs_add ();
 	call	_chac_chacs_add
 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:43: rdt = map_buff [rdm] = 0;
@@ -797,12 +797,14 @@ _draw_scr::
 	ld	(de),a
 	ld	hl,#_rdt + 0
 	ld	(hl), #0x00
-00135$:
-;engine/../engine/mapmods/map_renderer_complex.h:219: _t = rdt; draw_tile ();
+00133$:
+;engine/../engine/mapmods/map_renderer_complex.h:217: DISABLE_INTERRUPTS;
+	di 
+;engine/../engine/mapmods/map_renderer_complex.h:218: _t = rdt; draw_tile ();
 	ld	a,(#_rdt + 0)
 	ld	(#__t + 0),a
 	call	_draw_tile
-;engine/../engine/mapmods/map_renderer_complex.h:220: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
+;engine/../engine/mapmods/map_renderer_complex.h:219: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
 	ld	a,(#__x + 0)
 	add	a, #0x02
 	and	a, #0x1F
@@ -810,34 +812,35 @@ _draw_scr::
 	ld	0 (iy),a
 	ld	a,(#__x + 0)
 	or	a, a
-	jr	NZ,00146$
+	jr	NZ,00136$
 	ld	iy,#__y
 	inc	0 (iy)
 	ld	iy,#__y
 	inc	0 (iy)
-;engine/../engine/mapmods/map_renderer_complex.h:222: if (rdb & 0xf == 0) ENABLE_INTERRUPTS;
-00146$:
+00136$:
+;engine/../engine/mapmods/map_renderer_complex.h:220: ENABLE_INTERRUPTS;
+	ei 
 ;engine/../engine/mapmods/map_renderer_complex.h:199: for (rdm = 0; rdm < 192; rdm ++) {
 	ld	iy,#_rdm
 	inc	0 (iy)
 	ld	a,(#_rdm + 0)
 	sub	a, #0xC0
-	jr	C,00145$
-;engine/../engine/mapmods/map_renderer_complex.h:226: gpit = max_chac_chacs; while (gpit --) {
+	jr	C,00141$
+;engine/../engine/mapmods/map_renderer_complex.h:224: gpit = max_chac_chacs; while (gpit --) {
 	ld	a,(#_max_chac_chacs + 0)
 	ld	(#_gpit + 0),a
-00142$:
+00138$:
 	ld	iy,#_gpit
 	ld	e,0 (iy)
 	ld	iy,#_gpit
 	dec	0 (iy)
 	ld	a,e
 	or	a, a
-	jr	Z,00144$
-;engine/../engine/mapmods/map_renderer_complex.h:227: _t = CHAC_CHAC_BASE_TILE + 6;
+	jr	Z,00140$
+;engine/../engine/mapmods/map_renderer_complex.h:225: _t = CHAC_CHAC_BASE_TILE + 6;
 	ld	iy,#__t
 	ld	0 (iy),#0x26
-;engine/../engine/mapmods/map_renderer_complex.h:228: _x = (chac_chacs_yx [gpit] & 0xf) << 1;
+;engine/../engine/mapmods/map_renderer_complex.h:226: _x = (chac_chacs_yx [gpit] & 0xf) << 1;
 	ld	a,(#_gpit + 0)
 	add	a, #<(_chac_chacs_yx)
 	ld	e,a
@@ -850,7 +853,7 @@ _draw_scr::
 	add	a, a
 	ld	iy,#__x
 	ld	0 (iy),a
-;engine/../engine/mapmods/map_renderer_complex.h:229: _y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
+;engine/../engine/mapmods/map_renderer_complex.h:227: _y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
 	ld	a,l
 	and	a, #0xF0
 	rrca
@@ -860,6 +863,13 @@ _draw_scr::
 	ld	hl,#__y
 	inc	a
 	ld	(hl),a
+;engine/../engine/mapmods/map_renderer_complex.h:228: draw_tile ();
+	call	_draw_tile
+;engine/../engine/mapmods/map_renderer_complex.h:229: _y += 2;
+	ld	hl, #__y+0
+	inc	(hl)
+	ld	hl, #__y+0
+	inc	(hl)
 ;engine/../engine/mapmods/map_renderer_complex.h:230: draw_tile ();
 	call	_draw_tile
 ;engine/../engine/mapmods/map_renderer_complex.h:231: _y += 2;
@@ -869,16 +879,9 @@ _draw_scr::
 	inc	(hl)
 ;engine/../engine/mapmods/map_renderer_complex.h:232: draw_tile ();
 	call	_draw_tile
-;engine/../engine/mapmods/map_renderer_complex.h:233: _y += 2;
-	ld	hl, #__y+0
-	inc	(hl)
-	ld	hl, #__y+0
-	inc	(hl)
-;engine/../engine/mapmods/map_renderer_complex.h:234: draw_tile ();
-	call	_draw_tile
-	jr	00142$
-00144$:
-;engine/../engine/mapmods/map_renderer_complex.h:238: ENABLE_INTERRUPTS;
+	jr	00138$
+00140$:
+;engine/../engine/mapmods/map_renderer_complex.h:236: ENABLE_INTERRUPTS;
 	ei 
 	ret
 ;engine/printer.c:114: void pr_str (const unsigned char *s) {

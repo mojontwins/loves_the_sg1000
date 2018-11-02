@@ -9,7 +9,7 @@
 		use_type == USE_TYPE_SCRIPTING
 	) {
 		run_fire_script ();
-		//PSGSFXPlay (fire_script_success ? SFX_OBJECT : SFX_SPRING, 1);
+		PSGSFXPlay (fire_script_success ? SFX_OBJECT : SFX_SPRING, 1);
 		run_fire_script_do = 0;
 	}
 	#ifdef ENABLE_FIRE_ZONE

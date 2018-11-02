@@ -20,7 +20,7 @@ if (_en_t & 0x40) {
 			rdy = _en_y + PUNCHIES_PUNCH_OFFS_Y;
 			
 			_en_ct = 16;
-			//PSGSFXPlay (SFX_HITTER, 1);
+			PSGSFXPlay (SFX_HITTER, 2);
 
 			// Collide w/player
 			if (

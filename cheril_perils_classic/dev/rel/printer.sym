@@ -50,7 +50,7 @@ Symbol Table
     _n_pant                                                        **** GX
   0 _p_t                                                           0075 GR
   0 _p_tf                                                          00CA GR
-  0 _pr_str                                                        04FB GR
+  0 _pr_str                                                        04FD GR
     _rand8                                                         **** GX
     _rda                                                           **** GX
     _rdb                                                           **** GX
@@ -74,7 +74,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  53D   flags    0
+   0 _CODE                                      size  53F   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

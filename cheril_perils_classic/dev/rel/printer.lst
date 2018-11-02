@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.2 #9293 (MINGW32)
-                              4 ; This file was generated Fri Nov 02 11:34:08 2018
+                              4 ; This file was generated Fri Nov 02 19:04:19 2018
                               5 ;--------------------------------------------------------
                               6 	.module printer
                               7 	.optsdcc -mz80
@@ -560,10 +560,10 @@
    02D5 32r00r00      [13]  560 	ld	(#_rdt + 0),a
    02D8 21r00r00      [10]  561 	ld	hl, #_gp_gen+0
    02DB 34            [11]  562 	inc	(hl)
-   02DC 20 04         [12]  563 	jr	NZ,00247$
+   02DC 20 04         [12]  563 	jr	NZ,00241$
    02DE 21r01r00      [10]  564 	ld	hl, #_gp_gen+1
    02E1 34            [11]  565 	inc	(hl)
-   02E2                     566 00247$:
+   02E2                     566 00241$:
                             567 ;engine/../engine/mapmods/map_renderer_complex.h:90: rda = rdt & 0x0f;
    02E2 3Ar00r00      [13]  568 	ld	a,(#_rdt + 0)
    02E5 E6 0F         [ 7]  569 	and	a, #0x0F
@@ -645,10 +645,10 @@
    0358 56            [ 7]  645 	ld	d,(hl)
    0359 21r00r00      [10]  646 	ld	hl, #_gp_gen+0
    035C 34            [11]  647 	inc	(hl)
-   035D 20 04         [12]  648 	jr	NZ,00249$
+   035D 20 04         [12]  648 	jr	NZ,00243$
    035F 21r01r00      [10]  649 	ld	hl, #_gp_gen+1
    0362 34            [11]  650 	inc	(hl)
-   0363                     651 00249$:
+   0363                     651 00243$:
    0363 21r00r00      [10]  652 	ld	hl,#_rda + 0
    0366 72            [ 7]  653 	ld	(hl), d
    0367 7A            [ 4]  654 	ld	a,d
@@ -673,10 +673,10 @@
    0385 32r00r00      [13]  673 	ld	(#_rdct + 0),a
    0388 21r00r00      [10]  674 	ld	hl, #_gp_gen+0
    038B 34            [11]  675 	inc	(hl)
-   038C 20 04         [12]  676 	jr	NZ,00251$
+   038C 20 04         [12]  676 	jr	NZ,00245$
    038E 21r01r00      [10]  677 	ld	hl, #_gp_gen+1
    0391 34            [11]  678 	inc	(hl)
-   0392                     679 00251$:
+   0392                     679 00245$:
                             680 ;engine/../engine/mapmods/map_renderer_complex.h:169: while (rdct --) {
    0392                     681 00117$:
    0392 21r00r00      [10]  682 	ld	hl,#_rdct + 0
@@ -692,10 +692,10 @@
    03A2 32r00r00      [13]  692 	ld	(#_rdm + 0),a
    03A5 21r00r00      [10]  693 	ld	hl, #_gp_gen+0
    03A8 34            [11]  694 	inc	(hl)
-   03A9 20 04         [12]  695 	jr	NZ,00252$
+   03A9 20 04         [12]  695 	jr	NZ,00246$
    03AB 21r01r00      [10]  696 	ld	hl, #_gp_gen+1
    03AE 34            [11]  697 	inc	(hl)
-   03AF                     698 00252$:
+   03AF                     698 00246$:
                             699 ;engine/../engine/mapmods/map_renderer_complex.h:171: add_tile ();
    03AF CDr93r02      [17]  700 	call	_add_tile
    03B2 18 DE         [12]  701 	jr	00117$
@@ -722,20 +722,20 @@
    03D5 32r00r00      [13]  722 	ld	(#_rdb + 0),a
    03D8 21r00r00      [10]  723 	ld	hl, #_gp_gen+0
    03DB 34            [11]  724 	inc	(hl)
-   03DC 20 04         [12]  725 	jr	NZ,00253$
+   03DC 20 04         [12]  725 	jr	NZ,00247$
    03DE 21r01r00      [10]  726 	ld	hl, #_gp_gen+1
    03E1 34            [11]  727 	inc	(hl)
-   03E2                     728 00253$:
+   03E2                     728 00247$:
                             729 ;engine/../engine/mapmods/map_renderer_complex.h:185: rdm = *gp_gen ++;
    03E2 2Ar00r00      [16]  730 	ld	hl,(_gp_gen)
    03E5 7E            [ 7]  731 	ld	a,(hl)
    03E6 32r00r00      [13]  732 	ld	(#_rdm + 0),a
    03E9 21r00r00      [10]  733 	ld	hl, #_gp_gen+0
    03EC 34            [11]  734 	inc	(hl)
-   03ED 20 04         [12]  735 	jr	NZ,00254$
+   03ED 20 04         [12]  735 	jr	NZ,00248$
    03EF 21r01r00      [10]  736 	ld	hl, #_gp_gen+1
    03F2 34            [11]  737 	inc	(hl)
-   03F3                     738 00254$:
+   03F3                     738 00248$:
                             739 ;engine/../engine/mapmods/map_renderer_complex.h:186: if (n_pant == rdb) {
    03F3 3Ar00r00      [13]  740 	ld	a,(#_n_pant + 0)
    03F6 FD 21r00r00   [14]  741 	ld	iy,#_rdb
@@ -765,25 +765,25 @@
                             765 ;engine/../engine/mapmods/map_renderer_complex.h:199: for (rdm = 0; rdm < 192; rdm ++) {
    0424 21r00r00      [10]  766 	ld	hl,#_rdm + 0
    0427 36 00         [10]  767 	ld	(hl), #0x00
-   0429                     768 00145$:
+   0429                     768 00141$:
                             769 ;engine/../engine/mapmods/map_renderer_complex.h:200: rdt = *gp_ram ++;
    0429 2Ar00r00      [16]  770 	ld	hl,(_gp_ram)
    042C 7E            [ 7]  771 	ld	a,(hl)
    042D 32r00r00      [13]  772 	ld	(#_rdt + 0),a
    0430 21r00r00      [10]  773 	ld	hl, #_gp_ram+0
    0433 34            [11]  774 	inc	(hl)
-   0434 20 04         [12]  775 	jr	NZ,00257$
+   0434 20 04         [12]  775 	jr	NZ,00251$
    0436 21r01r00      [10]  776 	ld	hl, #_gp_ram+1
    0439 34            [11]  777 	inc	(hl)
-   043A                     778 00257$:
+   043A                     778 00251$:
                             779 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:40: if (rdt >= CHAC_CHAC_DETECT_TILE && rdt <= CHAC_CHAC_DETECT_TILE + 2) {
    043A 3Ar00r00      [13]  780 	ld	a,(#_rdt + 0)
    043D D6 27         [ 7]  781 	sub	a, #0x27
-   043F 38 20         [12]  782 	jr	C,00135$
+   043F 38 20         [12]  782 	jr	C,00133$
    0441 3E 29         [ 7]  783 	ld	a,#0x29
    0443 FD 21r00r00   [14]  784 	ld	iy,#_rdt
    0447 FD 96 00      [19]  785 	sub	a, 0 (iy)
-   044A 38 15         [12]  786 	jr	C,00135$
+   044A 38 15         [12]  786 	jr	C,00133$
                             787 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:41: chac_chacs_add ();
    044C CDr00r00      [17]  788 	call	_chac_chacs_add
                             789 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:43: rdt = map_buff [rdm] = 0;
@@ -797,143 +797,146 @@
    045B 12            [ 7]  797 	ld	(de),a
    045C 21r00r00      [10]  798 	ld	hl,#_rdt + 0
    045F 36 00         [10]  799 	ld	(hl), #0x00
-   0461                     800 00135$:
-                            801 ;engine/../engine/mapmods/map_renderer_complex.h:219: _t = rdt; draw_tile ();
-   0461 3Ar00r00      [13]  802 	ld	a,(#_rdt + 0)
-   0464 32r00r00      [13]  803 	ld	(#__t + 0),a
-   0467 CDr02r01      [17]  804 	call	_draw_tile
-                            805 ;engine/../engine/mapmods/map_renderer_complex.h:220: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
-   046A 3Ar00r00      [13]  806 	ld	a,(#__x + 0)
-   046D C6 02         [ 7]  807 	add	a, #0x02
-   046F E6 1F         [ 7]  808 	and	a, #0x1F
-   0471 FD 21r00r00   [14]  809 	ld	iy,#__x
-   0475 FD 77 00      [19]  810 	ld	0 (iy),a
-   0478 3Ar00r00      [13]  811 	ld	a,(#__x + 0)
-   047B B7            [ 4]  812 	or	a, a
-   047C 20 0E         [12]  813 	jr	NZ,00146$
-   047E FD 21r00r00   [14]  814 	ld	iy,#__y
-   0482 FD 34 00      [23]  815 	inc	0 (iy)
-   0485 FD 21r00r00   [14]  816 	ld	iy,#__y
-   0489 FD 34 00      [23]  817 	inc	0 (iy)
-                            818 ;engine/../engine/mapmods/map_renderer_complex.h:222: if (rdb & 0xf == 0) ENABLE_INTERRUPTS;
-   048C                     819 00146$:
-                            820 ;engine/../engine/mapmods/map_renderer_complex.h:199: for (rdm = 0; rdm < 192; rdm ++) {
-   048C FD 21r00r00   [14]  821 	ld	iy,#_rdm
-   0490 FD 34 00      [23]  822 	inc	0 (iy)
-   0493 3Ar00r00      [13]  823 	ld	a,(#_rdm + 0)
-   0496 D6 C0         [ 7]  824 	sub	a, #0xC0
-   0498 38 8F         [12]  825 	jr	C,00145$
-                            826 ;engine/../engine/mapmods/map_renderer_complex.h:226: gpit = max_chac_chacs; while (gpit --) {
-   049A 3Ar00r00      [13]  827 	ld	a,(#_max_chac_chacs + 0)
-   049D 32r00r00      [13]  828 	ld	(#_gpit + 0),a
-   04A0                     829 00142$:
-   04A0 FD 21r00r00   [14]  830 	ld	iy,#_gpit
-   04A4 FD 5E 00      [19]  831 	ld	e,0 (iy)
-   04A7 FD 21r00r00   [14]  832 	ld	iy,#_gpit
-   04AB FD 35 00      [23]  833 	dec	0 (iy)
-   04AE 7B            [ 4]  834 	ld	a,e
-   04AF B7            [ 4]  835 	or	a, a
-   04B0 28 47         [12]  836 	jr	Z,00144$
-                            837 ;engine/../engine/mapmods/map_renderer_complex.h:227: _t = CHAC_CHAC_BASE_TILE + 6;
-   04B2 FD 21r00r00   [14]  838 	ld	iy,#__t
-   04B6 FD 36 00 26   [19]  839 	ld	0 (iy),#0x26
-                            840 ;engine/../engine/mapmods/map_renderer_complex.h:228: _x = (chac_chacs_yx [gpit] & 0xf) << 1;
-   04BA 3Ar00r00      [13]  841 	ld	a,(#_gpit + 0)
-   04BD C6r00         [ 7]  842 	add	a, #<(_chac_chacs_yx)
-   04BF 5F            [ 4]  843 	ld	e,a
-   04C0 3E 00         [ 7]  844 	ld	a,#0x00
-   04C2 CEs00         [ 7]  845 	adc	a, #>(_chac_chacs_yx)
-   04C4 57            [ 4]  846 	ld	d,a
-   04C5 1A            [ 7]  847 	ld	a,(de)
-   04C6 6F            [ 4]  848 	ld	l,a
-   04C7 E6 0F         [ 7]  849 	and	a, #0x0F
-   04C9 87            [ 4]  850 	add	a, a
-   04CA FD 21r00r00   [14]  851 	ld	iy,#__x
-   04CE FD 77 00      [19]  852 	ld	0 (iy),a
-                            853 ;engine/../engine/mapmods/map_renderer_complex.h:229: _y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
-   04D1 7D            [ 4]  854 	ld	a,l
-   04D2 E6 F0         [ 7]  855 	and	a, #0xF0
-   04D4 0F            [ 4]  856 	rrca
-   04D5 0F            [ 4]  857 	rrca
-   04D6 0F            [ 4]  858 	rrca
-   04D7 E6 1F         [ 7]  859 	and	a,#0x1F
-   04D9 21r00r00      [10]  860 	ld	hl,#__y
-   04DC 3C            [ 4]  861 	inc	a
-   04DD 77            [ 7]  862 	ld	(hl),a
-                            863 ;engine/../engine/mapmods/map_renderer_complex.h:230: draw_tile ();
-   04DE CDr02r01      [17]  864 	call	_draw_tile
-                            865 ;engine/../engine/mapmods/map_renderer_complex.h:231: _y += 2;
-   04E1 21r00r00      [10]  866 	ld	hl, #__y+0
-   04E4 34            [11]  867 	inc	(hl)
-   04E5 21r00r00      [10]  868 	ld	hl, #__y+0
-   04E8 34            [11]  869 	inc	(hl)
-                            870 ;engine/../engine/mapmods/map_renderer_complex.h:232: draw_tile ();
-   04E9 CDr02r01      [17]  871 	call	_draw_tile
-                            872 ;engine/../engine/mapmods/map_renderer_complex.h:233: _y += 2;
-   04EC 21r00r00      [10]  873 	ld	hl, #__y+0
-   04EF 34            [11]  874 	inc	(hl)
-   04F0 21r00r00      [10]  875 	ld	hl, #__y+0
-   04F3 34            [11]  876 	inc	(hl)
-                            877 ;engine/../engine/mapmods/map_renderer_complex.h:234: draw_tile ();
-   04F4 CDr02r01      [17]  878 	call	_draw_tile
-   04F7 18 A7         [12]  879 	jr	00142$
-   04F9                     880 00144$:
-                            881 ;engine/../engine/mapmods/map_renderer_complex.h:238: ENABLE_INTERRUPTS;
-   04F9 FB            [ 4]  882 	ei 
-   04FA C9            [10]  883 	ret
-                            884 ;engine/printer.c:114: void pr_str (const unsigned char *s) {
-                            885 ;	---------------------------------
-                            886 ; Function pr_str
-                            887 ; ---------------------------------
-   04FB                     888 _pr_str::
-                            889 ;engine/printer.c:115: SG_setNextTileatXY (_x, _y);
-   04FB 3Ar00r00      [13]  890 	ld	a,(__y)
-   04FE F5            [11]  891 	push	af
-   04FF 33            [ 6]  892 	inc	sp
-   0500 3Ar00r00      [13]  893 	ld	a,(__x)
-   0503 F5            [11]  894 	push	af
-   0504 33            [ 6]  895 	inc	sp
-   0505 CDr00r00      [17]  896 	call	_SG_setNextTileatXY
-   0508 F1            [10]  897 	pop	af
-                            898 ;engine/printer.c:116: while (gpit = *s++) {
-   0509 C1            [10]  899 	pop	bc
-   050A D1            [10]  900 	pop	de
-   050B D5            [11]  901 	push	de
-   050C C5            [11]  902 	push	bc
-   050D                     903 00104$:
-   050D 1A            [ 7]  904 	ld	a,(de)
-   050E 13            [ 6]  905 	inc	de
-                            906 ;engine/printer.c:117: if (gpit == '%') {
-   050F 32r00r00      [13]  907 	ld	(#_gpit + 0),a
-   0512 B7            [ 4]  908 	or	a,a
-   0513 C8            [11]  909 	ret	Z
-   0514 D6 25         [ 7]  910 	sub	a, #0x25
-   0516 20 16         [12]  911 	jr	NZ,00102$
-                            912 ;engine/printer.c:118: ++ _y; SG_setNextTileatXY (_x, _y);
-   0518 21r00r00      [10]  913 	ld	hl, #__y+0
-   051B 34            [11]  914 	inc	(hl)
-   051C D5            [11]  915 	push	de
-   051D 3Ar00r00      [13]  916 	ld	a,(__y)
-   0520 F5            [11]  917 	push	af
-   0521 33            [ 6]  918 	inc	sp
-   0522 3Ar00r00      [13]  919 	ld	a,(__x)
-   0525 F5            [11]  920 	push	af
-   0526 33            [ 6]  921 	inc	sp
-   0527 CDr00r00      [17]  922 	call	_SG_setNextTileatXY
-   052A F1            [10]  923 	pop	af
-   052B D1            [10]  924 	pop	de
-   052C 18 DF         [12]  925 	jr	00104$
-   052E                     926 00102$:
-                            927 ;engine/printer.c:120: else SG_setTile (gpit - 32); 
-   052E 3Ar00r00      [13]  928 	ld	a,(#_gpit + 0)
-   0531 C6 E0         [ 7]  929 	add	a,#0xE0
-   0533 D5            [11]  930 	push	de
-   0534 F5            [11]  931 	push	af
-   0535 33            [ 6]  932 	inc	sp
-   0536 CDr00r00      [17]  933 	call	_SG_setTile
-   0539 33            [ 6]  934 	inc	sp
-   053A D1            [10]  935 	pop	de
-   053B 18 D0         [12]  936 	jr	00104$
-                            937 	.area _CODE
-                            938 	.area _INITIALIZER
-                            939 	.area _CABS (ABS)
+   0461                     800 00133$:
+                            801 ;engine/../engine/mapmods/map_renderer_complex.h:217: DISABLE_INTERRUPTS;
+   0461 F3            [ 4]  802 	di 
+                            803 ;engine/../engine/mapmods/map_renderer_complex.h:218: _t = rdt; draw_tile ();
+   0462 3Ar00r00      [13]  804 	ld	a,(#_rdt + 0)
+   0465 32r00r00      [13]  805 	ld	(#__t + 0),a
+   0468 CDr02r01      [17]  806 	call	_draw_tile
+                            807 ;engine/../engine/mapmods/map_renderer_complex.h:219: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
+   046B 3Ar00r00      [13]  808 	ld	a,(#__x + 0)
+   046E C6 02         [ 7]  809 	add	a, #0x02
+   0470 E6 1F         [ 7]  810 	and	a, #0x1F
+   0472 FD 21r00r00   [14]  811 	ld	iy,#__x
+   0476 FD 77 00      [19]  812 	ld	0 (iy),a
+   0479 3Ar00r00      [13]  813 	ld	a,(#__x + 0)
+   047C B7            [ 4]  814 	or	a, a
+   047D 20 0E         [12]  815 	jr	NZ,00136$
+   047F FD 21r00r00   [14]  816 	ld	iy,#__y
+   0483 FD 34 00      [23]  817 	inc	0 (iy)
+   0486 FD 21r00r00   [14]  818 	ld	iy,#__y
+   048A FD 34 00      [23]  819 	inc	0 (iy)
+   048D                     820 00136$:
+                            821 ;engine/../engine/mapmods/map_renderer_complex.h:220: ENABLE_INTERRUPTS;
+   048D FB            [ 4]  822 	ei 
+                            823 ;engine/../engine/mapmods/map_renderer_complex.h:199: for (rdm = 0; rdm < 192; rdm ++) {
+   048E FD 21r00r00   [14]  824 	ld	iy,#_rdm
+   0492 FD 34 00      [23]  825 	inc	0 (iy)
+   0495 3Ar00r00      [13]  826 	ld	a,(#_rdm + 0)
+   0498 D6 C0         [ 7]  827 	sub	a, #0xC0
+   049A 38 8D         [12]  828 	jr	C,00141$
+                            829 ;engine/../engine/mapmods/map_renderer_complex.h:224: gpit = max_chac_chacs; while (gpit --) {
+   049C 3Ar00r00      [13]  830 	ld	a,(#_max_chac_chacs + 0)
+   049F 32r00r00      [13]  831 	ld	(#_gpit + 0),a
+   04A2                     832 00138$:
+   04A2 FD 21r00r00   [14]  833 	ld	iy,#_gpit
+   04A6 FD 5E 00      [19]  834 	ld	e,0 (iy)
+   04A9 FD 21r00r00   [14]  835 	ld	iy,#_gpit
+   04AD FD 35 00      [23]  836 	dec	0 (iy)
+   04B0 7B            [ 4]  837 	ld	a,e
+   04B1 B7            [ 4]  838 	or	a, a
+   04B2 28 47         [12]  839 	jr	Z,00140$
+                            840 ;engine/../engine/mapmods/map_renderer_complex.h:225: _t = CHAC_CHAC_BASE_TILE + 6;
+   04B4 FD 21r00r00   [14]  841 	ld	iy,#__t
+   04B8 FD 36 00 26   [19]  842 	ld	0 (iy),#0x26
+                            843 ;engine/../engine/mapmods/map_renderer_complex.h:226: _x = (chac_chacs_yx [gpit] & 0xf) << 1;
+   04BC 3Ar00r00      [13]  844 	ld	a,(#_gpit + 0)
+   04BF C6r00         [ 7]  845 	add	a, #<(_chac_chacs_yx)
+   04C1 5F            [ 4]  846 	ld	e,a
+   04C2 3E 00         [ 7]  847 	ld	a,#0x00
+   04C4 CEs00         [ 7]  848 	adc	a, #>(_chac_chacs_yx)
+   04C6 57            [ 4]  849 	ld	d,a
+   04C7 1A            [ 7]  850 	ld	a,(de)
+   04C8 6F            [ 4]  851 	ld	l,a
+   04C9 E6 0F         [ 7]  852 	and	a, #0x0F
+   04CB 87            [ 4]  853 	add	a, a
+   04CC FD 21r00r00   [14]  854 	ld	iy,#__x
+   04D0 FD 77 00      [19]  855 	ld	0 (iy),a
+                            856 ;engine/../engine/mapmods/map_renderer_complex.h:227: _y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
+   04D3 7D            [ 4]  857 	ld	a,l
+   04D4 E6 F0         [ 7]  858 	and	a, #0xF0
+   04D6 0F            [ 4]  859 	rrca
+   04D7 0F            [ 4]  860 	rrca
+   04D8 0F            [ 4]  861 	rrca
+   04D9 E6 1F         [ 7]  862 	and	a,#0x1F
+   04DB 21r00r00      [10]  863 	ld	hl,#__y
+   04DE 3C            [ 4]  864 	inc	a
+   04DF 77            [ 7]  865 	ld	(hl),a
+                            866 ;engine/../engine/mapmods/map_renderer_complex.h:228: draw_tile ();
+   04E0 CDr02r01      [17]  867 	call	_draw_tile
+                            868 ;engine/../engine/mapmods/map_renderer_complex.h:229: _y += 2;
+   04E3 21r00r00      [10]  869 	ld	hl, #__y+0
+   04E6 34            [11]  870 	inc	(hl)
+   04E7 21r00r00      [10]  871 	ld	hl, #__y+0
+   04EA 34            [11]  872 	inc	(hl)
+                            873 ;engine/../engine/mapmods/map_renderer_complex.h:230: draw_tile ();
+   04EB CDr02r01      [17]  874 	call	_draw_tile
+                            875 ;engine/../engine/mapmods/map_renderer_complex.h:231: _y += 2;
+   04EE 21r00r00      [10]  876 	ld	hl, #__y+0
+   04F1 34            [11]  877 	inc	(hl)
+   04F2 21r00r00      [10]  878 	ld	hl, #__y+0
+   04F5 34            [11]  879 	inc	(hl)
+                            880 ;engine/../engine/mapmods/map_renderer_complex.h:232: draw_tile ();
+   04F6 CDr02r01      [17]  881 	call	_draw_tile
+   04F9 18 A7         [12]  882 	jr	00138$
+   04FB                     883 00140$:
+                            884 ;engine/../engine/mapmods/map_renderer_complex.h:236: ENABLE_INTERRUPTS;
+   04FB FB            [ 4]  885 	ei 
+   04FC C9            [10]  886 	ret
+                            887 ;engine/printer.c:114: void pr_str (const unsigned char *s) {
+                            888 ;	---------------------------------
+                            889 ; Function pr_str
+                            890 ; ---------------------------------
+   04FD                     891 _pr_str::
+                            892 ;engine/printer.c:115: SG_setNextTileatXY (_x, _y);
+   04FD 3Ar00r00      [13]  893 	ld	a,(__y)
+   0500 F5            [11]  894 	push	af
+   0501 33            [ 6]  895 	inc	sp
+   0502 3Ar00r00      [13]  896 	ld	a,(__x)
+   0505 F5            [11]  897 	push	af
+   0506 33            [ 6]  898 	inc	sp
+   0507 CDr00r00      [17]  899 	call	_SG_setNextTileatXY
+   050A F1            [10]  900 	pop	af
+                            901 ;engine/printer.c:116: while (gpit = *s++) {
+   050B C1            [10]  902 	pop	bc
+   050C D1            [10]  903 	pop	de
+   050D D5            [11]  904 	push	de
+   050E C5            [11]  905 	push	bc
+   050F                     906 00104$:
+   050F 1A            [ 7]  907 	ld	a,(de)
+   0510 13            [ 6]  908 	inc	de
+                            909 ;engine/printer.c:117: if (gpit == '%') {
+   0511 32r00r00      [13]  910 	ld	(#_gpit + 0),a
+   0514 B7            [ 4]  911 	or	a,a
+   0515 C8            [11]  912 	ret	Z
+   0516 D6 25         [ 7]  913 	sub	a, #0x25
+   0518 20 16         [12]  914 	jr	NZ,00102$
+                            915 ;engine/printer.c:118: ++ _y; SG_setNextTileatXY (_x, _y);
+   051A 21r00r00      [10]  916 	ld	hl, #__y+0
+   051D 34            [11]  917 	inc	(hl)
+   051E D5            [11]  918 	push	de
+   051F 3Ar00r00      [13]  919 	ld	a,(__y)
+   0522 F5            [11]  920 	push	af
+   0523 33            [ 6]  921 	inc	sp
+   0524 3Ar00r00      [13]  922 	ld	a,(__x)
+   0527 F5            [11]  923 	push	af
+   0528 33            [ 6]  924 	inc	sp
+   0529 CDr00r00      [17]  925 	call	_SG_setNextTileatXY
+   052C F1            [10]  926 	pop	af
+   052D D1            [10]  927 	pop	de
+   052E 18 DF         [12]  928 	jr	00104$
+   0530                     929 00102$:
+                            930 ;engine/printer.c:120: else SG_setTile (gpit - 32); 
+   0530 3Ar00r00      [13]  931 	ld	a,(#_gpit + 0)
+   0533 C6 E0         [ 7]  932 	add	a,#0xE0
+   0535 D5            [11]  933 	push	de
+   0536 F5            [11]  934 	push	af
+   0537 33            [ 6]  935 	inc	sp
+   0538 CDr00r00      [17]  936 	call	_SG_setTile
+   053B 33            [ 6]  937 	inc	sp
+   053C D1            [10]  938 	pop	de
+   053D 18 D0         [12]  939 	jr	00104$
+                            940 	.area _CODE
+                            941 	.area _INITIALIZER
+                            942 	.area _CABS (ABS)

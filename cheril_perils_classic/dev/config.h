@@ -659,28 +659,30 @@
 
 // Music
 
-#define MUSIC_INGAME 			0
+#define MUSIC_INGAME1 			m_yun_psg
+#define MUSIC_TITLE				m_title_psg
+#define MUSIC_GOVER 			m_gover_psg
 
 // SFX
 
-#define SFX_START				0
-#define SFX_TILE				1
-#define SFX_OBJECT				2
-#define SFX_USE					3
-#define SFX_TRAMPOLINE			3
-#define SFX_PHIT				4
-#define SFX_DUMMY1				5
-#define SFX_ENHIT 				6
-#define SFX_DUMMY2				7
-#define SFX_JUMP				8
-#define SFX_BULLET				9
-#define SFX_COCO				10
-#define SFX_SPRING				11
-#define SFX_COUNT				12
-#define SFX_BREAKH				13
-#define SFX_HITTER				14
-#define SFX_STEPON				15
-#define SFX_FLOAT				16
-#define SFX_BREAKB				17
-#define SFX_RING 				18
-#define SFX_FANFARE				19
+#define SFX_START				s_00_start2_psg
+#define SFX_TILE				s_01_tile3_psg
+#define SFX_OBJECT				s_02_object2_psg
+#define SFX_USE					s_03_use3_psg
+#define SFX_TRAMPOLINE			s_04_trampoline2_psg
+#define SFX_PHIT				s_05_phit3_psg
+#define SFX_DUMMY1				s_06_dummy13_psg
+#define SFX_ENHIT 				s_05_phit3_psg
+#define SFX_DUMMY2				s_07_dummy22_psg
+#define SFX_JUMP				s_08_jump2_psg
+#define SFX_BULLET				s_09_bullet2_psg
+#define SFX_COCO				s_10_coco2_psg
+#define SFX_SPRING				s_11_spring2_psg
+#define SFX_COUNT				s_12_count2_psg
+#define SFX_BREAKH				s_13_breakh3_psg
+#define SFX_HITTER				s_14_hitter3_psg
+#define SFX_STEPON				s_15_stepon3_psg
+#define SFX_FLOAT				s_16_float3_psg
+#define SFX_BREAKB				s_17_breakb3_psg
+#define SFX_RING 				s_18_ring2_psg
+#define SFX_FANFARE				s_19_fanfare2_psg

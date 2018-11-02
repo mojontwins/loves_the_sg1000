@@ -30,7 +30,7 @@ void breakable_break (unsigned char x, unsigned char y) {
 		} else 
 	#endif
 	{
-		//PSGSFXPlay (SFX_BREAKH, 1);
+		PSGSFXPlay (SFX_BREAKH, 2);
 #ifdef BREAKABLE_ANIM
 		// Unsafe but short & fast. Adjust BREAKABLE_MAX if this breaks your game
 		gpit = BREAKABLE_MAX; while (gpit --) {
@@ -41,7 +41,7 @@ void breakable_break (unsigned char x, unsigned char y) {
 				_y = brky [gpit] = y;
 				_t = BREAKABLE_BREAKING;
 				map_set ();					// Break tile!
-				//PSGSFXPlay (SFX_BREAKB, 1);
+				PSGSFXPlay (SFX_BREAKB, 2);
 				break;						// HA HA HA
 			}
 		}

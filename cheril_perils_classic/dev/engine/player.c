@@ -6,18 +6,19 @@
 
 #include "../lib/SGlib.h"
 #include "../lib/PSGlib.h"
+#include "../murcia.h"
 
 #include "../definitions.h"
 #include "../config.h"
 #include "../autodefs.h"
 
 #include "../ram/extern_globals.h"
-#include "../assets/extern_precalcs.h"
-#include "../assets/extern_metasprites.h"
+#include "../engine/extern_precalcs.h"
+#include "../engine/extern_metasprites.h"
 #include "../utils/delay.h"
 
-#include "printer.h"
-#include "general.h"
+#include "../engine/printer.h"
+#include "../engine/general.h"
 
 #ifdef DIE_AND_RESPAWN
 	void player_register_safe_spot (void) {
@@ -125,7 +126,7 @@ void player_kill (void) {
 	update_cycle ();
 
 	pkill = phit = 0;
-	//PSGSFXPlay (SFX_PHIT, 0);
+	PSGSFXPlay (SFX_PHIT, 2);
 	
 	if (plife) -- plife; else game_over = 1;
 
@@ -238,7 +239,7 @@ void player_move (void) {
 	#ifdef ENABLE_PROPELLERS
 		rda = pfloating;
 		pfloating = (at1 == 64 || at2 == 64);
-		//if (rda != pfloating) PSGSFXPlay (SFX_FLOAT, 0);
+		if (rda != pfloating) PSGSFXPlay (SFX_FLOAT, 2);
 	#endif
 
 	#ifdef ENABLE_SPRINGS
@@ -249,10 +250,8 @@ void player_move (void) {
 			if (ppossee)
 			#endif
 			{
-				if (QTILE (cx1, cy1 + 1) == SPRING_TILE && QTILE (cx1, cy1) != SPRING_SPIKE_TILE) { _x = cx1; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);
-				}
-				if (QTILE (cx2, cy1 + 1) == SPRING_TILE && QTILE (cx2, cy1) != SPRING_SPIKE_TILE) { _x = cx2; _y = cy1; map_set (); //PSGSFXPlay (SFX_SPRING, 1);
-				}
+				if (QTILE (cx1, cy1 + 1) == SPRING_TILE && QTILE (cx1, cy1) != SPRING_SPIKE_TILE) { _x = cx1; _y = cy1; map_set (); PSGSFXPlay (SFX_SPRING, 1); }
+				if (QTILE (cx2, cy1 + 1) == SPRING_TILE && QTILE (cx2, cy1) != SPRING_SPIKE_TILE) { _x = cx2; _y = cy1; map_set (); PSGSFXPlay (SFX_SPRING, 1);	}
 			}
 		}
 	#endif
@@ -629,7 +628,7 @@ void player_move (void) {
 	#ifdef PLAYER_SPINS
 		if (pad0 & PAD_DOWN) {
 			if (ppossee && ABS (pvx) > PLAYER_VX_MIN) {
-				if (!pspin) //PSGSFXPlay (SFX_DUMMY2, 0);
+				if (!pspin) PSGSFXPlay (SFX_DUMMY2, 1);
 				pspin = 1; 
 			}
 		}
@@ -845,7 +844,7 @@ void player_move (void) {
 			-- cy1;
 			
 			_x = cx1; _y = cy1; _t = 0; map_set ();
-			//PSGSFXPlay (SFX_RING, 2);
+			PSGSFXPlay (SFX_RING, 1);
 			
 			#include "../my/on_tile_got.h"
 
@@ -897,13 +896,11 @@ void player_move (void) {
 			#endif		
 			
 			#ifdef PLAYER_PUNCHES
-				if (ppossee && ppunching == 0) { ppunching = 16; phitteract = 1; //PSGSFXPlay (SFX_HITTER, 0); 
-				}
+				if (ppossee && ppunching == 0) { ppunching = 16; phitteract = 1; PSGSFXPlay (SFX_HITTER, 3); }
 			#endif
 
 			#ifdef PLAYER_KICKS
-				if (!ppossee && pkicking == 0) { pkicking = 16; phitteract = 1; //PSGSFXPlay (SFX_HITTER, 0); 
-				}
+				if (!ppossee && pkicking == 0) { pkicking = 16; phitteract = 1; PSGSFXPlay (SFX_HITTER, 3); }
 			#endif
 		} 
 	#endif

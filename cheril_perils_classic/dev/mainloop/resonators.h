@@ -13,18 +13,10 @@ if (res_on) {
 		res_subct = 50;
 		if (res_ct) { 
 			-- res_ct; 
-			//if (res_ct <= 5) PSGSFXPlay (SFX_COUNT, 2);
+			if (res_ct <= 5) PSGSFXPlay (SFX_COUNT, 1);
 		} else {
 			res_on = 0;
-			//PSGSFXPlay (SFX_SPRING ,2); 
-
-			#ifdef RESONATOR_CHANGE_BG_PAL
-				//pal_bg (c_pal_bg);
-			#endif
-
-			#ifdef RESONATOR_CHANGE_SPR_PAL
-				//pal_spr (c_pal_fg);
-			#endif
+			PSGSFXPlay (SFX_SPRING, 1); 
 		}
 	}
 }

@@ -25,7 +25,7 @@ void player_process_tile (unsigned char at, unsigned char x0, unsigned char y0, 
 					flags [PUSHED_TILE_FLAG] = QTILE (x1, y1);
 				#endif
 				
-				//PSGSFXPlay (SFX_TILE, 1);
+				PSGSFXPlay (SFX_TILE, 2);
 				_x = x0; _y = y0; _t = 0;  map_set ();
 				_x = x1; _y = y1; _t = 14; map_set ();
 				
@@ -58,7 +58,7 @@ void player_process_tile (unsigned char at, unsigned char x0, unsigned char y0, 
 			}
 
 			-- pkeys;
-			//PSGSFXPlay (SFX_TILE, 1);
+			PSGSFXPlay (SFX_TILE, 2);
 		} else {
 			#ifdef ENABLE_NO
 				no_ct = 100;
