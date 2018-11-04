@@ -255,6 +255,8 @@ void prepare_scr (void) {
 	SG_doUpdateList ();
 	clear_update_list ();	
 	SG_displayOn ();
+
+	pad0 = 0;
 }
 
 void game_loop (void) {

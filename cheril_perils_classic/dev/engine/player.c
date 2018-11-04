@@ -505,31 +505,35 @@ void player_move (void) {
 		if (vertical_engine_type == ENGINE_TYPE_JUMP) {
 			#ifdef PLAYER_JUMP_TYPE_MK2
 
-				if (
-					a_button 
-					&& !pj
-					&& (
-						pgotten || ppossee || hitv
-						#ifdef ENABLE_LADDERS
-							|| ponladder
-						#endif					
-					)
-				) {
-					jump_start ();
-					
-					#ifdef DIE_AND_RESPAWN
-						if (!(pgotten || hitv || pnotsafe)) {
-							player_register_safe_spot ();
-						}
-					#endif
-
-					#ifdef PLAYER_SPINS
-						#ifdef ENABLE_TRAMPOLINES
-							if (!ptrampoline)
+				if (pad0 & PAD_A) {
+					if (
+						!pjb
+						&& !pj
+						&& (
+							pgotten || ppossee || hitv
+							#ifdef ENABLE_LADDERS
+								|| ponladder
+							#endif					
+						)
+					) {
+						jump_start ();
+						
+						#ifdef DIE_AND_RESPAWN
+							if (!(pgotten || hitv || pnotsafe)) {
+								player_register_safe_spot ();
+							}
 						#endif
-						pspin = 1;
-					#endif
-				}
+
+						#ifdef PLAYER_SPINS
+							#ifdef ENABLE_TRAMPOLINES
+								if (!ptrampoline)
+							#endif
+							pspin = 1;
+						#endif
+					}
+
+					pjb = 1;
+				} else pjb = 0;
 
 				if (pj) {
 					#ifdef ENABLE_TRAMPOLINES

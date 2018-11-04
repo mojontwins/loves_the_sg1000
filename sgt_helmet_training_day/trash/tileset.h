@@ -20,11 +20,11 @@ extern const unsigned char cuts_rle [];
 #define CUTS_RLE_SIZE 295
 
 extern const unsigned char frame_rle [];
-#define FRAME_RLE_SIZE 85
+#define FRAME_RLE_SIZE 86
 
 extern const unsigned char tsALL_patterns_c [];
-#define TSALL_PATTERNS_C_SIZE 1028
+#define TSALL_PATTERNS_C_SIZE 1025
 
 extern const unsigned char ts2_colours_c [];
-#define TS2_COLOURS_C_SIZE 712
+#define TS2_COLOURS_C_SIZE 698
 

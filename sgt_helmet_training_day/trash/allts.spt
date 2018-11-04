@@ -46,3 +46,5 @@ write nametablerle frame_rle
 stats
 
 write patterns tsALL_patterns_c ts2_colours_c r:64:* packed
+
+output patterns tspat.bin tscol.bin

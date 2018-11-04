@@ -20,7 +20,6 @@ Symbol Table
     __t                                                            **** GX
     __x                                                            **** GX
     __y                                                            **** GX
-    _a_button                                                      **** GX
     _at1                                                           **** GX
     _at2                                                           **** GX
     _c_locks                                                       **** GX
@@ -58,16 +57,17 @@ Symbol Table
     _pfiring                                                       **** GX
     _pflickering                                                   **** GX
     _pfr                                                           **** GX
+    _pgotten                                                       **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-    _pgotten                                                       **** GX
     _pgtmx                                                         **** GX
     _pgtmy                                                         **** GX
     _phit                                                          **** GX
     _pj                                                            **** GX
+    _pjb                                                           **** GX
     _pkeys                                                         **** GX
     _pkill                                                         **** GX
     _pkilled                                                       **** GX
@@ -112,7 +112,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  BAF   flags    0
+   0 _CODE                                      size  BCB   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

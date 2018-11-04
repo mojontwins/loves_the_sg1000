@@ -94,6 +94,7 @@ extern unsigned char a_button, b_button;       // True if A or B have been press
 #endif
 
 extern unsigned char pj;                       // "Player is jumping" flag
+extern unsigned char pjb;                      // "Player is pressing JUMP button"
 extern unsigned char pctj;                     // "Player is jumping" counter
 extern unsigned char pgotten;                  // "Player is on moving platform or similiar" flag
 extern unsigned char ppossee;                  // "Player is on walkable scenery" flag

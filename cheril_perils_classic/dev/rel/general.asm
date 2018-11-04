@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Sun Nov 04 13:34:53 2018
+; This file was generated Sun Nov 04 15:08:35 2018
 ;--------------------------------------------------------
 	.module general
 	.optsdcc -mz80
@@ -431,7 +431,7 @@ _jump_start::
 	pop	af
 	inc	sp
 ;engine/general.c:120: pvy = -PLAYER_VY_MK2_JUMP_INITIAL;
-	ld	hl,#0xFF00
+	ld	hl,#0xFF40
 	ld	(_pvy),hl
 	ret
 ;engine/general.c:128: void update_cycle (void) {
