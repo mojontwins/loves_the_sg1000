@@ -35,9 +35,9 @@ Symbol Table
     _cx2                                                           **** GX
     _cy1                                                           **** GX
     _cy2                                                           **** GX
-  0 _distance                                                      01BF GR
-  0 _do_update_list_and_wait                                       026F GR
-  0 _jump_start                                                    0234 GR
+  0 _distance                                                      01AB GR
+  0 _do_update_list_and_wait                                       025B GR
+  0 _jump_start                                                    0220 GR
     _map_buff                                                      **** GX
     _pad0                                                          **** GX
   0 _pad_read                                                      0186 GR
@@ -53,7 +53,7 @@ Symbol Table
     _rdx                                                           **** GX
     _rdy                                                           **** GX
     _s_08_jump2_psg                                                **** GX
-  0 _update_cycle                                                  0252 GR
+  0 _update_cycle                                                  023E GR
     _update_index                                                  **** GX
     _update_list                                                   **** GX
 
@@ -63,7 +63,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  280   flags    0
+   0 _CODE                                      size  26C   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

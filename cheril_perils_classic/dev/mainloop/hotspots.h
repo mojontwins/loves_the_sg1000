@@ -125,7 +125,7 @@ if (hrt) {
 				#endif
 
 				{
-					rda = 0; rdm = 1;
+					gp_gen = 0; rdm = 1;
 					switch (hrt) {
 						#ifndef DEACTIVATE_OBJECTS
 							case HOTSPOT_TYPE_OBJECT:
@@ -190,7 +190,7 @@ if (hrt) {
 						#endif
 						#include "../my/extra_hotspots.h"
 					}
-					if (rda) {
+					if (gp_gen) {
 						PSGSFXPlay (gp_gen, rdm);
 						hrt = 0;
 						hact [n_pant] = 0;

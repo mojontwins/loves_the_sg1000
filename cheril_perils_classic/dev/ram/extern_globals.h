@@ -9,8 +9,8 @@ extern unsigned char _x, _y, _n, _t;
 
 // General, all-purpose variables
 
-extern unsigned int pad0;                      // (neslib) pad 0 read.
-extern unsigned int pad_this_frame;            // (neslib) pad 0 read, current frame presses.
+extern unsigned char pad0;                     // (sglib) pad 0 read.
+extern unsigned char pad_this_frame;           // (sglib) pad 0 read, current frame presses.
 extern unsigned char gpit, gpjt;               // General purpose iterators.
 extern signed int rds16;                       // General purpose 16 bit extern signed variable.
 

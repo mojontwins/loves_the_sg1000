@@ -1,3 +1,5 @@
+// NTSC version
+
 extern const unsigned char	m_gover_psg [];
 #define						M_GOVER_PSG_SIZE 0x01C2
 
@@ -16,8 +18,8 @@ extern const unsigned char	s_01_tile3_psg [];
 extern const unsigned char	s_02_object2_psg [];
 #define						S_02_OBJECT2_PSG_SIZE 0x0017
 
-extern const unsigned char	s_03_use3_psg [];
-#define						S_03_USE3_PSG_SIZE 0x0061
+extern const unsigned char	s_03_use2_psg [];
+#define						S_03_USE2_PSG_SIZE 0x0061
 
 extern const unsigned char	s_04_trampoline2_psg [];
 #define						S_04_TRAMPOLINE2_PSG_SIZE 0x0015

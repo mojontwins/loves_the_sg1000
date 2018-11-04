@@ -1,0 +1,100 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  0 _PSGCancelLoop                                                 0054 GR
+  1 _PSGChan2HighTone                                              0010 GR
+  1 _PSGChan2LowTone                                               000E GR
+  1 _PSGChan2Volume                                                000C GR
+  1 _PSGChan3LowTone                                               000F GR
+  1 _PSGChan3Volume                                                000D GR
+  2 _PSGChannel2SFX                                                0001 GR
+  2 _PSGChannel3SFX                                                0002 GR
+  0 _PSGFrame                                                      0148 GR
+  0 _PSGGetStatus                                                  0069 GR
+  1 _PSGLoopFlag                                                   0007 GR
+  1 _PSGMusicLastLatch                                             0008 GR
+  1 _PSGMusicLoopPoint                                             0004 GR
+  1 _PSGMusicPointer                                               0002 GR
+  1 _PSGMusicSkipFrames                                            0006 GR
+  1 _PSGMusicStart                                                 0000 GR
+  2 _PSGMusicStatus                                                0000 GR
+  1 _PSGMusicSubstringLen                                          0009 GR
+  1 _PSGMusicSubstringRetAddr                                      000A GR
+  0 _PSGPlay                                                       0027 GR
+  0 _PSGPlayNoRepeat                                               005A GR
+    _PSGPort                                                    =  007F 
+  0 _PSGSFXCancelLoop                                              0120 GR
+  0 _PSGSFXFrame                                                   024F GR
+  0 _PSGSFXGetStatus                                               0126 GR
+  1 _PSGSFXLoopFlag                                                0018 GR
+  1 _PSGSFXLoopPoint                                               0015 GR
+  0 _PSGSFXPlay                                                    00D5 GR
+  0 _PSGSFXPlayLoop                                                012E GR
+  1 _PSGSFXPointer                                                 0013 GR
+  1 _PSGSFXSkipFrames                                              0017 GR
+  1 _PSGSFXStart                                                   0011 GR
+  2 _PSGSFXStatus                                                  0003 GR
+  0 _PSGSFXStop                                                    0071 GR
+  1 _PSGSFXSubstringLen                                            0019 GR
+  1 _PSGSFXSubstringRetAddr                                        001A GR
+  0 _PSGStop                                                       0000 GR
+  7 __xinit__PSGChannel2SFX                                        0001 R
+  7 __xinit__PSGChannel3SFX                                        0002 R
+  7 __xinit__PSGMusicStatus                                        0000 R
+  7 __xinit__PSGSFXStatus                                          0003 R
+  0 _a1                                                            0187 R
+  0 _a2                                                            01A3 R
+  0 _a3                                                            01F9 R
+  0 _a4                                                            0241 R
+  0 _command                                                       01BE R
+  0 _command_SFX                                                   027F R
+  0 _continue                                                      0167 R
+  0 _continue_SFX                                                  026F R
+  0 _done                                                          01C9 R
+  0 _done_SFX                                                      028A R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  0 _high_part_Tone                                                022C R
+  0 _intLoop                                                       0156 R
+  0 _intLoop_SFX                                                   025E R
+  0 _low_part_Tone                                                 0193 R
+  0 _musicLoop                                                     020C R
+  0 _noLatch                                                       01B4 R
+  0 _otherCommands                                                 01CD R
+  0 _otherCommands_SFX                                             028E R
+  0 _output_NoLatch                                                01E0 R
+  0 _send2PSG                                                      01DA R
+  0 _send2PSG_A                                                    01DB R
+  0 _setLoopPoint                                                  0206 R
+  0 _setLoopPoint_SFX                                              029B R
+  0 _sfxLoop_SFX                                                   02A1 R
+  0 _skipFrame                                                     01AF R
+  0 _skipFrame_SFX                                                 027A R
+  0 _substring                                                     0219 R
+  0 _substring_SFX                                                 02B1 R
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  2C5   flags    0
+   1 _DATA                                      size   1C   flags    0
+   2 _INITIALIZED                               size    4   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    4   flags    0
+   8 _CABS                                      size    0   flags    8
+

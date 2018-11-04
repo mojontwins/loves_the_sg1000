@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.2 #9293 (MINGW32)
-                              4 ; This file was generated Fri Nov 02 19:01:16 2018
+                              4 ; This file was generated Sun Nov 04 13:34:56 2018
                               5 ;--------------------------------------------------------
                               6 	.module player
                               7 	.optsdcc -mz80
@@ -624,1134 +624,1123 @@
                             624 ;engine/player.c:332: if (vertical_engine_type != ENGINE_TYPE_SWIM) {
    0389 3Ar00r00      [13]  625 	ld	a,(#_vertical_engine_type + 0)
    038C D6 02         [ 7]  626 	sub	a, #0x02
-   038E 28 31         [12]  627 	jr	Z,00123$
-                            628 ;engine/player.c:343: if (!pj) {
-   0390 3Ar00r00      [13]  629 	ld	a,(#_pj + 0)
+   038E 28 45         [12]  627 	jr	Z,00126$
+                            628 ;engine/player.c:335: !pgotten
+   0390 3Ar00r00      [13]  629 	ld	a,(#_pgotten + 0)
    0393 B7            [ 4]  630 	or	a, a
-   0394 20 2B         [12]  631 	jr	NZ,00123$
-                            632 ;engine/player.c:344: pvy += PLAYER_G;
-   0396 21r00r00      [10]  633 	ld	hl,#_pvy
-   0399 7E            [ 7]  634 	ld	a,(hl)
-   039A C6 08         [ 7]  635 	add	a, #0x08
-   039C 77            [ 7]  636 	ld	(hl),a
-   039D 23            [ 6]  637 	inc	hl
-   039E 7E            [ 7]  638 	ld	a,(hl)
-   039F CE 00         [ 7]  639 	adc	a, #0x00
-   03A1 77            [ 7]  640 	ld	(hl),a
-                            641 ;engine/player.c:345: if (pvy > PLAYER_VY_FALLING_MAX) pvy = PLAYER_VY_FALLING_MAX; 
-   03A2 AF            [ 4]  642 	xor	a, a
-   03A3 FD 21r00r00   [14]  643 	ld	iy,#_pvy
-   03A7 FD BE 00      [19]  644 	cp	a, 0 (iy)
-   03AA 3E 01         [ 7]  645 	ld	a,#0x01
-   03AC FD 21r00r00   [14]  646 	ld	iy,#_pvy
-   03B0 FD 9E 01      [19]  647 	sbc	a, 1 (iy)
-   03B3 E2rB8r03      [10]  648 	jp	PO, 00584$
-   03B6 EE 80         [ 7]  649 	xor	a, #0x80
-   03B8                     650 00584$:
-   03B8 F2rC1r03      [10]  651 	jp	P,00123$
-   03BB 21 00 01      [10]  652 	ld	hl,#0x0100
-   03BE 22r00r00      [16]  653 	ld	(_pvy),hl
-   03C1                     654 00123$:
-                            655 ;engine/player.c:352: if (pgotten) pvy = 0;			
-   03C1 3Ar00r00      [13]  656 	ld	a,(#_pgotten + 0)
-   03C4 B7            [ 4]  657 	or	a, a
-   03C5 28 06         [12]  658 	jr	Z,00125$
-   03C7 21 00 00      [10]  659 	ld	hl,#0x0000
-   03CA 22r00r00      [16]  660 	ld	(_pvy),hl
-   03CD                     661 00125$:
-                            662 ;engine/player.c:389: py += pvy;
-   03CD 21r00r00      [10]  663 	ld	hl,#_pvy
-   03D0 D5            [11]  664 	push	de
-   03D1 FD 21r00r00   [14]  665 	ld	iy,#_py
-   03D5 FD E5         [15]  666 	push	iy
-   03D7 D1            [10]  667 	pop	de
-   03D8 1A            [ 7]  668 	ld	a,(de)
-   03D9 86            [ 7]  669 	add	a, (hl)
-   03DA 12            [ 7]  670 	ld	(de),a
-   03DB 13            [ 6]  671 	inc	de
-   03DC 1A            [ 7]  672 	ld	a,(de)
-   03DD 23            [ 6]  673 	inc	hl
-   03DE 8E            [ 7]  674 	adc	a, (hl)
-   03DF 12            [ 7]  675 	ld	(de),a
-   03E0 D1            [10]  676 	pop	de
-                            677 ;engine/player.c:390: if (py < 0) py = 0;
-   03E1 3Ar01r00      [13]  678 	ld	a,(#_py + 1)
-   03E4 CB 7F         [ 8]  679 	bit	7,a
-   03E6 28 06         [12]  680 	jr	Z,00127$
-   03E8 21 00 00      [10]  681 	ld	hl,#0x0000
-   03EB 22r00r00      [16]  682 	ld	(_py),hl
-   03EE                     683 00127$:
-                            684 ;engine/player.c:391: pry = py >> FIXBITS;
-   03EE 2Ar00r00      [16]  685 	ld	hl,(_py)
-   03F1 CB 2C         [ 8]  686 	sra	h
-   03F3 CB 1D         [ 8]  687 	rr	l
-   03F5 CB 2C         [ 8]  688 	sra	h
-   03F7 CB 1D         [ 8]  689 	rr	l
-   03F9 CB 2C         [ 8]  690 	sra	h
-   03FB CB 1D         [ 8]  691 	rr	l
-   03FD CB 2C         [ 8]  692 	sra	h
-   03FF CB 1D         [ 8]  693 	rr	l
-   0401 CB 2C         [ 8]  694 	sra	h
-   0403 CB 1D         [ 8]  695 	rr	l
-   0405 CB 2C         [ 8]  696 	sra	h
-   0407 CB 1D         [ 8]  697 	rr	l
-   0409 FD 21r00r00   [14]  698 	ld	iy,#_pry
-   040D FD 75 00      [19]  699 	ld	0 (iy),l
-                            700 ;engine/player.c:394: player_to_pixels ();
-   0410 CDr9Dr00      [17]  701 	call	_player_to_pixels
-                            702 ;engine/player.c:396: cx1 = prx >> 4;
-   0413 3Ar00r00      [13]  703 	ld	a,(#_prx + 0)
-   0416 07            [ 4]  704 	rlca
-   0417 07            [ 4]  705 	rlca
-   0418 07            [ 4]  706 	rlca
-   0419 07            [ 4]  707 	rlca
-   041A E6 0F         [ 7]  708 	and	a,#0x0F
-   041C 32r00r00      [13]  709 	ld	(#_cx1 + 0),a
-                            710 ;engine/player.c:397: cx2 = (prx + 7) >> 4;
-   041F FD 21r00r00   [14]  711 	ld	iy,#_prx
-   0423 FD 6E 00      [19]  712 	ld	l,0 (iy)
-   0426 26 00         [ 7]  713 	ld	h,#0x00
-   0428 01 07 00      [10]  714 	ld	bc,#0x0007
-   042B 09            [11]  715 	add	hl,bc
-   042C CB 2C         [ 8]  716 	sra	h
-   042E CB 1D         [ 8]  717 	rr	l
-   0430 CB 2C         [ 8]  718 	sra	h
-   0432 CB 1D         [ 8]  719 	rr	l
-   0434 CB 2C         [ 8]  720 	sra	h
-   0436 CB 1D         [ 8]  721 	rr	l
-   0438 CB 2C         [ 8]  722 	sra	h
-   043A CB 1D         [ 8]  723 	rr	l
-   043C FD 21r00r00   [14]  724 	ld	iy,#_cx2
-   0440 FD 75 00      [19]  725 	ld	0 (iy),l
-                            726 ;engine/player.c:402: rds16 = pvy + pgtmy;
-   0443 21r00r00      [10]  727 	ld	hl,#_pgtmy
-   0446 D5            [11]  728 	push	de
-   0447 FD 21r00r00   [14]  729 	ld	iy,#_rds16
-   044B FD E5         [15]  730 	push	iy
-   044D D1            [10]  731 	pop	de
-   044E 3Ar00r00      [13]  732 	ld	a,(#_pvy + 0)
-   0451 86            [ 7]  733 	add	a, (hl)
-   0452 12            [ 7]  734 	ld	(de),a
-   0453 3Ar01r00      [13]  735 	ld	a,(#_pvy + 1)
-   0456 23            [ 6]  736 	inc	hl
-   0457 8E            [ 7]  737 	adc	a, (hl)
-   0458 13            [ 6]  738 	inc	de
-   0459 12            [ 7]  739 	ld	(de),a
-   045A D1            [10]  740 	pop	de
-                            741 ;engine/player.c:230: cy1 = cy2 = (pry + 15) >> 4;
-   045B FD 21r00r00   [14]  742 	ld	iy,#_pry
-   045F FD 5E 00      [19]  743 	ld	e,0 (iy)
-   0462 16 00         [ 7]  744 	ld	d,#0x00
-                            745 ;engine/player.c:403: if (rds16 < 0)
-   0464 3Ar01r00      [13]  746 	ld	a,(#_rds16 + 1)
-   0467 CB 7F         [ 8]  747 	bit	7,a
-   0469 CArFEr04      [10]  748 	jp	Z,00163$
-                            749 ;engine/player.c:406: cy1 = cy2 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;			
-   046C 7B            [ 4]  750 	ld	a,e
-   046D C6 04         [ 7]  751 	add	a,#0x04
-   046F 5F            [ 4]  752 	ld	e,a
-   0470 7A            [ 4]  753 	ld	a,d
-   0471 CE 00         [ 7]  754 	adc	a,#0x00
-   0473 57            [ 4]  755 	ld	d,a
-   0474 CB 2A         [ 8]  756 	sra	d
-   0476 CB 1B         [ 8]  757 	rr	e
-   0478 CB 2A         [ 8]  758 	sra	d
-   047A CB 1B         [ 8]  759 	rr	e
-   047C CB 2A         [ 8]  760 	sra	d
-   047E CB 1B         [ 8]  761 	rr	e
-   0480 CB 2A         [ 8]  762 	sra	d
-   0482 CB 1B         [ 8]  763 	rr	e
-   0484 21r00r00      [10]  764 	ld	hl,#_cy2 + 0
-   0487 73            [ 7]  765 	ld	(hl), e
-   0488 21r00r00      [10]  766 	ld	hl,#_cy1 + 0
-   048B 73            [ 7]  767 	ld	(hl), e
-                            768 ;engine/player.c:407: cm_two_points ();
-   048C CDr00r00      [17]  769 	call	_cm_two_points
-                            770 ;engine/player.c:408: if ((at1 & 8) || (at2 & 8)) {
-   048F FD 21r00r00   [14]  771 	ld	iy,#_at1
-   0493 FD CB 00 5E   [20]  772 	bit	3, 0 (iy)
-   0497 20 0A         [12]  773 	jr	NZ,00131$
-   0499 FD 21r00r00   [14]  774 	ld	iy,#_at2
-   049D FD CB 00 5E   [20]  775 	bit	3, 0 (iy)
-   04A1 28 3B         [12]  776 	jr	Z,00132$
-   04A3                     777 00131$:
-                            778 ;engine/player.c:409: pry = ((cy1 + 1) << 4) + PLAYER_COLLISION_VSTRETCH_BG;
-   04A3 3Ar00r00      [13]  779 	ld	a,(#_cy1 + 0)
-   04A6 3C            [ 4]  780 	inc	a
-   04A7 07            [ 4]  781 	rlca
-   04A8 07            [ 4]  782 	rlca
-   04A9 07            [ 4]  783 	rlca
-   04AA 07            [ 4]  784 	rlca
-   04AB E6 F0         [ 7]  785 	and	a,#0xF0
-   04AD 21r00r00      [10]  786 	ld	hl,#_pry
-   04B0 C6 FC         [ 7]  787 	add	a, #0xFC
-   04B2 77            [ 7]  788 	ld	(hl),a
-                            789 ;engine/player.c:410: pvy = 0; py = pry << FIXBITS;
-   04B3 21 00 00      [10]  790 	ld	hl,#0x0000
-   04B6 22r00r00      [16]  791 	ld	(_pvy),hl
-   04B9 FD 21r00r00   [14]  792 	ld	iy,#_pry
-   04BD FD 6E 00      [19]  793 	ld	l,0 (iy)
-   04C0 26 00         [ 7]  794 	ld	h,#0x00
-   04C2 29            [11]  795 	add	hl, hl
-   04C3 29            [11]  796 	add	hl, hl
-   04C4 29            [11]  797 	add	hl, hl
-   04C5 29            [11]  798 	add	hl, hl
-   04C6 29            [11]  799 	add	hl, hl
-   04C7 29            [11]  800 	add	hl, hl
-   04C8 22r00r00      [16]  801 	ld	(_py),hl
-                            802 ;engine/player.c:411: pgotten = 0;
-   04CB FD 21r00r00   [14]  803 	ld	iy,#_pgotten
-   04CF FD 36 00 00   [19]  804 	ld	0 (iy),#0x00
-                            805 ;engine/player.c:412: pfiring = 1;
-   04D3 FD 21r00r00   [14]  806 	ld	iy,#_pfiring
-   04D7 FD 36 00 01   [19]  807 	ld	0 (iy),#0x01
-   04DB C3r6Cr06      [10]  808 	jp	00164$
-   04DE                     809 00132$:
-                            810 ;engine/player.c:418: } else if ((at1 & 1) || (at2 & 1)) {
-   04DE FD 21r00r00   [14]  811 	ld	iy,#_at1
-   04E2 FD CB 00 46   [20]  812 	bit	0, 0 (iy)
-   04E6 20 0B         [12]  813 	jr	NZ,00128$
-   04E8 FD 21r00r00   [14]  814 	ld	iy,#_at2
-   04EC FD CB 00 46   [20]  815 	bit	0, 0 (iy)
-   04F0 CAr6Cr06      [10]  816 	jp	Z,00164$
-   04F3                     817 00128$:
-                            818 ;engine/player.c:419: hitv = 1;
-   04F3 FD 21r00r00   [14]  819 	ld	iy,#_hitv
-   04F7 FD 36 00 01   [19]  820 	ld	0 (iy),#0x01
-   04FB C3r6Cr06      [10]  821 	jp	00164$
-   04FE                     822 00163$:
-                            823 ;engine/player.c:430: } else if (rds16 > 0)
-   04FE AF            [ 4]  824 	xor	a, a
-   04FF FD 21r00r00   [14]  825 	ld	iy,#_rds16
-   0503 FD BE 00      [19]  826 	cp	a, 0 (iy)
-   0506 FD 21r00r00   [14]  827 	ld	iy,#_rds16
-   050A FD 9E 01      [19]  828 	sbc	a, 1 (iy)
-   050D E2r12r05      [10]  829 	jp	PO, 00591$
-   0510 EE 80         [ 7]  830 	xor	a, #0x80
-   0512                     831 00591$:
-   0512 F2r6Cr06      [10]  832 	jp	P,00164$
-                            833 ;engine/player.c:433: cy1 = cy2 = (pry + 16) >> 4; 
-   0515 21 10 00      [10]  834 	ld	hl,#0x0010
-   0518 19            [11]  835 	add	hl,de
-   0519 CB 2C         [ 8]  836 	sra	h
-   051B CB 1D         [ 8]  837 	rr	l
-   051D CB 2C         [ 8]  838 	sra	h
-   051F CB 1D         [ 8]  839 	rr	l
-   0521 CB 2C         [ 8]  840 	sra	h
-   0523 CB 1D         [ 8]  841 	rr	l
-   0525 CB 2C         [ 8]  842 	sra	h
-   0527 CB 1D         [ 8]  843 	rr	l
-   0529 7D            [ 4]  844 	ld	a,l
-   052A 32r00r00      [13]  845 	ld	(#_cy2 + 0),a
-   052D 32r00r00      [13]  846 	ld	(#_cy1 + 0),a
-                            847 ;engine/player.c:434: cm_two_points (); 
-   0530 CDr00r00      [17]  848 	call	_cm_two_points
-                            849 ;engine/player.c:439: pry < ((cy1 - 1) << 4) + 4 && 
-   0533 FD 21r00r00   [14]  850 	ld	iy,#_cy1
-   0537 FD 6E 00      [19]  851 	ld	l,0 (iy)
-   053A 26 00         [ 7]  852 	ld	h,#0x00
-   053C 2B            [ 6]  853 	dec	hl
-   053D 29            [11]  854 	add	hl, hl
-   053E 29            [11]  855 	add	hl, hl
-   053F 29            [11]  856 	add	hl, hl
-   0540 29            [11]  857 	add	hl, hl
-   0541 5D            [ 4]  858 	ld	e, l
-   0542 54            [ 4]  859 	ld	d, h
-   0543 13            [ 6]  860 	inc	de
-   0544 13            [ 6]  861 	inc	de
-   0545 13            [ 6]  862 	inc	de
-   0546 13            [ 6]  863 	inc	de
-   0547 3Ar00r00      [13]  864 	ld	a,(#_pry + 0)
-   054A DD 77 FC      [19]  865 	ld	-4 (ix),a
-   054D DD 36 FD 00   [19]  866 	ld	-3 (ix),#0x00
-                            867 ;engine/player.c:418: } else if ((at1 & 1) || (at2 & 1)) {
-   0551 3Ar00r00      [13]  868 	ld	a,(#_at1 + 0)
-   0554 E6 01         [ 7]  869 	and	a, #0x01
-   0556 4F            [ 4]  870 	ld	c,a
-   0557 FD 21r00r00   [14]  871 	ld	iy,#_at2
-   055B FD 7E 00      [19]  872 	ld	a,0 (iy)
-   055E E6 01         [ 7]  873 	and	a, #0x01
-   0560 DD 77 FE      [19]  874 	ld	-2 (ix),a
-                            875 ;engine/player.c:439: pry < ((cy1 - 1) << 4) + 4 && 
-   0563 DD 7E FC      [19]  876 	ld	a,-4 (ix)
-   0566 93            [ 4]  877 	sub	a, e
-   0567 DD 7E FD      [19]  878 	ld	a,-3 (ix)
-   056A 9A            [ 4]  879 	sbc	a, d
-   056B E2r70r05      [10]  880 	jp	PO, 00592$
-   056E EE 80         [ 7]  881 	xor	a, #0x80
-   0570                     882 00592$:
-   0570 F2r4Fr06      [10]  883 	jp	P,00156$
-                            884 ;engine/player.c:441: (at1 & 12) || (at2 & 12)
-   0573 3Ar00r00      [13]  885 	ld	a,(#_at1 + 0)
-   0576 E6 0C         [ 7]  886 	and	a, #0x0C
-   0578 20 08         [12]  887 	jr	NZ,00155$
-   057A 3Ar00r00      [13]  888 	ld	a,(#_at2 + 0)
-   057D E6 0C         [ 7]  889 	and	a, #0x0C
-   057F CAr4Fr06      [10]  890 	jp	Z,00156$
-   0582                     891 00155$:
-                            892 ;engine/player.c:449: pvy = 0; pry = ((cy1 - 1) << 4);py = pry << FIXBITS;
-   0582 21 00 00      [10]  893 	ld	hl,#0x0000
-   0585 22r00r00      [16]  894 	ld	(_pvy),hl
-   0588 3Ar00r00      [13]  895 	ld	a,(#_cy1 + 0)
-   058B C6 FF         [ 7]  896 	add	a,#0xFF
-   058D 07            [ 4]  897 	rlca
-   058E 07            [ 4]  898 	rlca
-   058F 07            [ 4]  899 	rlca
-   0590 07            [ 4]  900 	rlca
-   0591 E6 F0         [ 7]  901 	and	a,#0xF0
-   0593 32r00r00      [13]  902 	ld	(#_pry + 0),a
-   0596 FD 21r00r00   [14]  903 	ld	iy,#_pry
-   059A FD 6E 00      [19]  904 	ld	l,0 (iy)
-   059D 26 00         [ 7]  905 	ld	h,#0x00
-   059F 29            [11]  906 	add	hl, hl
-   05A0 29            [11]  907 	add	hl, hl
-   05A1 29            [11]  908 	add	hl, hl
-   05A2 29            [11]  909 	add	hl, hl
-   05A3 29            [11]  910 	add	hl, hl
-   05A4 29            [11]  911 	add	hl, hl
-   05A5 22r00r00      [16]  912 	ld	(_py),hl
-                            913 ;engine/player.c:450: pgotten = 0;
-   05A8 FD 21r00r00   [14]  914 	ld	iy,#_pgotten
-   05AC FD 36 00 00   [19]  915 	ld	0 (iy),#0x00
-                            916 ;engine/player.c:451: pfiring = 1;
-   05B0 FD 21r00r00   [14]  917 	ld	iy,#_pfiring
-   05B4 FD 36 00 01   [19]  918 	ld	0 (iy),#0x01
-                            919 ;engine/player.c:452: ppossee = 1;
-   05B8 FD 21r00r00   [14]  920 	ld	iy,#_ppossee
-   05BC FD 36 00 01   [19]  921 	ld	0 (iy),#0x01
-                            922 ;engine/player.c:476: cfx = 0;
-   05C0 FD 21r00r00   [14]  923 	ld	iy,#_cfx
-   05C4 FD 36 00 00   [19]  924 	ld	0 (iy),#0x00
-                            925 ;engine/player.c:477: if ((at1 & 40) == 40) { if (at1 & 1) cfx = pgtmx = PLAYER_VX_CONVEYORS; else cfx = pgtmx = -PLAYER_VX_CONVEYORS; pgotten = 1; } 
-   05C8 3Ar00r00      [13]  926 	ld	a,(#_at1 + 0)
-   05CB E6 28         [ 7]  927 	and	a, #0x28
-   05CD D6 28         [ 7]  928 	sub	a,#0x28
-   05CF 20 29         [12]  929 	jr	NZ,00139$
-   05D1 B1            [ 4]  930 	or	a,c
-   05D2 28 10         [12]  931 	jr	Z,00136$
-   05D4 21 30 00      [10]  932 	ld	hl,#0x0030
-   05D7 22r00r00      [16]  933 	ld	(_pgtmx),hl
-   05DA FD 21r00r00   [14]  934 	ld	iy,#_cfx
-   05DE FD 36 00 30   [19]  935 	ld	0 (iy),#0x30
-   05E2 18 0E         [12]  936 	jr	00137$
-   05E4                     937 00136$:
-   05E4 21 D0 FF      [10]  938 	ld	hl,#0xFFD0
-   05E7 22r00r00      [16]  939 	ld	(_pgtmx),hl
-   05EA FD 21r00r00   [14]  940 	ld	iy,#_cfx
-   05EE FD 36 00 D0   [19]  941 	ld	0 (iy),#0xD0
-   05F2                     942 00137$:
-   05F2 FD 21r00r00   [14]  943 	ld	iy,#_pgotten
-   05F6 FD 36 00 01   [19]  944 	ld	0 (iy),#0x01
-   05FA                     945 00139$:
-                            946 ;engine/player.c:478: if (cx1 != cx2) if ((at2 & 40) == 40) { if (at2 & 1) cfx = pgtmx = PLAYER_VX_CONVEYORS; else cfx = pgtmx = -PLAYER_VX_CONVEYORS; pgotten = 1; } 
-   05FA 3Ar00r00      [13]  947 	ld	a,(#_cx1 + 0)
-   05FD FD 21r00r00   [14]  948 	ld	iy,#_cx2
-   0601 FD 96 00      [19]  949 	sub	a, 0 (iy)
-   0604 28 35         [12]  950 	jr	Z,00146$
-   0606 3Ar00r00      [13]  951 	ld	a,(#_at2 + 0)
-   0609 E6 28         [ 7]  952 	and	a, #0x28
-   060B D6 28         [ 7]  953 	sub	a, #0x28
-   060D 20 2C         [12]  954 	jr	NZ,00146$
-   060F DD 7E FE      [19]  955 	ld	a,-2 (ix)
-   0612 B7            [ 4]  956 	or	a, a
-   0613 28 10         [12]  957 	jr	Z,00141$
-   0615 21 30 00      [10]  958 	ld	hl,#0x0030
-   0618 22r00r00      [16]  959 	ld	(_pgtmx),hl
-   061B FD 21r00r00   [14]  960 	ld	iy,#_cfx
-   061F FD 36 00 30   [19]  961 	ld	0 (iy),#0x30
-   0623 18 0E         [12]  962 	jr	00142$
-   0625                     963 00141$:
-   0625 21 D0 FF      [10]  964 	ld	hl,#0xFFD0
-   0628 22r00r00      [16]  965 	ld	(_pgtmx),hl
-   062B FD 21r00r00   [14]  966 	ld	iy,#_cfx
-   062F FD 36 00 D0   [19]  967 	ld	0 (iy),#0xD0
-   0633                     968 00142$:
-   0633 FD 21r00r00   [14]  969 	ld	iy,#_pgotten
-   0637 FD 36 00 01   [19]  970 	ld	0 (iy),#0x01
-   063B                     971 00146$:
-                            972 ;engine/player.c:486: if ((at1 & 1) || (at2 & 1)) pnotsafe = 1; 
-   063B 79            [ 4]  973 	ld	a,c
-   063C B7            [ 4]  974 	or	a, a
-   063D 20 06         [12]  975 	jr	NZ,00147$
-   063F DD 7E FE      [19]  976 	ld	a,-2 (ix)
-   0642 B7            [ 4]  977 	or	a, a
-   0643 28 27         [12]  978 	jr	Z,00164$
-   0645                     979 00147$:
-   0645 FD 21r00r00   [14]  980 	ld	iy,#_pnotsafe
-   0649 FD 36 00 01   [19]  981 	ld	0 (iy),#0x01
-   064D 18 1D         [12]  982 	jr	00164$
-   064F                     983 00156$:
-                            984 ;engine/player.c:487: } else if ((at1 & 1) || (at2 & 1)) {
-   064F 79            [ 4]  985 	ld	a,c
-   0650 B7            [ 4]  986 	or	a, a
-   0651 20 06         [12]  987 	jr	NZ,00152$
-   0653 DD 7E FE      [19]  988 	ld	a,-2 (ix)
-   0656 B7            [ 4]  989 	or	a, a
-   0657 28 13         [12]  990 	jr	Z,00164$
-   0659                     991 00152$:
-                            992 ;engine/player.c:488: if ((pry & 15) > 4) hitv = 1;
-   0659 3Ar00r00      [13]  993 	ld	a,(#_pry + 0)
-   065C E6 0F         [ 7]  994 	and	a, #0x0F
-   065E 67            [ 4]  995 	ld	h,a
-   065F 3E 04         [ 7]  996 	ld	a,#0x04
-   0661 94            [ 4]  997 	sub	a, h
-   0662 30 08         [12]  998 	jr	NC,00164$
-   0664 FD 21r00r00   [14]  999 	ld	iy,#_hitv
-   0668 FD 36 00 01   [19] 1000 	ld	0 (iy),#0x01
-   066C                    1001 00164$:
-                           1002 ;engine/player.c:505: if (vertical_engine_type == ENGINE_TYPE_JUMP) {
-   066C 3Ar00r00      [13] 1003 	ld	a,(#_vertical_engine_type + 0)
-   066F B7            [ 4] 1004 	or	a, a
-   0670 C2r0Dr07      [10] 1005 	jp	NZ,00187$
-                           1006 ;engine/player.c:551: a_button 
-   0673 3Ar00r00      [13] 1007 	ld	a,(#_a_button + 0)
-   0676 B7            [ 4] 1008 	or	a, a
-   0677 28 30         [12] 1009 	jr	Z,00170$
-                           1010 ;engine/player.c:552: && !pj
-   0679 3Ar00r00      [13] 1011 	ld	a,(#_pj + 0)
-   067C B7            [ 4] 1012 	or	a, a
-   067D 20 2A         [12] 1013 	jr	NZ,00170$
-                           1014 ;engine/player.c:554: pgotten || ppossee || hitv
-   067F 3Ar00r00      [13] 1015 	ld	a,(#_pgotten + 0)
-   0682 B7            [ 4] 1016 	or	a, a
-   0683 20 0C         [12] 1017 	jr	NZ,00169$
-   0685 3Ar00r00      [13] 1018 	ld	a,(#_ppossee + 0)
-   0688 B7            [ 4] 1019 	or	a, a
-   0689 20 06         [12] 1020 	jr	NZ,00169$
-   068B 3Ar00r00      [13] 1021 	ld	a,(#_hitv + 0)
-   068E B7            [ 4] 1022 	or	a, a
-   068F 28 18         [12] 1023 	jr	Z,00170$
-   0691                    1024 00169$:
-                           1025 ;engine/player.c:560: jump_start ();
-   0691 CDr00r00      [17] 1026 	call	_jump_start
-                           1027 ;engine/player.c:563: if (!(pgotten || hitv || pnotsafe)) {
-   0694 3Ar00r00      [13] 1028 	ld	a,(#_pgotten + 0)
-   0697 B7            [ 4] 1029 	or	a, a
-   0698 20 0F         [12] 1030 	jr	NZ,00170$
-   069A 3Ar00r00      [13] 1031 	ld	a,(#_hitv + 0)
-   069D B7            [ 4] 1032 	or	a, a
-   069E 20 09         [12] 1033 	jr	NZ,00170$
-   06A0 3Ar00r00      [13] 1034 	ld	a,(#_pnotsafe + 0)
-   06A3 B7            [ 4] 1035 	or	a, a
-   06A4 20 03         [12] 1036 	jr	NZ,00170$
-                           1037 ;engine/player.c:564: player_register_safe_spot ();
-   06A6 CDr00r00      [17] 1038 	call	_player_register_safe_spot
-   06A9                    1039 00170$:
-                           1040 ;engine/player.c:583: if (pad0 & PAD_A) {
-   06A9 FD 21r00r00   [14] 1041 	ld	iy,#_pad0
-   06AD FD CB 00 6E   [20] 1042 	bit	5, 0 (iy)
-   06B1 28 52         [12] 1043 	jr	Z,00184$
-                           1044 ;engine/player.c:584: if (pj) {
-   06B3 3Ar00r00      [13] 1045 	ld	a,(#_pj + 0)
-   06B6 B7            [ 4] 1046 	or	a, a
-   06B7 28 54         [12] 1047 	jr	Z,00187$
-                           1048 ;engine/player.c:585: if (pctj < PLAYER_AY_JUMP) pvy -= (PLAYER_AY_JUMP - (pctj));
-   06B9 3Ar00r00      [13] 1049 	ld	a,(#_pctj + 0)
-   06BC D6 0C         [ 7] 1050 	sub	a, #0x0C
-   06BE 30 18         [12] 1051 	jr	NC,00176$
-   06C0 21r00r00      [10] 1052 	ld	hl,#_pctj + 0
-   06C3 66            [ 7] 1053 	ld	h, (hl)
-   06C4 2E 00         [ 7] 1054 	ld	l,#0x00
-   06C6 3E 0C         [ 7] 1055 	ld	a,#0x0C
-   06C8 94            [ 4] 1056 	sub	a, h
-   06C9 57            [ 4] 1057 	ld	d,a
-   06CA 3E 00         [ 7] 1058 	ld	a,#0x00
-   06CC 9D            [ 4] 1059 	sbc	a, l
-   06CD 5F            [ 4] 1060 	ld	e,a
-   06CE 21r00r00      [10] 1061 	ld	hl,#_pvy
-   06D1 7E            [ 7] 1062 	ld	a,(hl)
-   06D2 92            [ 4] 1063 	sub	a, d
-   06D3 77            [ 7] 1064 	ld	(hl),a
-   06D4 23            [ 6] 1065 	inc	hl
-   06D5 7E            [ 7] 1066 	ld	a,(hl)
-   06D6 9B            [ 4] 1067 	sbc	a, e
-   06D7 77            [ 7] 1068 	ld	(hl),a
-   06D8                    1069 00176$:
-                           1070 ;engine/player.c:586: if (pvy < -PLAYER_VY_JUMP_MAX) pvy = -PLAYER_VY_JUMP_MAX;
-   06D8 3Ar00r00      [13] 1071 	ld	a,(#_pvy + 0)
-   06DB D6 60         [ 7] 1072 	sub	a, #0x60
-   06DD 3Ar01r00      [13] 1073 	ld	a,(#_pvy + 1)
-   06E0 17            [ 4] 1074 	rla
-   06E1 3F            [ 4] 1075 	ccf
-   06E2 1F            [ 4] 1076 	rra
-   06E3 DE 7F         [ 7] 1077 	sbc	a, #0x7F
-   06E5 30 06         [12] 1078 	jr	NC,00178$
-   06E7 21 60 FF      [10] 1079 	ld	hl,#0xFF60
-   06EA 22r00r00      [16] 1080 	ld	(_pvy),hl
-   06ED                    1081 00178$:
-                           1082 ;engine/player.c:587: ++ pctj; if (pctj == 16) pj = 0;	
-   06ED FD 21r00r00   [14] 1083 	ld	iy,#_pctj
-   06F1 FD 34 00      [23] 1084 	inc	0 (iy)
-   06F4 3Ar00r00      [13] 1085 	ld	a,(#_pctj + 0)
-   06F7 D6 10         [ 7] 1086 	sub	a, #0x10
-   06F9 20 12         [12] 1087 	jr	NZ,00187$
-   06FB FD 21r00r00   [14] 1088 	ld	iy,#_pj
-   06FF FD 36 00 00   [19] 1089 	ld	0 (iy),#0x00
-   0703 18 08         [12] 1090 	jr	00187$
-   0705                    1091 00184$:
-                           1092 ;engine/player.c:590: pj = 0; 
-   0705 FD 21r00r00   [14] 1093 	ld	iy,#_pj
-   0709 FD 36 00 00   [19] 1094 	ld	0 (iy),#0x00
-   070D                    1095 00187$:
-                           1096 ;engine/player.c:642: if (!(pad0 & PAD_LEFT || pad0 & PAD_RIGHT)) {
-   070D 3Ar00r00      [13] 1097 	ld	a,(#_pad0 + 0)
-   0710 E6 04         [ 7] 1098 	and	a, #0x04
-   0712 57            [ 4] 1099 	ld	d,a
-   0713 1E 00         [ 7] 1100 	ld	e,#0x00
-   0715 3Ar00r00      [13] 1101 	ld	a,(#_pad0 + 0)
-   0718 E6 08         [ 7] 1102 	and	a, #0x08
-   071A 47            [ 4] 1103 	ld	b,a
-   071B 0E 00         [ 7] 1104 	ld	c,#0x00
-   071D 7B            [ 4] 1105 	ld	a,e
-   071E B2            [ 4] 1106 	or	a,d
-   071F 20 66         [12] 1107 	jr	NZ,00198$
-   0721 79            [ 4] 1108 	ld	a,c
-   0722 B0            [ 4] 1109 	or	a,b
-   0723 20 62         [12] 1110 	jr	NZ,00198$
-                           1111 ;engine/player.c:650: if (pvx > 0) {
-   0725 AF            [ 4] 1112 	xor	a, a
-   0726 FD 21r00r00   [14] 1113 	ld	iy,#_pvx
-   072A FD BE 00      [19] 1114 	cp	a, 0 (iy)
-   072D FD 21r00r00   [14] 1115 	ld	iy,#_pvx
-   0731 FD 9E 01      [19] 1116 	sbc	a, 1 (iy)
-   0734 E2r39r07      [10] 1117 	jp	PO, 00604$
-   0737 EE 80         [ 7] 1118 	xor	a, #0x80
-   0739                    1119 00604$:
-   0739 F2r57r07      [10] 1120 	jp	P,00195$
-                           1121 ;engine/player.c:655: pvx -= PLAYER_RX;
-   073C 21r00r00      [10] 1122 	ld	hl,#_pvx
-   073F 7E            [ 7] 1123 	ld	a,(hl)
-   0740 C6 F4         [ 7] 1124 	add	a,#0xF4
-   0742 77            [ 7] 1125 	ld	(hl),a
-   0743 23            [ 6] 1126 	inc	hl
-   0744 7E            [ 7] 1127 	ld	a,(hl)
-   0745 CE FF         [ 7] 1128 	adc	a,#0xFF
-   0747 77            [ 7] 1129 	ld	(hl),a
-                           1130 ;engine/player.c:658: if (pvx < 0) pvx = 0;
-   0748 3Ar01r00      [13] 1131 	ld	a,(#_pvx + 1)
-   074B CB 7F         [ 8] 1132 	bit	7,a
-   074D 28 38         [12] 1133 	jr	Z,00198$
-   074F 21 00 00      [10] 1134 	ld	hl,#0x0000
-   0752 22r00r00      [16] 1135 	ld	(_pvx),hl
-   0755 18 30         [12] 1136 	jr	00198$
-   0757                    1137 00195$:
-                           1138 ;engine/player.c:659: } else if (pvx < 0) {
-   0757 3Ar01r00      [13] 1139 	ld	a,(#_pvx + 1)
-   075A CB 7F         [ 8] 1140 	bit	7,a
-   075C 28 29         [12] 1141 	jr	Z,00198$
-                           1142 ;engine/player.c:664: pvx += PLAYER_RX;
-   075E 21r00r00      [10] 1143 	ld	hl,#_pvx
-   0761 7E            [ 7] 1144 	ld	a,(hl)
-   0762 C6 0C         [ 7] 1145 	add	a, #0x0C
-   0764 77            [ 7] 1146 	ld	(hl),a
-   0765 23            [ 6] 1147 	inc	hl
-   0766 7E            [ 7] 1148 	ld	a,(hl)
-   0767 CE 00         [ 7] 1149 	adc	a, #0x00
-   0769 77            [ 7] 1150 	ld	(hl),a
-                           1151 ;engine/player.c:667: if (pvx > 0) pvx = 0;
-   076A AF            [ 4] 1152 	xor	a, a
-   076B FD 21r00r00   [14] 1153 	ld	iy,#_pvx
-   076F FD BE 00      [19] 1154 	cp	a, 0 (iy)
-   0772 FD 21r00r00   [14] 1155 	ld	iy,#_pvx
-   0776 FD 9E 01      [19] 1156 	sbc	a, 1 (iy)
-   0779 E2r7Er07      [10] 1157 	jp	PO, 00605$
-   077C EE 80         [ 7] 1158 	xor	a, #0x80
-   077E                    1159 00605$:
-   077E F2r87r07      [10] 1160 	jp	P,00198$
-   0781 21 00 00      [10] 1161 	ld	hl,#0x0000
-   0784 22r00r00      [16] 1162 	ld	(_pvx),hl
-   0787                    1163 00198$:
-                           1164 ;engine/player.c:672: if (pad0 & PAD_LEFT) {
-   0787 7B            [ 4] 1165 	ld	a,e
-   0788 B2            [ 4] 1166 	or	a,d
-   0789 28 2E         [12] 1167 	jr	Z,00203$
-                           1168 ;engine/player.c:676: pfacing = CELL_FACING_LEFT;		
-   078B FD 21r00r00   [14] 1169 	ld	iy,#_pfacing
-   078F FD 36 00 08   [19] 1170 	ld	0 (iy),#0x08
-                           1171 ;engine/player.c:679: if (pvx > -PLAYER_VX_MAX) {
-   0793 3E 90         [ 7] 1172 	ld	a,#0x90
-   0795 FD 21r00r00   [14] 1173 	ld	iy,#_pvx
-   0799 FD BE 00      [19] 1174 	cp	a, 0 (iy)
-   079C 3E FF         [ 7] 1175 	ld	a,#0xFF
-   079E FD 21r00r00   [14] 1176 	ld	iy,#_pvx
-   07A2 FD 9E 01      [19] 1177 	sbc	a, 1 (iy)
-   07A5 E2rAAr07      [10] 1178 	jp	PO, 00606$
-   07A8 EE 80         [ 7] 1179 	xor	a, #0x80
-   07AA                    1180 00606$:
-   07AA F2rB9r07      [10] 1181 	jp	P,00203$
-                           1182 ;engine/player.c:684: pvx -= PLAYER_AX;
-   07AD 21r00r00      [10] 1183 	ld	hl,#_pvx
-   07B0 7E            [ 7] 1184 	ld	a,(hl)
-   07B1 C6 F4         [ 7] 1185 	add	a,#0xF4
-   07B3 77            [ 7] 1186 	ld	(hl),a
-   07B4 23            [ 6] 1187 	inc	hl
-   07B5 7E            [ 7] 1188 	ld	a,(hl)
-   07B6 CE FF         [ 7] 1189 	adc	a,#0xFF
-   07B8 77            [ 7] 1190 	ld	(hl),a
-   07B9                    1191 00203$:
-                           1192 ;engine/player.c:689: if (pad0 & PAD_RIGHT) {
-   07B9 79            [ 4] 1193 	ld	a,c
-   07BA B0            [ 4] 1194 	or	a,b
-   07BB 28 20         [12] 1195 	jr	Z,00207$
-                           1196 ;engine/player.c:693: pfacing = CELL_FACING_RIGHT;
-   07BD 21r00r00      [10] 1197 	ld	hl,#_pfacing + 0
-   07C0 36 00         [10] 1198 	ld	(hl), #0x00
-                           1199 ;engine/player.c:696: if (pvx < PLAYER_VX_MAX) {
-   07C2 3Ar00r00      [13] 1200 	ld	a,(#_pvx + 0)
-   07C5 D6 70         [ 7] 1201 	sub	a, #0x70
-   07C7 3Ar01r00      [13] 1202 	ld	a,(#_pvx + 1)
-   07CA 17            [ 4] 1203 	rla
-   07CB 3F            [ 4] 1204 	ccf
-   07CC 1F            [ 4] 1205 	rra
-   07CD DE 80         [ 7] 1206 	sbc	a, #0x80
-   07CF 30 0C         [12] 1207 	jr	NC,00207$
-                           1208 ;engine/player.c:701: pvx += PLAYER_AX;
-   07D1 21r00r00      [10] 1209 	ld	hl,#_pvx
-   07D4 7E            [ 7] 1210 	ld	a,(hl)
-   07D5 C6 0C         [ 7] 1211 	add	a, #0x0C
-   07D7 77            [ 7] 1212 	ld	(hl),a
-   07D8 23            [ 6] 1213 	inc	hl
-   07D9 7E            [ 7] 1214 	ld	a,(hl)
-   07DA CE 00         [ 7] 1215 	adc	a, #0x00
-   07DC 77            [ 7] 1216 	ld	(hl),a
-   07DD                    1217 00207$:
-                           1218 ;engine/player.c:707: px += pvx;
-   07DD 21r00r00      [10] 1219 	ld	hl,#_pvx
-   07E0 D5            [11] 1220 	push	de
-   07E1 FD 21r00r00   [14] 1221 	ld	iy,#_px
-   07E5 FD E5         [15] 1222 	push	iy
-   07E7 D1            [10] 1223 	pop	de
-   07E8 1A            [ 7] 1224 	ld	a,(de)
-   07E9 86            [ 7] 1225 	add	a, (hl)
-   07EA 12            [ 7] 1226 	ld	(de),a
-   07EB 13            [ 6] 1227 	inc	de
-   07EC 1A            [ 7] 1228 	ld	a,(de)
-   07ED 23            [ 6] 1229 	inc	hl
-   07EE 8E            [ 7] 1230 	adc	a, (hl)
-   07EF 12            [ 7] 1231 	ld	(de),a
-   07F0 D1            [10] 1232 	pop	de
-                           1233 ;engine/player.c:709: if (pgotten) px += pgtmx;
-   07F1 3Ar00r00      [13] 1234 	ld	a,(#_pgotten + 0)
-   07F4 B7            [ 4] 1235 	or	a, a
-   07F5 28 14         [12] 1236 	jr	Z,00209$
-   07F7 21r00r00      [10] 1237 	ld	hl,#_pgtmx
-   07FA D5            [11] 1238 	push	de
-   07FB FD 21r00r00   [14] 1239 	ld	iy,#_px
-   07FF FD E5         [15] 1240 	push	iy
-   0801 D1            [10] 1241 	pop	de
-   0802 1A            [ 7] 1242 	ld	a,(de)
-   0803 86            [ 7] 1243 	add	a, (hl)
-   0804 12            [ 7] 1244 	ld	(de),a
-   0805 13            [ 6] 1245 	inc	de
-   0806 1A            [ 7] 1246 	ld	a,(de)
-   0807 23            [ 6] 1247 	inc	hl
-   0808 8E            [ 7] 1248 	adc	a, (hl)
-   0809 12            [ 7] 1249 	ld	(de),a
-   080A D1            [10] 1250 	pop	de
-   080B                    1251 00209$:
-                           1252 ;engine/player.c:712: if (px < (4<<FIXBITS)) { px = 4 << FIXBITS; prx = 4;}
-   080B 3Ar01r00      [13] 1253 	ld	a,(#_px + 1)
-   080E EE 80         [ 7] 1254 	xor	a, #0x80
-   0810 D6 81         [ 7] 1255 	sub	a, #0x81
-   0812 30 0D         [12] 1256 	jr	NC,00214$
-   0814 21 00 01      [10] 1257 	ld	hl,#0x0100
-   0817 22r00r00      [16] 1258 	ld	(_px),hl
-   081A 21r00r00      [10] 1259 	ld	hl,#_prx + 0
-   081D 36 04         [10] 1260 	ld	(hl), #0x04
-   081F 18 29         [12] 1261 	jr	00215$
-   0821                    1262 00214$:
-                           1263 ;engine/player.c:713: else if (px > (244<<FIXBITS)) { px = 244 << FIXBITS; prx = 244; }
-   0821 AF            [ 4] 1264 	xor	a, a
-   0822 FD 21r00r00   [14] 1265 	ld	iy,#_px
-   0826 FD BE 00      [19] 1266 	cp	a, 0 (iy)
-   0829 3E 3D         [ 7] 1267 	ld	a,#0x3D
-   082B FD 21r00r00   [14] 1268 	ld	iy,#_px
-   082F FD 9E 01      [19] 1269 	sbc	a, 1 (iy)
-   0832 E2r37r08      [10] 1270 	jp	PO, 00607$
-   0835 EE 80         [ 7] 1271 	xor	a, #0x80
-   0837                    1272 00607$:
-   0837 F2r47r08      [10] 1273 	jp	P,00211$
-   083A 21 00 3D      [10] 1274 	ld	hl,#0x3D00
-   083D 22r00r00      [16] 1275 	ld	(_px),hl
-   0840 21r00r00      [10] 1276 	ld	hl,#_prx + 0
-   0843 36 F4         [10] 1277 	ld	(hl), #0xF4
-   0845 18 03         [12] 1278 	jr	00215$
-   0847                    1279 00211$:
-                           1280 ;engine/player.c:714: else player_to_pixels ();
-   0847 CDr9Dr00      [17] 1281 	call	_player_to_pixels
-   084A                    1282 00215$:
-                           1283 ;engine/player.c:719: cy1 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;
-   084A 21r00r00      [10] 1284 	ld	hl,#_pry + 0
-   084D 5E            [ 7] 1285 	ld	e, (hl)
-   084E 16 00         [ 7] 1286 	ld	d,#0x00
-   0850 7B            [ 4] 1287 	ld	a,e
-   0851 C6 04         [ 7] 1288 	add	a,#0x04
-   0853 6F            [ 4] 1289 	ld	l,a
-   0854 7A            [ 4] 1290 	ld	a,d
-   0855 CE 00         [ 7] 1291 	adc	a,#0x00
-   0857 67            [ 4] 1292 	ld	h,a
-   0858 CB 2C         [ 8] 1293 	sra	h
-   085A CB 1D         [ 8] 1294 	rr	l
-   085C CB 2C         [ 8] 1295 	sra	h
-   085E CB 1D         [ 8] 1296 	rr	l
-   0860 CB 2C         [ 8] 1297 	sra	h
-   0862 CB 1D         [ 8] 1298 	rr	l
-   0864 CB 2C         [ 8] 1299 	sra	h
-   0866 CB 1D         [ 8] 1300 	rr	l
-   0868 FD 21r00r00   [14] 1301 	ld	iy,#_cy1
-   086C FD 75 00      [19] 1302 	ld	0 (iy),l
-                           1303 ;engine/player.c:720: cy2 = (pry + 15) >> 4;
-   086F 21 0F 00      [10] 1304 	ld	hl,#0x000F
-   0872 19            [11] 1305 	add	hl,de
-   0873 CB 2C         [ 8] 1306 	sra	h
-   0875 CB 1D         [ 8] 1307 	rr	l
-   0877 CB 2C         [ 8] 1308 	sra	h
-   0879 CB 1D         [ 8] 1309 	rr	l
-   087B CB 2C         [ 8] 1310 	sra	h
-   087D CB 1D         [ 8] 1311 	rr	l
-   087F CB 2C         [ 8] 1312 	sra	h
-   0881 CB 1D         [ 8] 1313 	rr	l
-   0883 FD 21r00r00   [14] 1314 	ld	iy,#_cy2
-   0887 FD 75 00      [19] 1315 	ld	0 (iy),l
-                           1316 ;engine/player.c:723: rds16 = pvx + pgtmx;
-   088A 21r00r00      [10] 1317 	ld	hl,#_pgtmx
-   088D D5            [11] 1318 	push	de
-   088E FD 21r00r00   [14] 1319 	ld	iy,#_rds16
-   0892 FD E5         [15] 1320 	push	iy
-   0894 D1            [10] 1321 	pop	de
-   0895 3Ar00r00      [13] 1322 	ld	a,(#_pvx + 0)
-   0898 86            [ 7] 1323 	add	a, (hl)
-   0899 12            [ 7] 1324 	ld	(de),a
-   089A 3Ar01r00      [13] 1325 	ld	a,(#_pvx + 1)
-   089D 23            [ 6] 1326 	inc	hl
-   089E 8E            [ 7] 1327 	adc	a, (hl)
-   089F 13            [ 6] 1328 	inc	de
-   08A0 12            [ 7] 1329 	ld	(de),a
-   08A1 D1            [10] 1330 	pop	de
-                           1331 ;engine/player.c:724: if (rds16) 	{
-   08A2 3Ar01r00      [13] 1332 	ld	a,(#_rds16 + 1)
-   08A5 FD 21r00r00   [14] 1333 	ld	iy,#_rds16
-   08A9 FD B6 00      [19] 1334 	or	a,0 (iy)
-   08AC CArFEr09      [10] 1335 	jp	Z,00232$
-                           1336 ;engine/player.c:725: if (rds16 < 0) {
-   08AF 3Ar01r00      [13] 1337 	ld	a,(#_rds16 + 1)
-   08B2 CB 7F         [ 8] 1338 	bit	7,a
-   08B4 28 24         [12] 1339 	jr	Z,00217$
-                           1340 ;engine/player.c:726: cx1 = cx2 = prx >> 4; 
-   08B6 3Ar00r00      [13] 1341 	ld	a,(#_prx + 0)
-   08B9 07            [ 4] 1342 	rlca
-   08BA 07            [ 4] 1343 	rlca
-   08BB 07            [ 4] 1344 	rlca
-   08BC 07            [ 4] 1345 	rlca
-   08BD E6 0F         [ 7] 1346 	and	a,#0x0F
-   08BF 32r00r00      [13] 1347 	ld	(#_cx2 + 0),a
-                           1348 ;engine/player.c:727: rda = (cx1 + 1) << 4;
-   08C2 32r00r00      [13] 1349 	ld	(#_cx1 + 0),a
-   08C5 3C            [ 4] 1350 	inc	a
-   08C6 07            [ 4] 1351 	rlca
-   08C7 07            [ 4] 1352 	rlca
-   08C8 07            [ 4] 1353 	rlca
-   08C9 07            [ 4] 1354 	rlca
-   08CA E6 F0         [ 7] 1355 	and	a,#0xF0
-   08CC 32r00r00      [13] 1356 	ld	(#_rda + 0),a
-                           1357 ;engine/player.c:728: rdm = cx1 - 1;
-   08CF 21r00r00      [10] 1358 	ld	hl,#_rdm
-   08D2 3Ar00r00      [13] 1359 	ld	a,(#_cx1 + 0)
-   08D5 C6 FF         [ 7] 1360 	add	a,#0xFF
-   08D7 77            [ 7] 1361 	ld	(hl),a
-   08D8 18 3A         [12] 1362 	jr	00218$
-   08DA                    1363 00217$:
-                           1364 ;engine/player.c:730: cx1 = cx2 = (prx + 8) >> 4;
-   08DA FD 21r00r00   [14] 1365 	ld	iy,#_prx
-   08DE FD 6E 00      [19] 1366 	ld	l,0 (iy)
-   08E1 26 00         [ 7] 1367 	ld	h,#0x00
-   08E3 01 08 00      [10] 1368 	ld	bc,#0x0008
-   08E6 09            [11] 1369 	add	hl,bc
-   08E7 CB 2C         [ 8] 1370 	sra	h
-   08E9 CB 1D         [ 8] 1371 	rr	l
-   08EB CB 2C         [ 8] 1372 	sra	h
-   08ED CB 1D         [ 8] 1373 	rr	l
-   08EF CB 2C         [ 8] 1374 	sra	h
-   08F1 CB 1D         [ 8] 1375 	rr	l
-   08F3 CB 2C         [ 8] 1376 	sra	h
-   08F5 CB 1D         [ 8] 1377 	rr	l
-   08F7 7D            [ 4] 1378 	ld	a,l
-   08F8 32r00r00      [13] 1379 	ld	(#_cx2 + 0),a
-                           1380 ;engine/player.c:731: rda = ((cx1 - 1) << 4) + 8;
-   08FB 32r00r00      [13] 1381 	ld	(#_cx1 + 0),a
-   08FE C6 FF         [ 7] 1382 	add	a,#0xFF
-   0900 07            [ 4] 1383 	rlca
-   0901 07            [ 4] 1384 	rlca
-   0902 07            [ 4] 1385 	rlca
-   0903 07            [ 4] 1386 	rlca
-   0904 E6 F0         [ 7] 1387 	and	a,#0xF0
-   0906 21r00r00      [10] 1388 	ld	hl,#_rda
-   0909 C6 08         [ 7] 1389 	add	a, #0x08
-   090B 77            [ 7] 1390 	ld	(hl),a
-                           1391 ;engine/player.c:732: rdm = cx1 + 1;
-   090C 21r00r00      [10] 1392 	ld	hl,#_rdm
-   090F 3Ar00r00      [13] 1393 	ld	a,(#_cx1 + 0)
-   0912 3C            [ 4] 1394 	inc	a
-   0913 77            [ 7] 1395 	ld	(hl),a
-   0914                    1396 00218$:
-                           1397 ;engine/player.c:748: cm_two_points ();
-   0914 CDr00r00      [17] 1398 	call	_cm_two_points
-                           1399 ;engine/player.c:749: if ((at1 & 8) || (at2 & 8)) {
-   0917 FD 21r00r00   [14] 1400 	ld	iy,#_at1
-   091B FD CB 00 5E   [20] 1401 	bit	3, 0 (iy)
-   091F 20 0B         [12] 1402 	jr	NZ,00225$
-   0921 FD 21r00r00   [14] 1403 	ld	iy,#_at2
-   0925 FD CB 00 5E   [20] 1404 	bit	3, 0 (iy)
-   0929 CArB2r09      [10] 1405 	jp	Z,00226$
-   092C                    1406 00225$:
-                           1407 ;engine/player.c:750: pvx = 0; prx = rda; px = prx << FIXBITS; pfiring = 1;
-   092C 21 00 00      [10] 1408 	ld	hl,#0x0000
-   092F 22r00r00      [16] 1409 	ld	(_pvx),hl
-   0932 3Ar00r00      [13] 1410 	ld	a,(#_rda + 0)
-   0935 32r00r00      [13] 1411 	ld	(#_prx + 0),a
-   0938 FD 21r00r00   [14] 1412 	ld	iy,#_prx
-   093C FD 6E 00      [19] 1413 	ld	l,0 (iy)
-   093F 26 00         [ 7] 1414 	ld	h,#0x00
-   0941 29            [11] 1415 	add	hl, hl
-   0942 29            [11] 1416 	add	hl, hl
-   0943 29            [11] 1417 	add	hl, hl
-   0944 29            [11] 1418 	add	hl, hl
-   0945 29            [11] 1419 	add	hl, hl
-   0946 29            [11] 1420 	add	hl, hl
-   0947 22r00r00      [16] 1421 	ld	(_px),hl
-   094A FD 21r00r00   [14] 1422 	ld	iy,#_pfiring
-   094E FD 36 00 01   [19] 1423 	ld	0 (iy),#0x01
-                           1424 ;engine/player.c:754: if (at1 & 2) player_process_tile (at1, cx1, cy1, rdm, cy1);
-   0952 FD 21r00r00   [14] 1425 	ld	iy,#_at1
-   0956 FD CB 00 4E   [20] 1426 	bit	1, 0 (iy)
-   095A 28 1F         [12] 1427 	jr	Z,00220$
-   095C 3Ar00r00      [13] 1428 	ld	a,(_cy1)
-   095F F5            [11] 1429 	push	af
-   0960 33            [ 6] 1430 	inc	sp
-   0961 3Ar00r00      [13] 1431 	ld	a,(_rdm)
-   0964 F5            [11] 1432 	push	af
-   0965 33            [ 6] 1433 	inc	sp
-   0966 3Ar00r00      [13] 1434 	ld	a,(_cy1)
-   0969 F5            [11] 1435 	push	af
-   096A 33            [ 6] 1436 	inc	sp
-   096B 3Ar00r00      [13] 1437 	ld	a,(_cx1)
-   096E F5            [11] 1438 	push	af
-   096F 33            [ 6] 1439 	inc	sp
-   0970 3Ar00r00      [13] 1440 	ld	a,(_at1)
-   0973 F5            [11] 1441 	push	af
-   0974 33            [ 6] 1442 	inc	sp
-   0975 CDr3Dr01      [17] 1443 	call	_player_process_tile
-   0978 F1            [10] 1444 	pop	af
-   0979 F1            [10] 1445 	pop	af
-   097A 33            [ 6] 1446 	inc	sp
-   097B                    1447 00220$:
-                           1448 ;engine/player.c:755: if (cy1 != cy2) if (at2 & 2) player_process_tile (at2, cx1, cy2, rdm, cy2);
-   097B 3Ar00r00      [13] 1449 	ld	a,(#_cy1 + 0)
-   097E FD 21r00r00   [14] 1450 	ld	iy,#_cy2
-   0982 FD 96 00      [19] 1451 	sub	a, 0 (iy)
-   0985 28 4C         [12] 1452 	jr	Z,00227$
-   0987 FD 21r00r00   [14] 1453 	ld	iy,#_at2
-   098B FD CB 00 4E   [20] 1454 	bit	1, 0 (iy)
-   098F 28 42         [12] 1455 	jr	Z,00227$
-   0991 3Ar00r00      [13] 1456 	ld	a,(_cy2)
-   0994 F5            [11] 1457 	push	af
-   0995 33            [ 6] 1458 	inc	sp
-   0996 3Ar00r00      [13] 1459 	ld	a,(_rdm)
-   0999 F5            [11] 1460 	push	af
-   099A 33            [ 6] 1461 	inc	sp
-   099B 3Ar00r00      [13] 1462 	ld	a,(_cy2)
-   099E F5            [11] 1463 	push	af
-   099F 33            [ 6] 1464 	inc	sp
-   09A0 3Ar00r00      [13] 1465 	ld	a,(_cx1)
-   09A3 F5            [11] 1466 	push	af
-   09A4 33            [ 6] 1467 	inc	sp
-   09A5 3Ar00r00      [13] 1468 	ld	a,(_at2)
-   09A8 F5            [11] 1469 	push	af
-   09A9 33            [ 6] 1470 	inc	sp
-   09AA CDr3Dr01      [17] 1471 	call	_player_process_tile
-   09AD F1            [10] 1472 	pop	af
-   09AE F1            [10] 1473 	pop	af
-   09AF 33            [ 6] 1474 	inc	sp
-   09B0 18 21         [12] 1475 	jr	00227$
-   09B2                    1476 00226$:
-                           1477 ;engine/player.c:758: hith = ((at1 & 1) || (at2 & 1));
-   09B2 FD 21r00r00   [14] 1478 	ld	iy,#_at1
-   09B6 FD CB 00 46   [20] 1479 	bit	0, 0 (iy)
-   09BA 20 0E         [12] 1480 	jr	NZ,00259$
-   09BC FD 21r00r00   [14] 1481 	ld	iy,#_at2
-   09C0 FD CB 00 46   [20] 1482 	bit	0, 0 (iy)
-   09C4 20 04         [12] 1483 	jr	NZ,00259$
-   09C6 3E 00         [ 7] 1484 	ld	a,#0x00
-   09C8 18 02         [12] 1485 	jr	00260$
-   09CA                    1486 00259$:
-   09CA 3E 01         [ 7] 1487 	ld	a,#0x01
-   09CC                    1488 00260$:
-   09CC FD 21r00r00   [14] 1489 	ld	iy,#_hith
-   09D0 FD 77 00      [19] 1490 	ld	0 (iy),a
-   09D3                    1491 00227$:
-                           1492 ;engine/player.c:761: if (pvy > 0) hith &= ((pry & 15) > 4);
-   09D3 AF            [ 4] 1493 	xor	a, a
-   09D4 FD 21r00r00   [14] 1494 	ld	iy,#_pvy
-   09D8 FD BE 00      [19] 1495 	cp	a, 0 (iy)
-   09DB FD 21r00r00   [14] 1496 	ld	iy,#_pvy
-   09DF FD 9E 01      [19] 1497 	sbc	a, 1 (iy)
-   09E2 E2rE7r09      [10] 1498 	jp	PO, 00618$
-   09E5 EE 80         [ 7] 1499 	xor	a, #0x80
-   09E7                    1500 00618$:
-   09E7 F2rFEr09      [10] 1501 	jp	P,00232$
-   09EA 3Ar00r00      [13] 1502 	ld	a,(#_pry + 0)
-   09ED E6 0F         [ 7] 1503 	and	a, #0x0F
-   09EF 67            [ 4] 1504 	ld	h,a
-   09F0 3E 04         [ 7] 1505 	ld	a,#0x04
-   09F2 94            [ 4] 1506 	sub	a, h
-   09F3 3E 00         [ 7] 1507 	ld	a,#0x00
-   09F5 17            [ 4] 1508 	rla
-   09F6 57            [ 4] 1509 	ld	d,a
-   09F7 3Ar00r00      [13] 1510 	ld	a,(#_hith + 0)
-   09FA A2            [ 4] 1511 	and	a, d
-                           1512 ;engine/player.c:789: phit = 0;
-   09FB 32r00r00      [13] 1513 	ld	(#_hith + 0),a
-   09FE                    1514 00232$:
-   09FE FD 21r00r00   [14] 1515 	ld	iy,#_phit
-   0A02 FD 36 00 00   [19] 1516 	ld	0 (iy),#0x00
-                           1517 ;engine/player.c:791: if (pgotten == 0) {
-   0A06 3Ar00r00      [13] 1518 	ld	a,(#_pgotten + 0)
-   0A09 B7            [ 4] 1519 	or	a, a
-   0A0A C2r4Dr0B      [10] 1520 	jp	NZ,00247$
-                           1521 ;engine/player.c:799: if (hitv) { phit = 1; pvy = ADD_SIGN (-pvy, PLAYER_V_REBOUND); pry = pcy; py = pry << FIXBITS; } 
-   0A0D 3Ar00r00      [13] 1522 	ld	a,(#_hitv + 0)
-   0A10 B7            [ 4] 1523 	or	a, a
-   0A11 28 50         [12] 1524 	jr	Z,00236$
-   0A13 21r00r00      [10] 1525 	ld	hl,#_phit + 0
-   0A16 36 01         [10] 1526 	ld	(hl), #0x01
-   0A18 AF            [ 4] 1527 	xor	a, a
-   0A19 FD 21r00r00   [14] 1528 	ld	iy,#_pvy
-   0A1D FD 96 00      [19] 1529 	sub	a, 0 (iy)
-   0A20 67            [ 4] 1530 	ld	h,a
-   0A21 3E 00         [ 7] 1531 	ld	a, #0x00
-   0A23 FD 21r00r00   [14] 1532 	ld	iy,#_pvy
-   0A27 FD 9E 01      [19] 1533 	sbc	a, 1 (iy)
-   0A2A 6F            [ 4] 1534 	ld	l,a
-   0A2B B4            [ 4] 1535 	or	a,h
-   0A2C 28 15         [12] 1536 	jr	Z,00261$
-   0A2E AF            [ 4] 1537 	xor	a, a
-   0A2F BC            [ 4] 1538 	cp	a, h
-   0A30 9D            [ 4] 1539 	sbc	a, l
-   0A31 E2r36r0A      [10] 1540 	jp	PO, 00619$
-   0A34 EE 80         [ 7] 1541 	xor	a, #0x80
-   0A36                    1542 00619$:
-   0A36 F2r3Er0A      [10] 1543 	jp	P,00263$
-   0A39 21 E0 00      [10] 1544 	ld	hl,#0x00E0
-   0A3C 18 08         [12] 1545 	jr	00262$
-   0A3E                    1546 00263$:
-   0A3E 21 20 FF      [10] 1547 	ld	hl,#0xFF20
-   0A41 18 03         [12] 1548 	jr	00262$
-   0A43                    1549 00261$:
-   0A43 21 00 00      [10] 1550 	ld	hl,#0x0000
-   0A46                    1551 00262$:
-   0A46 22r00r00      [16] 1552 	ld	(_pvy),hl
-   0A49 3Ar00r00      [13] 1553 	ld	a,(#_pcy + 0)
-   0A4C 32r00r00      [13] 1554 	ld	(#_pry + 0),a
-   0A4F FD 21r00r00   [14] 1555 	ld	iy,#_pry
-   0A53 FD 6E 00      [19] 1556 	ld	l,0 (iy)
-   0A56 26 00         [ 7] 1557 	ld	h,#0x00
-   0A58 29            [11] 1558 	add	hl, hl
-   0A59 29            [11] 1559 	add	hl, hl
-   0A5A 29            [11] 1560 	add	hl, hl
-   0A5B 29            [11] 1561 	add	hl, hl
-   0A5C 29            [11] 1562 	add	hl, hl
-   0A5D 29            [11] 1563 	add	hl, hl
-   0A5E 22r00r00      [16] 1564 	ld	(_py),hl
-   0A61 18 54         [12] 1565 	jr	00237$
-   0A63                    1566 00236$:
-                           1567 ;engine/player.c:803: if (hith) { phit = 1; pvx = ADD_SIGN (-pvx, PLAYER_V_REBOUND); prx = pcx; px = prx << FIXBITS; }
-   0A63 3Ar00r00      [13] 1568 	ld	a,(#_hith + 0)
-   0A66 B7            [ 4] 1569 	or	a, a
-   0A67 28 4E         [12] 1570 	jr	Z,00237$
-   0A69 21r00r00      [10] 1571 	ld	hl,#_phit + 0
-   0A6C 36 01         [10] 1572 	ld	(hl), #0x01
-   0A6E AF            [ 4] 1573 	xor	a, a
-   0A6F FD 21r00r00   [14] 1574 	ld	iy,#_pvx
-   0A73 FD 96 00      [19] 1575 	sub	a, 0 (iy)
-   0A76 67            [ 4] 1576 	ld	h,a
-   0A77 3E 00         [ 7] 1577 	ld	a, #0x00
-   0A79 FD 21r00r00   [14] 1578 	ld	iy,#_pvx
-   0A7D FD 9E 01      [19] 1579 	sbc	a, 1 (iy)
-   0A80 6F            [ 4] 1580 	ld	l,a
-   0A81 B4            [ 4] 1581 	or	a,h
-   0A82 28 15         [12] 1582 	jr	Z,00265$
-   0A84 AF            [ 4] 1583 	xor	a, a
-   0A85 BC            [ 4] 1584 	cp	a, h
-   0A86 9D            [ 4] 1585 	sbc	a, l
-   0A87 E2r8Cr0A      [10] 1586 	jp	PO, 00620$
-   0A8A EE 80         [ 7] 1587 	xor	a, #0x80
-   0A8C                    1588 00620$:
-   0A8C F2r94r0A      [10] 1589 	jp	P,00267$
-   0A8F 21 E0 00      [10] 1590 	ld	hl,#0x00E0
-   0A92 18 08         [12] 1591 	jr	00266$
-   0A94                    1592 00267$:
-   0A94 21 20 FF      [10] 1593 	ld	hl,#0xFF20
-   0A97 18 03         [12] 1594 	jr	00266$
-   0A99                    1595 00265$:
-   0A99 21 00 00      [10] 1596 	ld	hl,#0x0000
-   0A9C                    1597 00266$:
-   0A9C 22r00r00      [16] 1598 	ld	(_pvx),hl
-   0A9F 3Ar00r00      [13] 1599 	ld	a,(#_pcx + 0)
-   0AA2 32r00r00      [13] 1600 	ld	(#_prx + 0),a
-   0AA5 FD 21r00r00   [14] 1601 	ld	iy,#_prx
-   0AA9 FD 6E 00      [19] 1602 	ld	l,0 (iy)
-   0AAC 26 00         [ 7] 1603 	ld	h,#0x00
-   0AAE 29            [11] 1604 	add	hl, hl
-   0AAF 29            [11] 1605 	add	hl, hl
-   0AB0 29            [11] 1606 	add	hl, hl
-   0AB1 29            [11] 1607 	add	hl, hl
-   0AB2 29            [11] 1608 	add	hl, hl
-   0AB3 29            [11] 1609 	add	hl, hl
-   0AB4 22r00r00      [16] 1610 	ld	(_px),hl
-   0AB7                    1611 00237$:
-                           1612 ;engine/player.c:807: cx1 = cx2 = (prx + 4) >> 4;
-   0AB7 21r00r00      [10] 1613 	ld	hl,#_prx + 0
-   0ABA 5E            [ 7] 1614 	ld	e, (hl)
-   0ABB 16 00         [ 7] 1615 	ld	d,#0x00
-   0ABD 13            [ 6] 1616 	inc	de
-   0ABE 13            [ 6] 1617 	inc	de
-   0ABF 13            [ 6] 1618 	inc	de
-   0AC0 13            [ 6] 1619 	inc	de
-   0AC1 CB 2A         [ 8] 1620 	sra	d
-   0AC3 CB 1B         [ 8] 1621 	rr	e
-   0AC5 CB 2A         [ 8] 1622 	sra	d
-   0AC7 CB 1B         [ 8] 1623 	rr	e
-   0AC9 CB 2A         [ 8] 1624 	sra	d
-   0ACB CB 1B         [ 8] 1625 	rr	e
-   0ACD CB 2A         [ 8] 1626 	sra	d
-   0ACF CB 1B         [ 8] 1627 	rr	e
-   0AD1 21r00r00      [10] 1628 	ld	hl,#_cx2 + 0
-   0AD4 73            [ 7] 1629 	ld	(hl), e
-   0AD5 21r00r00      [10] 1630 	ld	hl,#_cx1 + 0
-   0AD8 73            [ 7] 1631 	ld	(hl), e
-                           1632 ;engine/player.c:808: cy1 = pry >> 4; cy2 = (pry + 15) >> 4;
-   0AD9 3Ar00r00      [13] 1633 	ld	a,(#_pry + 0)
-   0ADC 07            [ 4] 1634 	rlca
-   0ADD 07            [ 4] 1635 	rlca
-   0ADE 07            [ 4] 1636 	rlca
-   0ADF 07            [ 4] 1637 	rlca
-   0AE0 E6 0F         [ 7] 1638 	and	a,#0x0F
-   0AE2 32r00r00      [13] 1639 	ld	(#_cy1 + 0),a
-   0AE5 FD 21r00r00   [14] 1640 	ld	iy,#_pry
-   0AE9 FD 6E 00      [19] 1641 	ld	l,0 (iy)
-   0AEC 26 00         [ 7] 1642 	ld	h,#0x00
-   0AEE 01 0F 00      [10] 1643 	ld	bc,#0x000F
-   0AF1 09            [11] 1644 	add	hl,bc
-   0AF2 CB 2C         [ 8] 1645 	sra	h
-   0AF4 CB 1D         [ 8] 1646 	rr	l
-   0AF6 CB 2C         [ 8] 1647 	sra	h
-   0AF8 CB 1D         [ 8] 1648 	rr	l
-   0AFA CB 2C         [ 8] 1649 	sra	h
-   0AFC CB 1D         [ 8] 1650 	rr	l
-   0AFE CB 2C         [ 8] 1651 	sra	h
-   0B00 CB 1D         [ 8] 1652 	rr	l
-   0B02 FD 21r00r00   [14] 1653 	ld	iy,#_cy2
-   0B06 FD 75 00      [19] 1654 	ld	0 (iy),l
-                           1655 ;engine/player.c:809: cm_two_points ();
-   0B09 CDr00r00      [17] 1656 	call	_cm_two_points
-                           1657 ;engine/player.c:810: if ((at1 & 1) || (at2 & 1)) phit = 1;
-   0B0C FD 21r00r00   [14] 1658 	ld	iy,#_at1
-   0B10 FD CB 00 46   [20] 1659 	bit	0, 0 (iy)
-   0B14 20 0A         [12] 1660 	jr	NZ,00238$
-   0B16 FD 21r00r00   [14] 1661 	ld	iy,#_at2
-   0B1A FD CB 00 46   [20] 1662 	bit	0, 0 (iy)
-   0B1E 28 08         [12] 1663 	jr	Z,00239$
-   0B20                    1664 00238$:
-   0B20 FD 21r00r00   [14] 1665 	ld	iy,#_phit
-   0B24 FD 36 00 01   [19] 1666 	ld	0 (iy),#0x01
-   0B28                    1667 00239$:
-                           1668 ;engine/player.c:813: if (!pflickering && !pbouncing) if (phit) { 
-   0B28 3Ar00r00      [13] 1669 	ld	a,(#_pflickering + 0)
-   0B2B B7            [ 4] 1670 	or	a, a
-   0B2C 20 1F         [12] 1671 	jr	NZ,00247$
-   0B2E 3Ar00r00      [13] 1672 	ld	a,(#_pbouncing + 0)
-   0B31 B7            [ 4] 1673 	or	a, a
-   0B32 20 19         [12] 1674 	jr	NZ,00247$
-   0B34 3Ar00r00      [13] 1675 	ld	a,(#_phit + 0)
-   0B37 B7            [ 4] 1676 	or	a, a
-   0B38 28 13         [12] 1677 	jr	Z,00247$
-                           1678 ;engine/player.c:814: player_to_pixels ();
-   0B3A CDr9Dr00      [17] 1679 	call	_player_to_pixels
-                           1680 ;engine/player.c:815: en_sg_2 = 1;
-   0B3D FD 21r00r00   [14] 1681 	ld	iy,#_en_sg_2
-   0B41 FD 36 00 01   [19] 1682 	ld	0 (iy),#0x01
-                           1683 ;engine/player.c:822: pkill = en_sg_2;
-   0B45 FD 21r00r00   [14] 1684 	ld	iy,#_pkill
-   0B49 FD 36 00 01   [19] 1685 	ld	0 (iy),#0x01
-   0B4D                    1686 00247$:
-                           1687 ;engine/../my/player_frame_selector.h:37: if (ppossee || pgotten) {
-   0B4D 3Ar00r00      [13] 1688 	ld	a,(#_ppossee + 0)
-   0B50 B7            [ 4] 1689 	or	a, a
-   0B51 20 06         [12] 1690 	jr	NZ,00252$
-   0B53 3Ar00r00      [13] 1691 	ld	a,(#_pgotten + 0)
-   0B56 B7            [ 4] 1692 	or	a, a
-   0B57 28 41         [12] 1693 	jr	Z,00253$
-   0B59                    1694 00252$:
-                           1695 ;engine/../my/player_frame_selector.h:39: if (pvx > PLAYER_VX_MIN || pvx < -PLAYER_VX_MIN) {
-   0B59 3E 18         [ 7] 1696 	ld	a,#0x18
-   0B5B FD 21r00r00   [14] 1697 	ld	iy,#_pvx
-   0B5F FD BE 00      [19] 1698 	cp	a, 0 (iy)
-   0B62 3E 00         [ 7] 1699 	ld	a,#0x00
-   0B64 FD 21r00r00   [14] 1700 	ld	iy,#_pvx
-   0B68 FD 9E 01      [19] 1701 	sbc	a, 1 (iy)
-   0B6B E2r70r0B      [10] 1702 	jp	PO, 00624$
-   0B6E EE 80         [ 7] 1703 	xor	a, #0x80
-   0B70                    1704 00624$:
-   0B70 FAr82r0B      [10] 1705 	jp	M,00248$
-   0B73 3Ar00r00      [13] 1706 	ld	a,(#_pvx + 0)
-   0B76 D6 E8         [ 7] 1707 	sub	a, #0xE8
-   0B78 3Ar01r00      [13] 1708 	ld	a,(#_pvx + 1)
-   0B7B 17            [ 4] 1709 	rla
-   0B7C 3F            [ 4] 1710 	ccf
-   0B7D 1F            [ 4] 1711 	rra
-   0B7E DE 7F         [ 7] 1712 	sbc	a, #0x7F
-   0B80 30 11         [12] 1713 	jr	NC,00249$
-   0B82                    1714 00248$:
-                           1715 ;engine/../my/player_frame_selector.h:40: psprid = CELL_WALK_CYCLE + ((prx >> 3) & 3);
-   0B82 3Ar00r00      [13] 1716 	ld	a,(#_prx + 0)
-   0B85 0F            [ 4] 1717 	rrca
-   0B86 0F            [ 4] 1718 	rrca
-   0B87 0F            [ 4] 1719 	rrca
-   0B88 E6 1F         [ 7] 1720 	and	a,#0x1F
-   0B8A E6 03         [ 7] 1721 	and	a, #0x03
-   0B8C 21r00r00      [10] 1722 	ld	hl,#_psprid
-   0B8F 3C            [ 4] 1723 	inc	a
-   0B90 77            [ 7] 1724 	ld	(hl),a
-   0B91 18 0C         [12] 1725 	jr	00254$
-   0B93                    1726 00249$:
-                           1727 ;engine/../my/player_frame_selector.h:42: psprid = CELL_IDLE;
-   0B93 21r00r00      [10] 1728 	ld	hl,#_psprid + 0
-   0B96 36 00         [10] 1729 	ld	(hl), #0x00
-   0B98 18 05         [12] 1730 	jr	00254$
-   0B9A                    1731 00253$:
-                           1732 ;engine/../my/player_frame_selector.h:45: psprid = CELL_AIRBORNE;
-   0B9A 21r00r00      [10] 1733 	ld	hl,#_psprid + 0
-   0B9D 36 05         [10] 1734 	ld	(hl), #0x05
-   0B9F                    1735 00254$:
-                           1736 ;engine/../my/player_frame_selector.h:55: psprid += pfacing;
-   0B9F 21r00r00      [10] 1737 	ld	hl,#_pfacing
-   0BA2 D5            [11] 1738 	push	de
-   0BA3 FD 21r00r00   [14] 1739 	ld	iy,#_psprid
-   0BA7 FD E5         [15] 1740 	push	iy
-   0BA9 D1            [10] 1741 	pop	de
-   0BAA 1A            [ 7] 1742 	ld	a,(de)
-   0BAB 86            [ 7] 1743 	add	a, (hl)
-   0BAC 12            [ 7] 1744 	ld	(de),a
-   0BAD D1            [10] 1745 	pop	de
-                           1746 ;engine/player.c:942: prx_old = prx;
-   0BAE 3Ar00r00      [13] 1747 	ld	a,(#_prx + 0)
-   0BB1 32r00r00      [13] 1748 	ld	(#_prx_old + 0),a
-                           1749 ;engine/player.c:943: pry_old = pry;
-   0BB4 3Ar00r00      [13] 1750 	ld	a,(#_pry + 0)
-   0BB7 32r00r00      [13] 1751 	ld	(#_pry_old + 0),a
-   0BBA DD F9         [10] 1752 	ld	sp, ix
-   0BBC DD E1         [14] 1753 	pop	ix
-   0BBE C9            [10] 1754 	ret
-                           1755 	.area _CODE
-                           1756 	.area _INITIALIZER
-                           1757 	.area _CABS (ABS)
+   0394 20 3F         [12]  631 	jr	NZ,00126$
+                            632 ;engine/player.c:337: if (!pj) {
+   0396 3Ar00r00      [13]  633 	ld	a,(#_pj + 0)
+   0399 B7            [ 4]  634 	or	a, a
+   039A 20 0E         [12]  635 	jr	NZ,00119$
+                            636 ;engine/player.c:338: pvy += PLAYER_G;
+   039C 21r00r00      [10]  637 	ld	hl,#_pvy
+   039F 7E            [ 7]  638 	ld	a,(hl)
+   03A0 C6 08         [ 7]  639 	add	a, #0x08
+   03A2 77            [ 7]  640 	ld	(hl),a
+   03A3 23            [ 6]  641 	inc	hl
+   03A4 7E            [ 7]  642 	ld	a,(hl)
+   03A5 CE 00         [ 7]  643 	adc	a, #0x00
+   03A7 77            [ 7]  644 	ld	(hl),a
+   03A8 18 0C         [12]  645 	jr	00120$
+   03AA                     646 00119$:
+                            647 ;engine/player.c:339: } else pvy += PLAYER_G_MK2_JUMPING;
+   03AA 21r00r00      [10]  648 	ld	hl,#_pvy
+   03AD 7E            [ 7]  649 	ld	a,(hl)
+   03AE C6 04         [ 7]  650 	add	a, #0x04
+   03B0 77            [ 7]  651 	ld	(hl),a
+   03B1 23            [ 6]  652 	inc	hl
+   03B2 7E            [ 7]  653 	ld	a,(hl)
+   03B3 CE 00         [ 7]  654 	adc	a, #0x00
+   03B5 77            [ 7]  655 	ld	(hl),a
+   03B6                     656 00120$:
+                            657 ;engine/player.c:340: if (pvy > PLAYER_VY_FALLING_MAX) pvy = PLAYER_VY_FALLING_MAX; 
+   03B6 AF            [ 4]  658 	xor	a, a
+   03B7 FD 21r00r00   [14]  659 	ld	iy,#_pvy
+   03BB FD BE 00      [19]  660 	cp	a, 0 (iy)
+   03BE 3E 01         [ 7]  661 	ld	a,#0x01
+   03C0 FD 21r00r00   [14]  662 	ld	iy,#_pvy
+   03C4 FD 9E 01      [19]  663 	sbc	a, 1 (iy)
+   03C7 E2rCCr03      [10]  664 	jp	PO, 00585$
+   03CA EE 80         [ 7]  665 	xor	a, #0x80
+   03CC                     666 00585$:
+   03CC F2rD5r03      [10]  667 	jp	P,00126$
+   03CF 21 00 01      [10]  668 	ld	hl,#0x0100
+   03D2 22r00r00      [16]  669 	ld	(_pvy),hl
+   03D5                     670 00126$:
+                            671 ;engine/player.c:352: if (pgotten) pvy = 0;			
+   03D5 3Ar00r00      [13]  672 	ld	a,(#_pgotten + 0)
+   03D8 B7            [ 4]  673 	or	a, a
+   03D9 28 06         [12]  674 	jr	Z,00128$
+   03DB 21 00 00      [10]  675 	ld	hl,#0x0000
+   03DE 22r00r00      [16]  676 	ld	(_pvy),hl
+   03E1                     677 00128$:
+                            678 ;engine/player.c:389: py += pvy;
+   03E1 21r00r00      [10]  679 	ld	hl,#_pvy
+   03E4 D5            [11]  680 	push	de
+   03E5 FD 21r00r00   [14]  681 	ld	iy,#_py
+   03E9 FD E5         [15]  682 	push	iy
+   03EB D1            [10]  683 	pop	de
+   03EC 1A            [ 7]  684 	ld	a,(de)
+   03ED 86            [ 7]  685 	add	a, (hl)
+   03EE 12            [ 7]  686 	ld	(de),a
+   03EF 13            [ 6]  687 	inc	de
+   03F0 1A            [ 7]  688 	ld	a,(de)
+   03F1 23            [ 6]  689 	inc	hl
+   03F2 8E            [ 7]  690 	adc	a, (hl)
+   03F3 12            [ 7]  691 	ld	(de),a
+   03F4 D1            [10]  692 	pop	de
+                            693 ;engine/player.c:390: if (py < 0) py = 0;
+   03F5 3Ar01r00      [13]  694 	ld	a,(#_py + 1)
+   03F8 CB 7F         [ 8]  695 	bit	7,a
+   03FA 28 06         [12]  696 	jr	Z,00130$
+   03FC 21 00 00      [10]  697 	ld	hl,#0x0000
+   03FF 22r00r00      [16]  698 	ld	(_py),hl
+   0402                     699 00130$:
+                            700 ;engine/player.c:391: pry = py >> FIXBITS;
+   0402 2Ar00r00      [16]  701 	ld	hl,(_py)
+   0405 CB 2C         [ 8]  702 	sra	h
+   0407 CB 1D         [ 8]  703 	rr	l
+   0409 CB 2C         [ 8]  704 	sra	h
+   040B CB 1D         [ 8]  705 	rr	l
+   040D CB 2C         [ 8]  706 	sra	h
+   040F CB 1D         [ 8]  707 	rr	l
+   0411 CB 2C         [ 8]  708 	sra	h
+   0413 CB 1D         [ 8]  709 	rr	l
+   0415 CB 2C         [ 8]  710 	sra	h
+   0417 CB 1D         [ 8]  711 	rr	l
+   0419 CB 2C         [ 8]  712 	sra	h
+   041B CB 1D         [ 8]  713 	rr	l
+   041D FD 21r00r00   [14]  714 	ld	iy,#_pry
+   0421 FD 75 00      [19]  715 	ld	0 (iy),l
+                            716 ;engine/player.c:394: player_to_pixels ();
+   0424 CDr9Dr00      [17]  717 	call	_player_to_pixels
+                            718 ;engine/player.c:396: cx1 = prx >> 4;
+   0427 3Ar00r00      [13]  719 	ld	a,(#_prx + 0)
+   042A 07            [ 4]  720 	rlca
+   042B 07            [ 4]  721 	rlca
+   042C 07            [ 4]  722 	rlca
+   042D 07            [ 4]  723 	rlca
+   042E E6 0F         [ 7]  724 	and	a,#0x0F
+   0430 32r00r00      [13]  725 	ld	(#_cx1 + 0),a
+                            726 ;engine/player.c:397: cx2 = (prx + 7) >> 4;
+   0433 FD 21r00r00   [14]  727 	ld	iy,#_prx
+   0437 FD 6E 00      [19]  728 	ld	l,0 (iy)
+   043A 26 00         [ 7]  729 	ld	h,#0x00
+   043C 01 07 00      [10]  730 	ld	bc,#0x0007
+   043F 09            [11]  731 	add	hl,bc
+   0440 CB 2C         [ 8]  732 	sra	h
+   0442 CB 1D         [ 8]  733 	rr	l
+   0444 CB 2C         [ 8]  734 	sra	h
+   0446 CB 1D         [ 8]  735 	rr	l
+   0448 CB 2C         [ 8]  736 	sra	h
+   044A CB 1D         [ 8]  737 	rr	l
+   044C CB 2C         [ 8]  738 	sra	h
+   044E CB 1D         [ 8]  739 	rr	l
+   0450 FD 21r00r00   [14]  740 	ld	iy,#_cx2
+   0454 FD 75 00      [19]  741 	ld	0 (iy),l
+                            742 ;engine/player.c:402: rds16 = pvy + pgtmy;
+   0457 21r00r00      [10]  743 	ld	hl,#_pgtmy
+   045A D5            [11]  744 	push	de
+   045B FD 21r00r00   [14]  745 	ld	iy,#_rds16
+   045F FD E5         [15]  746 	push	iy
+   0461 D1            [10]  747 	pop	de
+   0462 3Ar00r00      [13]  748 	ld	a,(#_pvy + 0)
+   0465 86            [ 7]  749 	add	a, (hl)
+   0466 12            [ 7]  750 	ld	(de),a
+   0467 3Ar01r00      [13]  751 	ld	a,(#_pvy + 1)
+   046A 23            [ 6]  752 	inc	hl
+   046B 8E            [ 7]  753 	adc	a, (hl)
+   046C 13            [ 6]  754 	inc	de
+   046D 12            [ 7]  755 	ld	(de),a
+   046E D1            [10]  756 	pop	de
+                            757 ;engine/player.c:230: cy1 = cy2 = (pry + 15) >> 4;
+   046F FD 21r00r00   [14]  758 	ld	iy,#_pry
+   0473 FD 5E 00      [19]  759 	ld	e,0 (iy)
+   0476 16 00         [ 7]  760 	ld	d,#0x00
+                            761 ;engine/player.c:403: if (rds16 < 0)
+   0478 3Ar01r00      [13]  762 	ld	a,(#_rds16 + 1)
+   047B CB 7F         [ 8]  763 	bit	7,a
+   047D CAr12r05      [10]  764 	jp	Z,00166$
+                            765 ;engine/player.c:406: cy1 = cy2 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;			
+   0480 7B            [ 4]  766 	ld	a,e
+   0481 C6 04         [ 7]  767 	add	a,#0x04
+   0483 5F            [ 4]  768 	ld	e,a
+   0484 7A            [ 4]  769 	ld	a,d
+   0485 CE 00         [ 7]  770 	adc	a,#0x00
+   0487 57            [ 4]  771 	ld	d,a
+   0488 CB 2A         [ 8]  772 	sra	d
+   048A CB 1B         [ 8]  773 	rr	e
+   048C CB 2A         [ 8]  774 	sra	d
+   048E CB 1B         [ 8]  775 	rr	e
+   0490 CB 2A         [ 8]  776 	sra	d
+   0492 CB 1B         [ 8]  777 	rr	e
+   0494 CB 2A         [ 8]  778 	sra	d
+   0496 CB 1B         [ 8]  779 	rr	e
+   0498 21r00r00      [10]  780 	ld	hl,#_cy2 + 0
+   049B 73            [ 7]  781 	ld	(hl), e
+   049C 21r00r00      [10]  782 	ld	hl,#_cy1 + 0
+   049F 73            [ 7]  783 	ld	(hl), e
+                            784 ;engine/player.c:407: cm_two_points ();
+   04A0 CDr00r00      [17]  785 	call	_cm_two_points
+                            786 ;engine/player.c:408: if ((at1 & 8) || (at2 & 8)) {
+   04A3 FD 21r00r00   [14]  787 	ld	iy,#_at1
+   04A7 FD CB 00 5E   [20]  788 	bit	3, 0 (iy)
+   04AB 20 0A         [12]  789 	jr	NZ,00134$
+   04AD FD 21r00r00   [14]  790 	ld	iy,#_at2
+   04B1 FD CB 00 5E   [20]  791 	bit	3, 0 (iy)
+   04B5 28 3B         [12]  792 	jr	Z,00135$
+   04B7                     793 00134$:
+                            794 ;engine/player.c:409: pry = ((cy1 + 1) << 4) + PLAYER_COLLISION_VSTRETCH_BG;
+   04B7 3Ar00r00      [13]  795 	ld	a,(#_cy1 + 0)
+   04BA 3C            [ 4]  796 	inc	a
+   04BB 07            [ 4]  797 	rlca
+   04BC 07            [ 4]  798 	rlca
+   04BD 07            [ 4]  799 	rlca
+   04BE 07            [ 4]  800 	rlca
+   04BF E6 F0         [ 7]  801 	and	a,#0xF0
+   04C1 21r00r00      [10]  802 	ld	hl,#_pry
+   04C4 C6 FC         [ 7]  803 	add	a, #0xFC
+   04C6 77            [ 7]  804 	ld	(hl),a
+                            805 ;engine/player.c:410: pvy = 0; py = pry << FIXBITS;
+   04C7 21 00 00      [10]  806 	ld	hl,#0x0000
+   04CA 22r00r00      [16]  807 	ld	(_pvy),hl
+   04CD FD 21r00r00   [14]  808 	ld	iy,#_pry
+   04D1 FD 6E 00      [19]  809 	ld	l,0 (iy)
+   04D4 26 00         [ 7]  810 	ld	h,#0x00
+   04D6 29            [11]  811 	add	hl, hl
+   04D7 29            [11]  812 	add	hl, hl
+   04D8 29            [11]  813 	add	hl, hl
+   04D9 29            [11]  814 	add	hl, hl
+   04DA 29            [11]  815 	add	hl, hl
+   04DB 29            [11]  816 	add	hl, hl
+   04DC 22r00r00      [16]  817 	ld	(_py),hl
+                            818 ;engine/player.c:411: pgotten = 0;
+   04DF FD 21r00r00   [14]  819 	ld	iy,#_pgotten
+   04E3 FD 36 00 00   [19]  820 	ld	0 (iy),#0x00
+                            821 ;engine/player.c:412: pfiring = 1;
+   04E7 FD 21r00r00   [14]  822 	ld	iy,#_pfiring
+   04EB FD 36 00 01   [19]  823 	ld	0 (iy),#0x01
+   04EF C3r80r06      [10]  824 	jp	00167$
+   04F2                     825 00135$:
+                            826 ;engine/player.c:418: } else if ((at1 & 1) || (at2 & 1)) {
+   04F2 FD 21r00r00   [14]  827 	ld	iy,#_at1
+   04F6 FD CB 00 46   [20]  828 	bit	0, 0 (iy)
+   04FA 20 0B         [12]  829 	jr	NZ,00131$
+   04FC FD 21r00r00   [14]  830 	ld	iy,#_at2
+   0500 FD CB 00 46   [20]  831 	bit	0, 0 (iy)
+   0504 CAr80r06      [10]  832 	jp	Z,00167$
+   0507                     833 00131$:
+                            834 ;engine/player.c:419: hitv = 1;
+   0507 FD 21r00r00   [14]  835 	ld	iy,#_hitv
+   050B FD 36 00 01   [19]  836 	ld	0 (iy),#0x01
+   050F C3r80r06      [10]  837 	jp	00167$
+   0512                     838 00166$:
+                            839 ;engine/player.c:430: } else if (rds16 > 0)
+   0512 AF            [ 4]  840 	xor	a, a
+   0513 FD 21r00r00   [14]  841 	ld	iy,#_rds16
+   0517 FD BE 00      [19]  842 	cp	a, 0 (iy)
+   051A FD 21r00r00   [14]  843 	ld	iy,#_rds16
+   051E FD 9E 01      [19]  844 	sbc	a, 1 (iy)
+   0521 E2r26r05      [10]  845 	jp	PO, 00592$
+   0524 EE 80         [ 7]  846 	xor	a, #0x80
+   0526                     847 00592$:
+   0526 F2r80r06      [10]  848 	jp	P,00167$
+                            849 ;engine/player.c:433: cy1 = cy2 = (pry + 16) >> 4; 
+   0529 21 10 00      [10]  850 	ld	hl,#0x0010
+   052C 19            [11]  851 	add	hl,de
+   052D CB 2C         [ 8]  852 	sra	h
+   052F CB 1D         [ 8]  853 	rr	l
+   0531 CB 2C         [ 8]  854 	sra	h
+   0533 CB 1D         [ 8]  855 	rr	l
+   0535 CB 2C         [ 8]  856 	sra	h
+   0537 CB 1D         [ 8]  857 	rr	l
+   0539 CB 2C         [ 8]  858 	sra	h
+   053B CB 1D         [ 8]  859 	rr	l
+   053D 7D            [ 4]  860 	ld	a,l
+   053E 32r00r00      [13]  861 	ld	(#_cy2 + 0),a
+   0541 32r00r00      [13]  862 	ld	(#_cy1 + 0),a
+                            863 ;engine/player.c:434: cm_two_points (); 
+   0544 CDr00r00      [17]  864 	call	_cm_two_points
+                            865 ;engine/player.c:439: pry < ((cy1 - 1) << 4) + 4 && 
+   0547 FD 21r00r00   [14]  866 	ld	iy,#_cy1
+   054B FD 6E 00      [19]  867 	ld	l,0 (iy)
+   054E 26 00         [ 7]  868 	ld	h,#0x00
+   0550 2B            [ 6]  869 	dec	hl
+   0551 29            [11]  870 	add	hl, hl
+   0552 29            [11]  871 	add	hl, hl
+   0553 29            [11]  872 	add	hl, hl
+   0554 29            [11]  873 	add	hl, hl
+   0555 5D            [ 4]  874 	ld	e, l
+   0556 54            [ 4]  875 	ld	d, h
+   0557 13            [ 6]  876 	inc	de
+   0558 13            [ 6]  877 	inc	de
+   0559 13            [ 6]  878 	inc	de
+   055A 13            [ 6]  879 	inc	de
+   055B 3Ar00r00      [13]  880 	ld	a,(#_pry + 0)
+   055E DD 77 FC      [19]  881 	ld	-4 (ix),a
+   0561 DD 36 FD 00   [19]  882 	ld	-3 (ix),#0x00
+                            883 ;engine/player.c:418: } else if ((at1 & 1) || (at2 & 1)) {
+   0565 3Ar00r00      [13]  884 	ld	a,(#_at1 + 0)
+   0568 E6 01         [ 7]  885 	and	a, #0x01
+   056A 4F            [ 4]  886 	ld	c,a
+   056B FD 21r00r00   [14]  887 	ld	iy,#_at2
+   056F FD 7E 00      [19]  888 	ld	a,0 (iy)
+   0572 E6 01         [ 7]  889 	and	a, #0x01
+   0574 DD 77 FE      [19]  890 	ld	-2 (ix),a
+                            891 ;engine/player.c:439: pry < ((cy1 - 1) << 4) + 4 && 
+   0577 DD 7E FC      [19]  892 	ld	a,-4 (ix)
+   057A 93            [ 4]  893 	sub	a, e
+   057B DD 7E FD      [19]  894 	ld	a,-3 (ix)
+   057E 9A            [ 4]  895 	sbc	a, d
+   057F E2r84r05      [10]  896 	jp	PO, 00593$
+   0582 EE 80         [ 7]  897 	xor	a, #0x80
+   0584                     898 00593$:
+   0584 F2r63r06      [10]  899 	jp	P,00159$
+                            900 ;engine/player.c:441: (at1 & 12) || (at2 & 12)
+   0587 3Ar00r00      [13]  901 	ld	a,(#_at1 + 0)
+   058A E6 0C         [ 7]  902 	and	a, #0x0C
+   058C 20 08         [12]  903 	jr	NZ,00158$
+   058E 3Ar00r00      [13]  904 	ld	a,(#_at2 + 0)
+   0591 E6 0C         [ 7]  905 	and	a, #0x0C
+   0593 CAr63r06      [10]  906 	jp	Z,00159$
+   0596                     907 00158$:
+                            908 ;engine/player.c:449: pvy = 0; pry = ((cy1 - 1) << 4);py = pry << FIXBITS;
+   0596 21 00 00      [10]  909 	ld	hl,#0x0000
+   0599 22r00r00      [16]  910 	ld	(_pvy),hl
+   059C 3Ar00r00      [13]  911 	ld	a,(#_cy1 + 0)
+   059F C6 FF         [ 7]  912 	add	a,#0xFF
+   05A1 07            [ 4]  913 	rlca
+   05A2 07            [ 4]  914 	rlca
+   05A3 07            [ 4]  915 	rlca
+   05A4 07            [ 4]  916 	rlca
+   05A5 E6 F0         [ 7]  917 	and	a,#0xF0
+   05A7 32r00r00      [13]  918 	ld	(#_pry + 0),a
+   05AA FD 21r00r00   [14]  919 	ld	iy,#_pry
+   05AE FD 6E 00      [19]  920 	ld	l,0 (iy)
+   05B1 26 00         [ 7]  921 	ld	h,#0x00
+   05B3 29            [11]  922 	add	hl, hl
+   05B4 29            [11]  923 	add	hl, hl
+   05B5 29            [11]  924 	add	hl, hl
+   05B6 29            [11]  925 	add	hl, hl
+   05B7 29            [11]  926 	add	hl, hl
+   05B8 29            [11]  927 	add	hl, hl
+   05B9 22r00r00      [16]  928 	ld	(_py),hl
+                            929 ;engine/player.c:450: pgotten = 0;
+   05BC FD 21r00r00   [14]  930 	ld	iy,#_pgotten
+   05C0 FD 36 00 00   [19]  931 	ld	0 (iy),#0x00
+                            932 ;engine/player.c:451: pfiring = 1;
+   05C4 FD 21r00r00   [14]  933 	ld	iy,#_pfiring
+   05C8 FD 36 00 01   [19]  934 	ld	0 (iy),#0x01
+                            935 ;engine/player.c:452: ppossee = 1;
+   05CC FD 21r00r00   [14]  936 	ld	iy,#_ppossee
+   05D0 FD 36 00 01   [19]  937 	ld	0 (iy),#0x01
+                            938 ;engine/player.c:476: cfx = 0;
+   05D4 FD 21r00r00   [14]  939 	ld	iy,#_cfx
+   05D8 FD 36 00 00   [19]  940 	ld	0 (iy),#0x00
+                            941 ;engine/player.c:477: if ((at1 & 40) == 40) { if (at1 & 1) cfx = pgtmx = PLAYER_VX_CONVEYORS; else cfx = pgtmx = -PLAYER_VX_CONVEYORS; pgotten = 1; } 
+   05DC 3Ar00r00      [13]  942 	ld	a,(#_at1 + 0)
+   05DF E6 28         [ 7]  943 	and	a, #0x28
+   05E1 D6 28         [ 7]  944 	sub	a,#0x28
+   05E3 20 29         [12]  945 	jr	NZ,00142$
+   05E5 B1            [ 4]  946 	or	a,c
+   05E6 28 10         [12]  947 	jr	Z,00139$
+   05E8 21 30 00      [10]  948 	ld	hl,#0x0030
+   05EB 22r00r00      [16]  949 	ld	(_pgtmx),hl
+   05EE FD 21r00r00   [14]  950 	ld	iy,#_cfx
+   05F2 FD 36 00 30   [19]  951 	ld	0 (iy),#0x30
+   05F6 18 0E         [12]  952 	jr	00140$
+   05F8                     953 00139$:
+   05F8 21 D0 FF      [10]  954 	ld	hl,#0xFFD0
+   05FB 22r00r00      [16]  955 	ld	(_pgtmx),hl
+   05FE FD 21r00r00   [14]  956 	ld	iy,#_cfx
+   0602 FD 36 00 D0   [19]  957 	ld	0 (iy),#0xD0
+   0606                     958 00140$:
+   0606 FD 21r00r00   [14]  959 	ld	iy,#_pgotten
+   060A FD 36 00 01   [19]  960 	ld	0 (iy),#0x01
+   060E                     961 00142$:
+                            962 ;engine/player.c:478: if (cx1 != cx2) if ((at2 & 40) == 40) { if (at2 & 1) cfx = pgtmx = PLAYER_VX_CONVEYORS; else cfx = pgtmx = -PLAYER_VX_CONVEYORS; pgotten = 1; } 
+   060E 3Ar00r00      [13]  963 	ld	a,(#_cx1 + 0)
+   0611 FD 21r00r00   [14]  964 	ld	iy,#_cx2
+   0615 FD 96 00      [19]  965 	sub	a, 0 (iy)
+   0618 28 35         [12]  966 	jr	Z,00149$
+   061A 3Ar00r00      [13]  967 	ld	a,(#_at2 + 0)
+   061D E6 28         [ 7]  968 	and	a, #0x28
+   061F D6 28         [ 7]  969 	sub	a, #0x28
+   0621 20 2C         [12]  970 	jr	NZ,00149$
+   0623 DD 7E FE      [19]  971 	ld	a,-2 (ix)
+   0626 B7            [ 4]  972 	or	a, a
+   0627 28 10         [12]  973 	jr	Z,00144$
+   0629 21 30 00      [10]  974 	ld	hl,#0x0030
+   062C 22r00r00      [16]  975 	ld	(_pgtmx),hl
+   062F FD 21r00r00   [14]  976 	ld	iy,#_cfx
+   0633 FD 36 00 30   [19]  977 	ld	0 (iy),#0x30
+   0637 18 0E         [12]  978 	jr	00145$
+   0639                     979 00144$:
+   0639 21 D0 FF      [10]  980 	ld	hl,#0xFFD0
+   063C 22r00r00      [16]  981 	ld	(_pgtmx),hl
+   063F FD 21r00r00   [14]  982 	ld	iy,#_cfx
+   0643 FD 36 00 D0   [19]  983 	ld	0 (iy),#0xD0
+   0647                     984 00145$:
+   0647 FD 21r00r00   [14]  985 	ld	iy,#_pgotten
+   064B FD 36 00 01   [19]  986 	ld	0 (iy),#0x01
+   064F                     987 00149$:
+                            988 ;engine/player.c:486: if ((at1 & 1) || (at2 & 1)) pnotsafe = 1; 
+   064F 79            [ 4]  989 	ld	a,c
+   0650 B7            [ 4]  990 	or	a, a
+   0651 20 06         [12]  991 	jr	NZ,00150$
+   0653 DD 7E FE      [19]  992 	ld	a,-2 (ix)
+   0656 B7            [ 4]  993 	or	a, a
+   0657 28 27         [12]  994 	jr	Z,00167$
+   0659                     995 00150$:
+   0659 FD 21r00r00   [14]  996 	ld	iy,#_pnotsafe
+   065D FD 36 00 01   [19]  997 	ld	0 (iy),#0x01
+   0661 18 1D         [12]  998 	jr	00167$
+   0663                     999 00159$:
+                           1000 ;engine/player.c:487: } else if ((at1 & 1) || (at2 & 1)) {
+   0663 79            [ 4] 1001 	ld	a,c
+   0664 B7            [ 4] 1002 	or	a, a
+   0665 20 06         [12] 1003 	jr	NZ,00155$
+   0667 DD 7E FE      [19] 1004 	ld	a,-2 (ix)
+   066A B7            [ 4] 1005 	or	a, a
+   066B 28 13         [12] 1006 	jr	Z,00167$
+   066D                    1007 00155$:
+                           1008 ;engine/player.c:488: if ((pry & 15) > 4) hitv = 1;
+   066D 3Ar00r00      [13] 1009 	ld	a,(#_pry + 0)
+   0670 E6 0F         [ 7] 1010 	and	a, #0x0F
+   0672 67            [ 4] 1011 	ld	h,a
+   0673 3E 04         [ 7] 1012 	ld	a,#0x04
+   0675 94            [ 4] 1013 	sub	a, h
+   0676 30 08         [12] 1014 	jr	NC,00167$
+   0678 FD 21r00r00   [14] 1015 	ld	iy,#_hitv
+   067C FD 36 00 01   [19] 1016 	ld	0 (iy),#0x01
+   0680                    1017 00167$:
+                           1018 ;engine/player.c:505: if (vertical_engine_type == ENGINE_TYPE_JUMP) {
+   0680 3Ar00r00      [13] 1019 	ld	a,(#_vertical_engine_type + 0)
+   0683 B7            [ 4] 1020 	or	a, a
+   0684 C2r02r07      [10] 1021 	jp	NZ,00188$
+                           1022 ;engine/player.c:509: a_button 
+   0687 3Ar00r00      [13] 1023 	ld	a,(#_a_button + 0)
+   068A B7            [ 4] 1024 	or	a, a
+   068B 28 30         [12] 1025 	jr	Z,00173$
+                           1026 ;engine/player.c:510: && !pj
+   068D 3Ar00r00      [13] 1027 	ld	a,(#_pj + 0)
+   0690 B7            [ 4] 1028 	or	a, a
+   0691 20 2A         [12] 1029 	jr	NZ,00173$
+                           1030 ;engine/player.c:512: pgotten || ppossee || hitv
+   0693 3Ar00r00      [13] 1031 	ld	a,(#_pgotten + 0)
+   0696 B7            [ 4] 1032 	or	a, a
+   0697 20 0C         [12] 1033 	jr	NZ,00172$
+   0699 3Ar00r00      [13] 1034 	ld	a,(#_ppossee + 0)
+   069C B7            [ 4] 1035 	or	a, a
+   069D 20 06         [12] 1036 	jr	NZ,00172$
+   069F 3Ar00r00      [13] 1037 	ld	a,(#_hitv + 0)
+   06A2 B7            [ 4] 1038 	or	a, a
+   06A3 28 18         [12] 1039 	jr	Z,00173$
+   06A5                    1040 00172$:
+                           1041 ;engine/player.c:518: jump_start ();
+   06A5 CDr00r00      [17] 1042 	call	_jump_start
+                           1043 ;engine/player.c:521: if (!(pgotten || hitv || pnotsafe)) {
+   06A8 3Ar00r00      [13] 1044 	ld	a,(#_pgotten + 0)
+   06AB B7            [ 4] 1045 	or	a, a
+   06AC 20 0F         [12] 1046 	jr	NZ,00173$
+   06AE 3Ar00r00      [13] 1047 	ld	a,(#_hitv + 0)
+   06B1 B7            [ 4] 1048 	or	a, a
+   06B2 20 09         [12] 1049 	jr	NZ,00173$
+   06B4 3Ar00r00      [13] 1050 	ld	a,(#_pnotsafe + 0)
+   06B7 B7            [ 4] 1051 	or	a, a
+   06B8 20 03         [12] 1052 	jr	NZ,00173$
+                           1053 ;engine/player.c:522: player_register_safe_spot ();
+   06BA CDr00r00      [17] 1054 	call	_player_register_safe_spot
+   06BD                    1055 00173$:
+                           1056 ;engine/player.c:534: if (pj) {
+   06BD 3Ar00r00      [13] 1057 	ld	a,(#_pj + 0)
+   06C0 B7            [ 4] 1058 	or	a, a
+   06C1 28 3F         [12] 1059 	jr	Z,00188$
+                           1060 ;engine/player.c:541: if (pad0 & PAD_A) {
+   06C3 FD 21r00r00   [14] 1061 	ld	iy,#_pad0
+   06C7 FD CB 00 6E   [20] 1062 	bit	5, 0 (iy)
+   06CB 28 18         [12] 1063 	jr	Z,00183$
+                           1064 ;engine/player.c:542: ++ pctj; if (pctj == PLAYER_VY_MK2_JUMP_A_STEPS) pj = 0;
+   06CD FD 21r00r00   [14] 1065 	ld	iy,#_pctj
+   06D1 FD 34 00      [23] 1066 	inc	0 (iy)
+   06D4 3Ar00r00      [13] 1067 	ld	a,(#_pctj + 0)
+   06D7 D6 08         [ 7] 1068 	sub	a, #0x08
+   06D9 20 27         [12] 1069 	jr	NZ,00188$
+   06DB FD 21r00r00   [14] 1070 	ld	iy,#_pj
+   06DF FD 36 00 00   [19] 1071 	ld	0 (iy),#0x00
+   06E3 18 1D         [12] 1072 	jr	00188$
+   06E5                    1073 00183$:
+                           1074 ;engine/player.c:544: pj = 0; if (pvy < -PLAYER_VY_MK2_JUMP_RELEASE) pvy = -PLAYER_VY_MK2_JUMP_RELEASE;
+   06E5 FD 21r00r00   [14] 1075 	ld	iy,#_pj
+   06E9 FD 36 00 00   [19] 1076 	ld	0 (iy),#0x00
+   06ED 3Ar00r00      [13] 1077 	ld	a,(#_pvy + 0)
+   06F0 D6 C0         [ 7] 1078 	sub	a, #0xC0
+   06F2 3Ar01r00      [13] 1079 	ld	a,(#_pvy + 1)
+   06F5 17            [ 4] 1080 	rla
+   06F6 3F            [ 4] 1081 	ccf
+   06F7 1F            [ 4] 1082 	rra
+   06F8 DE 7F         [ 7] 1083 	sbc	a, #0x7F
+   06FA 30 06         [12] 1084 	jr	NC,00188$
+   06FC 21 C0 FF      [10] 1085 	ld	hl,#0xFFC0
+   06FF 22r00r00      [16] 1086 	ld	(_pvy),hl
+   0702                    1087 00188$:
+                           1088 ;engine/player.c:642: if (!(pad0 & PAD_LEFT || pad0 & PAD_RIGHT)) {
+   0702 3Ar00r00      [13] 1089 	ld	a,(#_pad0 + 0)
+   0705 E6 04         [ 7] 1090 	and	a, #0x04
+   0707 57            [ 4] 1091 	ld	d,a
+   0708 3Ar00r00      [13] 1092 	ld	a,(#_pad0 + 0)
+   070B E6 08         [ 7] 1093 	and	a, #0x08
+   070D 5F            [ 4] 1094 	ld	e,a
+   070E 7A            [ 4] 1095 	ld	a,d
+   070F B7            [ 4] 1096 	or	a,a
+   0710 20 65         [12] 1097 	jr	NZ,00199$
+   0712 B3            [ 4] 1098 	or	a,e
+   0713 20 62         [12] 1099 	jr	NZ,00199$
+                           1100 ;engine/player.c:650: if (pvx > 0) {
+   0715 AF            [ 4] 1101 	xor	a, a
+   0716 FD 21r00r00   [14] 1102 	ld	iy,#_pvx
+   071A FD BE 00      [19] 1103 	cp	a, 0 (iy)
+   071D FD 21r00r00   [14] 1104 	ld	iy,#_pvx
+   0721 FD 9E 01      [19] 1105 	sbc	a, 1 (iy)
+   0724 E2r29r07      [10] 1106 	jp	PO, 00605$
+   0727 EE 80         [ 7] 1107 	xor	a, #0x80
+   0729                    1108 00605$:
+   0729 F2r47r07      [10] 1109 	jp	P,00196$
+                           1110 ;engine/player.c:655: pvx -= PLAYER_RX;
+   072C 21r00r00      [10] 1111 	ld	hl,#_pvx
+   072F 7E            [ 7] 1112 	ld	a,(hl)
+   0730 C6 F4         [ 7] 1113 	add	a,#0xF4
+   0732 77            [ 7] 1114 	ld	(hl),a
+   0733 23            [ 6] 1115 	inc	hl
+   0734 7E            [ 7] 1116 	ld	a,(hl)
+   0735 CE FF         [ 7] 1117 	adc	a,#0xFF
+   0737 77            [ 7] 1118 	ld	(hl),a
+                           1119 ;engine/player.c:658: if (pvx < 0) pvx = 0;
+   0738 3Ar01r00      [13] 1120 	ld	a,(#_pvx + 1)
+   073B CB 7F         [ 8] 1121 	bit	7,a
+   073D 28 38         [12] 1122 	jr	Z,00199$
+   073F 21 00 00      [10] 1123 	ld	hl,#0x0000
+   0742 22r00r00      [16] 1124 	ld	(_pvx),hl
+   0745 18 30         [12] 1125 	jr	00199$
+   0747                    1126 00196$:
+                           1127 ;engine/player.c:659: } else if (pvx < 0) {
+   0747 3Ar01r00      [13] 1128 	ld	a,(#_pvx + 1)
+   074A CB 7F         [ 8] 1129 	bit	7,a
+   074C 28 29         [12] 1130 	jr	Z,00199$
+                           1131 ;engine/player.c:664: pvx += PLAYER_RX;
+   074E 21r00r00      [10] 1132 	ld	hl,#_pvx
+   0751 7E            [ 7] 1133 	ld	a,(hl)
+   0752 C6 0C         [ 7] 1134 	add	a, #0x0C
+   0754 77            [ 7] 1135 	ld	(hl),a
+   0755 23            [ 6] 1136 	inc	hl
+   0756 7E            [ 7] 1137 	ld	a,(hl)
+   0757 CE 00         [ 7] 1138 	adc	a, #0x00
+   0759 77            [ 7] 1139 	ld	(hl),a
+                           1140 ;engine/player.c:667: if (pvx > 0) pvx = 0;
+   075A AF            [ 4] 1141 	xor	a, a
+   075B FD 21r00r00   [14] 1142 	ld	iy,#_pvx
+   075F FD BE 00      [19] 1143 	cp	a, 0 (iy)
+   0762 FD 21r00r00   [14] 1144 	ld	iy,#_pvx
+   0766 FD 9E 01      [19] 1145 	sbc	a, 1 (iy)
+   0769 E2r6Er07      [10] 1146 	jp	PO, 00606$
+   076C EE 80         [ 7] 1147 	xor	a, #0x80
+   076E                    1148 00606$:
+   076E F2r77r07      [10] 1149 	jp	P,00199$
+   0771 21 00 00      [10] 1150 	ld	hl,#0x0000
+   0774 22r00r00      [16] 1151 	ld	(_pvx),hl
+   0777                    1152 00199$:
+                           1153 ;engine/player.c:672: if (pad0 & PAD_LEFT) {
+   0777 7A            [ 4] 1154 	ld	a,d
+   0778 B7            [ 4] 1155 	or	a, a
+   0779 28 2E         [12] 1156 	jr	Z,00204$
+                           1157 ;engine/player.c:676: pfacing = CELL_FACING_LEFT;		
+   077B FD 21r00r00   [14] 1158 	ld	iy,#_pfacing
+   077F FD 36 00 08   [19] 1159 	ld	0 (iy),#0x08
+                           1160 ;engine/player.c:679: if (pvx > -PLAYER_VX_MAX) {
+   0783 3E 90         [ 7] 1161 	ld	a,#0x90
+   0785 FD 21r00r00   [14] 1162 	ld	iy,#_pvx
+   0789 FD BE 00      [19] 1163 	cp	a, 0 (iy)
+   078C 3E FF         [ 7] 1164 	ld	a,#0xFF
+   078E FD 21r00r00   [14] 1165 	ld	iy,#_pvx
+   0792 FD 9E 01      [19] 1166 	sbc	a, 1 (iy)
+   0795 E2r9Ar07      [10] 1167 	jp	PO, 00607$
+   0798 EE 80         [ 7] 1168 	xor	a, #0x80
+   079A                    1169 00607$:
+   079A F2rA9r07      [10] 1170 	jp	P,00204$
+                           1171 ;engine/player.c:684: pvx -= PLAYER_AX;
+   079D 21r00r00      [10] 1172 	ld	hl,#_pvx
+   07A0 7E            [ 7] 1173 	ld	a,(hl)
+   07A1 C6 F4         [ 7] 1174 	add	a,#0xF4
+   07A3 77            [ 7] 1175 	ld	(hl),a
+   07A4 23            [ 6] 1176 	inc	hl
+   07A5 7E            [ 7] 1177 	ld	a,(hl)
+   07A6 CE FF         [ 7] 1178 	adc	a,#0xFF
+   07A8 77            [ 7] 1179 	ld	(hl),a
+   07A9                    1180 00204$:
+                           1181 ;engine/player.c:689: if (pad0 & PAD_RIGHT) {
+   07A9 7B            [ 4] 1182 	ld	a,e
+   07AA B7            [ 4] 1183 	or	a, a
+   07AB 28 20         [12] 1184 	jr	Z,00208$
+                           1185 ;engine/player.c:693: pfacing = CELL_FACING_RIGHT;
+   07AD 21r00r00      [10] 1186 	ld	hl,#_pfacing + 0
+   07B0 36 00         [10] 1187 	ld	(hl), #0x00
+                           1188 ;engine/player.c:696: if (pvx < PLAYER_VX_MAX) {
+   07B2 3Ar00r00      [13] 1189 	ld	a,(#_pvx + 0)
+   07B5 D6 70         [ 7] 1190 	sub	a, #0x70
+   07B7 3Ar01r00      [13] 1191 	ld	a,(#_pvx + 1)
+   07BA 17            [ 4] 1192 	rla
+   07BB 3F            [ 4] 1193 	ccf
+   07BC 1F            [ 4] 1194 	rra
+   07BD DE 80         [ 7] 1195 	sbc	a, #0x80
+   07BF 30 0C         [12] 1196 	jr	NC,00208$
+                           1197 ;engine/player.c:701: pvx += PLAYER_AX;
+   07C1 21r00r00      [10] 1198 	ld	hl,#_pvx
+   07C4 7E            [ 7] 1199 	ld	a,(hl)
+   07C5 C6 0C         [ 7] 1200 	add	a, #0x0C
+   07C7 77            [ 7] 1201 	ld	(hl),a
+   07C8 23            [ 6] 1202 	inc	hl
+   07C9 7E            [ 7] 1203 	ld	a,(hl)
+   07CA CE 00         [ 7] 1204 	adc	a, #0x00
+   07CC 77            [ 7] 1205 	ld	(hl),a
+   07CD                    1206 00208$:
+                           1207 ;engine/player.c:707: px += pvx;
+   07CD 21r00r00      [10] 1208 	ld	hl,#_pvx
+   07D0 D5            [11] 1209 	push	de
+   07D1 FD 21r00r00   [14] 1210 	ld	iy,#_px
+   07D5 FD E5         [15] 1211 	push	iy
+   07D7 D1            [10] 1212 	pop	de
+   07D8 1A            [ 7] 1213 	ld	a,(de)
+   07D9 86            [ 7] 1214 	add	a, (hl)
+   07DA 12            [ 7] 1215 	ld	(de),a
+   07DB 13            [ 6] 1216 	inc	de
+   07DC 1A            [ 7] 1217 	ld	a,(de)
+   07DD 23            [ 6] 1218 	inc	hl
+   07DE 8E            [ 7] 1219 	adc	a, (hl)
+   07DF 12            [ 7] 1220 	ld	(de),a
+   07E0 D1            [10] 1221 	pop	de
+                           1222 ;engine/player.c:709: if (pgotten) px += pgtmx;
+   07E1 3Ar00r00      [13] 1223 	ld	a,(#_pgotten + 0)
+   07E4 B7            [ 4] 1224 	or	a, a
+   07E5 28 14         [12] 1225 	jr	Z,00210$
+   07E7 21r00r00      [10] 1226 	ld	hl,#_pgtmx
+   07EA D5            [11] 1227 	push	de
+   07EB FD 21r00r00   [14] 1228 	ld	iy,#_px
+   07EF FD E5         [15] 1229 	push	iy
+   07F1 D1            [10] 1230 	pop	de
+   07F2 1A            [ 7] 1231 	ld	a,(de)
+   07F3 86            [ 7] 1232 	add	a, (hl)
+   07F4 12            [ 7] 1233 	ld	(de),a
+   07F5 13            [ 6] 1234 	inc	de
+   07F6 1A            [ 7] 1235 	ld	a,(de)
+   07F7 23            [ 6] 1236 	inc	hl
+   07F8 8E            [ 7] 1237 	adc	a, (hl)
+   07F9 12            [ 7] 1238 	ld	(de),a
+   07FA D1            [10] 1239 	pop	de
+   07FB                    1240 00210$:
+                           1241 ;engine/player.c:712: if (px < (4<<FIXBITS)) { px = 4 << FIXBITS; prx = 4;}
+   07FB 3Ar01r00      [13] 1242 	ld	a,(#_px + 1)
+   07FE EE 80         [ 7] 1243 	xor	a, #0x80
+   0800 D6 81         [ 7] 1244 	sub	a, #0x81
+   0802 30 0D         [12] 1245 	jr	NC,00215$
+   0804 21 00 01      [10] 1246 	ld	hl,#0x0100
+   0807 22r00r00      [16] 1247 	ld	(_px),hl
+   080A 21r00r00      [10] 1248 	ld	hl,#_prx + 0
+   080D 36 04         [10] 1249 	ld	(hl), #0x04
+   080F 18 29         [12] 1250 	jr	00216$
+   0811                    1251 00215$:
+                           1252 ;engine/player.c:713: else if (px > (244<<FIXBITS)) { px = 244 << FIXBITS; prx = 244; }
+   0811 AF            [ 4] 1253 	xor	a, a
+   0812 FD 21r00r00   [14] 1254 	ld	iy,#_px
+   0816 FD BE 00      [19] 1255 	cp	a, 0 (iy)
+   0819 3E 3D         [ 7] 1256 	ld	a,#0x3D
+   081B FD 21r00r00   [14] 1257 	ld	iy,#_px
+   081F FD 9E 01      [19] 1258 	sbc	a, 1 (iy)
+   0822 E2r27r08      [10] 1259 	jp	PO, 00608$
+   0825 EE 80         [ 7] 1260 	xor	a, #0x80
+   0827                    1261 00608$:
+   0827 F2r37r08      [10] 1262 	jp	P,00212$
+   082A 21 00 3D      [10] 1263 	ld	hl,#0x3D00
+   082D 22r00r00      [16] 1264 	ld	(_px),hl
+   0830 21r00r00      [10] 1265 	ld	hl,#_prx + 0
+   0833 36 F4         [10] 1266 	ld	(hl), #0xF4
+   0835 18 03         [12] 1267 	jr	00216$
+   0837                    1268 00212$:
+                           1269 ;engine/player.c:714: else player_to_pixels ();
+   0837 CDr9Dr00      [17] 1270 	call	_player_to_pixels
+   083A                    1271 00216$:
+                           1272 ;engine/player.c:719: cy1 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;
+   083A 21r00r00      [10] 1273 	ld	hl,#_pry + 0
+   083D 5E            [ 7] 1274 	ld	e, (hl)
+   083E 16 00         [ 7] 1275 	ld	d,#0x00
+   0840 7B            [ 4] 1276 	ld	a,e
+   0841 C6 04         [ 7] 1277 	add	a,#0x04
+   0843 6F            [ 4] 1278 	ld	l,a
+   0844 7A            [ 4] 1279 	ld	a,d
+   0845 CE 00         [ 7] 1280 	adc	a,#0x00
+   0847 67            [ 4] 1281 	ld	h,a
+   0848 CB 2C         [ 8] 1282 	sra	h
+   084A CB 1D         [ 8] 1283 	rr	l
+   084C CB 2C         [ 8] 1284 	sra	h
+   084E CB 1D         [ 8] 1285 	rr	l
+   0850 CB 2C         [ 8] 1286 	sra	h
+   0852 CB 1D         [ 8] 1287 	rr	l
+   0854 CB 2C         [ 8] 1288 	sra	h
+   0856 CB 1D         [ 8] 1289 	rr	l
+   0858 FD 21r00r00   [14] 1290 	ld	iy,#_cy1
+   085C FD 75 00      [19] 1291 	ld	0 (iy),l
+                           1292 ;engine/player.c:720: cy2 = (pry + 15) >> 4;
+   085F 21 0F 00      [10] 1293 	ld	hl,#0x000F
+   0862 19            [11] 1294 	add	hl,de
+   0863 CB 2C         [ 8] 1295 	sra	h
+   0865 CB 1D         [ 8] 1296 	rr	l
+   0867 CB 2C         [ 8] 1297 	sra	h
+   0869 CB 1D         [ 8] 1298 	rr	l
+   086B CB 2C         [ 8] 1299 	sra	h
+   086D CB 1D         [ 8] 1300 	rr	l
+   086F CB 2C         [ 8] 1301 	sra	h
+   0871 CB 1D         [ 8] 1302 	rr	l
+   0873 FD 21r00r00   [14] 1303 	ld	iy,#_cy2
+   0877 FD 75 00      [19] 1304 	ld	0 (iy),l
+                           1305 ;engine/player.c:723: rds16 = pvx + pgtmx;
+   087A 21r00r00      [10] 1306 	ld	hl,#_pgtmx
+   087D D5            [11] 1307 	push	de
+   087E FD 21r00r00   [14] 1308 	ld	iy,#_rds16
+   0882 FD E5         [15] 1309 	push	iy
+   0884 D1            [10] 1310 	pop	de
+   0885 3Ar00r00      [13] 1311 	ld	a,(#_pvx + 0)
+   0888 86            [ 7] 1312 	add	a, (hl)
+   0889 12            [ 7] 1313 	ld	(de),a
+   088A 3Ar01r00      [13] 1314 	ld	a,(#_pvx + 1)
+   088D 23            [ 6] 1315 	inc	hl
+   088E 8E            [ 7] 1316 	adc	a, (hl)
+   088F 13            [ 6] 1317 	inc	de
+   0890 12            [ 7] 1318 	ld	(de),a
+   0891 D1            [10] 1319 	pop	de
+                           1320 ;engine/player.c:724: if (rds16) 	{
+   0892 3Ar01r00      [13] 1321 	ld	a,(#_rds16 + 1)
+   0895 FD 21r00r00   [14] 1322 	ld	iy,#_rds16
+   0899 FD B6 00      [19] 1323 	or	a,0 (iy)
+   089C CArEEr09      [10] 1324 	jp	Z,00233$
+                           1325 ;engine/player.c:725: if (rds16 < 0) {
+   089F 3Ar01r00      [13] 1326 	ld	a,(#_rds16 + 1)
+   08A2 CB 7F         [ 8] 1327 	bit	7,a
+   08A4 28 24         [12] 1328 	jr	Z,00218$
+                           1329 ;engine/player.c:726: cx1 = cx2 = prx >> 4; 
+   08A6 3Ar00r00      [13] 1330 	ld	a,(#_prx + 0)
+   08A9 07            [ 4] 1331 	rlca
+   08AA 07            [ 4] 1332 	rlca
+   08AB 07            [ 4] 1333 	rlca
+   08AC 07            [ 4] 1334 	rlca
+   08AD E6 0F         [ 7] 1335 	and	a,#0x0F
+   08AF 32r00r00      [13] 1336 	ld	(#_cx2 + 0),a
+                           1337 ;engine/player.c:727: rda = (cx1 + 1) << 4;
+   08B2 32r00r00      [13] 1338 	ld	(#_cx1 + 0),a
+   08B5 3C            [ 4] 1339 	inc	a
+   08B6 07            [ 4] 1340 	rlca
+   08B7 07            [ 4] 1341 	rlca
+   08B8 07            [ 4] 1342 	rlca
+   08B9 07            [ 4] 1343 	rlca
+   08BA E6 F0         [ 7] 1344 	and	a,#0xF0
+   08BC 32r00r00      [13] 1345 	ld	(#_rda + 0),a
+                           1346 ;engine/player.c:728: rdm = cx1 - 1;
+   08BF 21r00r00      [10] 1347 	ld	hl,#_rdm
+   08C2 3Ar00r00      [13] 1348 	ld	a,(#_cx1 + 0)
+   08C5 C6 FF         [ 7] 1349 	add	a,#0xFF
+   08C7 77            [ 7] 1350 	ld	(hl),a
+   08C8 18 3A         [12] 1351 	jr	00219$
+   08CA                    1352 00218$:
+                           1353 ;engine/player.c:730: cx1 = cx2 = (prx + 8) >> 4;
+   08CA FD 21r00r00   [14] 1354 	ld	iy,#_prx
+   08CE FD 6E 00      [19] 1355 	ld	l,0 (iy)
+   08D1 26 00         [ 7] 1356 	ld	h,#0x00
+   08D3 01 08 00      [10] 1357 	ld	bc,#0x0008
+   08D6 09            [11] 1358 	add	hl,bc
+   08D7 CB 2C         [ 8] 1359 	sra	h
+   08D9 CB 1D         [ 8] 1360 	rr	l
+   08DB CB 2C         [ 8] 1361 	sra	h
+   08DD CB 1D         [ 8] 1362 	rr	l
+   08DF CB 2C         [ 8] 1363 	sra	h
+   08E1 CB 1D         [ 8] 1364 	rr	l
+   08E3 CB 2C         [ 8] 1365 	sra	h
+   08E5 CB 1D         [ 8] 1366 	rr	l
+   08E7 7D            [ 4] 1367 	ld	a,l
+   08E8 32r00r00      [13] 1368 	ld	(#_cx2 + 0),a
+                           1369 ;engine/player.c:731: rda = ((cx1 - 1) << 4) + 8;
+   08EB 32r00r00      [13] 1370 	ld	(#_cx1 + 0),a
+   08EE C6 FF         [ 7] 1371 	add	a,#0xFF
+   08F0 07            [ 4] 1372 	rlca
+   08F1 07            [ 4] 1373 	rlca
+   08F2 07            [ 4] 1374 	rlca
+   08F3 07            [ 4] 1375 	rlca
+   08F4 E6 F0         [ 7] 1376 	and	a,#0xF0
+   08F6 21r00r00      [10] 1377 	ld	hl,#_rda
+   08F9 C6 08         [ 7] 1378 	add	a, #0x08
+   08FB 77            [ 7] 1379 	ld	(hl),a
+                           1380 ;engine/player.c:732: rdm = cx1 + 1;
+   08FC 21r00r00      [10] 1381 	ld	hl,#_rdm
+   08FF 3Ar00r00      [13] 1382 	ld	a,(#_cx1 + 0)
+   0902 3C            [ 4] 1383 	inc	a
+   0903 77            [ 7] 1384 	ld	(hl),a
+   0904                    1385 00219$:
+                           1386 ;engine/player.c:748: cm_two_points ();
+   0904 CDr00r00      [17] 1387 	call	_cm_two_points
+                           1388 ;engine/player.c:749: if ((at1 & 8) || (at2 & 8)) {
+   0907 FD 21r00r00   [14] 1389 	ld	iy,#_at1
+   090B FD CB 00 5E   [20] 1390 	bit	3, 0 (iy)
+   090F 20 0B         [12] 1391 	jr	NZ,00226$
+   0911 FD 21r00r00   [14] 1392 	ld	iy,#_at2
+   0915 FD CB 00 5E   [20] 1393 	bit	3, 0 (iy)
+   0919 CArA2r09      [10] 1394 	jp	Z,00227$
+   091C                    1395 00226$:
+                           1396 ;engine/player.c:750: pvx = 0; prx = rda; px = prx << FIXBITS; pfiring = 1;
+   091C 21 00 00      [10] 1397 	ld	hl,#0x0000
+   091F 22r00r00      [16] 1398 	ld	(_pvx),hl
+   0922 3Ar00r00      [13] 1399 	ld	a,(#_rda + 0)
+   0925 32r00r00      [13] 1400 	ld	(#_prx + 0),a
+   0928 FD 21r00r00   [14] 1401 	ld	iy,#_prx
+   092C FD 6E 00      [19] 1402 	ld	l,0 (iy)
+   092F 26 00         [ 7] 1403 	ld	h,#0x00
+   0931 29            [11] 1404 	add	hl, hl
+   0932 29            [11] 1405 	add	hl, hl
+   0933 29            [11] 1406 	add	hl, hl
+   0934 29            [11] 1407 	add	hl, hl
+   0935 29            [11] 1408 	add	hl, hl
+   0936 29            [11] 1409 	add	hl, hl
+   0937 22r00r00      [16] 1410 	ld	(_px),hl
+   093A FD 21r00r00   [14] 1411 	ld	iy,#_pfiring
+   093E FD 36 00 01   [19] 1412 	ld	0 (iy),#0x01
+                           1413 ;engine/player.c:754: if (at1 & 2) player_process_tile (at1, cx1, cy1, rdm, cy1);
+   0942 FD 21r00r00   [14] 1414 	ld	iy,#_at1
+   0946 FD CB 00 4E   [20] 1415 	bit	1, 0 (iy)
+   094A 28 1F         [12] 1416 	jr	Z,00221$
+   094C 3Ar00r00      [13] 1417 	ld	a,(_cy1)
+   094F F5            [11] 1418 	push	af
+   0950 33            [ 6] 1419 	inc	sp
+   0951 3Ar00r00      [13] 1420 	ld	a,(_rdm)
+   0954 F5            [11] 1421 	push	af
+   0955 33            [ 6] 1422 	inc	sp
+   0956 3Ar00r00      [13] 1423 	ld	a,(_cy1)
+   0959 F5            [11] 1424 	push	af
+   095A 33            [ 6] 1425 	inc	sp
+   095B 3Ar00r00      [13] 1426 	ld	a,(_cx1)
+   095E F5            [11] 1427 	push	af
+   095F 33            [ 6] 1428 	inc	sp
+   0960 3Ar00r00      [13] 1429 	ld	a,(_at1)
+   0963 F5            [11] 1430 	push	af
+   0964 33            [ 6] 1431 	inc	sp
+   0965 CDr3Dr01      [17] 1432 	call	_player_process_tile
+   0968 F1            [10] 1433 	pop	af
+   0969 F1            [10] 1434 	pop	af
+   096A 33            [ 6] 1435 	inc	sp
+   096B                    1436 00221$:
+                           1437 ;engine/player.c:755: if (cy1 != cy2) if (at2 & 2) player_process_tile (at2, cx1, cy2, rdm, cy2);
+   096B 3Ar00r00      [13] 1438 	ld	a,(#_cy1 + 0)
+   096E FD 21r00r00   [14] 1439 	ld	iy,#_cy2
+   0972 FD 96 00      [19] 1440 	sub	a, 0 (iy)
+   0975 28 4C         [12] 1441 	jr	Z,00228$
+   0977 FD 21r00r00   [14] 1442 	ld	iy,#_at2
+   097B FD CB 00 4E   [20] 1443 	bit	1, 0 (iy)
+   097F 28 42         [12] 1444 	jr	Z,00228$
+   0981 3Ar00r00      [13] 1445 	ld	a,(_cy2)
+   0984 F5            [11] 1446 	push	af
+   0985 33            [ 6] 1447 	inc	sp
+   0986 3Ar00r00      [13] 1448 	ld	a,(_rdm)
+   0989 F5            [11] 1449 	push	af
+   098A 33            [ 6] 1450 	inc	sp
+   098B 3Ar00r00      [13] 1451 	ld	a,(_cy2)
+   098E F5            [11] 1452 	push	af
+   098F 33            [ 6] 1453 	inc	sp
+   0990 3Ar00r00      [13] 1454 	ld	a,(_cx1)
+   0993 F5            [11] 1455 	push	af
+   0994 33            [ 6] 1456 	inc	sp
+   0995 3Ar00r00      [13] 1457 	ld	a,(_at2)
+   0998 F5            [11] 1458 	push	af
+   0999 33            [ 6] 1459 	inc	sp
+   099A CDr3Dr01      [17] 1460 	call	_player_process_tile
+   099D F1            [10] 1461 	pop	af
+   099E F1            [10] 1462 	pop	af
+   099F 33            [ 6] 1463 	inc	sp
+   09A0 18 21         [12] 1464 	jr	00228$
+   09A2                    1465 00227$:
+                           1466 ;engine/player.c:758: hith = ((at1 & 1) || (at2 & 1));
+   09A2 FD 21r00r00   [14] 1467 	ld	iy,#_at1
+   09A6 FD CB 00 46   [20] 1468 	bit	0, 0 (iy)
+   09AA 20 0E         [12] 1469 	jr	NZ,00260$
+   09AC FD 21r00r00   [14] 1470 	ld	iy,#_at2
+   09B0 FD CB 00 46   [20] 1471 	bit	0, 0 (iy)
+   09B4 20 04         [12] 1472 	jr	NZ,00260$
+   09B6 3E 00         [ 7] 1473 	ld	a,#0x00
+   09B8 18 02         [12] 1474 	jr	00261$
+   09BA                    1475 00260$:
+   09BA 3E 01         [ 7] 1476 	ld	a,#0x01
+   09BC                    1477 00261$:
+   09BC FD 21r00r00   [14] 1478 	ld	iy,#_hith
+   09C0 FD 77 00      [19] 1479 	ld	0 (iy),a
+   09C3                    1480 00228$:
+                           1481 ;engine/player.c:761: if (pvy > 0) hith &= ((pry & 15) > 4);
+   09C3 AF            [ 4] 1482 	xor	a, a
+   09C4 FD 21r00r00   [14] 1483 	ld	iy,#_pvy
+   09C8 FD BE 00      [19] 1484 	cp	a, 0 (iy)
+   09CB FD 21r00r00   [14] 1485 	ld	iy,#_pvy
+   09CF FD 9E 01      [19] 1486 	sbc	a, 1 (iy)
+   09D2 E2rD7r09      [10] 1487 	jp	PO, 00619$
+   09D5 EE 80         [ 7] 1488 	xor	a, #0x80
+   09D7                    1489 00619$:
+   09D7 F2rEEr09      [10] 1490 	jp	P,00233$
+   09DA 3Ar00r00      [13] 1491 	ld	a,(#_pry + 0)
+   09DD E6 0F         [ 7] 1492 	and	a, #0x0F
+   09DF 67            [ 4] 1493 	ld	h,a
+   09E0 3E 04         [ 7] 1494 	ld	a,#0x04
+   09E2 94            [ 4] 1495 	sub	a, h
+   09E3 3E 00         [ 7] 1496 	ld	a,#0x00
+   09E5 17            [ 4] 1497 	rla
+   09E6 57            [ 4] 1498 	ld	d,a
+   09E7 3Ar00r00      [13] 1499 	ld	a,(#_hith + 0)
+   09EA A2            [ 4] 1500 	and	a, d
+                           1501 ;engine/player.c:789: phit = 0;
+   09EB 32r00r00      [13] 1502 	ld	(#_hith + 0),a
+   09EE                    1503 00233$:
+   09EE FD 21r00r00   [14] 1504 	ld	iy,#_phit
+   09F2 FD 36 00 00   [19] 1505 	ld	0 (iy),#0x00
+                           1506 ;engine/player.c:791: if (pgotten == 0) {
+   09F6 3Ar00r00      [13] 1507 	ld	a,(#_pgotten + 0)
+   09F9 B7            [ 4] 1508 	or	a, a
+   09FA C2r3Dr0B      [10] 1509 	jp	NZ,00248$
+                           1510 ;engine/player.c:799: if (hitv) { phit = 1; pvy = ADD_SIGN (-pvy, PLAYER_V_REBOUND); pry = pcy; py = pry << FIXBITS; } 
+   09FD 3Ar00r00      [13] 1511 	ld	a,(#_hitv + 0)
+   0A00 B7            [ 4] 1512 	or	a, a
+   0A01 28 50         [12] 1513 	jr	Z,00237$
+   0A03 21r00r00      [10] 1514 	ld	hl,#_phit + 0
+   0A06 36 01         [10] 1515 	ld	(hl), #0x01
+   0A08 AF            [ 4] 1516 	xor	a, a
+   0A09 FD 21r00r00   [14] 1517 	ld	iy,#_pvy
+   0A0D FD 96 00      [19] 1518 	sub	a, 0 (iy)
+   0A10 67            [ 4] 1519 	ld	h,a
+   0A11 3E 00         [ 7] 1520 	ld	a, #0x00
+   0A13 FD 21r00r00   [14] 1521 	ld	iy,#_pvy
+   0A17 FD 9E 01      [19] 1522 	sbc	a, 1 (iy)
+   0A1A 6F            [ 4] 1523 	ld	l,a
+   0A1B B4            [ 4] 1524 	or	a,h
+   0A1C 28 15         [12] 1525 	jr	Z,00262$
+   0A1E AF            [ 4] 1526 	xor	a, a
+   0A1F BC            [ 4] 1527 	cp	a, h
+   0A20 9D            [ 4] 1528 	sbc	a, l
+   0A21 E2r26r0A      [10] 1529 	jp	PO, 00620$
+   0A24 EE 80         [ 7] 1530 	xor	a, #0x80
+   0A26                    1531 00620$:
+   0A26 F2r2Er0A      [10] 1532 	jp	P,00264$
+   0A29 21 E0 00      [10] 1533 	ld	hl,#0x00E0
+   0A2C 18 08         [12] 1534 	jr	00263$
+   0A2E                    1535 00264$:
+   0A2E 21 20 FF      [10] 1536 	ld	hl,#0xFF20
+   0A31 18 03         [12] 1537 	jr	00263$
+   0A33                    1538 00262$:
+   0A33 21 00 00      [10] 1539 	ld	hl,#0x0000
+   0A36                    1540 00263$:
+   0A36 22r00r00      [16] 1541 	ld	(_pvy),hl
+   0A39 3Ar00r00      [13] 1542 	ld	a,(#_pcy + 0)
+   0A3C 32r00r00      [13] 1543 	ld	(#_pry + 0),a
+   0A3F FD 21r00r00   [14] 1544 	ld	iy,#_pry
+   0A43 FD 6E 00      [19] 1545 	ld	l,0 (iy)
+   0A46 26 00         [ 7] 1546 	ld	h,#0x00
+   0A48 29            [11] 1547 	add	hl, hl
+   0A49 29            [11] 1548 	add	hl, hl
+   0A4A 29            [11] 1549 	add	hl, hl
+   0A4B 29            [11] 1550 	add	hl, hl
+   0A4C 29            [11] 1551 	add	hl, hl
+   0A4D 29            [11] 1552 	add	hl, hl
+   0A4E 22r00r00      [16] 1553 	ld	(_py),hl
+   0A51 18 54         [12] 1554 	jr	00238$
+   0A53                    1555 00237$:
+                           1556 ;engine/player.c:803: if (hith) { phit = 1; pvx = ADD_SIGN (-pvx, PLAYER_V_REBOUND); prx = pcx; px = prx << FIXBITS; }
+   0A53 3Ar00r00      [13] 1557 	ld	a,(#_hith + 0)
+   0A56 B7            [ 4] 1558 	or	a, a
+   0A57 28 4E         [12] 1559 	jr	Z,00238$
+   0A59 21r00r00      [10] 1560 	ld	hl,#_phit + 0
+   0A5C 36 01         [10] 1561 	ld	(hl), #0x01
+   0A5E AF            [ 4] 1562 	xor	a, a
+   0A5F FD 21r00r00   [14] 1563 	ld	iy,#_pvx
+   0A63 FD 96 00      [19] 1564 	sub	a, 0 (iy)
+   0A66 67            [ 4] 1565 	ld	h,a
+   0A67 3E 00         [ 7] 1566 	ld	a, #0x00
+   0A69 FD 21r00r00   [14] 1567 	ld	iy,#_pvx
+   0A6D FD 9E 01      [19] 1568 	sbc	a, 1 (iy)
+   0A70 6F            [ 4] 1569 	ld	l,a
+   0A71 B4            [ 4] 1570 	or	a,h
+   0A72 28 15         [12] 1571 	jr	Z,00266$
+   0A74 AF            [ 4] 1572 	xor	a, a
+   0A75 BC            [ 4] 1573 	cp	a, h
+   0A76 9D            [ 4] 1574 	sbc	a, l
+   0A77 E2r7Cr0A      [10] 1575 	jp	PO, 00621$
+   0A7A EE 80         [ 7] 1576 	xor	a, #0x80
+   0A7C                    1577 00621$:
+   0A7C F2r84r0A      [10] 1578 	jp	P,00268$
+   0A7F 21 E0 00      [10] 1579 	ld	hl,#0x00E0
+   0A82 18 08         [12] 1580 	jr	00267$
+   0A84                    1581 00268$:
+   0A84 21 20 FF      [10] 1582 	ld	hl,#0xFF20
+   0A87 18 03         [12] 1583 	jr	00267$
+   0A89                    1584 00266$:
+   0A89 21 00 00      [10] 1585 	ld	hl,#0x0000
+   0A8C                    1586 00267$:
+   0A8C 22r00r00      [16] 1587 	ld	(_pvx),hl
+   0A8F 3Ar00r00      [13] 1588 	ld	a,(#_pcx + 0)
+   0A92 32r00r00      [13] 1589 	ld	(#_prx + 0),a
+   0A95 FD 21r00r00   [14] 1590 	ld	iy,#_prx
+   0A99 FD 6E 00      [19] 1591 	ld	l,0 (iy)
+   0A9C 26 00         [ 7] 1592 	ld	h,#0x00
+   0A9E 29            [11] 1593 	add	hl, hl
+   0A9F 29            [11] 1594 	add	hl, hl
+   0AA0 29            [11] 1595 	add	hl, hl
+   0AA1 29            [11] 1596 	add	hl, hl
+   0AA2 29            [11] 1597 	add	hl, hl
+   0AA3 29            [11] 1598 	add	hl, hl
+   0AA4 22r00r00      [16] 1599 	ld	(_px),hl
+   0AA7                    1600 00238$:
+                           1601 ;engine/player.c:807: cx1 = cx2 = (prx + 4) >> 4;
+   0AA7 21r00r00      [10] 1602 	ld	hl,#_prx + 0
+   0AAA 5E            [ 7] 1603 	ld	e, (hl)
+   0AAB 16 00         [ 7] 1604 	ld	d,#0x00
+   0AAD 13            [ 6] 1605 	inc	de
+   0AAE 13            [ 6] 1606 	inc	de
+   0AAF 13            [ 6] 1607 	inc	de
+   0AB0 13            [ 6] 1608 	inc	de
+   0AB1 CB 2A         [ 8] 1609 	sra	d
+   0AB3 CB 1B         [ 8] 1610 	rr	e
+   0AB5 CB 2A         [ 8] 1611 	sra	d
+   0AB7 CB 1B         [ 8] 1612 	rr	e
+   0AB9 CB 2A         [ 8] 1613 	sra	d
+   0ABB CB 1B         [ 8] 1614 	rr	e
+   0ABD CB 2A         [ 8] 1615 	sra	d
+   0ABF CB 1B         [ 8] 1616 	rr	e
+   0AC1 21r00r00      [10] 1617 	ld	hl,#_cx2 + 0
+   0AC4 73            [ 7] 1618 	ld	(hl), e
+   0AC5 21r00r00      [10] 1619 	ld	hl,#_cx1 + 0
+   0AC8 73            [ 7] 1620 	ld	(hl), e
+                           1621 ;engine/player.c:808: cy1 = pry >> 4; cy2 = (pry + 15) >> 4;
+   0AC9 3Ar00r00      [13] 1622 	ld	a,(#_pry + 0)
+   0ACC 07            [ 4] 1623 	rlca
+   0ACD 07            [ 4] 1624 	rlca
+   0ACE 07            [ 4] 1625 	rlca
+   0ACF 07            [ 4] 1626 	rlca
+   0AD0 E6 0F         [ 7] 1627 	and	a,#0x0F
+   0AD2 32r00r00      [13] 1628 	ld	(#_cy1 + 0),a
+   0AD5 FD 21r00r00   [14] 1629 	ld	iy,#_pry
+   0AD9 FD 6E 00      [19] 1630 	ld	l,0 (iy)
+   0ADC 26 00         [ 7] 1631 	ld	h,#0x00
+   0ADE 01 0F 00      [10] 1632 	ld	bc,#0x000F
+   0AE1 09            [11] 1633 	add	hl,bc
+   0AE2 CB 2C         [ 8] 1634 	sra	h
+   0AE4 CB 1D         [ 8] 1635 	rr	l
+   0AE6 CB 2C         [ 8] 1636 	sra	h
+   0AE8 CB 1D         [ 8] 1637 	rr	l
+   0AEA CB 2C         [ 8] 1638 	sra	h
+   0AEC CB 1D         [ 8] 1639 	rr	l
+   0AEE CB 2C         [ 8] 1640 	sra	h
+   0AF0 CB 1D         [ 8] 1641 	rr	l
+   0AF2 FD 21r00r00   [14] 1642 	ld	iy,#_cy2
+   0AF6 FD 75 00      [19] 1643 	ld	0 (iy),l
+                           1644 ;engine/player.c:809: cm_two_points ();
+   0AF9 CDr00r00      [17] 1645 	call	_cm_two_points
+                           1646 ;engine/player.c:810: if ((at1 & 1) || (at2 & 1)) phit = 1;
+   0AFC FD 21r00r00   [14] 1647 	ld	iy,#_at1
+   0B00 FD CB 00 46   [20] 1648 	bit	0, 0 (iy)
+   0B04 20 0A         [12] 1649 	jr	NZ,00239$
+   0B06 FD 21r00r00   [14] 1650 	ld	iy,#_at2
+   0B0A FD CB 00 46   [20] 1651 	bit	0, 0 (iy)
+   0B0E 28 08         [12] 1652 	jr	Z,00240$
+   0B10                    1653 00239$:
+   0B10 FD 21r00r00   [14] 1654 	ld	iy,#_phit
+   0B14 FD 36 00 01   [19] 1655 	ld	0 (iy),#0x01
+   0B18                    1656 00240$:
+                           1657 ;engine/player.c:813: if (!pflickering && !pbouncing) if (phit) { 
+   0B18 3Ar00r00      [13] 1658 	ld	a,(#_pflickering + 0)
+   0B1B B7            [ 4] 1659 	or	a, a
+   0B1C 20 1F         [12] 1660 	jr	NZ,00248$
+   0B1E 3Ar00r00      [13] 1661 	ld	a,(#_pbouncing + 0)
+   0B21 B7            [ 4] 1662 	or	a, a
+   0B22 20 19         [12] 1663 	jr	NZ,00248$
+   0B24 3Ar00r00      [13] 1664 	ld	a,(#_phit + 0)
+   0B27 B7            [ 4] 1665 	or	a, a
+   0B28 28 13         [12] 1666 	jr	Z,00248$
+                           1667 ;engine/player.c:814: player_to_pixels ();
+   0B2A CDr9Dr00      [17] 1668 	call	_player_to_pixels
+                           1669 ;engine/player.c:815: en_sg_2 = 1;
+   0B2D FD 21r00r00   [14] 1670 	ld	iy,#_en_sg_2
+   0B31 FD 36 00 01   [19] 1671 	ld	0 (iy),#0x01
+                           1672 ;engine/player.c:822: pkill = en_sg_2;
+   0B35 FD 21r00r00   [14] 1673 	ld	iy,#_pkill
+   0B39 FD 36 00 01   [19] 1674 	ld	0 (iy),#0x01
+   0B3D                    1675 00248$:
+                           1676 ;engine/../my/player_frame_selector.h:37: if (ppossee || pgotten) {
+   0B3D 3Ar00r00      [13] 1677 	ld	a,(#_ppossee + 0)
+   0B40 B7            [ 4] 1678 	or	a, a
+   0B41 20 06         [12] 1679 	jr	NZ,00253$
+   0B43 3Ar00r00      [13] 1680 	ld	a,(#_pgotten + 0)
+   0B46 B7            [ 4] 1681 	or	a, a
+   0B47 28 41         [12] 1682 	jr	Z,00254$
+   0B49                    1683 00253$:
+                           1684 ;engine/../my/player_frame_selector.h:39: if (pvx > PLAYER_VX_MIN || pvx < -PLAYER_VX_MIN) {
+   0B49 3E 18         [ 7] 1685 	ld	a,#0x18
+   0B4B FD 21r00r00   [14] 1686 	ld	iy,#_pvx
+   0B4F FD BE 00      [19] 1687 	cp	a, 0 (iy)
+   0B52 3E 00         [ 7] 1688 	ld	a,#0x00
+   0B54 FD 21r00r00   [14] 1689 	ld	iy,#_pvx
+   0B58 FD 9E 01      [19] 1690 	sbc	a, 1 (iy)
+   0B5B E2r60r0B      [10] 1691 	jp	PO, 00625$
+   0B5E EE 80         [ 7] 1692 	xor	a, #0x80
+   0B60                    1693 00625$:
+   0B60 FAr72r0B      [10] 1694 	jp	M,00249$
+   0B63 3Ar00r00      [13] 1695 	ld	a,(#_pvx + 0)
+   0B66 D6 E8         [ 7] 1696 	sub	a, #0xE8
+   0B68 3Ar01r00      [13] 1697 	ld	a,(#_pvx + 1)
+   0B6B 17            [ 4] 1698 	rla
+   0B6C 3F            [ 4] 1699 	ccf
+   0B6D 1F            [ 4] 1700 	rra
+   0B6E DE 7F         [ 7] 1701 	sbc	a, #0x7F
+   0B70 30 11         [12] 1702 	jr	NC,00250$
+   0B72                    1703 00249$:
+                           1704 ;engine/../my/player_frame_selector.h:40: psprid = CELL_WALK_CYCLE + ((prx >> 3) & 3);
+   0B72 3Ar00r00      [13] 1705 	ld	a,(#_prx + 0)
+   0B75 0F            [ 4] 1706 	rrca
+   0B76 0F            [ 4] 1707 	rrca
+   0B77 0F            [ 4] 1708 	rrca
+   0B78 E6 1F         [ 7] 1709 	and	a,#0x1F
+   0B7A E6 03         [ 7] 1710 	and	a, #0x03
+   0B7C 21r00r00      [10] 1711 	ld	hl,#_psprid
+   0B7F 3C            [ 4] 1712 	inc	a
+   0B80 77            [ 7] 1713 	ld	(hl),a
+   0B81 18 0C         [12] 1714 	jr	00255$
+   0B83                    1715 00250$:
+                           1716 ;engine/../my/player_frame_selector.h:42: psprid = CELL_IDLE;
+   0B83 21r00r00      [10] 1717 	ld	hl,#_psprid + 0
+   0B86 36 00         [10] 1718 	ld	(hl), #0x00
+   0B88 18 05         [12] 1719 	jr	00255$
+   0B8A                    1720 00254$:
+                           1721 ;engine/../my/player_frame_selector.h:45: psprid = CELL_AIRBORNE;
+   0B8A 21r00r00      [10] 1722 	ld	hl,#_psprid + 0
+   0B8D 36 05         [10] 1723 	ld	(hl), #0x05
+   0B8F                    1724 00255$:
+                           1725 ;engine/../my/player_frame_selector.h:55: psprid += pfacing;
+   0B8F 21r00r00      [10] 1726 	ld	hl,#_pfacing
+   0B92 D5            [11] 1727 	push	de
+   0B93 FD 21r00r00   [14] 1728 	ld	iy,#_psprid
+   0B97 FD E5         [15] 1729 	push	iy
+   0B99 D1            [10] 1730 	pop	de
+   0B9A 1A            [ 7] 1731 	ld	a,(de)
+   0B9B 86            [ 7] 1732 	add	a, (hl)
+   0B9C 12            [ 7] 1733 	ld	(de),a
+   0B9D D1            [10] 1734 	pop	de
+                           1735 ;engine/player.c:942: prx_old = prx;
+   0B9E 3Ar00r00      [13] 1736 	ld	a,(#_prx + 0)
+   0BA1 32r00r00      [13] 1737 	ld	(#_prx_old + 0),a
+                           1738 ;engine/player.c:943: pry_old = pry;
+   0BA4 3Ar00r00      [13] 1739 	ld	a,(#_pry + 0)
+   0BA7 32r00r00      [13] 1740 	ld	(#_pry_old + 0),a
+   0BAA DD F9         [10] 1741 	ld	sp, ix
+   0BAC DD E1         [14] 1742 	pop	ix
+   0BAE C9            [10] 1743 	ret
+                           1744 	.area _CODE
+                           1745 	.area _INITIALIZER
+                           1746 	.area _CABS (ABS)

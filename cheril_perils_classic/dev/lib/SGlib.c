@@ -14,6 +14,7 @@
 #define AUTOCYCLE_INIT_PRIME 	3		// Prime to 32.
 #define AUTODETECT_ONE_COLOUR			// Detect 1 colour sprites in SG_addMetaSprite1x1
 #define AUTOMUSIC						// ISR calls PSGPlay and PSGSFXPlay
+#define ONLY_ONE_CONTROLLER
 
 #include "SGlib.h"
 
@@ -71,7 +72,12 @@ unsigned char	VDPReg [2] = {0x02, 0xa0};
 volatile bool	VDPBlank;				// used by INTerrupt
 volatile bool 	PauseRequested; 		// used by NMI
 
-volatile unsigned int KeysStatus, PreviousKeysStatus;
+#ifdef ONLY_ONE_CONTROLLER
+	volatile unsigned char KeysStatus;
+#else
+	volatile unsigned int KeysStatus;
+#endif
+//volatile unsigned int PreviousKeysStatus;
 
 unsigned char	SpriteTable [MAXSPRITES * 4];
 unsigned char   *stp;					// Pointer to spritetable
@@ -150,6 +156,7 @@ void SG_VDPturnOffFeature (unsigned int feature) {
 	SG_write_to_VDPRegister (HI (feature), VDPReg [HI (feature)]);
 }
 
+/*
 inline void SMS_detect_VDP_type (void) {
   unsigned char old_value,new_value;
   while (VDPVCounterPort!=0x80);      // wait for line 0x80
@@ -163,6 +170,7 @@ inline void SMS_detect_VDP_type (void) {
   else
     VDPType=VDP_NTSC;                 // old value should be 0xDA
 }
+*/
 
 void SG_init (void) {
 	for (libgpit = 0; libgpit < 8; libgpit++)
@@ -177,7 +185,7 @@ void SG_init (void) {
 	SG_finalizeSprites ();
 	SG_copySpritestoSAT ();
 
-	SMS_detect_VDP_type();
+	// SMS_detect_VDP_type();
 }
 
 void SG_setBackdropColor (unsigned char entry) {
@@ -364,9 +372,15 @@ void SG_waitForVBlank (void) {
 	while (!VDPBlank);
 }
 
-unsigned int SG_getKeysStatus (void) {
-	return (KeysStatus);
-}
+#ifdef ONLY_ONE_CONTROLLER
+	unsigned char SG_getKeysStatus (void) {
+		return (KeysStatus);
+	}
+#else
+	unsigned int SG_getKeysStatus (void) {
+		return (KeysStatus);
+	}
+#endif
 
 _Bool SG_queryPauseRequested (void) {
 	return (PauseRequested);
@@ -437,8 +451,12 @@ void SG_isr (void) __interrupt {
 	volatile unsigned char VDPStatus = VDPStatusPort;	// Aknowledges interrupt at the VDP
 	if (VDPStatus & 0x80) {
 		VDPBlank = true;								// Frame Interrupt
-		PreviousKeysStatus = KeysStatus;
-		KeysStatus = ~ (( (IOPortH)<<8)|IOPortL);		// Update key status
+		
+		#ifdef ONLY_ONE_CONTROLLER
+			KeysStatus = (~ IOPortL) & 0x3f;
+		#else
+			KeysStatus = ~ (( (IOPortH)<<8)|IOPortL);		// Update key status
+		#endif
 
 		#ifdef AUTOMUSIC
 			// Call music
@@ -456,6 +474,8 @@ void SG_nmi_isr (void) __critical __interrupt {
 	PauseRequested = true;
 }
 
+/*
 unsigned char SMS_VDPType (void) {
   return VDPType;
 }
+*/

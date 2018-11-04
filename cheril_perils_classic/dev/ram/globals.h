@@ -8,8 +8,8 @@ unsigned char _x, _y, _n, _t;
 
 // General, all-purpose variables
 
-unsigned int pad0;                      // (neslib) pad 0 read.
-unsigned int pad_this_frame;            // (neslib) pad 0 read, current frame presses.
+unsigned char pad0;                     // (sglib) pad 0 read.
+unsigned char pad_this_frame;           // (sglib) pad 0 read, current frame presses.
 unsigned char gpit, gpjt;               // General purpose iterators.
 signed int rds16;                       // General purpose 16 bit signed variable.
 

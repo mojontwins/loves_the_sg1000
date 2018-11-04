@@ -72,7 +72,7 @@ unsigned char *SG_getStp (void);
 void SG_setStp (unsigned char *s);
 
 /* functions to read joypad(s) */
-unsigned int SG_getKeysStatus (void);
+unsigned char SG_getKeysStatus (void);
 
 /* handy defines for joypad(s) handling */
 #ifndef CONTROLLER_PORTS
@@ -124,7 +124,7 @@ void SG_nmi_isr (void) __critical __interrupt;
 #define VDP_PAL             0x80
 #define VDP_NTSC            0x40
 
-unsigned char SMS_VDPType (void);
+// unsigned char SMS_VDPType (void);
 
 /* define VDPControlPort (SDCC z80 syntax) */
 __sfr __at 0xBF VDPControlPort;

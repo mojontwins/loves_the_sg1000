@@ -15,4 +15,11 @@ cd ..\map
 
 cd ..\dev
 
-..\utils\folder2c.exe ..\ogt murcia
+if [%1]==[pal] goto :pal
+..\utils\folder2c.exe ..\ogt\ntsc murcia "NTSC version"
+goto :end
+:pal
+..\utils\folder2c.exe ..\ogt\pal murcia "PAL version"
+
+:end
+echo DONE!

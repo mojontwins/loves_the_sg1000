@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Nov 02 19:01:08 2018
+; This file was generated Sun Nov 04 13:34:49 2018
 ;--------------------------------------------------------
 	.module game
 	.optsdcc -mz80
@@ -60,7 +60,6 @@
 	.globl _PSGPlay
 	.globl _SG_doUpdateList
 	.globl _SG_setUpdateList
-	.globl _SMS_VDPType
 	.globl _SG_copySpritestoSAT
 	.globl _SG_resetPauseRequest
 	.globl _SG_queryPauseRequested
@@ -325,9 +324,9 @@ __n::
 __t::
 	.ds 1
 _pad0::
-	.ds 2
+	.ds 1
 _pad_this_frame::
-	.ds 2
+	.ds 1
 _gpit::
 	.ds 1
 _gpjt::
@@ -1328,8 +1327,8 @@ _bat_in::
 ;my/pres.h:8: while (SG_getKeysStatus ());
 00101$:
 	call	_SG_getKeysStatus
-	ld	a,h
-	or	a,l
+	ld	a,l
+	or	a, a
 	jr	NZ,00101$
 	ret
 ;my/pres.h:11: void bat_out (void) {
@@ -1501,13 +1500,13 @@ _title::
 	ld	hl,#_mode_no_resonators + 0
 	ld	(hl), #0x01
 00109$:
-;my/pres.h:55: if (mode_no_resonators != rda) PSGSFXPlay (SFX_USE, 2);
+;my/pres.h:55: if (mode_no_resonators != rda) PSGSFXPlay (SFX_USE, 1);
 	ld	a,(#_mode_no_resonators + 0)
 	ld	iy,#_rda
 	sub	a, 0 (iy)
 	jr	Z,00111$
-	ld	de,#_s_03_use3_psg
-	ld	a,#0x02
+	ld	de,#_s_03_use2_psg
+	ld	a,#0x01
 	push	af
 	inc	sp
 	push	de
@@ -2451,15 +2450,11 @@ _game_loop::
 ;mainloop.h:345: a_button = (pad_this_frame & PAD_A);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x20
-	ld	h,a
-	ld	iy,#_a_button
-	ld	0 (iy),h
+	ld	(#_a_button + 0),a
 ;mainloop.h:346: b_button = (pad_this_frame & PAD_B);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x10
-	ld	h,a
-	ld	iy,#_b_button
-	ld	0 (iy),h
+	ld	(#_b_button + 0),a
 ;mainloop.h:350: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
 	ld	hl, #_ntsc_frame+0
 	inc	(hl)
@@ -2572,11 +2567,11 @@ _game_loop::
 	call	_PSGSFXPlay
 	pop	af
 	inc	sp
-	jr	00131$
+	jp	00131$
 00126$:
-;mainloop/hotspots.h:128: rda = 0; rdm = 1;
-	ld	iy,#_rda
-	ld	0 (iy),#0x00
+;mainloop/hotspots.h:128: gp_gen = 0; rdm = 1;
+	ld	hl,#0x0000
+	ld	(_gp_gen),hl
 	ld	iy,#_rdm
 	ld	0 (iy),#0x01
 ;mainloop/hotspots.h:129: switch (hrt) {
@@ -2605,17 +2600,18 @@ _game_loop::
 	inc	0 (iy)
 ;mainloop/hotspots.h:161: gp_gen = SFX_USE;
 	ld	iy,#_gp_gen
-	ld	0 (iy),#<(_s_03_use3_psg)
+	ld	0 (iy),#<(_s_03_use2_psg)
 	ld	iy,#_gp_gen
-	ld	1 (iy),#>(_s_03_use3_psg)
+	ld	1 (iy),#>(_s_03_use2_psg)
 ;mainloop/hotspots.h:162: rdm = 2;
 	ld	iy,#_rdm
 	ld	0 (iy),#0x02
 ;mainloop/hotspots.h:192: }
 00122$:
-;mainloop/hotspots.h:193: if (rda) {
-	ld	a,(#_rda + 0)
-	or	a, a
+;mainloop/hotspots.h:193: if (gp_gen) {
+	ld	a,(#_gp_gen + 1)
+	ld	iy,#_gp_gen
+	or	a,0 (iy)
 	jr	Z,00131$
 ;mainloop/hotspots.h:194: PSGSFXPlay (gp_gen, rdm);
 	ld	de,(_gp_gen)
@@ -2798,12 +2794,8 @@ _game_loop::
 ;mainloop/cheat.h:5: if ((pad0 & (PAD_B|PAD_SELECT|PAD_UP)) == (PAD_B|PAD_SELECT|PAD_UP)) break;
 	ld	a,(#_pad0 + 0)
 	and	a, #0x31
-	ld	l, #0x00
-	sub	a,#0x31
-	jr	NZ,00320$
-	or	a,l
+	sub	a, #0x31
 	jr	Z,00170$
-00320$:
 	call	_SG_queryPauseRequested
 	bit	0,l
 	jp	Z,00169$
@@ -2851,17 +2843,10 @@ _main::
 ;game.c:111: first_game = 1;
 	ld	hl,#_first_game + 0
 	ld	(hl), #0x01
-;game.c:114: ntsc = !!(SMS_VDPType () & VDP_NTSC);
-	call	_SMS_VDPType
-	bit	6, l
-	jr	Z,00114$
-	ld	a,#0x01
-	jr	00115$
-00114$:
-	ld	a,#0x00
-00115$:
-	ld	(#_ntsc + 0),a
-;game.c:117: unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);
+;game.c:116: ntsc = 1;
+	ld	hl,#_ntsc + 0
+	ld	(hl), #0x01
+;game.c:120: unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);
 	ld	de,#_tsfont_patterns_c
 	ld	a,#0x07
 	push	af
@@ -2875,9 +2860,9 @@ _main::
 	ld	hl,#7
 	add	hl,sp
 	ld	sp,hl
-;game.c:119: credits ();
+;game.c:122: credits ();
 	call	_credits
-;game.c:122: aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
+;game.c:125: aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
 	ld	hl,#_ss_fixed_patterns_c
 	push	hl
 	ld	hl,#0x3800
@@ -2885,22 +2870,22 @@ _main::
 	call	_aPLib_depack_VRAM
 	pop	af
 	pop	af
-;game.c:124: mode_no_resonators = 0;
+;game.c:127: mode_no_resonators = 0;
 	ld	hl,#_mode_no_resonators + 0
 	ld	(hl), #0x00
-;game.c:125: while (1) {	
+;game.c:128: while (1) {	
 00110$:
-;game.c:126: title ();
+;game.c:129: title ();
 	call	_title
-;game.c:128: level = 0;
+;game.c:131: level = 0;
 	ld	hl,#_level + 0
 	ld	(hl), #0x00
-;game.c:129: plife = PLAYER_LIFE;
+;game.c:132: plife = PLAYER_LIFE;
 	ld	hl,#_plife + 0
 	ld	(hl), #0x05
-;game.c:133: while (1) {
+;game.c:136: while (1) {
 00107$:
-;game.c:134: pres (scr_level, 0);
+;game.c:137: pres (scr_level, 0);
 	ld	hl,#0x0000
 	push	hl
 	ld	hl,#_scr_level
@@ -2908,15 +2893,15 @@ _main::
 	call	_pres
 	pop	af
 	pop	af
-;game.c:135: game_init (); 
+;game.c:138: game_init (); 
 	call	_game_init
-;game.c:136: game_loop ();
+;game.c:139: game_loop ();
 	call	_game_loop
-;game.c:138: if (game_over) {
+;game.c:141: if (game_over) {
 	ld	a,(#_game_over + 0)
 	or	a, a
 	jr	Z,00104$
-;game.c:139: pres (scr_game_over, MUSIC_GOVER);
+;game.c:142: pres (scr_game_over, MUSIC_GOVER);
 	ld	hl,#_m_gover_psg
 	push	hl
 	ld	hl,#_scr_game_over
@@ -2924,17 +2909,17 @@ _main::
 	call	_pres
 	pop	af
 	pop	af
-;game.c:140: break;
+;game.c:143: break;
 	jr	00108$
 00104$:
-;game.c:142: level ++;
+;game.c:145: level ++;
 	ld	hl, #_level+0
 	inc	(hl)
-;game.c:143: if (level == MAX_LEVELS) {
+;game.c:146: if (level == MAX_LEVELS) {
 	ld	a,(#_level + 0)
 	sub	a, #0x03
 	jr	NZ,00107$
-;game.c:144: pres (scr_the_end, 0);
+;game.c:147: pres (scr_the_end, 0);
 	ld	hl,#0x0000
 	push	hl
 	ld	hl,#_scr_the_end
@@ -2942,9 +2927,9 @@ _main::
 	call	_pres
 	pop	af
 	pop	af
-;game.c:145: break;
+;game.c:148: break;
 00108$:
-;game.c:150: first_game = 0;
+;game.c:153: first_game = 0;
 	ld	hl,#_first_game + 0
 	ld	(hl), #0x00
 	jr	00110$

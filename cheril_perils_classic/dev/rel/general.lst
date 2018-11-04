@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.2 #9293 (MINGW32)
-                              4 ; This file was generated Fri Nov 02 19:01:12 2018
+                              4 ; This file was generated Sun Nov 04 13:34:53 2018
                               5 ;--------------------------------------------------------
                               6 	.module general
                               7 	.optsdcc -mz80
@@ -327,160 +327,151 @@
                             327 ; ---------------------------------
    0186                     328 _pad_read::
                             329 ;engine/general.c:88: pad_this_frame = pad0;
-   0186 2Ar00r00      [16]  330 	ld	hl,(_pad0)
-   0189 22r00r00      [16]  331 	ld	(_pad_this_frame),hl
+   0186 3Ar00r00      [13]  330 	ld	a,(#_pad0 + 0)
+   0189 32r00r00      [13]  331 	ld	(#_pad_this_frame + 0),a
                             332 ;engine/general.c:89: pad0 = SG_getKeysStatus ();			// Read pads here.
    018C CDr00r00      [17]  333 	call	_SG_getKeysStatus
-   018F 22r00r00      [16]  334 	ld	(_pad0),hl
-                            335 ;engine/general.c:90: pad_this_frame = (pad_this_frame ^ pad0) & pad0;
-   0192 3Ar00r00      [13]  336 	ld	a,(#_pad_this_frame + 0)
-   0195 FD 21r00r00   [14]  337 	ld	iy,#_pad0
-   0199 FD AE 00      [19]  338 	xor	a, 0 (iy)
-   019C 57            [ 4]  339 	ld	d,a
-   019D 3Ar01r00      [13]  340 	ld	a,(#_pad_this_frame + 1)
-   01A0 FD 21r00r00   [14]  341 	ld	iy,#_pad0
-   01A4 FD AE 01      [19]  342 	xor	a, 1 (iy)
-   01A7 5F            [ 4]  343 	ld	e,a
-   01A8 7A            [ 4]  344 	ld	a,d
-   01A9 FD 21r00r00   [14]  345 	ld	iy,#_pad0
-   01AD FD A6 00      [19]  346 	and	a, 0 (iy)
-   01B0 32r00r00      [13]  347 	ld	(#_pad_this_frame + 0),a
-   01B3 7B            [ 4]  348 	ld	a,e
-   01B4 FD 21r00r00   [14]  349 	ld	iy,#_pad0
-   01B8 FD A6 01      [19]  350 	and	a, 1 (iy)
-   01BB 32r01r00      [13]  351 	ld	(#_pad_this_frame + 1),a
-   01BE C9            [10]  352 	ret
-                            353 ;engine/general.c:96: unsigned char distance (void) {
-                            354 ;	---------------------------------
-                            355 ; Function distance
-                            356 ; ---------------------------------
-   01BF                     357 _distance::
-                            358 ;engine/general.c:97: rda = DELTA (prx, rdx); // dx
-   01BF 21r00r00      [10]  359 	ld	hl,#_rdx
-   01C2 3Ar00r00      [13]  360 	ld	a,(#_prx + 0)
-   01C5 96            [ 7]  361 	sub	a, (hl)
-   01C6 30 09         [12]  362 	jr	NC,00103$
-   01C8 21r00r00      [10]  363 	ld	hl,#_prx
-   01CB 3Ar00r00      [13]  364 	ld	a,(#_rdx + 0)
-   01CE 96            [ 7]  365 	sub	a, (hl)
-   01CF 18 07         [12]  366 	jr	00104$
-   01D1                     367 00103$:
-   01D1 21r00r00      [10]  368 	ld	hl,#_rdx
-   01D4 3Ar00r00      [13]  369 	ld	a,(#_prx + 0)
-   01D7 96            [ 7]  370 	sub	a, (hl)
-   01D8                     371 00104$:
-   01D8 32r00r00      [13]  372 	ld	(#_rda + 0),a
-                            373 ;engine/general.c:98: rdb = DELTA (pry, rdy); // dy
-   01DB 21r00r00      [10]  374 	ld	hl,#_rdy
-   01DE 3Ar00r00      [13]  375 	ld	a,(#_pry + 0)
-   01E1 96            [ 7]  376 	sub	a, (hl)
-   01E2 30 09         [12]  377 	jr	NC,00105$
-   01E4 21r00r00      [10]  378 	ld	hl,#_pry
-   01E7 3Ar00r00      [13]  379 	ld	a,(#_rdy + 0)
-   01EA 96            [ 7]  380 	sub	a, (hl)
-   01EB 18 07         [12]  381 	jr	00106$
-   01ED                     382 00105$:
-   01ED 21r00r00      [10]  383 	ld	hl,#_rdy
-   01F0 3Ar00r00      [13]  384 	ld	a,(#_pry + 0)
-   01F3 96            [ 7]  385 	sub	a, (hl)
-   01F4                     386 00106$:
-   01F4 32r00r00      [13]  387 	ld	(#_rdb + 0),a
-                            388 ;engine/general.c:99: rdc = MIN (rda, rdb);
-   01F7 21r00r00      [10]  389 	ld	hl,#_rdb
-   01FA 3Ar00r00      [13]  390 	ld	a,(#_rda + 0)
-   01FD BE            [ 7]  391 	cp	a,(hl)
-   01FE 38 03         [12]  392 	jr	C,00108$
-   0200 3Ar00r00      [13]  393 	ld	a,(#_rdb + 0)
-   0203                     394 00108$:
-   0203 32r00r00      [13]  395 	ld	(#_rdc + 0),a
-                            396 ;engine/general.c:100: return (rda + rdb - (rdc >> 1) - (rdc >> 2) + (rdc >> 4));
-   0206 21r00r00      [10]  397 	ld	hl,#_rdb
-   0209 3Ar00r00      [13]  398 	ld	a,(#_rda + 0)
-   020C 86            [ 7]  399 	add	a, (hl)
-   020D 57            [ 4]  400 	ld	d,a
-   020E FD 21r00r00   [14]  401 	ld	iy,#_rdc
-   0212 FD 5E 00      [19]  402 	ld	e,0 (iy)
-   0215 CB 3B         [ 8]  403 	srl	e
-   0217 7A            [ 4]  404 	ld	a,d
-   0218 93            [ 4]  405 	sub	a, e
-   0219 57            [ 4]  406 	ld	d,a
-   021A FD 21r00r00   [14]  407 	ld	iy,#_rdc
-   021E FD 5E 00      [19]  408 	ld	e,0 (iy)
-   0221 CB 3B         [ 8]  409 	srl	e
-   0223 CB 3B         [ 8]  410 	srl	e
-   0225 7A            [ 4]  411 	ld	a,d
-   0226 93            [ 4]  412 	sub	a, e
-   0227 4F            [ 4]  413 	ld	c,a
-   0228 3Ar00r00      [13]  414 	ld	a,(#_rdc + 0)
-   022B 07            [ 4]  415 	rlca
-   022C 07            [ 4]  416 	rlca
-   022D 07            [ 4]  417 	rlca
-   022E 07            [ 4]  418 	rlca
-   022F E6 0F         [ 7]  419 	and	a,#0x0F
-   0231 6F            [ 4]  420 	ld	l,a
-   0232 09            [11]  421 	add	hl, bc
-   0233 C9            [10]  422 	ret
-                            423 ;engine/general.c:105: void jump_start (void) {
-                            424 ;	---------------------------------
-                            425 ; Function jump_start
-                            426 ; ---------------------------------
-   0234                     427 _jump_start::
-                            428 ;engine/general.c:106: pj = 1; pctj = 0; 
-   0234 21r00r00      [10]  429 	ld	hl,#_pj + 0
-   0237 36 01         [10]  430 	ld	(hl), #0x01
-   0239 21r00r00      [10]  431 	ld	hl,#_pctj + 0
-   023C 36 00         [10]  432 	ld	(hl), #0x00
-                            433 ;engine/general.c:118: PSGSFXPlay (SFX_JUMP, 1);
-   023E 11r00r00      [10]  434 	ld	de,#_s_08_jump2_psg
-   0241 3E 01         [ 7]  435 	ld	a,#0x01
-   0243 F5            [11]  436 	push	af
-   0244 33            [ 6]  437 	inc	sp
-   0245 D5            [11]  438 	push	de
-   0246 CDr00r00      [17]  439 	call	_PSGSFXPlay
-   0249 F1            [10]  440 	pop	af
-   024A 33            [ 6]  441 	inc	sp
-                            442 ;engine/general.c:122: pvy = -PLAYER_VY_JUMP_INITIAL;
-   024B 21 C0 FF      [10]  443 	ld	hl,#0xFFC0
-   024E 22r00r00      [16]  444 	ld	(_pvy),hl
-   0251 C9            [10]  445 	ret
-                            446 ;engine/general.c:128: void update_cycle (void) {
-                            447 ;	---------------------------------
-                            448 ; Function update_cycle
-                            449 ; ---------------------------------
-   0252                     450 _update_cycle::
-                            451 ;engine/general.c:129: SG_finalizeSprites ();
-   0252 CDr00r00      [17]  452 	call	_SG_finalizeSprites
-                            453 ;engine/general.c:130: SG_waitForVBlank ();
-   0255 CDr00r00      [17]  454 	call	_SG_waitForVBlank
-                            455 ;engine/general.c:131: SG_copySpritestoSAT ();
-   0258 CDr00r00      [17]  456 	call	_SG_copySpritestoSAT
-                            457 ;engine/general.c:132: update_list [update_index] = 0xff;
-   025B 11r00r00      [10]  458 	ld	de,#_update_list+0
-   025E 2Ar00r00      [16]  459 	ld	hl,(_update_index)
-   0261 26 00         [ 7]  460 	ld	h,#0x00
-   0263 19            [11]  461 	add	hl,de
-   0264 36 FF         [10]  462 	ld	(hl),#0xFF
-                            463 ;engine/general.c:133: SG_doUpdateList ();
-   0266 CDr00r00      [17]  464 	call	_SG_doUpdateList
-                            465 ;engine/general.c:134: SG_initSprites ();
-   0269 CDr00r00      [17]  466 	call	_SG_initSprites
-                            467 ;engine/general.c:135: clear_update_list ();
-   026C C3r00r00      [10]  468 	jp  _clear_update_list
-                            469 ;engine/general.c:138: void do_update_list_and_wait (void) {
-                            470 ;	---------------------------------
-                            471 ; Function do_update_list_and_wait
-                            472 ; ---------------------------------
-   026F                     473 _do_update_list_and_wait::
-                            474 ;engine/general.c:139: SG_waitForVBlank ();
-   026F CDr00r00      [17]  475 	call	_SG_waitForVBlank
-                            476 ;engine/general.c:140: update_list [update_index] = 0xff;
-   0272 11r00r00      [10]  477 	ld	de,#_update_list+0
-   0275 2Ar00r00      [16]  478 	ld	hl,(_update_index)
-   0278 26 00         [ 7]  479 	ld	h,#0x00
-   027A 19            [11]  480 	add	hl,de
-   027B 36 FF         [10]  481 	ld	(hl),#0xFF
-                            482 ;engine/general.c:141: SG_doUpdateList ();
-   027D C3r00r00      [10]  483 	jp  _SG_doUpdateList
-                            484 	.area _CODE
-                            485 	.area _INITIALIZER
-                            486 	.area _CABS (ABS)
+   018F FD 21r00r00   [14]  334 	ld	iy,#_pad0
+   0193 FD 75 00      [19]  335 	ld	0 (iy),l
+                            336 ;engine/general.c:90: pad_this_frame = (pad_this_frame ^ pad0) & pad0;
+   0196 3Ar00r00      [13]  337 	ld	a,(#_pad_this_frame + 0)
+   0199 FD 21r00r00   [14]  338 	ld	iy,#_pad0
+   019D FD AE 00      [19]  339 	xor	a, 0 (iy)
+   01A0 FD 21r00r00   [14]  340 	ld	iy,#_pad0
+   01A4 FD A6 00      [19]  341 	and	a, 0 (iy)
+   01A7 32r00r00      [13]  342 	ld	(#_pad_this_frame + 0),a
+   01AA C9            [10]  343 	ret
+                            344 ;engine/general.c:96: unsigned char distance (void) {
+                            345 ;	---------------------------------
+                            346 ; Function distance
+                            347 ; ---------------------------------
+   01AB                     348 _distance::
+                            349 ;engine/general.c:97: rda = DELTA (prx, rdx); // dx
+   01AB 21r00r00      [10]  350 	ld	hl,#_rdx
+   01AE 3Ar00r00      [13]  351 	ld	a,(#_prx + 0)
+   01B1 96            [ 7]  352 	sub	a, (hl)
+   01B2 30 09         [12]  353 	jr	NC,00103$
+   01B4 21r00r00      [10]  354 	ld	hl,#_prx
+   01B7 3Ar00r00      [13]  355 	ld	a,(#_rdx + 0)
+   01BA 96            [ 7]  356 	sub	a, (hl)
+   01BB 18 07         [12]  357 	jr	00104$
+   01BD                     358 00103$:
+   01BD 21r00r00      [10]  359 	ld	hl,#_rdx
+   01C0 3Ar00r00      [13]  360 	ld	a,(#_prx + 0)
+   01C3 96            [ 7]  361 	sub	a, (hl)
+   01C4                     362 00104$:
+   01C4 32r00r00      [13]  363 	ld	(#_rda + 0),a
+                            364 ;engine/general.c:98: rdb = DELTA (pry, rdy); // dy
+   01C7 21r00r00      [10]  365 	ld	hl,#_rdy
+   01CA 3Ar00r00      [13]  366 	ld	a,(#_pry + 0)
+   01CD 96            [ 7]  367 	sub	a, (hl)
+   01CE 30 09         [12]  368 	jr	NC,00105$
+   01D0 21r00r00      [10]  369 	ld	hl,#_pry
+   01D3 3Ar00r00      [13]  370 	ld	a,(#_rdy + 0)
+   01D6 96            [ 7]  371 	sub	a, (hl)
+   01D7 18 07         [12]  372 	jr	00106$
+   01D9                     373 00105$:
+   01D9 21r00r00      [10]  374 	ld	hl,#_rdy
+   01DC 3Ar00r00      [13]  375 	ld	a,(#_pry + 0)
+   01DF 96            [ 7]  376 	sub	a, (hl)
+   01E0                     377 00106$:
+   01E0 32r00r00      [13]  378 	ld	(#_rdb + 0),a
+                            379 ;engine/general.c:99: rdc = MIN (rda, rdb);
+   01E3 21r00r00      [10]  380 	ld	hl,#_rdb
+   01E6 3Ar00r00      [13]  381 	ld	a,(#_rda + 0)
+   01E9 BE            [ 7]  382 	cp	a,(hl)
+   01EA 38 03         [12]  383 	jr	C,00108$
+   01EC 3Ar00r00      [13]  384 	ld	a,(#_rdb + 0)
+   01EF                     385 00108$:
+   01EF 32r00r00      [13]  386 	ld	(#_rdc + 0),a
+                            387 ;engine/general.c:100: return (rda + rdb - (rdc >> 1) - (rdc >> 2) + (rdc >> 4));
+   01F2 21r00r00      [10]  388 	ld	hl,#_rdb
+   01F5 3Ar00r00      [13]  389 	ld	a,(#_rda + 0)
+   01F8 86            [ 7]  390 	add	a, (hl)
+   01F9 57            [ 4]  391 	ld	d,a
+   01FA FD 21r00r00   [14]  392 	ld	iy,#_rdc
+   01FE FD 5E 00      [19]  393 	ld	e,0 (iy)
+   0201 CB 3B         [ 8]  394 	srl	e
+   0203 7A            [ 4]  395 	ld	a,d
+   0204 93            [ 4]  396 	sub	a, e
+   0205 57            [ 4]  397 	ld	d,a
+   0206 FD 21r00r00   [14]  398 	ld	iy,#_rdc
+   020A FD 5E 00      [19]  399 	ld	e,0 (iy)
+   020D CB 3B         [ 8]  400 	srl	e
+   020F CB 3B         [ 8]  401 	srl	e
+   0211 7A            [ 4]  402 	ld	a,d
+   0212 93            [ 4]  403 	sub	a, e
+   0213 4F            [ 4]  404 	ld	c,a
+   0214 3Ar00r00      [13]  405 	ld	a,(#_rdc + 0)
+   0217 07            [ 4]  406 	rlca
+   0218 07            [ 4]  407 	rlca
+   0219 07            [ 4]  408 	rlca
+   021A 07            [ 4]  409 	rlca
+   021B E6 0F         [ 7]  410 	and	a,#0x0F
+   021D 6F            [ 4]  411 	ld	l,a
+   021E 09            [11]  412 	add	hl, bc
+   021F C9            [10]  413 	ret
+                            414 ;engine/general.c:105: void jump_start (void) {
+                            415 ;	---------------------------------
+                            416 ; Function jump_start
+                            417 ; ---------------------------------
+   0220                     418 _jump_start::
+                            419 ;engine/general.c:106: pj = 1; pctj = 0; 
+   0220 21r00r00      [10]  420 	ld	hl,#_pj + 0
+   0223 36 01         [10]  421 	ld	(hl), #0x01
+   0225 21r00r00      [10]  422 	ld	hl,#_pctj + 0
+   0228 36 00         [10]  423 	ld	(hl), #0x00
+                            424 ;engine/general.c:118: PSGSFXPlay (SFX_JUMP, 1);
+   022A 11r00r00      [10]  425 	ld	de,#_s_08_jump2_psg
+   022D 3E 01         [ 7]  426 	ld	a,#0x01
+   022F F5            [11]  427 	push	af
+   0230 33            [ 6]  428 	inc	sp
+   0231 D5            [11]  429 	push	de
+   0232 CDr00r00      [17]  430 	call	_PSGSFXPlay
+   0235 F1            [10]  431 	pop	af
+   0236 33            [ 6]  432 	inc	sp
+                            433 ;engine/general.c:120: pvy = -PLAYER_VY_MK2_JUMP_INITIAL;
+   0237 21 00 FF      [10]  434 	ld	hl,#0xFF00
+   023A 22r00r00      [16]  435 	ld	(_pvy),hl
+   023D C9            [10]  436 	ret
+                            437 ;engine/general.c:128: void update_cycle (void) {
+                            438 ;	---------------------------------
+                            439 ; Function update_cycle
+                            440 ; ---------------------------------
+   023E                     441 _update_cycle::
+                            442 ;engine/general.c:129: SG_finalizeSprites ();
+   023E CDr00r00      [17]  443 	call	_SG_finalizeSprites
+                            444 ;engine/general.c:130: SG_waitForVBlank ();
+   0241 CDr00r00      [17]  445 	call	_SG_waitForVBlank
+                            446 ;engine/general.c:131: SG_copySpritestoSAT ();
+   0244 CDr00r00      [17]  447 	call	_SG_copySpritestoSAT
+                            448 ;engine/general.c:132: update_list [update_index] = 0xff;
+   0247 11r00r00      [10]  449 	ld	de,#_update_list+0
+   024A 2Ar00r00      [16]  450 	ld	hl,(_update_index)
+   024D 26 00         [ 7]  451 	ld	h,#0x00
+   024F 19            [11]  452 	add	hl,de
+   0250 36 FF         [10]  453 	ld	(hl),#0xFF
+                            454 ;engine/general.c:133: SG_doUpdateList ();
+   0252 CDr00r00      [17]  455 	call	_SG_doUpdateList
+                            456 ;engine/general.c:134: SG_initSprites ();
+   0255 CDr00r00      [17]  457 	call	_SG_initSprites
+                            458 ;engine/general.c:135: clear_update_list ();
+   0258 C3r00r00      [10]  459 	jp  _clear_update_list
+                            460 ;engine/general.c:138: void do_update_list_and_wait (void) {
+                            461 ;	---------------------------------
+                            462 ; Function do_update_list_and_wait
+                            463 ; ---------------------------------
+   025B                     464 _do_update_list_and_wait::
+                            465 ;engine/general.c:139: SG_waitForVBlank ();
+   025B CDr00r00      [17]  466 	call	_SG_waitForVBlank
+                            467 ;engine/general.c:140: update_list [update_index] = 0xff;
+   025E 11r00r00      [10]  468 	ld	de,#_update_list+0
+   0261 2Ar00r00      [16]  469 	ld	hl,(_update_index)
+   0264 26 00         [ 7]  470 	ld	h,#0x00
+   0266 19            [11]  471 	add	hl,de
+   0267 36 FF         [10]  472 	ld	(hl),#0xFF
+                            473 ;engine/general.c:141: SG_doUpdateList ();
+   0269 C3r00r00      [10]  474 	jp  _SG_doUpdateList
+                            475 	.area _CODE
+                            476 	.area _INITIALIZER
+                            477 	.area _CABS (ABS)

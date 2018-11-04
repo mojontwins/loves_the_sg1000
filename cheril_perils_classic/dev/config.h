@@ -514,7 +514,7 @@
 
 // Extra configuration for side view:
 
-//#define PLAYER_JUMP_TYPE_MK2			// Use MK2 method for jump / gravity / release
+#define PLAYER_JUMP_TYPE_MK2			// Use MK2 method for jump / gravity / release
 #define PLAYER_STEPS_ON_ENEMS			// If defined, stepping on enemies kills them
 #define PLAYER_STEPS_STRICT				// Only registers advantage hit when pvy > PLAYER_VY_FALLING_MIN
 #define PLAYER_SAFE_LANDING				// Step over vertical inverts direction
@@ -590,10 +590,10 @@
 
 // IV.1.b MK2 style jump (overrides PLAYER_?Y_JUMP_* defined before!)
 // (Used if PLAYER_JUMP_TYPE_MK2 is defined)
-#define PLAYER_G_MK2_JUMPING		2
-#define PLAYER_VY_MK2_JUMP_INITIAL	160
-#define PLAYER_VY_MK2_JUMP_RELEASE	80
-#define PLAYER_VY_MK2_JUMP_A_STEPS 	16
+#define PLAYER_G_MK2_JUMPING		4
+#define PLAYER_VY_MK2_JUMP_INITIAL	256
+#define PLAYER_VY_MK2_JUMP_RELEASE	64
+#define PLAYER_VY_MK2_JUMP_A_STEPS 	8
 #define PLAYER_VY_MK2_JUMP_INITIAL_TRAMPOLINE 296
 #define PLAYER_VY_MK2_TRAMPOLINE_A_STEPS 32	// For trampolines
 
@@ -668,7 +668,7 @@
 #define SFX_START				s_00_start2_psg
 #define SFX_TILE				s_01_tile3_psg
 #define SFX_OBJECT				s_02_object2_psg
-#define SFX_USE					s_03_use3_psg
+#define SFX_USE					s_03_use2_psg
 #define SFX_TRAMPOLINE			s_04_trampoline2_psg
 #define SFX_PHIT				s_05_phit3_psg
 #define SFX_DUMMY1				s_06_dummy13_psg

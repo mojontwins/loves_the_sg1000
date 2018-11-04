@@ -11,7 +11,7 @@ If Command(2) = "" Then
 	Print "My Own Folder2c (as DevKitSMS's doesn't work in my system)"
 	Print "No bank support for now. Quick'n'dirty walkaround. I need this fast"
 	Print
-	Print "$ folder2c folder file"
+	Print "$ folder2c folder file [comments]"
 	Print
 	End
 End If
@@ -23,6 +23,13 @@ Dim As uByte d
 
 fOut1 = FreeFile: Open Command (2) & ".c" For Output As #fOut1
 fOut2 = FreeFile: Open Command (2) & ".h" For Output As #fOut2
+
+If Command (3) <> "" Then
+	Print #fOut1, "// " & Command (3)
+	Print #fOut1, ""
+	Print #fOut2, "// " & Command (3)
+	Print #fOut2, ""
+End If
 
 fileName = Dir (Command (1) & "\*", &H21)
 Do While Len (fileName)

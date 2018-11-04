@@ -110,8 +110,11 @@ void main(void) {
 	SG_setUpdateList (update_list);
 	first_game = 1;
 
-	// For master system:
-	ntsc = !!(SMS_VDPType () & VDP_NTSC);
+	#ifdef PAL
+		ntsc = 0;
+	#else
+		ntsc = 1;
+	#endif
 
 	// Unpack font
 	unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);

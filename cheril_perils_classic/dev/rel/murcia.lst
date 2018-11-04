@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.2 #9293 (MINGW32)
-                              4 ; This file was generated Fri Nov 02 19:01:34 2018
+                              4 ; This file was generated Sun Nov 04 13:35:13 2018
                               5 ;--------------------------------------------------------
                               6 	.module murcia
                               7 	.optsdcc -mz80
@@ -25,7 +25,7 @@
                              25 	.globl _s_06_dummy13_psg
                              26 	.globl _s_05_phit3_psg
                              27 	.globl _s_04_trampoline2_psg
-                             28 	.globl _s_03_use3_psg
+                             28 	.globl _s_03_use2_psg
                              29 	.globl _s_02_object2_psg
                              30 	.globl _s_01_tile3_psg
                              31 	.globl _s_00_start2_psg
@@ -9015,7 +9015,7 @@
    22EE DF                 9015 	.db #0xDF	; 223
    22EF 38                 9016 	.db #0x38	; 56	'8'
    22F0 00                 9017 	.db #0x00	; 0
-   22F1                    9018 _s_03_use3_psg:
+   22F1                    9018 _s_03_use2_psg:
    22F1 CF                 9019 	.db #0xCF	; 207
    22F2 47                 9020 	.db #0x47	; 71	'G'
    22F3 D0                 9021 	.db #0xD0	; 208

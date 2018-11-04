@@ -13,7 +13,7 @@ Symbol Table
   0 _s_00_start2_psg                                               22A8 GR
   0 _s_01_tile3_psg                                                22BB GR
   0 _s_02_object2_psg                                              22DA GR
-  0 _s_03_use3_psg                                                 22F1 GR
+  0 _s_03_use2_psg                                                 22F1 GR
   0 _s_04_trampoline2_psg                                          2352 GR
   0 _s_05_phit3_psg                                                2367 GR
   0 _s_06_dummy13_psg                                              237C GR

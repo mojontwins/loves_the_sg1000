@@ -52,7 +52,7 @@ void title (void) {
 		if (pad_this_frame & PAD_UP) {
 			if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
 		}
-		if (mode_no_resonators != rda) PSGSFXPlay (SFX_USE, 2);
+		if (mode_no_resonators != rda) PSGSFXPlay (SFX_USE, 1);
 		if (pad_this_frame & PAD_1) break;
 	}
 	

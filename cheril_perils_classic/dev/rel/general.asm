@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Nov 02 19:01:12 2018
+; This file was generated Sun Nov 04 13:34:53 2018
 ;--------------------------------------------------------
 	.module general
 	.optsdcc -mz80
@@ -327,28 +327,19 @@ _add_sign::
 ; ---------------------------------
 _pad_read::
 ;engine/general.c:88: pad_this_frame = pad0;
-	ld	hl,(_pad0)
-	ld	(_pad_this_frame),hl
+	ld	a,(#_pad0 + 0)
+	ld	(#_pad_this_frame + 0),a
 ;engine/general.c:89: pad0 = SG_getKeysStatus ();			// Read pads here.
 	call	_SG_getKeysStatus
-	ld	(_pad0),hl
+	ld	iy,#_pad0
+	ld	0 (iy),l
 ;engine/general.c:90: pad_this_frame = (pad_this_frame ^ pad0) & pad0;
 	ld	a,(#_pad_this_frame + 0)
 	ld	iy,#_pad0
 	xor	a, 0 (iy)
-	ld	d,a
-	ld	a,(#_pad_this_frame + 1)
-	ld	iy,#_pad0
-	xor	a, 1 (iy)
-	ld	e,a
-	ld	a,d
 	ld	iy,#_pad0
 	and	a, 0 (iy)
 	ld	(#_pad_this_frame + 0),a
-	ld	a,e
-	ld	iy,#_pad0
-	and	a, 1 (iy)
-	ld	(#_pad_this_frame + 1),a
 	ret
 ;engine/general.c:96: unsigned char distance (void) {
 ;	---------------------------------
@@ -439,8 +430,8 @@ _jump_start::
 	call	_PSGSFXPlay
 	pop	af
 	inc	sp
-;engine/general.c:122: pvy = -PLAYER_VY_JUMP_INITIAL;
-	ld	hl,#0xFFC0
+;engine/general.c:120: pvy = -PLAYER_VY_MK2_JUMP_INITIAL;
+	ld	hl,#0xFF00
 	ld	(_pvy),hl
 	ret
 ;engine/general.c:128: void update_cycle (void) {
