@@ -27,3 +27,4 @@ void pad_read (void);
 
 void update_cycle (void);
 void do_update_list_and_wait (void);
+void flush_update_list (void);

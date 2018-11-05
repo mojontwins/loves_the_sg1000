@@ -484,3 +484,96 @@ Ahora quiero investigar por qué aparecen dos patrones glitcheros de vez en cuand
 
 Antes quiero adecentar un poco el código de algunas partes. Voy a ello rápidow.
 
+20181105
+========
+
+Vamos a empezar a montar sgt. helmet. Para ello estoy reuniendo tiestos, y me faltaría por convertir el .ene de MK2 a MK1, lo de siempre.
+
+Anda que todos los remakes me tocan de ida y vuelta, macho XD Al final voy a terminar habiendo convertido todos los .ene de MK1 a MK2 y viceversa.
+
+Ya tengo todas las arogas entregagas. Ahora es cuando veo qué sustituciones / mejoras puedo hacer a los mapas para conseguir mejor compresión y, por tanto, más espacio libre.
+
+Level 0/1 (son iguales los TS, pero de colores distintos): 
+
+- Cambiar tile 0 por 25 si el tile de arriba no es 0 y es menor que 14.
+- Cambiar tile 1 por 0 en el mapa y sustituir 0 por 1 al azar (50%) en el renderer. Cambiar cada (100/8)% por tile 27.
+- Sustituir tiles 7 y 9 por 8 (bordes de valla por valla), y luego en el renderer hacer que si rda == 8, mirar a la izquierda y si no 8 ni 7 cambiar a 7 y mirar a la derecha y si no 8 cambiar a 9, ¡siempre que no esté aislada!
+
+Level 2
+
+- Cambiar tile 0 por 25 si el tile de arriba no es 0 y es menor que 14.
+- Cambiar le tile 0 cada (100/8)% por tile 27.
+
+En realidad podemos poner las dos cosas de Level 2 como generales en todos, y además pintar el ordenador y las bombas si ya están puestas, aunque esto lo dejaré para el final: no pienso usar scripting, sino inyección de código.
+
+Vamos a convertir a ver cómo se van quedando los tiestos...
+
+Armar build_assets.bat
+======================
+
+Stats:
+
+- BG: 254 patrones, 2032*2 bytes -> 1377 + 762 bytes = 2139 bytes.
+- Metatile: 112 * 3 = 336 bytes.
+- RLE: 515 + 295 + 86 = 896 bytes. Title takes TOO MUCH!
+- SS: 184 patrones, 1472 bytes -> 1039 bytes.
+- Metasprite: meh
+- Map0: 1749 bytes (packed: 2304 bytes)
+- Map1: 2065 bytes (packed: 2304 byztes)
+- Map2: 1854 bytes (packed: 2304 bytes)
+
+Total data: 10078 bytes más los metasprites. Alrededor de 11K. 
+
+Creo que si me apetece podré meter un cuarto nivel reaprovechando gráficos de los otros tres, pero ya veremos. No es necesario.
+
+So assets entregagos. Next: 
+
+config.h
+========
+
+Copio el original y sigo la receta. En este punto comento `ENABLE_BREAKABLE` porque aún lo tengo que implementar usando VRAM.
+
+El patrón para coco / bala (`COCO_PATTERN`, `BULLET_PATTERN`) será el 64 (player) + 64 (enemigos) + 36 (otros items) = 164
+
+metasprites.h
+=============
+
+Hay que modificar los arrays de `metasprites.h` con los sprites de este juego, que son pocos y repes.
+
+Por ahora en este juego puedo usar el mismo `spr_enems0` para TODOS los niveles.
+
+behs.h
+======
+
+Copio del original y completo con el nuevo.
+
+levelset.h
+==========
+
+Remember que metasprites y otros tiestos se reaprovechan.
+
+pres.h
+======
+
+Copio del original y adapto.
+
+~~
+
+Bueno, esto compila y funciona puto todo. Sé que tengo que retocar algunos gráficos, pero ahora toca reimplementar los breakables para que tiren de VRAM y listow!
+
+Básicamente se trata de sustituir `brk_buff` por una ubicación en VRAM. Necesito 192 bytes que puedo pedirle al cacho sin ocupar que está en $1B80, por ejemplo, al final: en $2000-192 = $1F40.
+
+~~
+
+Montado y funcionando.
+
+No me gustan algunos gráficos, lo pongo de nuevo. No me gusta el entamado de rocas básico, no tiene contraste y queda feo. Ya lo cambiaré, pero reitero que no me gusta para que cuando me entre la vaguitis no diga meh.
+
+Ahora es cuando tengo que montar el script. Por lo pronto no tengo texto porque no sé donde me voy a meter la linea de texto. A unas malas monto algo para una microcaja de texto, pero no me apetece y creo que no es necesario.
+
+Por tanto, he de:
+
+1.- Establecer una variable que se llame `bombs_set` y que se ponga a 0 al inicio.
+2.- Al entrar en la pantalla 0, dibujar el _evil computer_.
+
+3.- Al entrar en la pantalla 0, ver si `bombs_set` vale 1 para así dibujar toda la mandanga.

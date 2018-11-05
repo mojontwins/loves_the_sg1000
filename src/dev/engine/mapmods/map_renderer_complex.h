@@ -208,17 +208,30 @@ void draw_scr (void) {
 			map_attr [rdm] = c_behs [rdt];
 		#endif
 
-		#if defined (ENABLE_BREAKABLE) && !defined (BREAKABLES_SOFT)
-			brk_buff [rdm] = 1;
-		#endif
-
 		#include "../../engine/mapmods/map_detectors.h"
 
 		DISABLE_INTERRUPTS;
+
+		#if defined (ENABLE_BREAKABLE) && !defined (BREAKABLES_SOFT)
+			//brk_buff [rdm] = 1;
+			gp_addr = 
+		#endif
+
 		_t = rdt; draw_tile ();
 		_x = (_x + 2) & 0x1f; if (!_x) _y += 2;
 		ENABLE_INTERRUPTS;
 	}
+
+	#if defined (ENABLE_BREAKABLE) && !defined (BREAKABLES_SOFT)
+		// Set breakable life to 1
+		DISABLE_INTERRUPTS;
+		VDPControlPort = LO (BREAKABLE_VRAM_ADDR);
+		VDPControlPort = HI (BREAKABLE_VRAM_ADDR) | 0x40;
+		for (gpit = 0; gpit < 192; gpit ++) {
+			VDPDataPort = 1;
+		}
+		ENABLE_INTERRUPTS;
+	#endif
 
 	#if defined (ENABLE_TILE_CHAC_CHAC) && defined (CHAC_CHACS_CLEAR)
 		gpit = max_chac_chacs; while (gpit --) {

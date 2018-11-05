@@ -137,24 +137,22 @@ void main(void) {
 	#endif
 
 	// Unpack font
-	unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);
+	unpack_bg_patterns (tsALL_patterns_c, tsALL_colours_c, 0, 7);
 
 	credits ();
 
-	// Unpack fixed sprites
-	aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
+	// Unpack sprites
+	aPLib_depack_VRAM (SGT_BASE, ssALL_patterns_c);
 	
-	mode_no_resonators = 0;
 	while (1) {	
 		title ();
 		
-		level = 0;
+		//level = 0;
 		plife = PLAYER_LIFE;
 
 		// Game loop
 
 		while (1) {
-			pres (scr_level, 0);
 			game_init (); 
 			game_loop ();
 
@@ -162,11 +160,11 @@ void main(void) {
 				pres (scr_game_over, MUSIC_GOVER);
 				break;
 			} else {
-				level ++;
-				if (level == MAX_LEVELS) {
+				//level ++;
+				//if (level == MAX_LEVELS) {
 					pres (scr_the_end, 0);
 					break;
-				}
+				//}
 			}
 		}
 

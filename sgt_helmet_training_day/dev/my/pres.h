@@ -27,14 +27,8 @@ void pres (void (*func) (void), unsigned char *music) {
 	bat_out ();
 }
 
-void title (void) {
-	unpack_bg_patterns (tstitle_patterns_c, tstitle_colours_c, 64*8, 7);
+void title (void) {	
 	gp_gen = title_rle; unrle ();
-	
-	_x = 7; _y = 12; pr_str ("SELECT AND PUSH 1!");
-
-	_x = 12; _y = 16; pr_str ("RESONATORS");
-	         _y = 18; pr_str ("EASY MODE");
 
 	_x = 5; _y = 23; pr_str ("@ 2018 THE MOJON TWINS");
 
@@ -43,44 +37,38 @@ void title (void) {
 	PSGPlay (MUSIC_TITLE);
 	while (1) {
 		update_cycle ();
-		SG_addMetaSprite1x1 (82, 122 + (mode_no_resonators << 4), ss_pl_00);
+		SG_addMetaSprite1x1 (80, 108 + (level << 4), ss_pl_00);
 		pad_read ();
-		rda = mode_no_resonators;
+		rda = level;
 		if (pad_this_frame & PAD_DOWN) {
-			++ mode_no_resonators; if (mode_no_resonators == 2) mode_no_resonators = 0;
+			++ level; if (level == 3) level = 0;
 		}
 		if (pad_this_frame & PAD_UP) {
-			if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
+			if (level) -- level; else level = 2;
 		}
-		if (mode_no_resonators != rda) PSGSFXPlay (SFX_USE, 1);
+		if (level != rda) PSGSFXPlay (SFX_USE, 1);
 		if (pad_this_frame & PAD_1) break;
 	}
 	
 	PSGSFXPlay (SFX_START, 1); delay (20);
 	
-	plife = mode_no_resonators ? 5 : 3;
-
 	bat_out ();
 }
 
 void scr_game_over (void) {
-	_x = 11; _y = 15; pr_str ("GAME OVER!");
+	gp_gen = cuts_rle; unrle ();
+	_x = 10; _y = 8; pr_str ("GAME OVER!");
+	_x =  4; _y = 10; pr_str ("NICE TRY, BUT NO BANANA!");
+	_x =  5; _y = 12; pr_str ("DO IT BETTER NEXT TIME");
+	_x =  9; _y = 14; pr_str ("MISSION FAILED");
 }
 
 void scr_the_end (void) {
-	unpack_bg_patterns (tsending_patterns_c, tsending_colours_c, 64*8, 7);
-	gp_gen = ending_rle; unrle ();
-	_x = 4; _y = 13; pr_str ("'CONGRATS, CHERIL'- SAID%%THE MAJOR -'YOU HAVE WON%%LA COPA DEL MEAO!', AND%%THEN CHERIL RETURNED TO%%THE FOREST . . .");
-}
-
-const unsigned char level0name [] = "  THE CITY";
-const unsigned char level1name [] = "THE FACTORY";
-const unsigned char level2name [] = " THE FOREST";
-const unsigned char *const levelnames [] = { level0name, level1name, level2name };
-
-void scr_level (void) {
-	_x = 12; _y = 14; pr_str ("LEVEL 0"); SG_setTile (17+level);
-	_x = 10; _y = 16; pr_str (levelnames [level]);
+	gp_gen = cuts_rle; unrle ();
+	_x = 9; _y = 8; pr_str ("CONGRATULATIONS!");
+	_x = 2; _y = 10; pr_str ("YOU MANAGED TO SET THE BOMBS");
+	_x = 4; _y = 12; pr_str ("AND DESTROY THE COMPUTER");
+	_x = 5; _y = 14; pr_str ("MISSION ACCOMPLISHED!!");	
 }
 
 void credits (void) {
@@ -90,7 +78,7 @@ void credits (void) {
 
 	rds16 = 0; rdy = 240;
 	_x = 0; _y = 18; 
-	pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%     @ 2011 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2018 THE MOJON TWINS");
+	pr_str ("   SGT. HELMET - TRAINING DAY%%         ORIGINAL GAME:%     @ 2013 THE MOJON TWINS%       REPROGRAMMED GAME:%     @ 2018 THE MOJON TWINS");
 	
 	SG_displayOn ();
 	

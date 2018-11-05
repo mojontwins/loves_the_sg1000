@@ -111,6 +111,12 @@ void game_init (void) {
 	#if defined (ENABLE_INTERACTIVES) && defined (INTERACTIVES_FROM_CODE)
 		#include "my/interactives_setup.h"
 	#endif
+
+// Tester
+	/*
+	n_pant = 2; pkeys = 2; pobjs = 5;
+	py = 10<<10;px = 7<<10;
+	*/
 }
 
 void prepare_scr (void) {
@@ -186,7 +192,8 @@ void prepare_scr (void) {
 
 	#ifdef PLAYER_CAN_FIRE
 		for (gpit = 0; gpit < MAX_BULLETS; gpit ++) {
-			b_slots [gpit] = gpit; bst [gpit] = 0;
+			b_slots [gpit] = gpit; 
+			bst [gpit] = 0;
 		}
 		b_slots_i = MAX_BULLETS;
 	#endif

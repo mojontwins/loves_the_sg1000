@@ -26,7 +26,7 @@ void player_process_tile (unsigned char at, unsigned char x0, unsigned char y0, 
 				#endif
 				
 				PSGSFXPlay (SFX_TILE, 2);
-				_x = x0; _y = y0; _t = 0;  map_set ();
+				_x = x0; _y = y0; _t = PUSH_ERASE;  map_set ();
 				_x = x1; _y = y1; _t = 14; map_set ();
 				
 				#ifdef ENABLE_PUSHED_SCRIPT

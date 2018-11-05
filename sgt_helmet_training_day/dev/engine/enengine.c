@@ -18,7 +18,9 @@
 #include "../utils/memfill.h"
 #include "../utils/rand.h"
 
+#include "../engine/player.h"
 #include "../engine/general.h"
+#include "../engine/cocos.h"
 
 #ifdef ENABLE_CHAC_CHAC
 	void enems_draw_chac_chac (unsigned char a1, unsigned char a2, unsigned char a3) {
@@ -857,9 +859,13 @@ void enems_move (void) {
 
 				#include "../my/on_player_hit.h"
 
+#pragma save
+#pragma disable_warning 126
 				#ifdef ENEMS_MAY_DIE
 					if (en_sg_1) enems_hit ();
 				#endif
+#pragma restore
+					
 				if (en_sg_2) { 
 					pkill = 1; 
 					#if defined (PLAYER_BOUNCES) && !defined (DIE_AND_RESPAWN)

@@ -10,3 +10,6 @@ del *.ihx > nul 2> nul
 del lib\*.asm > nul 2> nul
 del lib\*.lst > nul 2> nul
 del lib\*.sym > nul 2> nul
+del rel\*.asm > nul 2> nul
+del rel\*.lst > nul 2> nul
+del rel\*.sym > nul 2> nul

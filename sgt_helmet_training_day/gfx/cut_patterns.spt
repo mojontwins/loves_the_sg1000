@@ -9,51 +9,43 @@ reset patterns
 open font.png
 charset 0, 0, 32, 2
 
-write patterns tsfont_patterns_c tsfont_colours_c packed
-
-# Fixed screens
-# Hud uses patterns in font
-open hud.png
-nametablerle
-write nametablerle hud_rle
-
-# Title uses extra patterns
-open title.png
+# Not needed but not harmful
 set patterns 64
-nametablerle
-write nametablerle title_rle
-write patterns tstitle_patterns_c tstitle_colours_c r:64:* packed
-
-# Ending does, as well, the same thing
-open ending.png
-set patterns 64
-nametablerle
-write nametablerle ending_rle
-write patterns tsending_patterns_c tsending_colours_c r:64:* packed
 
 # Metatiles level 0
 open ts0.png
-set patterns 64
 reset tmaps
-metatileset 0, 0, 16, 2, 2, 2
+metatileset 0, 0, 16, 2, 2, 2, 29
 write tmaps ts0_tmaps
-write patterns ts0_patterns_c ts0_colours_c r:64:* packed
 
 # Metatiles level 1
 open ts1.png
-set patterns 64
 reset tmaps
-metatileset 0, 0, 16, 2, 2, 2
+metatileset 0, 0, 16, 2, 2, 2, 29
 write tmaps ts1_tmaps
-write patterns ts1_patterns_c ts1_colours_c r:64:* packed
 
 # Metatiles level 2
 open ts2.png
-set patterns 64
 reset tmaps
-metatileset 0, 0, 16, 3, 2, 2, 39
+metatileset 0, 0, 16, 2, 2, 2, 29
 write tmaps ts2_tmaps
-write patterns ts2_patterns_c ts2_colours_c r:64:* packed
+
+# Fixed screens
+open title.png
+nametablerle
+write nametablerle title_rle
+
+open cuts.png
+nametablerle
+write nametablerle cuts_rle
+
+open frame.png
+nametablerle
+write nametablerle frame_rle
+
+stats
+
+write patterns tsALL_patterns_c tsALL_colours_c packed
 
 # Cut spriteset
 
@@ -64,51 +56,26 @@ open ss.png
 reset patterns
 reset sprite_pattern_index
 
-# 16 * 4 patterns (8 two-layer)
+# Main character 16 * 4 patterns (8 two-layer): 64
 reset metasprites
 spriteset 0, 0, 8, 1, 1, 1, 0, 0
 write metasprites ss_pl
 
-# 8 * 4 patterns (4 two-layer)
+# Main enemies 16 * 4 patterns (8 two layer): 64
 reset metasprites
-spriteset 0, 2, 4, 1, 1, 1, 0, 0
-write metasprites ss_fanty
+spriteset 0, 2, 8, 1, 1, 1, 0, 0
+write metasprites ss_en
 
-# 4 * 4 patterns (2 two-layer)
+# Main objects 10 * 4 patterns (2 one layer, 4 two layer): 40
 reset metasprites
-spriteset 8, 2, 2, 1, 1, 1, 0, 0
-write metasprites ss_plat
-
-# 12 * 4 patterns (5 two-layer, 2 one-layer)
-reset metasprites
-spriteset 0, 4, 7, 1, 1, 1, 0, 0
+spriteset 0, 4, 6, 1, 1, 1, 0, 0
 write metasprites ss_it
 
-write patterns ss_fixed_patterns_c packed
-
-# Enems level 0
-# 24 * 4 patterns (6 two-layer)
-reset patterns
-set sprite_pattern_index 160
+# Cannon 4 * 4 patterns (4 one layer): 16
 reset metasprites
-spriteset 0, 6, 8, 2, 1, 1, 0, 0, 12
-write metasprites ss_en_0
-write patterns ss_en_0_patterns_c packed
+spriteset 0, 6, 4, 1, 1, 1, 0, 0
+write metasprites ss_ss
 
-# Enems level 1
-# 24 * 4 patterns (6 two-layer)
-reset patterns
-set sprite_pattern_index 160
-reset metasprites
-spriteset 0, 10, 8, 2, 1, 1, 0, 0, 12
-write metasprites ss_en_1
-write patterns ss_en_1_patterns_c packed
+stats
 
-# Enems level 2
-# 24 * 4 patterns (6 two-layer)
-reset patterns
-set sprite_pattern_index 160
-reset metasprites
-spriteset 0, 14, 8, 2, 1, 1, 0, 0, 10
-write metasprites ss_en_2
-write patterns ss_en_2_patterns_c packed
+write patterns ssALL_patterns_c packed

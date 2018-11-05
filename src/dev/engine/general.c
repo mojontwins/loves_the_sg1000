@@ -139,3 +139,9 @@ void do_update_list_and_wait (void) {
 	update_list [update_index] = 0xff;
 	SG_doUpdateList ();
 }
+
+void flush_update_list (void) {
+	update_list [update_index] = 0xff;
+	SG_waitForVBlank ();
+	SG_doUpdateList ();
+}

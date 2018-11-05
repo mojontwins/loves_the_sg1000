@@ -19,6 +19,7 @@
 
 #include "../engine/printer.h"
 #include "../engine/general.h"
+#include "../engine/breakable.h"
 
 #ifdef DIE_AND_RESPAWN
 	void player_register_safe_spot (void) {

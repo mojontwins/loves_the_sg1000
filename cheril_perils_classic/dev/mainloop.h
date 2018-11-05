@@ -186,7 +186,10 @@ void prepare_scr (void) {
 
 	#ifdef PLAYER_CAN_FIRE
 		for (gpit = 0; gpit < MAX_BULLETS; gpit ++) {
-			b_slots [gpit] = gpit; bst [gpit] = 0;
+			b_slots [gpit] = gpit; 
+			#ifdef PLAYER_BULLET_LIFE
+				bst [gpit] = 0;
+			#endif
 		}
 		b_slots_i = MAX_BULLETS;
 	#endif

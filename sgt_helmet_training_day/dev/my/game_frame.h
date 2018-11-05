@@ -5,5 +5,5 @@
 // Custom code to draw the frame around your HUD
 
 void draw_game_frame (void) {
-	// Add code here
+	gp_gen = frame_rle; unrle ();
 }

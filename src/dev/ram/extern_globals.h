@@ -336,10 +336,7 @@ extern unsigned char oam_index_player;         // Index copy
 #ifdef PLAYER_CAN_FIRE
     extern unsigned char b_slots [];
     extern unsigned char b_slots_i;            // Array of free slots for active bullets & index.
-
-    #ifdef PLAYER_BULLET_LIFE
     extern unsigned char bst [];    // Bullets states
-    #endif
     
     extern unsigned char bx [];     // Bullets, X coordinates.
     extern unsigned char by [];     // Bullets, Y coordinates.
@@ -375,9 +372,6 @@ extern unsigned char pctfr;                    // Frame subcounter
 // Breakable walls
 
 #ifdef ENABLE_BREAKABLE
-    #ifndef BREAKABLES_SOFT
-        extern unsigned char brk_buff [];   // A "life gauge" for each tile on screen, used when BREAKABLES_SOFT is unset.
-    #endif
     #ifdef BREAKABLE_ANIM
         extern unsigned char brkf [];
         extern unsigned char brkx [];
