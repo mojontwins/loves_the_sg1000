@@ -22,7 +22,7 @@
 
 //#define DOUBLE_WIDTH					// Experimental 2x mode w/scroll
 
-#define PLAYER_LIFE				9		// Max / Initial life
+#define PLAYER_LIFE				15		// Max / Initial life
 #define PLAYER_REFILL			1		// Life refill
 
 #define MULTI_LEVEL						// Comment for single level

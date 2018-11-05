@@ -27,7 +27,8 @@
 		// General:
 		if (rda == 0) {
 			rdb = map_buff [gpit - 16];
-			if (gpit >= 16 && rdb && rdb != 2 && rdb < 14 && !(rdb > 7 && rdb < 9) && rdb != 4)
+			//if (gpit >= 16 && rdb && rdb != 2 && rdb < 14 && !(rdb > 7 && rdb < 9) && rdb != 4)
+			if (gpit >= 16 && c_behs [rdb] == 8)
 				rda = 25;
 			else if ((rand8 () & 7) == 1) rda = 27;
 		} else if (rda == 8) {

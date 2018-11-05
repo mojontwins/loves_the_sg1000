@@ -11,14 +11,14 @@ extern const unsigned char title_rle [];
 #define TITLE_RLE_SIZE 534
 
 extern const unsigned char cuts_rle [];
-#define CUTS_RLE_SIZE 296
+#define CUTS_RLE_SIZE 297
 
 extern const unsigned char frame_rle [];
 #define FRAME_RLE_SIZE 87
 
 extern const unsigned char tsALL_patterns_c [];
-#define TSALL_PATTERNS_C_SIZE 1416
+#define TSALL_PATTERNS_C_SIZE 1435
 
 extern const unsigned char tsALL_colours_c [];
-#define TSALL_COLOURS_C_SIZE 746
+#define TSALL_COLOURS_C_SIZE 765
 
