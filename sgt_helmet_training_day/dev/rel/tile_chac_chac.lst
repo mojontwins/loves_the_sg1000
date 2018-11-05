@@ -1,0 +1,327 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.2 #9293 (MINGW32)
+                              4 ; This file was generated Sun Nov 04 15:02:44 2018
+                              5 ;--------------------------------------------------------
+                              6 	.module tile_chac_chac
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _map_set
+                             13 	.globl _PSGSFXPlay
+                             14 	.globl _chac_chacs_add
+                             15 	.globl _chac_chacs_do
+                             16 ;--------------------------------------------------------
+                             17 ; special function registers
+                             18 ;--------------------------------------------------------
+                             19 ;--------------------------------------------------------
+                             20 ; ram data
+                             21 ;--------------------------------------------------------
+                             22 	.area _DATA
+                             23 ;--------------------------------------------------------
+                             24 ; ram data
+                             25 ;--------------------------------------------------------
+                             26 	.area _INITIALIZED
+                             27 ;--------------------------------------------------------
+                             28 ; absolute external ram data
+                             29 ;--------------------------------------------------------
+                             30 	.area _DABS (ABS)
+                             31 ;--------------------------------------------------------
+                             32 ; global & static initialisations
+                             33 ;--------------------------------------------------------
+                             34 	.area _HOME
+                             35 	.area _GSINIT
+                             36 	.area _GSFINAL
+                             37 	.area _GSINIT
+                             38 ;--------------------------------------------------------
+                             39 ; Home
+                             40 ;--------------------------------------------------------
+                             41 	.area _HOME
+                             42 	.area _HOME
+                             43 ;--------------------------------------------------------
+                             44 ; code
+                             45 ;--------------------------------------------------------
+                             46 	.area _CODE
+                             47 ;engine/tile_chac_chac.c:21: void chac_chacs_add (void) {
+                             48 ;	---------------------------------
+                             49 ; Function chac_chacs_add
+                             50 ; ---------------------------------
+   0000                      51 _chac_chacs_add::
+                             52 ;engine/tile_chac_chac.c:23: if (max_chac_chacs == MAX_CHAC_CHACS) return;
+   0000 3Ar00r00      [13]   53 	ld	a,(#_max_chac_chacs + 0)
+   0003 D6 04         [ 7]   54 	sub	a, #0x04
+   0005 C8            [11]   55 	ret	Z
+   0006 18 00         [12]   56 	jr	00102$
+   0008                      57 00102$:
+                             58 ;engine/tile_chac_chac.c:24: rda = 1 + (rdt - CHAC_CHAC_DETECT_TILE);
+   0008 21r00r00      [10]   59 	ld	hl,#_rda
+   000B 3Ar00r00      [13]   60 	ld	a,(#_rdt + 0)
+   000E C6 DA         [ 7]   61 	add	a, #0xDA
+   0010 77            [ 7]   62 	ld	(hl),a
+                             63 ;engine/tile_chac_chac.c:25: rdb = rda << 4;
+   0011 3Ar00r00      [13]   64 	ld	a,(#_rda + 0)
+   0014 07            [ 4]   65 	rlca
+   0015 07            [ 4]   66 	rlca
+   0016 07            [ 4]   67 	rlca
+   0017 07            [ 4]   68 	rlca
+   0018 E6 F0         [ 7]   69 	and	a,#0xF0
+                             70 ;engine/tile_chac_chac.c:26: rdc = (rdb << 1) + rdb;
+   001A 32r00r00      [13]   71 	ld	(#_rdb + 0),a
+   001D 87            [ 4]   72 	add	a, a
+   001E 21r00r00      [10]   73 	ld	hl,#_rdb
+   0021 FD 21r00r00   [14]   74 	ld	iy,#_rdc
+   0025 86            [ 7]   75 	add	a, (hl)
+   0026 FD 77 00      [19]   76 	ld	0 (iy),a
+                             77 ;engine/tile_chac_chac.c:28: chac_chacs_yx [max_chac_chacs] = rdm;
+   0029 11r00r00      [10]   78 	ld	de,#_chac_chacs_yx+0
+   002C 2Ar00r00      [16]   79 	ld	hl,(_max_chac_chacs)
+   002F 26 00         [ 7]   80 	ld	h,#0x00
+   0031 19            [11]   81 	add	hl,de
+   0032 3Ar00r00      [13]   82 	ld	a,(#_rdm + 0)
+   0035 77            [ 7]   83 	ld	(hl),a
+                             84 ;engine/tile_chac_chac.c:29: chac_chacs_state [max_chac_chacs] = 0;
+   0036 11r00r00      [10]   85 	ld	de,#_chac_chacs_state+0
+   0039 2Ar00r00      [16]   86 	ld	hl,(_max_chac_chacs)
+   003C 26 00         [ 7]   87 	ld	h,#0x00
+   003E 19            [11]   88 	add	hl,de
+   003F 36 00         [10]   89 	ld	(hl),#0x00
+                             90 ;engine/tile_chac_chac.c:30: chac_chacs_idlewait [max_chac_chacs] = rdc;
+   0041 11r00r00      [10]   91 	ld	de,#_chac_chacs_idlewait+0
+   0044 2Ar00r00      [16]   92 	ld	hl,(_max_chac_chacs)
+   0047 26 00         [ 7]   93 	ld	h,#0x00
+   0049 19            [11]   94 	add	hl,de
+   004A 3Ar00r00      [13]   95 	ld	a,(#_rdc + 0)
+   004D 77            [ 7]   96 	ld	(hl),a
+                             97 ;engine/tile_chac_chac.c:31: chac_chacs_ct [max_chac_chacs] = rdc;
+   004E 11r00r00      [10]   98 	ld	de,#_chac_chacs_ct+0
+   0051 2Ar00r00      [16]   99 	ld	hl,(_max_chac_chacs)
+   0054 26 00         [ 7]  100 	ld	h,#0x00
+   0056 19            [11]  101 	add	hl,de
+   0057 3Ar00r00      [13]  102 	ld	a,(#_rdc + 0)
+   005A 77            [ 7]  103 	ld	(hl),a
+                            104 ;engine/tile_chac_chac.c:33: ++ max_chac_chacs;
+   005B 21r00r00      [10]  105 	ld	hl, #_max_chac_chacs+0
+   005E 34            [11]  106 	inc	(hl)
+   005F C9            [10]  107 	ret
+                            108 ;engine/tile_chac_chac.c:36: void chac_chacs_do (void) {
+                            109 ;	---------------------------------
+                            110 ; Function chac_chacs_do
+                            111 ; ---------------------------------
+   0060                     112 _chac_chacs_do::
+   0060 DD E5         [15]  113 	push	ix
+   0062 DD 21 00 00   [14]  114 	ld	ix,#0
+   0066 DD 39         [15]  115 	add	ix,sp
+   0068 F5            [11]  116 	push	af
+                            117 ;engine/tile_chac_chac.c:37: gpit = max_chac_chacs; while (gpit --) {
+   0069 3Ar00r00      [13]  118 	ld	a,(#_max_chac_chacs + 0)
+   006C 32r00r00      [13]  119 	ld	(#_gpit + 0),a
+   006F                     120 00106$:
+   006F FD 21r00r00   [14]  121 	ld	iy,#_gpit
+   0073 FD 56 00      [19]  122 	ld	d,0 (iy)
+   0076 FD 21r00r00   [14]  123 	ld	iy,#_gpit
+   007A FD 35 00      [23]  124 	dec	0 (iy)
+   007D 7A            [ 4]  125 	ld	a,d
+   007E B7            [ 4]  126 	or	a, a
+   007F CAr18r01      [10]  127 	jp	Z,00108$
+                            128 ;engine/tile_chac_chac.c:38: if (chac_chacs_ct [gpit]) -- chac_chacs_ct [gpit]; else {
+   0082 3Ar00r00      [13]  129 	ld	a,(#_gpit + 0)
+   0085 C6r00         [ 7]  130 	add	a, #<(_chac_chacs_ct)
+   0087 DD 77 FE      [19]  131 	ld	-2 (ix),a
+   008A 3E 00         [ 7]  132 	ld	a,#0x00
+   008C CEs00         [ 7]  133 	adc	a, #>(_chac_chacs_ct)
+   008E DD 77 FF      [19]  134 	ld	-1 (ix),a
+   0091 E1            [10]  135 	pop	hl
+   0092 E5            [11]  136 	push	hl
+   0093 7E            [ 7]  137 	ld	a,(hl)
+   0094 B7            [ 4]  138 	or	a, a
+   0095 28 07         [12]  139 	jr	Z,00104$
+   0097 C6 FF         [ 7]  140 	add	a,#0xFF
+   0099 E1            [10]  141 	pop	hl
+   009A E5            [11]  142 	push	hl
+   009B 77            [ 7]  143 	ld	(hl),a
+   009C 18 D1         [12]  144 	jr	00106$
+   009E                     145 00104$:
+                            146 ;engine/tile_chac_chac.c:39: ++ chac_chacs_state [gpit];
+   009E 3Er00         [ 7]  147 	ld	a,#<(_chac_chacs_state)
+   00A0 21r00r00      [10]  148 	ld	hl,#_gpit
+   00A3 86            [ 7]  149 	add	a, (hl)
+   00A4 5F            [ 4]  150 	ld	e,a
+   00A5 3Es00         [ 7]  151 	ld	a,#>(_chac_chacs_state)
+   00A7 CE 00         [ 7]  152 	adc	a, #0x00
+   00A9 57            [ 4]  153 	ld	d,a
+   00AA 1A            [ 7]  154 	ld	a,(de)
+   00AB 3C            [ 4]  155 	inc	a
+   00AC 12            [ 7]  156 	ld	(de),a
+                            157 ;engine/tile_chac_chac.c:40: if (chac_chacs_state [gpit] == 6) chac_chacs_state [gpit] = 0;
+   00AD 3Er00         [ 7]  158 	ld	a,#<(_chac_chacs_state)
+   00AF 21r00r00      [10]  159 	ld	hl,#_gpit
+   00B2 86            [ 7]  160 	add	a, (hl)
+   00B3 5F            [ 4]  161 	ld	e,a
+   00B4 3Es00         [ 7]  162 	ld	a,#>(_chac_chacs_state)
+   00B6 CE 00         [ 7]  163 	adc	a, #0x00
+   00B8 57            [ 4]  164 	ld	d,a
+   00B9 1A            [ 7]  165 	ld	a,(de)
+   00BA D6 06         [ 7]  166 	sub	a, #0x06
+   00BC 20 02         [12]  167 	jr	NZ,00102$
+   00BE AF            [ 4]  168 	xor	a, a
+   00BF 12            [ 7]  169 	ld	(de),a
+   00C0                     170 00102$:
+                            171 ;engine/tile_chac_chac.c:41: chac_chacs_ct [gpit] = chac_chacs_state [gpit] ? 
+   00C0 3Er00         [ 7]  172 	ld	a,#<(_chac_chacs_ct)
+   00C2 21r00r00      [10]  173 	ld	hl,#_gpit
+   00C5 86            [ 7]  174 	add	a, (hl)
+   00C6 4F            [ 4]  175 	ld	c,a
+   00C7 3Es00         [ 7]  176 	ld	a,#>(_chac_chacs_ct)
+   00C9 CE 00         [ 7]  177 	adc	a, #0x00
+   00CB 47            [ 4]  178 	ld	b,a
+   00CC FD 21r00r00   [14]  179 	ld	iy,#_chac_chacs_state
+   00D0 ED 5Br00r00   [20]  180 	ld	de,(_gpit)
+   00D4 16 00         [ 7]  181 	ld	d,#0x00
+   00D6 FD 19         [15]  182 	add	iy, de
+   00D8 FD 5E 00      [19]  183 	ld	e, 0 (iy)
+   00DB 7B            [ 4]  184 	ld	a,e
+   00DC B7            [ 4]  185 	or	a, a
+   00DD 28 09         [12]  186 	jr	Z,00115$
+                            187 ;engine/tile_chac_chac.c:42: (chac_chacs_times [chac_chacs_state [gpit]]) :
+   00DF 21r00r00      [10]  188 	ld	hl,#_chac_chacs_times
+   00E2 16 00         [ 7]  189 	ld	d,#0x00
+   00E4 19            [11]  190 	add	hl, de
+   00E5 7E            [ 7]  191 	ld	a,(hl)
+   00E6 18 0F         [12]  192 	jr	00116$
+   00E8                     193 00115$:
+                            194 ;engine/tile_chac_chac.c:43: chac_chacs_idlewait [gpit];
+   00E8 FD 21r00r00   [14]  195 	ld	iy,#_chac_chacs_idlewait
+   00EC ED 5Br00r00   [20]  196 	ld	de,(_gpit)
+   00F0 16 00         [ 7]  197 	ld	d,#0x00
+   00F2 FD 19         [15]  198 	add	iy, de
+   00F4 FD 7E 00      [19]  199 	ld	a, 0 (iy)
+   00F7                     200 00116$:
+   00F7 02            [ 7]  201 	ld	(bc),a
+                            202 ;engine/tile_chac_chac.c:46: chac_chacs_queue [chac_chacs_queue_write] = gpit;
+   00F8 3Er00         [ 7]  203 	ld	a,#<(_chac_chacs_queue)
+   00FA 21r00r00      [10]  204 	ld	hl,#_chac_chacs_queue_write
+   00FD 86            [ 7]  205 	add	a, (hl)
+   00FE 5F            [ 4]  206 	ld	e,a
+   00FF 3Es00         [ 7]  207 	ld	a,#>(_chac_chacs_queue)
+   0101 CE 00         [ 7]  208 	adc	a, #0x00
+   0103 57            [ 4]  209 	ld	d,a
+   0104 3Ar00r00      [13]  210 	ld	a,(#_gpit + 0)
+   0107 12            [ 7]  211 	ld	(de),a
+                            212 ;engine/tile_chac_chac.c:47: chac_chacs_queue_write = (chac_chacs_queue_write + 1) & (MAX_CHAC_CHACKS_QUEUED-1);
+   0108 3Ar00r00      [13]  213 	ld	a,(#_chac_chacs_queue_write + 0)
+   010B 3C            [ 4]  214 	inc	a
+   010C E6 0F         [ 7]  215 	and	a, #0x0F
+   010E FD 21r00r00   [14]  216 	ld	iy,#_chac_chacs_queue_write
+   0112 FD 77 00      [19]  217 	ld	0 (iy),a
+   0115 C3r6Fr00      [10]  218 	jp	00106$
+   0118                     219 00108$:
+                            220 ;engine/tile_chac_chac.c:51: if (chac_chacs_queue_write != chac_chacs_queue_read) {
+   0118 3Ar00r00      [13]  221 	ld	a,(#_chac_chacs_queue_write + 0)
+   011B FD 21r00r00   [14]  222 	ld	iy,#_chac_chacs_queue_read
+   011F FD 96 00      [19]  223 	sub	a, 0 (iy)
+   0122 CArD8r01      [10]  224 	jp	Z,00113$
+                            225 ;engine/tile_chac_chac.c:52: gpit = chac_chacs_queue [chac_chacs_queue_read];
+   0125 3Er00         [ 7]  226 	ld	a,#<(_chac_chacs_queue)
+   0127 21r00r00      [10]  227 	ld	hl,#_chac_chacs_queue_read
+   012A 86            [ 7]  228 	add	a, (hl)
+   012B 5F            [ 4]  229 	ld	e,a
+   012C 3Es00         [ 7]  230 	ld	a,#>(_chac_chacs_queue)
+   012E CE 00         [ 7]  231 	adc	a, #0x00
+   0130 57            [ 4]  232 	ld	d,a
+   0131 1A            [ 7]  233 	ld	a,(de)
+   0132 32r00r00      [13]  234 	ld	(#_gpit + 0),a
+                            235 ;engine/tile_chac_chac.c:53: chac_chacs_queue_read = (chac_chacs_queue_read + 1) & (MAX_CHAC_CHACKS_QUEUED-1);
+   0135 3Ar00r00      [13]  236 	ld	a,(#_chac_chacs_queue_read + 0)
+   0138 3C            [ 4]  237 	inc	a
+   0139 E6 0F         [ 7]  238 	and	a, #0x0F
+   013B 32r00r00      [13]  239 	ld	(#_chac_chacs_queue_read + 0),a
+                            240 ;engine/tile_chac_chac.c:54: rdm = chac_chacs_state [gpit];
+   013E 3Er00         [ 7]  241 	ld	a,#<(_chac_chacs_state)
+   0140 21r00r00      [10]  242 	ld	hl,#_gpit
+   0143 86            [ 7]  243 	add	a, (hl)
+   0144 5F            [ 4]  244 	ld	e,a
+   0145 3Es00         [ 7]  245 	ld	a,#>(_chac_chacs_state)
+   0147 CE 00         [ 7]  246 	adc	a, #0x00
+   0149 57            [ 4]  247 	ld	d,a
+   014A 1A            [ 7]  248 	ld	a,(de)
+                            249 ;engine/tile_chac_chac.c:55: if (rdm == 3) { 
+   014B 32r00r00      [13]  250 	ld	(#_rdm + 0),a
+   014E D6 03         [ 7]  251 	sub	a, #0x03
+   0150 20 12         [12]  252 	jr	NZ,00110$
+                            253 ;engine/tile_chac_chac.c:56: shaker_ct = 8; 
+   0152 21r00r00      [10]  254 	ld	hl,#_shaker_ct + 0
+   0155 36 08         [10]  255 	ld	(hl), #0x08
+                            256 ;engine/tile_chac_chac.c:57: PSGSFXPlay (SFX_STEPON, 2); 
+   0157 11r00r00      [10]  257 	ld	de,#_s_15_stepon3_psg
+   015A 3E 02         [ 7]  258 	ld	a,#0x02
+   015C F5            [11]  259 	push	af
+   015D 33            [ 6]  260 	inc	sp
+   015E D5            [11]  261 	push	de
+   015F CDr00r00      [17]  262 	call	_PSGSFXPlay
+   0162 F1            [10]  263 	pop	af
+   0163 33            [ 6]  264 	inc	sp
+   0164                     265 00110$:
+                            266 ;engine/tile_chac_chac.c:59: rdx = chac_chacs_yx [gpit]; rdy = rdx >> 4; rdx &= 0xf;
+   0164 11r00r00      [10]  267 	ld	de,#_chac_chacs_yx+0
+   0167 2Ar00r00      [16]  268 	ld	hl,(_gpit)
+   016A 26 00         [ 7]  269 	ld	h,#0x00
+   016C 19            [11]  270 	add	hl,de
+   016D 7E            [ 7]  271 	ld	a,(hl)
+   016E 32r00r00      [13]  272 	ld	(#_rdx + 0),a
+   0171 07            [ 4]  273 	rlca
+   0172 07            [ 4]  274 	rlca
+   0173 07            [ 4]  275 	rlca
+   0174 07            [ 4]  276 	rlca
+   0175 E6 0F         [ 7]  277 	and	a,#0x0F
+   0177 32r00r00      [13]  278 	ld	(#_rdy + 0),a
+   017A 3Ar00r00      [13]  279 	ld	a,(#_rdx + 0)
+   017D E6 0F         [ 7]  280 	and	a, #0x0F
+                            281 ;engine/tile_chac_chac.c:60: _x = rdx; _y = rdy    ; _t = chac_chacs_t1 [rdm]; map_set ();
+   017F 32r00r00      [13]  282 	ld	(#_rdx + 0),a
+   0182 32r00r00      [13]  283 	ld	(#__x + 0),a
+   0185 3Ar00r00      [13]  284 	ld	a,(#_rdy + 0)
+   0188 32r00r00      [13]  285 	ld	(#__y + 0),a
+   018B 11r00r00      [10]  286 	ld	de,#_chac_chacs_t1+0
+   018E 2Ar00r00      [16]  287 	ld	hl,(_rdm)
+   0191 26 00         [ 7]  288 	ld	h,#0x00
+   0193 19            [11]  289 	add	hl,de
+   0194 7E            [ 7]  290 	ld	a,(hl)
+   0195 32r00r00      [13]  291 	ld	(#__t + 0),a
+   0198 CDr00r00      [17]  292 	call	_map_set
+                            293 ;engine/tile_chac_chac.c:61: _x = rdx; _y = rdy + 1; _t = chac_chacs_t2 [rdm]; map_set ();
+   019B 3Ar00r00      [13]  294 	ld	a,(#_rdx + 0)
+   019E 32r00r00      [13]  295 	ld	(#__x + 0),a
+   01A1 21r00r00      [10]  296 	ld	hl,#__y
+   01A4 3Ar00r00      [13]  297 	ld	a,(#_rdy + 0)
+   01A7 3C            [ 4]  298 	inc	a
+   01A8 77            [ 7]  299 	ld	(hl),a
+   01A9 11r00r00      [10]  300 	ld	de,#_chac_chacs_t2+0
+   01AC 2Ar00r00      [16]  301 	ld	hl,(_rdm)
+   01AF 26 00         [ 7]  302 	ld	h,#0x00
+   01B1 19            [11]  303 	add	hl,de
+   01B2 7E            [ 7]  304 	ld	a,(hl)
+   01B3 32r00r00      [13]  305 	ld	(#__t + 0),a
+   01B6 CDr00r00      [17]  306 	call	_map_set
+                            307 ;engine/tile_chac_chac.c:62: _x = rdx; _y = rdy + 2; _t = chac_chacs_t3 [rdm]; map_set ();
+   01B9 3Ar00r00      [13]  308 	ld	a,(#_rdx + 0)
+   01BC 32r00r00      [13]  309 	ld	(#__x + 0),a
+   01BF 21r00r00      [10]  310 	ld	hl,#__y
+   01C2 3Ar00r00      [13]  311 	ld	a,(#_rdy + 0)
+   01C5 C6 02         [ 7]  312 	add	a, #0x02
+   01C7 77            [ 7]  313 	ld	(hl),a
+   01C8 11r00r00      [10]  314 	ld	de,#_chac_chacs_t3+0
+   01CB 2Ar00r00      [16]  315 	ld	hl,(_rdm)
+   01CE 26 00         [ 7]  316 	ld	h,#0x00
+   01D0 19            [11]  317 	add	hl,de
+   01D1 7E            [ 7]  318 	ld	a,(hl)
+   01D2 32r00r00      [13]  319 	ld	(#__t + 0),a
+   01D5 CDr00r00      [17]  320 	call	_map_set
+   01D8                     321 00113$:
+   01D8 DD F9         [10]  322 	ld	sp, ix
+   01DA DD E1         [14]  323 	pop	ix
+   01DC C9            [10]  324 	ret
+                            325 	.area _CODE
+                            326 	.area _INITIALIZER
+                            327 	.area _CABS (ABS)

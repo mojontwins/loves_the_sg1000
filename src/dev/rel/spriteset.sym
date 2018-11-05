@@ -1,0 +1,89 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  0 _ss_en_0_00                                                    03F9 GR
+  0 _ss_en_0_01                                                    0402 GR
+  0 _ss_en_0_02                                                    040B GR
+  0 _ss_en_0_03                                                    0414 GR
+  0 _ss_en_0_04                                                    041D GR
+  0 _ss_en_0_05                                                    0426 GR
+  0 _ss_en_0_06                                                    042F GR
+  0 _ss_en_0_07                                                    0438 GR
+  0 _ss_en_0_08                                                    0441 GR
+  0 _ss_en_0_09                                                    044A GR
+  0 _ss_en_0_0a                                                    0453 GR
+  0 _ss_en_0_0b                                                    045C GR
+  0 _ss_en_0_patterns_c                                            0465 GR
+  0 _ss_en_1_00                                                    0660 GR
+  0 _ss_en_1_01                                                    0669 GR
+  0 _ss_en_1_02                                                    0672 GR
+  0 _ss_en_1_03                                                    067B GR
+  0 _ss_en_1_04                                                    0684 GR
+  0 _ss_en_1_05                                                    068D GR
+  0 _ss_en_1_06                                                    0696 GR
+  0 _ss_en_1_07                                                    069F GR
+  0 _ss_en_1_08                                                    06A8 GR
+  0 _ss_en_1_09                                                    06B1 GR
+  0 _ss_en_1_0a                                                    06BA GR
+  0 _ss_en_1_0b                                                    06C3 GR
+  0 _ss_en_1_patterns_c                                            06CC GR
+  0 _ss_en_2_00                                                    08D2 GR
+  0 _ss_en_2_01                                                    08DB GR
+  0 _ss_en_2_02                                                    08E4 GR
+  0 _ss_en_2_03                                                    08ED GR
+  0 _ss_en_2_04                                                    08F6 GR
+  0 _ss_en_2_05                                                    08FF GR
+  0 _ss_en_2_06                                                    0908 GR
+  0 _ss_en_2_07                                                    0911 GR
+  0 _ss_en_2_08                                                    091A GR
+  0 _ss_en_2_09                                                    0923 GR
+  0 _ss_en_2_patterns_c                                            092C GR
+  0 _ss_fanty_00                                                   0048 GR
+  0 _ss_fanty_01                                                   0051 GR
+  0 _ss_fanty_02                                                   005A GR
+  0 _ss_fanty_03                                                   0063 GR
+  0 _ss_fixed_patterns_c                                           00B5 GR
+  0 _ss_it_00                                                      007E GR
+  0 _ss_it_01                                                      0087 GR
+  0 _ss_it_02                                                      0090 GR
+  0 _ss_it_03                                                      0099 GR
+  0 _ss_it_04                                                      00A2 GR
+  0 _ss_it_05                                                      00AB GR
+  0 _ss_it_06                                                      00B0 GR
+  0 _ss_pl_00                                                      0000 GR
+  0 _ss_pl_01                                                      0009 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  0 _ss_pl_02                                                      0012 GR
+  0 _ss_pl_03                                                      001B GR
+  0 _ss_pl_04                                                      0024 GR
+  0 _ss_pl_05                                                      002D GR
+  0 _ss_pl_06                                                      0036 GR
+  0 _ss_pl_07                                                      003F GR
+  0 _ss_plat_00                                                    006C GR
+  0 _ss_plat_01                                                    0075 GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  B24   flags    0
+   1 _DATA                                      size    0   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+
