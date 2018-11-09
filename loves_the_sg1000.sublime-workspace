@@ -4,16 +4,44 @@
 		"selected_items":
 		[
 			[
-				"PERSISTEN",
-				"PERSISTENT_ENEMIES"
+				"bomb",
+				"bombs_set\t(diario.md)"
 			],
 			[
-				"PERSIS",
-				"PERSISTENT_ENEMIES"
+				"ENAB",
+				"ENABLE_INTERRUPTS"
 			],
 			[
-				"VDP",
-				"VDPDataPort\t(printer.c)"
+				"pattern",
+				"patternWriteSize"
+			],
+			[
+				"patternsize",
+				"patternWriteSize"
+			],
+			[
+				"PLATFOR",
+				"PLATFORM_SG1000"
+			],
+			[
+				"RESONAT",
+				"RESONATOR_COUNTER_X\t(config.h)"
+			],
+			[
+				"RESONATOR",
+				"RESONATOR_COUNTER_Y\t(config.h)"
+			],
+			[
+				"ENABLE_TILE",
+				"ENABLE_TILE_CHAC_CHAC\t(global_externs.h)"
+			],
+			[
+				"SG_display",
+				"SG_displayOff"
+			],
+			[
+				"SG_displayO",
+				"SG_displayOff\t(SGlib.h)"
 			],
 			[
 				"cwit",
@@ -486,124 +514,16 @@
 			[
 				"PSG",
 				"PSGSFXPlay"
-			],
-			[
-				"MS_TYPE_",
-				"MS_TYPE_SINGLE"
-			],
-			[
-				"SG",
-				"SG_setTile"
-			],
-			[
-				"SG_",
-				"SG_setNextTileatXY"
-			],
-			[
-				"MS",
-				"MS_MAX"
-			],
-			[
-				"UNSA",
-				"UNSAFE_SG_copySpritestoSAT"
-			],
-			[
-				"UNS",
-				"UNSAFE_SG_copySpritestoSAT"
-			],
-			[
-				"MS_",
-				"MS_TYPE_EMPTY"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "cheril_perils_classic/dev/mainloop.h",
+			"file": "src/utils/mkts_om.bas",
 			"settings":
 			{
-				"buffer_size": 8704,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "cheril_perils_classic/dev/mainloop/resonators.h",
-			"settings":
-			{
-				"buffer_size": 576,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "cheril_perils_classic/dev/my/pres.h",
-			"settings":
-			{
-				"buffer_size": 2505,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "cheril_perils_classic/dev/my/map_renderer_customization.h",
-			"settings":
-			{
-				"buffer_size": 424,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "Searching 42 files for \"res_disable\"\n\nC:\\git\\loves_the_sg1000\\cheril_perils_classic\\dev\\engine\\enengine.c:\n  771  \t\t\t\t\n  772  \t\t\t\t\t#ifdef ENABLE_RESONATORS\n  773: \t\t\t\t\t\tif (res_on || res_disable)\n  774  \t\t\t\t\t#endif\n  775  \t\t\t\t\t#ifdef PLAYER_STEPS_MIN_KILLABLE\n\n1 match in 1 file\n",
-			"settings":
-			{
-				"buffer_size": 279,
-				"line_ending": "Windows",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "cheril_perils_classic/dev/engine/printer.h",
-			"settings":
-			{
-				"buffer_size": 583,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "cheril_perils_classic/dev/engine/printer.c",
-			"settings":
-			{
-				"buffer_size": 3357,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "cheril_perils_classic/dev/engine/enengine.c",
-			"settings":
-			{
-				"buffer_size": 23056,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "diario.md",
-			"settings":
-			{
-				"buffer_size": 17455,
-				"encoding": "Western (Windows 1252)",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "cheril_perils_classic/dev/game.c",
-			"settings":
-			{
-				"buffer_size": 3109,
+				"buffer_size": 53005,
 				"line_ending": "Windows"
 			}
 		}
@@ -684,152 +604,168 @@
 	},
 	"expanded_folders":
 	[
-		"/C/git/loves_the_sg1000",
-		"/C/git/loves_the_sg1000/cheril_perils_classic",
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev",
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev/my"
+		"/D/git/loves_the_sg1000",
+		"/D/git/loves_the_sg1000/src",
+		"/D/git/loves_the_sg1000/src/utils"
 	],
 	"file_history":
 	[
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev/cart.sg",
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev/engine/enengine.c",
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev/config.h",
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev/engine/enengine.h",
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev/Makefile",
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev/mainloop.h",
-		"/C/git/MK1_NES/src/dev/engine/enengine.h",
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev/engine/printer.c",
-		"/C/git/loves_the_sg1000/diario.md",
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev/engine/player.c",
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.c",
-		"/C/git/loves_the_sg1000/cheril_perils_classic/dev/setenv.bat",
+		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/build_assets.bat",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/build_assets.bat",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/player.c",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/Makefile",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/README.md",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/my/extra_checks.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/cart.map",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/general.c",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/general.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/my/extra_routines.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/my/on_entering_screen.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/rel/engine/general.rel",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/rel/game.rel",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/config.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/compile.bat",
+		"/D/perfiles/jcastano/AppData/Local/Temp/Makefile.txt",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/assets/behs.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/my/map_renderer_customization.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/enengine.c",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/game.c",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/mainloop.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/cocos.c",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/cocos.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/my/game_frame.h",
+		"/D/git/MK1_NES/testers/01_tester_top_down/script/script.spt",
 		"/D/git/loves_the_sg1000/diario.md",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/general.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/definitions.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/my/extra_vars.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/my/pres.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/my/extra_inits.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/breakable.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/autodefs.h",
+		"/D/git/loves_the_sg1000/breakable.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/breakable.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/mapmods/map_renderer_complex.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/mapmods/map_renderer_fast.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/ram/globals.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/ram/extern_globals.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/gfx/cut_patterns.spt",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/enengine.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/playermods/bullets.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/prototypes.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/assets/levelset.h",
 		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/mainloop.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/ram/zp.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/clean.bat",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/definitions.h",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/engine/game_loop.h",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/engine/general.h",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/engine/player.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/game.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/Makefile",
-		"/D/Google Drive/Maritrini/dev/SMS/yun/dev/yun.c",
-		"/D/git/newspectrum/ch_N_otro/dev/util/random.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/utils/rand.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/rel/rand.asm",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/peep-rules.txt",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/make.bat",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/murcia.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/murcia.h",
-		"/D/Google Drive/Maritrini/dev/SMS/yun/dev/Makefile",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/compile.bat",
-		"/D/git/loves_the_sg1000/environment/sdcc-sg1000/setenv.bat",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/build_assets.bat",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/setenv.bat",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/crt0_sg.s",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/cut_patterns.spt",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/trash/map0.h",
+		"/D/git/MK1_NES/testers/01_tester_top_down/dev/assets/behs.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/assets/metasprites.h",
 		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/assets/tileset.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/trash/map0.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/utils/eneexp3.bas",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/utils/rle44mapMK1.bas",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/enems/ponedor.bat",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/mapfile.h",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/assets/tm_ss_en.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/utils/mkts_om_notes.md",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/playermods/process_tile.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/assets/spriteset.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/assets/levelset.h",
+		"/D/git/MK1_NES/testers/01_tester_top_down/dev/assets/metasprites.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/my/pres.h",
+		"/D/git/MK1_NES/testers/01_tester_top_down/dev/my/pres.h",
+		"/D/git/MK1_NES/testers/01_tester_top_down/dev/assets/levelset.h",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/assets/tileset.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/enemmods/enem_monococo.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/enemmods/enems_recoiling.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/game.c",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/enems/upd.bat",
+		"/D/git/loves_the_sg1000/src/dev/game.c",
+		"/D/git/loves_the_sg1000/src/README.md",
+		"/D/git/loves_the_sg1000/src/dev/assets/behs.h",
+		"/D/git/loves_the_sg1000/src/dev/my/extra_checks.h",
+		"/D/git/loves_the_sg1000/src/dev/my/extra_inits.h",
+		"/D/git/loves_the_sg1000/src/dev/my/extra_vars.h",
+		"/D/git/loves_the_sg1000/src/dev/my/game_frame.h",
+		"/D/git/loves_the_sg1000/src/dev/my/level_pattern_unpacker.h",
+		"/D/git/loves_the_sg1000/src/dev/my/map_renderer_customization.h",
+		"/D/git/loves_the_sg1000/src/dev/my/on_entering_screen.h",
+		"/D/git/loves_the_sg1000/src/dev/build_assets.bat",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/trash/eneupdr.bas",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/definitions.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/general.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/ram/globals.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/general.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/cut_patterns.spt",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/trash/tileset.c",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/utils/mkts_om.bas",
+		"/D/git/loves_the_sg1000/sgt_helmet_training_day/trash/allts.spt",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/ram/zp.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/enengine.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/player.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/printer.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/propellers.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/tile_chac_chac.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/utils/unrle.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/cart.map",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.rel",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/rel/game.asm",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/rel/game.lst",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/rel/game.rel",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/rel/game.sym",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/rel/general.asm",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/rel/general.lst",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/rel/general.rel",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/rel/general.sym",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/mapmods/map_renderer_complex.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/PSGlib.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/murcia.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/murcia.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/build_assets.bat",
+		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/murcia.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/PSGlib.c",
+		"/D/perfiles/jcastano/Downloads/Telegram Desktop/main.asm",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/cocos.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/mainloop/hotspots.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/playermods/process_tile.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/config.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/mapmods/map_renderer_fast.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/mainloop/asset_setup.h",
 		"/D/git/loves_the_sg1000/cheril_perils_classic/utils/mkts_om.bas",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/mtks_test.spt",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/tileset.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/compile.bat",
-		"/D/git/newspectrum/SirAbabol_project/SirAbabol_2_zx_packed_tape/t2_128/dev/loader.inc",
-		"/D/git/newspectrum/SirAbabol_project/SirAbabol_2_zx_packed_tape/t2_128/dev/loader.txt",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/spriteset.h",
-		"/D/Google Drive/Maritrini/dev/SMS/moggy_sms/bank2.h",
-		"/D/Google Drive/Maritrini/dev/SMS/moggy_sms/bank2.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/tileset.h",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/assets/metaspriteset.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/out",
-		"/D/git/nes_work/D'Veel'NgR/utils/mkts.bas",
-		"/D/Proyectos/CIs.txt",
-		"/D/Proyectos/2018/20181016a--Actualización total p3s/instrucciones.txt",
-		"/D/Proyectos/2018/20181019a--Actualizacion del certificado de APNS para P3S/instrucciones.txt",
-		"/D/Proyectos/2016/20161011--Actualizacion del certificado de APNS para P3S/instrucciones.txt",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_double_width/dev/engine/cocos.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/enemmods/enem_monococo.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/enengine.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/wip/diario.md",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/mainloop.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/general.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/config.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/compile.bat",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/ram/bss.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/hotspots.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/playermods/bullets.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/assets/enems0.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/mainloop/hotspots.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/my/on_object_used.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/autodefs.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/ram/zp.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/my/extra_checks.h",
-		"/C/Users/na_th/Desktop/git/nes_work/gokumal/poc/neslib-pantanow.s",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/my/extra_inits.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/player.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/playermods/process_tile.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/bolts.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/printer.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/enemmods/enem_chac_chac.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/game.c",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/pres.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/assets/custom_texts.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/config.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/mainloop.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/ram/zp.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/engine/player.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/extra_inits.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/examples/10_che_man/dev/engine/general.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/on_player_hit.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/engine/enengine.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/examples/08_cheril_the_writer/dev/mainloop.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/wip/luca/dev/engine/player.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/extra_vars.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/gfx/import_patterns1.spt",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/assets/metasprites.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/assets/levelset.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/compile.bat",
-		"/C/Users/na_th/Desktop/git/MK1_NES/src/utils/namgen.bas",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/README.md",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/assets/behs.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/mainloop/hotspots.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/extra_hotspots.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/extra_routines.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/map_renderer_customization.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/gfx/import_patterns0.spt",
-		"/C/Users/na_th/Desktop/writer/presskit.txt",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/on_entering_screen.h",
-		"/C/Users/na_th/Desktop/git/newspectrum/Ninjajar_M/dev-b/compile_cpc.bat",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/map/maplist.txt",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/effects.h",
-		"/C/Users/na_th/AppData/Local/Temp/Temp1_PRESZ134.ZIP/README.1ST",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/crt0.s",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/neslib.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/ram/bss.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/neslib.s",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/engine/enemmods/enem_timed_fanty.h"
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/assets/tileset.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/Makefile",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/my/game_frame.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/utils/unrle.h",
+		"/D/git/newspectrum/ch_N_otro/ports/zx/gfx/ts.spt",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/mainloop/resonators.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/my/level_pattern_unpacker.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/utils/unpacker.c",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/utils/unpacker.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.asm",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/mainloop/pause.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/assets/extern_metasprites.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/player.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/ram/global_externs.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/tile_chac_chac.h",
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/printer.h"
 	],
 	"find":
 	{
-		"height": 41.0
+		"height": 40.0
 	},
 	"find_in_files":
 	{
-		"height": 135.0,
+		"height": 108.0,
 		"where_history":
 		[
-			"C:\\git\\loves_the_sg1000\\cheril_perils_classic\\dev\\engine",
+			"D:\\git\\loves_the_sg1000\\sgt_helmet_training_day\\",
+			"D:\\git\\loves_the_sg1000\\sgt_helmet_training_day",
+			"D:\\git\\loves_the_sg1000\\sgt_helmet_training_day\\dev",
+			"D:\\git\\loves_the_sg1000\\sgt_helmet_training_day",
+			"D:\\git\\loves_the_sg1000\\sgt_helmet_training_day\\dev",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic\\dev",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic\\dev",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic\\dev",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic\\dev",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic",
+			"D:\\git\\loves_the_sg1000",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic\\dev",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic\\dev\\lib",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic\\dev",
+			"D:\\git\\loves_the_sg1000\\cheril_perils_classic",
 			"D:\\git\\loves_the_sg1000\\cheril_perils_classic\\dev"
 		]
 	},
@@ -838,12 +774,105 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"res_disable",
-			"bankswitch",
-			"resonators",
-			"PERSISTENT_ENEMIES",
-			"case 13",
-			"PERSISTENT_ENEMIES",
+			"rle",
+			"..\\utils\\",
+			"flush_update_list",
+			",",
+			" ",
+			"MAX_BOLTS",
+			"BOLT",
+			"BOLTS",
+			"enengin",
+			"112",
+			"SFX_HITTER",
+			"gpaux",
+			"breakable_break",
+			"brk_buff",
+			"VOLATILE",
+			"bullets_destroy",
+			"bst",
+			"PLAYER_CAN_FIRE",
+			"bst",
+			"ssen_",
+			"script",
+			"push",
+			"// SG1000 Version",
+			"addPatternToPool",
+			"extractpatternfrom",
+			"metastileset",
+			"SG_copySpritestoSAT",
+			"bss",
+			"global_externs",
+			"#ifdef",
+			"/*",
+			"#ifdef",
+			"UNSAFE_",
+			"init_prime",
+			"NESTED_DI_EI_SUPPORT",
+			"AUTODETECT_SPRITE_OVERFLO",
+			"title",
+			"SFX_CHANNEL2",
+			"channels",
+			"WAIT_VRAM",
+			"SFX_BREAKH",
+			"SFX_DUMMY2",
+			"SFX_DUMMY1",
+			"SFX_TRAMPOLINE",
+			"SFX_OBJECT",
+			"SFX_TILE",
+			"c_decos",
+			"gp_gen",
+			"sizeT",
+			"sizet",
+			"doNametable",
+			"hud_update",
+			"opobjs",
+			"update_",
+			"RESONATOR",
+			"update_list",
+			"gp_addr",
+			"SG_do_update_list",
+			"SG_set_update_list",
+			"AUTOCYCLE_PRIME",
+			"autocycle_sprites",
+			"spritetableend",
+			"warp_to_level",
+			"player_register_safe",
+			"\\[([A-Za-z\\_0-9\\s\\*]+)\\]",
+			"pals",
+			"const extern",
+			"unsigned",
+			"signed ",
+			"void ",
+			"signed",
+			"unsigned ",
+			"dosprites",
+			"NENEMS",
+			"pad0",
+			"map_attr",
+			"SG1000",
+			"gpit",
+			"char gpit",
+			"gpit",
+			"pres",
+			"oam_index",
+			"touched",
+			"PSG",
+			"SCR_Y",
+			"SPRITE_ADJUST",
+			"include",
+			"#include",
+			"oam",
+			"ENABLE_NO",
+			"_en_0_",
+			"BULLET_PALETTE",
+			"SET_FROM",
+			"SET_FROM_PTR",
+			"SHINES_PALETTE",
+			"LO",
+			"SG_set_address_VRAM",
+			"delay",
+			"COCO_",
 			"oam_index",
 			"pad0",
 			"bankswitch",
@@ -872,53 +901,7 @@
 			"writeMainBinaryText",
 			"writeColoursBinary",
 			"output",
-			"TMS9918GetAttr",
-			"getattr",
-			"extractpa",
-			"debugstring",
-			"sg1000",
-			"c1 = ",
-			"debug",
-			"metaspritesIndex",
-			"writefullbinary",
-			"poolindex",
-			"tmapsindex",
-			"dosprites",
-			"sgPal",
-			"extractPatternFrom",
-			"dotmaps",
-			"addpatterntopool",
-			"curspriteindex",
-			"writeTsMaps",
-			"writeTsmaps",
-			"metaspritesindex",
-			"metaSpriteIndex",
-			"tmapsindex",
-			"tmaps",
-			"TMS9918GetBitmapFrom",
-			"sprites",
-			"sg1000",
-			"copyArrayToMainBinTo",
-			"copyPartialArrayToMainBin",
-			"ZXgetAttr",
-			"getAttr",
-			"zxgetbitmapfrom",
-			"sg1000colour",
-			"sgPal",
-			"sg1000",
-			"auxbin",
-			"v0.2.20180904",
-			"2017",
-			"v0.1",
-			"init",
-			"cur_y",
-			"|",
-			"=(\\S)",
-			"(\\S)\\(",
-			"(\\S)\\[",
-			" {",
-			"(\\S)\\[",
-			"init"
+			"TMS9918GetAttr"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -926,6 +909,33 @@
 		"regex": false,
 		"replace_history":
 		[
+			"..\\..\\..\\src\\utils\\",
+			"do_update_list_and_wait",
+			" ",
+			",",
+			"128",
+			"ss_en_",
+			"metatileset",
+			"extern_globals",
+			"",
+			"ending",
+			"();\n",
+			"SG_doUpdateList",
+			"SG_setUpdateList",
+			"[]",
+			"extern const",
+			"extern unsigned",
+			"extern signed ",
+			"extern void ",
+			"extern signed ",
+			"extern unsigned ",
+			"3",
+			"libgpit",
+			"TOP_ADJUST",
+			"_en_2_",
+			"_en_1_",
+			"BULLET_COLOUR",
+			"SHINES_COLOUR",
 			"",
 			"stp",
 			"map",
@@ -960,320 +970,55 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "cheril_perils_classic/dev/mainloop.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8704,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7827,
-								7837
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 5276.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "cheril_perils_classic/dev/mainloop/resonators.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 576,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								88,
-								94
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "cheril_perils_classic/dev/my/pres.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2505,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2027,
-								2027
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 731.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "cheril_perils_classic/dev/my/map_renderer_customization.h",
+					"file": "src/utils/mkts_om.bas",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 424,
+						"buffer_size": 53005,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								28440,
+								28555
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 279,
-						"regions":
-						{
-							"match":
+							"WordCount":
 							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										183,
-										194
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								187,
-								187
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"line_numbers": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ \t].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "cheril_perils_classic/dev/engine/printer.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 583,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								345,
-								345
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "cheril_perils_classic/dev/engine/printer.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3357,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2463,
-								2463
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C Improved/C Improved.tmLanguage",
+								"changes": 0,
+								"count": 6851,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Syntax QBasic/QBasic.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1134.0,
+						"translation.y": 13550.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "cheril_perils_classic/dev/engine/enengine.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 23056,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								17780,
-								17780
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C Improved/C Improved.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 9714.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 8,
-					"file": "diario.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 17455,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								16434,
-								16434
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 7550.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "cheril_perils_classic/dev/game.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3109,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								544,
-								544
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C Improved/C Improved.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1326.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -1327,7 +1072,7 @@
 	"project": "loves_the_sg1000.sublime-project",
 	"replace":
 	{
-		"height": 50.0
+		"height": 74.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1369,7 +1114,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 202.0,
+	"side_bar_width": 176.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

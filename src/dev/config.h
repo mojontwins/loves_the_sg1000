@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.1
+// NES MK1 v2.0
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // For a topmost two-lines status bar
@@ -73,8 +73,6 @@
 //#define MAP_FORMAT_RLE16				// RLE'd by rlemap2. 16 tiles max.
 //#define MAP_FORMAT_RLE53				// RLE'd by rle53mapMK1. 32 tiles max.
 #define MAP_FORMAT_RLE44				// RLE'd by rle44mapMK1. 16 tiles max.
-//#define MAP_FORMAT_RLE53_CHRROM		// RLE'd by rle53mapchrrom and stored in CHR-ROM. 32 tiles max.
-//#define MAP_FORMAT_RLE44_CHRROM		// RLE'd by rle44mapchrrom and stored in CHR-ROM. 16 tiles max.
 
 #define MAP_WITH_DECORATIONS			// Add decorations when use a 16 tiles mode.
 
@@ -117,6 +115,7 @@
 
 //#define PLAYER_PUSH_BOXES 				// If defined, tile beh 11 is pushable
 #define FIRE_TO_PUSH
+#define PUSH_ERASE						26	// Use this tile to erase
 
 //#define ENABLE_PUSHED_SCRIPT
 #define PUSHED_TILE_FLAG				1
@@ -153,9 +152,10 @@
 #define BREAKABLE_ANIM						// Show explosion when breaking
 #define BREAKABLE_MAX					4	// Max # of concurrent explosions
 #define BREAKABLE_MAX_FRAMES			8	// Frames to show explosion
-#define BREAKABLE_ERASE					0	// Tile to erase broken tiles
-#define BREAKABLE_BREAKING				8	// Tile to display while breaking
+#define BREAKABLE_ERASE					26	// Tile to erase broken tiles
+#define BREAKABLE_BREAKING				28	// Tile to display while breaking
 //#define BREAKABLE_WALKABLE				// If defined (side view), tiles break when stepped on
+#define BREAKABLE_VRAM_ADDR				0x1f40	// If BREAKABLE_LIFE>2 we need 192 bytes
 
 // Conveyors, beh & 32 [+1] (must be & 8!)
 // For player movement values, see section 4
