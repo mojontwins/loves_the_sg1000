@@ -520,10 +520,11 @@
 	"buffers":
 	[
 		{
-			"file": "src/utils/mkts_om.bas",
+			"file": "/D/git/nes_work/multicart_INL/demo/yun_demo/dev/definitions.h",
 			"settings":
 			{
-				"buffer_size": 53005,
+				"buffer_size": 15834,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -604,12 +605,11 @@
 	},
 	"expanded_folders":
 	[
-		"/D/git/loves_the_sg1000",
-		"/D/git/loves_the_sg1000/src",
-		"/D/git/loves_the_sg1000/src/utils"
+		"/D/git/loves_the_sg1000"
 	],
 	"file_history":
 	[
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/README.md",
 		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/build_assets.bat",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/build_assets.bat",
 		"/D/git/loves_the_sg1000/sgt_helmet_training_day/dev/engine/player.c",
@@ -736,12 +736,11 @@
 		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/assets/extern_metasprites.h",
 		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/player.h",
 		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/ram/global_externs.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/tile_chac_chac.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/printer.h"
+		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/tile_chac_chac.h"
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 27.0
 	},
 	"find_in_files":
 	{
@@ -975,27 +974,27 @@
 			[
 				{
 					"buffer": 0,
-					"file": "src/utils/mkts_om.bas",
-					"semi_transient": true,
+					"file": "/D/git/nes_work/multicart_INL/demo/yun_demo/dev/definitions.h",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 53005,
+						"buffer_size": 15834,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								28440,
-								28555
+								1511,
+								1511
 							]
 						],
 						"settings":
 						{
 							"WordCount":
 							{
-								"changes": 0,
-								"count": 6851,
+								"changes": 5,
+								"count": 1169,
 								"modified": false,
 								"selection": false,
 								"status": -1,
@@ -1004,11 +1003,11 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Syntax QBasic/QBasic.tmLanguage",
+							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 13550.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1072,7 +1071,7 @@
 	"project": "loves_the_sg1000.sublime-project",
 	"replace":
 	{
-		"height": 74.0
+		"height": 50.0
 	},
 	"save_all_on_build": true,
 	"select_file":
