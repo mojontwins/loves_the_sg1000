@@ -55,6 +55,50 @@ And (needs apack.exe!)
 	write patterns label_bitmaps label_colours packed
 ```
 
+## Nametable stuff
+
+You can do some weird nametable-related things that are patchy 'cause they were not planned and mostly are side effects. Basic usage:
+
+### You want a rle'd nametable array
+
+Then you open a file, then
+
+```
+	nametablerle
+	write nametablerle label
+```
+
+or (side effect)
+
+```
+	nametable
+	nametable rle
+	write nametablerle label
+```
+
+As you see, `nametablerle` and `nametable`, then `nametable rle` do the same thing: take a nametable and rle it to the rle buffer, which you can write later.
+
+That's because there's a virtual nametable you can fill using "nametable" (full image), reset using
+
+```
+	nametable cls
+```
+
+Or fill cutting patches from pngs using
+
+```
+	cutout x0, y0, x1, y1
+```
+
+Which writes the cutout to the nametable at x0, y0. Probably useless, but a side effect. That's because I needed cutouts and I didn't have much time to implement them, so cutouts use a portion of the nametable. You do cutouts this way:
+
+```
+	cutout x0, y0, x1, y1
+	write cutout label
+```
+
+Which will output the latest cutout to an array.
+
 ## Pattern format
 
 The pattern () arrays are 16 bytes big, containing 8 bytes of bitmap and 8 bytes of colour map, not interleaved.

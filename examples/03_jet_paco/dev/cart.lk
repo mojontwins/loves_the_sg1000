@@ -1,0 +1,35 @@
+-mjwx
+-i cart.ihx
+-b _CODE = 0x0200
+-b _DATA = 0xc000
+-k D:\git\loves_the_sg1000\environment\sdcc-sg1000\bin\..\lib\z80
+-l z80
+lib/crt0_sg.rel
+rel/game.rel
+rel/utils/rand.rel
+rel/utils/delay.rel
+rel/utils/memfill.rel
+rel/utils/unpacker.rel
+rel/utils/unrle.rel
+rel/engine/propellers.rel
+rel/engine/tile_chac_chac.rel
+rel/engine/printer.rel
+rel/engine/general.rel
+rel/engine/breakable.rel
+rel/engine/player.rel
+rel/engine/cocos.rel
+rel/engine/enengine.rel
+rel/assets/enems0.rel
+rel/assets/enems1.rel
+rel/assets/enems2.rel
+rel/assets/map0.rel
+rel/assets/map1.rel
+rel/assets/map2.rel
+rel/assets/tileset.rel
+rel/assets/spriteset.rel
+rel/murcia.rel
+lib/PSGlib.rel
+lib/SGlib.rel
+lib/aPLib.rel
+
+-e

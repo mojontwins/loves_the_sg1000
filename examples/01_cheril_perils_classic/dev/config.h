@@ -622,7 +622,7 @@
 	#define CELL_FACING_DOWN 	12
 
 	#define CELL_IDLE			0
-	#define CELL_WALK_CYCLE		1
+	#define CELL_WALK_CYCLE		0
 	#define CELL_PUSHING		5
 
 	#define CELL_USE			24
@@ -632,12 +632,12 @@
 	// Cell definitions for side view
 
 	#define CELL_FACING_RIGHT	0
-	#define CELL_FACING_LEFT	8
+	#define CELL_FACING_LEFT	5
 
 	#define CELL_IDLE			0
 	#define CELL_WALK_INIT		1
 	#define CELL_WALK_CYCLE		1
-	#define CELL_AIRBORNE		5
+	#define CELL_AIRBORNE		4
 
 	#define CELL_SPIN_CYCLE		5
 

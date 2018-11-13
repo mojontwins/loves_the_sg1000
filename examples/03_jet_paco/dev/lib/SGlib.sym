@@ -1,0 +1,88 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+    _IOPortH                                                    =  00DD 
+    _IOPortL                                                    =  00DC 
+  1 _KeysStatus                                                    0002 GR
+    _PSGFrame                                                      **** GX
+    _PSGSFXFrame                                                   **** GX
+  1 _PauseRequested                                                0001 GR
+  0 _SG_VDPturnOffFeature                                          006E GR
+  0 _SG_VDPturnOnFeature                                           0034 GR
+  0 _SG_VRAMmemcpy128                                              065E GR
+  0 _SG_VRAMmemset                                                 061F GR
+  0 _SG_addMetaSprite                                              0520 GR
+  0 _SG_addMetaSprite1x1                                           03EC GR
+  0 _SG_addSprite                                                  036A GR
+  0 _SG_copySpritestoSAT                                           064B GR
+  0 _SG_doUpdateList                                               0692 GR
+  0 _SG_fillTile                                                   027B GR
+  0 _SG_finalizeSprites                                            05E6 GR
+  0 _SG_getKeysStatus                                              0609 GR
+  0 _SG_getStp                                                     05E7 GR
+  0 _SG_init                                                       009F GR
+  0 _SG_initSprites                                                033F GR
+  0 _SG_isr                                                        06D8 GR
+  0 _SG_loadSpritePatterns                                         01B5 GR
+  0 _SG_loadTileColours                                            0170 GR
+  0 _SG_loadTileMapArea                                            02A3 GR
+  0 _SG_loadTilePatterns                                           012F GR
+  0 _SG_nmi_isr                                                    070D GR
+  0 _SG_queryPauseRequested                                        0611 GR
+  0 _SG_resetPauseRequest                                          0619 GR
+  0 _SG_setBackdropColor                                           00E6 GR
+  0 _SG_setNextTileatXY                                            0239 GR
+  0 _SG_setReg                                                     0000 GR
+  0 _SG_setSpriteMode                                              00FA GR
+  0 _SG_setStp                                                     05EB GR
+  0 _SG_setTile                                                    0273 GR
+  0 _SG_setTileatXY                                                01FA GR
+  0 _SG_setUpdateList                                              0681 GR
+  0 _SG_waitForVBlank                                              05FC GR
+  1 _SpriteTable                                                   0003 GR
+  1 _SpriteTableEnd                                                0085 GR
+  1 _VDPBlank                                                      0000 GR
+    _VDPControlPort                                             =  00BF 
+    _VDPDataPort                                                =  00BE 
+    _VDPHCounterPort                                            =  007F 
+  2 _VDPReg                                                        0000 GR
+  0 _VDPReg_init                                                   002C GR
+    _VDPStatusPort                                              =  00BF 
+  1 _VDPType                                                       0089 GR
+    _VDPVCounterPort                                            =  007E 
+  7 __xinit__VDPReg                                                0000 R
+  1 _first_sprite                                                  0087 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  1 _libgpit                                                       0088 GR
+    _outi_block                                                    **** GX
+  1 _stp                                                           0083 GR
+  1 _ulp                                                           008C GR
+  1 _ulpMsb                                                        008E GR
+  1 _updateList                                                    008A GR
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  720   flags    0
+   1 _DATA                                      size   8F   flags    0
+   2 _INITIALIZED                               size    2   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    2   flags    0
+   8 _CABS                                      size    0   flags    8
+

@@ -1,0 +1,838 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.2 #9293 (MINGW32)
+                              4 ; This file was generated Tue Nov 13 17:35:20 2018
+                              5 ;--------------------------------------------------------
+                              6 	.module printer
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _add_tile
+                             13 	.globl _chac_chacs_add
+                             14 	.globl _memfill
+                             15 	.globl _SG_fillTile
+                             16 	.globl _SG_setTile
+                             17 	.globl _SG_setTileatXY
+                             18 	.globl _SG_setNextTileatXY
+                             19 	.globl _clear_update_list
+                             20 	.globl _cls
+                             21 	.globl _ul_putc
+                             22 	.globl _p_t
+                             23 	.globl _p_tf
+                             24 	.globl _draw_tile
+                             25 	.globl _update_list_tile
+                             26 	.globl _map_set
+                             27 	.globl _get_byte
+                             28 	.globl _draw_scr
+                             29 	.globl _pr_str
+                             30 ;--------------------------------------------------------
+                             31 ; special function registers
+                             32 ;--------------------------------------------------------
+                     00BF    33 _VDPControlPort	=	0x00bf
+                     00BF    34 _VDPStatusPort	=	0x00bf
+                     00BE    35 _VDPDataPort	=	0x00be
+                     007E    36 _VDPVCounterPort	=	0x007e
+                     007F    37 _VDPHCounterPort	=	0x007f
+                     00DC    38 _IOPortL	=	0x00dc
+                     00DD    39 _IOPortH	=	0x00dd
+                             40 ;--------------------------------------------------------
+                             41 ; ram data
+                             42 ;--------------------------------------------------------
+                             43 	.area _DATA
+                             44 ;--------------------------------------------------------
+                             45 ; ram data
+                             46 ;--------------------------------------------------------
+                             47 	.area _INITIALIZED
+                             48 ;--------------------------------------------------------
+                             49 ; absolute external ram data
+                             50 ;--------------------------------------------------------
+                             51 	.area _DABS (ABS)
+                             52 ;--------------------------------------------------------
+                             53 ; global & static initialisations
+                             54 ;--------------------------------------------------------
+                             55 	.area _HOME
+                             56 	.area _GSINIT
+                             57 	.area _GSFINAL
+                             58 	.area _GSINIT
+                             59 ;--------------------------------------------------------
+                             60 ; Home
+                             61 ;--------------------------------------------------------
+                             62 	.area _HOME
+                             63 	.area _HOME
+                             64 ;--------------------------------------------------------
+                             65 ; code
+                             66 ;--------------------------------------------------------
+                             67 	.area _CODE
+                             68 ;engine/printer.c:26: void clear_update_list (void) {
+                             69 ;	---------------------------------
+                             70 ; Function clear_update_list
+                             71 ; ---------------------------------
+   0000                      72 _clear_update_list::
+                             73 ;engine/printer.c:27: memfill (update_list, 0, UPDATE_LIST_SIZE*3);
+   0000 11r00r00      [10]   74 	ld	de,#_update_list
+   0003 21 60 00      [10]   75 	ld	hl,#0x0060
+   0006 E5            [11]   76 	push	hl
+   0007 AF            [ 4]   77 	xor	a, a
+   0008 F5            [11]   78 	push	af
+   0009 33            [ 6]   79 	inc	sp
+   000A D5            [11]   80 	push	de
+   000B CDr00r00      [17]   81 	call	_memfill
+   000E F1            [10]   82 	pop	af
+   000F F1            [10]   83 	pop	af
+   0010 33            [ 6]   84 	inc	sp
+                             85 ;engine/printer.c:28: update_index = 0;
+   0011 21r00r00      [10]   86 	ld	hl,#_update_index + 0
+   0014 36 00         [10]   87 	ld	(hl), #0x00
+   0016 C9            [10]   88 	ret
+                             89 ;engine/printer.c:31: void cls (void) {
+                             90 ;	---------------------------------
+                             91 ; Function cls
+                             92 ; ---------------------------------
+   0017                      93 _cls::
+                             94 ;engine/printer.c:32: SG_setNextTileatXY (0, 0);
+   0017 21 00 00      [10]   95 	ld	hl,#0x0000
+   001A E5            [11]   96 	push	hl
+   001B CDr00r00      [17]   97 	call	_SG_setNextTileatXY
+                             98 ;engine/printer.c:33: SG_fillTile (0, 768);
+   001E 21 00 03      [10]   99 	ld	hl, #0x0300
+   0021 E3            [19]  100 	ex	(sp),hl
+   0022 AF            [ 4]  101 	xor	a, a
+   0023 F5            [11]  102 	push	af
+   0024 33            [ 6]  103 	inc	sp
+   0025 CDr00r00      [17]  104 	call	_SG_fillTile
+   0028 F1            [10]  105 	pop	af
+   0029 33            [ 6]  106 	inc	sp
+   002A C9            [10]  107 	ret
+                            108 ;engine/printer.c:37: void ul_putc (void) {
+                            109 ;	---------------------------------
+                            110 ; Function ul_putc
+                            111 ; ---------------------------------
+   002B                     112 _ul_putc::
+                            113 ;engine/printer.c:38: update_list [update_index++] = MSB (gp_addr);
+   002B 21r00r00      [10]  114 	ld	hl,#_update_index + 0
+   002E 5E            [ 7]  115 	ld	e, (hl)
+   002F 21r00r00      [10]  116 	ld	hl, #_update_index+0
+   0032 34            [11]  117 	inc	(hl)
+   0033 21r00r00      [10]  118 	ld	hl,#_update_list
+   0036 16 00         [ 7]  119 	ld	d,#0x00
+   0038 19            [11]  120 	add	hl, de
+   0039 FD 21r00r00   [14]  121 	ld	iy,#_gp_addr
+   003D FD 56 01      [19]  122 	ld	d,1 (iy)
+   0040 72            [ 7]  123 	ld	(hl),d
+                            124 ;engine/printer.c:39: update_list [update_index++] = LSB (gp_addr++);
+   0041 21r00r00      [10]  125 	ld	hl,#_update_index + 0
+   0044 56            [ 7]  126 	ld	d, (hl)
+   0045 21r00r00      [10]  127 	ld	hl, #_update_index+0
+   0048 34            [11]  128 	inc	(hl)
+   0049 3Er00         [ 7]  129 	ld	a,#<(_update_list)
+   004B 82            [ 4]  130 	add	a, d
+   004C 5F            [ 4]  131 	ld	e,a
+   004D 3Es00         [ 7]  132 	ld	a,#>(_update_list)
+   004F CE 00         [ 7]  133 	adc	a, #0x00
+   0051 57            [ 4]  134 	ld	d,a
+   0052 ED 4Br00r00   [20]  135 	ld	bc,(_gp_addr)
+   0056 21r00r00      [10]  136 	ld	hl, #_gp_addr+0
+   0059 34            [11]  137 	inc	(hl)
+   005A 20 04         [12]  138 	jr	NZ,00103$
+   005C 21r01r00      [10]  139 	ld	hl, #_gp_addr+1
+   005F 34            [11]  140 	inc	(hl)
+   0060                     141 00103$:
+   0060 79            [ 4]  142 	ld	a,c
+   0061 12            [ 7]  143 	ld	(de),a
+                            144 ;engine/printer.c:40: update_list [update_index++] = _n;
+   0062 21r00r00      [10]  145 	ld	hl,#_update_index + 0
+   0065 5E            [ 7]  146 	ld	e, (hl)
+   0066 21r00r00      [10]  147 	ld	hl, #_update_index+0
+   0069 34            [11]  148 	inc	(hl)
+   006A 21r00r00      [10]  149 	ld	hl,#_update_list
+   006D 16 00         [ 7]  150 	ld	d,#0x00
+   006F 19            [11]  151 	add	hl, de
+   0070 3Ar00r00      [13]  152 	ld	a,(#__n + 0)
+   0073 77            [ 7]  153 	ld	(hl),a
+   0074 C9            [10]  154 	ret
+                            155 ;engine/printer.c:44: void p_t (void) {
+                            156 ;	---------------------------------
+                            157 ; Function p_t
+                            158 ; ---------------------------------
+   0075                     159 _p_t::
+                            160 ;engine/printer.c:45: rda = _n; gp_addr = (_y << 5) + _x + PNTADDRESS;
+   0075 3Ar00r00      [13]  161 	ld	a,(#__n + 0)
+   0078 32r00r00      [13]  162 	ld	(#_rda + 0),a
+   007B FD 21r00r00   [14]  163 	ld	iy,#__y
+   007F FD 6E 00      [19]  164 	ld	l,0 (iy)
+   0082 26 00         [ 7]  165 	ld	h,#0x00
+   0084 29            [11]  166 	add	hl, hl
+   0085 29            [11]  167 	add	hl, hl
+   0086 29            [11]  168 	add	hl, hl
+   0087 29            [11]  169 	add	hl, hl
+   0088 29            [11]  170 	add	hl, hl
+   0089 EB            [ 4]  171 	ex	de,hl
+   008A FD 21r00r00   [14]  172 	ld	iy,#__x
+   008E FD 6E 00      [19]  173 	ld	l,0 (iy)
+   0091 26 00         [ 7]  174 	ld	h,#0x00
+   0093 19            [11]  175 	add	hl,de
+   0094 EB            [ 4]  176 	ex	de,hl
+   0095 21 00 18      [10]  177 	ld	hl,#0x1800
+   0098 19            [11]  178 	add	hl,de
+   0099 22r00r00      [16]  179 	ld	(_gp_addr),hl
+                            180 ;engine/printer.c:46: _n = ((rda/10)+16); ul_putc ();
+   009C 3E 0A         [ 7]  181 	ld	a,#0x0A
+   009E F5            [11]  182 	push	af
+   009F 33            [ 6]  183 	inc	sp
+   00A0 3Ar00r00      [13]  184 	ld	a,(_rda)
+   00A3 F5            [11]  185 	push	af
+   00A4 33            [ 6]  186 	inc	sp
+   00A5 CDr00r00      [17]  187 	call	__divuchar
+   00A8 F1            [10]  188 	pop	af
+   00A9 7D            [ 4]  189 	ld	a,l
+   00AA 21r00r00      [10]  190 	ld	hl,#__n
+   00AD C6 10         [ 7]  191 	add	a, #0x10
+   00AF 77            [ 7]  192 	ld	(hl),a
+   00B0 CDr2Br00      [17]  193 	call	_ul_putc
+                            194 ;engine/printer.c:47: _n = ((rda%10)+16); ul_putc ();
+   00B3 3E 0A         [ 7]  195 	ld	a,#0x0A
+   00B5 F5            [11]  196 	push	af
+   00B6 33            [ 6]  197 	inc	sp
+   00B7 3Ar00r00      [13]  198 	ld	a,(_rda)
+   00BA F5            [11]  199 	push	af
+   00BB 33            [ 6]  200 	inc	sp
+   00BC CDr00r00      [17]  201 	call	__moduchar
+   00BF F1            [10]  202 	pop	af
+   00C0 7D            [ 4]  203 	ld	a,l
+   00C1 21r00r00      [10]  204 	ld	hl,#__n
+   00C4 C6 10         [ 7]  205 	add	a, #0x10
+   00C6 77            [ 7]  206 	ld	(hl),a
+   00C7 C3r2Br00      [10]  207 	jp  _ul_putc
+                            208 ;engine/printer.c:50: void p_tf (void) {
+                            209 ;	---------------------------------
+                            210 ; Function p_tf
+                            211 ; ---------------------------------
+   00CA                     212 _p_tf::
+                            213 ;engine/printer.c:51: SG_setTileatXY (_x, _y, (_n / 10) + 16);
+   00CA 3E 0A         [ 7]  214 	ld	a,#0x0A
+   00CC F5            [11]  215 	push	af
+   00CD 33            [ 6]  216 	inc	sp
+   00CE 3Ar00r00      [13]  217 	ld	a,(__n)
+   00D1 F5            [11]  218 	push	af
+   00D2 33            [ 6]  219 	inc	sp
+   00D3 CDr00r00      [17]  220 	call	__divuchar
+   00D6 F1            [10]  221 	pop	af
+   00D7 7D            [ 4]  222 	ld	a,l
+   00D8 C6 10         [ 7]  223 	add	a, #0x10
+   00DA F5            [11]  224 	push	af
+   00DB 33            [ 6]  225 	inc	sp
+   00DC 3Ar00r00      [13]  226 	ld	a,(__y)
+   00DF F5            [11]  227 	push	af
+   00E0 33            [ 6]  228 	inc	sp
+   00E1 3Ar00r00      [13]  229 	ld	a,(__x)
+   00E4 F5            [11]  230 	push	af
+   00E5 33            [ 6]  231 	inc	sp
+   00E6 CDr00r00      [17]  232 	call	_SG_setTileatXY
+   00E9 F1            [10]  233 	pop	af
+   00EA 33            [ 6]  234 	inc	sp
+                            235 ;engine/printer.c:52: SG_setTile ((_n % 10) + 16);
+   00EB 3E 0A         [ 7]  236 	ld	a,#0x0A
+   00ED F5            [11]  237 	push	af
+   00EE 33            [ 6]  238 	inc	sp
+   00EF 3Ar00r00      [13]  239 	ld	a,(__n)
+   00F2 F5            [11]  240 	push	af
+   00F3 33            [ 6]  241 	inc	sp
+   00F4 CDr00r00      [17]  242 	call	__moduchar
+   00F7 F1            [10]  243 	pop	af
+   00F8 7D            [ 4]  244 	ld	a,l
+   00F9 C6 10         [ 7]  245 	add	a, #0x10
+   00FB F5            [11]  246 	push	af
+   00FC 33            [ 6]  247 	inc	sp
+   00FD CDr00r00      [17]  248 	call	_SG_setTile
+   0100 33            [ 6]  249 	inc	sp
+   0101 C9            [10]  250 	ret
+                            251 ;engine/printer.c:57: void draw_tile (void) {
+                            252 ;	---------------------------------
+                            253 ; Function draw_tile
+                            254 ; ---------------------------------
+   0102                     255 _draw_tile::
+                            256 ;engine/printer.c:61: gp_tmap = c_ts_tmaps + (_t << 2);
+   0102 FD 21r00r00   [14]  257 	ld	iy,#__t
+   0106 FD 6E 00      [19]  258 	ld	l,0 (iy)
+   0109 26 00         [ 7]  259 	ld	h,#0x00
+   010B 29            [11]  260 	add	hl, hl
+   010C 29            [11]  261 	add	hl, hl
+   010D 55            [ 4]  262 	ld	d,l
+   010E 5C            [ 4]  263 	ld	e,h
+   010F 21r00r00      [10]  264 	ld	hl,#_gp_tmap
+   0112 3Ar00r00      [13]  265 	ld	a,(#_c_ts_tmaps + 0)
+   0115 82            [ 4]  266 	add	a, d
+   0116 77            [ 7]  267 	ld	(hl),a
+   0117 3Ar01r00      [13]  268 	ld	a,(#_c_ts_tmaps + 1)
+   011A 8B            [ 4]  269 	adc	a, e
+   011B 23            [ 6]  270 	inc	hl
+   011C 77            [ 7]  271 	ld	(hl),a
+                            272 ;engine/printer.c:62: gp_addr = (_y << 5) + _x + PNTADDRESS;
+   011D FD 21r00r00   [14]  273 	ld	iy,#__y
+   0121 FD 6E 00      [19]  274 	ld	l,0 (iy)
+   0124 26 00         [ 7]  275 	ld	h,#0x00
+   0126 29            [11]  276 	add	hl, hl
+   0127 29            [11]  277 	add	hl, hl
+   0128 29            [11]  278 	add	hl, hl
+   0129 29            [11]  279 	add	hl, hl
+   012A 29            [11]  280 	add	hl, hl
+   012B EB            [ 4]  281 	ex	de,hl
+   012C FD 21r00r00   [14]  282 	ld	iy,#__x
+   0130 FD 6E 00      [19]  283 	ld	l,0 (iy)
+   0133 26 00         [ 7]  284 	ld	h,#0x00
+   0135 19            [11]  285 	add	hl,de
+   0136 EB            [ 4]  286 	ex	de,hl
+   0137 21 00 18      [10]  287 	ld	hl,#0x1800
+   013A 19            [11]  288 	add	hl,de
+   013B 22r00r00      [16]  289 	ld	(_gp_addr),hl
+                            290 ;engine/printer.c:64: if (_y == TOP_ADJUST) {
+   013E 3Ar00r00      [13]  291 	ld	a,(#__y + 0)
+   0141 3D            [ 4]  292 	dec	a
+   0142 20 0E         [12]  293 	jr	NZ,00102$
+                            294 ;engine/printer.c:65: gp_tmap += 2;		
+   0144 21r00r00      [10]  295 	ld	hl,#_gp_tmap
+   0147 7E            [ 7]  296 	ld	a,(hl)
+   0148 C6 02         [ 7]  297 	add	a, #0x02
+   014A 77            [ 7]  298 	ld	(hl),a
+   014B 23            [ 6]  299 	inc	hl
+   014C 7E            [ 7]  300 	ld	a,(hl)
+   014D CE 00         [ 7]  301 	adc	a, #0x00
+   014F 77            [ 7]  302 	ld	(hl),a
+   0150 18 2C         [12]  303 	jr	00103$
+   0152                     304 00102$:
+                            305 ;engine/printer.c:67: VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
+   0152 3Ar00r00      [13]  306 	ld	a,(#_gp_addr + 0)
+   0155 D3 BF         [11]  307 	out	(_VDPControlPort),a
+   0157 3Ar01r00      [13]  308 	ld	a,(#_gp_addr + 1)
+   015A CB F7         [ 8]  309 	set	6, a
+   015C D3 BF         [11]  310 	out	(_VDPControlPort),a
+                            311 ;engine/printer.c:68: VDPDataPort = *gp_tmap ++;
+   015E 2Ar00r00      [16]  312 	ld	hl,(_gp_tmap)
+   0161 7E            [ 7]  313 	ld	a,(hl)
+   0162 D3 BE         [11]  314 	out	(_VDPDataPort),a
+   0164 21r00r00      [10]  315 	ld	hl, #_gp_tmap+0
+   0167 34            [11]  316 	inc	(hl)
+   0168 20 04         [12]  317 	jr	NZ,00118$
+   016A 21r01r00      [10]  318 	ld	hl, #_gp_tmap+1
+   016D 34            [11]  319 	inc	(hl)
+   016E                     320 00118$:
+                            321 ;engine/printer.c:69: VDPDataPort = *gp_tmap ++;
+   016E 2Ar00r00      [16]  322 	ld	hl,(_gp_tmap)
+   0171 7E            [ 7]  323 	ld	a,(hl)
+   0172 D3 BE         [11]  324 	out	(_VDPDataPort),a
+   0174 21r00r00      [10]  325 	ld	hl, #_gp_tmap+0
+   0177 34            [11]  326 	inc	(hl)
+   0178 20 04         [12]  327 	jr	NZ,00119$
+   017A 21r01r00      [10]  328 	ld	hl, #_gp_tmap+1
+   017D 34            [11]  329 	inc	(hl)
+   017E                     330 00119$:
+   017E                     331 00103$:
+                            332 ;engine/printer.c:72: if (_y < TOP_ADJUST + 22) {
+   017E 3Ar00r00      [13]  333 	ld	a,(#__y + 0)
+   0181 D6 17         [ 7]  334 	sub	a, #0x17
+   0183 D0            [11]  335 	ret	NC
+                            336 ;engine/printer.c:73: gp_addr += 32;
+   0184 21r00r00      [10]  337 	ld	hl,#_gp_addr
+   0187 7E            [ 7]  338 	ld	a,(hl)
+   0188 C6 20         [ 7]  339 	add	a, #0x20
+   018A 77            [ 7]  340 	ld	(hl),a
+   018B 23            [ 6]  341 	inc	hl
+   018C 7E            [ 7]  342 	ld	a,(hl)
+   018D CE 00         [ 7]  343 	adc	a, #0x00
+   018F 77            [ 7]  344 	ld	(hl),a
+                            345 ;engine/printer.c:74: VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
+   0190 3Ar00r00      [13]  346 	ld	a,(#_gp_addr + 0)
+   0193 D3 BF         [11]  347 	out	(_VDPControlPort),a
+   0195 3Ar01r00      [13]  348 	ld	a,(#_gp_addr + 1)
+   0198 CB F7         [ 8]  349 	set	6, a
+   019A D3 BF         [11]  350 	out	(_VDPControlPort),a
+                            351 ;engine/printer.c:75: VDPDataPort = *gp_tmap ++;
+   019C 2Ar00r00      [16]  352 	ld	hl,(_gp_tmap)
+   019F 7E            [ 7]  353 	ld	a,(hl)
+   01A0 D3 BE         [11]  354 	out	(_VDPDataPort),a
+   01A2 21r00r00      [10]  355 	ld	hl, #_gp_tmap+0
+   01A5 34            [11]  356 	inc	(hl)
+   01A6 20 04         [12]  357 	jr	NZ,00120$
+   01A8 21r01r00      [10]  358 	ld	hl, #_gp_tmap+1
+   01AB 34            [11]  359 	inc	(hl)
+   01AC                     360 00120$:
+                            361 ;engine/printer.c:76: VDPDataPort = *gp_tmap ++;
+   01AC 2Ar00r00      [16]  362 	ld	hl,(_gp_tmap)
+   01AF 7E            [ 7]  363 	ld	a,(hl)
+   01B0 D3 BE         [11]  364 	out	(_VDPDataPort),a
+   01B2 21r00r00      [10]  365 	ld	hl, #_gp_tmap+0
+   01B5 34            [11]  366 	inc	(hl)
+   01B6 C0            [11]  367 	ret	NZ
+   01B7 21r01r00      [10]  368 	ld	hl, #_gp_tmap+1
+   01BA 34            [11]  369 	inc	(hl)
+   01BB C9            [10]  370 	ret
+                            371 ;engine/printer.c:82: void update_list_tile (void) {
+                            372 ;	---------------------------------
+                            373 ; Function update_list_tile
+                            374 ; ---------------------------------
+   01BC                     375 _update_list_tile::
+                            376 ;engine/printer.c:83: gp_tmap = c_ts_tmaps + (_t << 2);
+   01BC FD 21r00r00   [14]  377 	ld	iy,#__t
+   01C0 FD 6E 00      [19]  378 	ld	l,0 (iy)
+   01C3 26 00         [ 7]  379 	ld	h,#0x00
+   01C5 29            [11]  380 	add	hl, hl
+   01C6 29            [11]  381 	add	hl, hl
+   01C7 55            [ 4]  382 	ld	d,l
+   01C8 5C            [ 4]  383 	ld	e,h
+   01C9 21r00r00      [10]  384 	ld	hl,#_gp_tmap
+   01CC 3Ar00r00      [13]  385 	ld	a,(#_c_ts_tmaps + 0)
+   01CF 82            [ 4]  386 	add	a, d
+   01D0 77            [ 7]  387 	ld	(hl),a
+   01D1 3Ar01r00      [13]  388 	ld	a,(#_c_ts_tmaps + 1)
+   01D4 8B            [ 4]  389 	adc	a, e
+   01D5 23            [ 6]  390 	inc	hl
+   01D6 77            [ 7]  391 	ld	(hl),a
+                            392 ;engine/printer.c:84: gp_addr = ((_y << 5) + _x + PNTADDRESS);
+   01D7 FD 21r00r00   [14]  393 	ld	iy,#__y
+   01DB FD 6E 00      [19]  394 	ld	l,0 (iy)
+   01DE 26 00         [ 7]  395 	ld	h,#0x00
+   01E0 29            [11]  396 	add	hl, hl
+   01E1 29            [11]  397 	add	hl, hl
+   01E2 29            [11]  398 	add	hl, hl
+   01E3 29            [11]  399 	add	hl, hl
+   01E4 29            [11]  400 	add	hl, hl
+   01E5 EB            [ 4]  401 	ex	de,hl
+   01E6 FD 21r00r00   [14]  402 	ld	iy,#__x
+   01EA FD 6E 00      [19]  403 	ld	l,0 (iy)
+   01ED 26 00         [ 7]  404 	ld	h,#0x00
+   01EF 19            [11]  405 	add	hl,de
+   01F0 EB            [ 4]  406 	ex	de,hl
+   01F1 21 00 18      [10]  407 	ld	hl,#0x1800
+   01F4 19            [11]  408 	add	hl,de
+   01F5 22r00r00      [16]  409 	ld	(_gp_addr),hl
+                            410 ;engine/printer.c:86: _n = *gp_tmap ++; ul_putc ();
+   01F8 2Ar00r00      [16]  411 	ld	hl,(_gp_tmap)
+   01FB 7E            [ 7]  412 	ld	a,(hl)
+   01FC 32r00r00      [13]  413 	ld	(#__n + 0),a
+   01FF 21r00r00      [10]  414 	ld	hl, #_gp_tmap+0
+   0202 34            [11]  415 	inc	(hl)
+   0203 20 04         [12]  416 	jr	NZ,00103$
+   0205 21r01r00      [10]  417 	ld	hl, #_gp_tmap+1
+   0208 34            [11]  418 	inc	(hl)
+   0209                     419 00103$:
+   0209 CDr2Br00      [17]  420 	call	_ul_putc
+                            421 ;engine/printer.c:87: _n = *gp_tmap ++; ul_putc ();
+   020C 2Ar00r00      [16]  422 	ld	hl,(_gp_tmap)
+   020F 7E            [ 7]  423 	ld	a,(hl)
+   0210 32r00r00      [13]  424 	ld	(#__n + 0),a
+   0213 21r00r00      [10]  425 	ld	hl, #_gp_tmap+0
+   0216 34            [11]  426 	inc	(hl)
+   0217 20 04         [12]  427 	jr	NZ,00104$
+   0219 21r01r00      [10]  428 	ld	hl, #_gp_tmap+1
+   021C 34            [11]  429 	inc	(hl)
+   021D                     430 00104$:
+   021D CDr2Br00      [17]  431 	call	_ul_putc
+                            432 ;engine/printer.c:88: gp_addr += 30;
+   0220 21r00r00      [10]  433 	ld	hl,#_gp_addr
+   0223 7E            [ 7]  434 	ld	a,(hl)
+   0224 C6 1E         [ 7]  435 	add	a, #0x1E
+   0226 77            [ 7]  436 	ld	(hl),a
+   0227 23            [ 6]  437 	inc	hl
+   0228 7E            [ 7]  438 	ld	a,(hl)
+   0229 CE 00         [ 7]  439 	adc	a, #0x00
+   022B 77            [ 7]  440 	ld	(hl),a
+                            441 ;engine/printer.c:90: _n = *gp_tmap ++; ul_putc ();
+   022C 2Ar00r00      [16]  442 	ld	hl,(_gp_tmap)
+   022F 7E            [ 7]  443 	ld	a,(hl)
+   0230 32r00r00      [13]  444 	ld	(#__n + 0),a
+   0233 21r00r00      [10]  445 	ld	hl, #_gp_tmap+0
+   0236 34            [11]  446 	inc	(hl)
+   0237 20 04         [12]  447 	jr	NZ,00105$
+   0239 21r01r00      [10]  448 	ld	hl, #_gp_tmap+1
+   023C 34            [11]  449 	inc	(hl)
+   023D                     450 00105$:
+   023D CDr2Br00      [17]  451 	call	_ul_putc
+                            452 ;engine/printer.c:91: _n = *gp_tmap   ; ul_putc ();
+   0240 2Ar00r00      [16]  453 	ld	hl,(_gp_tmap)
+   0243 7E            [ 7]  454 	ld	a,(hl)
+   0244 32r00r00      [13]  455 	ld	(#__n + 0),a
+   0247 C3r2Br00      [10]  456 	jp  _ul_putc
+                            457 ;engine/printer.c:96: void map_set (void) {
+                            458 ;	---------------------------------
+                            459 ; Function map_set
+                            460 ; ---------------------------------
+   024A                     461 _map_set::
+                            462 ;engine/printer.c:97: map_buff [COORDS (_x, _y)] = _t;
+   024A 11r00r00      [10]  463 	ld	de,#_map_buff+0
+   024D FD 21r00r00   [14]  464 	ld	iy,#__y
+   0251 FD 6E 00      [19]  465 	ld	l,0 (iy)
+   0254 26 00         [ 7]  466 	ld	h,#0x00
+   0256 29            [11]  467 	add	hl, hl
+   0257 29            [11]  468 	add	hl, hl
+   0258 29            [11]  469 	add	hl, hl
+   0259 29            [11]  470 	add	hl, hl
+   025A 4D            [ 4]  471 	ld	c, l
+   025B 44            [ 4]  472 	ld	b, h
+   025C 3Ar00r00      [13]  473 	ld	a,(#__x + 0)
+   025F 26 00         [ 7]  474 	ld	h, #0x00
+   0261 B1            [ 4]  475 	or	a, c
+   0262 6F            [ 4]  476 	ld	l,a
+   0263 7C            [ 4]  477 	ld	a,h
+   0264 B0            [ 4]  478 	or	a, b
+   0265 67            [ 4]  479 	ld	h,a
+   0266 19            [11]  480 	add	hl,de
+   0267 3Ar00r00      [13]  481 	ld	a,(#__t + 0)
+   026A 77            [ 7]  482 	ld	(hl),a
+                            483 ;engine/printer.c:101: _x = _x << 1; _y = TOP_ADJUST + (_y << 1);
+   026B FD 21r00r00   [14]  484 	ld	iy,#__x
+   026F FD CB 00 26   [23]  485 	sla	0 (iy)
+   0273 3Ar00r00      [13]  486 	ld	a,(#__y + 0)
+   0276 87            [ 4]  487 	add	a, a
+   0277 21r00r00      [10]  488 	ld	hl,#__y
+   027A 3C            [ 4]  489 	inc	a
+   027B 77            [ 7]  490 	ld	(hl),a
+                            491 ;engine/printer.c:102: update_list_tile (); 
+   027C C3rBCr01      [10]  492 	jp  _update_list_tile
+                            493 ;engine/printer.c:105: unsigned char get_byte (void) {
+                            494 ;	---------------------------------
+                            495 ; Function get_byte
+                            496 ; ---------------------------------
+   027F                     497 _get_byte::
+                            498 ;engine/printer.c:106: -- rdit; return *gp_gen ++;
+   027F 21r00r00      [10]  499 	ld	hl, #_rdit+0
+   0282 35            [11]  500 	dec	(hl)
+   0283 2Ar00r00      [16]  501 	ld	hl,(_gp_gen)
+   0286 56            [ 7]  502 	ld	d,(hl)
+   0287 21r00r00      [10]  503 	ld	hl, #_gp_gen+0
+   028A 34            [11]  504 	inc	(hl)
+   028B 20 04         [12]  505 	jr	NZ,00103$
+   028D 21r01r00      [10]  506 	ld	hl, #_gp_gen+1
+   0290 34            [11]  507 	inc	(hl)
+   0291                     508 00103$:
+   0291 6A            [ 4]  509 	ld	l,d
+   0292 C9            [10]  510 	ret
+                            511 ;engine/../engine/mapmods/map_renderer_complex.h:11: void add_tile (void) {
+                            512 ;	---------------------------------
+                            513 ; Function add_tile
+                            514 ; ---------------------------------
+   0293                     515 _add_tile::
+                            516 ;engine/../engine/mapmods/map_renderer_complex.h:12: map_buff [rdm] = rda;
+   0293 11r00r00      [10]  517 	ld	de,#_map_buff+0
+   0296 2Ar00r00      [16]  518 	ld	hl,(_rdm)
+   0299 26 00         [ 7]  519 	ld	h,#0x00
+   029B 19            [11]  520 	add	hl,de
+   029C 3Ar00r00      [13]  521 	ld	a,(#_rda + 0)
+   029F 77            [ 7]  522 	ld	(hl),a
+                            523 ;engine/../engine/mapmods/map_renderer_complex.h:13: ++ rdm;
+   02A0 21r00r00      [10]  524 	ld	hl, #_rdm+0
+   02A3 34            [11]  525 	inc	(hl)
+   02A4 C9            [10]  526 	ret
+                            527 ;engine/../engine/mapmods/map_renderer_complex.h:16: void draw_scr (void) {
+                            528 ;	---------------------------------
+                            529 ; Function draw_scr
+                            530 ; ---------------------------------
+   02A5                     531 _draw_scr::
+   02A5 DD E5         [15]  532 	push	ix
+   02A7 DD 21 00 00   [14]  533 	ld	ix,#0
+   02AB DD 39         [15]  534 	add	ix,sp
+   02AD 3B            [ 6]  535 	dec	sp
+                            536 ;engine/../engine/mapmods/map_renderer_complex.h:20: rdm = 0;
+   02AE 21r00r00      [10]  537 	ld	hl,#_rdm + 0
+   02B1 36 00         [10]  538 	ld	(hl), #0x00
+                            539 ;engine/../engine/mapmods/map_renderer_complex.h:86: gp_gen = c_map [n_pant];
+   02B3 FD 21r00r00   [14]  540 	ld	iy,#_n_pant
+   02B7 FD 6E 00      [19]  541 	ld	l,0 (iy)
+   02BA 26 00         [ 7]  542 	ld	h,#0x00
+   02BC 29            [11]  543 	add	hl, hl
+   02BD EB            [ 4]  544 	ex	de,hl
+   02BE 2Ar00r00      [16]  545 	ld	hl,(_c_map)
+   02C1 19            [11]  546 	add	hl,de
+   02C2 7E            [ 7]  547 	ld	a,(hl)
+   02C3 FD 21r00r00   [14]  548 	ld	iy,#_gp_gen
+   02C7 FD 77 00      [19]  549 	ld	0 (iy),a
+   02CA 23            [ 6]  550 	inc	hl
+   02CB 7E            [ 7]  551 	ld	a,(hl)
+   02CC 32r01r00      [13]  552 	ld	(#_gp_gen + 1),a
+                            553 ;engine/../engine/mapmods/map_renderer_complex.h:88: while (rdm < 192) {
+   02CF                     554 00104$:
+                            555 ;engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
+   02CF ED 5Br00r00   [20]  556 	ld	de,(_gp_gen)
+   02D3 ED 4Br00r00   [20]  557 	ld	bc,(_gp_gen)
+   02D7 03            [ 6]  558 	inc	bc
+                            559 ;engine/../engine/mapmods/map_renderer_complex.h:88: while (rdm < 192) {
+   02D8 3Ar00r00      [13]  560 	ld	a,(#_rdm + 0)
+   02DB D6 C0         [ 7]  561 	sub	a, #0xC0
+   02DD 30 2E         [12]  562 	jr	NC,00106$
+                            563 ;engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
+   02DF 1A            [ 7]  564 	ld	a,(de)
+   02E0 32r00r00      [13]  565 	ld	(#_rdt + 0),a
+   02E3 ED 43r00r00   [20]  566 	ld	(_gp_gen),bc
+                            567 ;engine/../engine/mapmods/map_renderer_complex.h:90: rda = rdt & 0x0f;
+   02E7 3Ar00r00      [13]  568 	ld	a,(#_rdt + 0)
+   02EA E6 0F         [ 7]  569 	and	a, #0x0F
+   02EC 32r00r00      [13]  570 	ld	(#_rda + 0),a
+                            571 ;engine/../engine/mapmods/map_renderer_complex.h:92: rdct = rdt;
+   02EF 3Ar00r00      [13]  572 	ld	a,(#_rdt + 0)
+   02F2 32r00r00      [13]  573 	ld	(#_rdct + 0),a
+                            574 ;engine/../engine/mapmods/map_renderer_complex.h:93: while (rdct >= 16) {
+   02F5                     575 00101$:
+   02F5 3Ar00r00      [13]  576 	ld	a,(#_rdct + 0)
+   02F8 D6 10         [ 7]  577 	sub	a, #0x10
+   02FA 38 0C         [12]  578 	jr	C,00103$
+                            579 ;engine/../engine/mapmods/map_renderer_complex.h:94: add_tile (); rdct -= 16;
+   02FC CDr93r02      [17]  580 	call	_add_tile
+   02FF 21r00r00      [10]  581 	ld	hl,#_rdct
+   0302 7E            [ 7]  582 	ld	a,(hl)
+   0303 C6 F0         [ 7]  583 	add	a,#0xF0
+   0305 77            [ 7]  584 	ld	(hl),a
+   0306 18 ED         [12]  585 	jr	00101$
+   0308                     586 00103$:
+                            587 ;engine/../engine/mapmods/map_renderer_complex.h:95: } add_tile ();
+   0308 CDr93r02      [17]  588 	call	_add_tile
+   030B 18 C2         [12]  589 	jr	00104$
+   030D                     590 00106$:
+                            591 ;engine/../engine/mapmods/map_renderer_complex.h:140: if (c_decos) {
+   030D 3Ar00r00      [13]  592 	ld	a,(#_c_decos + 0)
+   0310 B7            [ 4]  593 	or	a, a
+   0311 28 5B         [12]  594 	jr	Z,00117$
+                            595 ;engine/../engine/mapmods/map_renderer_complex.h:162: while (rda = *gp_gen ++) {
+   0313                     596 00113$:
+   0313 1A            [ 7]  597 	ld	a,(de)
+   0314 57            [ 4]  598 	ld	d,a
+   0315 ED 43r00r00   [20]  599 	ld	(_gp_gen),bc
+   0319 21r00r00      [10]  600 	ld	hl,#_rda + 0
+   031C 72            [ 7]  601 	ld	(hl), d
+   031D 7A            [ 4]  602 	ld	a,d
+   031E B7            [ 4]  603 	or	a, a
+   031F 28 4D         [12]  604 	jr	Z,00117$
+                            605 ;engine/../engine/mapmods/map_renderer_complex.h:163: if (rda & 0x80) {
+   0321 21r00r00      [10]  606 	ld	hl,#_rda+0
+   0324 CB 7E         [12]  607 	bit	7, (hl)
+   0326 28 0F         [12]  608 	jr	Z,00108$
+                            609 ;engine/../engine/mapmods/map_renderer_complex.h:164: rda &= 0x7F;
+   0328 3Ar00r00      [13]  610 	ld	a,(#_rda + 0)
+   032B CB BF         [ 8]  611 	res	7, a
+   032D 32r00r00      [13]  612 	ld	(#_rda + 0),a
+                            613 ;engine/../engine/mapmods/map_renderer_complex.h:165: rdct = 1;
+   0330 21r00r00      [10]  614 	ld	hl,#_rdct + 0
+   0333 36 01         [10]  615 	ld	(hl), #0x01
+   0335 18 11         [12]  616 	jr	00110$
+   0337                     617 00108$:
+                            618 ;engine/../engine/mapmods/map_renderer_complex.h:167: rdct = *gp_gen ++;
+   0337 2Ar00r00      [16]  619 	ld	hl,(_gp_gen)
+   033A 7E            [ 7]  620 	ld	a,(hl)
+   033B 32r00r00      [13]  621 	ld	(#_rdct + 0),a
+   033E 21r00r00      [10]  622 	ld	hl, #_gp_gen+0
+   0341 34            [11]  623 	inc	(hl)
+   0342 20 04         [12]  624 	jr	NZ,00196$
+   0344 21r01r00      [10]  625 	ld	hl, #_gp_gen+1
+   0347 34            [11]  626 	inc	(hl)
+   0348                     627 00196$:
+                            628 ;engine/../engine/mapmods/map_renderer_complex.h:169: while (rdct --) {
+   0348                     629 00110$:
+   0348 3Ar00r00      [13]  630 	ld	a,(#_rdct + 0)
+   034B DD 77 FF      [19]  631 	ld	-1 (ix),a
+   034E 21r00r00      [10]  632 	ld	hl, #_rdct+0
+   0351 35            [11]  633 	dec	(hl)
+                            634 ;engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
+   0352 ED 5Br00r00   [20]  635 	ld	de,(_gp_gen)
+   0356 ED 4Br00r00   [20]  636 	ld	bc,(_gp_gen)
+   035A 03            [ 6]  637 	inc	bc
+                            638 ;engine/../engine/mapmods/map_renderer_complex.h:169: while (rdct --) {
+   035B DD 7E FF      [19]  639 	ld	a,-1 (ix)
+   035E B7            [ 4]  640 	or	a, a
+   035F 28 B2         [12]  641 	jr	Z,00113$
+                            642 ;engine/../engine/mapmods/map_renderer_complex.h:170: rdm = *gp_gen ++;
+   0361 1A            [ 7]  643 	ld	a,(de)
+   0362 32r00r00      [13]  644 	ld	(#_rdm + 0),a
+   0365 ED 43r00r00   [20]  645 	ld	(_gp_gen),bc
+                            646 ;engine/../engine/mapmods/map_renderer_complex.h:171: add_tile ();
+   0369 CDr93r02      [17]  647 	call	_add_tile
+   036C 18 DA         [12]  648 	jr	00110$
+   036E                     649 00117$:
+                            650 ;engine/../engine/mapmods/map_renderer_complex.h:198: _x = 0; _y = TOP_ADJUST; gp_ram = map_buff;
+   036E 21r00r00      [10]  651 	ld	hl,#__x + 0
+   0371 36 00         [10]  652 	ld	(hl), #0x00
+   0373 21r00r00      [10]  653 	ld	hl,#__y + 0
+   0376 36 01         [10]  654 	ld	(hl), #0x01
+   0378 11r00r00      [10]  655 	ld	de,#_map_buff+0
+   037B ED 53r00r00   [20]  656 	ld	(_gp_ram),de
+                            657 ;engine/../engine/mapmods/map_renderer_complex.h:199: for (rdm = 0; rdm < 192; rdm ++) {
+   037F 21r00r00      [10]  658 	ld	hl,#_rdm + 0
+   0382 36 00         [10]  659 	ld	(hl), #0x00
+   0384                     660 00127$:
+                            661 ;engine/../engine/mapmods/map_renderer_complex.h:200: rdt = *gp_ram ++;
+   0384 2Ar00r00      [16]  662 	ld	hl,(_gp_ram)
+   0387 7E            [ 7]  663 	ld	a,(hl)
+   0388 32r00r00      [13]  664 	ld	(#_rdt + 0),a
+   038B 21r00r00      [10]  665 	ld	hl, #_gp_ram+0
+   038E 34            [11]  666 	inc	(hl)
+   038F 20 04         [12]  667 	jr	NZ,00197$
+   0391 21r01r00      [10]  668 	ld	hl, #_gp_ram+1
+   0394 34            [11]  669 	inc	(hl)
+   0395                     670 00197$:
+                            671 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:43: if (rdt >= CHAC_CHAC_DETECT_TILE && rdt <= CHAC_CHAC_DETECT_TILE + CHAC_CHAC_DETECT_TILES-1) {
+   0395 3Ar00r00      [13]  672 	ld	a,(#_rdt + 0)
+   0398 D6 18         [ 7]  673 	sub	a, #0x18
+   039A 38 1D         [12]  674 	jr	C,00119$
+   039C 3E 1A         [ 7]  675 	ld	a,#0x1A
+   039E FD 21r00r00   [14]  676 	ld	iy,#_rdt
+   03A2 FD 96 00      [19]  677 	sub	a, 0 (iy)
+   03A5 38 12         [12]  678 	jr	C,00119$
+                            679 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:44: chac_chacs_add ();
+   03A7 D5            [11]  680 	push	de
+   03A8 CDr00r00      [17]  681 	call	_chac_chacs_add
+   03AB D1            [10]  682 	pop	de
+                            683 ;engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:46: rdt = map_buff [rdm] = 0;
+   03AC 2Ar00r00      [16]  684 	ld	hl,(_rdm)
+   03AF 26 00         [ 7]  685 	ld	h,#0x00
+   03B1 19            [11]  686 	add	hl,de
+   03B2 36 00         [10]  687 	ld	(hl),#0x00
+   03B4 21r00r00      [10]  688 	ld	hl,#_rdt + 0
+   03B7 36 00         [10]  689 	ld	(hl), #0x00
+   03B9                     690 00119$:
+                            691 ;engine/../engine/mapmods/map_renderer_complex.h:213: DISABLE_INTERRUPTS;
+   03B9 F3            [ 4]  692 	di 
+                            693 ;engine/../engine/mapmods/map_renderer_complex.h:220: _t = rdt; draw_tile ();
+   03BA 3Ar00r00      [13]  694 	ld	a,(#_rdt + 0)
+   03BD 32r00r00      [13]  695 	ld	(#__t + 0),a
+   03C0 D5            [11]  696 	push	de
+   03C1 CDr02r01      [17]  697 	call	_draw_tile
+   03C4 D1            [10]  698 	pop	de
+                            699 ;engine/../engine/mapmods/map_renderer_complex.h:221: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
+   03C5 3Ar00r00      [13]  700 	ld	a,(#__x + 0)
+   03C8 C6 02         [ 7]  701 	add	a, #0x02
+   03CA E6 1F         [ 7]  702 	and	a, #0x1F
+   03CC 32r00r00      [13]  703 	ld	(#__x + 0),a
+   03CF B7            [ 4]  704 	or	a, a
+   03D0 20 08         [12]  705 	jr	NZ,00122$
+   03D2 21r00r00      [10]  706 	ld	hl, #__y+0
+   03D5 34            [11]  707 	inc	(hl)
+   03D6 21r00r00      [10]  708 	ld	hl, #__y+0
+   03D9 34            [11]  709 	inc	(hl)
+   03DA                     710 00122$:
+                            711 ;engine/../engine/mapmods/map_renderer_complex.h:222: ENABLE_INTERRUPTS;
+   03DA FB            [ 4]  712 	ei 
+                            713 ;engine/../engine/mapmods/map_renderer_complex.h:199: for (rdm = 0; rdm < 192; rdm ++) {
+   03DB 21r00r00      [10]  714 	ld	hl, #_rdm+0
+   03DE 34            [11]  715 	inc	(hl)
+   03DF 3Ar00r00      [13]  716 	ld	a,(#_rdm + 0)
+   03E2 D6 C0         [ 7]  717 	sub	a, #0xC0
+   03E4 38 9E         [12]  718 	jr	C,00127$
+                            719 ;engine/../engine/mapmods/map_renderer_complex.h:237: gpit = max_chac_chacs; while (gpit --) {
+   03E6 3Ar00r00      [13]  720 	ld	a,(#_max_chac_chacs + 0)
+   03E9 32r00r00      [13]  721 	ld	(#_gpit + 0),a
+   03EC                     722 00124$:
+   03EC 21r00r00      [10]  723 	ld	hl,#_gpit + 0
+   03EF 5E            [ 7]  724 	ld	e, (hl)
+   03F0 21r00r00      [10]  725 	ld	hl, #_gpit+0
+   03F3 35            [11]  726 	dec	(hl)
+   03F4 7B            [ 4]  727 	ld	a,e
+   03F5 B7            [ 4]  728 	or	a, a
+   03F6 28 54         [12]  729 	jr	Z,00126$
+                            730 ;engine/../engine/mapmods/map_renderer_complex.h:238: _x = (chac_chacs_yx [gpit] & 0xf) << 1;
+   03F8 FD 21r00r00   [14]  731 	ld	iy,#_chac_chacs_yx
+   03FC ED 5Br00r00   [20]  732 	ld	de,(_gpit)
+   0400 16 00         [ 7]  733 	ld	d,#0x00
+   0402 FD 19         [15]  734 	add	iy, de
+   0404 FD 6E 00      [19]  735 	ld	l, 0 (iy)
+   0407 7D            [ 4]  736 	ld	a,l
+   0408 E6 0F         [ 7]  737 	and	a, #0x0F
+   040A 87            [ 4]  738 	add	a, a
+   040B FD 21r00r00   [14]  739 	ld	iy,#__x
+   040F FD 77 00      [19]  740 	ld	0 (iy),a
+                            741 ;engine/../engine/mapmods/map_renderer_complex.h:239: _y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
+   0412 7D            [ 4]  742 	ld	a,l
+   0413 E6 F0         [ 7]  743 	and	a, #0xF0
+   0415 0F            [ 4]  744 	rrca
+   0416 0F            [ 4]  745 	rrca
+   0417 0F            [ 4]  746 	rrca
+   0418 E6 1F         [ 7]  747 	and	a,#0x1F
+   041A 21r00r00      [10]  748 	ld	hl,#__y
+   041D 3C            [ 4]  749 	inc	a
+   041E 77            [ 7]  750 	ld	(hl),a
+                            751 ;engine/../engine/mapmods/map_renderer_complex.h:240: _t = chac_chacs_t1 [0];
+   041F 3Ar00r00      [13]  752 	ld	a,(#_chac_chacs_t1 + 0)
+   0422 32r00r00      [13]  753 	ld	(#__t + 0),a
+                            754 ;engine/../engine/mapmods/map_renderer_complex.h:241: draw_tile ();
+   0425 CDr02r01      [17]  755 	call	_draw_tile
+                            756 ;engine/../engine/mapmods/map_renderer_complex.h:242: _t = chac_chacs_t2 [0];
+   0428 3Ar00r00      [13]  757 	ld	a,(#_chac_chacs_t2 + 0)
+   042B 32r00r00      [13]  758 	ld	(#__t + 0),a
+                            759 ;engine/../engine/mapmods/map_renderer_complex.h:243: _y += 2;
+   042E 21r00r00      [10]  760 	ld	hl, #__y+0
+   0431 34            [11]  761 	inc	(hl)
+   0432 21r00r00      [10]  762 	ld	hl, #__y+0
+   0435 34            [11]  763 	inc	(hl)
+                            764 ;engine/../engine/mapmods/map_renderer_complex.h:244: draw_tile ();
+   0436 CDr02r01      [17]  765 	call	_draw_tile
+                            766 ;engine/../engine/mapmods/map_renderer_complex.h:245: _t = chac_chacs_t3 [0];
+   0439 3Ar00r00      [13]  767 	ld	a,(#_chac_chacs_t3 + 0)
+   043C 32r00r00      [13]  768 	ld	(#__t + 0),a
+                            769 ;engine/../engine/mapmods/map_renderer_complex.h:246: _y += 2;
+   043F 21r00r00      [10]  770 	ld	hl, #__y+0
+   0442 34            [11]  771 	inc	(hl)
+   0443 21r00r00      [10]  772 	ld	hl, #__y+0
+   0446 34            [11]  773 	inc	(hl)
+                            774 ;engine/../engine/mapmods/map_renderer_complex.h:247: draw_tile ();
+   0447 CDr02r01      [17]  775 	call	_draw_tile
+   044A 18 A0         [12]  776 	jr	00124$
+   044C                     777 00126$:
+                            778 ;engine/../engine/mapmods/map_renderer_complex.h:251: ENABLE_INTERRUPTS;
+   044C FB            [ 4]  779 	ei 
+   044D 33            [ 6]  780 	inc	sp
+   044E DD E1         [14]  781 	pop	ix
+   0450 C9            [10]  782 	ret
+                            783 ;engine/printer.c:116: void pr_str (const unsigned char *s) {
+                            784 ;	---------------------------------
+                            785 ; Function pr_str
+                            786 ; ---------------------------------
+   0451                     787 _pr_str::
+                            788 ;engine/printer.c:117: SG_setNextTileatXY (_x, _y);
+   0451 3Ar00r00      [13]  789 	ld	a,(__y)
+   0454 F5            [11]  790 	push	af
+   0455 33            [ 6]  791 	inc	sp
+   0456 3Ar00r00      [13]  792 	ld	a,(__x)
+   0459 F5            [11]  793 	push	af
+   045A 33            [ 6]  794 	inc	sp
+   045B CDr00r00      [17]  795 	call	_SG_setNextTileatXY
+   045E F1            [10]  796 	pop	af
+                            797 ;engine/printer.c:118: while (gpit = *s++) {
+   045F C1            [10]  798 	pop	bc
+   0460 D1            [10]  799 	pop	de
+   0461 D5            [11]  800 	push	de
+   0462 C5            [11]  801 	push	bc
+   0463                     802 00104$:
+   0463 1A            [ 7]  803 	ld	a,(de)
+   0464 13            [ 6]  804 	inc	de
+                            805 ;engine/printer.c:119: if (gpit == '%') {
+   0465 32r00r00      [13]  806 	ld	(#_gpit + 0),a
+   0468 B7            [ 4]  807 	or	a,a
+   0469 C8            [11]  808 	ret	Z
+   046A D6 25         [ 7]  809 	sub	a, #0x25
+   046C 20 16         [12]  810 	jr	NZ,00102$
+                            811 ;engine/printer.c:120: ++ _y; SG_setNextTileatXY (_x, _y);
+   046E 21r00r00      [10]  812 	ld	hl, #__y+0
+   0471 34            [11]  813 	inc	(hl)
+   0472 D5            [11]  814 	push	de
+   0473 3Ar00r00      [13]  815 	ld	a,(__y)
+   0476 F5            [11]  816 	push	af
+   0477 33            [ 6]  817 	inc	sp
+   0478 3Ar00r00      [13]  818 	ld	a,(__x)
+   047B F5            [11]  819 	push	af
+   047C 33            [ 6]  820 	inc	sp
+   047D CDr00r00      [17]  821 	call	_SG_setNextTileatXY
+   0480 F1            [10]  822 	pop	af
+   0481 D1            [10]  823 	pop	de
+   0482 18 DF         [12]  824 	jr	00104$
+   0484                     825 00102$:
+                            826 ;engine/printer.c:122: else SG_setTile (gpit - 32); 
+   0484 3Ar00r00      [13]  827 	ld	a,(#_gpit + 0)
+   0487 C6 E0         [ 7]  828 	add	a,#0xE0
+   0489 D5            [11]  829 	push	de
+   048A F5            [11]  830 	push	af
+   048B 33            [ 6]  831 	inc	sp
+   048C CDr00r00      [17]  832 	call	_SG_setTile
+   048F 33            [ 6]  833 	inc	sp
+   0490 D1            [10]  834 	pop	de
+   0491 18 D0         [12]  835 	jr	00104$
+                            836 	.area _CODE
+                            837 	.area _INITIALIZER
+                            838 	.area _CABS (ABS)

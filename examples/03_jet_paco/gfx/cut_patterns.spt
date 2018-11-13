@@ -1,0 +1,94 @@
+# Script file for mkts_om.exe v>=0.4
+
+# Cut tileset
+
+mapfile ../dev/assets/tileset.c
+headerfile ../dev/assets/tileset.h
+
+reset patterns
+open font.png
+charset 0, 0, 32, 2
+
+# Not needed but not harmful
+set patterns 64
+
+# Metatiles level 0
+open ts0.png
+reset tmaps
+metatileset 0, 0, 16, 1, 2, 2
+write tmaps ts0_tmaps
+
+# Metatiles level 1
+open ts1.png
+reset tmaps
+metatileset 0, 0, 16, 1, 2, 2
+write tmaps ts1_tmaps
+
+# Metatiles level 2
+open ts2.png
+reset tmaps
+metatileset 0, 0, 16, 2, 2, 2, 19
+write tmaps ts2_tmaps
+
+# Fixed screens
+open title.png
+nametablerle
+write nametablerle title_rle
+
+open title_paco.png
+cutout 0, 0, 31, 4
+write cutout title_cutout_paco
+
+open title_puri.png
+cutout 0, 0, 31, 4
+write cutout title_cutout_puri
+
+open cuts.png
+nametablerle
+write nametablerle cuts_rle
+
+open frame.png
+nametablerle
+write nametablerle frame_rle
+
+stats
+
+write patterns tsALL_patterns_c tsALL_colours_c packed
+
+# Cut spriteset
+
+mapfile ../dev/assets/spriteset.c
+headerfile ../dev/assets/spriteset.h
+open ss.png
+
+reset patterns
+reset sprite_pattern_index
+
+# Main characters 32 * 4 patterns (16 two-layer): 128
+reset metasprites
+spriteset 0, 0, 16, 1, 1, 1, 0, 0
+write metasprites ss_pl
+
+# Enems 0 12 * 4 patterns (6 two-layer): 48
+reset metasprites
+spriteset 0, 2, 6, 1, 1, 1, 0, 0
+write metasprites ss_en0
+
+# Enems 1 12 * 4 patterns (6 two-layer): 48
+reset metasprites
+spriteset 16, 2, 6, 1, 1, 1, 0, 0
+write metasprites ss_en1
+
+# Platform 4 patterns
+reset metasprites
+spriteset 12, 2, 1, 1, 1, 1, 0, 0
+write metasprites ss_plat
+
+# Main objects 3 * 4 patterns (3 one layer): 12
+reset metasprites
+spriteset 0, 4, 3, 1, 1, 1, 0, 0
+write metasprites ss_it
+
+stats
+
+write patterns ssALL_patterns_c packed

@@ -1,0 +1,54 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  0 _WriteAToVRAMAndLoop                                           00D1 R
+  1 _aPLib_LWM                                                     0002 GR
+  1 _aPLib_R0                                                      0003 GR
+  1 _aPLib_bits                                                    0000 GR
+  0 _aPLib_depack_VRAM                                             0000 GR
+  0 _minus1                                                        0011 R
+  0 _minus2                                                        002B R
+  0 _minus3                                                        0129 R
+  0 _plus5                                                         0077 R
+  0 _plus6                                                         007E R
+  0 _plus7                                                         0086 R
+  0 _plus8                                                         00F0 R
+  0 _plus9                                                         0114 R
+  0 _vram_ap_finishup                                              0090 R
+  0 _vram_ap_not_LWM                                               0062 R
+  0 _vram_ap_not_zero_gamma                                        0061 R
+  0 _vram_apbranch1                                                0097 R
+  0 _vram_apbranch2                                                003E R
+  0 _vram_apbranch3                                                00E6 R
+  0 _vram_apbranch4                                                00D9 R
+  0 _vram_aploop                                                   00AB R
+  0 ap_VRAMToDE_write                                              0009 R
+  0 ap_VRAMToHL_read                                               0016 R
+  0 ap_VRAM_ldi_src_to_dest                                        001E R
+  0 ap_VRAM_ldir_dest_to_dest                                      002A R
+  0 ap_getbit                                                      0109 R
+  0 ap_getbitbc                                                    011C R
+  0 ap_getgamma                                                    0126 R
+  0 vram_depack                                                    00A0 R
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  133   flags    0
+   1 _DATA                                      size    5   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+

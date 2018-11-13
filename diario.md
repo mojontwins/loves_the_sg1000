@@ -577,3 +577,32 @@ Por tanto, he de:
 2.- Al entrar en la pantalla 0, dibujar el _evil computer_.
 
 3.- Al entrar en la pantalla 0, ver si `bombs_set` vale 1 para así dibujar toda la mandanga.
+
+20181113
+========
+
+Joer, no escribo aquí ni pa trás. Esperando músicas he portado Jet Paco, con Jet Puri opcional. Ahora quiero darle un poco de age a la última fase, poniendo chac chacs customizados.  Para ver como integrar esto de forma chula (para que no haya que tocar core) voy a mirar como estaban hechos los chac chacs.
+
+En `engine/tile_chac_chac.c` se colocan con `chac_chacs_add`, que los añade a la estructura de datos pertinente. Luego hay un updater que se llama `chac_chacs_do`, que es quien va ciclando los estados y manejando la cola de actualización.
+
+En esta función, cuando hay que consumir una actualización de la cola. Para eso se lee el estado (ciclando de 0 a 5, o sea, 6 fases), y ocurren dos cosas:
+
+- Si el estado es el 3, sonido de golpe.
+- Se pinta el gráfico tal y como se especifica en `chac_chacs_t1` a `t3`.
+
+Los tiempos de cada fase se controlan con `chac_chacs_times`. Todo esto se define en `engine/precalcs.h`. Lo que puedo hacer es que si se define `USE_CUSTOM_CHAC_CHAC` se ignoren estos arreglos y se lean de `my/chac_chacs_config.h`. Además, parametrizaría el estado en el que se da el golpe.
+
+Vamos al lolo.
+
+Nota: Ahora los tiempos son 1/2/3 * 48. Para que esto sea configurable le tengo que dar una werters original. Quizá simplemente con otro array que esté predefinido.
+
+TODO: Pasar las mejoras de los chac chacs a MK1_NES:
+	- Mover `precalcs.h` a `engine`, añadir inclusión de `my/chac_chacs_config.h` via `USE_CUSTOM_CHAC_CHAC`.
+	- Añadir `my/chac_chacs_config.h` 
+	- Modificaciones en `engine/tile_chac_chac.c` (constantes)
+	- Modificadores de tiempo. 
+
+~~
+
+¡Sólo quedaría añadir unos propellers a la fase B y listo!
+
