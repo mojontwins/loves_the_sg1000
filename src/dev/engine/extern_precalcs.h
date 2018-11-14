@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // LUT exports
@@ -22,6 +22,7 @@
 	extern const unsigned char chac_chacs_t1 [];
 	extern const unsigned char chac_chacs_t2 [];
 	extern const unsigned char chac_chacs_t3 [];
+	extern const unsigned char chac_chacs_initial_times [];
 #endif
 
 extern const unsigned char bits [];

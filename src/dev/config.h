@@ -265,8 +265,6 @@
 // Enemy types and definitions
 // ---------------------------
 
-//#define ENEMS_IN_CHRROM					// Enems are stored somewhere in CHR-ROM
-
 #define ENEMS_LIFE_GAUGE				1	// Amount of shots/punches/kicks needed to kill enemies.
 //#define NEEDS_LIFE_GAUGE_LOGIC			// This is activated automaticly when needed, but you can 
 											// do it yourself if you need it to do customs...
@@ -339,7 +337,7 @@
 
 // Chac chacs
 
-#define ENABLE_CHAC_CHAC
+//#define ENABLE_CHAC_CHAC
 #define CHAC_CHAC_BASE_TILE				32
 #define CHAC_CHAC_IDLE_2				16
 #define CHAC_CHAC_IDLE_3				1
@@ -350,6 +348,8 @@
 #define MAX_CHAC_CHACKS_QUEUED			16 // Make the closest power of 2 >= (MAX_CHAC_CHACS*4)
 #define CHAC_CHAC_DETECT_TILE			39
 #define CHAC_CHACS_CLEAR				// You are placing chac chacks from map but need the path to be clear
+
+//#define USE_CUSTOM_CHAC_CHAC			// Implement your own chac chac (see notes)
 
 // Monococos
 

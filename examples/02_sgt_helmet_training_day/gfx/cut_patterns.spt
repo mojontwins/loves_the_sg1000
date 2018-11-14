@@ -9,6 +9,8 @@ reset patterns
 open font.png
 charset 0, 0, 32, 2
 
+write patterns tsFONT_patterns_c tsFONT_colours_c packed
+
 # Not needed but not harmful
 set patterns 64
 
@@ -45,7 +47,7 @@ write nametablerle frame_rle
 
 stats
 
-write patterns tsALL_patterns_c tsALL_colours_c packed
+write patterns tsALL_patterns_c tsALL_colours_c r:64:* packed
 
 # Cut spriteset
 

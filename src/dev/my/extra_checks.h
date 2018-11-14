@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Add here your code.  This gets run right before checking
@@ -10,3 +10,4 @@
 
 // Whenever you want to WIN the game just set win_level = 1
 // (Don't forget to define WIN_LEVEL_CUSTOM in config.h)
+

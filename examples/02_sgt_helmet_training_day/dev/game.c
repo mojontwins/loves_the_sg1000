@@ -137,11 +137,12 @@ void main(void) {
 	#endif
 
 	// Unpack font
-	unpack_bg_patterns (tsALL_patterns_c, tsALL_colours_c, 0, 7);
+	unpack_bg_patterns (tsFONT_patterns_c, tsFONT_colours_c, 0, 7);
 
 	credits ();
 
-	// Unpack sprites
+	// Unpack everything else
+	unpack_bg_patterns (tsALL_patterns_c, tsALL_colours_c, 64*8, 7);
 	aPLib_depack_VRAM (SGT_BASE, ssALL_patterns_c);
 	
 	while (1) {	

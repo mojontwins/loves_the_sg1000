@@ -54,7 +54,7 @@ const unsigned char * const * const l_spr_enems [] =
 												{ map_0_decos, map_1_decos };
 	#else
 		// 0 = no decos in this level's map, 1 = decos.
-		const unsigned char l_decos [] = 		{ 0, 0, 1 };												
+		const unsigned char l_decos [] = 		{ 0, 1, 1 };												
 	#endif
 #endif
 

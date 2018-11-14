@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Map renderer complex:
@@ -211,12 +211,6 @@ void draw_scr (void) {
 		#include "../../engine/mapmods/map_detectors.h"
 
 		DISABLE_INTERRUPTS;
-
-		#if defined (ENABLE_BREAKABLE) && !defined (BREAKABLES_SOFT)
-			//brk_buff [rdm] = 1;
-			gp_addr = 
-		#endif
-
 		_t = rdt; draw_tile ();
 		_x = (_x + 2) & 0x1f; if (!_x) _y += 2;
 		ENABLE_INTERRUPTS;
@@ -235,12 +229,14 @@ void draw_scr (void) {
 
 	#if defined (ENABLE_TILE_CHAC_CHAC) && defined (CHAC_CHACS_CLEAR)
 		gpit = max_chac_chacs; while (gpit --) {
-			_t = CHAC_CHAC_BASE_TILE + 6;
 			_x = (chac_chacs_yx [gpit] & 0xf) << 1;
 			_y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
+			_t = chac_chacs_t1 [0];
 			draw_tile ();
+			_t = chac_chacs_t2 [0];
 			_y += 2;
 			draw_tile ();
+			_t = chac_chacs_t3 [0];
 			_y += 2;
 			draw_tile ();
 		}

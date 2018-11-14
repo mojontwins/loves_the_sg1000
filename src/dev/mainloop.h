@@ -1,7 +1,11 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Main loop & helpers
+
+void player_frame_selector (void) {
+	#include "my/player_frame_selector.h"
+}
 
 void game_init (void) {
 
@@ -238,6 +242,8 @@ void prepare_scr (void) {
 	#endif	
 
 	player_move ();
+	player_frame_selector ();
+
 	enems_move ();
 
 	if (hrt) hotspots_paint ();
@@ -385,6 +391,7 @@ void game_loop (void) {
 
 			if (!warp_to_level) {
 				player_move ();
+				player_frame_selector ();
 			}
 
 			// Timer

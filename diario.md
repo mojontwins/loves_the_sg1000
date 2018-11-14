@@ -600,6 +600,7 @@ TODO: Pasar las mejoras de los chac chacs a MK1_NES:
 	- Mover `precalcs.h` a `engine`, añadir inclusión de `my/chac_chacs_config.h` via `USE_CUSTOM_CHAC_CHAC`.
 	- Añadir `my/chac_chacs_config.h` 
 	- Modificaciones en `engine/tile_chac_chac.c` (constantes)
+	- Cambio en `map_renderer_complex.h`.
 	- Modificadores de tiempo. 
 
 ~~

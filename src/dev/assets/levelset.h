@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Initial screen & position, per level
@@ -47,10 +47,6 @@ const unsigned char * const * const l_spr_enems [] =
 	const unsigned char * const * const l_map [] =	
 												{ map_0, map_1, map_2 };
 #endif
-#if defined (MAP_FORMAT_RLE53_CHRROM) || defined (MAP_FORMAT_RLE44_CHRROM)
-	const unsigned char l_map_chr_rom_bank [] = { MAP_00_CHRROM, MAP_01_CHRROM, MAP_02_CHRROM };
-	const unsigned int * const l_map [] = 		{ map_00_scr_offsets, map_01_scr_offsets, map_02_scr_offsets };
-#endif
 
 #ifdef MAP_WITH_DECORATIONS
 	#if defined (MAP_FORMAT_PACKED) || defined (MAP_FORMAT_RLE16) 
@@ -69,28 +65,8 @@ const unsigned char * const * const l_spr_enems [] =
 
 // Objects
 
-#ifdef ENEMS_IN_CHRROM
-	// change 'base_address' for the actual base address in CHR-ROM
-
-	const unsigned char l_enems_chr_rombank [] = 	{ 2, 2 };
-	const unsigned int l_enems [] = 				{ 
-														base_address + ENEMS0_H_BIN_OFFS,
-														base_address + ENEMS1_H_BIN_OFFS,
-													};
-	const unsigned int l_hotspots [] = 				{ 
-	 													base_address + ENEMS0_H_BIN_OFFS + HOTSPOTS_OFFSET_4,
-														base_address + ENEMS1_H_BIN_OFFS + HOTSPOTS_OFFSET_1,
-													};
-#else
 const unsigned char * const l_enems [] = 		{ enems_0, enems_1, enems_2 };
 const unsigned char * const l_hotspots [] = 	{ hotspots_0, hotspots_1, hotspots_2 };
-#endif
-
-// CHR-ROM bank, for CNROM
-
-#ifdef CNROM
-	const unsigned char l_chr_rom_bank [] = 	{ 0, 1 };
-#endif
 
 // Interactives
 

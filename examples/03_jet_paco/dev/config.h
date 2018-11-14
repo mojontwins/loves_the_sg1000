@@ -188,13 +188,13 @@
 
 // Propellers
 
-//#define ENABLE_PROPELLERS
+#define ENABLE_PROPELLERS
 #define PROPELLERS_MAX 					4
-#define PROPELLERS_BASE_PATTERN			64	// First of 4 patterns to draw/animate propellers
+#define PROPELLERS_BASE_PATTERN			60	// First of 4 patterns to draw/animate propellers
 #define PROPELLERS_MAX_LENGTH			6	// In tiles; undef for infinite
-#define PROPELLER_TILE					14	// Tile # in map to detect a propeller
+#define PROPELLER_TILE					16	// Tile # in map to detect a propeller
 #define PROPELLERS_ON_BY_DEFAULT			// Define so propellers are on by default
-#define PROPELLER_FLOATABLE_TILE 		31 	// Metatile index which is floatable (SG1000)
+#define PROPELLER_FLOATABLE_TILE 		17 	// Metatile index which is floatable (SG1000)
 
 // Killing tiles shine, beware!
 

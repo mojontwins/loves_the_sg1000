@@ -26,7 +26,8 @@ const unsigned char behs0 [] = {
 };
 
 const unsigned char behs1 [] = {
-	0, 1, 8, 8, 8, 8, 0, 0, 0, 0, 0, 4, 4, 8, 8, 8
+	0, 1, 8, 8, 8, 8, 0, 0, 0, 0, 0, 4, 4, 8, 8, 8,
+	8,64
 };
 
 const unsigned char behs2 [] = {

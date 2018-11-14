@@ -3,6 +3,7 @@
 
 // Simple propellers
 
+#include "../lib/SGlib.h"
 #include "../definitions.h"
 #include "../config.h"
 #include "../autodefs.h"
@@ -24,7 +25,7 @@
 		rdb = half_life << 1;
 		gpit = prp_idx; while (gpit --) {
 			rda = prp_yx [gpit];
-			gp_addr = 0x2000 + (
+			gp_addr = PNTADDRESS + (
 				((rda & 0xf) << 1) | 
 				((((rda >> 3) & 0xfe) + TOP_ADJUST) << 5)
 			);

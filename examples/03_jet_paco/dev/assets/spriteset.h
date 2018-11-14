@@ -39,5 +39,5 @@ extern const unsigned char ss_it_01 [];
 extern const unsigned char ss_it_02 [];
 
 extern const unsigned char ssALL_patterns_c [];
-#define SSALL_PATTERNS_C_SIZE 1318
+#define SSALL_PATTERNS_C_SIZE 1087
 

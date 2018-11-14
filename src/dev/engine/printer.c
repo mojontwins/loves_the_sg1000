@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // printer.c
@@ -9,8 +9,10 @@
 #include "../definitions.h"
 #include "../config.h"
 #include "../autodefs.h"
+#include "../my/extra_defines.h"
 
 #include "../ram/extern_globals.h"
+#include "../engine/extern_precalcs.h"
 
 #include "../utils/rand.h"
 #include "../utils/memfill.h"

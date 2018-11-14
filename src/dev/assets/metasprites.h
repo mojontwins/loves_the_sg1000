@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // spritesets
@@ -18,6 +18,38 @@ const unsigned char * const spr_player [] = {
 	ss_pl_07, 										// Airborne (offset 5)
 	0, 0,											// I like powers of two
 	
+};
+*/
+
+/*
+// Top-down very basic character (2 frames per facing)
+const unsigned char * const spr_player [] = {
+	ss_pl_00, ss_pl_01, 							// Right
+	ss_pl_02, ss_pl_03,								// Left
+	ss_pl_04, ss_pl_05,								// Up
+	ss_pl_06, ss_pl_07								// Down
+};
+*/
+
+// Side-view very basic character (4 frames per facing)
+// For this game, this contains two characters with different
+// walk cycles (see my/player_frame_selector.h)
+const unsigned char * const spr_player [] = {
+	// Jet Paco
+	// Facing right (offset 0)
+	ss_pl_00, ss_pl_01, ss_pl_02, ss_pl_01,			// Walk cycle. offset 1 is also standing
+	ss_pl_03,										// Airborne
+	// Facing left (offset 5)
+	ss_pl_04, ss_pl_05, ss_pl_06, ss_pl_05,			// Walk cycle. offset 1 is also standing
+	ss_pl_07,										// Airborne
+
+	// Jet Puri
+	// Facing right (offset 10)
+	ss_pl_08, ss_pl_09, ss_pl_0a, 0,				// Walk cycle. offset 1 is also standing
+	ss_pl_0b,										// Airborne
+	// Facing left (offset 15)
+	ss_pl_0c, ss_pl_0d, ss_pl_0e, 0,				// Walk cycle. offset 1 is also standing
+	ss_pl_0f										// Airborne
 };
 
 // Enemy metasprites

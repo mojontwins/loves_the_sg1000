@@ -212,11 +212,6 @@ void draw_scr (void) {
 
 		DISABLE_INTERRUPTS;
 
-		#if defined (ENABLE_BREAKABLE) && !defined (BREAKABLES_SOFT)
-			//brk_buff [rdm] = 1;
-			gp_addr = 
-		#endif
-
 		_t = rdt; draw_tile ();
 		_x = (_x + 2) & 0x1f; if (!_x) _y += 2;
 		ENABLE_INTERRUPTS;
