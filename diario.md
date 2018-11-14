@@ -607,3 +607,22 @@ TODO: Pasar las mejoras de los chac chacs a MK1_NES:
 
 ¡Sólo quedaría añadir unos propellers a la fase B y listo!
 
+~~
+
+Me gustaría hacer que el movimiento fuera diferente según paco o puri y se me ocurre una cosa: hacer que el valor de las constantes sean variables custom, y asignar valores a esas variables si se trata de paco o puri.
+
+Por ahora tengo:
+
+```
+	                       Paco  Puri
+	PLAYER_VY_FALLING_MAX   64     48
+	PLAYER_G                4      8
+	PLAYER_AY_JETPAC        12     12
+	PLAYER_VY_JETPAC_MAX    64     64
+	PLAYER_VX_MAX           112    128
+	PLAYER_AX               16     8
+	PLAYER_RX               16     8
+```
+
+AHora me tengo que pirar, pero ya lo apañow.
+
