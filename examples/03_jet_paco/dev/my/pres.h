@@ -80,6 +80,25 @@ void title (void) {
 	PSGSFXPlay (SFX_START, 1); delay (20);
 	
 	bat_out ();
+
+	// Set player values upon choice
+	if (game_puri) {
+		__player_vy_falling_max = 48;
+		__player_g              = 4;
+		__player_ay_jetpac      = 16;
+		__player_vy_jetpac_max  = 72;
+		__player_vx_max         = 128;
+		__player_ax             = 8;
+		__player_rx             = 12;
+	} else {
+		__player_vy_falling_max = 64;
+		__player_g              = 4;
+		__player_ay_jetpac      = 12;
+		__player_vy_jetpac_max  = 64;
+		__player_vx_max         = 112;
+		__player_ax             = 16;
+		__player_rx             = 16;
+	}
 }
 
 void scr_game_over (void) {

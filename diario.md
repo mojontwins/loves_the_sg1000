@@ -616,12 +616,12 @@ Por ahora tengo:
 ```
 	                       Paco  Puri
 	PLAYER_VY_FALLING_MAX   64     48
-	PLAYER_G                4      8
-	PLAYER_AY_JETPAC        12     12
+	PLAYER_G                4      6
+	PLAYER_AY_JETPAC        12     16
 	PLAYER_VY_JETPAC_MAX    64     64
 	PLAYER_VX_MAX           112    128
 	PLAYER_AX               16     8
-	PLAYER_RX               16     8
+	PLAYER_RX               16     12
 ```
 
 AHora me tengo que pirar, pero ya lo apañow.

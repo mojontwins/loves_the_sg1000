@@ -5,9 +5,9 @@
 extern const unsigned char enems_2 [];
 #define MAX_ENEMS_TYPE_1_2 6
 #define MAX_ENEMS_TYPE_2_2 13
-#define MAX_ENEMS_TYPE_3_2 14
+#define MAX_ENEMS_TYPE_3_2 15
 
-#define KILLABLE_ENEMS_2 33
+#define KILLABLE_ENEMS_2 34
 
 extern const unsigned char hotspots_2 [];
 #define MAX_HOTSPOTS_TYPE_0_2	15

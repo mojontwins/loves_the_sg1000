@@ -10,3 +10,13 @@ unsigned char game_puri;			// Will equal CELL_PACO or CELL_PURI.
 
 // This will help animate puri using 3 cycled frames
 unsigned char ol_prx;
+
+// These allow for easy modification of player values:
+
+unsigned char __player_vy_falling_max;
+unsigned char __player_g;
+unsigned char __player_ay_jetpac;
+unsigned char __player_vy_jetpac_max;
+unsigned char __player_vx_max;
+unsigned char __player_ax;
+unsigned char __player_rx;

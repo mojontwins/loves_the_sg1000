@@ -93,7 +93,10 @@
 // -----------------
 
 // Player is 8x16 for collision with BG but can be made taller by this amount. Negative values=shorter
-#define PLAYER_COLLISION_VSTRETCH_BG	-8
+#define PLAYER_COLLISION_VSTRETCH_BG	-4
+
+// Bottom collision. If set, player can bleed a bit into spikes when going down.
+#define PLAYER_SPIKES_BOTTOM_ALLOW		2
 
 // This defines how the player will collide with enemies. 
 // Player is always 8 pixels wide and 16 pixel tall PLUS the value of this variable.
@@ -131,7 +134,7 @@
 	//#define DIE_AND_REENTER				//     ... also, reenter screen on death
 	//#define DIE_AND_REINIT				//     ... or start the level over!
 #define PLAYER_FLICKERS 				100	// If defined, collisions make player flicker for N frames
-//#define WALLS_STOP_ENEMIES				// If defined, enemies react to the scenary
+#define WALLS_STOP_ENEMIES					// If defined, enemies react to the scenary
 
 // Extra special tiles
 // -------------------
@@ -566,28 +569,28 @@
 
 // IV.1. Vertical movement. Only for side-view.
 
-#define PLAYER_VY_FALLING_MAX	48		// Max. velocity when falling
-#define PLAYER_VY_FALLING_MIN	8		// Use for animating if you need
+#define PLAYER_VY_FALLING_MAX	__player_vy_falling_max		// Max. velocity when falling
+#define PLAYER_VY_FALLING_MIN	8							// Use for animating if you need
 #define PLAYER_VY_SINKING		2
-#define PLAYER_G				8		// Gravity
+#define PLAYER_G				__player_g					// Gravity
 
 #define PLAYER_VY_JUMP_INITIAL	64
 #define PLAYER_VY_JUMP_INITIAL_TRAMPOLINE 128
-#define PLAYER_VY_JUMP_MAX		192		// Max. velocity when jumping
-#define PLAYER_AY_JUMP 			12		// Jumpin acceleration 
+#define PLAYER_VY_JUMP_MAX		192							// Max. velocity when jumping
+#define PLAYER_AY_JUMP 			12							// Jumpin acceleration 
 
-#define PLAYER_AY_JETPAC		12		// Jetpac increment
-#define PLAYER_VY_JETPAC_MAX	64		// Max jetpac vertical speed
+#define PLAYER_AY_JETPAC		__player_ay_jetpac			// Jetpac increment
+#define PLAYER_VY_JETPAC_MAX	__player_vy_jetpac_max		// Max jetpac vertical speed
 
-#define PLAYER_AY_SWIM			8		// Swimming acceleration.
-#define PLAYER_VY_SWIM_MAX		64		// Swimming max. speed
+#define PLAYER_AY_SWIM			8							// Swimming acceleration.
+#define PLAYER_VY_SWIM_MAX		64							// Swimming max. speed
 
 #define PLAYER_VY_LADDERS		96
 
 #define PLAYER_AY_FLOAT			16	
 #define PLAYER_VY_FLOAT_MAX		256
 
-#define PLAYER_AY_UNTHRUST 		8 		// Used in the Autojump engine.
+#define PLAYER_AY_UNTHRUST 		8 							// Used in the Autojump engine.
 
 // IV.1.b MK2 style jump (overrides PLAYER_?Y_JUMP_* defined before!)
 // (Used if PLAYER_JUMP_TYPE_MK2 is defined)
@@ -596,15 +599,15 @@
 #define PLAYER_VY_MK2_JUMP_RELEASE	96
 #define PLAYER_VY_MK2_JUMP_A_STEPS 	16
 #define PLAYER_VY_MK2_JUMP_INITIAL_TRAMPOLINE 296
-#define PLAYER_VY_MK2_TRAMPOLINE_A_STEPS 32	// For trampolines
+#define PLAYER_VY_MK2_TRAMPOLINE_A_STEPS 32					// For trampolines
 
 // IV.2. Horizontal (side view) or general (top view) movement.
 
-#define PLAYER_VX_MAX			128		// Max. horizontal speed
+#define PLAYER_VX_MAX			__player_vx_max				// Max. horizontal speed
 #define PLAYER_VX_CONVEYORS 	64
-#define PLAYER_AX				8		// Horizontal acceleration
+#define PLAYER_AX				__player_ax					// Horizontal acceleration
 #define PLAYER_AX_ICE			4
-#define PLAYER_RX				8		// Horizontal friction
+#define PLAYER_RX				__player_rx					// Horizontal friction
 #define PLAYER_RX_ICE			2
 
 #define PLAYER_VX_MIN (PLAYER_AX << 2)
