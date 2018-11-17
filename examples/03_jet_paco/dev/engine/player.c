@@ -360,6 +360,9 @@ void player_move (void) {
 		if (vertical_engine_type == ENGINE_TYPE_JET_PAC) {
 			if (pad0 & PAD_A) {
 				pvy -= PLAYER_AY_JETPAC;
+				#ifdef PLAYER_CAN_FLOAT
+					if (!pfloating)
+				#endif
 				if (pvy < -PLAYER_VY_JETPAC_MAX) pvy = -PLAYER_VY_JETPAC_MAX;
 			}
 		}
