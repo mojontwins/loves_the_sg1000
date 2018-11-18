@@ -55,6 +55,9 @@ void title (void) {
 
 	_x = 5; _y = 23; pr_str ("@ 2018 THE MOJON TWINS");
 
+	for (gpit = 0; gpit < 3; gpit ++) 
+		if (level_done [gpit]) SG_setTileatXY (21, (gpit << 1) + 15, 10);
+
 	bat_in ();
 
 	PSGPlay (MUSIC_TITLE);
@@ -109,12 +112,20 @@ void scr_game_over (void) {
 	_x =  9; _y = 14; pr_str ("MISSION FAILED");
 }
 
-void scr_the_end (void) {
+void scr_sclear (void) {
 	gp_gen = cuts_rle; unrle ();
 	_x = 9; _y = 8; pr_str ("CONGRATULATIONS!");
-	_x = 2; _y = 10; pr_str ("ALL CRISTALS ARE RECOVERED");
-	_x = 4; _y = 12; pr_str ("NOW YOU CAN GET BACK TO YOUR");
-	_x = 5; _y = 14; pr_str ("BASE AND HAVE A GOOD REST!");	
+	_x = 3; _y = 10; pr_str ("ALL CRISTALS ARE RECOVERED");
+	_x = 2; _y = 12; pr_str ("NOW YOU CAN GET BACK TO YOUR");
+	_x = 3; _y = 14; pr_str ("BASE AND HAVE A GOOD REST!");	
+}
+
+void scr_the_end (void) {
+	gp_gen = cuts_rle; unrle ();
+	_x = 9; _y = 8; pr_str ("AQUI VA EL FINAL!");
+	_x = 2; _y = 10; pr_str ("");
+	_x = 4; _y = 12; pr_str ("");
+	_x = 5; _y = 14; pr_str ("");	
 }
 
 void credits (void) {

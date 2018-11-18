@@ -163,11 +163,11 @@ void main(void) {
 				pres (scr_game_over, MUSIC_GOVER);
 				break;
 			} else {
-				//level ++;
-				//if (level == MAX_LEVELS) {
-					pres (scr_the_end, 0);
-					break;
-				//}
+				pres (scr_sclear, MUSIC_SCLEAR);
+				level_done [level] = 1;
+				if (level_done [0] && level_done [1] && level_done [2])
+					pres (scr_the_end, MUSIC_ENDING);
+				break;
 			}
 		}
 

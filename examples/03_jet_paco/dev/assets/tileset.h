@@ -29,8 +29,8 @@ extern const unsigned char frame_rle [];
 #define FRAME_RLE_SIZE 46
 
 extern const unsigned char tsALL_patterns_c [];
-#define TSALL_PATTERNS_C_SIZE 951
+#define TSALL_PATTERNS_C_SIZE 950
 
 extern const unsigned char tsALL_colours_c [];
-#define TSALL_COLOURS_C_SIZE 534
+#define TSALL_COLOURS_C_SIZE 537
 

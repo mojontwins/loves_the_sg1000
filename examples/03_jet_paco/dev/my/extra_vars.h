@@ -20,3 +20,6 @@ unsigned char __player_vy_jetpac_max;
 unsigned char __player_vx_max;
 unsigned char __player_ax;
 unsigned char __player_rx;
+
+// Controls levels finished
+unsigned char level_done [3];

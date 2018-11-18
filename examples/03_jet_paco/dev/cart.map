@@ -31,24 +31,24 @@ Area                                    Addr        Size        Decimal Bytes (A
      0000000F  l__GSINIT                       
      0000011E  l__HEADER3                      
      00000200  s__CODE                         
-     0000031A  l__DATA                         
-     000093F9  l__CODE                         
-     000095F9  s__HOME                         
-     000095F9  s__INITIALIZER                  
-     000095FF  s__GSINIT                       
-     0000960E  s__GSFINAL                      
+     0000031D  l__DATA                         
+     0000B2C3  l__CODE                         
+     0000B4C3  s__HOME                         
+     0000B4C3  s__INITIALIZER                  
+     0000B4C9  s__GSINIT                       
+     0000B4D8  s__GSFINAL                      
      0000C000  s__DATA                         
-     0000C31A  s__INITIALIZED                  
-     0000C320  s__BSEG                         
-     0000C320  s__BSS                          
-     0000C320  s__HEAP                         
+     0000C31D  s__INITIALIZED                  
+     0000C323  s__BSEG                         
+     0000C323  s__BSS                          
+     0000C323  s__HEAP                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000093F9 =       37881. bytes (REL,CON)
+_CODE                               00000200    0000B2C3 =       45763. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -94,353 +94,358 @@ _CODE                               00000200    000093F9 =       37881. bytes (R
      000004B9  _snip                              game
      0000050C  _logo                              game
      0000052A  _title                             game
-     00000663  _scr_game_over                     game
-     000006FF  _scr_the_end                       game
-     000007B5  _credits                           game
-     000008BB  _flickscreen_do_horizontal         game
-     000008FA  _flickscreen_do_vertical           game
-     0000097F  _player_frame_selector             game
-     00000A26  _game_init                         game
-     00000B89  _prepare_scr                       game
+     00000698  _scr_game_over                     game
+     00000734  _scr_sclear                        game
+     000007EA  _scr_the_end                       game
+     0000084F  _credits                           game
+     00000955  _flickscreen_do_horizontal         game
+     00000994  _flickscreen_do_vertical           game
+     00000A19  _player_frame_selector             game
+     00000AC0  _game_init                         game
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000093F9 =       37881. bytes (REL,CON)
+_CODE                               00000200    0000B2C3 =       45763. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00000C7B  _game_loop                         game
-     00000ED4  _main                              game
-     00000F71  _rand8                             rand
-     00000F9B  _srand                             rand
-     00000FA8  _set_rand                          rand
-     00000FBF  _delay                             delay
-     00000FD0  _memfill                           memfill
-     00000FE4  _unpack_bg_patterns                unpacker
-     0000108B  _unrle_adv                         unrle
-     0000109A  _unrle                             unrle
-     00001110  _propellers_add                    propellers
-     00001123  _propellers_do                     propellers
-     00001187  _chac_chacs_add                    tile_chac_chac
-     000011DA  _chac_chacs_do                     tile_chac_chac
-     00001357  _clear_update_list                 printer
-     0000136E  _cls                               printer
-     00001382  _ul_putc                           printer
-     000013CC  _p_t                               printer
-     00001421  _p_tf                              printer
-     00001459  _draw_tile                         printer
-     00001513  _update_list_tile                  printer
-     000015A1  _map_set                           printer
-     000015D6  _get_byte                          printer
-     000015EA  _add_tile                          printer
-     000015FC  _draw_scr                          printer
-     00001805  _pr_str                            printer
-     00001847  _cm_two_points                     general
-     000018D2  _collide_in                        general
-     00001929  _collide                           general
-     0000199D  _add_sign                          general
-     000019CD  _pad_read                          general
-     000019F2  _jump_start                        general
-     00001A10  _update_cycle                      general
-     00001A2D  _do_update_list_and_wait           general
-     00001A3E  _player_stop                       player
-     00001A4A  _player_init                       player
-     00001A95  _player_render                     player
-     00001AC5  _player_to_pixels                  player
-     00001B0A  _player_kill                       player
-     00001B4B  _player_move                       player
-     00002324  _enems_persistent_load             enengine
-     00002416  _enems_persistent_update           enengine
-     0000249A  _enems_update_unsigned_char_arra   enengine
-     00002544  _enems_facing                      enengine
-     0000254D  _enems_init_fp                     enengine
-     00002572  _enems_boioiong_init               enengine
-     000025B9  _enems_load                        enengine
-     0000276C  _enems_kill                        enengine
-     0000277D  _enems_hit                         enengine
-     0000279D  _enems_move                        enengine
-     00003082  _enems_0                           enems0
+     00000C23  _prepare_scr                       game
+     00000D15  _game_loop                         game
+     00000F76  _main                              game
+     0000103B  _rand8                             rand
+     00001065  _srand                             rand
+     00001072  _set_rand                          rand
+     00001089  _delay                             delay
+     0000109A  _memfill                           memfill
+     000010AE  _unpack_bg_patterns                unpacker
+     00001155  _unrle_adv                         unrle
+     00001164  _unrle                             unrle
+     000011DA  _propellers_add                    propellers
+     000011ED  _propellers_do                     propellers
+     00001251  _chac_chacs_add                    tile_chac_chac
+     000012A4  _chac_chacs_do                     tile_chac_chac
+     00001421  _clear_update_list                 printer
+     00001438  _cls                               printer
+     0000144C  _ul_putc                           printer
+     00001496  _p_t                               printer
+     000014EB  _p_tf                              printer
+     00001523  _draw_tile                         printer
+     000015DD  _update_list_tile                  printer
+     0000166B  _map_set                           printer
+     000016A0  _get_byte                          printer
+     000016B4  _add_tile                          printer
+     000016C6  _draw_scr                          printer
+     000018CF  _pr_str                            printer
+     00001911  _cm_two_points                     general
+     0000199C  _collide_in                        general
+     000019F3  _collide                           general
+     00001A67  _add_sign                          general
+     00001A97  _pad_read                          general
+     00001ABC  _jump_start                        general
+     00001ADA  _update_cycle                      general
+     00001AF7  _do_update_list_and_wait           general
+     00001B08  _player_stop                       player
+     00001B14  _player_init                       player
+     00001B5F  _player_render                     player
+     00001B8F  _player_to_pixels                  player
+     00001BD4  _player_kill                       player
+     00001C15  _player_move                       player
+     000023EE  _enems_persistent_load             enengine
+     000024E0  _enems_persistent_update           enengine
+     00002564  _enems_update_unsigned_char_arra   enengine
+     0000260E  _enems_facing                      enengine
+     00002617  _enems_init_fp                     enengine
+     0000263C  _enems_boioiong_init               enengine
+     00002683  _enems_load                        enengine
+     00002836  _enems_kill                        enengine
+     00002847  _enems_hit                         enengine
+     00002867  _enems_move                        enengine
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000093F9 =       37881. bytes (REL,CON)
+_CODE                               00000200    0000B2C3 =       45763. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00003226  _hotspots_0                        enems0
-     0000326C  _enems_1                           enems1
-     00003410  _hotspots_1                        enems1
-     00003456  _enems_2                           enems2
-     000035FA  _hotspots_2                        enems2
-     00003640  _scr_0_00                          map0
-     00003679  _scr_0_01                          map0
-     000036B4  _scr_0_02                          map0
-     000036EF  _scr_0_03                          map0
-     00003740  _scr_0_04                          map0
-     00003779  _scr_0_05                          map0
-     00003794  _scr_0_06                          map0
-     000037D0  _scr_0_07                          map0
-     000037F1  _scr_0_08                          map0
-     00003812  _scr_0_09                          map0
-     0000386D  _scr_0_0a                          map0
-     000038AF  _scr_0_0b                          map0
-     000038E8  _scr_0_0c                          map0
-     0000390C  _scr_0_0d                          map0
-     00003945  _scr_0_0e                          map0
-     0000396C  _scr_0_0f                          map0
-     000039A5  _scr_0_10                          map0
-     000039D8  _scr_0_11                          map0
-     00003A0E  _scr_0_12                          map0
-     00003A64  _scr_0_13                          map0
-     00003A9C  _scr_0_14                          map0
-     00003AD8  _scr_0_15                          map0
-     00003AFB  _scr_0_16                          map0
-     00003B40  _scr_0_17                          map0
-     00003B7E  _scr_0_18                          map0
-     00003BC2  _scr_0_19                          map0
-     00003C0D  _scr_0_1a                          map0
-     00003C34  _scr_0_1b                          map0
-     00003C71  _scr_0_1c                          map0
-     00003C9F  _scr_0_1d                          map0
-     00003CCC  _scr_0_1e                          map0
-     00003D02  _scr_0_1f                          map0
-     00003D48  _scr_0_20                          map0
-     00003D80  _scr_0_21                          map0
-     00003D9D  _scr_0_22                          map0
-     00003DD1  _map_0                             map0
-     00003E17  _scr_1_00                          map1
-     00003E77  _scr_1_01                          map1
-     00003ED8  _scr_1_02                          map1
-     00003F45  _scr_1_03                          map1
-     00003F7F  _scr_1_04                          map1
-     00003FBD  _scr_1_05                          map1
-     0000401E  _scr_1_06                          map1
-     00004068  _scr_1_07                          map1
-     000040E4  _scr_1_08                          map1
-     00004120  _scr_1_09                          map1
+     0000314B  _enems_0                           enems0
+     000032EF  _hotspots_0                        enems0
+     00003335  _enems_1                           enems1
+     000034D9  _hotspots_1                        enems1
+     0000351F  _enems_2                           enems2
+     000036C3  _hotspots_2                        enems2
+     00003709  _scr_0_00                          map0
+     00003742  _scr_0_01                          map0
+     0000377D  _scr_0_02                          map0
+     000037B8  _scr_0_03                          map0
+     00003809  _scr_0_04                          map0
+     00003842  _scr_0_05                          map0
+     0000385D  _scr_0_06                          map0
+     00003899  _scr_0_07                          map0
+     000038BA  _scr_0_08                          map0
+     000038DB  _scr_0_09                          map0
+     00003936  _scr_0_0a                          map0
+     00003978  _scr_0_0b                          map0
+     000039B1  _scr_0_0c                          map0
+     000039D5  _scr_0_0d                          map0
+     00003A0E  _scr_0_0e                          map0
+     00003A35  _scr_0_0f                          map0
+     00003A6E  _scr_0_10                          map0
+     00003AA1  _scr_0_11                          map0
+     00003AD7  _scr_0_12                          map0
+     00003B2D  _scr_0_13                          map0
+     00003B65  _scr_0_14                          map0
+     00003BA1  _scr_0_15                          map0
+     00003BC4  _scr_0_16                          map0
+     00003C09  _scr_0_17                          map0
+     00003C47  _scr_0_18                          map0
+     00003C8B  _scr_0_19                          map0
+     00003CD6  _scr_0_1a                          map0
+     00003CFD  _scr_0_1b                          map0
+     00003D3A  _scr_0_1c                          map0
+     00003D68  _scr_0_1d                          map0
+     00003D95  _scr_0_1e                          map0
+     00003DCB  _scr_0_1f                          map0
+     00003E11  _scr_0_20                          map0
+     00003E49  _scr_0_21                          map0
+     00003E66  _scr_0_22                          map0
+     00003E9A  _map_0                             map0
+     00003EE0  _scr_1_00                          map1
+     00003F40  _scr_1_01                          map1
+     00003FA1  _scr_1_02                          map1
+     0000400E  _scr_1_03                          map1
+     00004049  _scr_1_04                          map1
+     0000408A  _scr_1_05                          map1
+     000040EB  _scr_1_06                          map1
+     00004135  _scr_1_07                          map1
+     000041B1  _scr_1_08                          map1
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000093F9 =       37881. bytes (REL,CON)
+_CODE                               00000200    0000B2C3 =       45763. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004198  _scr_1_0a                          map1
-     000041FA  _scr_1_0b                          map1
-     0000423D  _scr_1_0c                          map1
-     0000428B  _scr_1_0d                          map1
-     000042DF  _scr_1_0e                          map1
-     00004347  _scr_1_0f                          map1
-     000043BD  _scr_1_10                          map1
-     0000440D  _scr_1_11                          map1
-     0000445A  _scr_1_12                          map1
-     000044B2  _scr_1_13                          map1
-     000044E9  _scr_1_14                          map1
-     00004549  _scr_1_15                          map1
-     0000458E  _scr_1_16                          map1
-     00004602  _scr_1_17                          map1
-     0000464A  _scr_1_18                          map1
-     00004680  _scr_1_19                          map1
-     000046EB  _scr_1_1a                          map1
-     0000475E  _scr_1_1b                          map1
-     000047AC  _scr_1_1c                          map1
-     0000480F  _scr_1_1d                          map1
-     00004880  _scr_1_1e                          map1
-     00004905  _scr_1_1f                          map1
-     00004950  _scr_1_20                          map1
-     000049CF  _scr_1_21                          map1
-     00004A3B  _scr_1_22                          map1
-     00004A79  _map_1                             map1
-     00004ABF  _scr_2_00                          map2
-     00004B04  _scr_2_01                          map2
-     00004B3B  _scr_2_02                          map2
-     00004B74  _scr_2_03                          map2
-     00004BBD  _scr_2_04                          map2
-     00004BF6  _scr_2_05                          map2
-     00004C25  _scr_2_06                          map2
-     00004C4C  _scr_2_07                          map2
-     00004CA0  _scr_2_08                          map2
-     00004CD6  _scr_2_09                          map2
-     00004D22  _scr_2_0a                          map2
-     00004D63  _scr_2_0b                          map2
-     00004DA2  _scr_2_0c                          map2
-     00004DF2  _scr_2_0d                          map2
-     00004E19  _scr_2_0e                          map2
-     00004E7E  _scr_2_0f                          map2
-     00004EC1  _scr_2_10                          map2
-     00004F13  _scr_2_11                          map2
-     00004F56  _scr_2_12                          map2
-     00004F8D  _scr_2_13                          map2
-     00004FC5  _scr_2_14                          map2
-     00004FED  _scr_2_15                          map2
-     00005036  _scr_2_16                          map2
-     00005066  _scr_2_17                          map2
-     000050A0  _scr_2_18                          map2
+     000041ED  _scr_1_09                          map1
+     00004264  _scr_1_0a                          map1
+     000042C6  _scr_1_0b                          map1
+     00004309  _scr_1_0c                          map1
+     00004357  _scr_1_0d                          map1
+     000043AB  _scr_1_0e                          map1
+     00004413  _scr_1_0f                          map1
+     0000448A  _scr_1_10                          map1
+     000044DA  _scr_1_11                          map1
+     0000452B  _scr_1_12                          map1
+     00004586  _scr_1_13                          map1
+     000045BD  _scr_1_14                          map1
+     0000461D  _scr_1_15                          map1
+     00004662  _scr_1_16                          map1
+     000046D6  _scr_1_17                          map1
+     0000471E  _scr_1_18                          map1
+     00004754  _scr_1_19                          map1
+     000047BF  _scr_1_1a                          map1
+     00004832  _scr_1_1b                          map1
+     00004880  _scr_1_1c                          map1
+     000048E3  _scr_1_1d                          map1
+     00004954  _scr_1_1e                          map1
+     000049D9  _scr_1_1f                          map1
+     00004A24  _scr_1_20                          map1
+     00004AA3  _scr_1_21                          map1
+     00004B0F  _scr_1_22                          map1
+     00004B4D  _map_1                             map1
+     00004B93  _scr_2_00                          map2
+     00004BD8  _scr_2_01                          map2
+     00004C0F  _scr_2_02                          map2
+     00004C48  _scr_2_03                          map2
+     00004C91  _scr_2_04                          map2
+     00004CCA  _scr_2_05                          map2
+     00004CF9  _scr_2_06                          map2
+     00004D20  _scr_2_07                          map2
+     00004D74  _scr_2_08                          map2
+     00004DAA  _scr_2_09                          map2
+     00004DF6  _scr_2_0a                          map2
+     00004E37  _scr_2_0b                          map2
+     00004E76  _scr_2_0c                          map2
+     00004EC6  _scr_2_0d                          map2
+     00004EED  _scr_2_0e                          map2
+     00004F52  _scr_2_0f                          map2
+     00004F95  _scr_2_10                          map2
+     00004FE7  _scr_2_11                          map2
+     0000502A  _scr_2_12                          map2
+     00005061  _scr_2_13                          map2
+     00005099  _scr_2_14                          map2
+     000050C1  _scr_2_15                          map2
+     0000510A  _scr_2_16                          map2
+     0000513A  _scr_2_17                          map2
 ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000093F9 =       37881. bytes (REL,CON)
+_CODE                               00000200    0000B2C3 =       45763. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00005127  _scr_2_19                          map2
-     00005183  _scr_2_1a                          map2
-     000051A5  _scr_2_1b                          map2
-     000051C7  _scr_2_1c                          map2
-     0000520A  _scr_2_1d                          map2
-     00005236  _scr_2_1e                          map2
-     00005271  _scr_2_1f                          map2
-     000052DA  _scr_2_20                          map2
-     00005319  _scr_2_21                          map2
-     00005357  _scr_2_22                          map2
-     00005394  _map_2                             map2
-     000053DA  _tsFONT_patterns_c                 tileset
-     00005526  _tsFONT_colours_c                  tileset
-     00005568  _ts0_tmaps                         tileset
-     000055A8  _ts1_tmaps                         tileset
-     000055F0  _ts2_tmaps                         tileset
-     0000563C  _title_rle                         tileset
-     0000583B  _title_cutout_paco                 tileset
-     000058DB  _title_cutout_puri                 tileset
-     0000597B  _cuts_rle                          tileset
-     00005A4C  _frame_rle                         tileset
-     00005A7A  _tsALL_patterns_c                  tileset
-     00005E31  _tsALL_colours_c                   tileset
-     00006047  _ss_pl_00                          spriteset
-     00006050  _ss_pl_01                          spriteset
-     00006059  _ss_pl_02                          spriteset
-     00006062  _ss_pl_03                          spriteset
-     0000606B  _ss_pl_04                          spriteset
-     00006074  _ss_pl_05                          spriteset
-     0000607D  _ss_pl_06                          spriteset
-     00006086  _ss_pl_07                          spriteset
-     0000608F  _ss_pl_08                          spriteset
-     00006098  _ss_pl_09                          spriteset
-     000060A1  _ss_pl_0a                          spriteset
-     000060AA  _ss_pl_0b                          spriteset
-     000060B3  _ss_pl_0c                          spriteset
-     000060BC  _ss_pl_0d                          spriteset
-     000060C5  _ss_pl_0e                          spriteset
-     000060CE  _ss_pl_0f                          spriteset
-     000060D7  _ss_en0_00                         spriteset
-     000060DC  _ss_en0_01                         spriteset
-     000060E1  _ss_en0_02                         spriteset
-     000060EA  _ss_en0_03                         spriteset
-     000060F3  _ss_en0_04                         spriteset
-     000060F8  _ss_en0_05                         spriteset
-     000060FD  _ss_en1_00                         spriteset
-     00006106  _ss_en1_01                         spriteset
-     0000610F  _ss_en1_02                         spriteset
-     00006118  _ss_en1_03                         spriteset
-     00006121  _ss_en1_04                         spriteset
-     0000612A  _ss_en1_05                         spriteset
+     00005174  _scr_2_18                          map2
+     000051FB  _scr_2_19                          map2
+     00005257  _scr_2_1a                          map2
+     00005279  _scr_2_1b                          map2
+     0000529B  _scr_2_1c                          map2
+     000052DE  _scr_2_1d                          map2
+     0000530A  _scr_2_1e                          map2
+     00005345  _scr_2_1f                          map2
+     000053AE  _scr_2_20                          map2
+     000053ED  _scr_2_21                          map2
+     0000542B  _scr_2_22                          map2
+     00005468  _map_2                             map2
+     000054AE  _tsFONT_patterns_c                 tileset
+     000055FA  _tsFONT_colours_c                  tileset
+     0000563C  _ts0_tmaps                         tileset
+     0000567C  _ts1_tmaps                         tileset
+     000056C4  _ts2_tmaps                         tileset
+     00005710  _title_rle                         tileset
+     0000590F  _title_cutout_paco                 tileset
+     000059AF  _title_cutout_puri                 tileset
+     00005A4F  _cuts_rle                          tileset
+     00005B20  _frame_rle                         tileset
+     00005B4E  _tsALL_patterns_c                  tileset
+     00005F04  _tsALL_colours_c                   tileset
+     0000611D  _ss_pl_00                          spriteset
+     00006126  _ss_pl_01                          spriteset
+     0000612F  _ss_pl_02                          spriteset
+     00006138  _ss_pl_03                          spriteset
+     00006141  _ss_pl_04                          spriteset
+     0000614A  _ss_pl_05                          spriteset
+     00006153  _ss_pl_06                          spriteset
+     0000615C  _ss_pl_07                          spriteset
+     00006165  _ss_pl_08                          spriteset
+     0000616E  _ss_pl_09                          spriteset
+     00006177  _ss_pl_0a                          spriteset
+     00006180  _ss_pl_0b                          spriteset
+     00006189  _ss_pl_0c                          spriteset
+     00006192  _ss_pl_0d                          spriteset
+     0000619B  _ss_pl_0e                          spriteset
+     000061A4  _ss_pl_0f                          spriteset
+     000061AD  _ss_en0_00                         spriteset
+     000061B2  _ss_en0_01                         spriteset
+     000061B7  _ss_en0_02                         spriteset
+     000061C0  _ss_en0_03                         spriteset
+     000061C9  _ss_en0_04                         spriteset
+     000061CE  _ss_en0_05                         spriteset
+     000061D3  _ss_en1_00                         spriteset
+     000061DC  _ss_en1_01                         spriteset
+     000061E5  _ss_en1_02                         spriteset
+     000061EE  _ss_en1_03                         spriteset
+     000061F7  _ss_en1_04                         spriteset
 ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000093F9 =       37881. bytes (REL,CON)
+_CODE                               00000200    0000B2C3 =       45763. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00006133  _ss_plat_00                        spriteset
-     00006138  _ss_it_00                          spriteset
-     0000613D  _ss_it_01                          spriteset
-     00006142  _ss_it_02                          spriteset
-     00006147  _ssALL_patterns_c                  spriteset
-     00006586  _m_gover_psg                       murcia
-     00006748  _m_title_psg                       murcia
-     000072E8  _m_yun_psg                         murcia
-     0000882E  _s_00_start2_psg                   murcia
-     00008841  _s_01_tile3_psg                    murcia
-     00008860  _s_02_object2_psg                  murcia
-     00008877  _s_03_use2_psg                     murcia
-     000088D8  _s_04_trampoline2_psg              murcia
-     000088ED  _s_05_phit3_psg                    murcia
-     00008902  _s_06_dummy13_psg                  murcia
-     0000890C  _s_07_dummy22_psg                  murcia
-     00008954  _s_08_jump2_psg                    murcia
-     00008979  _s_09_bullet2_psg                  murcia
-     0000899B  _s_10_coco2_psg                    murcia
-     000089BD  _s_11_spring2_psg                  murcia
-     000089D2  _s_12_count2_psg                   murcia
-     000089E5  _s_13_breakh3_psg                  murcia
-     000089FD  _s_14_hitter3_psg                  murcia
-     00008A07  _s_15_stepon3_psg                  murcia
-     00008A12  _s_16_float3_psg                   murcia
-     00008A20  _s_17_breakb3_psg                  murcia
-     00008A30  _s_18_ring2_psg                    murcia
-     00008A44  _s_19_fanfare2_psg                 murcia
-     00008A88  _PSGStop                           PSGlib
-     00008AAF  _PSGPlay                           PSGlib
-     00008ADC  _PSGCancelLoop                     PSGlib
-     00008AE2  _PSGPlayNoRepeat                   PSGlib
-     00008AF1  _PSGGetStatus                      PSGlib
-     00008AF9  _PSGSFXStop                        PSGlib
-     00008B5D  _PSGSFXPlay                        PSGlib
-     00008BA8  _PSGSFXCancelLoop                  PSGlib
-     00008BAE  _PSGSFXGetStatus                   PSGlib
-     00008BB6  _PSGSFXPlayLoop                    PSGlib
-     00008BD0  _PSGFrame                          PSGlib
-     00008CD7  _PSGSFXFrame                       PSGlib
-     00008D4D  _SG_setReg                         SGlib
-     00008D79  _VDPReg_init                       SGlib
-     00008D81  _SG_VDPturnOnFeature               SGlib
-     00008DBB  _SG_VDPturnOffFeature              SGlib
-     00008DEC  _SG_init                           SGlib
-     00008E33  _SG_setBackdropColor               SGlib
-     00008E47  _SG_setSpriteMode                  SGlib
-     00008E7C  _SG_loadTilePatterns               SGlib
-     00008EBD  _SG_loadTileColours                SGlib
-     00008F02  _SG_loadSpritePatterns             SGlib
-     00008F47  _SG_setTileatXY                    SGlib
+     00006200  _ss_en1_05                         spriteset
+     00006209  _ss_plat_00                        spriteset
+     0000620E  _ss_it_00                          spriteset
+     00006213  _ss_it_01                          spriteset
+     00006218  _ss_it_02                          spriteset
+     0000621D  _ssALL_patterns_c                  spriteset
+     0000665C  _m_n_ending_psg                    murcia
+     00006EB9  _m_n_gover_psg                     murcia
+     00007124  _m_n_sclear_psg                    murcia
+     0000731F  _m_n_stagea_psg                    murcia
+     0000815C  _m_n_stageb_psg                    murcia
+     00008F3D  _m_n_stagec_psg                    murcia
+     00009FEA  _m_n_title_psg                     murcia
+     0000A6F8  _s_00_start2_psg                   murcia
+     0000A70B  _s_01_tile3_psg                    murcia
+     0000A72A  _s_02_object2_psg                  murcia
+     0000A741  _s_03_use2_psg                     murcia
+     0000A7A2  _s_04_trampoline2_psg              murcia
+     0000A7B7  _s_05_phit3_psg                    murcia
+     0000A7CC  _s_06_dummy13_psg                  murcia
+     0000A7D6  _s_07_dummy22_psg                  murcia
+     0000A81E  _s_08_jump2_psg                    murcia
+     0000A843  _s_09_bullet2_psg                  murcia
+     0000A865  _s_10_coco2_psg                    murcia
+     0000A887  _s_11_spring2_psg                  murcia
+     0000A89C  _s_12_count2_psg                   murcia
+     0000A8AF  _s_13_breakh3_psg                  murcia
+     0000A8C7  _s_14_hitter3_psg                  murcia
+     0000A8D1  _s_15_stepon3_psg                  murcia
+     0000A8DC  _s_16_float3_psg                   murcia
+     0000A8EA  _s_17_breakb3_psg                  murcia
+     0000A8FA  _s_18_ring2_psg                    murcia
+     0000A90E  _s_19_fanfare2_psg                 murcia
+     0000A952  _PSGStop                           PSGlib
+     0000A979  _PSGPlay                           PSGlib
+     0000A9A6  _PSGCancelLoop                     PSGlib
+     0000A9AC  _PSGPlayNoRepeat                   PSGlib
+     0000A9BB  _PSGGetStatus                      PSGlib
+     0000A9C3  _PSGSFXStop                        PSGlib
+     0000AA27  _PSGSFXPlay                        PSGlib
+     0000AA72  _PSGSFXCancelLoop                  PSGlib
+     0000AA78  _PSGSFXGetStatus                   PSGlib
+     0000AA80  _PSGSFXPlayLoop                    PSGlib
+     0000AA9A  _PSGFrame                          PSGlib
+     0000ABA1  _PSGSFXFrame                       PSGlib
+     0000AC17  _SG_setReg                         SGlib
+     0000AC43  _VDPReg_init                       SGlib
+     0000AC4B  _SG_VDPturnOnFeature               SGlib
+     0000AC85  _SG_VDPturnOffFeature              SGlib
+     0000ACB6  _SG_init                           SGlib
+     0000ACFD  _SG_setBackdropColor               SGlib
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    000093F9 =       37881. bytes (REL,CON)
+_CODE                               00000200    0000B2C3 =       45763. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00008F86  _SG_setNextTileatXY                SGlib
-     00008FC0  _SG_setTile                        SGlib
-     00008FC8  _SG_fillTile                       SGlib
-     00008FF0  _SG_loadTileMapArea                SGlib
-     0000908C  _SG_initSprites                    SGlib
-     000090B7  _SG_addSprite                      SGlib
-     00009139  _SG_addMetaSprite1x1               SGlib
-     0000926D  _SG_addMetaSprite                  SGlib
-     00009333  _SG_finalizeSprites                SGlib
-     00009334  _SG_getStp                         SGlib
-     00009338  _SG_setStp                         SGlib
-     00009349  _SG_waitForVBlank                  SGlib
-     00009356  _SG_getKeysStatus                  SGlib
-     0000935E  _SG_queryPauseRequested            SGlib
-     00009366  _SG_resetPauseRequest              SGlib
-     0000936C  _SG_VRAMmemset                     SGlib
-     00009398  _SG_copySpritestoSAT               SGlib
-     000093AB  _SG_VRAMmemcpy128                  SGlib
-     000093CE  _SG_setUpdateList                  SGlib
-     000093DF  _SG_doUpdateList                   SGlib
-     00009425  _SG_isr                            SGlib
-     0000945A  _SG_nmi_isr                        SGlib
-     0000946D  _aPLib_depack_VRAM                 aPLib
-     000095A0  __moduchar                         
-     000095AC  __moduint                          
-     000095B7  __divuint                          
-     000095BF  __divuchar                         
-     000095C6  __divu8                            
-     000095C9  __divu16                           
-     000095F8  ___sdcc_call_hl                    
+     0000AD11  _SG_setSpriteMode                  SGlib
+     0000AD46  _SG_loadTilePatterns               SGlib
+     0000AD87  _SG_loadTileColours                SGlib
+     0000ADCC  _SG_loadSpritePatterns             SGlib
+     0000AE11  _SG_setTileatXY                    SGlib
+     0000AE50  _SG_setNextTileatXY                SGlib
+     0000AE8A  _SG_setTile                        SGlib
+     0000AE92  _SG_fillTile                       SGlib
+     0000AEBA  _SG_loadTileMapArea                SGlib
+     0000AF56  _SG_initSprites                    SGlib
+     0000AF81  _SG_addSprite                      SGlib
+     0000B003  _SG_addMetaSprite1x1               SGlib
+     0000B137  _SG_addMetaSprite                  SGlib
+     0000B1FD  _SG_finalizeSprites                SGlib
+     0000B1FE  _SG_getStp                         SGlib
+     0000B202  _SG_setStp                         SGlib
+     0000B213  _SG_waitForVBlank                  SGlib
+     0000B220  _SG_getKeysStatus                  SGlib
+     0000B228  _SG_queryPauseRequested            SGlib
+     0000B230  _SG_resetPauseRequest              SGlib
+     0000B236  _SG_VRAMmemset                     SGlib
+     0000B262  _SG_copySpritestoSAT               SGlib
+     0000B275  _SG_VRAMmemcpy128                  SGlib
+     0000B298  _SG_setUpdateList                  SGlib
+     0000B2A9  _SG_doUpdateList                   SGlib
+     0000B2EF  _SG_isr                            SGlib
+     0000B324  _SG_nmi_isr                        SGlib
+     0000B337  _aPLib_depack_VRAM                 aPLib
+     0000B46A  __moduchar                         
+     0000B476  __moduint                          
+     0000B481  __divuint                          
+     0000B489  __divuchar                         
+     0000B490  __divu8                            
+     0000B493  __divu16                           
+     0000B4C2  ___sdcc_call_hl                    
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
 Hexadecimal  [32-Bits]
@@ -485,7 +490,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_INITIALIZER                        000095F9    00000006 =           6. bytes (REL,CON)
+_INITIALIZER                        0000B4C3    00000006 =           6. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -494,18 +499,18 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSINIT                             000095FF    0000000F =          15. bytes (REL,CON)
+_GSINIT                             0000B4C9    0000000F =          15. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000095FF  gsinit                             crt0
+     0000B4C9  gsinit                             crt0
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 15.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSFINAL                            0000960E    00000001 =           1. bytes (REL,CON)
+_GSFINAL                            0000B4D8    00000001 =           1. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -514,7 +519,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               0000C000    0000031A =         794. bytes (REL,CON)
+_DATA                               0000C000    0000031D =         797. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -573,7 +578,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               0000C000    0000031A =         794. bytes (REL,CON)
+_DATA                               0000C000    0000031D =         797. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -633,7 +638,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               0000C000    0000031A =         794. bytes (REL,CON)
+_DATA                               0000C000    0000031D =         797. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -693,7 +698,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               0000C000    0000031A =         794. bytes (REL,CON)
+_DATA                               0000C000    0000031D =         797. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -732,67 +737,69 @@ _DATA                               0000C000    0000031A =         794. bytes (R
      0000C262  ___player_vx_max                   game
      0000C263  ___player_ax                       game
      0000C264  ___player_rx                       game
-     0000C265  _seed1                             rand
-     0000C267  _seed2                             rand
-     0000C269  _randres                           rand
-     0000C26A  _PSGMusicStart                     PSGlib
-     0000C26C  _PSGMusicPointer                   PSGlib
-     0000C26E  _PSGMusicLoopPoint                 PSGlib
-     0000C270  _PSGMusicSkipFrames                PSGlib
-     0000C271  _PSGLoopFlag                       PSGlib
-     0000C272  _PSGMusicLastLatch                 PSGlib
-     0000C273  _PSGMusicSubstringLen              PSGlib
-     0000C274  _PSGMusicSubstringRetAddr          PSGlib
-     0000C276  _PSGChan2Volume                    PSGlib
-     0000C277  _PSGChan3Volume                    PSGlib
-     0000C278  _PSGChan2LowTone                   PSGlib
-     0000C279  _PSGChan3LowTone                   PSGlib
-     0000C27A  _PSGChan2HighTone                  PSGlib
+     0000C265  _level_done                        game
+     0000C268  _seed1                             rand
+     0000C26A  _seed2                             rand
+     0000C26C  _randres                           rand
+     0000C26D  _PSGMusicStart                     PSGlib
+     0000C26F  _PSGMusicPointer                   PSGlib
+     0000C271  _PSGMusicLoopPoint                 PSGlib
+     0000C273  _PSGMusicSkipFrames                PSGlib
+     0000C274  _PSGLoopFlag                       PSGlib
+     0000C275  _PSGMusicLastLatch                 PSGlib
+     0000C276  _PSGMusicSubstringLen              PSGlib
+     0000C277  _PSGMusicSubstringRetAddr          PSGlib
+     0000C279  _PSGChan2Volume                    PSGlib
+     0000C27A  _PSGChan3Volume                    PSGlib
+     0000C27B  _PSGChan2LowTone                   PSGlib
+     0000C27C  _PSGChan3LowTone                   PSGlib
 ASxxxx Linker V03.00 + NoICE + sdld,  page 20.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               0000C000    0000031A =         794. bytes (REL,CON)
+_DATA                               0000C000    0000031D =         797. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000C27B  _PSGSFXStart                       PSGlib
-     0000C27D  _PSGSFXPointer                     PSGlib
-     0000C27F  _PSGSFXLoopPoint                   PSGlib
-     0000C281  _PSGSFXSkipFrames                  PSGlib
-     0000C282  _PSGSFXLoopFlag                    PSGlib
-     0000C283  _PSGSFXSubstringLen                PSGlib
-     0000C284  _PSGSFXSubstringRetAddr            PSGlib
-     0000C286  _VDPBlank                          SGlib
-     0000C287  _PauseRequested                    SGlib
-     0000C288  _KeysStatus                        SGlib
-     0000C289  _SpriteTable                       SGlib
-     0000C309  _stp                               SGlib
-     0000C30B  _SpriteTableEnd                    SGlib
-     0000C30D  _first_sprite                      SGlib
-     0000C30E  _libgpit                           SGlib
-     0000C30F  _VDPType                           SGlib
-     0000C310  _updateList                        SGlib
-     0000C312  _ulp                               SGlib
-     0000C314  _ulpMsb                            SGlib
-     0000C315  _aPLib_bits                        aPLib
-     0000C317  _aPLib_LWM                         aPLib
-     0000C318  _aPLib_R0                          aPLib
+     0000C27D  _PSGChan2HighTone                  PSGlib
+     0000C27E  _PSGSFXStart                       PSGlib
+     0000C280  _PSGSFXPointer                     PSGlib
+     0000C282  _PSGSFXLoopPoint                   PSGlib
+     0000C284  _PSGSFXSkipFrames                  PSGlib
+     0000C285  _PSGSFXLoopFlag                    PSGlib
+     0000C286  _PSGSFXSubstringLen                PSGlib
+     0000C287  _PSGSFXSubstringRetAddr            PSGlib
+     0000C289  _VDPBlank                          SGlib
+     0000C28A  _PauseRequested                    SGlib
+     0000C28B  _KeysStatus                        SGlib
+     0000C28C  _SpriteTable                       SGlib
+     0000C30C  _stp                               SGlib
+     0000C30E  _SpriteTableEnd                    SGlib
+     0000C310  _first_sprite                      SGlib
+     0000C311  _libgpit                           SGlib
+     0000C312  _VDPType                           SGlib
+     0000C313  _updateList                        SGlib
+     0000C315  _ulp                               SGlib
+     0000C317  _ulpMsb                            SGlib
+     0000C318  _aPLib_bits                        aPLib
+     0000C31A  _aPLib_LWM                         aPLib
+     0000C31B  _aPLib_R0                          aPLib
+
 ASxxxx Linker V03.00 + NoICE + sdld,  page 21.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_INITIALIZED                        0000C31A    00000006 =           6. bytes (REL,CON)
+_INITIALIZED                        0000C31D    00000006 =           6. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000C31A  _PSGMusicStatus                    PSGlib
-     0000C31B  _PSGChannel2SFX                    PSGlib
-     0000C31C  _PSGChannel3SFX                    PSGlib
-     0000C31D  _PSGSFXStatus                      PSGlib
-     0000C31E  _VDPReg                            SGlib
+     0000C31D  _PSGMusicStatus                    PSGlib
+     0000C31E  _PSGChannel2SFX                    PSGlib
+     0000C31F  _PSGChannel3SFX                    PSGlib
+     0000C320  _PSGSFXStatus                      PSGlib
+     0000C321  _VDPReg                            SGlib
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 22.
 
