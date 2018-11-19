@@ -15,7 +15,7 @@
 // - chac_chacs_t1, chac_chacs_t2, chac_chacs_t3
 //   The actual tiles used to draw the three tiles high structures.
 
-// Don't forget to edit my/extra_declarations.h and add defines for
+// Don't forget to edit my/extra_defines.h and add defines for
 // CHAC_CHAC_BOUM_STATE 3
 // CHAC_CHAC_MAX_STATES 6
 // there!

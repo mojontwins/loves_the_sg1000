@@ -34,7 +34,6 @@ const unsigned char * const spr_player [] = {
 // Side-view very basic character (4 frames per facing)
 // For this game, this contains two characters with different
 // walk cycles (see my/player_frame_selector.h)
-/*
 const unsigned char * const spr_player [] = {
 	// Jet Paco
 	// Facing right (offset 0)
@@ -52,7 +51,6 @@ const unsigned char * const spr_player [] = {
 	ss_pl_0c, ss_pl_0d, ss_pl_0e, 0,				// Walk cycle. offset 1 is also standing
 	ss_pl_0f										// Airborne
 };
-*/
 
 // Enemy metasprites
 // Framesets are right {anim1, anim2, attacking, dying}, right {anim1, anim2, attacking, dying}.
