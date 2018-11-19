@@ -6,4 +6,6 @@ Albeit there are [some differencies](https://github.com/mojontwins/loves_the_sg1
 
 If you like this, you can [buy me a coffee](https://ko-fi.com/I2I0JUJ9).
 
+This engine uses **aPLib**, **PSGlib** and a heavily modified version of **SGlib** from [DevKitSMS](https://github.com/sverx/devkitSMS) by sverx.
+
 Have fun.
