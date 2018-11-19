@@ -34,3 +34,12 @@ extern const unsigned char tsALL_patterns_c [];
 extern const unsigned char tsALL_colours_c [];
 #define TSALL_COLOURS_C_SIZE 537
 
+extern const unsigned char ending_rle [];
+#define ENDING_RLE_SIZE 158
+
+extern const unsigned char tsE_patterns_c [];
+#define TSE_PATTERNS_C_SIZE 732
+
+extern const unsigned char tsE_colours_c [];
+#define TSE_COLOURS_C_SIZE 370
+

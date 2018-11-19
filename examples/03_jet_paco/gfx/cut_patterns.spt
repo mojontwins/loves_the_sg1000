@@ -57,6 +57,16 @@ stats
 
 write patterns tsALL_patterns_c tsALL_colours_c r:64:* packed
 
+set patterns 64
+
+open ending.png
+nametablerle
+write nametablerle ending_rle
+
+stats
+
+write patterns tsE_patterns_c tsE_colours_c r:64:* packed
+
 # Cut spriteset
 
 mapfile ../dev/assets/spriteset.c

@@ -166,7 +166,7 @@ void main(void) {
 				pres (scr_sclear, MUSIC_SCLEAR);
 				level_done [level] = 1;
 				if (level_done [0] && level_done [1] && level_done [2])
-					pres (scr_the_end, MUSIC_ENDING);
+					game_ending ();
 				break;
 			}
 		}
