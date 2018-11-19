@@ -10,9 +10,12 @@ Or better said, things which are different from AGNES 1.0 (note that this is a p
 
 ### TODO:
 
+Checked [X] is no longer "TODO".
+
 - [X] Reimplement `PERSISTENT_ENEMS`. Use space in VRAM @ $1B80 ($480 bytes!)
 - [X] Implement `PERSISTENT_TILE_GET`. Use space in VRAM @ $1B80 ($480 bytes!)
 - [X] Implement complex breakables using space in VRAM @ $1B80 ($480 bytes!)
+- [ ] Using metasprites (for constructions bigger than 16x16).
 
 # General changes in config.h AGNES->AGSG1000
 
