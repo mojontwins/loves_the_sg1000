@@ -520,82 +520,27 @@
 	"buffers":
 	[
 		{
-			"file": "examples/03_jet_paco/dev/assets/levelset.h",
+			"file": "docs/AGSG1000_requirements.md",
 			"settings":
 			{
-				"buffer_size": 2727,
+				"buffer_size": 3749,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "examples/03_jet_paco/dev/my/pres.h",
+			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 3485,
+				"buffer_size": 959,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "examples/03_jet_paco/dev/mainloop.h",
 			"settings":
 			{
-				"buffer_size": 8877,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "examples/03_jet_paco/dev/config.h",
-			"settings":
-			{
-				"buffer_size": 23704,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "Searching 173 files for \"PLAYER_SPIKES_BOTTOM_ALLOW\"\n\nC:\\Users\\NaThan\\Desktop\\Git\\loves_the_sg1000\\examples\\03_jet_paco\\dev\\config.h:\n   97  \n   98  // Bottom collision. If set, player can bleed a bit into spikes when going down.\n   99: #define PLAYER_SPIKES_BOTTOM_ALLOW\t\t2\n  100  \n  101  // This defines how the player will collide with enemies. \n\nC:\\Users\\NaThan\\Desktop\\Git\\loves_the_sg1000\\examples\\03_jet_paco\\dev\\engine\\player.c:\n  496  \t\t\t\tif ((at1 & 1) || (at2 & 1)) pnotsafe = 1; \n  497  \t\t\t} else {\n  498: \t\t\t\t#ifdef PLAYER_SPIKES_BOTTOM_ALLOW\n  499: \t\t\t\t\tcy2 = pry + 15 - PLAYER_SPIKES_BOTTOM_ALLOW;\n  500  \t\t\t\t\tcm_two_points ();\n  501  \t\t\t\t#endif\n  ...\n  786  \t\t\t\t#endif\t\t\t\t\n  787  \t\t\t} else {\n  788: \t\t\t\t#ifdef PLAYER_SPIKES_BOTTOM_ALLOW\n  789: \t\t\t\t\tcy2 = pry + 15 - PLAYER_SPIKES_BOTTOM_ALLOW;\n  790  \t\t\t\t\tcm_two_points ();\n  791  \t\t\t\t#endif\n\n5 matches across 2 files\n",
-			"settings":
-			{
-				"buffer_size": 883,
-				"line_ending": "Windows",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "examples/03_jet_paco/dev/engine/player.c",
-			"settings":
-			{
-				"buffer_size": 20780,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "examples/03_jet_paco/dev/game.c",
-			"settings":
-			{
-				"buffer_size": 3793,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "examples/03_jet_paco/dev/my/extra_vars.h",
-			"settings":
-			{
-				"buffer_size": 676,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "examples/03_jet_paco/dev/lib/SGlib.h",
-			"settings":
-			{
-				"buffer_size": 5648,
+				"buffer_size": 0,
 				"line_ending": "Windows"
 			}
 		}
@@ -676,16 +621,22 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/lib",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/mainloop",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/my"
+		"/D/git/loves_the_sg1000",
+		"/D/git/loves_the_sg1000/docs",
+		"/D/git/loves_the_sg1000/examples",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/lib"
 	],
 	"file_history":
 	[
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/assets/levelset.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/my/pres.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/mainloop.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/config.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/player.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/game.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/my/extra_vars.h",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/my/pres.h",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/mainloop/flickscreen.h",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/engine/enemmods/enem_linear.h",
@@ -806,18 +757,11 @@
 		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/effects.h",
 		"/C/Users/na_th/AppData/Local/Temp/Temp1_PRESZ134.ZIP/README.1ST",
 		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/crt0.s",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/neslib.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/ram/bss.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/neslib.s",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/engine/enemmods/enem_timed_fanty.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/engine/general.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/script/enembehs.spt",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/engine/enemmods/enem_compiled.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/src/utils/pencompiler.bas"
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/neslib.h"
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 27.0
 	},
 	"find_in_files":
 	{
@@ -957,271 +901,39 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "examples/03_jet_paco/dev/assets/levelset.h",
+					"file": "docs/AGSG1000_requirements.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2727,
+						"buffer_size": 3749,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2723,
-								2723
+								835,
+								835
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 119.0,
-						"translation.y": 775.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "examples/03_jet_paco/dev/my/pres.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3485,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2981,
-								2981
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1244.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "examples/03_jet_paco/dev/mainloop.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8877,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5574,
-								5574
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3591.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "examples/03_jet_paco/dev/config.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 23704,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5033,
-								5124
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1296.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 883,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										245,
-										271
-									],
-									[
-										528,
-										554
-									],
-									[
-										584,
-										610
-									],
-									[
-										725,
-										751
-									],
-									[
-										781,
-										807
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								543,
-								543
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"line_numbers": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ \t].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Markdown Extended/Syntaxes/Markdown Extended.sublime-syntax",
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "examples/03_jet_paco/dev/engine/player.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 20780,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								16462,
-								16583
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C Improved/C Improved.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 9941.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "examples/03_jet_paco/dev/game.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3793,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3605,
-								3605
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C Improved/C Improved.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1770.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "examples/03_jet_paco/dev/my/extra_vars.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 676,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								394,
-								394
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
 					"type": "text"
 				}
 			]
@@ -1231,31 +943,72 @@
 			"sheets":
 			[
 				{
-					"buffer": 8,
-					"file": "examples/03_jet_paco/dev/lib/SGlib.h",
-					"semi_transient": true,
+					"buffer": 1,
+					"file": "README.md",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5648,
+						"buffer_size": 959,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4201,
-								4181
+								495,
+								495
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
+							"WordCount":
+							{
+								"changes": 0,
+								"count": 99,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Markdown Extended/Syntaxes/Markdown Extended.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1023.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"default_dir": "D:\\git\\loves_the_sg1000",
+							"incomplete_sync": null,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -1345,7 +1098,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},
