@@ -44,7 +44,7 @@
 #include "definitions.h"
 #include "config.h"
 #include "autodefs.h"
-#include "my/extra_defines.h"
+#include "my/extra_declarations.h"
 
 // **************
 // * const data *

@@ -11,7 +11,7 @@
 #include "../config.h"
 #include "../autodefs.h"
 #include "../murcia.h"
-#include "../my/extra_defines.h"
+#include "../my/extra_declarations.h"
 
 #ifdef ENABLE_BREAKABLE
 
