@@ -495,8 +495,8 @@ void player_move (void) {
 
 				if ((at1 & 1) || (at2 & 1)) pnotsafe = 1; 
 			} else {
-				#ifdef PLAYER_COLLISION_EVIL_BOTTOM_ALLOW
-					cy2 = (pry + 15 - PLAYER_COLLISION_EVIL_BOTTOM_ALLOW) >> 4;
+				#ifdef PLAYER_SPIKES_BOTTOM_ALLOW
+					cy2 = pry + 15 - PLAYER_SPIKES_BOTTOM_ALLOW;
 					cm_two_points ();
 				#endif
 				if ((at1 & 1) || (at2 & 1)) {
@@ -767,10 +767,6 @@ void player_move (void) {
 					if (cy2 != cy3) if (at3 & 2) player_process_tile (at3, cx1, cy3, rdm, cy3);
 				#endif				
 			} else {
-				#ifdef PLAYER_COLLISION_EVIL_BOTTOM_ALLOW
-					cy2 = (pry + 15 - PLAYER_COLLISION_EVIL_BOTTOM_ALLOW) >> 4;
-					cm_three_points ();
-				#endif
 				hith = ((at1 & 1) || (at2 & 1) || (at3 & 1));				
 			}
 		#else
@@ -789,8 +785,8 @@ void player_move (void) {
 					if (cy1 != cy2) if (at2 & 2) player_process_tile (at2, cx1, cy2, rdm, cy2);
 				#endif				
 			} else {
-				#ifdef PLAYER_COLLISION_EVIL_BOTTOM_ALLOW
-					cy2 = (pry + 15 - PLAYER_COLLISION_EVIL_BOTTOM_ALLOW) >> 4;
+				#ifdef PLAYER_SPIKES_BOTTOM_ALLOW
+					cy2 = pry + 15 - PLAYER_SPIKES_BOTTOM_ALLOW;
 					cm_two_points ();
 				#endif
 				hith = ((at1 & 1) || (at2 & 1));
@@ -843,14 +839,7 @@ void player_move (void) {
 
 		#if defined (ENABLE_CHAC_CHAC) || defined (ENABLE_TILE_CHAC_CHAC)
 			cx1 = cx2 = (prx + 4) >> 4;
-
-			cy1 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4; 
-			#ifdef PLAYER_COLLISION_EVIL_BOTTOM_ALLOW
-				cy2 = (pry + 15 - PLAYER_COLLISION_EVIL_BOTTOM_ALLOW) >> 4;
-			#else
-				cy2 = (pry + 15) >> 4;
-			#endif
-
+			cy1 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4; cy2 = (pry + 15) >> 4;
 			cm_two_points ();
 			if ((at1 & 1) || (at2 & 1)) phit = 1;
 		#endif

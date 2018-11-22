@@ -16,7 +16,7 @@ void game_init (void) {
 
 	// Load patterns
 	#include "my/level_pattern_unpacker.h"
-	
+
 	cls ();
 
 	draw_game_frame ();
@@ -108,7 +108,7 @@ void game_init (void) {
 		DISABLE_INTERRUPTS;
 
 		VDPControlPort = LO (PERSISTENT_TILE_GET_ADDR);
-		VDPControlPort = HI (PERSISTENT_TILE_GET_ADDR) & 0x40;
+		VDPControlPort = HI (PERSISTENT_TILE_GET_ADDR) | 0x40;
 
 		// Write MAP_SIZE*24 zeroes
 		for (rds16 = 0; rds16 < MAP_SIZE*24; rds16 ++) VDPDataPort = 0;
@@ -147,7 +147,7 @@ void prepare_scr (void) {
 			DISABLE_INTERRUPTS;
 
 			VDPControlPort = LO (gp_addr);
-			VDPControlPort = HI (gp_addr) & 0x40;
+			VDPControlPort = HI (gp_addr) | 0x40;
 
 			// Write 24 bytes
 			for (gpit = 0; gpit < 24; gpit ++) VDPDataPort = tile_got [gpit];

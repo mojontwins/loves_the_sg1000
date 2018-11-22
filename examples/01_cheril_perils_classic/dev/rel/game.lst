@@ -1,0 +1,2995 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.2 #9293 (MINGW32)
+                              4 ; This file was generated Thu Nov 22 08:52:15 2018
+                              5 ;--------------------------------------------------------
+                              6 	.module game
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _main
+                             13 	.globl _game_loop
+                             14 	.globl _prepare_scr
+                             15 	.globl _game_init
+                             16 	.globl _flickscreen_do_vertical
+                             17 	.globl _flickscreen_do_horizontal
+                             18 	.globl _credits
+                             19 	.globl _scr_level
+                             20 	.globl _scr_the_end
+                             21 	.globl _scr_game_over
+                             22 	.globl _title
+                             23 	.globl _pres
+                             24 	.globl _bat_out
+                             25 	.globl _bat_in
+                             26 	.globl _hud_update
+                             27 	.globl _draw_game_frame
+                             28 	.globl _enems_move
+                             29 	.globl _enems_load
+                             30 	.globl _enems_persistent_deaths_load
+                             31 	.globl _enems_persistent_update
+                             32 	.globl _enems_persistent_load
+                             33 	.globl _player_move
+                             34 	.globl _player_kill
+                             35 	.globl _player_to_pixels
+                             36 	.globl _player_render
+                             37 	.globl _player_init
+                             38 	.globl _chac_chacs_do
+                             39 	.globl _hotspots_create
+                             40 	.globl _hotspots_paint
+                             41 	.globl _hotspots_load
+                             42 	.globl _update_cycle
+                             43 	.globl _jump_start
+                             44 	.globl _pad_read
+                             45 	.globl _collide_in
+                             46 	.globl _pr_str
+                             47 	.globl _draw_scr
+                             48 	.globl _p_t
+                             49 	.globl _ul_putc
+                             50 	.globl _cls
+                             51 	.globl _clear_update_list
+                             52 	.globl _unrle
+                             53 	.globl _unpack_bg_patterns
+                             54 	.globl _memfill
+                             55 	.globl _delay
+                             56 	.globl _aPLib_depack_VRAM
+                             57 	.globl _PSGSFXStop
+                             58 	.globl _PSGSFXPlay
+                             59 	.globl _PSGStop
+                             60 	.globl _PSGPlay
+                             61 	.globl _SG_doUpdateList
+                             62 	.globl _SG_setUpdateList
+                             63 	.globl _SG_copySpritestoSAT
+                             64 	.globl _SG_resetPauseRequest
+                             65 	.globl _SG_queryPauseRequested
+                             66 	.globl _SG_getKeysStatus
+                             67 	.globl _SG_getStp
+                             68 	.globl _SG_addMetaSprite1x1
+                             69 	.globl _SG_initSprites
+                             70 	.globl _SG_setTile
+                             71 	.globl _SG_waitForVBlank
+                             72 	.globl _SG_setSpriteMode
+                             73 	.globl _SG_VDPturnOffFeature
+                             74 	.globl _SG_VDPturnOnFeature
+                             75 	.globl _game_mode
+                             76 	.globl _mode_no_resonators
+                             77 	.globl _shaker_ct
+                             78 	.globl _springs_on
+                             79 	.globl _cfx
+                             80 	.globl _res_subct
+                             81 	.globl _res_ct
+                             82 	.globl _res_on
+                             83 	.globl _res_disable
+                             84 	.globl _chac_chacs_queue_write
+                             85 	.globl _chac_chacs_queue_read
+                             86 	.globl _chac_chacs_queue
+                             87 	.globl _chac_chacs_ct
+                             88 	.globl _chac_chacs_idlewait
+                             89 	.globl _chac_chacs_state
+                             90 	.globl _chac_chacs_yx
+                             91 	.globl _max_chac_chacs
+                             92 	.globl _ep_dead
+                             93 	.globl _en_spr_id
+                             94 	.globl _enf_vy
+                             95 	.globl _enf_y
+                             96 	.globl _enf_vx
+                             97 	.globl _enf_x
+                             98 	.globl _en_spr_x_mod
+                             99 	.globl _en_ct
+                            100 	.globl _en_status
+                            101 	.globl _en_life
+                            102 	.globl _en_cttouched
+                            103 	.globl _en_flags
+                            104 	.globl _en_state
+                            105 	.globl _en_facing
+                            106 	.globl _en_s
+                            107 	.globl _en_my
+                            108 	.globl _en_mx
+                            109 	.globl _en_y2
+                            110 	.globl _en_x2
+                            111 	.globl _en_y1
+                            112 	.globl _en_x1
+                            113 	.globl _en_y
+                            114 	.globl _en_x
+                            115 	.globl _en_t
+                            116 	.globl _flags
+                            117 	.globl _lkact
+                            118 	.globl _hact
+                            119 	.globl _pctfr
+                            120 	.globl _no_ct
+                            121 	.globl _oam_index_player
+                            122 	.globl _okilled
+                            123 	.globl _oammo
+                            124 	.globl _oobjs
+                            125 	.globl _okeys
+                            126 	.globl _olife
+                            127 	.globl _flick_override
+                            128 	.globl _level_reset
+                            129 	.globl _warp_to_level
+                            130 	.globl _game_over
+                            131 	.globl _win_level
+                            132 	.globl _paused
+                            133 	.globl _frame_counter
+                            134 	.globl _half_life
+                            135 	.globl _on_pant
+                            136 	.globl _n_pant
+                            137 	.globl _c_max_enems
+                            138 	.globl _level
+                            139 	.globl _first_game
+                            140 	.globl _map_buff
+                            141 	.globl _fade_delay
+                            142 	.globl _fader
+                            143 	.globl _update_list
+                            144 	.globl _update_index
+                            145 	.globl _ntsc_frame
+                            146 	.globl _ntsc
+                            147 	.globl _c_max_bolts
+                            148 	.globl _c_hotspots
+                            149 	.globl _c_enems
+                            150 	.globl _c_locks
+                            151 	.globl _c_decos
+                            152 	.globl _c_map
+                            153 	.globl _spr_enems
+                            154 	.globl _c_behs
+                            155 	.globl _c_ts_tmaps
+                            156 	.globl _c_map_size
+                            157 	.globl _c_map_h
+                            158 	.globl _c_map_w
+                            159 	.globl _ft
+                            160 	.globl _do_process_breakable
+                            161 	.globl _hrt
+                            162 	.globl _hry
+                            163 	.globl _hrx
+                            164 	.globl _py_safe
+                            165 	.globl _px_safe
+                            166 	.globl _n_pant_safe
+                            167 	.globl _pfiring
+                            168 	.globl _pkilled
+                            169 	.globl _pammo
+                            170 	.globl _pobjs
+                            171 	.globl _pkeys
+                            172 	.globl _plife
+                            173 	.globl _pcontinues
+                            174 	.globl _pnotsafe
+                            175 	.globl _pice
+                            176 	.globl _pkill
+                            177 	.globl _pry_old
+                            178 	.globl _prx_old
+                            179 	.globl _hith
+                            180 	.globl _hitv
+                            181 	.globl _pgtmy
+                            182 	.globl _pgtmx
+                            183 	.globl _phit
+                            184 	.globl _pbouncing
+                            185 	.globl _pflickering
+                            186 	.globl _oppossee
+                            187 	.globl _ppossee
+                            188 	.globl _pgotten
+                            189 	.globl _pctj
+                            190 	.globl _pjb
+                            191 	.globl _pj
+                            192 	.globl _b_button
+                            193 	.globl _a_button
+                            194 	.globl _psprid
+                            195 	.globl _pfr
+                            196 	.globl _pfacing
+                            197 	.globl _pcy
+                            198 	.globl _pcx
+                            199 	.globl _pry
+                            200 	.globl _prx
+                            201 	.globl _pvy
+                            202 	.globl _pvx
+                            203 	.globl _py
+                            204 	.globl _px
+                            205 	.globl _vertical_engine_type
+                            206 	.globl _en_sg_2
+                            207 	.globl _en_sg_1
+                            208 	.globl __enf_vy
+                            209 	.globl __enf_vx
+                            210 	.globl __enf_y
+                            211 	.globl __enf_x
+                            212 	.globl __en_state
+                            213 	.globl __en_facing
+                            214 	.globl __en_ct
+                            215 	.globl __en_my
+                            216 	.globl __en_mx
+                            217 	.globl __en_y2
+                            218 	.globl __en_x2
+                            219 	.globl __en_y1
+                            220 	.globl __en_x1
+                            221 	.globl __en_y
+                            222 	.globl __en_x
+                            223 	.globl __en_s
+                            224 	.globl __en_t
+                            225 	.globl _pregotten
+                            226 	.globl _en_is_alive
+                            227 	.globl _touched
+                            228 	.globl _en_spr
+                            229 	.globl _en_colly
+                            230 	.globl _en_collx
+                            231 	.globl _en_fr
+                            232 	.globl _en_offs
+                            233 	.globl _en_initial
+                            234 	.globl _cur_stp
+                            235 	.globl _caux
+                            236 	.globl _cy2
+                            237 	.globl _cy1
+                            238 	.globl _cx2
+                            239 	.globl _cx1
+                            240 	.globl _at2
+                            241 	.globl _at1
+                            242 	.globl _ticker
+                            243 	.globl _rdct
+                            244 	.globl _rds
+                            245 	.globl _rdm
+                            246 	.globl _rdd
+                            247 	.globl _rdc
+                            248 	.globl _rdb
+                            249 	.globl _rda
+                            250 	.globl _rdit
+                            251 	.globl _rdt
+                            252 	.globl _rdy
+                            253 	.globl _rdx
+                            254 	.globl _gp_addr
+                            255 	.globl _gp_ram
+                            256 	.globl _gp_tmap
+                            257 	.globl _gp_gen
+                            258 	.globl _rds16
+                            259 	.globl _gpjt
+                            260 	.globl _gpit
+                            261 	.globl _pad_this_frame
+                            262 	.globl _pad0
+                            263 	.globl __t
+                            264 	.globl __n
+                            265 	.globl __y
+                            266 	.globl __x
+                            267 	.globl _levelnames
+                            268 	.globl _level2name
+                            269 	.globl _level1name
+                            270 	.globl _level0name
+                            271 	.globl _l_music
+                            272 	.globl _l_hotspots
+                            273 	.globl _l_enems
+                            274 	.globl _l_n_bolts
+                            275 	.globl _l_locks
+                            276 	.globl _l_decos
+                            277 	.globl _l_map
+                            278 	.globl _l_spr_enems
+                            279 	.globl _l_spr_patterns
+                            280 	.globl _l_behs
+                            281 	.globl _l_ts_tmaps
+                            282 	.globl _l_ts_colours
+                            283 	.globl _l_ts_patterns
+                            284 	.globl _l_player_max_enems
+                            285 	.globl _l_player_max_objects
+                            286 	.globl _l_map_h
+                            287 	.globl _l_map_w
+                            288 	.globl _l_ini_y
+                            289 	.globl _l_ini_x
+                            290 	.globl _l_scr_ini
+                            291 	.globl _spr_hs
+                            292 	.globl _spr_enems2
+                            293 	.globl _spr_enems1
+                            294 	.globl _spr_enems0
+                            295 	.globl _spr_player
+                            296 	.globl _behs2
+                            297 	.globl _behs1
+                            298 	.globl _behs0
+                            299 	.globl _jitter
+                            300 	.globl _bits
+                            301 	.globl _chac_chacs_t3
+                            302 	.globl _chac_chacs_t2
+                            303 	.globl _chac_chacs_t1
+                            304 	.globl _chac_chacs_times
+                            305 ;--------------------------------------------------------
+                            306 ; special function registers
+                            307 ;--------------------------------------------------------
+                     00BF   308 _VDPControlPort	=	0x00bf
+                     00BF   309 _VDPStatusPort	=	0x00bf
+                     00BE   310 _VDPDataPort	=	0x00be
+                     007E   311 _VDPVCounterPort	=	0x007e
+                     007F   312 _VDPHCounterPort	=	0x007f
+                     00DC   313 _IOPortL	=	0x00dc
+                     00DD   314 _IOPortH	=	0x00dd
+                            315 ;--------------------------------------------------------
+                            316 ; ram data
+                            317 ;--------------------------------------------------------
+                            318 	.area _DATA
+   0000                     319 __x::
+   0000                     320 	.ds 1
+   0001                     321 __y::
+   0001                     322 	.ds 1
+   0002                     323 __n::
+   0002                     324 	.ds 1
+   0003                     325 __t::
+   0003                     326 	.ds 1
+   0004                     327 _pad0::
+   0004                     328 	.ds 1
+   0005                     329 _pad_this_frame::
+   0005                     330 	.ds 1
+   0006                     331 _gpit::
+   0006                     332 	.ds 1
+   0007                     333 _gpjt::
+   0007                     334 	.ds 1
+   0008                     335 _rds16::
+   0008                     336 	.ds 2
+   000A                     337 _gp_gen::
+   000A                     338 	.ds 2
+   000C                     339 _gp_tmap::
+   000C                     340 	.ds 2
+   000E                     341 _gp_ram::
+   000E                     342 	.ds 2
+   0010                     343 _gp_addr::
+   0010                     344 	.ds 2
+   0012                     345 _rdx::
+   0012                     346 	.ds 1
+   0013                     347 _rdy::
+   0013                     348 	.ds 1
+   0014                     349 _rdt::
+   0014                     350 	.ds 1
+   0015                     351 _rdit::
+   0015                     352 	.ds 1
+   0016                     353 _rda::
+   0016                     354 	.ds 1
+   0017                     355 _rdb::
+   0017                     356 	.ds 1
+   0018                     357 _rdc::
+   0018                     358 	.ds 1
+   0019                     359 _rdd::
+   0019                     360 	.ds 1
+   001A                     361 _rdm::
+   001A                     362 	.ds 1
+   001B                     363 _rds::
+   001B                     364 	.ds 1
+   001C                     365 _rdct::
+   001C                     366 	.ds 1
+   001D                     367 _ticker::
+   001D                     368 	.ds 1
+   001E                     369 _at1::
+   001E                     370 	.ds 1
+   001F                     371 _at2::
+   001F                     372 	.ds 1
+   0020                     373 _cx1::
+   0020                     374 	.ds 1
+   0021                     375 _cx2::
+   0021                     376 	.ds 1
+   0022                     377 _cy1::
+   0022                     378 	.ds 1
+   0023                     379 _cy2::
+   0023                     380 	.ds 1
+   0024                     381 _caux::
+   0024                     382 	.ds 1
+   0025                     383 _cur_stp::
+   0025                     384 	.ds 2
+   0027                     385 _en_initial::
+   0027                     386 	.ds 1
+   0028                     387 _en_offs::
+   0028                     388 	.ds 1
+   0029                     389 _en_fr::
+   0029                     390 	.ds 1
+   002A                     391 _en_collx::
+   002A                     392 	.ds 1
+   002B                     393 _en_colly::
+   002B                     394 	.ds 1
+   002C                     395 _en_spr::
+   002C                     396 	.ds 1
+   002D                     397 _touched::
+   002D                     398 	.ds 1
+   002E                     399 _en_is_alive::
+   002E                     400 	.ds 1
+   002F                     401 _pregotten::
+   002F                     402 	.ds 1
+   0030                     403 __en_t::
+   0030                     404 	.ds 1
+   0031                     405 __en_s::
+   0031                     406 	.ds 1
+   0032                     407 __en_x::
+   0032                     408 	.ds 1
+   0033                     409 __en_y::
+   0033                     410 	.ds 1
+   0034                     411 __en_x1::
+   0034                     412 	.ds 1
+   0035                     413 __en_y1::
+   0035                     414 	.ds 1
+   0036                     415 __en_x2::
+   0036                     416 	.ds 1
+   0037                     417 __en_y2::
+   0037                     418 	.ds 1
+   0038                     419 __en_mx::
+   0038                     420 	.ds 1
+   0039                     421 __en_my::
+   0039                     422 	.ds 1
+   003A                     423 __en_ct::
+   003A                     424 	.ds 1
+   003B                     425 __en_facing::
+   003B                     426 	.ds 1
+   003C                     427 __en_state::
+   003C                     428 	.ds 1
+   003D                     429 __enf_x::
+   003D                     430 	.ds 2
+   003F                     431 __enf_y::
+   003F                     432 	.ds 2
+   0041                     433 __enf_vx::
+   0041                     434 	.ds 2
+   0043                     435 __enf_vy::
+   0043                     436 	.ds 2
+   0045                     437 _en_sg_1::
+   0045                     438 	.ds 1
+   0046                     439 _en_sg_2::
+   0046                     440 	.ds 1
+   0047                     441 _vertical_engine_type::
+   0047                     442 	.ds 1
+   0048                     443 _px::
+   0048                     444 	.ds 2
+   004A                     445 _py::
+   004A                     446 	.ds 2
+   004C                     447 _pvx::
+   004C                     448 	.ds 2
+   004E                     449 _pvy::
+   004E                     450 	.ds 2
+   0050                     451 _prx::
+   0050                     452 	.ds 1
+   0051                     453 _pry::
+   0051                     454 	.ds 1
+   0052                     455 _pcx::
+   0052                     456 	.ds 1
+   0053                     457 _pcy::
+   0053                     458 	.ds 1
+   0054                     459 _pfacing::
+   0054                     460 	.ds 1
+   0055                     461 _pfr::
+   0055                     462 	.ds 1
+   0056                     463 _psprid::
+   0056                     464 	.ds 1
+   0057                     465 _a_button::
+   0057                     466 	.ds 1
+   0058                     467 _b_button::
+   0058                     468 	.ds 1
+   0059                     469 _pj::
+   0059                     470 	.ds 1
+   005A                     471 _pjb::
+   005A                     472 	.ds 1
+   005B                     473 _pctj::
+   005B                     474 	.ds 1
+   005C                     475 _pgotten::
+   005C                     476 	.ds 1
+   005D                     477 _ppossee::
+   005D                     478 	.ds 1
+   005E                     479 _oppossee::
+   005E                     480 	.ds 1
+   005F                     481 _pflickering::
+   005F                     482 	.ds 1
+   0060                     483 _pbouncing::
+   0060                     484 	.ds 1
+   0061                     485 _phit::
+   0061                     486 	.ds 1
+   0062                     487 _pgtmx::
+   0062                     488 	.ds 2
+   0064                     489 _pgtmy::
+   0064                     490 	.ds 2
+   0066                     491 _hitv::
+   0066                     492 	.ds 1
+   0067                     493 _hith::
+   0067                     494 	.ds 1
+   0068                     495 _prx_old::
+   0068                     496 	.ds 1
+   0069                     497 _pry_old::
+   0069                     498 	.ds 1
+   006A                     499 _pkill::
+   006A                     500 	.ds 1
+   006B                     501 _pice::
+   006B                     502 	.ds 1
+   006C                     503 _pnotsafe::
+   006C                     504 	.ds 1
+   006D                     505 _pcontinues::
+   006D                     506 	.ds 1
+   006E                     507 _plife::
+   006E                     508 	.ds 1
+   006F                     509 _pkeys::
+   006F                     510 	.ds 1
+   0070                     511 _pobjs::
+   0070                     512 	.ds 1
+   0071                     513 _pammo::
+   0071                     514 	.ds 1
+   0072                     515 _pkilled::
+   0072                     516 	.ds 1
+   0073                     517 _pfiring::
+   0073                     518 	.ds 1
+   0074                     519 _n_pant_safe::
+   0074                     520 	.ds 1
+   0075                     521 _px_safe::
+   0075                     522 	.ds 2
+   0077                     523 _py_safe::
+   0077                     524 	.ds 2
+   0079                     525 _hrx::
+   0079                     526 	.ds 1
+   007A                     527 _hry::
+   007A                     528 	.ds 1
+   007B                     529 _hrt::
+   007B                     530 	.ds 1
+   007C                     531 _do_process_breakable::
+   007C                     532 	.ds 1
+   007D                     533 _ft::
+   007D                     534 	.ds 1
+   007E                     535 _c_map_w::
+   007E                     536 	.ds 1
+   007F                     537 _c_map_h::
+   007F                     538 	.ds 1
+   0080                     539 _c_map_size::
+   0080                     540 	.ds 1
+   0081                     541 _c_ts_tmaps::
+   0081                     542 	.ds 2
+   0083                     543 _c_behs::
+   0083                     544 	.ds 2
+   0085                     545 _spr_enems::
+   0085                     546 	.ds 2
+   0087                     547 _c_map::
+   0087                     548 	.ds 2
+   0089                     549 _c_decos::
+   0089                     550 	.ds 1
+   008A                     551 _c_locks::
+   008A                     552 	.ds 2
+   008C                     553 _c_enems::
+   008C                     554 	.ds 2
+   008E                     555 _c_hotspots::
+   008E                     556 	.ds 2
+   0090                     557 _c_max_bolts::
+   0090                     558 	.ds 1
+   0091                     559 _ntsc::
+   0091                     560 	.ds 1
+   0092                     561 _ntsc_frame::
+   0092                     562 	.ds 1
+   0093                     563 _update_index::
+   0093                     564 	.ds 1
+   0094                     565 _update_list::
+   0094                     566 	.ds 96
+   00F4                     567 _fader::
+   00F4                     568 	.ds 1
+   00F5                     569 _fade_delay::
+   00F5                     570 	.ds 1
+   00F6                     571 _map_buff::
+   00F6                     572 	.ds 192
+   01B6                     573 _first_game::
+   01B6                     574 	.ds 1
+   01B7                     575 _level::
+   01B7                     576 	.ds 1
+   01B8                     577 _c_max_enems::
+   01B8                     578 	.ds 1
+   01B9                     579 _n_pant::
+   01B9                     580 	.ds 1
+   01BA                     581 _on_pant::
+   01BA                     582 	.ds 1
+   01BB                     583 _half_life::
+   01BB                     584 	.ds 1
+   01BC                     585 _frame_counter::
+   01BC                     586 	.ds 1
+   01BD                     587 _paused::
+   01BD                     588 	.ds 1
+   01BE                     589 _win_level::
+   01BE                     590 	.ds 1
+   01BF                     591 _game_over::
+   01BF                     592 	.ds 1
+   01C0                     593 _warp_to_level::
+   01C0                     594 	.ds 1
+   01C1                     595 _level_reset::
+   01C1                     596 	.ds 1
+   01C2                     597 _flick_override::
+   01C2                     598 	.ds 1
+   01C3                     599 _olife::
+   01C3                     600 	.ds 1
+   01C4                     601 _okeys::
+   01C4                     602 	.ds 1
+   01C5                     603 _oobjs::
+   01C5                     604 	.ds 1
+   01C6                     605 _oammo::
+   01C6                     606 	.ds 1
+   01C7                     607 _okilled::
+   01C7                     608 	.ds 1
+   01C8                     609 _oam_index_player::
+   01C8                     610 	.ds 1
+   01C9                     611 _no_ct::
+   01C9                     612 	.ds 1
+   01CA                     613 _pctfr::
+   01CA                     614 	.ds 1
+   01CB                     615 _hact::
+   01CB                     616 	.ds 24
+   01E3                     617 _lkact::
+   01E3                     618 	.ds 16
+   01F3                     619 _flags::
+   01F3                     620 	.ds 2
+   01F5                     621 _en_t::
+   01F5                     622 	.ds 3
+   01F8                     623 _en_x::
+   01F8                     624 	.ds 3
+   01FB                     625 _en_y::
+   01FB                     626 	.ds 3
+   01FE                     627 _en_x1::
+   01FE                     628 	.ds 3
+   0201                     629 _en_y1::
+   0201                     630 	.ds 3
+   0204                     631 _en_x2::
+   0204                     632 	.ds 3
+   0207                     633 _en_y2::
+   0207                     634 	.ds 3
+   020A                     635 _en_mx::
+   020A                     636 	.ds 3
+   020D                     637 _en_my::
+   020D                     638 	.ds 3
+   0210                     639 _en_s::
+   0210                     640 	.ds 3
+   0213                     641 _en_facing::
+   0213                     642 	.ds 3
+   0216                     643 _en_state::
+   0216                     644 	.ds 3
+   0219                     645 _en_flags::
+   0219                     646 	.ds 3
+   021C                     647 _en_cttouched::
+   021C                     648 	.ds 3
+   021F                     649 _en_life::
+   021F                     650 	.ds 3
+   0222                     651 _en_status::
+   0222                     652 	.ds 3
+   0225                     653 _en_ct::
+   0225                     654 	.ds 3
+   0228                     655 _en_spr_x_mod::
+   0228                     656 	.ds 1
+   0229                     657 _enf_x::
+   0229                     658 	.ds 6
+   022F                     659 _enf_vx::
+   022F                     660 	.ds 6
+   0235                     661 _enf_y::
+   0235                     662 	.ds 6
+   023B                     663 _enf_vy::
+   023B                     664 	.ds 6
+   0241                     665 _en_spr_id::
+   0241                     666 	.ds 3
+   0244                     667 _ep_dead::
+   0244                     668 	.ds 72
+   028C                     669 _max_chac_chacs::
+   028C                     670 	.ds 1
+   028D                     671 _chac_chacs_yx::
+   028D                     672 	.ds 4
+   0291                     673 _chac_chacs_state::
+   0291                     674 	.ds 4
+   0295                     675 _chac_chacs_idlewait::
+   0295                     676 	.ds 4
+   0299                     677 _chac_chacs_ct::
+   0299                     678 	.ds 4
+   029D                     679 _chac_chacs_queue::
+   029D                     680 	.ds 16
+   02AD                     681 _chac_chacs_queue_read::
+   02AD                     682 	.ds 1
+   02AE                     683 _chac_chacs_queue_write::
+   02AE                     684 	.ds 1
+   02AF                     685 _res_disable::
+   02AF                     686 	.ds 1
+   02B0                     687 _res_on::
+   02B0                     688 	.ds 1
+   02B1                     689 _res_ct::
+   02B1                     690 	.ds 1
+   02B2                     691 _res_subct::
+   02B2                     692 	.ds 1
+   02B3                     693 _cfx::
+   02B3                     694 	.ds 1
+   02B4                     695 _springs_on::
+   02B4                     696 	.ds 1
+   02B5                     697 _shaker_ct::
+   02B5                     698 	.ds 1
+   02B6                     699 _mode_no_resonators::
+   02B6                     700 	.ds 1
+   02B7                     701 _game_mode::
+   02B7                     702 	.ds 1
+                            703 ;--------------------------------------------------------
+                            704 ; ram data
+                            705 ;--------------------------------------------------------
+                            706 	.area _INITIALIZED
+                            707 ;--------------------------------------------------------
+                            708 ; absolute external ram data
+                            709 ;--------------------------------------------------------
+                            710 	.area _DABS (ABS)
+                            711 ;--------------------------------------------------------
+                            712 ; global & static initialisations
+                            713 ;--------------------------------------------------------
+                            714 	.area _HOME
+                            715 	.area _GSINIT
+                            716 	.area _GSFINAL
+                            717 	.area _GSINIT
+                            718 ;--------------------------------------------------------
+                            719 ; Home
+                            720 ;--------------------------------------------------------
+                            721 	.area _HOME
+                            722 	.area _HOME
+                            723 ;--------------------------------------------------------
+                            724 ; code
+                            725 ;--------------------------------------------------------
+                            726 	.area _CODE
+                            727 ;engine/hotspots.h:7: void hotspots_load (void) {
+                            728 ;	---------------------------------
+                            729 ; Function hotspots_load
+                            730 ; ---------------------------------
+   0000                     731 _hotspots_load::
+                            732 ;engine/hotspots.h:9: gp_gen = (unsigned char *) c_hotspots;
+   0000 2Ar8Er00      [16]  733 	ld	hl,(_c_hotspots)
+   0003 22r0Ar00      [16]  734 	ld	(_gp_gen),hl
+                            735 ;engine/hotspots.h:11: for (gpit = 0; gpit < MAP_SIZE; gpit ++) {
+   0006 21r06r00      [10]  736 	ld	hl,#_gpit + 0
+   0009 36 00         [10]  737 	ld	(hl), #0x00
+   000B 11rCBr01      [10]  738 	ld	de,#_hact+0
+   000E                     739 00102$:
+                            740 ;engine/hotspots.h:16: hact [gpit] = 1;
+   000E 2Ar06r00      [16]  741 	ld	hl,(_gpit)
+   0011 26 00         [ 7]  742 	ld	h,#0x00
+   0013 19            [11]  743 	add	hl,de
+   0014 36 01         [10]  744 	ld	(hl),#0x01
+                            745 ;engine/hotspots.h:11: for (gpit = 0; gpit < MAP_SIZE; gpit ++) {
+   0016 21r06r00      [10]  746 	ld	hl, #_gpit+0
+   0019 34            [11]  747 	inc	(hl)
+   001A 3Ar06r00      [13]  748 	ld	a,(#_gpit + 0)
+   001D D6 18         [ 7]  749 	sub	a, #0x18
+   001F 38 ED         [12]  750 	jr	C,00102$
+   0021 C9            [10]  751 	ret
+   0022                     752 _chac_chacs_times:
+   0022 00                  753 	.db #0x00	; 0
+   0023 10                  754 	.db #0x10	; 16
+   0024 01                  755 	.db #0x01	; 1
+   0025 32                  756 	.db #0x32	; 50	'2'
+   0026 01                  757 	.db #0x01	; 1
+   0027 01                  758 	.db #0x01	; 1
+   0028                     759 _chac_chacs_t1:
+   0028 26                  760 	.db #0x26	; 38
+   0029 20                  761 	.db #0x20	; 32
+   002A 22                  762 	.db #0x22	; 34
+   002B 25                  763 	.db #0x25	; 37
+   002C 22                  764 	.db #0x22	; 34
+   002D 20                  765 	.db #0x20	; 32
+   002E                     766 _chac_chacs_t2:
+   002E 26                  767 	.db #0x26	; 38
+   002F 26                  768 	.db #0x26	; 38
+   0030 26                  769 	.db #0x26	; 38
+   0031 24                  770 	.db #0x24	; 36
+   0032 26                  771 	.db #0x26	; 38
+   0033 26                  772 	.db #0x26	; 38
+   0034                     773 _chac_chacs_t3:
+   0034 26                  774 	.db #0x26	; 38
+   0035 21                  775 	.db #0x21	; 33
+   0036 23                  776 	.db #0x23	; 35
+   0037 25                  777 	.db #0x25	; 37
+   0038 23                  778 	.db #0x23	; 35
+   0039 21                  779 	.db #0x21	; 33
+   003A                     780 _bits:
+   003A 01                  781 	.db #0x01	; 1
+   003B 02                  782 	.db #0x02	; 2
+   003C 04                  783 	.db #0x04	; 4
+   003D 08                  784 	.db #0x08	; 8
+   003E 10                  785 	.db #0x10	; 16
+   003F 20                  786 	.db #0x20	; 32
+   0040 40                  787 	.db #0x40	; 64
+   0041 80                  788 	.db #0x80	; 128
+   0042                     789 _jitter:
+   0042 00                  790 	.db #0x00	; 0
+   0043 01                  791 	.db #0x01	; 1
+   0044 01                  792 	.db #0x01	; 1
+   0045 00                  793 	.db #0x00	; 0
+   0046 00                  794 	.db #0x00	; 0
+   0047 01                  795 	.db #0x01	; 1
+   0048 00                  796 	.db #0x00	; 0
+   0049 01                  797 	.db #0x01	; 1
+   004A 01                  798 	.db #0x01	; 1
+   004B 00                  799 	.db #0x00	; 0
+   004C 00                  800 	.db #0x00	; 0
+   004D 00                  801 	.db #0x00	; 0
+   004E 01                  802 	.db #0x01	; 1
+   004F 00                  803 	.db #0x00	; 0
+   0050 01                  804 	.db #0x01	; 1
+   0051 01                  805 	.db #0x01	; 1
+   0052                     806 _behs0:
+   0052 00                  807 	.db #0x00	; 0
+   0053 00                  808 	.db #0x00	; 0
+   0054 00                  809 	.db #0x00	; 0
+   0055 00                  810 	.db #0x00	; 0
+   0056 08                  811 	.db #0x08	; 8
+   0057 08                  812 	.db #0x08	; 8
+   0058 08                  813 	.db #0x08	; 8
+   0059 08                  814 	.db #0x08	; 8
+   005A 00                  815 	.db #0x00	; 0
+   005B 08                  816 	.db #0x08	; 8
+   005C 00                  817 	.db #0x00	; 0
+   005D 00                  818 	.db #0x00	; 0
+   005E 01                  819 	.db #0x01	; 1
+   005F 08                  820 	.db #0x08	; 8
+   0060 04                  821 	.db #0x04	; 4
+   0061 0A                  822 	.db #0x0A	; 10
+   0062 00                  823 	.db #0x00	; 0
+   0063 00                  824 	.db #0x00	; 0
+   0064 00                  825 	.db #0x00	; 0
+   0065 00                  826 	.db #0x00	; 0
+   0066 08                  827 	.db #0x08	; 8
+   0067 08                  828 	.db #0x08	; 8
+   0068 08                  829 	.db #0x08	; 8
+   0069 08                  830 	.db #0x08	; 8
+   006A 00                  831 	.db #0x00	; 0
+   006B 08                  832 	.db #0x08	; 8
+   006C 00                  833 	.db #0x00	; 0
+   006D 00                  834 	.db #0x00	; 0
+   006E 01                  835 	.db #0x01	; 1
+   006F 08                  836 	.db #0x08	; 8
+   0070 04                  837 	.db #0x04	; 4
+   0071 0A                  838 	.db #0x0A	; 10
+   0072                     839 _behs1:
+   0072 00                  840 	.db #0x00	; 0
+   0073 00                  841 	.db #0x00	; 0
+   0074 00                  842 	.db #0x00	; 0
+   0075 00                  843 	.db #0x00	; 0
+   0076 08                  844 	.db #0x08	; 8
+   0077 04                  845 	.db #0x04	; 4
+   0078 08                  846 	.db #0x08	; 8
+   0079 04                  847 	.db #0x04	; 4
+   007A 28                  848 	.db #0x28	; 40
+   007B 29                  849 	.db #0x29	; 41
+   007C 01                  850 	.db #0x01	; 1
+   007D 01                  851 	.db #0x01	; 1
+   007E 01                  852 	.db #0x01	; 1
+   007F 08                  853 	.db #0x08	; 8
+   0080 08                  854 	.db #0x08	; 8
+   0081 0A                  855 	.db #0x0A	; 10
+   0082 00                  856 	.db #0x00	; 0
+   0083 00                  857 	.db #0x00	; 0
+   0084 00                  858 	.db #0x00	; 0
+   0085 00                  859 	.db #0x00	; 0
+   0086 08                  860 	.db #0x08	; 8
+   0087 04                  861 	.db #0x04	; 4
+   0088 08                  862 	.db #0x08	; 8
+   0089 04                  863 	.db #0x04	; 4
+   008A 28                  864 	.db #0x28	; 40
+   008B 29                  865 	.db #0x29	; 41
+   008C 01                  866 	.db #0x01	; 1
+   008D 01                  867 	.db #0x01	; 1
+   008E 01                  868 	.db #0x01	; 1
+   008F 08                  869 	.db #0x08	; 8
+   0090 08                  870 	.db #0x08	; 8
+   0091 08                  871 	.db #0x08	; 8
+   0092                     872 _behs2:
+   0092 00                  873 	.db #0x00	; 0
+   0093 08                  874 	.db #0x08	; 8
+   0094 00                  875 	.db #0x00	; 0
+   0095 00                  876 	.db #0x00	; 0
+   0096 08                  877 	.db #0x08	; 8
+   0097 08                  878 	.db #0x08	; 8
+   0098 08                  879 	.db #0x08	; 8
+   0099 08                  880 	.db #0x08	; 8
+   009A 00                  881 	.db #0x00	; 0
+   009B 08                  882 	.db #0x08	; 8
+   009C 04                  883 	.db #0x04	; 4
+   009D 08                  884 	.db #0x08	; 8
+   009E 01                  885 	.db #0x01	; 1
+   009F 01                  886 	.db #0x01	; 1
+   00A0 08                  887 	.db #0x08	; 8
+   00A1 0A                  888 	.db #0x0A	; 10
+   00A2 00                  889 	.db #0x00	; 0
+   00A3 08                  890 	.db #0x08	; 8
+   00A4 00                  891 	.db #0x00	; 0
+   00A5 00                  892 	.db #0x00	; 0
+   00A6 08                  893 	.db #0x08	; 8
+   00A7 08                  894 	.db #0x08	; 8
+   00A8 08                  895 	.db #0x08	; 8
+   00A9 08                  896 	.db #0x08	; 8
+   00AA 00                  897 	.db #0x00	; 0
+   00AB 08                  898 	.db #0x08	; 8
+   00AC 04                  899 	.db #0x04	; 4
+   00AD 08                  900 	.db #0x08	; 8
+   00AE 01                  901 	.db #0x01	; 1
+   00AF 01                  902 	.db #0x01	; 1
+   00B0 08                  903 	.db #0x08	; 8
+   00B1 0A                  904 	.db #0x0A	; 10
+   00B2 00                  905 	.db #0x00	; 0
+   00B3 00                  906 	.db #0x00	; 0
+   00B4 01                  907 	.db #0x01	; 1
+   00B5 01                  908 	.db #0x01	; 1
+   00B6 01                  909 	.db #0x01	; 1
+   00B7 01                  910 	.db #0x01	; 1
+   00B8 00                  911 	.db #0x00	; 0
+   00B9                     912 _spr_player:
+   00B9r00r00               913 	.dw _ss_pl_00
+   00BBr00r00               914 	.dw _ss_pl_00
+   00BDr00r00               915 	.dw _ss_pl_01
+   00BFr00r00               916 	.dw _ss_pl_00
+   00C1r00r00               917 	.dw _ss_pl_02
+   00C3r00r00               918 	.dw _ss_pl_03
+   00C5 00 00               919 	.dw #0x0000
+   00C7 00 00               920 	.dw #0x0000
+   00C9r00r00               921 	.dw _ss_pl_04
+   00CBr00r00               922 	.dw _ss_pl_04
+   00CDr00r00               923 	.dw _ss_pl_06
+   00CFr00r00               924 	.dw _ss_pl_04
+   00D1r00r00               925 	.dw _ss_pl_05
+   00D3r00r00               926 	.dw _ss_pl_07
+   00D5 00 00               927 	.dw #0x0000
+   00D7 00 00               928 	.dw #0x0000
+   00D9                     929 _spr_enems0:
+   00D9r00r00               930 	.dw _ss_en_0_00
+   00DBr00r00               931 	.dw _ss_en_0_01
+   00DD 00 00               932 	.dw #0x0000
+   00DF 00 00               933 	.dw #0x0000
+   00E1r00r00               934 	.dw _ss_en_0_02
+   00E3r00r00               935 	.dw _ss_en_0_03
+   00E5 00 00               936 	.dw #0x0000
+   00E7 00 00               937 	.dw #0x0000
+   00E9r00r00               938 	.dw _ss_en_0_04
+   00EBr00r00               939 	.dw _ss_en_0_05
+   00ED 00 00               940 	.dw #0x0000
+   00EF 00 00               941 	.dw #0x0000
+   00F1r00r00               942 	.dw _ss_en_0_06
+   00F3r00r00               943 	.dw _ss_en_0_07
+   00F5 00 00               944 	.dw #0x0000
+   00F7 00 00               945 	.dw #0x0000
+   00F9r00r00               946 	.dw _ss_en_0_08
+   00FBr00r00               947 	.dw _ss_en_0_09
+   00FD 00 00               948 	.dw #0x0000
+   00FF 00 00               949 	.dw #0x0000
+   0101r00r00               950 	.dw _ss_en_0_0a
+   0103r00r00               951 	.dw _ss_en_0_0b
+   0105 00 00               952 	.dw #0x0000
+   0107 00 00               953 	.dw #0x0000
+   0109r00r00               954 	.dw _ss_plat_00
+   010Br00r00               955 	.dw _ss_plat_01
+   010D 00 00               956 	.dw #0x0000
+   010F 00 00               957 	.dw #0x0000
+   0111r00r00               958 	.dw _ss_plat_00
+   0113r00r00               959 	.dw _ss_plat_01
+   0115 00 00               960 	.dw #0x0000
+   0117 00 00               961 	.dw #0x0000
+   0119r00r00               962 	.dw _ss_fanty_00
+   011Br00r00               963 	.dw _ss_fanty_01
+   011D 00 00               964 	.dw #0x0000
+   011F 00 00               965 	.dw #0x0000
+   0121r00r00               966 	.dw _ss_fanty_02
+   0123r00r00               967 	.dw _ss_fanty_03
+   0125 00 00               968 	.dw #0x0000
+   0127 00 00               969 	.dw #0x0000
+   0129r00r00               970 	.dw _ss_it_04
+   012B                     971 _spr_enems1:
+   012Br00r00               972 	.dw _ss_en_1_00
+   012Dr00r00               973 	.dw _ss_en_1_01
+   012F 00 00               974 	.dw #0x0000
+   0131 00 00               975 	.dw #0x0000
+   0133r00r00               976 	.dw _ss_en_1_02
+   0135r00r00               977 	.dw _ss_en_1_03
+   0137 00 00               978 	.dw #0x0000
+   0139 00 00               979 	.dw #0x0000
+   013Br00r00               980 	.dw _ss_en_1_04
+   013Dr00r00               981 	.dw _ss_en_1_05
+   013F 00 00               982 	.dw #0x0000
+   0141 00 00               983 	.dw #0x0000
+   0143r00r00               984 	.dw _ss_en_1_06
+   0145r00r00               985 	.dw _ss_en_1_07
+   0147 00 00               986 	.dw #0x0000
+   0149 00 00               987 	.dw #0x0000
+   014Br00r00               988 	.dw _ss_en_1_08
+   014Dr00r00               989 	.dw _ss_en_1_09
+   014F 00 00               990 	.dw #0x0000
+   0151 00 00               991 	.dw #0x0000
+   0153r00r00               992 	.dw _ss_en_1_0a
+   0155r00r00               993 	.dw _ss_en_1_0b
+   0157 00 00               994 	.dw #0x0000
+   0159 00 00               995 	.dw #0x0000
+   015Br00r00               996 	.dw _ss_plat_00
+   015Dr00r00               997 	.dw _ss_plat_01
+   015F 00 00               998 	.dw #0x0000
+   0161 00 00               999 	.dw #0x0000
+   0163r00r00              1000 	.dw _ss_plat_00
+   0165r00r00              1001 	.dw _ss_plat_01
+   0167 00 00              1002 	.dw #0x0000
+   0169 00 00              1003 	.dw #0x0000
+   016Br00r00              1004 	.dw _ss_fanty_00
+   016Dr00r00              1005 	.dw _ss_fanty_01
+   016F 00 00              1006 	.dw #0x0000
+   0171 00 00              1007 	.dw #0x0000
+   0173r00r00              1008 	.dw _ss_fanty_02
+   0175r00r00              1009 	.dw _ss_fanty_03
+   0177 00 00              1010 	.dw #0x0000
+   0179 00 00              1011 	.dw #0x0000
+   017Br00r00              1012 	.dw _ss_it_04
+   017D                    1013 _spr_enems2:
+   017Dr00r00              1014 	.dw _ss_en_2_00
+   017Fr00r00              1015 	.dw _ss_en_2_01
+   0181 00 00              1016 	.dw #0x0000
+   0183 00 00              1017 	.dw #0x0000
+   0185r00r00              1018 	.dw _ss_en_2_02
+   0187r00r00              1019 	.dw _ss_en_2_03
+   0189 00 00              1020 	.dw #0x0000
+   018B 00 00              1021 	.dw #0x0000
+   018Dr00r00              1022 	.dw _ss_en_2_04
+   018Fr00r00              1023 	.dw _ss_en_2_05
+   0191 00 00              1024 	.dw #0x0000
+   0193 00 00              1025 	.dw #0x0000
+   0195r00r00              1026 	.dw _ss_en_2_06
+   0197r00r00              1027 	.dw _ss_en_2_07
+   0199 00 00              1028 	.dw #0x0000
+   019B 00 00              1029 	.dw #0x0000
+   019Dr00r00              1030 	.dw _ss_en_2_08
+   019Fr00r00              1031 	.dw _ss_en_2_09
+   01A1 00 00              1032 	.dw #0x0000
+   01A3 00 00              1033 	.dw #0x0000
+   01A5r00r00              1034 	.dw _ss_en_2_08
+   01A7r00r00              1035 	.dw _ss_en_2_09
+   01A9 00 00              1036 	.dw #0x0000
+   01AB 00 00              1037 	.dw #0x0000
+   01ADr00r00              1038 	.dw _ss_plat_00
+   01AFr00r00              1039 	.dw _ss_plat_01
+   01B1 00 00              1040 	.dw #0x0000
+   01B3 00 00              1041 	.dw #0x0000
+   01B5r00r00              1042 	.dw _ss_plat_00
+   01B7r00r00              1043 	.dw _ss_plat_01
+   01B9 00 00              1044 	.dw #0x0000
+   01BB 00 00              1045 	.dw #0x0000
+   01BDr00r00              1046 	.dw _ss_fanty_00
+   01BFr00r00              1047 	.dw _ss_fanty_01
+   01C1 00 00              1048 	.dw #0x0000
+   01C3 00 00              1049 	.dw #0x0000
+   01C5r00r00              1050 	.dw _ss_fanty_02
+   01C7r00r00              1051 	.dw _ss_fanty_03
+   01C9 00 00              1052 	.dw #0x0000
+   01CB 00 00              1053 	.dw #0x0000
+   01CDr00r00              1054 	.dw _ss_it_04
+   01CF                    1055 _spr_hs:
+   01CF 00 00              1056 	.dw #0x0000
+   01D1 00 00              1057 	.dw #0x0000
+   01D3r00r00              1058 	.dw _ss_it_01
+   01D5r00r00              1059 	.dw _ss_it_00
+   01D7r00r00              1060 	.dw _ss_it_02
+   01D9r00r00              1061 	.dw _ss_it_03
+   01DB                    1062 _l_scr_ini:
+   01DB 14                 1063 	.db #0x14	; 20
+   01DC 14                 1064 	.db #0x14	; 20
+   01DD 08                 1065 	.db #0x08	; 8
+   01DE                    1066 _l_ini_x:
+   01DE 02                 1067 	.db #0x02	; 2
+   01DF 02                 1068 	.db #0x02	; 2
+   01E0 02                 1069 	.db #0x02	; 2
+   01E1                    1070 _l_ini_y:
+   01E1 07                 1071 	.db #0x07	; 7
+   01E2 0A                 1072 	.db #0x0A	; 10
+   01E3 03                 1073 	.db #0x03	; 3
+   01E4                    1074 _l_map_w:
+   01E4 04                 1075 	.db #0x04	; 4
+   01E5 04                 1076 	.db #0x04	; 4
+   01E6 08                 1077 	.db #0x08	; 8
+   01E7                    1078 _l_map_h:
+   01E7 06                 1079 	.db #0x06	; 6
+   01E8 06                 1080 	.db #0x06	; 6
+   01E9 03                 1081 	.db #0x03	; 3
+   01EA                    1082 _l_player_max_objects:
+   01EA 00                 1083 	.db #0x00	; 0
+   01EB 00                 1084 	.db #0x00	; 0
+   01EC 00                 1085 	.db #0x00	; 0
+   01ED                    1086 _l_player_max_enems:
+   01ED 36                 1087 	.db #0x36	; 54	'6'
+   01EE 31                 1088 	.db #0x31	; 49	'1'
+   01EF 2E                 1089 	.db #0x2E	; 46
+   01F0                    1090 _l_ts_patterns:
+   01F0r00r00              1091 	.dw _ts0_patterns_c
+   01F2r00r00              1092 	.dw _ts1_patterns_c
+   01F4r00r00              1093 	.dw _ts2_patterns_c
+   01F6                    1094 _l_ts_colours:
+   01F6r00r00              1095 	.dw _ts0_colours_c
+   01F8r00r00              1096 	.dw _ts1_colours_c
+   01FAr00r00              1097 	.dw _ts2_colours_c
+   01FC                    1098 _l_ts_tmaps:
+   01FCr00r00              1099 	.dw _ts0_tmaps
+   01FEr00r00              1100 	.dw _ts1_tmaps
+   0200r00r00              1101 	.dw _ts2_tmaps
+   0202                    1102 _l_behs:
+   0202r52r00              1103 	.dw _behs0
+   0204r72r00              1104 	.dw _behs1
+   0206r92r00              1105 	.dw _behs2
+   0208                    1106 _l_spr_patterns:
+   0208r00r00              1107 	.dw _ss_en_0_patterns_c
+   020Ar00r00              1108 	.dw _ss_en_1_patterns_c
+   020Cr00r00              1109 	.dw _ss_en_2_patterns_c
+   020E                    1110 _l_spr_enems:
+   020ErD9r00              1111 	.dw _spr_enems0
+   0210r2Br01              1112 	.dw _spr_enems1
+   0212r7Dr01              1113 	.dw _spr_enems2
+   0214                    1114 _l_map:
+   0214r00r00              1115 	.dw _map_0
+   0216r00r00              1116 	.dw _map_1
+   0218r00r00              1117 	.dw _map_2
+   021A                    1118 _l_decos:
+   021A 00                 1119 	.db #0x00	; 0
+   021B 01                 1120 	.db #0x01	; 1
+   021C 01                 1121 	.db #0x01	; 1
+   021D                    1122 _l_locks:
+   021Dr00r00              1123 	.dw _map_0_locks
+   021Fr00r00              1124 	.dw _map_1_locks
+   0221r00r00              1125 	.dw _map_2_locks
+   0223                    1126 _l_n_bolts:
+   0223 02                 1127 	.db #0x02	; 2
+   0224 01                 1128 	.db #0x01	; 1
+   0225 02                 1129 	.db #0x02	; 2
+   0226                    1130 _l_enems:
+   0226r00r00              1131 	.dw _enems_0
+   0228r00r00              1132 	.dw _enems_1
+   022Ar00r00              1133 	.dw _enems_2
+   022C                    1134 _l_hotspots:
+   022Cr00r00              1135 	.dw _hotspots_0
+   022Er00r00              1136 	.dw _hotspots_1
+   0230r00r00              1137 	.dw _hotspots_2
+   0232                    1138 _l_music:
+   0232r00r00              1139 	.dw _m_yun_psg
+   0234r00r00              1140 	.dw _m_yun_psg
+   0236r00r00              1141 	.dw _m_yun_psg
+                           1142 ;engine/hotspots.h:20: void hotspots_paint (void) {
+                           1143 ;	---------------------------------
+                           1144 ; Function hotspots_paint
+                           1145 ; ---------------------------------
+   0238                    1146 _hotspots_paint::
+                           1147 ;engine/hotspots.h:30: rda = hrt;
+   0238 3Ar7Br00      [13] 1148 	ld	a,(#_hrt + 0)
+   023B 32r16r00      [13] 1149 	ld	(#_rda + 0),a
+                           1150 ;engine/hotspots.h:33: if (hrt == HOTSPOT_TYPE_RESONATOR && res_on) rda = HOTSPOT_TYPE_RESONATOR_ON;
+   023E 3Ar7Br00      [13] 1151 	ld	a,(#_hrt + 0)
+   0241 D6 04         [ 7] 1152 	sub	a, #0x04
+   0243 20 0B         [12] 1153 	jr	NZ,00102$
+   0245 3ArB0r02      [13] 1154 	ld	a,(#_res_on + 0)
+   0248 B7            [ 4] 1155 	or	a, a
+   0249 28 05         [12] 1156 	jr	Z,00102$
+   024B 21r16r00      [10] 1157 	ld	hl,#_rda + 0
+   024E 36 05         [10] 1158 	ld	(hl), #0x05
+   0250                    1159 00102$:
+                           1160 ;engine/hotspots.h:38: spr_hs [rda]
+   0250 11rCFr01      [10] 1161 	ld	de,#_spr_hs+0
+   0253 FD 21r16r00   [14] 1162 	ld	iy,#_rda
+   0257 FD 6E 00      [19] 1163 	ld	l,0 (iy)
+   025A 26 00         [ 7] 1164 	ld	h,#0x00
+   025C 29            [11] 1165 	add	hl, hl
+   025D 19            [11] 1166 	add	hl,de
+   025E 5E            [ 7] 1167 	ld	e,(hl)
+   025F 23            [ 6] 1168 	inc	hl
+   0260 56            [ 7] 1169 	ld	d,(hl)
+                           1170 ;engine/hotspots.h:37: hrx, hry + SPRITE_ADJUST, 
+   0261 3Ar7Ar00      [13] 1171 	ld	a,(#_hry + 0)
+   0264 C6 F7         [ 7] 1172 	add	a, #0xF7
+   0266 67            [ 4] 1173 	ld	h,a
+   0267 D5            [11] 1174 	push	de
+   0268 E5            [11] 1175 	push	hl
+   0269 33            [ 6] 1176 	inc	sp
+   026A 3Ar79r00      [13] 1177 	ld	a,(_hrx)
+   026D F5            [11] 1178 	push	af
+   026E 33            [ 6] 1179 	inc	sp
+   026F CDr00r00      [17] 1180 	call	_SG_addMetaSprite1x1
+   0272 F1            [10] 1181 	pop	af
+   0273 F1            [10] 1182 	pop	af
+   0274 C9            [10] 1183 	ret
+                           1184 ;engine/hotspots.h:42: void hotspots_create (void) {
+                           1185 ;	---------------------------------
+                           1186 ; Function hotspots_create
+                           1187 ; ---------------------------------
+   0275                    1188 _hotspots_create::
+                           1189 ;engine/hotspots.h:54: gp_gen = (unsigned char *) (c_hotspots + (n_pant << 1));
+   0275 FD 21rB9r01   [14] 1190 	ld	iy,#_n_pant
+   0279 FD 6E 00      [19] 1191 	ld	l,0 (iy)
+   027C 26 00         [ 7] 1192 	ld	h,#0x00
+   027E 29            [11] 1193 	add	hl, hl
+   027F 55            [ 4] 1194 	ld	d,l
+   0280 5C            [ 4] 1195 	ld	e,h
+   0281 21r0Ar00      [10] 1196 	ld	hl,#_gp_gen
+   0284 3Ar8Er00      [13] 1197 	ld	a,(#_c_hotspots + 0)
+   0287 82            [ 4] 1198 	add	a, d
+   0288 77            [ 7] 1199 	ld	(hl),a
+   0289 3Ar8Fr00      [13] 1200 	ld	a,(#_c_hotspots + 1)
+   028C 8B            [ 4] 1201 	adc	a, e
+   028D 23            [ 6] 1202 	inc	hl
+   028E 77            [ 7] 1203 	ld	(hl),a
+                           1204 ;engine/hotspots.h:55: hrt = *gp_gen ++; rda = *gp_gen; 
+   028F 2Ar0Ar00      [16] 1205 	ld	hl,(_gp_gen)
+   0292 7E            [ 7] 1206 	ld	a,(hl)
+   0293 32r7Br00      [13] 1207 	ld	(#_hrt + 0),a
+   0296 21r0Ar00      [10] 1208 	ld	hl, #_gp_gen+0
+   0299 34            [11] 1209 	inc	(hl)
+   029A 20 04         [12] 1210 	jr	NZ,00115$
+   029C 21r0Br00      [10] 1211 	ld	hl, #_gp_gen+1
+   029F 34            [11] 1212 	inc	(hl)
+   02A0                    1213 00115$:
+   02A0 2Ar0Ar00      [16] 1214 	ld	hl,(_gp_gen)
+   02A3 7E            [ 7] 1215 	ld	a,(hl)
+   02A4 32r16r00      [13] 1216 	ld	(#_rda + 0),a
+                           1217 ;engine/hotspots.h:56: if (hrt && hact [n_pant]) {
+   02A7 3Ar7Br00      [13] 1218 	ld	a,(#_hrt + 0)
+   02AA B7            [ 4] 1219 	or	a, a
+   02AB 28 22         [12] 1220 	jr	Z,00102$
+   02AD 11rCBr01      [10] 1221 	ld	de,#_hact+0
+   02B0 2ArB9r01      [16] 1222 	ld	hl,(_n_pant)
+   02B3 26 00         [ 7] 1223 	ld	h,#0x00
+   02B5 19            [11] 1224 	add	hl,de
+   02B6 7E            [ 7] 1225 	ld	a,(hl)
+   02B7 B7            [ 4] 1226 	or	a, a
+   02B8 28 15         [12] 1227 	jr	Z,00102$
+                           1228 ;engine/hotspots.h:57: hry = rda & 0xf0; hrx = rda << 4;
+   02BA 3Ar16r00      [13] 1229 	ld	a,(#_rda + 0)
+   02BD E6 F0         [ 7] 1230 	and	a, #0xF0
+   02BF 32r7Ar00      [13] 1231 	ld	(#_hry + 0),a
+   02C2 3Ar16r00      [13] 1232 	ld	a,(#_rda + 0)
+   02C5 07            [ 4] 1233 	rlca
+   02C6 07            [ 4] 1234 	rlca
+   02C7 07            [ 4] 1235 	rlca
+   02C8 07            [ 4] 1236 	rlca
+   02C9 E6 F0         [ 7] 1237 	and	a,#0xF0
+   02CB 32r79r00      [13] 1238 	ld	(#_hrx + 0),a
+   02CE C9            [10] 1239 	ret
+   02CF                    1240 00102$:
+                           1241 ;engine/hotspots.h:58: } else hrt = 0;
+   02CF 21r7Br00      [10] 1242 	ld	hl,#_hrt + 0
+   02D2 36 00         [10] 1243 	ld	(hl), #0x00
+   02D4 C9            [10] 1244 	ret
+                           1245 ;engine/../my/game_frame.h:7: void draw_game_frame (void) {
+                           1246 ;	---------------------------------
+                           1247 ; Function draw_game_frame
+                           1248 ; ---------------------------------
+   02D5                    1249 _draw_game_frame::
+                           1250 ;engine/../my/game_frame.h:8: gp_gen = hud_rle; unrle ();
+   02D5 21r00r00      [10] 1251 	ld	hl,#_hud_rle+0
+   02D8 22r0Ar00      [16] 1252 	ld	(_gp_gen),hl
+   02DB C3r00r00      [10] 1253 	jp  _unrle
+                           1254 ;engine/frame.h:9: void hud_update (void) {
+                           1255 ;	---------------------------------
+                           1256 ; Function hud_update
+                           1257 ; ---------------------------------
+   02DE                    1258 _hud_update::
+                           1259 ;engine/frame.h:12: if (okilled != pkilled) {
+   02DE 3ArC7r01      [13] 1260 	ld	a,(#_okilled + 0)
+   02E1 FD 21r72r00   [14] 1261 	ld	iy,#_pkilled
+   02E5 FD 96 00      [19] 1262 	sub	a, 0 (iy)
+   02E8 28 24         [12] 1263 	jr	Z,00102$
+                           1264 ;engine/frame.h:13: okilled = pkilled;
+   02EA 3Ar72r00      [13] 1265 	ld	a,(#_pkilled + 0)
+   02ED 32rC7r01      [13] 1266 	ld	(#_okilled + 0),a
+                           1267 ;engine/frame.h:14: _x = KILLED_X; _y = KILLED_Y; _n = c_max_enems - pkilled; p_t ();
+   02F0 21r00r00      [10] 1268 	ld	hl,#__x + 0
+   02F3 36 15         [10] 1269 	ld	(hl), #0x15
+   02F5 21r01r00      [10] 1270 	ld	hl,#__y + 0
+   02F8 36 01         [10] 1271 	ld	(hl), #0x01
+   02FA 21r72r00      [10] 1272 	ld	hl,#_pkilled
+   02FD D5            [11] 1273 	push	de
+   02FE FD 21r02r00   [14] 1274 	ld	iy,#__n
+   0302 FD E5         [15] 1275 	push	iy
+   0304 D1            [10] 1276 	pop	de
+   0305 3ArB8r01      [13] 1277 	ld	a,(#_c_max_enems + 0)
+   0308 96            [ 7] 1278 	sub	a, (hl)
+   0309 12            [ 7] 1279 	ld	(de),a
+   030A D1            [10] 1280 	pop	de
+   030B CDr00r00      [17] 1281 	call	_p_t
+   030E                    1282 00102$:
+                           1283 ;engine/frame.h:32: if (okeys != pkeys) {
+   030E 3ArC4r01      [13] 1284 	ld	a,(#_okeys + 0)
+   0311 FD 21r6Fr00   [14] 1285 	ld	iy,#_pkeys
+   0315 FD 96 00      [19] 1286 	sub	a, 0 (iy)
+   0318 28 19         [12] 1287 	jr	Z,00104$
+                           1288 ;engine/frame.h:33: okeys = pkeys;
+   031A 21r6Fr00      [10] 1289 	ld	hl,#_pkeys + 0
+   031D 56            [ 7] 1290 	ld	d, (hl)
+   031E 21rC4r01      [10] 1291 	ld	hl,#_okeys + 0
+   0321 72            [ 7] 1292 	ld	(hl), d
+                           1293 ;engine/frame.h:34: _x = KEYS_X; _y = KEYS_Y; _n = pkeys; p_t ();
+   0322 21r00r00      [10] 1294 	ld	hl,#__x + 0
+   0325 36 0C         [10] 1295 	ld	(hl), #0x0C
+   0327 21r01r00      [10] 1296 	ld	hl,#__y + 0
+   032A 36 01         [10] 1297 	ld	(hl), #0x01
+   032C 21r02r00      [10] 1298 	ld	hl,#__n + 0
+   032F 72            [ 7] 1299 	ld	(hl), d
+   0330 CDr00r00      [17] 1300 	call	_p_t
+   0333                    1301 00104$:
+                           1302 ;engine/frame.h:39: if (olife != plife) {
+   0333 3ArC3r01      [13] 1303 	ld	a,(#_olife + 0)
+   0336 FD 21r6Er00   [14] 1304 	ld	iy,#_plife
+   033A FD 96 00      [19] 1305 	sub	a, 0 (iy)
+   033D C8            [11] 1306 	ret	Z
+                           1307 ;engine/frame.h:40: olife = plife;
+   033E 21r6Er00      [10] 1308 	ld	hl,#_plife + 0
+   0341 56            [ 7] 1309 	ld	d, (hl)
+   0342 21rC3r01      [10] 1310 	ld	hl,#_olife + 0
+   0345 72            [ 7] 1311 	ld	(hl), d
+                           1312 ;engine/frame.h:41: _x = LIFE_X; _y = LIFE_Y; _n = plife; p_t ();
+   0346 21r00r00      [10] 1313 	ld	hl,#__x + 0
+   0349 36 04         [10] 1314 	ld	(hl), #0x04
+   034B 21r01r00      [10] 1315 	ld	hl,#__y + 0
+   034E 36 01         [10] 1316 	ld	(hl), #0x01
+   0350 21r02r00      [10] 1317 	ld	hl,#__n + 0
+   0353 72            [ 7] 1318 	ld	(hl), d
+   0354 C3r00r00      [10] 1319 	jp  _p_t
+                           1320 ;my/pres.h:6: void bat_in (void) {
+                           1321 ;	---------------------------------
+                           1322 ; Function bat_in
+                           1323 ; ---------------------------------
+   0357                    1324 _bat_in::
+                           1325 ;my/pres.h:7: SG_displayOn ();
+   0357 21 40 01      [10] 1326 	ld	hl,#0x0140
+   035A E5            [11] 1327 	push	hl
+   035B CDr00r00      [17] 1328 	call	_SG_VDPturnOnFeature
+   035E F1            [10] 1329 	pop	af
+                           1330 ;my/pres.h:8: while (SG_getKeysStatus ());
+   035F                    1331 00101$:
+   035F CDr00r00      [17] 1332 	call	_SG_getKeysStatus
+   0362 7D            [ 4] 1333 	ld	a,l
+   0363 B7            [ 4] 1334 	or	a, a
+   0364 20 F9         [12] 1335 	jr	NZ,00101$
+   0366 C9            [10] 1336 	ret
+                           1337 ;my/pres.h:11: void bat_out (void) {
+                           1338 ;	---------------------------------
+                           1339 ; Function bat_out
+                           1340 ; ---------------------------------
+   0367                    1341 _bat_out::
+                           1342 ;my/pres.h:12: PSGStop ();
+   0367 CDr00r00      [17] 1343 	call	_PSGStop
+                           1344 ;my/pres.h:13: SG_displayOff ();
+   036A 21 40 01      [10] 1345 	ld	hl,#0x0140
+   036D E5            [11] 1346 	push	hl
+   036E CDr00r00      [17] 1347 	call	_SG_VDPturnOffFeature
+   0371 F1            [10] 1348 	pop	af
+                           1349 ;my/pres.h:14: SG_initSprites ();
+   0372 CDr00r00      [17] 1350 	call	_SG_initSprites
+                           1351 ;my/pres.h:15: SG_copySpritestoSAT ();	
+   0375 C3r00r00      [10] 1352 	jp  _SG_copySpritestoSAT
+                           1353 ;my/pres.h:18: void pres (void (*func) (void), unsigned char *music) {
+                           1354 ;	---------------------------------
+                           1355 ; Function pres
+                           1356 ; ---------------------------------
+   0378                    1357 _pres::
+                           1358 ;my/pres.h:19: cls ();
+   0378 CDr00r00      [17] 1359 	call	_cls
+                           1360 ;my/pres.h:20: (*func) ();
+   037B C1            [10] 1361 	pop	bc
+   037C E1            [10] 1362 	pop	hl
+   037D E5            [11] 1363 	push	hl
+   037E C5            [11] 1364 	push	bc
+   037F CDr00r00      [17] 1365 	call	___sdcc_call_hl
+                           1366 ;my/pres.h:21: bat_in ();
+   0382 CDr57r03      [17] 1367 	call	_bat_in
+                           1368 ;my/pres.h:22: if (music) PSGPlay (music);
+   0385 FD 21 04 00   [14] 1369 	ld	iy,#4
+   0389 FD 39         [15] 1370 	add	iy,sp
+   038B FD 7E 01      [19] 1371 	ld	a,1 (iy)
+   038E FD B6 00      [19] 1372 	or	a,0 (iy)
+   0391 28 0B         [12] 1373 	jr	Z,00106$
+   0393 FD 6E 00      [19] 1374 	ld	l,0 (iy)
+   0396 FD 66 01      [19] 1375 	ld	h,1 (iy)
+   0399 E5            [11] 1376 	push	hl
+   039A CDr00r00      [17] 1377 	call	_PSGPlay
+   039D F1            [10] 1378 	pop	af
+                           1379 ;my/pres.h:23: while (1) {
+   039E                    1380 00106$:
+                           1381 ;my/pres.h:24: pad_read ();
+   039E CDr00r00      [17] 1382 	call	_pad_read
+                           1383 ;my/pres.h:25: if (pad_this_frame & (PAD_A|PAD_B|PAD_START)) break;
+   03A1 3Ar05r00      [13] 1384 	ld	a,(#_pad_this_frame + 0)
+   03A4 E6 30         [ 7] 1385 	and	a, #0x30
+   03A6 28 F6         [12] 1386 	jr	Z,00106$
+                           1387 ;my/pres.h:27: bat_out ();
+   03A8 C3r67r03      [10] 1388 	jp  _bat_out
+                           1389 ;my/pres.h:30: void title (void) {
+                           1390 ;	---------------------------------
+                           1391 ; Function title
+                           1392 ; ---------------------------------
+   03AB                    1393 _title::
+                           1394 ;my/pres.h:31: unpack_bg_patterns (tstitle_patterns_c, tstitle_colours_c, 64*8, 7);
+   03AB 11r00r00      [10] 1395 	ld	de,#_tstitle_patterns_c
+   03AE 3E 07         [ 7] 1396 	ld	a,#0x07
+   03B0 F5            [11] 1397 	push	af
+   03B1 33            [ 6] 1398 	inc	sp
+   03B2 21 00 02      [10] 1399 	ld	hl,#0x0200
+   03B5 E5            [11] 1400 	push	hl
+   03B6 21r00r00      [10] 1401 	ld	hl,#_tstitle_colours_c
+   03B9 E5            [11] 1402 	push	hl
+   03BA D5            [11] 1403 	push	de
+   03BB CDr00r00      [17] 1404 	call	_unpack_bg_patterns
+   03BE 21 07 00      [10] 1405 	ld	hl,#7
+   03C1 39            [11] 1406 	add	hl,sp
+   03C2 F9            [ 6] 1407 	ld	sp,hl
+                           1408 ;my/pres.h:32: gp_gen = title_rle; unrle ();
+   03C3 21r00r00      [10] 1409 	ld	hl,#_title_rle+0
+   03C6 22r0Ar00      [16] 1410 	ld	(_gp_gen),hl
+   03C9 CDr00r00      [17] 1411 	call	_unrle
+                           1412 ;my/pres.h:34: _x = 7; _y = 12; pr_str ("SELECT AND PUSH 1!");
+   03CC 21r00r00      [10] 1413 	ld	hl,#__x + 0
+   03CF 36 07         [10] 1414 	ld	(hl), #0x07
+   03D1 21r01r00      [10] 1415 	ld	hl,#__y + 0
+   03D4 36 0C         [10] 1416 	ld	(hl), #0x0C
+   03D6 21rB4r04      [10] 1417 	ld	hl,#___str_0
+   03D9 E5            [11] 1418 	push	hl
+   03DA CDr00r00      [17] 1419 	call	_pr_str
+   03DD F1            [10] 1420 	pop	af
+                           1421 ;my/pres.h:36: _x = 12; _y = 16; pr_str ("RESONATORS");
+   03DE 21r00r00      [10] 1422 	ld	hl,#__x + 0
+   03E1 36 0C         [10] 1423 	ld	(hl), #0x0C
+   03E3 21r01r00      [10] 1424 	ld	hl,#__y + 0
+   03E6 36 10         [10] 1425 	ld	(hl), #0x10
+   03E8 21rC7r04      [10] 1426 	ld	hl,#___str_1
+   03EB E5            [11] 1427 	push	hl
+   03EC CDr00r00      [17] 1428 	call	_pr_str
+   03EF F1            [10] 1429 	pop	af
+                           1430 ;my/pres.h:37: _y = 18; pr_str ("EASY MODE");
+   03F0 21r01r00      [10] 1431 	ld	hl,#__y + 0
+   03F3 36 12         [10] 1432 	ld	(hl), #0x12
+   03F5 21rD2r04      [10] 1433 	ld	hl,#___str_2
+   03F8 E5            [11] 1434 	push	hl
+   03F9 CDr00r00      [17] 1435 	call	_pr_str
+   03FC F1            [10] 1436 	pop	af
+                           1437 ;my/pres.h:39: _x = 5; _y = 23; pr_str ("@ 2018 THE MOJON TWINS");
+   03FD 21r00r00      [10] 1438 	ld	hl,#__x + 0
+   0400 36 05         [10] 1439 	ld	(hl), #0x05
+   0402 21r01r00      [10] 1440 	ld	hl,#__y + 0
+   0405 36 17         [10] 1441 	ld	(hl), #0x17
+   0407 21rDCr04      [10] 1442 	ld	hl,#___str_3
+   040A E5            [11] 1443 	push	hl
+   040B CDr00r00      [17] 1444 	call	_pr_str
+   040E F1            [10] 1445 	pop	af
+                           1446 ;my/pres.h:41: bat_in ();
+   040F CDr57r03      [17] 1447 	call	_bat_in
+                           1448 ;my/pres.h:43: PSGPlay (MUSIC_TITLE);
+   0412 21r00r00      [10] 1449 	ld	hl,#_m_title_psg
+   0415 E5            [11] 1450 	push	hl
+   0416 CDr00r00      [17] 1451 	call	_PSGPlay
+   0419 F1            [10] 1452 	pop	af
+                           1453 ;my/pres.h:44: while (1) {
+   041A                    1454 00115$:
+                           1455 ;my/pres.h:45: update_cycle ();
+   041A CDr00r00      [17] 1456 	call	_update_cycle
+                           1457 ;my/pres.h:46: SG_addMetaSprite1x1 (82, 122 + (mode_no_resonators << 4), ss_pl_00);
+   041D 21r00r00      [10] 1458 	ld	hl,#_ss_pl_00
+   0420 3ArB6r02      [13] 1459 	ld	a,(#_mode_no_resonators + 0)
+   0423 07            [ 4] 1460 	rlca
+   0424 07            [ 4] 1461 	rlca
+   0425 07            [ 4] 1462 	rlca
+   0426 07            [ 4] 1463 	rlca
+   0427 E6 F0         [ 7] 1464 	and	a,#0xF0
+   0429 C6 7A         [ 7] 1465 	add	a, #0x7A
+   042B E5            [11] 1466 	push	hl
+   042C 57            [ 4] 1467 	ld	d,a
+   042D 1E 52         [ 7] 1468 	ld	e,#0x52
+   042F D5            [11] 1469 	push	de
+   0430 CDr00r00      [17] 1470 	call	_SG_addMetaSprite1x1
+   0433 F1            [10] 1471 	pop	af
+   0434 F1            [10] 1472 	pop	af
+                           1473 ;my/pres.h:47: pad_read ();
+   0435 CDr00r00      [17] 1474 	call	_pad_read
+                           1475 ;my/pres.h:48: rda = mode_no_resonators;
+   0438 3ArB6r02      [13] 1476 	ld	a,(#_mode_no_resonators + 0)
+   043B 32r16r00      [13] 1477 	ld	(#_rda + 0),a
+                           1478 ;my/pres.h:49: if (pad_this_frame & PAD_DOWN) {
+   043E 21r05r00      [10] 1479 	ld	hl,#_pad_this_frame+0
+   0441 CB 4E         [12] 1480 	bit	1, (hl)
+   0443 28 10         [12] 1481 	jr	Z,00104$
+                           1482 ;my/pres.h:50: ++ mode_no_resonators; if (mode_no_resonators == 2) mode_no_resonators = 0;
+   0445 21rB6r02      [10] 1483 	ld	hl, #_mode_no_resonators+0
+   0448 34            [11] 1484 	inc	(hl)
+   0449 3ArB6r02      [13] 1485 	ld	a,(#_mode_no_resonators + 0)
+   044C D6 02         [ 7] 1486 	sub	a, #0x02
+   044E 20 05         [12] 1487 	jr	NZ,00104$
+   0450 21rB6r02      [10] 1488 	ld	hl,#_mode_no_resonators + 0
+   0453 36 00         [10] 1489 	ld	(hl), #0x00
+   0455                    1490 00104$:
+                           1491 ;my/pres.h:52: if (pad_this_frame & PAD_UP) {
+   0455 21r05r00      [10] 1492 	ld	hl,#_pad_this_frame+0
+   0458 CB 46         [12] 1493 	bit	0, (hl)
+   045A 28 11         [12] 1494 	jr	Z,00109$
+                           1495 ;my/pres.h:53: if (mode_no_resonators) -- mode_no_resonators; else mode_no_resonators = 1;
+   045C 3ArB6r02      [13] 1496 	ld	a,(#_mode_no_resonators + 0)
+   045F B7            [ 4] 1497 	or	a, a
+   0460 28 06         [12] 1498 	jr	Z,00106$
+   0462 21rB6r02      [10] 1499 	ld	hl, #_mode_no_resonators+0
+   0465 35            [11] 1500 	dec	(hl)
+   0466 18 05         [12] 1501 	jr	00109$
+   0468                    1502 00106$:
+   0468 21rB6r02      [10] 1503 	ld	hl,#_mode_no_resonators + 0
+   046B 36 01         [10] 1504 	ld	(hl), #0x01
+   046D                    1505 00109$:
+                           1506 ;my/pres.h:55: if (mode_no_resonators != rda) PSGSFXPlay (SFX_USE, 1);
+   046D 3ArB6r02      [13] 1507 	ld	a,(#_mode_no_resonators + 0)
+   0470 FD 21r16r00   [14] 1508 	ld	iy,#_rda
+   0474 FD 96 00      [19] 1509 	sub	a, 0 (iy)
+   0477 28 0D         [12] 1510 	jr	Z,00111$
+   0479 11r00r00      [10] 1511 	ld	de,#_s_03_use2_psg
+   047C 3E 01         [ 7] 1512 	ld	a,#0x01
+   047E F5            [11] 1513 	push	af
+   047F 33            [ 6] 1514 	inc	sp
+   0480 D5            [11] 1515 	push	de
+   0481 CDr00r00      [17] 1516 	call	_PSGSFXPlay
+   0484 F1            [10] 1517 	pop	af
+   0485 33            [ 6] 1518 	inc	sp
+   0486                    1519 00111$:
+                           1520 ;my/pres.h:56: if (pad_this_frame & PAD_1) break;
+   0486 21r05r00      [10] 1521 	ld	hl,#_pad_this_frame+0
+   0489 CB 66         [12] 1522 	bit	4, (hl)
+   048B 28 8D         [12] 1523 	jr	Z,00115$
+                           1524 ;my/pres.h:59: PSGSFXPlay (SFX_START, 1); delay (20);
+   048D 11r00r00      [10] 1525 	ld	de,#_s_00_start2_psg+0
+   0490 3E 01         [ 7] 1526 	ld	a,#0x01
+   0492 F5            [11] 1527 	push	af
+   0493 33            [ 6] 1528 	inc	sp
+   0494 D5            [11] 1529 	push	de
+   0495 CDr00r00      [17] 1530 	call	_PSGSFXPlay
+   0498 F1            [10] 1531 	pop	af
+   0499 33            [ 6] 1532 	inc	sp
+   049A 3E 14         [ 7] 1533 	ld	a,#0x14
+   049C F5            [11] 1534 	push	af
+   049D 33            [ 6] 1535 	inc	sp
+   049E CDr00r00      [17] 1536 	call	_delay
+   04A1 33            [ 6] 1537 	inc	sp
+                           1538 ;my/pres.h:61: plife = mode_no_resonators ? 5 : 3;
+   04A2 3ArB6r02      [13] 1539 	ld	a,(#_mode_no_resonators + 0)
+   04A5 B7            [ 4] 1540 	or	a, a
+   04A6 28 04         [12] 1541 	jr	Z,00119$
+   04A8 3E 05         [ 7] 1542 	ld	a,#0x05
+   04AA 18 02         [12] 1543 	jr	00120$
+   04AC                    1544 00119$:
+   04AC 3E 03         [ 7] 1545 	ld	a,#0x03
+   04AE                    1546 00120$:
+   04AE 32r6Er00      [13] 1547 	ld	(#_plife + 0),a
+                           1548 ;my/pres.h:63: bat_out ();
+   04B1 C3r67r03      [10] 1549 	jp  _bat_out
+   04B4                    1550 ___str_0:
+   04B4 53 45 4C 45 43 54  1551 	.ascii "SELECT AND PUSH 1!"
+        20 41 4E 44 20 50
+        55 53 48 20 31 21
+   04C6 00                 1552 	.db 0x00
+   04C7                    1553 ___str_1:
+   04C7 52 45 53 4F 4E 41  1554 	.ascii "RESONATORS"
+        54 4F 52 53
+   04D1 00                 1555 	.db 0x00
+   04D2                    1556 ___str_2:
+   04D2 45 41 53 59 20 4D  1557 	.ascii "EASY MODE"
+        4F 44 45
+   04DB 00                 1558 	.db 0x00
+   04DC                    1559 ___str_3:
+   04DC 40 20 32 30 31 38  1560 	.ascii "@ 2018 THE MOJON TWINS"
+        20 54 48 45 20 4D
+        4F 4A 4F 4E 20 54
+        57 49 4E 53
+   04F2 00                 1561 	.db 0x00
+                           1562 ;my/pres.h:66: void scr_game_over (void) {
+                           1563 ;	---------------------------------
+                           1564 ; Function scr_game_over
+                           1565 ; ---------------------------------
+   04F3                    1566 _scr_game_over::
+                           1567 ;my/pres.h:67: _x = 11; _y = 15; pr_str ("GAME OVER!");
+   04F3 21r00r00      [10] 1568 	ld	hl,#__x + 0
+   04F6 36 0B         [10] 1569 	ld	(hl), #0x0B
+   04F8 21r01r00      [10] 1570 	ld	hl,#__y + 0
+   04FB 36 0F         [10] 1571 	ld	(hl), #0x0F
+   04FD 21r06r05      [10] 1572 	ld	hl,#___str_4
+   0500 E5            [11] 1573 	push	hl
+   0501 CDr00r00      [17] 1574 	call	_pr_str
+   0504 F1            [10] 1575 	pop	af
+   0505 C9            [10] 1576 	ret
+   0506                    1577 ___str_4:
+   0506 47 41 4D 45 20 4F  1578 	.ascii "GAME OVER!"
+        56 45 52 21
+   0510 00                 1579 	.db 0x00
+                           1580 ;my/pres.h:70: void scr_the_end (void) {
+                           1581 ;	---------------------------------
+                           1582 ; Function scr_the_end
+                           1583 ; ---------------------------------
+   0511                    1584 _scr_the_end::
+                           1585 ;my/pres.h:71: unpack_bg_patterns (tsending_patterns_c, tsending_colours_c, 64*8, 7);
+   0511 11r00r00      [10] 1586 	ld	de,#_tsending_patterns_c
+   0514 3E 07         [ 7] 1587 	ld	a,#0x07
+   0516 F5            [11] 1588 	push	af
+   0517 33            [ 6] 1589 	inc	sp
+   0518 21 00 02      [10] 1590 	ld	hl,#0x0200
+   051B E5            [11] 1591 	push	hl
+   051C 21r00r00      [10] 1592 	ld	hl,#_tsending_colours_c
+   051F E5            [11] 1593 	push	hl
+   0520 D5            [11] 1594 	push	de
+   0521 CDr00r00      [17] 1595 	call	_unpack_bg_patterns
+   0524 21 07 00      [10] 1596 	ld	hl,#7
+   0527 39            [11] 1597 	add	hl,sp
+   0528 F9            [ 6] 1598 	ld	sp,hl
+                           1599 ;my/pres.h:72: gp_gen = ending_rle; unrle ();
+   0529 21r00r00      [10] 1600 	ld	hl,#_ending_rle+0
+   052C 22r0Ar00      [16] 1601 	ld	(_gp_gen),hl
+   052F CDr00r00      [17] 1602 	call	_unrle
+                           1603 ;my/pres.h:73: _x = 4; _y = 13; pr_str ("'CONGRATS, CHERIL'- SAID%%THE MAJOR -'YOU HAVE WON%%LA COPA DEL MEAO!', AND%%THEN CHERIL RETURNED TO%%THE FOREST . . .");
+   0532 21r00r00      [10] 1604 	ld	hl,#__x + 0
+   0535 36 04         [10] 1605 	ld	(hl), #0x04
+   0537 21r01r00      [10] 1606 	ld	hl,#__y + 0
+   053A 36 0D         [10] 1607 	ld	(hl), #0x0D
+   053C 21r45r05      [10] 1608 	ld	hl,#___str_5
+   053F E5            [11] 1609 	push	hl
+   0540 CDr00r00      [17] 1610 	call	_pr_str
+   0543 F1            [10] 1611 	pop	af
+   0544 C9            [10] 1612 	ret
+   0545                    1613 ___str_5:
+   0545 27 43 4F 4E 47 52  1614 	.ascii "'CONGRATS, CHERIL'- SAID%%THE MAJOR -'YOU HAVE WON%%LA COPA "
+        41 54 53 2C 20 43
+        48 45 52 49 4C 27
+        2D 20 53 41 49 44
+        25 25 54 48 45 20
+        4D 41 4A 4F 52 20
+        2D 27 59 4F 55 20
+        48 41 56 45 20 57
+        4F 4E 25 25 4C 41
+        20 43 4F 50 41 20
+   0581 44 45 4C 20 4D 45  1615 	.ascii "DEL MEAO!', AND%%THEN CHERIL RETURNED TO%%THE FOREST . . ."
+        41 4F 21 27 2C 20
+        41 4E 44 25 25 54
+        48 45 4E 20 43 48
+        45 52 49 4C 20 52
+        45 54 55 52 4E 45
+        44 20 54 4F 25 25
+        54 48 45 20 46 4F
+        52 45 53 54 20 2E
+        20 2E 20 2E
+   05BB 00                 1616 	.db 0x00
+                           1617 ;my/pres.h:81: void scr_level (void) {
+                           1618 ;	---------------------------------
+                           1619 ; Function scr_level
+                           1620 ; ---------------------------------
+   05BC                    1621 _scr_level::
+                           1622 ;my/pres.h:82: _x = 12; _y = 14; pr_str ("LEVEL 0"); SG_setTile (17+level);
+   05BC 21r00r00      [10] 1623 	ld	hl,#__x + 0
+   05BF 36 0C         [10] 1624 	ld	(hl), #0x0C
+   05C1 21r01r00      [10] 1625 	ld	hl,#__y + 0
+   05C4 36 0E         [10] 1626 	ld	(hl), #0x0E
+   05C6 21r23r06      [10] 1627 	ld	hl,#___str_6
+   05C9 E5            [11] 1628 	push	hl
+   05CA CDr00r00      [17] 1629 	call	_pr_str
+   05CD F1            [10] 1630 	pop	af
+   05CE 3ArB7r01      [13] 1631 	ld	a,(#_level + 0)
+   05D1 C6 11         [ 7] 1632 	add	a, #0x11
+   05D3 F5            [11] 1633 	push	af
+   05D4 33            [ 6] 1634 	inc	sp
+   05D5 CDr00r00      [17] 1635 	call	_SG_setTile
+   05D8 33            [ 6] 1636 	inc	sp
+                           1637 ;my/pres.h:83: _x = 10; _y = 16; pr_str (levelnames [level]);
+   05D9 21r00r00      [10] 1638 	ld	hl,#__x + 0
+   05DC 36 0A         [10] 1639 	ld	(hl), #0x0A
+   05DE 21r01r00      [10] 1640 	ld	hl,#__y + 0
+   05E1 36 10         [10] 1641 	ld	(hl), #0x10
+   05E3 FD 21rB7r01   [14] 1642 	ld	iy,#_level
+   05E7 FD 6E 00      [19] 1643 	ld	l,0 (iy)
+   05EA 26 00         [ 7] 1644 	ld	h,#0x00
+   05EC 29            [11] 1645 	add	hl, hl
+   05ED 11r1Dr06      [10] 1646 	ld	de,#_levelnames
+   05F0 19            [11] 1647 	add	hl,de
+   05F1 5E            [ 7] 1648 	ld	e,(hl)
+   05F2 23            [ 6] 1649 	inc	hl
+   05F3 56            [ 7] 1650 	ld	d,(hl)
+   05F4 D5            [11] 1651 	push	de
+   05F5 CDr00r00      [17] 1652 	call	_pr_str
+   05F8 F1            [10] 1653 	pop	af
+   05F9 C9            [10] 1654 	ret
+   05FA                    1655 _level0name:
+   05FA 20 20 54 48 45 20  1656 	.ascii "  THE CITY"
+        43 49 54 59
+   0604 00                 1657 	.db 0x00
+   0605                    1658 _level1name:
+   0605 54 48 45 20 46 41  1659 	.ascii "THE FACTORY"
+        43 54 4F 52 59
+   0610 00                 1660 	.db 0x00
+   0611                    1661 _level2name:
+   0611 20 54 48 45 20 46  1662 	.ascii " THE FOREST"
+        4F 52 45 53 54
+   061C 00                 1663 	.db 0x00
+   061D                    1664 _levelnames:
+   061DrFAr05              1665 	.dw _level0name
+   061Fr05r06              1666 	.dw _level1name
+   0621r11r06              1667 	.dw _level2name
+   0623                    1668 ___str_6:
+   0623 4C 45 56 45 4C 20  1669 	.ascii "LEVEL 0"
+        30
+   062A 00                 1670 	.db 0x00
+                           1671 ;my/pres.h:86: void credits (void) {
+                           1672 ;	---------------------------------
+                           1673 ; Function credits
+                           1674 ; ---------------------------------
+   062B                    1675 _credits::
+                           1676 ;my/pres.h:87: cls ();
+   062B CDr00r00      [17] 1677 	call	_cls
+                           1678 ;my/pres.h:89: _x = 0; _y = 0; if (ntsc) pr_str ("NTSC"); else pr_str ("PAL");
+   062E 21r00r00      [10] 1679 	ld	hl,#__x + 0
+   0631 36 00         [10] 1680 	ld	(hl), #0x00
+   0633 21r01r00      [10] 1681 	ld	hl,#__y + 0
+   0636 36 00         [10] 1682 	ld	(hl), #0x00
+   0638 3Ar91r00      [13] 1683 	ld	a,(#_ntsc + 0)
+   063B B7            [ 4] 1684 	or	a, a
+   063C 28 0A         [12] 1685 	jr	Z,00102$
+   063E 21rA2r06      [10] 1686 	ld	hl,#___str_10
+   0641 E5            [11] 1687 	push	hl
+   0642 CDr00r00      [17] 1688 	call	_pr_str
+   0645 F1            [10] 1689 	pop	af
+   0646 18 08         [12] 1690 	jr	00103$
+   0648                    1691 00102$:
+   0648 21rA7r06      [10] 1692 	ld	hl,#___str_11
+   064B E5            [11] 1693 	push	hl
+   064C CDr00r00      [17] 1694 	call	_pr_str
+   064F F1            [10] 1695 	pop	af
+   0650                    1696 00103$:
+                           1697 ;my/pres.h:91: rds16 = 0; rdy = 240;
+   0650 21 00 00      [10] 1698 	ld	hl,#0x0000
+   0653 22r08r00      [16] 1699 	ld	(_rds16),hl
+   0656 21r13r00      [10] 1700 	ld	hl,#_rdy + 0
+   0659 36 F0         [10] 1701 	ld	(hl), #0xF0
+                           1702 ;my/pres.h:92: _x = 0; _y = 18; 
+   065B 21r00r00      [10] 1703 	ld	hl,#__x + 0
+   065E 36 00         [10] 1704 	ld	(hl), #0x00
+   0660 21r01r00      [10] 1705 	ld	hl,#__y + 0
+   0663 36 12         [10] 1706 	ld	(hl), #0x12
+                           1707 ;my/pres.h:93: pr_str ("     CHERIL PERILS CLASSIC%%         ORIGINAL GAME:%     @ 2011 THE MOJON TWINS%       REPROGRAMMED GAME:%     @ 2018 THE MOJON TWINS");
+   0665 21rABr06      [10] 1708 	ld	hl,#___str_12+0
+   0668 E5            [11] 1709 	push	hl
+   0669 CDr00r00      [17] 1710 	call	_pr_str
+                           1711 ;my/pres.h:95: SG_displayOn ();
+   066C 21 40 01      [10] 1712 	ld	hl, #0x0140
+   066F E3            [19] 1713 	ex	(sp),hl
+   0670 CDr00r00      [17] 1714 	call	_SG_VDPturnOnFeature
+   0673 F1            [10] 1715 	pop	af
+                           1716 ;my/pres.h:97: while (!(SG_getKeysStatus () & PAD_START) && rds16 < 300) {
+   0674                    1717 00105$:
+   0674 CDr00r00      [17] 1718 	call	_SG_getKeysStatus
+   0677 CB 65         [ 8] 1719 	bit	4, l
+   0679 20 1E         [12] 1720 	jr	NZ,00107$
+   067B 3Ar08r00      [13] 1721 	ld	a,(#_rds16 + 0)
+   067E D6 2C         [ 7] 1722 	sub	a, #0x2C
+   0680 3Ar09r00      [13] 1723 	ld	a,(#_rds16 + 1)
+   0683 17            [ 4] 1724 	rla
+   0684 3F            [ 4] 1725 	ccf
+   0685 1F            [ 4] 1726 	rra
+   0686 DE 81         [ 7] 1727 	sbc	a, #0x81
+   0688 30 0F         [12] 1728 	jr	NC,00107$
+                           1729 ;my/pres.h:100: update_cycle ();
+   068A CDr00r00      [17] 1730 	call	_update_cycle
+                           1731 ;my/pres.h:101: rds16 ++;
+   068D 21r08r00      [10] 1732 	ld	hl, #_rds16+0
+   0690 34            [11] 1733 	inc	(hl)
+   0691 20 E1         [12] 1734 	jr	NZ,00105$
+   0693 21r09r00      [10] 1735 	ld	hl, #_rds16+1
+   0696 34            [11] 1736 	inc	(hl)
+   0697 18 DB         [12] 1737 	jr	00105$
+   0699                    1738 00107$:
+                           1739 ;my/pres.h:104: SG_displayOff ();
+   0699 21 40 01      [10] 1740 	ld	hl,#0x0140
+   069C E5            [11] 1741 	push	hl
+   069D CDr00r00      [17] 1742 	call	_SG_VDPturnOffFeature
+   06A0 F1            [10] 1743 	pop	af
+   06A1 C9            [10] 1744 	ret
+   06A2                    1745 ___str_10:
+   06A2 4E 54 53 43        1746 	.ascii "NTSC"
+   06A6 00                 1747 	.db 0x00
+   06A7                    1748 ___str_11:
+   06A7 50 41 4C           1749 	.ascii "PAL"
+   06AA 00                 1750 	.db 0x00
+   06AB                    1751 ___str_12:
+   06AB 20 20 20 20 20 43  1752 	.ascii "     CHERIL PERILS CLASSIC%%         ORIGINAL GAME:%     @ 2"
+        48 45 52 49 4C 20
+        50 45 52 49 4C 53
+        20 43 4C 41 53 53
+        49 43 25 25 20 20
+        20 20 20 20 20 20
+        20 4F 52 49 47 49
+        4E 41 4C 20 47 41
+        4D 45 3A 25 20 20
+        20 20 20 40 20 32
+   06E7 30 31 31 20 54 48  1753 	.ascii "011 THE MOJON TWINS%       REPROGRAMMED GAME:%     @ 2018 TH"
+        45 20 4D 4F 4A 4F
+        4E 20 54 57 49 4E
+        53 25 20 20 20 20
+        20 20 20 52 45 50
+        52 4F 47 52 41 4D
+        4D 45 44 20 47 41
+        4D 45 3A 25 20 20
+        20 20 20 40 20 32
+        30 31 38 20 54 48
+   0723 45 20 4D 4F 4A 4F  1754 	.ascii "E MOJON TWINS"
+        4E 20 54 57 49 4E
+        53
+   0730 00                 1755 	.db 0x00
+                           1756 ;mainloop/flickscreen.h:7: void flickscreen_do_horizontal (void) {
+                           1757 ;	---------------------------------
+                           1758 ; Function flickscreen_do_horizontal
+                           1759 ; ---------------------------------
+   0731                    1760 _flickscreen_do_horizontal::
+                           1761 ;mainloop/flickscreen.h:12: (cfx + pvx) < 0
+   0731 FD 21rB3r02   [14] 1762 	ld	iy,#_cfx
+   0735 FD 4E 00      [19] 1763 	ld	c,0 (iy)
+   0738 3ArB3r02      [13] 1764 	ld	a,(#_cfx + 0)
+   073B 17            [ 4] 1765 	rla
+   073C 9F            [ 4] 1766 	sbc	a, a
+   073D 47            [ 4] 1767 	ld	b,a
+   073E 3Ar4Cr00      [13] 1768 	ld	a,(#_pvx + 0)
+   0741 81            [ 4] 1769 	add	a, c
+   0742 57            [ 4] 1770 	ld	d,a
+   0743 3Ar4Dr00      [13] 1771 	ld	a,(#_pvx + 1)
+   0746 88            [ 4] 1772 	adc	a, b
+   0747 5F            [ 4] 1773 	ld	e,a
+                           1774 ;mainloop/flickscreen.h:8: if (prx == 4 && 
+   0748 3Ar50r00      [13] 1775 	ld	a,(#_prx + 0)
+   074B D6 04         [ 7] 1776 	sub	a, #0x04
+   074D 20 0F         [12] 1777 	jr	NZ,00105$
+                           1778 ;mainloop/flickscreen.h:12: (cfx + pvx) < 0
+   074F CB 7B         [ 8] 1779 	bit	7, e
+   0751 28 0B         [12] 1780 	jr	Z,00105$
+                           1781 ;mainloop/flickscreen.h:15: -- n_pant;
+   0753 21rB9r01      [10] 1782 	ld	hl, #_n_pant+0
+   0756 35            [11] 1783 	dec	(hl)
+                           1784 ;mainloop/flickscreen.h:16: px = 244 << FIXBITS;
+   0757 21 00 3D      [10] 1785 	ld	hl,#0x3D00
+   075A 22r48r00      [16] 1786 	ld	(_px),hl
+   075D C9            [10] 1787 	ret
+   075E                    1788 00105$:
+                           1789 ;mainloop/flickscreen.h:17: } else if (prx == 244 && 
+   075E FD 21r50r00   [14] 1790 	ld	iy,#_prx
+   0762 FD 7E 00      [19] 1791 	ld	a,0 (iy)
+   0765 D6 F4         [ 7] 1792 	sub	a, #0xF4
+   0767 C0            [11] 1793 	ret	NZ
+                           1794 ;mainloop/flickscreen.h:21: (cfx + pvx) > 0
+   0768 AF            [ 4] 1795 	xor	a, a
+   0769 BA            [ 4] 1796 	cp	a, d
+   076A 9B            [ 4] 1797 	sbc	a, e
+   076B E2r70r07      [10] 1798 	jp	PO, 00130$
+   076E EE 80         [ 7] 1799 	xor	a, #0x80
+   0770                    1800 00130$:
+   0770 F0            [11] 1801 	ret	P
+                           1802 ;mainloop/flickscreen.h:24: ++ n_pant;
+   0771 21rB9r01      [10] 1803 	ld	hl, #_n_pant+0
+   0774 34            [11] 1804 	inc	(hl)
+                           1805 ;mainloop/flickscreen.h:25: px = 4 << FIXBITS;
+   0775 21 00 01      [10] 1806 	ld	hl,#0x0100
+   0778 22r48r00      [16] 1807 	ld	(_px),hl
+   077B C9            [10] 1808 	ret
+                           1809 ;mainloop/flickscreen.h:29: void flickscreen_do_vertical (void) {
+                           1810 ;	---------------------------------
+                           1811 ; Function flickscreen_do_vertical
+                           1812 ; ---------------------------------
+   077C                    1813 _flickscreen_do_vertical::
+                           1814 ;mainloop/flickscreen.h:42: if (pry == 0 && pvy < 0 && n_pant >= c_map_w) {
+   077C 3Ar51r00      [13] 1815 	ld	a,(#_pry + 0)
+   077F B7            [ 4] 1816 	or	a, a
+   0780 20 44         [12] 1817 	jr	NZ,00108$
+   0782 3Ar4Fr00      [13] 1818 	ld	a,(#_pvy + 1)
+   0785 CB 7F         [ 8] 1819 	bit	7,a
+   0787 28 3D         [12] 1820 	jr	Z,00108$
+   0789 21r7Er00      [10] 1821 	ld	hl,#_c_map_w
+   078C 3ArB9r01      [13] 1822 	ld	a,(#_n_pant + 0)
+   078F 96            [ 7] 1823 	sub	a, (hl)
+   0790 38 34         [12] 1824 	jr	C,00108$
+                           1825 ;mainloop/flickscreen.h:43: n_pant -= c_map_w;
+   0792 21r7Er00      [10] 1826 	ld	hl,#_c_map_w
+   0795 D5            [11] 1827 	push	de
+   0796 FD 21rB9r01   [14] 1828 	ld	iy,#_n_pant
+   079A FD E5         [15] 1829 	push	iy
+   079C D1            [10] 1830 	pop	de
+   079D 1A            [ 7] 1831 	ld	a,(de)
+   079E 96            [ 7] 1832 	sub	a, (hl)
+   079F 12            [ 7] 1833 	ld	(de),a
+   07A0 D1            [10] 1834 	pop	de
+                           1835 ;mainloop/flickscreen.h:44: py = 192 << FIXBITS;
+   07A1 21 00 30      [10] 1836 	ld	hl,#0x3000
+   07A4 22r4Ar00      [16] 1837 	ld	(_py),hl
+                           1838 ;mainloop/flickscreen.h:45: if (pvy > -PLAYER_VY_JUMP_MAX) pvy = -PLAYER_VY_JUMP_MAX;
+   07A7 3E 60         [ 7] 1839 	ld	a,#0x60
+   07A9 FD 21r4Er00   [14] 1840 	ld	iy,#_pvy
+   07AD FD BE 00      [19] 1841 	cp	a, 0 (iy)
+   07B0 3E FF         [ 7] 1842 	ld	a,#0xFF
+   07B2 FD 21r4Er00   [14] 1843 	ld	iy,#_pvy
+   07B6 FD 9E 01      [19] 1844 	sbc	a, 1 (iy)
+   07B9 E2rBEr07      [10] 1845 	jp	PO, 00142$
+   07BC EE 80         [ 7] 1846 	xor	a, #0x80
+   07BE                    1847 00142$:
+   07BE F0            [11] 1848 	ret	P
+   07BF 21 60 FF      [10] 1849 	ld	hl,#0xFF60
+   07C2 22r4Er00      [16] 1850 	ld	(_pvy),hl
+   07C5 C9            [10] 1851 	ret
+   07C6                    1852 00108$:
+                           1853 ;mainloop/flickscreen.h:46: } else if (pry >= 192 && pvy > 0 && n_pant < c_map_size - c_map_w) {
+   07C6 3Ar51r00      [13] 1854 	ld	a,(#_pry + 0)
+   07C9 D6 C0         [ 7] 1855 	sub	a, #0xC0
+   07CB D8            [11] 1856 	ret	C
+   07CC AF            [ 4] 1857 	xor	a, a
+   07CD FD 21r4Er00   [14] 1858 	ld	iy,#_pvy
+   07D1 FD BE 00      [19] 1859 	cp	a, 0 (iy)
+   07D4 FD 21r4Er00   [14] 1860 	ld	iy,#_pvy
+   07D8 FD 9E 01      [19] 1861 	sbc	a, 1 (iy)
+   07DB E2rE0r07      [10] 1862 	jp	PO, 00143$
+   07DE EE 80         [ 7] 1863 	xor	a, #0x80
+   07E0                    1864 00143$:
+   07E0 F0            [11] 1865 	ret	P
+   07E1 21r80r00      [10] 1866 	ld	hl,#_c_map_size + 0
+   07E4 5E            [ 7] 1867 	ld	e, (hl)
+   07E5 16 00         [ 7] 1868 	ld	d,#0x00
+   07E7 FD 21r7Er00   [14] 1869 	ld	iy,#_c_map_w
+   07EB FD 6E 00      [19] 1870 	ld	l,0 (iy)
+   07EE 26 00         [ 7] 1871 	ld	h,#0x00
+   07F0 7B            [ 4] 1872 	ld	a,e
+   07F1 95            [ 4] 1873 	sub	a, l
+   07F2 5F            [ 4] 1874 	ld	e,a
+   07F3 7A            [ 4] 1875 	ld	a,d
+   07F4 9C            [ 4] 1876 	sbc	a, h
+   07F5 57            [ 4] 1877 	ld	d,a
+   07F6 FD 21rB9r01   [14] 1878 	ld	iy,#_n_pant
+   07FA FD 66 00      [19] 1879 	ld	h,0 (iy)
+   07FD 2E 00         [ 7] 1880 	ld	l,#0x00
+   07FF 7C            [ 4] 1881 	ld	a,h
+   0800 93            [ 4] 1882 	sub	a, e
+   0801 7D            [ 4] 1883 	ld	a,l
+   0802 9A            [ 4] 1884 	sbc	a, d
+   0803 E2r08r08      [10] 1885 	jp	PO, 00144$
+   0806 EE 80         [ 7] 1886 	xor	a, #0x80
+   0808                    1887 00144$:
+   0808 F0            [11] 1888 	ret	P
+                           1889 ;mainloop/flickscreen.h:47: n_pant += c_map_w;
+   0809 21r7Er00      [10] 1890 	ld	hl,#_c_map_w
+   080C D5            [11] 1891 	push	de
+   080D FD 21rB9r01   [14] 1892 	ld	iy,#_n_pant
+   0811 FD E5         [15] 1893 	push	iy
+   0813 D1            [10] 1894 	pop	de
+   0814 1A            [ 7] 1895 	ld	a,(de)
+   0815 86            [ 7] 1896 	add	a, (hl)
+   0816 12            [ 7] 1897 	ld	(de),a
+   0817 D1            [10] 1898 	pop	de
+                           1899 ;mainloop/flickscreen.h:48: py = 0;
+   0818 21 00 00      [10] 1900 	ld	hl,#0x0000
+   081B 22r4Ar00      [16] 1901 	ld	(_py),hl
+   081E C9            [10] 1902 	ret
+                           1903 ;mainloop.h:6: void game_init (void) {
+                           1904 ;	---------------------------------
+                           1905 ; Function game_init
+                           1906 ; ---------------------------------
+   081F                    1907 _game_init::
+                           1908 ;mainloop.h:8: win_level = game_over = 0;
+   081F 21rBFr01      [10] 1909 	ld	hl,#_game_over + 0
+   0822 36 00         [10] 1910 	ld	(hl), #0x00
+   0824 21rBEr01      [10] 1911 	ld	hl,#_win_level + 0
+   0827 36 00         [10] 1912 	ld	(hl), #0x00
+                           1913 ;mainloop/asset_setup.h:9: c_ts_tmaps = 	l_ts_tmaps [level];
+   0829 FD 21rB7r01   [14] 1914 	ld	iy,#_level
+   082D FD 6E 00      [19] 1915 	ld	l,0 (iy)
+   0830 26 00         [ 7] 1916 	ld	h,#0x00
+   0832 29            [11] 1917 	add	hl, hl
+   0833 4D            [ 4] 1918 	ld	c, l
+   0834 44            [ 4] 1919 	ld	b, h
+   0835 21rFCr01      [10] 1920 	ld	hl,#_l_ts_tmaps
+   0838 09            [11] 1921 	add	hl,bc
+   0839 7E            [ 7] 1922 	ld	a,(hl)
+   083A FD 21r81r00   [14] 1923 	ld	iy,#_c_ts_tmaps
+   083E FD 77 00      [19] 1924 	ld	0 (iy),a
+   0841 23            [ 6] 1925 	inc	hl
+   0842 7E            [ 7] 1926 	ld	a,(hl)
+   0843 32r82r00      [13] 1927 	ld	(#_c_ts_tmaps + 1),a
+                           1928 ;mainloop/asset_setup.h:10: c_behs = 		l_behs [level];
+   0846 21r02r02      [10] 1929 	ld	hl,#_l_behs
+   0849 09            [11] 1930 	add	hl,bc
+   084A 7E            [ 7] 1931 	ld	a,(hl)
+   084B FD 21r83r00   [14] 1932 	ld	iy,#_c_behs
+   084F FD 77 00      [19] 1933 	ld	0 (iy),a
+   0852 23            [ 6] 1934 	inc	hl
+   0853 7E            [ 7] 1935 	ld	a,(hl)
+   0854 32r84r00      [13] 1936 	ld	(#_c_behs + 1),a
+                           1937 ;mainloop/asset_setup.h:11: spr_enems = 	l_spr_enems [level];
+   0857 21r0Er02      [10] 1938 	ld	hl,#_l_spr_enems
+   085A 09            [11] 1939 	add	hl,bc
+   085B 7E            [ 7] 1940 	ld	a,(hl)
+   085C FD 21r85r00   [14] 1941 	ld	iy,#_spr_enems
+   0860 FD 77 00      [19] 1942 	ld	0 (iy),a
+   0863 23            [ 6] 1943 	inc	hl
+   0864 7E            [ 7] 1944 	ld	a,(hl)
+   0865 32r86r00      [13] 1945 	ld	(#_spr_enems + 1),a
+                           1946 ;mainloop/asset_setup.h:13: c_map = 		l_map [level];
+   0868 21r14r02      [10] 1947 	ld	hl,#_l_map
+   086B 09            [11] 1948 	add	hl,bc
+   086C 7E            [ 7] 1949 	ld	a,(hl)
+   086D FD 21r87r00   [14] 1950 	ld	iy,#_c_map
+   0871 FD 77 00      [19] 1951 	ld	0 (iy),a
+   0874 23            [ 6] 1952 	inc	hl
+   0875 7E            [ 7] 1953 	ld	a,(hl)
+   0876 32r88r00      [13] 1954 	ld	(#_c_map + 1),a
+                           1955 ;mainloop/asset_setup.h:20: c_decos = 	l_decos [level];
+   0879 3Er1A         [ 7] 1956 	ld	a,#<(_l_decos)
+   087B 21rB7r01      [10] 1957 	ld	hl,#_level
+   087E 86            [ 7] 1958 	add	a, (hl)
+   087F 5F            [ 4] 1959 	ld	e,a
+   0880 3Es02         [ 7] 1960 	ld	a,#>(_l_decos)
+   0882 CE 00         [ 7] 1961 	adc	a, #0x00
+   0884 57            [ 4] 1962 	ld	d,a
+   0885 1A            [ 7] 1963 	ld	a,(de)
+   0886 32r89r00      [13] 1964 	ld	(#_c_decos + 0),a
+                           1965 ;mainloop/asset_setup.h:23: c_locks = 	l_locks [level];
+   0889 21r1Dr02      [10] 1966 	ld	hl,#_l_locks
+   088C 09            [11] 1967 	add	hl,bc
+   088D 7E            [ 7] 1968 	ld	a,(hl)
+   088E FD 21r8Ar00   [14] 1969 	ld	iy,#_c_locks
+   0892 FD 77 00      [19] 1970 	ld	0 (iy),a
+   0895 23            [ 6] 1971 	inc	hl
+   0896 7E            [ 7] 1972 	ld	a,(hl)
+   0897 32r8Br00      [13] 1973 	ld	(#_c_locks + 1),a
+                           1974 ;mainloop/asset_setup.h:25: l_n_bolts [level];
+   089A 3Er23         [ 7] 1975 	ld	a,#<(_l_n_bolts)
+   089C 21rB7r01      [10] 1976 	ld	hl,#_level
+   089F 86            [ 7] 1977 	add	a, (hl)
+   08A0 5F            [ 4] 1978 	ld	e,a
+   08A1 3Es02         [ 7] 1979 	ld	a,#>(_l_n_bolts)
+   08A3 CE 00         [ 7] 1980 	adc	a, #0x00
+   08A5 57            [ 4] 1981 	ld	d,a
+   08A6 1A            [ 7] 1982 	ld	a,(de)
+   08A7 32r90r00      [13] 1983 	ld	(#_c_max_bolts + 0),a
+                           1984 ;mainloop/asset_setup.h:28: c_enems = 		l_enems [level];
+   08AA 21r26r02      [10] 1985 	ld	hl,#_l_enems
+   08AD 09            [11] 1986 	add	hl,bc
+   08AE 7E            [ 7] 1987 	ld	a,(hl)
+   08AF FD 21r8Cr00   [14] 1988 	ld	iy,#_c_enems
+   08B3 FD 77 00      [19] 1989 	ld	0 (iy),a
+   08B6 23            [ 6] 1990 	inc	hl
+   08B7 7E            [ 7] 1991 	ld	a,(hl)
+   08B8 32r8Dr00      [13] 1992 	ld	(#_c_enems + 1),a
+                           1993 ;mainloop/asset_setup.h:29: c_hotspots = 	l_hotspots [level];	
+   08BB 21r2Cr02      [10] 1994 	ld	hl,#_l_hotspots
+   08BE 09            [11] 1995 	add	hl,bc
+   08BF 7E            [ 7] 1996 	ld	a,(hl)
+   08C0 FD 21r8Er00   [14] 1997 	ld	iy,#_c_hotspots
+   08C4 FD 77 00      [19] 1998 	ld	0 (iy),a
+   08C7 23            [ 6] 1999 	inc	hl
+   08C8 7E            [ 7] 2000 	ld	a,(hl)
+   08C9 32r8Fr00      [13] 2001 	ld	(#_c_hotspots + 1),a
+                           2002 ;mainloop/asset_setup.h:31: c_max_enems = 	l_player_max_enems [level];
+   08CC 3ErED         [ 7] 2003 	ld	a,#<(_l_player_max_enems)
+   08CE 21rB7r01      [10] 2004 	ld	hl,#_level
+   08D1 86            [ 7] 2005 	add	a, (hl)
+   08D2 5F            [ 4] 2006 	ld	e,a
+   08D3 3Es01         [ 7] 2007 	ld	a,#>(_l_player_max_enems)
+   08D5 CE 00         [ 7] 2008 	adc	a, #0x00
+   08D7 57            [ 4] 2009 	ld	d,a
+   08D8 1A            [ 7] 2010 	ld	a,(de)
+   08D9 32rB8r01      [13] 2011 	ld	(#_c_max_enems + 0),a
+                           2012 ;mainloop/asset_setup.h:33: c_map_w = 		l_map_w [level];
+   08DC 3ErE4         [ 7] 2013 	ld	a,#<(_l_map_w)
+   08DE 21rB7r01      [10] 2014 	ld	hl,#_level
+   08E1 86            [ 7] 2015 	add	a, (hl)
+   08E2 5F            [ 4] 2016 	ld	e,a
+   08E3 3Es01         [ 7] 2017 	ld	a,#>(_l_map_w)
+   08E5 CE 00         [ 7] 2018 	adc	a, #0x00
+   08E7 57            [ 4] 2019 	ld	d,a
+   08E8 1A            [ 7] 2020 	ld	a,(de)
+   08E9 32r7Er00      [13] 2021 	ld	(#_c_map_w + 0),a
+                           2022 ;mainloop/asset_setup.h:34: c_map_h = 		l_map_h [level];
+   08EC 3ErE7         [ 7] 2023 	ld	a,#<(_l_map_h)
+   08EE 21rB7r01      [10] 2024 	ld	hl,#_level
+   08F1 86            [ 7] 2025 	add	a, (hl)
+   08F2 5F            [ 4] 2026 	ld	e,a
+   08F3 3Es01         [ 7] 2027 	ld	a,#>(_l_map_h)
+   08F5 CE 00         [ 7] 2028 	adc	a, #0x00
+   08F7 57            [ 4] 2029 	ld	d,a
+   08F8 1A            [ 7] 2030 	ld	a,(de)
+                           2031 ;mainloop/asset_setup.h:84: rda = c_map_h; c_map_size = 0; while (rda --) c_map_size += c_map_w;
+   08F9 32r7Fr00      [13] 2032 	ld	(#_c_map_h + 0),a
+   08FC 32r16r00      [13] 2033 	ld	(#_rda + 0),a
+   08FF 21r80r00      [10] 2034 	ld	hl,#_c_map_size + 0
+   0902 36 00         [10] 2035 	ld	(hl), #0x00
+   0904                    2036 00101$:
+   0904 21r16r00      [10] 2037 	ld	hl,#_rda + 0
+   0907 56            [ 7] 2038 	ld	d, (hl)
+   0908 21r16r00      [10] 2039 	ld	hl, #_rda+0
+   090B 35            [11] 2040 	dec	(hl)
+   090C 7A            [ 4] 2041 	ld	a,d
+   090D B7            [ 4] 2042 	or	a, a
+   090E 28 11         [12] 2043 	jr	Z,00103$
+   0910 21r7Er00      [10] 2044 	ld	hl,#_c_map_w
+   0913 D5            [11] 2045 	push	de
+   0914 FD 21r80r00   [14] 2046 	ld	iy,#_c_map_size
+   0918 FD E5         [15] 2047 	push	iy
+   091A D1            [10] 2048 	pop	de
+   091B 1A            [ 7] 2049 	ld	a,(de)
+   091C 86            [ 7] 2050 	add	a, (hl)
+   091D 12            [ 7] 2051 	ld	(de),a
+   091E D1            [10] 2052 	pop	de
+   091F 18 E3         [12] 2053 	jr	00101$
+   0921                    2054 00103$:
+                           2055 ;my/level_pattern_unpacker.h:3: unpack_bg_patterns (l_ts_patterns [level], l_ts_colours [level], 64*8, 7);
+   0921 21rF6r01      [10] 2056 	ld	hl,#_l_ts_colours
+   0924 09            [11] 2057 	add	hl,bc
+   0925 5E            [ 7] 2058 	ld	e,(hl)
+   0926 23            [ 6] 2059 	inc	hl
+   0927 56            [ 7] 2060 	ld	d,(hl)
+   0928 21rF0r01      [10] 2061 	ld	hl,#_l_ts_patterns
+   092B 09            [11] 2062 	add	hl,bc
+   092C 4E            [ 7] 2063 	ld	c,(hl)
+   092D 23            [ 6] 2064 	inc	hl
+   092E 46            [ 7] 2065 	ld	b,(hl)
+   092F 3E 07         [ 7] 2066 	ld	a,#0x07
+   0931 F5            [11] 2067 	push	af
+   0932 33            [ 6] 2068 	inc	sp
+   0933 21 00 02      [10] 2069 	ld	hl,#0x0200
+   0936 E5            [11] 2070 	push	hl
+   0937 D5            [11] 2071 	push	de
+   0938 C5            [11] 2072 	push	bc
+   0939 CDr00r00      [17] 2073 	call	_unpack_bg_patterns
+   093C 21 07 00      [10] 2074 	ld	hl,#7
+   093F 39            [11] 2075 	add	hl,sp
+   0940 F9            [ 6] 2076 	ld	sp,hl
+                           2077 ;my/level_pattern_unpacker.h:4: aPLib_depack_VRAM (SGT_BASE + 160*8, l_spr_patterns [level]);
+   0941 FD 21rB7r01   [14] 2078 	ld	iy,#_level
+   0945 FD 6E 00      [19] 2079 	ld	l,0 (iy)
+   0948 26 00         [ 7] 2080 	ld	h,#0x00
+   094A 29            [11] 2081 	add	hl, hl
+   094B 11r08r02      [10] 2082 	ld	de,#_l_spr_patterns
+   094E 19            [11] 2083 	add	hl,de
+   094F 5E            [ 7] 2084 	ld	e,(hl)
+   0950 23            [ 6] 2085 	inc	hl
+   0951 56            [ 7] 2086 	ld	d,(hl)
+   0952 D5            [11] 2087 	push	de
+   0953 21 00 3D      [10] 2088 	ld	hl,#0x3D00
+   0956 E5            [11] 2089 	push	hl
+   0957 CDr00r00      [17] 2090 	call	_aPLib_depack_VRAM
+   095A F1            [10] 2091 	pop	af
+   095B F1            [10] 2092 	pop	af
+                           2093 ;mainloop.h:16: cls ();
+   095C CDr00r00      [17] 2094 	call	_cls
+                           2095 ;mainloop.h:18: draw_game_frame ();
+   095F CDrD5r02      [17] 2096 	call	_draw_game_frame
+                           2097 ;mainloop.h:21: hotspots_load ();
+   0962 CDr00r00      [17] 2098 	call	_hotspots_load
+                           2099 ;mainloop.h:24: memfill (lkact, 1, c_max_bolts);
+   0965 21r90r00      [10] 2100 	ld	hl,#_c_max_bolts + 0
+   0968 4E            [ 7] 2101 	ld	c, (hl)
+   0969 06 00         [ 7] 2102 	ld	b,#0x00
+   096B 11rE3r01      [10] 2103 	ld	de,#_lkact
+   096E C5            [11] 2104 	push	bc
+   096F 3E 01         [ 7] 2105 	ld	a,#0x01
+   0971 F5            [11] 2106 	push	af
+   0972 33            [ 6] 2107 	inc	sp
+   0973 D5            [11] 2108 	push	de
+   0974 CDr00r00      [17] 2109 	call	_memfill
+   0977 F1            [10] 2110 	pop	af
+   0978 F1            [10] 2111 	pop	af
+   0979 33            [ 6] 2112 	inc	sp
+                           2113 ;mainloop.h:27: if (!warp_to_level)	{
+   097A 3ArC0r01      [13] 2114 	ld	a,(#_warp_to_level + 0)
+   097D B7            [ 4] 2115 	or	a, a
+   097E 20 43         [12] 2116 	jr	NZ,00105$
+                           2117 ;mainloop.h:28: n_pant = SCR_INI;
+   0980 11rDBr01      [10] 2118 	ld	de,#_l_scr_ini+0
+   0983 2ArB7r01      [16] 2119 	ld	hl,(_level)
+   0986 26 00         [ 7] 2120 	ld	h,#0x00
+   0988 19            [11] 2121 	add	hl,de
+   0989 7E            [ 7] 2122 	ld	a,(hl)
+   098A 32rB9r01      [13] 2123 	ld	(#_n_pant + 0),a
+                           2124 ;mainloop.h:29: px = (4 + (PLAYER_INI_X << 4)) << FIXBITS;
+   098D 11rDEr01      [10] 2125 	ld	de,#_l_ini_x+0
+   0990 2ArB7r01      [16] 2126 	ld	hl,(_level)
+   0993 26 00         [ 7] 2127 	ld	h,#0x00
+   0995 19            [11] 2128 	add	hl,de
+   0996 6E            [ 7] 2129 	ld	l,(hl)
+   0997 26 00         [ 7] 2130 	ld	h,#0x00
+   0999 29            [11] 2131 	add	hl, hl
+   099A 29            [11] 2132 	add	hl, hl
+   099B 29            [11] 2133 	add	hl, hl
+   099C 29            [11] 2134 	add	hl, hl
+   099D 01 04 00      [10] 2135 	ld	bc,#0x0004
+   09A0 09            [11] 2136 	add	hl,bc
+   09A1 29            [11] 2137 	add	hl, hl
+   09A2 29            [11] 2138 	add	hl, hl
+   09A3 29            [11] 2139 	add	hl, hl
+   09A4 29            [11] 2140 	add	hl, hl
+   09A5 29            [11] 2141 	add	hl, hl
+   09A6 29            [11] 2142 	add	hl, hl
+   09A7 22r48r00      [16] 2143 	ld	(_px),hl
+                           2144 ;mainloop.h:30: py = (PLAYER_INI_Y << 4) << FIXBITS;
+   09AA 11rE1r01      [10] 2145 	ld	de,#_l_ini_y+0
+   09AD 2ArB7r01      [16] 2146 	ld	hl,(_level)
+   09B0 26 00         [ 7] 2147 	ld	h,#0x00
+   09B2 19            [11] 2148 	add	hl,de
+   09B3 6E            [ 7] 2149 	ld	l,(hl)
+   09B4 26 00         [ 7] 2150 	ld	h,#0x00
+   09B6 29            [11] 2151 	add	hl, hl
+   09B7 29            [11] 2152 	add	hl, hl
+   09B8 29            [11] 2153 	add	hl, hl
+   09B9 29            [11] 2154 	add	hl, hl
+   09BA 29            [11] 2155 	add	hl, hl
+   09BB 29            [11] 2156 	add	hl, hl
+   09BC 29            [11] 2157 	add	hl, hl
+   09BD 29            [11] 2158 	add	hl, hl
+   09BE 29            [11] 2159 	add	hl, hl
+   09BF 29            [11] 2160 	add	hl, hl
+   09C0 22r4Ar00      [16] 2161 	ld	(_py),hl
+   09C3                    2162 00105$:
+                           2163 ;mainloop.h:32: player_to_pixels ();
+   09C3 CDr00r00      [17] 2164 	call	_player_to_pixels
+                           2165 ;mainloop.h:33: player_init ();
+   09C6 CDr00r00      [17] 2166 	call	_player_init
+                           2167 ;mainloop.h:36: enems_persistent_load ();
+   09C9 CDr00r00      [17] 2168 	call	_enems_persistent_load
+                           2169 ;mainloop.h:40: enems_persistent_deaths_load ();
+   09CC CDr00r00      [17] 2170 	call	_enems_persistent_deaths_load
+                           2171 ;mainloop.h:52: pkeys = 0;
+   09CF 21r6Fr00      [10] 2172 	ld	hl,#_pkeys + 0
+   09D2 36 00         [10] 2173 	ld	(hl), #0x00
+                           2174 ;mainloop.h:56: res_on = 0;
+   09D4 21rB0r02      [10] 2175 	ld	hl,#_res_on + 0
+   09D7 36 00         [10] 2176 	ld	(hl), #0x00
+                           2177 ;mainloop.h:57: res_disable = 0;
+   09D9 21rAFr02      [10] 2178 	ld	hl,#_res_disable + 0
+   09DC 36 00         [10] 2179 	ld	(hl), #0x00
+                           2180 ;mainloop.h:65: no_ct = 0;
+   09DE 21rC9r01      [10] 2181 	ld	hl,#_no_ct + 0
+   09E1 36 00         [10] 2182 	ld	(hl), #0x00
+                           2183 ;mainloop.h:104: half_life = 0;
+   09E3 21rBBr01      [10] 2184 	ld	hl,#_half_life + 0
+   09E6 36 00         [10] 2185 	ld	(hl), #0x00
+                           2186 ;mainloop.h:105: frame_counter = 0;
+   09E8 21rBCr01      [10] 2187 	ld	hl,#_frame_counter + 0
+   09EB 36 00         [10] 2188 	ld	(hl), #0x00
+                           2189 ;mainloop.h:106: olife = oammo = oobjs = okeys = 0xff;
+   09ED 21rC4r01      [10] 2190 	ld	hl,#_okeys + 0
+   09F0 36 FF         [10] 2191 	ld	(hl), #0xFF
+   09F2 21rC5r01      [10] 2192 	ld	hl,#_oobjs + 0
+   09F5 36 FF         [10] 2193 	ld	(hl), #0xFF
+   09F7 21rC6r01      [10] 2194 	ld	hl,#_oammo + 0
+   09FA 36 FF         [10] 2195 	ld	(hl), #0xFF
+   09FC 21rC3r01      [10] 2196 	ld	hl,#_olife + 0
+   09FF 36 FF         [10] 2197 	ld	(hl), #0xFF
+                           2198 ;mainloop.h:107: okilled = 0xff;
+   0A01 21rC7r01      [10] 2199 	ld	hl,#_okilled + 0
+   0A04 36 FF         [10] 2200 	ld	(hl), #0xFF
+                           2201 ;my/extra_inits.h:7: springs_on = (level == 1);
+   0A06 3ArB7r01      [13] 2202 	ld	a,(#_level + 0)
+   0A09 3D            [ 4] 2203 	dec	a
+   0A0A 20 04         [12] 2204 	jr	NZ,00120$
+   0A0C 3E 01         [ 7] 2205 	ld	a,#0x01
+   0A0E 18 01         [12] 2206 	jr	00121$
+   0A10                    2207 00120$:
+   0A10 AF            [ 4] 2208 	xor	a,a
+   0A11                    2209 00121$:
+   0A11 32rB4r02      [13] 2210 	ld	(#_springs_on + 0),a
+   0A14 C9            [10] 2211 	ret
+                           2212 ;mainloop.h:116: void prepare_scr (void) {
+                           2213 ;	---------------------------------
+                           2214 ; Function prepare_scr
+                           2215 ; ---------------------------------
+   0A15                    2216 _prepare_scr::
+                           2217 ;mainloop.h:117: SG_displayOff ();
+   0A15 21 40 01      [10] 2218 	ld	hl,#0x0140
+   0A18 E5            [11] 2219 	push	hl
+   0A19 CDr00r00      [17] 2220 	call	_SG_VDPturnOffFeature
+   0A1C F1            [10] 2221 	pop	af
+                           2222 ;mainloop.h:127: ft = 0;
+   0A1D FD 21r7Dr00   [14] 2223 	ld	iy,#_ft
+   0A21 FD 36 00 00   [19] 2224 	ld	0 (iy),#0x00
+                           2225 ;mainloop.h:129: update_list [update_index] = 0xff;
+   0A25 3Ar93r00      [13] 2226 	ld	a,(#_update_index + 0)
+   0A28 C6r94         [ 7] 2227 	add	a, #<(_update_list)
+   0A2A 6F            [ 4] 2228 	ld	l, a
+   0A2B 3E 00         [ 7] 2229 	ld	a, #0x00
+   0A2D CEs00         [ 7] 2230 	adc	a, #>(_update_list)
+   0A2F 67            [ 4] 2231 	ld	h, a
+   0A30 36 FF         [10] 2232 	ld	(hl),#0xFF
+                           2233 ;mainloop.h:130: SG_doUpdateList ();
+   0A32 CDr00r00      [17] 2234 	call	_SG_doUpdateList
+                           2235 ;mainloop.h:131: clear_update_list ();
+   0A35 CDr00r00      [17] 2236 	call	_clear_update_list
+                           2237 ;mainloop.h:140: enems_persistent_update ();
+   0A38 CDr00r00      [17] 2238 	call	_enems_persistent_update
+                           2239 ;mainloop.h:143: enems_load ();
+   0A3B CDr00r00      [17] 2240 	call	_enems_load
+                           2241 ;mainloop.h:144: hotspots_create ();	
+   0A3E CDr75r02      [17] 2242 	call	_hotspots_create
+                           2243 ;mainloop.h:161: chac_chacs_queue_write = chac_chacs_queue_read = 0;
+   0A41 21rADr02      [10] 2244 	ld	hl,#_chac_chacs_queue_read + 0
+   0A44 36 00         [10] 2245 	ld	(hl), #0x00
+   0A46 21rAEr02      [10] 2246 	ld	hl,#_chac_chacs_queue_write + 0
+   0A49 36 00         [10] 2247 	ld	(hl), #0x00
+                           2248 ;mainloop.h:162: max_chac_chacs = 0;
+   0A4B 21r8Cr02      [10] 2249 	ld	hl,#_max_chac_chacs + 0
+   0A4E 36 00         [10] 2250 	ld	(hl), #0x00
+                           2251 ;mainloop.h:171: draw_scr ();
+   0A50 CDr00r00      [17] 2252 	call	_draw_scr
+                           2253 ;mainloop.h:212: SG_initSprites ();
+   0A53 CDr00r00      [17] 2254 	call	_SG_initSprites
+                           2255 ;my/on_entering_screen.h:8: if (mode_no_resonators) {
+   0A56 3ArB6r02      [13] 2256 	ld	a,(#_mode_no_resonators + 0)
+   0A59 B7            [ 4] 2257 	or	a, a
+   0A5A 28 11         [12] 2258 	jr	Z,00104$
+                           2259 ;my/on_entering_screen.h:9: res_disable = 1;
+   0A5C 21rAFr02      [10] 2260 	ld	hl,#_res_disable + 0
+   0A5F 36 01         [10] 2261 	ld	(hl), #0x01
+                           2262 ;my/on_entering_screen.h:10: if (hrt == HOTSPOT_TYPE_RESONATOR) hrt = 0;
+   0A61 3Ar7Br00      [13] 2263 	ld	a,(#_hrt + 0)
+   0A64 D6 04         [ 7] 2264 	sub	a, #0x04
+   0A66 20 05         [12] 2265 	jr	NZ,00104$
+   0A68 21r7Br00      [10] 2266 	ld	hl,#_hrt + 0
+   0A6B 36 00         [10] 2267 	ld	(hl), #0x00
+   0A6D                    2268 00104$:
+                           2269 ;mainloop.h:229: gpit = 3; while (gpit --) en_spr_id [gpit] = en_s [gpit];
+   0A6D 21r06r00      [10] 2270 	ld	hl,#_gpit + 0
+   0A70 36 03         [10] 2271 	ld	(hl), #0x03
+   0A72                    2272 00105$:
+   0A72 21r06r00      [10] 2273 	ld	hl,#_gpit + 0
+   0A75 5E            [ 7] 2274 	ld	e, (hl)
+   0A76 21r06r00      [10] 2275 	ld	hl, #_gpit+0
+   0A79 35            [11] 2276 	dec	(hl)
+   0A7A 7B            [ 4] 2277 	ld	a,e
+   0A7B B7            [ 4] 2278 	or	a, a
+   0A7C 28 1E         [12] 2279 	jr	Z,00107$
+   0A7E 3Er41         [ 7] 2280 	ld	a,#<(_en_spr_id)
+   0A80 21r06r00      [10] 2281 	ld	hl,#_gpit
+   0A83 86            [ 7] 2282 	add	a, (hl)
+   0A84 5F            [ 4] 2283 	ld	e,a
+   0A85 3Es02         [ 7] 2284 	ld	a,#>(_en_spr_id)
+   0A87 CE 00         [ 7] 2285 	adc	a, #0x00
+   0A89 57            [ 4] 2286 	ld	d,a
+   0A8A FD 21r10r02   [14] 2287 	ld	iy,#_en_s
+   0A8E ED 4Br06r00   [20] 2288 	ld	bc,(_gpit)
+   0A92 06 00         [ 7] 2289 	ld	b,#0x00
+   0A94 FD 09         [15] 2290 	add	iy, bc
+   0A96 FD 7E 00      [19] 2291 	ld	a, 0 (iy)
+   0A99 12            [ 7] 2292 	ld	(de),a
+   0A9A 18 D6         [12] 2293 	jr	00105$
+   0A9C                    2294 00107$:
+                           2295 ;mainloop.h:231: prx = px >> FIXBITS; pry = py >> FIXBITS;
+   0A9C 2Ar48r00      [16] 2296 	ld	hl,(_px)
+   0A9F CB 2C         [ 8] 2297 	sra	h
+   0AA1 CB 1D         [ 8] 2298 	rr	l
+   0AA3 CB 2C         [ 8] 2299 	sra	h
+   0AA5 CB 1D         [ 8] 2300 	rr	l
+   0AA7 CB 2C         [ 8] 2301 	sra	h
+   0AA9 CB 1D         [ 8] 2302 	rr	l
+   0AAB CB 2C         [ 8] 2303 	sra	h
+   0AAD CB 1D         [ 8] 2304 	rr	l
+   0AAF CB 2C         [ 8] 2305 	sra	h
+   0AB1 CB 1D         [ 8] 2306 	rr	l
+   0AB3 CB 2C         [ 8] 2307 	sra	h
+   0AB5 CB 1D         [ 8] 2308 	rr	l
+   0AB7 FD 21r50r00   [14] 2309 	ld	iy,#_prx
+   0ABB FD 75 00      [19] 2310 	ld	0 (iy),l
+   0ABE 2Ar4Ar00      [16] 2311 	ld	hl,(_py)
+   0AC1 CB 2C         [ 8] 2312 	sra	h
+   0AC3 CB 1D         [ 8] 2313 	rr	l
+   0AC5 CB 2C         [ 8] 2314 	sra	h
+   0AC7 CB 1D         [ 8] 2315 	rr	l
+   0AC9 CB 2C         [ 8] 2316 	sra	h
+   0ACB CB 1D         [ 8] 2317 	rr	l
+   0ACD CB 2C         [ 8] 2318 	sra	h
+   0ACF CB 1D         [ 8] 2319 	rr	l
+   0AD1 CB 2C         [ 8] 2320 	sra	h
+   0AD3 CB 1D         [ 8] 2321 	rr	l
+   0AD5 CB 2C         [ 8] 2322 	sra	h
+   0AD7 CB 1D         [ 8] 2323 	rr	l
+   0AD9 FD 21r51r00   [14] 2324 	ld	iy,#_pry
+   0ADD FD 75 00      [19] 2325 	ld	0 (iy),l
+                           2326 ;mainloop.h:236: player_move ();
+   0AE0 CDr00r00      [17] 2327 	call	_player_move
+                           2328 ;mainloop.h:237: enems_move ();
+   0AE3 CDr00r00      [17] 2329 	call	_enems_move
+                           2330 ;mainloop.h:239: if (hrt) hotspots_paint ();
+   0AE6 3Ar7Br00      [13] 2331 	ld	a,(#_hrt + 0)
+   0AE9 B7            [ 4] 2332 	or	a, a
+   0AEA 28 03         [12] 2333 	jr	Z,00109$
+   0AEC CDr38r02      [17] 2334 	call	_hotspots_paint
+   0AEF                    2335 00109$:
+                           2336 ;mainloop.h:254: hud_update ();
+   0AEF CDrDEr02      [17] 2337 	call	_hud_update
+                           2338 ;mainloop.h:255: SG_copySpritestoSAT ();
+   0AF2 CDr00r00      [17] 2339 	call	_SG_copySpritestoSAT
+                           2340 ;mainloop.h:256: update_list [update_index] = 0xff;
+   0AF5 3Ar93r00      [13] 2341 	ld	a,(#_update_index + 0)
+   0AF8 C6r94         [ 7] 2342 	add	a, #<(_update_list)
+   0AFA 6F            [ 4] 2343 	ld	l, a
+   0AFB 3E 00         [ 7] 2344 	ld	a, #0x00
+   0AFD CEs00         [ 7] 2345 	adc	a, #>(_update_list)
+   0AFF 67            [ 4] 2346 	ld	h, a
+   0B00 36 FF         [10] 2347 	ld	(hl),#0xFF
+                           2348 ;mainloop.h:257: SG_doUpdateList ();
+   0B02 CDr00r00      [17] 2349 	call	_SG_doUpdateList
+                           2350 ;mainloop.h:258: clear_update_list ();	
+   0B05 CDr00r00      [17] 2351 	call	_clear_update_list
+                           2352 ;mainloop.h:259: SG_displayOn ();
+   0B08 21 40 01      [10] 2353 	ld	hl,#0x0140
+   0B0B E5            [11] 2354 	push	hl
+   0B0C CDr00r00      [17] 2355 	call	_SG_VDPturnOnFeature
+   0B0F F1            [10] 2356 	pop	af
+                           2357 ;mainloop.h:261: pad0 = 0;
+   0B10 21r04r00      [10] 2358 	ld	hl,#_pad0 + 0
+   0B13 36 00         [10] 2359 	ld	(hl), #0x00
+   0B15 C9            [10] 2360 	ret
+                           2361 ;mainloop.h:264: void game_loop (void) {
+                           2362 ;	---------------------------------
+                           2363 ; Function game_loop
+                           2364 ; ---------------------------------
+   0B16                    2365 _game_loop::
+                           2366 ;mainloop.h:265: clear_update_list ();
+   0B16 CDr00r00      [17] 2367 	call	_clear_update_list
+                           2368 ;mainloop.h:267: on_pant = 99; ft = 1; fade_delay = 1;
+   0B19 21rBAr01      [10] 2369 	ld	hl,#_on_pant + 0
+   0B1C 36 63         [10] 2370 	ld	(hl), #0x63
+   0B1E 21r7Dr00      [10] 2371 	ld	hl,#_ft + 0
+   0B21 36 01         [10] 2372 	ld	(hl), #0x01
+   0B23 21rF5r00      [10] 2373 	ld	hl,#_fade_delay + 0
+   0B26 36 01         [10] 2374 	ld	(hl), #0x01
+                           2375 ;mainloop.h:271: SG_displayOn ();
+   0B28 21 40 01      [10] 2376 	ld	hl,#0x0140
+   0B2B E5            [11] 2377 	push	hl
+   0B2C CDr00r00      [17] 2378 	call	_SG_VDPturnOnFeature
+   0B2F F1            [10] 2379 	pop	af
+                           2380 ;mainloop.h:282: ntsc_frame = level_reset = warp_to_level = 0; 
+   0B30 21rC0r01      [10] 2381 	ld	hl,#_warp_to_level + 0
+   0B33 36 00         [10] 2382 	ld	(hl), #0x00
+   0B35 21rC1r01      [10] 2383 	ld	hl,#_level_reset + 0
+   0B38 36 00         [10] 2384 	ld	(hl), #0x00
+   0B3A 21r92r00      [10] 2385 	ld	hl,#_ntsc_frame + 0
+   0B3D 36 00         [10] 2386 	ld	(hl), #0x00
+                           2387 ;mainloop.h:283: ticker = 50;
+   0B3F 21r1Dr00      [10] 2388 	ld	hl,#_ticker + 0
+   0B42 36 32         [10] 2389 	ld	(hl), #0x32
+                           2390 ;mainloop.h:286: PSGPlay (l_music [level]);
+   0B44 FD 21rB7r01   [14] 2391 	ld	iy,#_level
+   0B48 FD 6E 00      [19] 2392 	ld	l,0 (iy)
+   0B4B 26 00         [ 7] 2393 	ld	h,#0x00
+   0B4D 29            [11] 2394 	add	hl, hl
+   0B4E 11r32r02      [10] 2395 	ld	de,#_l_music
+   0B51 19            [11] 2396 	add	hl,de
+   0B52 5E            [ 7] 2397 	ld	e,(hl)
+   0B53 23            [ 6] 2398 	inc	hl
+   0B54 56            [ 7] 2399 	ld	d,(hl)
+   0B55 D5            [11] 2400 	push	de
+   0B56 CDr00r00      [17] 2401 	call	_PSGPlay
+   0B59 F1            [10] 2402 	pop	af
+                           2403 ;mainloop.h:291: while (1) {
+   0B5A                    2404 00169$:
+                           2405 ;mainloop.h:298: hud_update ();
+   0B5A CDrDEr02      [17] 2406 	call	_hud_update
+                           2407 ;mainloop.h:302: if (pkill) player_kill ();
+   0B5D 3Ar6Ar00      [13] 2408 	ld	a,(#_pkill + 0)
+   0B60 B7            [ 4] 2409 	or	a, a
+   0B61 28 03         [12] 2410 	jr	Z,00102$
+   0B63 CDr00r00      [17] 2411 	call	_player_kill
+   0B66                    2412 00102$:
+                           2413 ;mainloop.h:303: if (game_over || level_reset) break;			
+   0B66 3ArBFr01      [13] 2414 	ld	a,(#_game_over + 0)
+   0B69 B7            [ 4] 2415 	or	a, a
+   0B6A C2r29r0E      [10] 2416 	jp	NZ,00170$
+   0B6D 3ArC1r01      [13] 2417 	ld	a,(#_level_reset + 0)
+   0B70 B7            [ 4] 2418 	or	a, a
+   0B71 C2r29r0E      [10] 2419 	jp	NZ,00170$
+                           2420 ;mainloop.h:309: flick_override = 0;
+   0B74 21rC2r01      [10] 2421 	ld	hl,#_flick_override + 0
+   0B77 36 00         [10] 2422 	ld	(hl), #0x00
+                           2423 ;mainloop.h:312: flickscreen_do_horizontal ();
+   0B79 CDr31r07      [17] 2424 	call	_flickscreen_do_horizontal
+                           2425 ;mainloop.h:313: flickscreen_do_vertical ();
+   0B7C CDr7Cr07      [17] 2426 	call	_flickscreen_do_vertical
+                           2427 ;mainloop.h:319: if (on_pant != n_pant) {
+   0B7F 3ArBAr01      [13] 2428 	ld	a,(#_on_pant + 0)
+   0B82 FD 21rB9r01   [14] 2429 	ld	iy,#_n_pant
+   0B86 FD 96 00      [19] 2430 	sub	a, 0 (iy)
+   0B89 28 09         [12] 2431 	jr	Z,00109$
+                           2432 ;mainloop.h:320: prepare_scr ();
+   0B8B CDr15r0A      [17] 2433 	call	_prepare_scr
+                           2434 ;mainloop.h:321: on_pant = n_pant;
+   0B8E 3ArB9r01      [13] 2435 	ld	a,(#_n_pant + 0)
+   0B91 32rBAr01      [13] 2436 	ld	(#_on_pant + 0),a
+   0B94                    2437 00109$:
+                           2438 ;mainloop.h:340: SG_waitForVBlank ();
+   0B94 CDr00r00      [17] 2439 	call	_SG_waitForVBlank
+                           2440 ;mainloop.h:341: SG_copySpritestoSAT ();
+   0B97 CDr00r00      [17] 2441 	call	_SG_copySpritestoSAT
+                           2442 ;mainloop.h:342: update_list [update_index] = 0xff;
+   0B9A 3Er94         [ 7] 2443 	ld	a,#<(_update_list)
+   0B9C 21r93r00      [10] 2444 	ld	hl,#_update_index
+   0B9F 86            [ 7] 2445 	add	a, (hl)
+   0BA0 6F            [ 4] 2446 	ld	l, a
+   0BA1 3Es00         [ 7] 2447 	ld	a, #>(_update_list)
+   0BA3 CE 00         [ 7] 2448 	adc	a, #0x00
+   0BA5 67            [ 4] 2449 	ld	h, a
+   0BA6 36 FF         [10] 2450 	ld	(hl),#0xFF
+                           2451 ;mainloop.h:343: SG_doUpdateList ();
+   0BA8 CDr00r00      [17] 2452 	call	_SG_doUpdateList
+                           2453 ;mainloop.h:344: clear_update_list ();
+   0BAB CDr00r00      [17] 2454 	call	_clear_update_list
+                           2455 ;mainloop.h:348: pad_read ();
+   0BAE CDr00r00      [17] 2456 	call	_pad_read
+                           2457 ;mainloop.h:349: a_button = (pad_this_frame & PAD_A);
+   0BB1 3Ar05r00      [13] 2458 	ld	a,(#_pad_this_frame + 0)
+   0BB4 E6 20         [ 7] 2459 	and	a, #0x20
+   0BB6 32r57r00      [13] 2460 	ld	(#_a_button + 0),a
+                           2461 ;mainloop.h:350: b_button = (pad_this_frame & PAD_B);
+   0BB9 3Ar05r00      [13] 2462 	ld	a,(#_pad_this_frame + 0)
+   0BBC E6 10         [ 7] 2463 	and	a, #0x10
+   0BBE 32r58r00      [13] 2464 	ld	(#_b_button + 0),a
+                           2465 ;mainloop.h:354: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
+   0BC1 21r92r00      [10] 2466 	ld	hl, #_ntsc_frame+0
+   0BC4 34            [11] 2467 	inc	(hl)
+   0BC5 3Ar92r00      [13] 2468 	ld	a,(#_ntsc_frame + 0)
+   0BC8 D6 06         [ 7] 2469 	sub	a, #0x06
+   0BCA 20 05         [12] 2470 	jr	NZ,00111$
+   0BCC 21r92r00      [10] 2471 	ld	hl,#_ntsc_frame + 0
+   0BCF 36 00         [10] 2472 	ld	(hl), #0x00
+   0BD1                    2473 00111$:
+                           2474 ;mainloop.h:356: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
+   0BD1 3ArBDr01      [13] 2475 	ld	a,(#_paused + 0)
+   0BD4 B7            [ 4] 2476 	or	a, a
+   0BD5 C2r0Ar0E      [10] 2477 	jp	NZ,00161$
+   0BD8 3Ar91r00      [13] 2478 	ld	a,(#_ntsc + 0)
+   0BDB B7            [ 4] 2479 	or	a, a
+   0BDC 28 07         [12] 2480 	jr	Z,00160$
+   0BDE 3Ar92r00      [13] 2481 	ld	a,(#_ntsc_frame + 0)
+   0BE1 B7            [ 4] 2482 	or	a, a
+   0BE2 CAr0Ar0E      [10] 2483 	jp	Z,00161$
+   0BE5                    2484 00160$:
+                           2485 ;mainloop.h:357: SG_initSprites ();
+   0BE5 CDr00r00      [17] 2486 	call	_SG_initSprites
+                           2487 ;mainloop.h:360: if (ticker) -- ticker; else ticker = 50;
+   0BE8 3Ar1Dr00      [13] 2488 	ld	a,(#_ticker + 0)
+   0BEB B7            [ 4] 2489 	or	a, a
+   0BEC 28 09         [12] 2490 	jr	Z,00113$
+   0BEE FD 21r1Dr00   [14] 2491 	ld	iy,#_ticker
+   0BF2 FD 35 00      [23] 2492 	dec	0 (iy)
+   0BF5 18 08         [12] 2493 	jr	00114$
+   0BF7                    2494 00113$:
+   0BF7 FD 21r1Dr00   [14] 2495 	ld	iy,#_ticker
+   0BFB FD 36 00 32   [19] 2496 	ld	0 (iy),#0x32
+   0BFF                    2497 00114$:
+                           2498 ;mainloop.h:361: half_life ^= 1;
+   0BFF 3ArBBr01      [13] 2499 	ld	a,(#_half_life + 0)
+   0C02 EE 01         [ 7] 2500 	xor	a, #0x01
+   0C04 FD 21rBBr01   [14] 2501 	ld	iy,#_half_life
+   0C08 FD 77 00      [19] 2502 	ld	0 (iy),a
+                           2503 ;mainloop.h:362: ++ frame_counter;
+   0C0B FD 21rBCr01   [14] 2504 	ld	iy,#_frame_counter
+   0C0F FD 34 00      [23] 2505 	inc	0 (iy)
+                           2506 ;mainloop/hotspots.h:6: if (hrt) {
+   0C12 3Ar7Br00      [13] 2507 	ld	a,(#_hrt + 0)
+   0C15 B7            [ 4] 2508 	or	a, a
+   0C16 CAr12r0D      [10] 2509 	jp	Z,00131$
+                           2510 ;mainloop/hotspots.h:7: if (collide_in (prx + 4, pry + 8, hrx, hry)) {
+   0C19 3Ar51r00      [13] 2511 	ld	a,(#_pry + 0)
+   0C1C C6 08         [ 7] 2512 	add	a, #0x08
+   0C1E 5F            [ 4] 2513 	ld	e,a
+   0C1F 21r50r00      [10] 2514 	ld	hl,#_prx + 0
+   0C22 56            [ 7] 2515 	ld	d, (hl)
+   0C23 14            [ 4] 2516 	inc	d
+   0C24 14            [ 4] 2517 	inc	d
+   0C25 14            [ 4] 2518 	inc	d
+   0C26 14            [ 4] 2519 	inc	d
+   0C27 3Ar7Ar00      [13] 2520 	ld	a,(_hry)
+   0C2A F5            [11] 2521 	push	af
+   0C2B 33            [ 6] 2522 	inc	sp
+   0C2C 3Ar79r00      [13] 2523 	ld	a,(_hrx)
+   0C2F F5            [11] 2524 	push	af
+   0C30 33            [ 6] 2525 	inc	sp
+   0C31 7B            [ 4] 2526 	ld	a,e
+   0C32 F5            [11] 2527 	push	af
+   0C33 33            [ 6] 2528 	inc	sp
+   0C34 D5            [11] 2529 	push	de
+   0C35 33            [ 6] 2530 	inc	sp
+   0C36 CDr00r00      [17] 2531 	call	_collide_in
+   0C39 F1            [10] 2532 	pop	af
+   0C3A F1            [10] 2533 	pop	af
+   0C3B 7D            [ 4] 2534 	ld	a,l
+   0C3C B7            [ 4] 2535 	or	a, a
+   0C3D CAr12r0D      [10] 2536 	jp	Z,00131$
+                           2537 ;mainloop/hotspots.h:9: if (hrt == HOTSPOT_TYPE_RESONATOR) {
+   0C40 3Ar7Br00      [13] 2538 	ld	a,(#_hrt + 0)
+   0C43 D6 04         [ 7] 2539 	sub	a, #0x04
+   0C45 20 4A         [12] 2540 	jr	NZ,00126$
+                           2541 ;mainloop/hotspots.h:10: if (pvy > 0 && pry < hry) {
+   0C47 AF            [ 4] 2542 	xor	a, a
+   0C48 FD 21r4Er00   [14] 2543 	ld	iy,#_pvy
+   0C4C FD BE 00      [19] 2544 	cp	a, 0 (iy)
+   0C4F FD 21r4Er00   [14] 2545 	ld	iy,#_pvy
+   0C53 FD 9E 01      [19] 2546 	sbc	a, 1 (iy)
+   0C56 E2r5Br0C      [10] 2547 	jp	PO, 00315$
+   0C59 EE 80         [ 7] 2548 	xor	a, #0x80
+   0C5B                    2549 00315$:
+   0C5B F2r12r0D      [10] 2550 	jp	P,00131$
+   0C5E 21r7Ar00      [10] 2551 	ld	hl,#_hry
+   0C61 3Ar51r00      [13] 2552 	ld	a,(#_pry + 0)
+   0C64 96            [ 7] 2553 	sub	a, (hl)
+   0C65 D2r12r0D      [10] 2554 	jp	NC,00131$
+                           2555 ;mainloop/hotspots.h:11: if (res_on == 0) {
+   0C68 3ArB0r02      [13] 2556 	ld	a,(#_res_on + 0)
+   0C6B B7            [ 4] 2557 	or	a, a
+   0C6C C2r12r0D      [10] 2558 	jp	NZ,00131$
+                           2559 ;mainloop/hotspots.h:12: res_on = 1; res_ct = 9; res_subct = 50;
+   0C6F 21rB0r02      [10] 2560 	ld	hl,#_res_on + 0
+   0C72 36 01         [10] 2561 	ld	(hl), #0x01
+   0C74 21rB1r02      [10] 2562 	ld	hl,#_res_ct + 0
+   0C77 36 09         [10] 2563 	ld	(hl), #0x09
+   0C79 21rB2r02      [10] 2564 	ld	hl,#_res_subct + 0
+   0C7C 36 32         [10] 2565 	ld	(hl), #0x32
+                           2566 ;mainloop/hotspots.h:13: jump_start ();
+   0C7E CDr00r00      [17] 2567 	call	_jump_start
+                           2568 ;mainloop/hotspots.h:23: PSGSFXPlay (SFX_BREAKH, 2);
+   0C81 11r00r00      [10] 2569 	ld	de,#_s_13_breakh3_psg
+   0C84 3E 02         [ 7] 2570 	ld	a,#0x02
+   0C86 F5            [11] 2571 	push	af
+   0C87 33            [ 6] 2572 	inc	sp
+   0C88 D5            [11] 2573 	push	de
+   0C89 CDr00r00      [17] 2574 	call	_PSGSFXPlay
+   0C8C F1            [10] 2575 	pop	af
+   0C8D 33            [ 6] 2576 	inc	sp
+   0C8E C3r12r0D      [10] 2577 	jp	00131$
+   0C91                    2578 00126$:
+                           2579 ;mainloop/hotspots.h:128: gp_gen = 0; rdm = 1;
+   0C91 21 00 00      [10] 2580 	ld	hl,#0x0000
+   0C94 22r0Ar00      [16] 2581 	ld	(_gp_gen),hl
+   0C97 FD 21r1Ar00   [14] 2582 	ld	iy,#_rdm
+   0C9B FD 36 00 01   [19] 2583 	ld	0 (iy),#0x01
+                           2584 ;mainloop/hotspots.h:129: switch (hrt) {
+   0C9F 3Ar7Br00      [13] 2585 	ld	a,(#_hrt + 0)
+   0CA2 FE 02         [ 7] 2586 	cp	a,#0x02
+   0CA4 28 06         [12] 2587 	jr	Z,00120$
+   0CA6 D6 03         [ 7] 2588 	sub	a, #0x03
+   0CA8 28 1B         [12] 2589 	jr	Z,00121$
+   0CAA 18 38         [12] 2590 	jr	00122$
+                           2591 ;mainloop/hotspots.h:151: case HOTSPOT_TYPE_KEYS:
+   0CAC                    2592 00120$:
+                           2593 ;mainloop/hotspots.h:152: ++ pkeys;
+   0CAC FD 21r6Fr00   [14] 2594 	ld	iy,#_pkeys
+   0CB0 FD 34 00      [23] 2595 	inc	0 (iy)
+                           2596 ;mainloop/hotspots.h:153: gp_gen = SFX_OBJECT;
+   0CB3 FD 21r0Ar00   [14] 2597 	ld	iy,#_gp_gen
+   0CB7 FD 36 00r00   [19] 2598 	ld	0 (iy),#<(_s_02_object2_psg)
+   0CBB FD 21r0Ar00   [14] 2599 	ld	iy,#_gp_gen
+   0CBF FD 36 01s00   [19] 2600 	ld	1 (iy),#>(_s_02_object2_psg)
+                           2601 ;mainloop/hotspots.h:154: break;
+   0CC3 18 1F         [12] 2602 	jr	00122$
+                           2603 ;mainloop/hotspots.h:156: case HOTSPOT_TYPE_REFILL:
+   0CC5                    2604 00121$:
+                           2605 ;mainloop/hotspots.h:157: plife += PLAYER_REFILL;
+   0CC5 FD 21r6Er00   [14] 2606 	ld	iy,#_plife
+   0CC9 FD 34 00      [23] 2607 	inc	0 (iy)
+                           2608 ;mainloop/hotspots.h:161: gp_gen = SFX_USE;
+   0CCC FD 21r0Ar00   [14] 2609 	ld	iy,#_gp_gen
+   0CD0 FD 36 00r00   [19] 2610 	ld	0 (iy),#<(_s_03_use2_psg)
+   0CD4 FD 21r0Ar00   [14] 2611 	ld	iy,#_gp_gen
+   0CD8 FD 36 01s00   [19] 2612 	ld	1 (iy),#>(_s_03_use2_psg)
+                           2613 ;mainloop/hotspots.h:162: rdm = 2;
+   0CDC FD 21r1Ar00   [14] 2614 	ld	iy,#_rdm
+   0CE0 FD 36 00 02   [19] 2615 	ld	0 (iy),#0x02
+                           2616 ;mainloop/hotspots.h:192: }
+   0CE4                    2617 00122$:
+                           2618 ;mainloop/hotspots.h:193: if (gp_gen) {
+   0CE4 3Ar0Br00      [13] 2619 	ld	a,(#_gp_gen + 1)
+   0CE7 FD 21r0Ar00   [14] 2620 	ld	iy,#_gp_gen
+   0CEB FD B6 00      [19] 2621 	or	a,0 (iy)
+   0CEE 28 22         [12] 2622 	jr	Z,00131$
+                           2623 ;mainloop/hotspots.h:194: PSGSFXPlay (gp_gen, rdm);
+   0CF0 ED 5Br0Ar00   [20] 2624 	ld	de,(_gp_gen)
+   0CF4 3Ar1Ar00      [13] 2625 	ld	a,(_rdm)
+   0CF7 F5            [11] 2626 	push	af
+   0CF8 33            [ 6] 2627 	inc	sp
+   0CF9 D5            [11] 2628 	push	de
+   0CFA CDr00r00      [17] 2629 	call	_PSGSFXPlay
+   0CFD F1            [10] 2630 	pop	af
+   0CFE 33            [ 6] 2631 	inc	sp
+                           2632 ;mainloop/hotspots.h:195: hrt = 0;
+   0CFF 21r7Br00      [10] 2633 	ld	hl,#_hrt + 0
+   0D02 36 00         [10] 2634 	ld	(hl), #0x00
+                           2635 ;mainloop/hotspots.h:196: hact [n_pant] = 0;
+   0D04 3ErCB         [ 7] 2636 	ld	a,#<(_hact)
+   0D06 21rB9r01      [10] 2637 	ld	hl,#_n_pant
+   0D09 86            [ 7] 2638 	add	a, (hl)
+   0D0A 5F            [ 4] 2639 	ld	e,a
+   0D0B 3Es01         [ 7] 2640 	ld	a,#>(_hact)
+   0D0D CE 00         [ 7] 2641 	adc	a, #0x00
+   0D0F 57            [ 4] 2642 	ld	d,a
+   0D10 AF            [ 4] 2643 	xor	a, a
+   0D11 12            [ 7] 2644 	ld	(de),a
+   0D12                    2645 00131$:
+                           2646 ;mainloop.h:382: if (!warp_to_level) {
+   0D12 3ArC0r01      [13] 2647 	ld	a,(#_warp_to_level + 0)
+   0D15 B7            [ 4] 2648 	or	a, a
+   0D16 20 03         [12] 2649 	jr	NZ,00133$
+                           2650 ;mainloop.h:383: player_move ();
+   0D18 CDr00r00      [17] 2651 	call	_player_move
+   0D1B                    2652 00133$:
+                           2653 ;my/extra_checks.h:14: if (c_max_enems == pkilled) {
+   0D1B 3ArB8r01      [13] 2654 	ld	a,(#_c_max_enems + 0)
+   0D1E FD 21r72r00   [14] 2655 	ld	iy,#_pkilled
+   0D22 FD 96 00      [19] 2656 	sub	a, 0 (iy)
+   0D25 20 17         [12] 2657 	jr	NZ,00139$
+                           2658 ;my/extra_checks.h:16: en_cttouched [0] == 0 &&
+   0D27 3Ar1Cr02      [13] 2659 	ld	a, (#_en_cttouched + 0)
+   0D2A B7            [ 4] 2660 	or	a, a
+   0D2B 20 11         [12] 2661 	jr	NZ,00139$
+                           2662 ;my/extra_checks.h:17: en_cttouched [1] == 0 &&
+   0D2D 3Ar1Dr02      [13] 2663 	ld	a, (#_en_cttouched + 1)
+   0D30 B7            [ 4] 2664 	or	a, a
+   0D31 20 0B         [12] 2665 	jr	NZ,00139$
+                           2666 ;my/extra_checks.h:18: en_cttouched [2] == 0
+   0D33 3Ar1Er02      [13] 2667 	ld	a, (#_en_cttouched + 2)
+   0D36 B7            [ 4] 2668 	or	a, a
+   0D37 20 05         [12] 2669 	jr	NZ,00139$
+                           2670 ;my/extra_checks.h:19: ) win_level = 1;
+   0D39 21rBEr01      [10] 2671 	ld	hl,#_win_level + 0
+   0D3C 36 01         [10] 2672 	ld	(hl), #0x01
+   0D3E                    2673 00139$:
+                           2674 ;mainloop/win_level_condition.h:10: win_level
+   0D3E 3ArBEr01      [13] 2675 	ld	a,(#_win_level + 0)
+   0D41 B7            [ 4] 2676 	or	a, a
+   0D42 28 0E         [12] 2677 	jr	Z,00141$
+                           2678 ;mainloop/win_level_condition.h:23: PSGStop ();
+   0D44 CDr00r00      [17] 2679 	call	_PSGStop
+                           2680 ;mainloop/win_level_condition.h:24: delay (50);
+   0D47 3E 32         [ 7] 2681 	ld	a,#0x32
+   0D49 F5            [11] 2682 	push	af
+   0D4A 33            [ 6] 2683 	inc	sp
+   0D4B CDr00r00      [17] 2684 	call	_delay
+   0D4E 33            [ 6] 2685 	inc	sp
+                           2686 ;mainloop/win_level_condition.h:25: break;
+   0D4F C3r29r0E      [10] 2687 	jp	00170$
+   0D52                    2688 00141$:
+                           2689 ;mainloop.h:420: cur_stp = SG_getStp (); 
+   0D52 CDr00r00      [17] 2690 	call	_SG_getStp
+   0D55 22r25r00      [16] 2691 	ld	(_cur_stp),hl
+                           2692 ;mainloop.h:421: if (!warp_to_level)	player_render ();
+   0D58 3ArC0r01      [13] 2693 	ld	a,(#_warp_to_level + 0)
+   0D5B B7            [ 4] 2694 	or	a, a
+   0D5C 20 03         [12] 2695 	jr	NZ,00143$
+   0D5E CDr00r00      [17] 2696 	call	_player_render
+   0D61                    2697 00143$:
+                           2698 ;mainloop.h:425: enems_move ();
+   0D61 CDr00r00      [17] 2699 	call	_enems_move
+                           2700 ;mainloop.h:429: if (warp_to_level) {
+   0D64 3ArC0r01      [13] 2701 	ld	a,(#_warp_to_level + 0)
+   0D67 B7            [ 4] 2702 	or	a, a
+   0D68 28 09         [12] 2703 	jr	Z,00145$
+                           2704 ;mainloop.h:430: update_cycle (); PSGStop (); break;
+   0D6A CDr00r00      [17] 2705 	call	_update_cycle
+   0D6D CDr00r00      [17] 2706 	call	_PSGStop
+   0D70 C3r29r0E      [10] 2707 	jp	00170$
+   0D73                    2708 00145$:
+                           2709 ;mainloop/resonators.h:5: if (res_on) {
+   0D73 3ArB0r02      [13] 2710 	ld	a,(#_res_on + 0)
+   0D76 B7            [ 4] 2711 	or	a, a
+   0D77 28 62         [12] 2712 	jr	Z,00155$
+                           2713 ;mainloop/resonators.h:7: gp_addr = ((RESONATOR_COUNTER_Y << 5) | RESONATOR_COUNTER_X) + PNTADDRESS;
+   0D79 21 3D 18      [10] 2714 	ld	hl,#0x183D
+   0D7C 22r10r00      [16] 2715 	ld	(_gp_addr),hl
+                           2716 ;mainloop/resonators.h:8: _n = 16 + res_ct; 
+   0D7F 21r02r00      [10] 2717 	ld	hl,#__n
+   0D82 3ArB1r02      [13] 2718 	ld	a,(#_res_ct + 0)
+   0D85 C6 10         [ 7] 2719 	add	a, #0x10
+   0D87 77            [ 7] 2720 	ld	(hl),a
+                           2721 ;mainloop/resonators.h:9: ul_putc ();
+   0D88 CDr00r00      [17] 2722 	call	_ul_putc
+                           2723 ;mainloop/resonators.h:12: if (res_subct) -- res_subct; else {
+   0D8B 3ArB2r02      [13] 2724 	ld	a,(#_res_subct + 0)
+   0D8E B7            [ 4] 2725 	or	a, a
+   0D8F 28 09         [12] 2726 	jr	Z,00152$
+   0D91 FD 21rB2r02   [14] 2727 	ld	iy,#_res_subct
+   0D95 FD 35 00      [23] 2728 	dec	0 (iy)
+   0D98 18 41         [12] 2729 	jr	00155$
+   0D9A                    2730 00152$:
+                           2731 ;mainloop/resonators.h:13: res_subct = 50;
+   0D9A FD 21rB2r02   [14] 2732 	ld	iy,#_res_subct
+   0D9E FD 36 00 32   [19] 2733 	ld	0 (iy),#0x32
+                           2734 ;mainloop/resonators.h:14: if (res_ct) { 
+   0DA2 3ArB1r02      [13] 2735 	ld	a,(#_res_ct + 0)
+   0DA5 B7            [ 4] 2736 	or	a, a
+   0DA6 28 21         [12] 2737 	jr	Z,00149$
+                           2738 ;mainloop/resonators.h:15: -- res_ct; 
+   0DA8 FD 21rB1r02   [14] 2739 	ld	iy,#_res_ct
+   0DAC FD 35 00      [23] 2740 	dec	0 (iy)
+                           2741 ;mainloop/resonators.h:16: if (res_ct <= 5) PSGSFXPlay (SFX_COUNT, 1);
+   0DAF 3E 05         [ 7] 2742 	ld	a,#0x05
+   0DB1 FD 21rB1r02   [14] 2743 	ld	iy,#_res_ct
+   0DB5 FD 96 00      [19] 2744 	sub	a, 0 (iy)
+   0DB8 38 21         [12] 2745 	jr	C,00155$
+   0DBA 11r00r00      [10] 2746 	ld	de,#_s_12_count2_psg
+   0DBD 3E 01         [ 7] 2747 	ld	a,#0x01
+   0DBF F5            [11] 2748 	push	af
+   0DC0 33            [ 6] 2749 	inc	sp
+   0DC1 D5            [11] 2750 	push	de
+   0DC2 CDr00r00      [17] 2751 	call	_PSGSFXPlay
+   0DC5 F1            [10] 2752 	pop	af
+   0DC6 33            [ 6] 2753 	inc	sp
+   0DC7 18 12         [12] 2754 	jr	00155$
+   0DC9                    2755 00149$:
+                           2756 ;mainloop/resonators.h:18: res_on = 0;
+   0DC9 21rB0r02      [10] 2757 	ld	hl,#_res_on + 0
+   0DCC 36 00         [10] 2758 	ld	(hl), #0x00
+                           2759 ;mainloop/resonators.h:19: PSGSFXPlay (SFX_SPRING, 1); 
+   0DCE 11r00r00      [10] 2760 	ld	de,#_s_11_spring2_psg
+   0DD1 3E 01         [ 7] 2761 	ld	a,#0x01
+   0DD3 F5            [11] 2762 	push	af
+   0DD4 33            [ 6] 2763 	inc	sp
+   0DD5 D5            [11] 2764 	push	de
+   0DD6 CDr00r00      [17] 2765 	call	_PSGSFXPlay
+   0DD9 F1            [10] 2766 	pop	af
+   0DDA 33            [ 6] 2767 	inc	sp
+   0DDB                    2768 00155$:
+                           2769 ;mainloop.h:441: if (hrt) hotspots_paint ();
+   0DDB 3Ar7Br00      [13] 2770 	ld	a,(#_hrt + 0)
+   0DDE B7            [ 4] 2771 	or	a, a
+   0DDF 28 03         [12] 2772 	jr	Z,00157$
+   0DE1 CDr38r02      [17] 2773 	call	_hotspots_paint
+   0DE4                    2774 00157$:
+                           2775 ;mainloop/no.h:5: if (no_ct) {
+   0DE4 3ArC9r01      [13] 2776 	ld	a,(#_no_ct + 0)
+   0DE7 B7            [ 4] 2777 	or	a, a
+   0DE8 28 1D         [12] 2778 	jr	Z,00159$
+                           2779 ;mainloop/no.h:6: -- no_ct;
+   0DEA FD 21rC9r01   [14] 2780 	ld	iy,#_no_ct
+   0DEE FD 35 00      [23] 2781 	dec	0 (iy)
+                           2782 ;mainloop/no.h:9: NO_METASPRITE
+   0DF1 11r00r00      [10] 2783 	ld	de,#_ss_it_06
+                           2784 ;mainloop/no.h:8: prx + NO_OFFS_X, pry + NO_OFFS_Y + SPRITE_ADJUST,
+   0DF4 3Ar51r00      [13] 2785 	ld	a,(#_pry + 0)
+   0DF7 C6 E3         [ 7] 2786 	add	a, #0xE3
+   0DF9 67            [ 4] 2787 	ld	h,a
+   0DFA D5            [11] 2788 	push	de
+   0DFB E5            [11] 2789 	push	hl
+   0DFC 33            [ 6] 2790 	inc	sp
+   0DFD 3Ar50r00      [13] 2791 	ld	a,(_prx)
+   0E00 F5            [11] 2792 	push	af
+   0E01 33            [ 6] 2793 	inc	sp
+   0E02 CDr00r00      [17] 2794 	call	_SG_addMetaSprite1x1
+   0E05 F1            [10] 2795 	pop	af
+   0E06 F1            [10] 2796 	pop	af
+   0E07                    2797 00159$:
+                           2798 ;mainloop.h:470: chac_chacs_do ();
+   0E07 CDr00r00      [17] 2799 	call	_chac_chacs_do
+   0E0A                    2800 00161$:
+                           2801 ;mainloop/cheat.h:5: if ((pad0 & (PAD_B|PAD_SELECT|PAD_UP)) == (PAD_B|PAD_SELECT|PAD_UP)) break;
+   0E0A 3Ar04r00      [13] 2802 	ld	a,(#_pad0 + 0)
+   0E0D E6 31         [ 7] 2803 	and	a, #0x31
+   0E0F D6 31         [ 7] 2804 	sub	a, #0x31
+   0E11 28 16         [12] 2805 	jr	Z,00170$
+   0E13 CDr00r00      [17] 2806 	call	_SG_queryPauseRequested
+   0E16 CB 45         [ 8] 2807 	bit	0,l
+   0E18 CAr5Ar0B      [10] 2808 	jp	Z,00169$
+                           2809 ;mainloop/pause.h:6: SG_resetPauseRequest ();
+   0E1B CDr00r00      [17] 2810 	call	_SG_resetPauseRequest
+                           2811 ;mainloop/pause.h:7: paused ^= 1;
+   0E1E 3ArBDr01      [13] 2812 	ld	a,(#_paused + 0)
+   0E21 EE 01         [ 7] 2813 	xor	a, #0x01
+   0E23 32rBDr01      [13] 2814 	ld	(#_paused + 0),a
+   0E26 C3r5Ar0B      [10] 2815 	jp	00169$
+   0E29                    2816 00170$:
+                           2817 ;mainloop.h:485: PSGStop ();
+   0E29 CDr00r00      [17] 2818 	call	_PSGStop
+                           2819 ;mainloop.h:486: PSGSFXStop ();
+   0E2C CDr00r00      [17] 2820 	call	_PSGSFXStop
+                           2821 ;mainloop.h:487: SG_displayOff ();
+   0E2F 21 40 01      [10] 2822 	ld	hl,#0x0140
+   0E32 E5            [11] 2823 	push	hl
+   0E33 CDr00r00      [17] 2824 	call	_SG_VDPturnOffFeature
+   0E36 F1            [10] 2825 	pop	af
+                           2826 ;mainloop.h:488: SG_initSprites ();
+   0E37 CDr00r00      [17] 2827 	call	_SG_initSprites
+                           2828 ;mainloop.h:489: SG_copySpritestoSAT ();	
+   0E3A C3r00r00      [10] 2829 	jp  _SG_copySpritestoSAT
+                           2830 ;game.c:127: void main(void) {
+                           2831 ;	---------------------------------
+                           2832 ; Function main
+                           2833 ; ---------------------------------
+   0E3D                    2834 _main::
+                           2835 ;game.c:128: SG_displayOff ();
+   0E3D 21 40 01      [10] 2836 	ld	hl,#0x0140
+   0E40 E5            [11] 2837 	push	hl
+   0E41 CDr00r00      [17] 2838 	call	_SG_VDPturnOffFeature
+                           2839 ;game.c:129: SG_setSpriteMode (SG_SPRITEMODE_LARGE);
+   0E44 26 01         [ 7] 2840 	ld	h,#0x01
+   0E46 E3            [19] 2841 	ex	(sp),hl
+   0E47 33            [ 6] 2842 	inc	sp
+   0E48 CDr00r00      [17] 2843 	call	_SG_setSpriteMode
+   0E4B 33            [ 6] 2844 	inc	sp
+                           2845 ;game.c:130: SG_setUpdateList (update_list);
+   0E4C 21r94r00      [10] 2846 	ld	hl,#_update_list
+   0E4F E5            [11] 2847 	push	hl
+   0E50 CDr00r00      [17] 2848 	call	_SG_setUpdateList
+   0E53 F1            [10] 2849 	pop	af
+                           2850 ;game.c:131: first_game = 1;
+   0E54 21rB6r01      [10] 2851 	ld	hl,#_first_game + 0
+   0E57 36 01         [10] 2852 	ld	(hl), #0x01
+                           2853 ;game.c:136: ntsc = 1;
+   0E59 21r91r00      [10] 2854 	ld	hl,#_ntsc + 0
+   0E5C 36 01         [10] 2855 	ld	(hl), #0x01
+                           2856 ;game.c:140: unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);
+   0E5E 11r00r00      [10] 2857 	ld	de,#_tsfont_patterns_c
+   0E61 3E 07         [ 7] 2858 	ld	a,#0x07
+   0E63 F5            [11] 2859 	push	af
+   0E64 33            [ 6] 2860 	inc	sp
+   0E65 21 00 00      [10] 2861 	ld	hl,#0x0000
+   0E68 E5            [11] 2862 	push	hl
+   0E69 21r00r00      [10] 2863 	ld	hl,#_tsfont_colours_c
+   0E6C E5            [11] 2864 	push	hl
+   0E6D D5            [11] 2865 	push	de
+   0E6E CDr00r00      [17] 2866 	call	_unpack_bg_patterns
+   0E71 21 07 00      [10] 2867 	ld	hl,#7
+   0E74 39            [11] 2868 	add	hl,sp
+   0E75 F9            [ 6] 2869 	ld	sp,hl
+                           2870 ;game.c:142: credits ();
+   0E76 CDr2Br06      [17] 2871 	call	_credits
+                           2872 ;game.c:145: aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
+   0E79 21r00r00      [10] 2873 	ld	hl,#_ss_fixed_patterns_c
+   0E7C E5            [11] 2874 	push	hl
+   0E7D 21 00 38      [10] 2875 	ld	hl,#0x3800
+   0E80 E5            [11] 2876 	push	hl
+   0E81 CDr00r00      [17] 2877 	call	_aPLib_depack_VRAM
+   0E84 F1            [10] 2878 	pop	af
+   0E85 F1            [10] 2879 	pop	af
+                           2880 ;game.c:147: mode_no_resonators = 0;
+   0E86 21rB6r02      [10] 2881 	ld	hl,#_mode_no_resonators + 0
+   0E89 36 00         [10] 2882 	ld	(hl), #0x00
+                           2883 ;game.c:148: while (1) {	
+   0E8B                    2884 00110$:
+                           2885 ;game.c:149: title ();
+   0E8B CDrABr03      [17] 2886 	call	_title
+                           2887 ;game.c:151: level = 0;
+   0E8E 21rB7r01      [10] 2888 	ld	hl,#_level + 0
+   0E91 36 00         [10] 2889 	ld	(hl), #0x00
+                           2890 ;game.c:152: plife = PLAYER_LIFE;
+   0E93 21r6Er00      [10] 2891 	ld	hl,#_plife + 0
+   0E96 36 05         [10] 2892 	ld	(hl), #0x05
+                           2893 ;game.c:156: while (1) {
+   0E98                    2894 00107$:
+                           2895 ;game.c:157: pres (scr_level, 0);
+   0E98 21 00 00      [10] 2896 	ld	hl,#0x0000
+   0E9B E5            [11] 2897 	push	hl
+   0E9C 21rBCr05      [10] 2898 	ld	hl,#_scr_level
+   0E9F E5            [11] 2899 	push	hl
+   0EA0 CDr78r03      [17] 2900 	call	_pres
+   0EA3 F1            [10] 2901 	pop	af
+   0EA4 F1            [10] 2902 	pop	af
+                           2903 ;game.c:158: game_init (); 
+   0EA5 CDr1Fr08      [17] 2904 	call	_game_init
+                           2905 ;game.c:159: game_loop ();
+   0EA8 CDr16r0B      [17] 2906 	call	_game_loop
+                           2907 ;game.c:161: if (game_over) {
+   0EAB 3ArBFr01      [13] 2908 	ld	a,(#_game_over + 0)
+   0EAE B7            [ 4] 2909 	or	a, a
+   0EAF 28 0F         [12] 2910 	jr	Z,00104$
+                           2911 ;game.c:162: pres (scr_game_over, MUSIC_GOVER);
+   0EB1 21r00r00      [10] 2912 	ld	hl,#_m_gover_psg
+   0EB4 E5            [11] 2913 	push	hl
+   0EB5 21rF3r04      [10] 2914 	ld	hl,#_scr_game_over
+   0EB8 E5            [11] 2915 	push	hl
+   0EB9 CDr78r03      [17] 2916 	call	_pres
+   0EBC F1            [10] 2917 	pop	af
+   0EBD F1            [10] 2918 	pop	af
+                           2919 ;game.c:163: break;
+   0EBE 18 18         [12] 2920 	jr	00108$
+   0EC0                    2921 00104$:
+                           2922 ;game.c:165: level ++;
+   0EC0 21rB7r01      [10] 2923 	ld	hl, #_level+0
+   0EC3 34            [11] 2924 	inc	(hl)
+                           2925 ;game.c:166: if (level == MAX_LEVELS) {
+   0EC4 3ArB7r01      [13] 2926 	ld	a,(#_level + 0)
+   0EC7 D6 03         [ 7] 2927 	sub	a, #0x03
+   0EC9 20 CD         [12] 2928 	jr	NZ,00107$
+                           2929 ;game.c:167: pres (scr_the_end, 0);
+   0ECB 21 00 00      [10] 2930 	ld	hl,#0x0000
+   0ECE E5            [11] 2931 	push	hl
+   0ECF 21r11r05      [10] 2932 	ld	hl,#_scr_the_end
+   0ED2 E5            [11] 2933 	push	hl
+   0ED3 CDr78r03      [17] 2934 	call	_pres
+   0ED6 F1            [10] 2935 	pop	af
+   0ED7 F1            [10] 2936 	pop	af
+                           2937 ;game.c:168: break;
+   0ED8                    2938 00108$:
+                           2939 ;game.c:173: first_game = 0;
+   0ED8 21rB6r01      [10] 2940 	ld	hl,#_first_game + 0
+   0EDB 36 00         [10] 2941 	ld	(hl), #0x00
+   0EDD 18 AC         [12] 2942 	jr	00110$
+                           2943 	.area _CODE
+                           2944 	.area _INITIALIZER
+                           2945 	.area _CABS (ABS)

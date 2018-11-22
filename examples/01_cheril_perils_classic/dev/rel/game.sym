@@ -1,0 +1,469 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+    _IOPortH                                                    =  00DD 
+    _IOPortL                                                    =  00DC 
+    _PSGPlay                                                       **** GX
+    _PSGSFXPlay                                                    **** GX
+    _PSGSFXStop                                                    **** GX
+    _PSGStop                                                       **** GX
+    _SG_VDPturnOffFeature                                          **** GX
+    _SG_VDPturnOnFeature                                           **** GX
+    _SG_addMetaSprite1x1                                           **** GX
+    _SG_copySpritestoSAT                                           **** GX
+    _SG_doUpdateList                                               **** GX
+    _SG_getKeysStatus                                              **** GX
+    _SG_getStp                                                     **** GX
+    _SG_initSprites                                                **** GX
+    _SG_queryPauseRequested                                        **** GX
+    _SG_resetPauseRequest                                          **** GX
+    _SG_setSpriteMode                                              **** GX
+    _SG_setTile                                                    **** GX
+    _SG_setUpdateList                                              **** GX
+    _SG_waitForVBlank                                              **** GX
+    _VDPControlPort                                             =  00BF 
+    _VDPDataPort                                                =  00BE 
+    _VDPHCounterPort                                            =  007F 
+    _VDPStatusPort                                              =  00BF 
+    _VDPVCounterPort                                            =  007E 
+    ___sdcc_call_hl                                                **** GX
+  0 ___str_0                                                       04B4 R
+  0 ___str_1                                                       04C7 R
+  0 ___str_10                                                      06A2 R
+  0 ___str_11                                                      06A7 R
+  0 ___str_12                                                      06AB R
+  0 ___str_2                                                       04D2 R
+  0 ___str_3                                                       04DC R
+  0 ___str_4                                                       0506 R
+  0 ___str_5                                                       0545 R
+  0 ___str_6                                                       0623 R
+  1 __en_ct                                                        003A GR
+  1 __en_facing                                                    003B GR
+  1 __en_mx                                                        0038 GR
+  1 __en_my                                                        0039 GR
+  1 __en_s                                                         0031 GR
+  1 __en_state                                                     003C GR
+  1 __en_t                                                         0030 GR
+  1 __en_x                                                         0032 GR
+  1 __en_x1                                                        0034 GR
+  1 __en_x2                                                        0036 GR
+  1 __en_y                                                         0033 GR
+  1 __en_y1                                                        0035 GR
+  1 __en_y2                                                        0037 GR
+  1 __enf_vx                                                       0041 GR
+  1 __enf_vy                                                       0043 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  1 __enf_x                                                        003D GR
+  1 __enf_y                                                        003F GR
+  1 __n                                                            0002 GR
+  1 __t                                                            0003 GR
+  1 __x                                                            0000 GR
+  1 __y                                                            0001 GR
+    _aPLib_depack_VRAM                                             **** GX
+  1 _a_button                                                      0057 GR
+  1 _at1                                                           001E GR
+  1 _at2                                                           001F GR
+  1 _b_button                                                      0058 GR
+  0 _bat_in                                                        0357 GR
+  0 _bat_out                                                       0367 GR
+  0 _behs0                                                         0052 GR
+  0 _behs1                                                         0072 GR
+  0 _behs2                                                         0092 GR
+  0 _bits                                                          003A GR
+  1 _c_behs                                                        0083 GR
+  1 _c_decos                                                       0089 GR
+  1 _c_enems                                                       008C GR
+  1 _c_hotspots                                                    008E GR
+  1 _c_locks                                                       008A GR
+  1 _c_map                                                         0087 GR
+  1 _c_map_h                                                       007F GR
+  1 _c_map_size                                                    0080 GR
+  1 _c_map_w                                                       007E GR
+  1 _c_max_bolts                                                   0090 GR
+  1 _c_max_enems                                                   01B8 GR
+  1 _c_ts_tmaps                                                    0081 GR
+  1 _caux                                                          0024 GR
+  1 _cfx                                                           02B3 GR
+  1 _chac_chacs_ct                                                 0299 GR
+    _chac_chacs_do                                                 **** GX
+  1 _chac_chacs_idlewait                                           0295 GR
+  1 _chac_chacs_queue                                              029D GR
+  1 _chac_chacs_queue_read                                         02AD GR
+  1 _chac_chacs_queue_write                                        02AE GR
+  1 _chac_chacs_state                                              0291 GR
+  0 _chac_chacs_t1                                                 0028 GR
+  0 _chac_chacs_t2                                                 002E GR
+  0 _chac_chacs_t3                                                 0034 GR
+  0 _chac_chacs_times                                              0022 GR
+  1 _chac_chacs_yx                                                 028D GR
+    _clear_update_list                                             **** GX
+    _cls                                                           **** GX
+    _collide_in                                                    **** GX
+  0 _credits                                                       062B GR
+  1 _cur_stp                                                       0025 GR
+  1 _cx1                                                           0020 GR
+  1 _cx2                                                           0021 GR
+  1 _cy1                                                           0022 GR
+  1 _cy2                                                           0023 GR
+    _delay                                                         **** GX
+  1 _do_process_breakable                                          007C GR
+  0 _draw_game_frame                                               02D5 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    _draw_scr                                                      **** GX
+  1 _en_collx                                                      002A GR
+  1 _en_colly                                                      002B GR
+  1 _en_ct                                                         0225 GR
+  1 _en_cttouched                                                  021C GR
+  1 _en_facing                                                     0213 GR
+  1 _en_flags                                                      0219 GR
+  1 _en_fr                                                         0029 GR
+  1 _en_initial                                                    0027 GR
+  1 _en_is_alive                                                   002E GR
+  1 _en_life                                                       021F GR
+  1 _en_mx                                                         020A GR
+  1 _en_my                                                         020D GR
+  1 _en_offs                                                       0028 GR
+  1 _en_s                                                          0210 GR
+  1 _en_sg_1                                                       0045 GR
+  1 _en_sg_2                                                       0046 GR
+  1 _en_spr                                                        002C GR
+  1 _en_spr_id                                                     0241 GR
+  1 _en_spr_x_mod                                                  0228 GR
+  1 _en_state                                                      0216 GR
+  1 _en_status                                                     0222 GR
+  1 _en_t                                                          01F5 GR
+  1 _en_x                                                          01F8 GR
+  1 _en_x1                                                         01FE GR
+  1 _en_x2                                                         0204 GR
+  1 _en_y                                                          01FB GR
+  1 _en_y1                                                         0201 GR
+  1 _en_y2                                                         0207 GR
+    _ending_rle                                                    **** GX
+    _enems_0                                                       **** GX
+    _enems_1                                                       **** GX
+    _enems_2                                                       **** GX
+    _enems_load                                                    **** GX
+    _enems_move                                                    **** GX
+    _enems_persistent_deaths_load                                  **** GX
+    _enems_persistent_load                                         **** GX
+    _enems_persistent_update                                       **** GX
+  1 _enf_vx                                                        022F GR
+  1 _enf_vy                                                        023B GR
+  1 _enf_x                                                         0229 GR
+  1 _enf_y                                                         0235 GR
+  1 _ep_dead                                                       0244 GR
+  1 _fade_delay                                                    00F5 GR
+  1 _fader                                                         00F4 GR
+  1 _first_game                                                    01B6 GR
+  1 _flags                                                         01F3 GR
+  1 _flick_override                                                01C2 GR
+  0 _flickscreen_do_horizontal                                     0731 GR
+  0 _flickscreen_do_vertical                                       077C GR
+  1 _frame_counter                                                 01BC GR
+  1 _ft                                                            007D GR
+  0 _game_init                                                     081F GR
+  0 _game_loop                                                     0B16 GR
+  1 _game_mode                                                     02B7 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  1 _game_over                                                     01BF GR
+  1 _gp_addr                                                       0010 GR
+  1 _gp_gen                                                        000A GR
+  1 _gp_ram                                                        000E GR
+  1 _gp_tmap                                                       000C GR
+  1 _gpit                                                          0006 GR
+  1 _gpjt                                                          0007 GR
+  1 _hact                                                          01CB GR
+  1 _half_life                                                     01BB GR
+  1 _hith                                                          0067 GR
+  1 _hitv                                                          0066 GR
+    _hotspots_0                                                    **** GX
+    _hotspots_1                                                    **** GX
+    _hotspots_2                                                    **** GX
+  0 _hotspots_create                                               0275 GR
+  0 _hotspots_load                                                 0000 GR
+  0 _hotspots_paint                                                0238 GR
+  1 _hrt                                                           007B GR
+  1 _hrx                                                           0079 GR
+  1 _hry                                                           007A GR
+    _hud_rle                                                       **** GX
+  0 _hud_update                                                    02DE GR
+  0 _jitter                                                        0042 GR
+    _jump_start                                                    **** GX
+  0 _l_behs                                                        0202 GR
+  0 _l_decos                                                       021A GR
+  0 _l_enems                                                       0226 GR
+  0 _l_hotspots                                                    022C GR
+  0 _l_ini_x                                                       01DE GR
+  0 _l_ini_y                                                       01E1 GR
+  0 _l_locks                                                       021D GR
+  0 _l_map                                                         0214 GR
+  0 _l_map_h                                                       01E7 GR
+  0 _l_map_w                                                       01E4 GR
+  0 _l_music                                                       0232 GR
+  0 _l_n_bolts                                                     0223 GR
+  0 _l_player_max_enems                                            01ED GR
+  0 _l_player_max_objects                                          01EA GR
+  0 _l_scr_ini                                                     01DB GR
+  0 _l_spr_enems                                                   020E GR
+  0 _l_spr_patterns                                                0208 GR
+  0 _l_ts_colours                                                  01F6 GR
+  0 _l_ts_patterns                                                 01F0 GR
+  0 _l_ts_tmaps                                                    01FC GR
+  1 _level                                                         01B7 GR
+  0 _level0name                                                    05FA GR
+  0 _level1name                                                    0605 GR
+  0 _level2name                                                    0611 GR
+  1 _level_reset                                                   01C1 GR
+  0 _levelnames                                                    061D GR
+  1 _lkact                                                         01E3 GR
+    _m_gover_psg                                                   **** GX
+    _m_title_psg                                                   **** GX
+    _m_yun_psg                                                     **** GX
+  0 _main                                                          0E3D GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    _map_0                                                         **** GX
+    _map_0_locks                                                   **** GX
+    _map_1                                                         **** GX
+    _map_1_locks                                                   **** GX
+    _map_2                                                         **** GX
+    _map_2_locks                                                   **** GX
+  1 _map_buff                                                      00F6 GR
+  1 _max_chac_chacs                                                028C GR
+    _memfill                                                       **** GX
+  1 _mode_no_resonators                                            02B6 GR
+  1 _n_pant                                                        01B9 GR
+  1 _n_pant_safe                                                   0074 GR
+  1 _no_ct                                                         01C9 GR
+  1 _ntsc                                                          0091 GR
+  1 _ntsc_frame                                                    0092 GR
+  1 _oam_index_player                                              01C8 GR
+  1 _oammo                                                         01C6 GR
+  1 _okeys                                                         01C4 GR
+  1 _okilled                                                       01C7 GR
+  1 _olife                                                         01C3 GR
+  1 _on_pant                                                       01BA GR
+  1 _oobjs                                                         01C5 GR
+  1 _oppossee                                                      005E GR
+    _p_t                                                           **** GX
+  1 _pad0                                                          0004 GR
+    _pad_read                                                      **** GX
+  1 _pad_this_frame                                                0005 GR
+  1 _pammo                                                         0071 GR
+  1 _paused                                                        01BD GR
+  1 _pbouncing                                                     0060 GR
+  1 _pcontinues                                                    006D GR
+  1 _pctfr                                                         01CA GR
+  1 _pctj                                                          005B GR
+  1 _pcx                                                           0052 GR
+  1 _pcy                                                           0053 GR
+  1 _pfacing                                                       0054 GR
+  1 _pfiring                                                       0073 GR
+  1 _pflickering                                                   005F GR
+  1 _pfr                                                           0055 GR
+  1 _pgotten                                                       005C GR
+  1 _pgtmx                                                         0062 GR
+  1 _pgtmy                                                         0064 GR
+  1 _phit                                                          0061 GR
+  1 _pice                                                          006B GR
+  1 _pj                                                            0059 GR
+  1 _pjb                                                           005A GR
+  1 _pkeys                                                         006F GR
+  1 _pkill                                                         006A GR
+  1 _pkilled                                                       0072 GR
+    _player_init                                                   **** GX
+    _player_kill                                                   **** GX
+    _player_move                                                   **** GX
+    _player_render                                                 **** GX
+    _player_to_pixels                                              **** GX
+  1 _plife                                                         006E GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  1 _pnotsafe                                                      006C GR
+  1 _pobjs                                                         0070 GR
+  1 _ppossee                                                       005D GR
+    _pr_str                                                        **** GX
+  1 _pregotten                                                     002F GR
+  0 _prepare_scr                                                   0A15 GR
+  0 _pres                                                          0378 GR
+  1 _prx                                                           0050 GR
+  1 _prx_old                                                       0068 GR
+  1 _pry                                                           0051 GR
+  1 _pry_old                                                       0069 GR
+  1 _psprid                                                        0056 GR
+  1 _pvx                                                           004C GR
+  1 _pvy                                                           004E GR
+  1 _px                                                            0048 GR
+  1 _px_safe                                                       0075 GR
+  1 _py                                                            004A GR
+  1 _py_safe                                                       0077 GR
+  1 _rda                                                           0016 GR
+  1 _rdb                                                           0017 GR
+  1 _rdc                                                           0018 GR
+  1 _rdct                                                          001C GR
+  1 _rdd                                                           0019 GR
+  1 _rdit                                                          0015 GR
+  1 _rdm                                                           001A GR
+  1 _rds                                                           001B GR
+  1 _rds16                                                         0008 GR
+  1 _rdt                                                           0014 GR
+  1 _rdx                                                           0012 GR
+  1 _rdy                                                           0013 GR
+  1 _res_ct                                                        02B1 GR
+  1 _res_disable                                                   02AF GR
+  1 _res_on                                                        02B0 GR
+  1 _res_subct                                                     02B2 GR
+    _s_00_start2_psg                                               **** GX
+    _s_02_object2_psg                                              **** GX
+    _s_03_use2_psg                                                 **** GX
+    _s_11_spring2_psg                                              **** GX
+    _s_12_count2_psg                                               **** GX
+    _s_13_breakh3_psg                                              **** GX
+  0 _scr_game_over                                                 04F3 GR
+  0 _scr_level                                                     05BC GR
+  0 _scr_the_end                                                   0511 GR
+  1 _shaker_ct                                                     02B5 GR
+  1 _spr_enems                                                     0085 GR
+  0 _spr_enems0                                                    00D9 GR
+  0 _spr_enems1                                                    012B GR
+  0 _spr_enems2                                                    017D GR
+  0 _spr_hs                                                        01CF GR
+  0 _spr_player                                                    00B9 GR
+  1 _springs_on                                                    02B4 GR
+    _ss_en_0_00                                                    **** GX
+    _ss_en_0_01                                                    **** GX
+    _ss_en_0_02                                                    **** GX
+    _ss_en_0_03                                                    **** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    _ss_en_0_04                                                    **** GX
+    _ss_en_0_05                                                    **** GX
+    _ss_en_0_06                                                    **** GX
+    _ss_en_0_07                                                    **** GX
+    _ss_en_0_08                                                    **** GX
+    _ss_en_0_09                                                    **** GX
+    _ss_en_0_0a                                                    **** GX
+    _ss_en_0_0b                                                    **** GX
+    _ss_en_0_patterns_c                                            **** GX
+    _ss_en_1_00                                                    **** GX
+    _ss_en_1_01                                                    **** GX
+    _ss_en_1_02                                                    **** GX
+    _ss_en_1_03                                                    **** GX
+    _ss_en_1_04                                                    **** GX
+    _ss_en_1_05                                                    **** GX
+    _ss_en_1_06                                                    **** GX
+    _ss_en_1_07                                                    **** GX
+    _ss_en_1_08                                                    **** GX
+    _ss_en_1_09                                                    **** GX
+    _ss_en_1_0a                                                    **** GX
+    _ss_en_1_0b                                                    **** GX
+    _ss_en_1_patterns_c                                            **** GX
+    _ss_en_2_00                                                    **** GX
+    _ss_en_2_01                                                    **** GX
+    _ss_en_2_02                                                    **** GX
+    _ss_en_2_03                                                    **** GX
+    _ss_en_2_04                                                    **** GX
+    _ss_en_2_05                                                    **** GX
+    _ss_en_2_06                                                    **** GX
+    _ss_en_2_07                                                    **** GX
+    _ss_en_2_08                                                    **** GX
+    _ss_en_2_09                                                    **** GX
+    _ss_en_2_patterns_c                                            **** GX
+    _ss_fanty_00                                                   **** GX
+    _ss_fanty_01                                                   **** GX
+    _ss_fanty_02                                                   **** GX
+    _ss_fanty_03                                                   **** GX
+    _ss_fixed_patterns_c                                           **** GX
+    _ss_it_00                                                      **** GX
+    _ss_it_01                                                      **** GX
+    _ss_it_02                                                      **** GX
+    _ss_it_03                                                      **** GX
+    _ss_it_04                                                      **** GX
+    _ss_it_06                                                      **** GX
+    _ss_pl_00                                                      **** GX
+    _ss_pl_01                                                      **** GX
+    _ss_pl_02                                                      **** GX
+    _ss_pl_03                                                      **** GX
+    _ss_pl_04                                                      **** GX
+    _ss_pl_05                                                      **** GX
+    _ss_pl_06                                                      **** GX
+    _ss_pl_07                                                      **** GX
+    _ss_plat_00                                                    **** GX
+    _ss_plat_01                                                    **** GX
+  1 _ticker                                                        001D GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  0 _title                                                         03AB GR
+    _title_rle                                                     **** GX
+  1 _touched                                                       002D GR
+    _ts0_colours_c                                                 **** GX
+    _ts0_patterns_c                                                **** GX
+    _ts0_tmaps                                                     **** GX
+    _ts1_colours_c                                                 **** GX
+    _ts1_patterns_c                                                **** GX
+    _ts1_tmaps                                                     **** GX
+    _ts2_colours_c                                                 **** GX
+    _ts2_patterns_c                                                **** GX
+    _ts2_tmaps                                                     **** GX
+    _tsending_colours_c                                            **** GX
+    _tsending_patterns_c                                           **** GX
+    _tsfont_colours_c                                              **** GX
+    _tsfont_patterns_c                                             **** GX
+    _tstitle_colours_c                                             **** GX
+    _tstitle_patterns_c                                            **** GX
+    _ul_putc                                                       **** GX
+    _unpack_bg_patterns                                            **** GX
+    _unrle                                                         **** GX
+    _update_cycle                                                  **** GX
+  1 _update_index                                                  0093 GR
+  1 _update_list                                                   0094 GR
+  1 _vertical_engine_type                                          0047 GR
+  1 _warp_to_level                                                 01C0 GR
+  1 _win_level                                                     01BE GR
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  EDF   flags    0
+   1 _DATA                                      size  2B8   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+

@@ -6,7 +6,7 @@ CFLAGS=-c -mz80 --peep-file lib/peep-rules.txt --peep-asm
 all: cart.sg
 
 cart.sg: cart.ihx 
-	../../../src/utils/ihx2sms.exe cart.ihx cart.sg cart.ihx cart.sg
+	../../../src/utils/ihx2sms.exe cart.ihx cart.sg
 
 cart.ihx: rel/game.rel rel/rand.rel rel/delay.rel rel/memfill.rel rel/unpacker.rel rel/unrle.rel rel/propellers.rel rel/tile_chac_chac.rel rel/printer.rel rel/general.rel rel/player.rel rel/enengine.rel rel/enems0.rel rel/enems1.rel rel/enems2.rel rel/map0.rel rel/map1.rel rel/map2.rel rel/tileset.rel rel/spriteset.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel lib/crt0_sg.rel
 	$(CC) -o cart.ihx -mz80 --no-std-crt0 --data-loc 0xC000 lib/crt0_sg.rel rel/game.rel rel/rand.rel rel/delay.rel rel/memfill.rel rel/unpacker.rel rel/unrle.rel rel/propellers.rel rel/tile_chac_chac.rel rel/printer.rel rel/general.rel rel/player.rel rel/enengine.rel rel/enems0.rel rel/enems1.rel rel/enems2.rel rel/map0.rel rel/map1.rel rel/map2.rel rel/tileset.rel rel/spriteset.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel

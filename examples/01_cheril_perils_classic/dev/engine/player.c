@@ -123,7 +123,9 @@ void player_to_pixels (void) {
 void player_kill (void) {
 	SG_setStp (cur_stp);
 	player_render ();
-	update_cycle ();
+	//update_cycle ();
+	SG_waitForVBlank ();
+	SG_copySpritestoSAT ();
 
 	pkill = phit = 0;
 	PSGSFXPlay (SFX_PHIT, 2);

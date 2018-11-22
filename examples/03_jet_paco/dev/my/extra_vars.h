@@ -12,6 +12,7 @@ unsigned char game_puri;			// Will equal CELL_PACO or CELL_PURI.
 unsigned char ol_prx;
 
 // These allow for easy modification of player values:
+
 unsigned char __player_vy_falling_max;
 unsigned char __player_g;
 unsigned char __player_ay_jetpac;

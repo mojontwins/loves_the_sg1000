@@ -84,18 +84,18 @@ void title (void) {
 	
 	bat_out ();
 
-	// Select player values
+	// Set player values upon choice
 	if (game_puri) {
 		__player_vy_falling_max = 48;
-		__player_g              = 8; 
+		__player_g              = 4;
 		__player_ay_jetpac      = 16;
 		__player_vy_jetpac_max  = 72;
 		__player_vx_max         = 128;
 		__player_ax             = 8;
-		__player_rx             = 8;
+		__player_rx             = 12;
 	} else {
 		__player_vy_falling_max = 64;
-		__player_g              = 4; 
+		__player_g              = 4;
 		__player_ay_jetpac      = 12;
 		__player_vy_jetpac_max  = 64;
 		__player_vx_max         = 112;

@@ -12,13 +12,13 @@ charset 0, 0, 32, 2
 open box.png
 charset 0, 0, 8, 1
 
-# write 72 patterns (64 + 8)
-write patterns tsFONT_patterns_c tsFONT_colours_c packed
-
 # Hud, uses chars from the already available 72.
 open hud.png
 nametablerle
 write nametablerle frame_rle
+
+# write 72 patterns (64 + 8)
+write patterns tsFONT_patterns_c tsFONT_colours_c packed
 
 # Metatiles level 0
 open ts0.png
