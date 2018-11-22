@@ -579,21 +579,21 @@
 
 #define PLAYER_VY_JUMP_INITIAL	64
 #define PLAYER_VY_JUMP_INITIAL_TRAMPOLINE 128
-#define PLAYER_VY_JUMP_MAX		192		// Max. velocity when jumping
-#define PLAYER_AY_JUMP 			12		// Jumpin acceleration 
+#define PLAYER_VY_JUMP_MAX		192							// Max. velocity when jumping
+#define PLAYER_AY_JUMP 			12							// Jumpin acceleration 
 
 #define PLAYER_AY_JETPAC		__player_ay_jetpac		// Jetpac increment
 #define PLAYER_VY_JETPAC_MAX	__player_vy_jetpac_max	// Max jetpac vertical speed
 
-#define PLAYER_AY_SWIM			8		// Swimming acceleration.
-#define PLAYER_VY_SWIM_MAX		64		// Swimming max. speed
+#define PLAYER_AY_SWIM			8							// Swimming acceleration.
+#define PLAYER_VY_SWIM_MAX		64							// Swimming max. speed
 
 #define PLAYER_VY_LADDERS		96
 
 #define PLAYER_AY_FLOAT			12
 #define PLAYER_VY_FLOAT_MAX		192
 
-#define PLAYER_AY_UNTHRUST 		8 		// Used in the Autojump engine.
+#define PLAYER_AY_UNTHRUST 		8 							// Used in the Autojump engine.
 
 // IV.1.b MK2 style jump (overrides PLAYER_?Y_JUMP_* defined before!)
 // (Used if PLAYER_JUMP_TYPE_MK2 is defined)
@@ -602,7 +602,7 @@
 #define PLAYER_VY_MK2_JUMP_RELEASE	96
 #define PLAYER_VY_MK2_JUMP_A_STEPS 	16
 #define PLAYER_VY_MK2_JUMP_INITIAL_TRAMPOLINE 296
-#define PLAYER_VY_MK2_TRAMPOLINE_A_STEPS 32	// For trampolines
+#define PLAYER_VY_MK2_TRAMPOLINE_A_STEPS 32					// For trampolines
 
 // IV.2. Horizontal (side view) or general (top view) movement.
 
@@ -666,9 +666,23 @@
 
 // Music
 
-#define MUSIC_INGAME1 			m_yun_psg
-#define MUSIC_TITLE				m_title_psg
-#define MUSIC_GOVER 			m_gover_psg
+#ifdef PAL 
+	#define MUSIC_INGAME1 			m_p_stagea_psg
+	#define MUSIC_INGAME2 			m_p_stageb_psg
+	#define MUSIC_INGAME3 			m_p_stagec_psg
+	#define MUSIC_TITLE				m_p_title_psg
+	#define MUSIC_GOVER 			m_p_gover_psg
+	#define MUSIC_ENDING 			m_p_ending_psg
+	#define MUSIC_SCLEAR 			m_p_sclear_psg
+#else
+	#define MUSIC_INGAME1 			m_n_stagea_psg
+	#define MUSIC_INGAME2 			m_n_stageb_psg
+	#define MUSIC_INGAME3 			m_n_stagec_psg
+	#define MUSIC_TITLE				m_n_title_psg
+	#define MUSIC_GOVER 			m_n_gover_psg
+	#define MUSIC_ENDING 			m_n_ending_psg
+	#define MUSIC_SCLEAR 			m_n_sclear_psg
+#endif
 
 // SFX
 

@@ -621,7 +621,7 @@ Por ahora tengo:
 	PLAYER_VY_JETPAC_MAX    64     64
 	PLAYER_VX_MAX           112    128
 	PLAYER_AX               16     8
-	PLAYER_RX               16     8
+	PLAYER_RX               16     12
 ```
 
 AHora me tengo que pirar, pero ya lo apañow.

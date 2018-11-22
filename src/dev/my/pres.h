@@ -27,6 +27,22 @@ void pres (void (*func) (void), unsigned char *music) {
 	bat_out ();
 }
 
+/*
+void snip (void) {
+	// Point gp_tmap to the data you need to snip :-)
+	// rda = number of lines
+	// rdy = offset
+
+	gp_addr = PNTADDRESS + (rdy << 5);
+	VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
+	while (rda --) {
+		SG_waitForVBlank ();
+		gpit = 32; while (gpit --) {
+			VDPDataPort = *gp_tmap ++;
+		}
+	}
+}
+*/
 void title (void) {
 	unpack_bg_patterns (tstitle_patterns_c, tstitle_colours_c, 64*8, 7);
 	gp_gen = title_rle; unrle ();

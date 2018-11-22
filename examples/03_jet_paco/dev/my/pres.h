@@ -55,6 +55,9 @@ void title (void) {
 
 	_x = 5; _y = 23; pr_str ("@ 2018 THE MOJON TWINS");
 
+	for (gpit = 0; gpit < 3; gpit ++) 
+		if (level_done [gpit]) SG_setTileatXY (21, (gpit << 1) + 15, 10);
+
 	bat_in ();
 
 	PSGPlay (MUSIC_TITLE);
@@ -109,12 +112,27 @@ void scr_game_over (void) {
 	_x =  9; _y = 14; pr_str ("MISSION FAILED");
 }
 
-void scr_the_end (void) {
+void scr_sclear (void) {
 	gp_gen = cuts_rle; unrle ();
 	_x = 9; _y = 8; pr_str ("CONGRATULATIONS!");
-	_x = 2; _y = 10; pr_str ("ALL CRISTALS ARE RECOVERED");
-	_x = 4; _y = 12; pr_str ("NOW YOU CAN GET BACK TO YOUR");
-	_x = 5; _y = 14; pr_str ("BASE AND HAVE A GOOD REST!");	
+	_x = 3; _y = 10; pr_str ("ALL CRISTALS ARE RECOVERED");
+	_x = 2; _y = 12; pr_str ("NOW YOU CAN GET BACK TO YOUR");
+	_x = 3; _y = 14; pr_str ("BASE AND HAVE A GOOD REST!");	
+}
+
+void game_ending (void) {
+	gp_gen = ending_rle; unrle ();
+	_x = 2; _y = 13; pr_str ("'WE ARE SET, PACO!'%%'SO IT SEEMS, PURI! LET'S GO%%BACK TO OUR PLANET NOW!'");
+	_x = 10; _y = 20; pr_str ("T H E  E N D");
+	unpack_bg_patterns (tsE_patterns_c, tsE_colours_c, 64*8, 7);
+	bat_in ();
+	PSGPlay (MUSIC_ENDING);
+	while (1) {
+		pad_read ();
+		if (pad_this_frame & (PAD_A|PAD_B|PAD_START)) break;
+	}
+	bat_out ();	
+	unpack_bg_patterns (tsALL_patterns_c, tsALL_colours_c, 64*8, 7);
 }
 
 void credits (void) {

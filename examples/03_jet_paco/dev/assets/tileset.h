@@ -29,8 +29,17 @@ extern const unsigned char frame_rle [];
 #define FRAME_RLE_SIZE 46
 
 extern const unsigned char tsALL_patterns_c [];
-#define TSALL_PATTERNS_C_SIZE 951
+#define TSALL_PATTERNS_C_SIZE 950
 
 extern const unsigned char tsALL_colours_c [];
-#define TSALL_COLOURS_C_SIZE 534
+#define TSALL_COLOURS_C_SIZE 537
+
+extern const unsigned char ending_rle [];
+#define ENDING_RLE_SIZE 158
+
+extern const unsigned char tsE_patterns_c [];
+#define TSE_PATTERNS_C_SIZE 732
+
+extern const unsigned char tsE_colours_c [];
+#define TSE_COLOURS_C_SIZE 370
 

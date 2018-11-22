@@ -360,6 +360,9 @@ void player_move (void) {
 		if (vertical_engine_type == ENGINE_TYPE_JET_PAC) {
 			if (pad0 & PAD_A) {
 				pvy -= PLAYER_AY_JETPAC;
+				#ifdef PLAYER_CAN_FLOAT
+					if (!pfloating)
+				#endif
 				if (pvy < -PLAYER_VY_JETPAC_MAX) pvy = -PLAYER_VY_JETPAC_MAX;
 			}
 		}
@@ -840,12 +843,14 @@ void player_move (void) {
 
 		#if defined (ENABLE_CHAC_CHAC) || defined (ENABLE_TILE_CHAC_CHAC)
 			cx1 = cx2 = (prx + 4) >> 4;
+
 			cy1 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4; 
 			#ifdef PLAYER_COLLISION_EVIL_BOTTOM_ALLOW
 				cy2 = (pry + 15 - PLAYER_COLLISION_EVIL_BOTTOM_ALLOW) >> 4;
 			#else
 				cy2 = (pry + 15) >> 4;
 			#endif
+
 			cm_two_points ();
 			if ((at1 & 1) || (at2 & 1)) phit = 1;
 		#endif

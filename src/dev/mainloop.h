@@ -298,6 +298,8 @@ void game_loop (void) {
 		PSGPlay (MUSIC_INGAME);
 	#endif
 
+	paused = 0; SG_resetPauseRequest ();
+
 	while (1) {
 
 		// Update hud

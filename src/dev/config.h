@@ -96,6 +96,9 @@
 // Player is 8x16 for collision with BG but can be made taller by this amount. Negative values=shorter
 #define PLAYER_COLLISION_VSTRETCH_BG	-4
 
+// Bottom collision. If set, player can bleed a bit into spikes when going down.
+//#define PLAYER_SPIKES_BOTTOM_ALLOW		2
+
 // This defines how the player will collide with enemies. 
 // Player is always 8 pixels wide and 16 pixel tall PLUS the value of this variable.
 // this offset goes to the head. 
@@ -133,6 +136,7 @@
 	//#define DIE_AND_REINIT				//     ... or start the level over!
 #define PLAYER_FLICKERS 				100	// If defined, collisions make player flicker for N frames
 //#define WALLS_STOP_ENEMIES				// If defined, enemies react to the scenary
+//#define NO_V_BOOST_WHEN_FLICK				// If defined, no -vy boost when moving to the room above
 
 // Extra special tiles
 // -------------------
@@ -659,9 +663,23 @@
 
 // Music
 
-#define MUSIC_INGAME1 			m_yun_psg
-#define MUSIC_TITLE				m_title_psg
-#define MUSIC_GOVER 			m_gover_psg
+#ifdef PAL 
+	#define MUSIC_INGAME1 			m_p_stagea_psg
+	#define MUSIC_INGAME2 			m_p_stageb_psg
+	#define MUSIC_INGAME3 			m_p_stagec_psg
+	#define MUSIC_TITLE				m_p_title_psg
+	#define MUSIC_GOVER 			m_p_gover_psg
+	#define MUSIC_ENDING 			m_p_ending_psg
+	#define MUSIC_SCLEAR 			m_p_sclear_psg
+#else
+	#define MUSIC_INGAME1 			m_n_stagea_psg
+	#define MUSIC_INGAME2 			m_n_stageb_psg
+	#define MUSIC_INGAME3 			m_n_stagec_psg
+	#define MUSIC_TITLE				m_n_title_psg
+	#define MUSIC_GOVER 			m_n_gover_psg
+	#define MUSIC_ENDING 			m_n_ending_psg
+	#define MUSIC_SCLEAR 			m_n_sclear_psg
+#endif
 
 // SFX
 

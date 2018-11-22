@@ -1,0 +1,99 @@
+# Script file for mkts_om.exe v>=0.4
+
+# Cut tileset
+
+mapfile ../dev/assets/tileset.c
+headerfile ../dev/assets/tileset.h
+
+reset patterns
+open font.png
+charset 0, 0, 32, 2
+
+open box.png
+charset 0, 0, 8, 1
+
+# write 72 patterns (64 + 8)
+write patterns tsFONT_patterns_c tsFONT_colours_c packed
+
+# Hud, uses chars from the already available 72.
+open hud.png
+nametablerle
+write nametablerle frame_rle
+
+# Metatiles level 0
+open ts0.png
+set patterns 72
+reset tmaps
+metatileset 0, 0, 8, 4, 2, 2
+write tmaps ts0_tmaps
+write patterns ts0_patterns_c ts0_colours_c r:72:* packed
+
+# Metatiles level 1
+open ts1.png
+set patterns 72
+reset tmaps
+metatileset 0, 0, 8, 4, 2, 2
+write tmaps ts1_tmaps
+write patterns ts1_patterns_c ts1_colours_c r:72:* packed
+
+# Title
+open title.png
+set patterns 72
+nametablerle
+write nametablerle title_rle
+write patterns tsT_patterns_c tsT_colours_c r:72:* packed
+
+# Ending
+open ending.png
+set patterns 72
+nametablerle
+write nametablerle ending_rle
+write patterns tsE_patterns_c tsE_colours_c r:72:* packed
+
+# Cut spriteset
+
+mapfile ../dev/assets/spriteset.c
+headerfile ../dev/assets/spriteset.h
+open ss.png
+
+reset patterns
+reset sprite_pattern_index
+
+# Main character 10 * 3 * 4 patterns = 120 patterns
+# (10 frames, 3 sprites per frame)
+reset metasprites
+spriteset 0, 0, 10, 1, 1, 2, 0, -8
+write metasprites ss_pl
+
+# Enems 
+# First enem, 
+# 6 sprites, 2 frames, 24 patterns
+reset metasprites
+spriteset 0, 4, 2, 1, 1, 2, 0, -16
+write metasprites ss_ena
+
+# Second enem
+# 6 sprites, 2 frames, 24 patterns
+reset metasprites
+spriteset 4, 4, 2, 1, 1, 2, 0, -8
+write metasprites ss_enb
+
+# Third enem baducadas
+# 8 sprites, 2 frames, 24 patterns
+reset metasprites
+spriteset 8, 4, 2, 1, 1, 2, 0, -8
+write metasprites ss_enc
+
+# Platform 4 patterns
+reset metasprites
+spriteset 12, 4, 1, 1, 1, 1, 0, 0
+write metasprites ss_plat
+
+# Main objects 2+1+2+2+1+1 = 9 sprites = 36 patterns
+reset metasprites
+spriteset 0, 8, 6, 1, 1, 1, 0, 0
+write metasprites ss_it
+
+stats
+
+write patterns ssALL_patterns_c packed

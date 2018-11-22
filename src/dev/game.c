@@ -44,7 +44,7 @@
 #include "definitions.h"
 #include "config.h"
 #include "autodefs.h"
-#include "my/extra_defines.h"
+#include "my/extra_declarations.h"
 
 // **************
 // * const data *
@@ -138,12 +138,13 @@ void main(void) {
 	#endif
 
 	// Unpack font
-	unpack_bg_patterns (tsfont_patterns_c, tsfont_colours_c, 0, 7);
+	unpack_bg_patterns (tsFONT_patterns_c, tsFONT_colours_c, 0, 7);
 
 	credits ();
 
-	// Unpack fixed sprites
-	aPLib_depack_VRAM (SGT_BASE, ss_fixed_patterns_c);
+	// Unpack everything else
+	unpack_bg_patterns (tsALL_patterns_c, tsALL_colours_c, 64*8, 7);
+	aPLib_depack_VRAM (SGT_BASE, ssALL_patterns_c);
 	
 	mode_no_resonators = 0;
 	while (1) {	

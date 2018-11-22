@@ -11,7 +11,7 @@
 #include "../definitions.h"
 #include "../config.h"
 #include "../autodefs.h"
-#include "../my/extra_defines.h"
+#include "../my/extra_declarations.h"
 
 #include "../ram/extern_globals.h"
 #include "../engine/extern_precalcs.h"
@@ -360,6 +360,9 @@ void player_move (void) {
 		if (vertical_engine_type == ENGINE_TYPE_JET_PAC) {
 			if (pad0 & PAD_A) {
 				pvy -= PLAYER_AY_JETPAC;
+				#ifdef PLAYER_CAN_FLOAT
+					if (!pfloating)
+				#endif
 				if (pvy < -PLAYER_VY_JETPAC_MAX) pvy = -PLAYER_VY_JETPAC_MAX;
 			}
 		}
@@ -491,8 +494,14 @@ void player_move (void) {
 				#endif
 
 				if ((at1 & 1) || (at2 & 1)) pnotsafe = 1; 
-			} else if ((at1 & 1) || (at2 & 1)) {
-				if ((pry & 15) > 4) hitv = 1;
+			} else {
+				#ifdef PLAYER_SPIKES_BOTTOM_ALLOW
+					cy2 = pry + 15 - PLAYER_SPIKES_BOTTOM_ALLOW;
+					cm_two_points ();
+				#endif
+				if ((at1 & 1) || (at2 & 1)) {
+					if ((pry & 15) > 4) hitv = 1;
+				}
 			}
 			#ifdef ENABLE_QUICKSANDS		
 				else {
@@ -776,6 +785,10 @@ void player_move (void) {
 					if (cy1 != cy2) if (at2 & 2) player_process_tile (at2, cx1, cy2, rdm, cy2);
 				#endif				
 			} else {
+				#ifdef PLAYER_SPIKES_BOTTOM_ALLOW
+					cy2 = pry + 15 - PLAYER_SPIKES_BOTTOM_ALLOW;
+					cm_two_points ();
+				#endif
 				hith = ((at1 & 1) || (at2 & 1));
 			}
 		#endif
@@ -826,7 +839,7 @@ void player_move (void) {
 
 		#if defined (ENABLE_CHAC_CHAC) || defined (ENABLE_TILE_CHAC_CHAC)
 			cx1 = cx2 = (prx + 4) >> 4;
-			cy1 = pry >> 4; cy2 = (pry + 15) >> 4;
+			cy1 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4; cy2 = (pry + 15) >> 4;
 			cm_two_points ();
 			if ((at1 & 1) || (at2 & 1)) phit = 1;
 		#endif
