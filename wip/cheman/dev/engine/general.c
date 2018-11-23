@@ -126,7 +126,7 @@ void pad_read (void) {
 #endif
 
 void update_cycle (void) {
-	SG_finalizeSprites ();
+	//SG_finalizeSprites ();
 	SG_waitForVBlank ();
 	SG_copySpritestoSAT ();
 	update_list [update_index] = 0xff;

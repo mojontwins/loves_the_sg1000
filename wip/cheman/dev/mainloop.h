@@ -135,10 +135,10 @@ void game_init (void) {
 }
 
 void prepare_scr (void) {
-	SG_displayOff ();
+	if (!ft) {
+		SG_displayOff ();
 
-	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
-		if (!ft) {
+		#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 			// Update tile_got persistence
 			// Point to VRAM @ PERSISTENT_TILE_GET_ADDR + on_pant * 24
 			rda = on_pant << 3;
@@ -152,9 +152,9 @@ void prepare_scr (void) {
 			// Write 24 bytes
 			for (gpit = 0; gpit < 24; gpit ++) VDPDataPort = tile_got [gpit];
 
-			ENABLE_INTERRUPTS;
-		}
-	#endif
+			ENABLE_INTERRUPTS;		
+		#endif
+	}
 
 	ft = 0;
 
@@ -310,8 +310,6 @@ void game_loop (void) {
 	on_pant = 99; ft = 1; fade_delay = 1;
 
 	// MAIN LOOP
-
-	SG_displayOn ();
 	
 	#ifdef ACTIVATE_SCRIPTING
 		#ifdef CLEAR_FLAGS

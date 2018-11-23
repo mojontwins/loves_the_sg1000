@@ -626,3 +626,28 @@ Por ahora tengo:
 
 AHora me tengo que pirar, pero ya lo apañow.
 
+20181123
+========
+
+Me puse hace unos días a hacer Che Man porque me apetecía dibujar y porque recordé que aún tenía cosas sin implementar en esta versión. He apañado bastantes cosas pero ahora debería ponerme a revisar el mk1 por si necesitase algún apaño.
+
+En vez de hacer otro le meteré un parámetro platform=sg1000 para poder usar el mismo, ya que los cambios serán mínimos.
+
+Pero antes voy a pasar los `my/*` porque hay muchas cosas que faltan.
+
+~~
+
+Soy un tonteras. Este juego hace estas cosas por scripting en su forma "Dire Job" de ZX y NES (MK2), pero aquí lo hacía todo por injection. Lo que sí tendré que añadir es el textbox. Voy.
+
+~~
+
+¿Pero qué coño me he fumao? ¡Sí que usa scripting! Joder machow. Voy a ello.
+
+Sigue habiendo un glitch con la posición de algunos sprites cuando te matan. Tengo que revisar esto, creo que puede que esté escribiendo mal en la estructura de memoria. Aunque no me explico por quéw.
+
+Voy apuntando lo que veow.
+
+~~
+
+Hecho, ahora quiero arreglar el glitch: al pausar al morir, uno de los enemigos aparece en otro sitio: su Y aparece en la mitad de la pantalla -> en 0x80!! Ya sé qué es. Al reimprimir al player, el 0x80 de marca de fin de metasprite se escribe en el Y del uno del os otros sprites - que suele ser un enemigo. Voy a corregirlo en la lib.
+

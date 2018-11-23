@@ -5,5 +5,5 @@
 if (SG_queryPauseRequested ()) {
 	SG_resetPauseRequest ();
 	paused ^= 1;
-	//music_pause (paused);
+	music_pause (paused);
 }

@@ -6,37 +6,112 @@
 
 #include "mtparser.bi"
 
+Dim Shared As Integer latestNumberOfTokens
+
+Function parseGetLatestNumberOfTokens () As Integer
+	Return latestNumberOfTokens
+End Function
+
+Sub clearCoords (coords () As Integer)
+	Dim As Integer i
+		
+	For i = lBound (coords) To uBound (coords)
+		coords (i) = -1
+	Next i
+
+	latestNumberOfTokens = 0
+End Sub
+
 Sub parseCoordinatesString (coordsString as String, coords () As Integer)
 	Dim As Integer i, idx
 	Dim As String m, coordString
 	
 	coordsString = coordsString & ","
 	idx = 0
+	clearCoords coords ()
 	
 	For i = 1 To Len (coordsString)
 		m = Mid (coordsString, i, 1)
-		If m = "," Or m = ":" Then
-			If coordString = "*" Then 
-				coords (idx) = 32767
-			Else
-				coords (idx) = Val (coordString)
-			End If
+		If m = "," Then
+			coords (idx) = Val (coordString)
 			idx = idx + 1
 			coordString = ""			
 		Else
 			coordString = coordString & m
 		End If
 	Next i
+
+	latestNumberOfTokens = idx
 End Sub
+
+Sub parseCoordinatesStringCustom (coordsString as String, separator As String, coords () As Integer)
+	Dim As Integer i, idx
+	Dim As String m, coordString
+	
+	coordsString = coordsString & separator
+	idx = 0
+	clearCoords coords ()
+	
+	For i = 1 To Len (coordsString)
+		m = Mid (coordsString, i, 1)
+		If m = separator Then
+			coords (idx) = Val (coordString)
+			idx = idx + 1
+			coordString = ""			
+		Else
+			coordString = coordString & m
+		End If
+	Next i
+
+	latestNumberOfTokens = idx
+End Sub
+
+Sub parseCleanTokens (tokens () As String)
+	Dim As Integer l, i
+	l = uBound (tokens)
+	For i = 0 To l
+		tokens (i) = ""
+	Next i
+
+	latestNumberOfTokens = 0
+End Sub
+
+Function parseGlueTokens (tokens () As String) As String
+	Dim As String result
+	Dim As Integer l, i
+	
+	result = ""
+	l = uBound (tokens)
+
+	For i = 0 To l
+		result = result & Trim (tokens (i))
+		If i < l Then result = result & " "
+	Next i
+
+	parseGlueTokens = result
+End Function
+
+Function initialWhiteSpace (inString As String) As String
+	Dim As Integer i
+	Dim As String result
+	Dim As String m
+
+	result = ""
+
+	For i = 1 To Len (inString)
+		m = Mid (inString, i, 1)
+		If m <> Chr (9) And m <> " " Then Exit For
+		result = result & m 
+	Next i
+
+	initialWhiteSpace = result
+End Function
 
 Sub parseTokenizeString (inString As String, tokens () As String, ignore As String, break As String)
 	Dim As String m
 	Dim As Integer i, l, windex, quotes
 
-	l = uBound (tokens)
-	For i = 0 To l
-		tokens (i) = ""
-	Next i
+	parseCleanTokens tokens ()
 
 	inString = inString + " "
 	l = Len (inString)
@@ -68,6 +143,8 @@ Sub parseTokenizeString (inString As String, tokens () As String, ignore As Stri
 			End If
 		End If
 	Next i
+
+	latestNumberOfTokens = windex
 End Sub
 
 Function parserFindTokenInTokens (token As String, tokens () As String, modifier As String) As Integer
@@ -90,4 +167,26 @@ Function parserFindTokenInTokens (token As String, tokens () As String, modifier
 	Next i
 
 	parserFindTokenInTokens = found
+End Function
+
+Function parserGetTokenIndex (token As String, tokens () As String, modifier As String) As Integer
+	Dim As Integer found, i, l
+	Dim As String curToken
+
+	found = 0
+
+	l = uBound (tokens)
+	For i = 0 To l
+		curToken = tokens (i)
+		Select Case modifier
+			case "ucase": curToken = uCase (curToken)
+			case "lcase": curToken = lCase (curToken)
+		End Select
+		If curToken = token Then
+			found = i
+			Exit For
+		End If
+	Next i
+
+	parserGetTokenIndex = found
 End Function

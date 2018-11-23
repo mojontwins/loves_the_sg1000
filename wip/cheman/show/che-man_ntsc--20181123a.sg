@@ -32,11 +32,11 @@ Area                                    Addr        Size        Decimal Bytes (A
      0000011E  l__HEADER3                      
      00000200  s__CODE                         
      00000347  l__DATA                         
-     00007BF0  l__CODE                         
-     00007DF0  s__HOME                         
-     00007DF0  s__INITIALIZER                  
-     00007DF6  s__GSINIT                       
-     00007E05  s__GSFINAL                      
+     00007BEE  l__CODE                         
+     00007DEE  s__HOME                         
+     00007DEE  s__INITIALIZER                  
+     00007DF4  s__GSINIT                       
+     00007E03  s__GSFINAL                      
      0000C000  s__DATA                         
      0000C347  s__INITIALIZED                  
      0000C34D  s__BSEG                         
@@ -48,7 +48,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    00007BF0 =       31728. bytes (REL,CON)
+_CODE                               00000200    00007BEE =       31726. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -107,7 +107,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    00007BF0 =       31728. bytes (REL,CON)
+_CODE                               00000200    00007BEE =       31726. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -167,7 +167,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    00007BF0 =       31728. bytes (REL,CON)
+_CODE                               00000200    00007BEE =       31726. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -227,7 +227,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    00007BF0 =       31728. bytes (REL,CON)
+_CODE                               00000200    00007BEE =       31726. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -287,7 +287,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    00007BF0 =       31728. bytes (REL,CON)
+_CODE                               00000200    00007BEE =       31726. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -347,7 +347,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000200    00007BF0 =       31728. bytes (REL,CON)
+_CODE                               00000200    00007BEE =       31726. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -356,29 +356,29 @@ _CODE                               00000200    00007BF0 =       31728. bytes (R
      0000789C  _SG_addSprite                      SGlib
      0000791E  _SG_addMetaSprite1x1               SGlib
      00007A52  _SG_addMetaSprite                  SGlib
-     00007B12  _SG_finalizeSprites                SGlib
-     00007B13  _SG_getStp                         SGlib
-     00007B17  _SG_setStp                         SGlib
-     00007B28  _SG_waitForVBlank                  SGlib
-     00007B35  _SG_getKeysStatus                  SGlib
-     00007B3D  _SG_queryPauseRequested            SGlib
-     00007B45  _SG_resetPauseRequest              SGlib
-     00007B4B  _SG_VRAMmemset                     SGlib
-     00007B77  _SG_copySpritestoSAT               SGlib
-     00007B8A  _SG_VRAMmemcpy128                  SGlib
-     00007BAD  _SG_setUpdateList                  SGlib
-     00007BBE  _SG_doUpdateList                   SGlib
-     00007C04  _SG_isr                            SGlib
-     00007C43  _SG_nmi_isr                        SGlib
-     00007C56  _music_pause                       SGlib
-     00007C64  _aPLib_depack_VRAM                 aPLib
-     00007D97  __moduchar                         
-     00007DA3  __moduint                          
-     00007DAE  __divuint                          
-     00007DB6  __divuchar                         
-     00007DBD  __divu8                            
-     00007DC0  __divu16                           
-     00007DEF  ___sdcc_call_hl                    
+     00007B10  _SG_finalizeSprites                SGlib
+     00007B11  _SG_getStp                         SGlib
+     00007B15  _SG_setStp                         SGlib
+     00007B26  _SG_waitForVBlank                  SGlib
+     00007B33  _SG_getKeysStatus                  SGlib
+     00007B3B  _SG_queryPauseRequested            SGlib
+     00007B43  _SG_resetPauseRequest              SGlib
+     00007B49  _SG_VRAMmemset                     SGlib
+     00007B75  _SG_copySpritestoSAT               SGlib
+     00007B88  _SG_VRAMmemcpy128                  SGlib
+     00007BAB  _SG_setUpdateList                  SGlib
+     00007BBC  _SG_doUpdateList                   SGlib
+     00007C02  _SG_isr                            SGlib
+     00007C41  _SG_nmi_isr                        SGlib
+     00007C54  _music_pause                       SGlib
+     00007C62  _aPLib_depack_VRAM                 aPLib
+     00007D95  __moduchar                         
+     00007DA1  __moduint                          
+     00007DAC  __divuint                          
+     00007DB4  __divuchar                         
+     00007DBB  __divu8                            
+     00007DBE  __divu16                           
+     00007DED  ___sdcc_call_hl                    
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
 
@@ -422,7 +422,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_INITIALIZER                        00007DF0    00000006 =           6. bytes (REL,CON)
+_INITIALIZER                        00007DEE    00000006 =           6. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -431,18 +431,18 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSINIT                             00007DF6    0000000F =          15. bytes (REL,CON)
+_GSINIT                             00007DF4    0000000F =          15. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00007DF6  gsinit                             crt0
+     00007DF4  gsinit                             crt0
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 14.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSFINAL                            00007E05    00000001 =           1. bytes (REL,CON)
+_GSFINAL                            00007E03    00000001 =           1. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------

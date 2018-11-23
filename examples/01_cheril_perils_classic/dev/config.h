@@ -632,7 +632,7 @@
 	// Cell definitions for side view
 
 	#define CELL_FACING_RIGHT	0
-	#define CELL_FACING_LEFT	5
+	#define CELL_FACING_LEFT	8
 
 	#define CELL_IDLE			0
 	#define CELL_WALK_INIT		1

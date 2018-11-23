@@ -114,7 +114,7 @@
 #include "engine/frame.h"
 #include "my/pres.h"
 #ifdef ACTIVATE_SCRIPTING
-	#include "assets/mscnes.h"
+	#include "assets/mscsg1000.h"
 #endif
 #include "mainloop/flickscreen.h"
 #include "mainloop.h"

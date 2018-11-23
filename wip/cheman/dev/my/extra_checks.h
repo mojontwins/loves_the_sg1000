@@ -11,3 +11,4 @@
 // Whenever you want to WIN the game just set win_level = 1
 // (Don't forget to define WIN_LEVEL_CUSTOM in config.h)
 
+win_level = (pobjs == MAX_HOTSPOTS_TYPE_1_0 && pkilled == MAX_ENEMS_TYPE_3_0);

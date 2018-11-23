@@ -243,8 +243,8 @@ unsigned char c_max_bolts;              // Number of locks in current level
 
 #ifdef ACTIVATE_SCRIPTING
     unsigned char sc_x, sc_y, sc_n, sc_c;
-    unsigned char *next_script;
-    unsigned char *script;
+    const unsigned char *next_script;
+    const unsigned char *script;
     unsigned char script_result, sc_terminado, sc_continuar;
 #endif
     

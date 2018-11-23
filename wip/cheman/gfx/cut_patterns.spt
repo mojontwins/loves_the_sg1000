@@ -24,7 +24,7 @@ write patterns tsFONT_patterns_c tsFONT_colours_c packed
 open ts0.png
 set patterns 72
 reset tmaps
-metatileset 0, 0, 8, 4, 2, 2
+metatileset 0, 0, 8, 6, 2, 2, 41
 write tmaps ts0_tmaps
 write patterns ts0_patterns_c ts0_colours_c r:72:* packed
 
@@ -32,7 +32,7 @@ write patterns ts0_patterns_c ts0_colours_c r:72:* packed
 open ts1.png
 set patterns 72
 reset tmaps
-metatileset 0, 0, 8, 4, 2, 2
+metatileset 0, 0, 8, 6, 2, 2, 41
 write tmaps ts1_tmaps
 write patterns ts1_patterns_c ts1_colours_c r:72:* packed
 

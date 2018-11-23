@@ -128,7 +128,7 @@ void player_kill (void) {
 	SG_copySpritestoSAT ();
 
 	pkill = phit = 0;
-	PSGSFXPlay (SFX_PHIT, 2);
+	PSGSFXPlay (SFX_PHIT, 3);
 	
 	if (plife) -- plife; else game_over = 1;
 

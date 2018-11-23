@@ -9,8 +9,8 @@ all: cart.sg
 cart.sg: cart.ihx 
 	../../../src/utils/ihx2sms.exe cart.ihx cart.sg
 
-cart.ihx: rel/game.rel rel/utils/rand.rel rel/utils/delay.rel rel/utils/memfill.rel rel/utils/unpacker.rel rel/utils/unrle.rel rel/engine/propellers.rel rel/engine/tile_chac_chac.rel rel/engine/printer.rel rel/engine/general.rel rel/engine/breakable.rel rel/engine/player.rel rel/engine/cocos.rel rel/engine/enengine.rel rel/assets/enems0.rel rel/assets/enems1.rel rel/assets/map0.rel rel/assets/map1.rel rel/assets/tileset.rel rel/assets/spriteset.rel rel/assets/mscsg1000.rel rel/assets/msc_sfx.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel lib/crt0_sg.rel
-	$(CC) -o cart.ihx -mz80 --no-std-crt0 --data-loc 0xC000 lib/crt0_sg.rel rel/game.rel rel/utils/rand.rel rel/utils/delay.rel rel/utils/memfill.rel rel/utils/unpacker.rel rel/utils/unrle.rel rel/engine/propellers.rel rel/engine/tile_chac_chac.rel rel/engine/printer.rel rel/engine/general.rel rel/engine/breakable.rel rel/engine/player.rel rel/engine/cocos.rel rel/engine/enengine.rel rel/assets/enems0.rel rel/assets/enems1.rel rel/assets/map0.rel rel/assets/map1.rel rel/assets/tileset.rel rel/assets/spriteset.rel rel/assets/mscsg1000.rel rel/assets/msc_sfx.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel
+cart.ihx: rel/game.rel rel/utils/rand.rel rel/utils/delay.rel rel/utils/memfill.rel rel/utils/unpacker.rel rel/utils/unrle.rel rel/engine/propellers.rel rel/engine/tile_chac_chac.rel rel/engine/printer.rel rel/engine/general.rel rel/engine/breakable.rel rel/engine/player.rel rel/engine/cocos.rel rel/engine/enengine.rel rel/assets/enems0.rel rel/assets/enems1.rel rel/assets/map0.rel rel/assets/map1.rel rel/assets/tileset.rel rel/assets/spriteset.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel lib/crt0_sg.rel
+	$(CC) -o cart.ihx -mz80 --no-std-crt0 --data-loc 0xC000 lib/crt0_sg.rel rel/game.rel rel/utils/rand.rel rel/utils/delay.rel rel/utils/memfill.rel rel/utils/unpacker.rel rel/utils/unrle.rel rel/engine/propellers.rel rel/engine/tile_chac_chac.rel rel/engine/printer.rel rel/engine/general.rel rel/engine/breakable.rel rel/engine/player.rel rel/engine/cocos.rel rel/engine/enengine.rel rel/assets/enems0.rel rel/assets/enems1.rel rel/assets/map0.rel rel/assets/map1.rel rel/assets/tileset.rel rel/assets/spriteset.rel rel/murcia.rel lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel
 
 lib/crt0_sg.rel:  lib/crt0_sg.s
 	sdasz80 -g -o lib/crt0_sg.rel lib/crt0_sg.s
@@ -41,12 +41,6 @@ rel/assets/tileset.rel: assets/tileset.c
 
 rel/assets/spriteset.rel: assets/spriteset.c
 	$(CC) $(CFLAGS) assets/spriteset.c -o rel/assets/spriteset.rel
-
-rel/assets/mscsg1000.rel: assets/mscsg1000.c
-	$(CC) $(CFLAGS) assets/mscsg1000.c -o rel/assets/mscsg1000.rel
-
-rel/assets/msc_sfx.rel: assets/msc_sfx.c
-	$(CC) $(CFLAGS) assets/msc_sfx.c -o rel/assets/msc_sfx.rel	
 
 rel/murcia.rel: murcia.c
 	$(CC) $(CFLAGS) murcia.c -o rel/murcia.rel

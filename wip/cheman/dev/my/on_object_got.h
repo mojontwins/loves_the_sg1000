@@ -5,3 +5,9 @@
 // You may add checks and set variables and stuff.
 
 // Player got object rda.
+
+pjewels ++;
+if (pjewels == 50) {
+	plife ++; pjewels = 0;
+	PSGSFXPlay (SFX_FANFARE, 2);
+}
