@@ -154,7 +154,7 @@ void main(void) {
 		// Game loop
 
 		while (1) {
-			pres (scr_level, 0);
+			pres (scr_level, MUSIC_JINGLE);
 			game_init (); 
 			game_loop ();
 
@@ -162,6 +162,7 @@ void main(void) {
 				pres (scr_game_over, MUSIC_GOVER);
 				break;
 			} else {
+				pres (scr_sclear, MUSIC_SCLEAR);
 				level ++;
 				if (level == MAX_LEVELS) {
 					pres (scr_the_end, 0);

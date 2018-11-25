@@ -23,7 +23,7 @@ write tmaps ts0_tmaps
 # Metatiles level 1
 open ts1.png
 reset tmaps
-metatileset 0, 0, 16, 2, 2, 2, 18
+metatileset 0, 0, 16, 2, 2, 2, 17
 write tmaps ts1_tmaps
 
 # Metatiles level 2
@@ -31,6 +31,12 @@ open ts2.png
 reset tmaps
 metatileset 0, 0, 16, 2, 2, 2, 19
 write tmaps ts2_tmaps
+
+# Metatiles level 3
+open ts3.png
+reset tmaps
+metatileset 0, 0, 16, 2, 2, 2, 19
+write tmaps ts3_tmaps
 
 # Fixed screens
 open title.png

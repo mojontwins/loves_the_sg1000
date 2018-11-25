@@ -59,6 +59,8 @@
 #include "assets/enems1.h"
 #include "assets/map2.h"
 #include "assets/enems2.h"
+#include "assets/map3.h"
+#include "assets/enems3.h"
 #include "assets/spriteset.h"
 #include "assets/tileset.h"
 #include "assets/metasprites.h"
@@ -148,11 +150,9 @@ void main(void) {
 	
 	game_puri = 0;
 	while (1) {	
+		plife = PLAYER_LIFE;
 		title ();
 		
-		//level = 0;
-		plife = PLAYER_LIFE;
-
 		// Game loop
 
 		while (1) {

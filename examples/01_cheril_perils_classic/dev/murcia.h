@@ -1,13 +1,28 @@
 // NTSC version
 
-extern const unsigned char	m_gover_psg [];
-#define						M_GOVER_PSG_SIZE 0x01C2
+extern const unsigned char	m_n_ending_psg [];
+#define						M_N_ENDING_PSG_SIZE 0x0309
 
-extern const unsigned char	m_title_psg [];
-#define						M_TITLE_PSG_SIZE 0x0BA0
+extern const unsigned char	m_n_gover_psg [];
+#define						M_N_GOVER_PSG_SIZE 0x01E1
 
-extern const unsigned char	m_yun_psg [];
-#define						M_YUN_PSG_SIZE 0x1546
+extern const unsigned char	m_n_jingle_psg [];
+#define						M_N_JINGLE_PSG_SIZE 0x010E
+
+extern const unsigned char	m_n_sclear_psg [];
+#define						M_N_SCLEAR_PSG_SIZE 0x0160
+
+extern const unsigned char	m_n_stagea_psg [];
+#define						M_N_STAGEA_PSG_SIZE 0x0992
+
+extern const unsigned char	m_n_stageb_psg [];
+#define						M_N_STAGEB_PSG_SIZE 0x0B18
+
+extern const unsigned char	m_n_stagec_psg [];
+#define						M_N_STAGEC_PSG_SIZE 0x092C
+
+extern const unsigned char	m_n_title_psg [];
+#define						M_N_TITLE_PSG_SIZE 0x0C6D
 
 extern const unsigned char	s_00_start2_psg [];
 #define						S_00_START2_PSG_SIZE 0x0013

@@ -79,6 +79,8 @@ void title (void) {
 		if (level != rda) PSGSFXPlay (SFX_USE, 1);
 		if (pad_this_frame & PAD_1) break;
 	}
+
+	if (pad0 & PAD_2) { level = 3; plife = 20; }
 	
 	PSGSFXPlay (SFX_START, 1); delay (20);
 	

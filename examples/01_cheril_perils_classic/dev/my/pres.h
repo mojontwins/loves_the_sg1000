@@ -83,6 +83,11 @@ void scr_level (void) {
 	_x = 10; _y = 16; pr_str (levelnames [level]);
 }
 
+void scr_sclear (void) {
+	_x = 10; _y = 14; pr_str (levelnames [level]);
+	_x = 10; _y = 16; pr_str ("STAGE CLEAR!");
+}
+
 void credits (void) {
 	cls ();
 

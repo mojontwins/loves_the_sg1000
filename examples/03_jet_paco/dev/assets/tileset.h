@@ -13,6 +13,8 @@ extern const unsigned char ts1_tmaps [];
 
 extern const unsigned char ts2_tmaps [];
 
+extern const unsigned char ts3_tmaps [];
+
 extern const unsigned char title_rle [];
 #define TITLE_RLE_SIZE 511
 
@@ -29,10 +31,10 @@ extern const unsigned char frame_rle [];
 #define FRAME_RLE_SIZE 46
 
 extern const unsigned char tsALL_patterns_c [];
-#define TSALL_PATTERNS_C_SIZE 950
+#define TSALL_PATTERNS_C_SIZE 938
 
 extern const unsigned char tsALL_colours_c [];
-#define TSALL_COLOURS_C_SIZE 537
+#define TSALL_COLOURS_C_SIZE 533
 
 extern const unsigned char ending_rle [];
 #define ENDING_RLE_SIZE 158

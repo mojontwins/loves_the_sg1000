@@ -4,8 +4,8 @@
 		"selected_items":
 		[
 			[
-				"next",
-				"nextSprite"
+				"MUSIC",
+				"MUSIC_JINGLE\t(config.h)"
 			],
 			[
 				"cwit",
@@ -520,64 +520,27 @@
 	"buffers":
 	[
 		{
-			"file": "wip/cheman/dev/build_assets.bat",
+			"file": "examples/03_jet_paco/dev/mainloop.h",
 			"settings":
 			{
-				"buffer_size": 736,
+				"buffer_size": 8877,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "examples/01_cheril_perils_classic/dev/mainloop.h",
+			"settings":
+			{
+				"buffer_size": 8703,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "wip/cheman/dev/assets/levelset.h",
+			"file": "examples/02_sgt_helmet_training_day/dev/mainloop.h",
 			"settings":
 			{
-				"buffer_size": 2494,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "wip/cheman/dev/assets/map1.c",
-			"settings":
-			{
-				"buffer_size": 12659,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "wip/cheman/dev/config.h",
-			"settings":
-			{
-				"buffer_size": 23818,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "Searching 231 files for \"MAP_FORMAT_RLE53\"\n\nD:\\git\\loves_the_sg1000\\wip\\cheman\\dev\\assets\\levelset.h:\n   44  \tconst unsigned char * const l_map [] =\t\t{ map_0, map_1 };\n   45  #endif\n   46: #if defined (MAP_FORMAT_RLE16) || defined (MAP_FORMAT_RLE53) || defined (MAP_FORMAT_RLE44)\n   47  \tconst unsigned char * const * const l_map [] =\t\n   48  \t\t\t\t\t\t\t\t\t\t\t\t{ map_0, map_1 };\n\nD:\\git\\loves_the_sg1000\\wip\\cheman\\dev\\autodefs.h:\n   53  #endif\n   54  \n   55: #if defined (MAP_FORMAT_RLE53_CHRROM)\n   56  \t#define MAP_RENDERER_COMPLEX\n   57  #endif\n\nD:\\git\\loves_the_sg1000\\wip\\cheman\\dev\\config.h:\n   80  //#define MAP_FORMAT_PACKED\t\t\t\t// Each byte in map data = 2 tiles, 16 tiles max.\n   81  //#define MAP_FORMAT_RLE16\t\t\t\t// RLE'd by rlemap2. 16 tiles max.\n   82: #define MAP_FORMAT_RLE53\t\t\t\t// RLE'd by rle53mapMK1. 32 tiles max.\n   83  //#define MAP_FORMAT_RLE44\t\t\t\t// RLE'd by rle44mapMK1. 16 tiles max.\n   84  \n\nD:\\git\\loves_the_sg1000\\wip\\cheman\\dev\\engine\\extern_levelset.h:\n   16  \textern const unsigned char * const l_map [];\n   17  #endif\n   18: #if defined (MAP_FORMAT_RLE16) || defined (MAP_FORMAT_RLE53) || defined (MAP_FORMAT_RLE44)\n   19  \textern const unsigned char * const * const l_map [];\n   20  #endif\n\nD:\\git\\loves_the_sg1000\\wip\\cheman\\dev\\engine\\mapmods\\map_renderer_complex.h:\n   66  \t#endif\n   67  \n   68: \t#ifdef MAP_FORMAT_RLE53\n   69  \t\t// Get pointer\n   70  \t\tgp_gen = c_map [n_pant];\n   ..\n   97  \t#endif\n   98  \n   99: \t#ifdef MAP_FORMAT_RLE53_CHRROM\n  100  \t\tbankswitch (c_map_chr_rom_bank);\n  101  \t\tvram_adr (c_map [n_pant]);\n  ...\n  146  \t\t\t#endif\n  147  \n  148: \t\t\t\t#if defined (MAP_FORMAT_RLE44_CHRROM) || defined (MAP_FORMAT_RLE53)\n  149  \t\t\t\t\twhile (rda = VRAM_READ) {\n  150  \t\t\t\t\t\tif (rda & 0x80) {\n\nD:\\git\\loves_the_sg1000\\wip\\cheman\\dev\\engine\\mapmods\\map_renderer_fast.h:\n   69  \t#endif\n   70  \n   71: \t#ifdef MAP_FORMAT_RLE53\n   72  \t\t// Get pointer\n   73  \t\tgp_gen = c_map [n_pant];\n\nD:\\git\\loves_the_sg1000\\wip\\cheman\\dev\\mainloop\\asset_setup.h:\n   12  \n   13  \tc_map = \t\tl_map [level];\n   14: \t#if defined (MAP_FORMAT_RLE53_CHRROM) || defined (MAP_FORMAT_RLE44_CHRROM)\n   15  \t\tc_map_chr_rom_bank = \n   16  \t\t\t\t\tl_map_chr_rom_bank [level];\n   ..\n   45  \tspr_enems = \tspr_enems0;\n   46  \n   47: \t#if defined (MAP_FORMAT_RLE53_CHRROM) || defined (MAP_FORMAT_RLE44_CHRROM)\n   48  \t\tc_map = \tmap_00_scr_offsets;\n   49  \t\tc_map_chr_rom_bank = \n\nD:\\git\\loves_the_sg1000\\wip\\cheman\\dev\\ram\\extern_globals.h:\n  214      extern const unsigned char *c_map;         \n  215  #endif\n  216: #if defined (MAP_FORMAT_RLE16) || defined (MAP_FORMAT_RLE53) || defined (MAP_FORMAT_RLE44)\n  217      extern const unsigned char * const *c_map;\n  218  #endif\n  219: #if defined (MAP_FORMAT_RLE53_CHRROM) || defined (MAP_FORMAT_RLE44_CHRROM)\n  220      extern const unsigned int *c_map;\n  221      extern unsigned char c_map_chr_rom_bank;\n\nD:\\git\\loves_the_sg1000\\wip\\cheman\\dev\\ram\\globals.h:\n  208      const unsigned char *c_map;         \n  209  #endif\n  210: #if defined (MAP_FORMAT_RLE16) || defined (MAP_FORMAT_RLE53) || defined (MAP_FORMAT_RLE44)\n  211      const unsigned char * const *c_map;\n  212  #endif\n  213: #if defined (MAP_FORMAT_RLE53_CHRROM) || defined (MAP_FORMAT_RLE44_CHRROM)\n  214      const unsigned int *c_map;\n  215      unsigned char c_map_chr_rom_bank;\n\n14 matches across 9 files\n",
-			"settings":
-			{
-				"buffer_size": 3325,
-				"line_ending": "Windows",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "wip/cheman/dev/engine/mapmods/map_renderer_complex.h",
-			"settings":
-			{
-				"buffer_size": 4164,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "wip/cheman/dev/my/game_frame.h",
-			"settings":
-			{
-				"buffer_size": 197,
+				"buffer_size": 8741,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -659,69 +622,34 @@
 	},
 	"expanded_folders":
 	[
-		"/D/git/loves_the_sg1000",
-		"/D/git/loves_the_sg1000/examples",
-		"/D/git/loves_the_sg1000/examples/03_jet_paco",
-		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev",
-		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/my",
-		"/D/git/loves_the_sg1000/wip",
-		"/D/git/loves_the_sg1000/wip/cheman",
-		"/D/git/loves_the_sg1000/wip/cheman/dev",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/assets",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/engine",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/engine/enemmods",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/engine/mapmods",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/my",
-		"/D/git/loves_the_sg1000/wip/cheman/gfx",
-		"/D/git/loves_the_sg1000/wip/cheman/map"
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/02_sgt_helmet_training_day",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev"
 	],
 	"file_history":
 	[
-		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/my/player_frame_selector.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/config.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/game.c",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/my/level_pattern_unpacker.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/my/player_frame_selector.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/my/extra_vars.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/my/extra_declarations.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/my/pres.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/assets/levelset.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/Makefile",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/lib/SGlib.c",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/mainloop.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/engine/frame.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/murcia.h",
-		"/D/git/loves_the_sg1000/wip/cheman/gfx/cut_patterns.spt",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/assets/tileset.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/assets/behs.h",
-		"/D/git/MK1_NES/examples/10_che_man/dev/assets/levelset.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/assets/spriteset.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/engine/enengine.c",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/assets/metasprites.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/engine/mapmods/map_renderer_complex.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/config.h.bak",
-		"/D/git/loves_the_sg1000/examples/03_jet_paco/gfx/cut_patterns.spt",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/engine/hotspots.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/mainloop/hotspots.h",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/engine/player.c",
-		"/D/git/loves_the_sg1000/wip/cheman/gfx/ss.png",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/build_assets.bat",
-		"/D/git/MK1_NES/examples/10_che_man/dev/compile.bat",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/compile.bat",
-		"/D/git/loves_the_sg1000/README.md",
-		"/D/git/loves_the_sg1000/docs/AGSG1000_requirements.md",
-		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/assets/levelset.h",
-		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/my/pres.h",
-		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/mainloop.h",
-		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/config.h",
-		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/player.c",
-		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/game.c",
-		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/my/extra_vars.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/game.c",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/config.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/assets/levelset.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/my/pres.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/gfx/cut_patterns.spt",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/assets/behs.h",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/my/pres.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/Makefile",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/engine/player.c",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/build_assets.bat",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/assets/levelset.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/game.c",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/wip/cheman/dev/config.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/wip/cheman/dev/my/pres.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/wip/cheman/dev/my/game_frame.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/wip/cheman/dev/assets/tileset.c",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/config.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/my/extra_vars.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/mainloop.h",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/mainloop/flickscreen.h",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/engine/enemmods/enem_linear.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/config.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/engine/player.c",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.c",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/cheril_perils_classic/utils/mkts_om.bas",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/cheril_perils_classic/dev/setenv.bat",
@@ -804,7 +732,31 @@
 		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/bolts.h",
 		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/printer.h",
 		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/enemmods/enem_chac_chac.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/game.c"
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/game.c",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/pres.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/assets/custom_texts.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/config.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/mainloop.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/ram/zp.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/engine/player.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/extra_inits.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/examples/10_che_man/dev/engine/general.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/on_player_hit.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/engine/enengine.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/examples/08_cheril_the_writer/dev/mainloop.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/wip/luca/dev/engine/player.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/extra_vars.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/gfx/import_patterns1.spt",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/assets/metasprites.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/assets/levelset.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/compile.bat",
+		"/C/Users/na_th/Desktop/git/MK1_NES/src/utils/namgen.bas",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/README.md",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/assets/behs.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/mainloop/hotspots.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/extra_hotspots.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/extra_routines.h",
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/map_renderer_customization.h"
 	],
 	"find":
 	{
@@ -815,8 +767,6 @@
 		"height": 135.0,
 		"where_history":
 		[
-			"D:\\git\\loves_the_sg1000\\wip\\cheman",
-			"D:\\git\\loves_the_sg1000\\wip\\cheman\\dev",
 			"C:\\Users\\NaThan\\Desktop\\Git\\loves_the_sg1000\\examples\\03_jet_paco\\dev",
 			"C:\\Users\\NaThan\\Desktop\\Git\\loves_the_sg1000\\examples\\03_jet_paco\\dev\\engine",
 			"C:\\Users\\NaThan\\Desktop\\Git\\loves_the_sg1000\\examples\\03_jet_paco\\dev",
@@ -829,21 +779,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"MAP_FORMAT_RLE53",
 			"map2",
 			"enems2",
-			"mode_",
-			"DISABLE",
-			"MAX_PANTS",
-			"mode_no_resonators",
-			"MUSIC_",
-			"scripting",
-			"PERSISTENT_TILE_GET",
-			"persistent",
-			"metasprite",
-			"addmeta",
-			"../utils/",
-			"..\\utils\\",
 			"PLAYER_SPIKES_BOTTOM_ALLOW",
 			"pause",
 			"PLAYER_CAN_FLOAT",
@@ -931,10 +868,6 @@
 		"regex": false,
 		"replace_history":
 		[
-			"MAP_SIZE",
-			"level",
-			"../../../src/utils/",
-			"..\\..\\..\\src\\utils\\",
 			"",
 			"stp",
 			"map",
@@ -969,361 +902,97 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "wip/cheman/dev/build_assets.bat",
-					"semi_transient": false,
+					"file": "examples/03_jet_paco/dev/mainloop.h",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 736,
+						"buffer_size": 8877,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								559,
-								559
+								5345,
+								5345
 							]
 						],
 						"settings":
 						{
-							"WordCount":
-							{
-								"changes": 12,
-								"count": 32,
-								"modified": false,
-								"selection": false,
-								"status": -1,
-								"syntax": "plain text"
-							},
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "wip/cheman/dev/assets/levelset.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2494,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								150,
-								152
-							]
-						],
-						"settings":
-						{
-							"WordCount":
-							{
-								"changes": 2,
-								"count": 232,
-								"modified": false,
-								"selection": false,
-								"status": -1,
-								"syntax": "plain text"
-							},
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3744.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "wip/cheman/dev/assets/map1.c",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 12659,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"WordCount":
-							{
-								"changes": 0,
-								"count": 2011,
-								"modified": false,
-								"selection": false,
-								"status": -1,
-								"syntax": "plain text"
-							},
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/C Improved/C Improved.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 3,
-					"file": "wip/cheman/dev/config.h",
+					"buffer": 1,
+					"file": "examples/01_cheril_perils_classic/dev/mainloop.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 23818,
+						"buffer_size": 8703,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1808,
-								1808
+								5393,
+								5429
 							]
 						],
 						"settings":
 						{
-							"WordCount":
-							{
-								"changes": 16,
-								"count": 2199,
-								"modified": false,
-								"selection": false,
-								"status": -1,
-								"syntax": "plain text"
-							},
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
 							"syntax": "Packages/C++/C++.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 641.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3325,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										232,
-										248
-									],
-									[
-										467,
-										483
-									],
-									[
-										768,
-										784
-									],
-									[
-										1094,
-										1110
-									],
-									[
-										1334,
-										1350
-									],
-									[
-										1453,
-										1469
-									],
-									[
-										1647,
-										1663
-									],
-									[
-										1848,
-										1864
-									],
-									[
-										2049,
-										2065
-									],
-									[
-										2250,
-										2266
-									],
-									[
-										2562,
-										2578
-									],
-									[
-										2698,
-										2714
-									],
-									[
-										3024,
-										3040
-									],
-									[
-										3153,
-										3169
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								1345,
-								1345
-							]
-						],
-						"settings":
-						{
-							"WordCount":
-							{
-								"changes": 11,
-								"count": 222,
-								"modified": false,
-								"selection": true,
-								"status": -1,
-								"syntax": "plain text"
-							},
-							"detect_indentation": false,
-							"incomplete_sync": null,
-							"line_numbers": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ \t].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 468.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "wip/cheman/dev/engine/mapmods/map_renderer_complex.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4164,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1351,
-								1351
-							]
-						],
-						"settings":
-						{
-							"WordCount":
-							{
-								"changes": 11,
-								"count": 416,
-								"modified": false,
-								"selection": false,
-								"status": -1,
-								"syntax": "plain text"
-							},
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1638.0,
+						"translation.y": 3442.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "wip/cheman/dev/my/game_frame.h",
+					"buffer": 2,
+					"file": "examples/02_sgt_helmet_training_day/dev/mainloop.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 197,
+						"buffer_size": 8741,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								197,
-								197
+								5432,
+								5432
 							]
 						],
 						"settings":
 						{
-							"WordCount":
-							{
-								"changes": 2,
-								"count": 23,
-								"modified": false,
-								"selection": false,
-								"status": -1,
-								"syntax": "plain text"
-							},
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/C++/C++.sublime-syntax"
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3393.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1382,7 +1051,7 @@
 	"project": "loves_the_sg1000.sublime-project",
 	"replace":
 	{
-		"height": 74.0
+		"height": 50.0
 	},
 	"save_all_on_build": true,
 	"select_file":
