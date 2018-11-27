@@ -76,7 +76,8 @@ void scr_the_end (void) {
 const unsigned char level0name [] = "  THE CITY";
 const unsigned char level1name [] = "THE FACTORY";
 const unsigned char level2name [] = " THE FOREST";
-const unsigned char *const levelnames [] = { level0name, level1name, level2name };
+const unsigned char level3name [] = "  PEPINONI";
+const unsigned char *const levelnames [] = { level0name, level1name, level2name, level3name };
 
 void scr_level (void) {
 	_x = 12; _y = 14; pr_str ("LEVEL 0"); SG_setTile (17+level);

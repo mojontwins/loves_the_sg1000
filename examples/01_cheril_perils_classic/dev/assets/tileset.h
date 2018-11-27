@@ -39,10 +39,10 @@ extern const unsigned char ts0_colours_c [];
 extern const unsigned char ts1_tmaps [];
 
 extern const unsigned char ts1_patterns_c [];
-#define TS1_PATTERNS_C_SIZE 408
+#define TS1_PATTERNS_C_SIZE 418
 
 extern const unsigned char ts1_colours_c [];
-#define TS1_COLOURS_C_SIZE 267
+#define TS1_COLOURS_C_SIZE 270
 
 extern const unsigned char ts2_tmaps [];
 
@@ -51,4 +51,12 @@ extern const unsigned char ts2_patterns_c [];
 
 extern const unsigned char ts2_colours_c [];
 #define TS2_COLOURS_C_SIZE 293
+
+extern const unsigned char ts3_tmaps [];
+
+extern const unsigned char ts3_patterns_c [];
+#define TS3_PATTERNS_C_SIZE 379
+
+extern const unsigned char ts3_colours_c [];
+#define TS3_COLOURS_C_SIZE 211
 

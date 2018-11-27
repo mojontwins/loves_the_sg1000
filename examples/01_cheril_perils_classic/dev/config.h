@@ -24,7 +24,7 @@
 #define PLAYER_REFILL			1		// Life refill
 
 #define MULTI_LEVEL						// Comment for single level
-#define MAX_LEVELS				3
+#define MAX_LEVELS				4
 
 #define MAX_FLAGS 				2		// Keep it low if you don't need flags
 

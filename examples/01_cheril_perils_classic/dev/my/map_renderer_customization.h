@@ -9,9 +9,16 @@
 
 set_rand (1 + n_pant);
 gpit = 192; while (gpit --) {
-	if (rand8 () & 1) {
-		rda = map_buff [gpit];
-		if (rda < 15) rda += 16;
-		map_buff [gpit] = rda;
+	rda = map_buff [gpit]; 
+	rdb = rand8 () & 1;	
+	if (level < 3) {
+		if (rdb && rda < 15) rda += 16;
+	} else {
+		switch (rda) {
+			case 3: if (rdb) rda = 4; break;
+			case 13: if (map_buff [gpit - 16] != 13) rda = 14; break;
+		}
+		
 	}
+	map_buff [gpit] = rda;
 }

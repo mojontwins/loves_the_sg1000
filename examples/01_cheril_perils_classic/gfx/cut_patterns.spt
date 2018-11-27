@@ -55,6 +55,14 @@ metatileset 0, 0, 16, 3, 2, 2, 39
 write tmaps ts2_tmaps
 write patterns ts2_patterns_c ts2_colours_c r:64:* packed
 
+# Metatiles level 3
+open ts3.png
+set patterns 64
+reset tmaps
+metatileset 0, 0, 16, 1, 2, 2
+write tmaps ts3_tmaps
+write patterns ts3_patterns_c ts3_colours_c r:64:* packed
+
 # Cut spriteset
 
 mapfile ../dev/assets/spriteset.c
