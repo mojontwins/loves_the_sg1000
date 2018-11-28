@@ -39,11 +39,12 @@ const unsigned char * const spr_enems0 [] = {
 	ss_en_02, ss_en_03, 0, 0, ss_en_02, ss_en_03, 0, 0, // 2
 	ss_en_04, ss_en_05, 0, 0, ss_en_04, ss_en_05, 0, 0, // 3
 	ss_en_06, ss_en_07, 0, 0, ss_en_06, ss_en_07, 0, 0,	// 4
+	ss_en_08, ss_en_09, 0, 0, ss_en_08, ss_en_09, 0, 0, // alt 4
 
-	// Explosion (offset 32)
+	// Explosion (offset 40)
 	ss_it_00,
 
-	// Steady shooter (offset 33)
+	// Steady shooter (offset 41)
 	ss_ss_00, ss_ss_01, ss_ss_02, ss_ss_03
 };
 

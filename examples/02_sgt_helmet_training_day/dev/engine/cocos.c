@@ -12,6 +12,7 @@
 #include "../autodefs.h"
 
 #include "../ram/extern_globals.h"
+#include "../engine/general.h"
 #include "../engine/extern_precalcs.h"
 #include "../engine/extern_metasprites.h"
 

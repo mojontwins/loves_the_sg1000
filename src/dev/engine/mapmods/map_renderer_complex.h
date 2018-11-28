@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Map renderer complex:
@@ -71,7 +71,6 @@ void draw_scr (void) {
 
 		while (rdm < 192) {
 			rdt = *gp_gen ++;
-			gp_gen ++;
 			rda = rdt & 0x1f;
 			
 			rdct = rdt;
@@ -89,40 +88,6 @@ void draw_scr (void) {
 			rdt = *gp_gen ++;
 			rda = rdt & 0x0f;
 			
-			rdct = rdt;
-			while (rdct >= 16) {
-				add_tile (); rdct -= 16;
-			} add_tile ();
-		}
-	#endif
-
-	#ifdef MAP_FORMAT_RLE53_CHRROM
-		bankswitch (c_map_chr_rom_bank);
-		vram_adr (c_map [n_pant]);
-		rda = VRAM_READ; 	// Dummy read.
-		
-		// UNRLE into scr_buff
-		while (rdm < 192) {
-			rdt = VRAM_READ;
-			rda = rdt & 0x1f;
-			
-			rdct = rdt;
-			while (rdct >= 32) {
-				add_tile (); rdct -= 32;
-			} add_tile ();
-		}
-	#endif
-
-	#ifdef MAP_FORMAT_RLE44_CHRROM
-		bankswitch (c_map_chr_rom_bank);
-		vram_adr (c_map [n_pant]);
-		rdt = VRAM_READ; 	// Dummy read.
-		
-		// UNRLE into scr_buff
-		while (rdm < 192) {
-			rdt = VRAM_READ;
-			rda = rdt & 0x0f;
-
 			rdct = rdt;
 			while (rdct >= 16) {
 				add_tile (); rdct -= 16;

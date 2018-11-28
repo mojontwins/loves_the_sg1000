@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // hotspots.h
@@ -33,7 +33,7 @@ void hotspots_paint (void) {
 	if (hrt == HOTSPOT_TYPE_RESONATOR && res_on) rda = HOTSPOT_TYPE_RESONATOR_ON;
 #endif
 
-	SG_addMetaSprite1x1 (
+	ITEM_METASPRITE_FUNCTION (
 		hrx, hry + SPRITE_ADJUST, 
 		spr_hs [rda]
 	);

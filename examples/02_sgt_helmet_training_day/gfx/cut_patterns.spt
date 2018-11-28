@@ -63,10 +63,13 @@ reset metasprites
 spriteset 0, 0, 8, 1, 1, 1, 0, 0
 write metasprites ss_pl
 
-# Main enemies 16 * 4 patterns (8 two layer): 64
+# Main enemies 20 * 4 patterns (10 two layer): 80
 reset metasprites
 spriteset 0, 2, 8, 1, 1, 1, 0, 0
+spriteset 12, 4, 2, 1, 1, 1, 0, 0
 write metasprites ss_en
+
+reset metasprites
 
 # Main objects 10 * 4 patterns (2 one layer, 4 two layer): 40
 reset metasprites

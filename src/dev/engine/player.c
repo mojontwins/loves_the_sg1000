@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // player.c
@@ -111,7 +111,7 @@ void player_init (void) {
 
 void player_render (void) {
 	if (0 == pflickering || half_life) 
-		SG_addMetaSprite1x1 (
+		PLAYER_METASPRITE_FUNCTION (
 			prx - 4, pry + SPRITE_ADJUST, 
 			spr_player [psprid]
 		);
@@ -128,7 +128,7 @@ void player_kill (void) {
 	update_cycle ();
 
 	pkill = phit = 0;
-	PSGSFXPlay (SFX_PHIT, 2);
+	PSGSFXPlay (SFX_PHIT, 3);
 	
 	if (plife) -- plife; else game_over = 1;
 
@@ -145,7 +145,7 @@ void player_kill (void) {
 	#endif
 
 	#ifdef DIE_AND_RESPAWN
-		//music_pause (1);
+		music_pause (1);
 		delay (60);
 		
 		#ifdef DIE_AND_REINIT
@@ -156,7 +156,7 @@ void player_kill (void) {
 			player_to_pixels ();
 			n_pant = n_pant_safe;		
 			player_stop ();
-			//music_pause (0);
+			music_pause (0);
 		#endif
 
 		// May be necessary to find a proper cell later on

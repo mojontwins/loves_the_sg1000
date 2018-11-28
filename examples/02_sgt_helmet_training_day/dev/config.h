@@ -285,7 +285,7 @@
 
 //#define ENEMS_ENABLE_DYING_FRAME
 
-#define ENEMS_EXPLODING_CELL 			32
+#define ENEMS_EXPLODING_CELL 			40
 #define ENEMS_EXPLODING_CELLS_HIDES			// Define and the baddie will be substituted by the explosion
 
 #define ENEMS_OCCLUDING_CELL			33	// If you use pezons or saws you need a flame for occlusion
@@ -318,7 +318,8 @@
 
 #define ENABLE_PURSUERS					// If defined, type 7 enemies are active
 #define DEATH_COUNT_EXPRESSION			50+(rand8()&63)
-#define TYPE_7_FIXED_SPRITE 			4	// If defined, type 7 enemies are always #
+#define TYPE_7_FIXED_SPRITE 			(_en_x2?5:4)	// If defined, type 7 enemies are always #
+#define PURSUERS_MAY_FIRE				// If defined, attr = 1 make spawned pursuers shoot
 
 // Saws
 
@@ -379,7 +380,7 @@
 // Steady shooters
 
 #define ENABLE_STEADY_SHOOTERS
-#define STEADY_SHOOTERS_BASE_SPRID		33
+#define STEADY_SHOOTERS_BASE_SPRID		41
 //#define STEADY_SHOOTER_KILLABLE
 #define STEADY_SHOOTER_COUNT				// If Killable, add to body count as well
 #define STEADY_SHOOTERS_HARMLESS			// Don't kill on touch.
@@ -413,9 +414,9 @@
 //#define ENABLE_COCOS
 #define COCOS_MAX						4
 #define COCO_V							256
-//#define COCO_COLLIDES
+#define COCO_COLLIDES
 
-#define COCO_PATTERN					164
+#define COCO_PATTERN					180
 #define COCO_COLOUR						15
 #define COCO_FAIR_D						32
 
@@ -475,7 +476,7 @@
 	//#define INITIAL_AMMO 				0	// If defined, ammo = X when entering game.
 
 #define BULLET_COLOUR 					15
-#define BULLET_PATTERN					164	// To paint the bullet. Can be an expresion.
+#define BULLET_PATTERN					180	// To paint the bullet. Can be an expresion.
 
 // Scripting
 // ---------

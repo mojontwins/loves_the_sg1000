@@ -3,12 +3,20 @@
 
 // For a topmost two-lines status bar
 
+// Platform dependent global configuration
+
 #define TOP_ADJUST 				1		
 #define SPRITE_ADJUST 			-9
 
 #define MAP_CLEAR_LIST_ADDRESS	0x2c40	// To store map persistence in VRAM.
 										// Each screen takes 24 bytes. move it where
 										// It fits. Below 2c40 you may "see" the buffer
+
+// Use SG_addMetaSprite1x1 for 16x16 sprites (faster)
+// Use SG_addMetaSprite otherwise.
+#define PLAYER_METASPRITE_FUNCTION	SG_addMetaSprite1x1
+#define ENEMY_METASPRITE_FUNCTION 	SG_addMetaSprite1x1
+#define ITEM_METASPRITE_FUNCTION 	SG_addMetaSprite1x1
 
 // ============================================================================
 // I. General configuration
@@ -182,6 +190,7 @@
 
 //#define ENABLE_TILE_GET
 //#define PERSISTENT_TILE_GET
+#define PERSISTENT_TILE_GET_ADDR		(0x2000-24*MAP_SIZE)
 
 // Trampolines. Needs PLAYER_VY_TRAMPOLINE
 // beh == 66
@@ -234,7 +243,7 @@
 
 // No!
 
-#define ENABLE_NO 
+//#define ENABLE_NO 
 #define NO_METASPRITE					ss_it_06
 #define NO_OFFS_X						0
 #define NO_OFFS_Y						-20
@@ -322,6 +331,7 @@
 //#define ENABLE_PURSUERS				// If defined, type 7 enemies are active
 #define DEATH_COUNT_EXPRESSION			50+(rand8()&63)
 #define TYPE_7_FIXED_SPRITE 			4	// If defined, type 7 enemies are always #
+//#define PURSUERS_MAY_FIRE				// If defined, attr = 1 make spawned pursuers shoot
 
 // Saws
 

@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // enengine.c
@@ -512,7 +512,7 @@ void enems_move (void) {
 					} 
 				#else
 					rda = frame_counter & 0xf;
-					SG_addMetaSprite1x1 (
+					ENEMY_METASPRITE_FUNCTION (
 						_en_x + jitter [rda],
 						_en_y + jitter [15 - rda] + SPRITE_ADJUST, 
 						spr_enems [ENEMS_EXPLODING_CELL]
@@ -1008,7 +1008,7 @@ skipdo:
 		// Render enemy metasprite en_spr
 
 		if (en_spr != 0xff) {
-			SG_addMetaSprite1x1 (
+			ENEMY_METASPRITE_FUNCTION (
 				_en_x + en_spr_x_mod, _en_y + SPRITE_ADJUST, 
 				spr_enems [en_spr]
 			);

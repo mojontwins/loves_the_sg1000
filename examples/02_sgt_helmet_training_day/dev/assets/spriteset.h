@@ -18,6 +18,8 @@ extern const unsigned char ss_en_04 [];
 extern const unsigned char ss_en_05 [];
 extern const unsigned char ss_en_06 [];
 extern const unsigned char ss_en_07 [];
+extern const unsigned char ss_en_08 [];
+extern const unsigned char ss_en_09 [];
 
 extern const unsigned char ss_it_00 [];
 extern const unsigned char ss_it_01 [];
@@ -32,5 +34,5 @@ extern const unsigned char ss_ss_02 [];
 extern const unsigned char ss_ss_03 [];
 
 extern const unsigned char ssALL_patterns_c [];
-#define SSALL_PATTERNS_C_SIZE 1039
+#define SSALL_PATTERNS_C_SIZE 1042
 

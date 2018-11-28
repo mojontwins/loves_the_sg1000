@@ -1,11 +1,11 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Inner workings. Don't touch.
 
 #define CATACROCK_WAIT			_en_mx
 
-#if defined (ENABLE_MONOCOCOS) || (defined (ENABLE_COMPILED_ENEMS) && defined (COMPILED_ENEMS_SHOOT))
+#if defined (ENABLE_MONOCOCOS) || (defined (ENABLE_COMPILED_ENEMS) && defined (COMPILED_ENEMS_SHOOT)) || (defined (ENABLE_PURSUERS) && defined (PURSUERS_MAY_FIRE))
 #define ENABLE_COCOS
 #define COCOS_ENABLE_AIMED
 #endif

@@ -96,6 +96,10 @@ unsigned char   *updateList;
 unsigned char   *ulp;
 unsigned char   ulpMsb;
 
+#ifdef AUTOMUSIC
+	unsigned char music_on;
+#endif
+
 #ifndef NESTED_DI_EI_SUPPORT
 	// macro definitions (no nested DI/EI support)
 	#define SG_write_to_VDPRegister(VDPReg,value)	{ DISABLE_INTERRUPTS; VDPControlPort = (value); VDPControlPort = (VDPReg) | 0x80; ENABLE_INTERRUPTS; }
@@ -186,6 +190,10 @@ void SG_init (void) {
 	SG_copySpritestoSAT ();
 
 	// SMS_detect_VDP_type();
+
+	#ifdef AUTOMUSIC
+		music_on = 1;
+	#endif
 }
 
 void SG_setBackdropColor (unsigned char entry) {
@@ -298,12 +306,12 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 	}
 
 	void SG_addMetaSprite (unsigned char x, unsigned char y, const unsigned char *mt) {
-		while (0x80 != (*stp = *mt ++)) {
-			*stp += y; stp ++;
+		while (0x80 != (libgpit = *mt ++)) {
+			*stp ++ = y + libgpit;
 			*stp ++ = x + *mt++;
 			*stp ++ = *mt ++;
 			*stp ++ = *mt ++;
-			stp += 4 * AUTOCYCLE_PRIME; if (stp > SpriteTableEnd) stp -= 128;
+			nextSprite ();
 		}
 	}	
 
@@ -346,8 +354,8 @@ void SG_loadTileMapArea (unsigned char x, unsigned char y,	void *src, unsigned c
 	}
 
 	void SG_addMetaSprite (unsigned char x, unsigned char y, const unsigned char *mt) {
-		while (0x80 != (*stp = *mt ++)) {
-			*stp += y; stp ++;
+		while (0x80 != (libgpit = *mt ++)) {
+			*stp ++ = y + libgpit;
 			*stp ++ = x + *mt++;
 			*stp ++ = *mt ++;
 			*stp ++ = *mt ++;
@@ -461,7 +469,7 @@ void SG_isr (void) __interrupt {
 		#ifdef AUTOMUSIC
 			// Call music
 			PSGSFXFrame ();
-			PSGFrame ();
+			if (music_on) PSGFrame ();
 		#endif
 
 	}
@@ -479,3 +487,9 @@ unsigned char SMS_VDPType (void) {
   return VDPType;
 }
 */
+
+#ifdef AUTOMUSIC
+	void music_pause (unsigned char p) {
+		music_on = !p;
+	}
+#endif

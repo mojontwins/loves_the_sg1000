@@ -651,3 +651,61 @@ Voy apuntando lo que veow.
 
 Hecho, ahora quiero arreglar el glitch: al pausar al morir, uno de los enemigos aparece en otro sitio: su Y aparece en la mitad de la pantalla -> en 0x80!! Ya sé qué es. Al reimprimir al player, el 0x80 de marca de fin de metasprite se escribe en el Y del uno del os otros sprites - que suele ser un enemigo. Voy a corregirlo en la lib.
 
+20181127
+========
+
+Cheril tiene una fase más, y se me acumula la tarea de probar y probar. Además, me ronda por la cabeza un Somari metiendo todo lo que pueda en los 48K de Super Mario Bros con tonterías, pero todo depende de que me lleve bien con Tiled, que necesito hacer las fases mediante objetos.
+
+Pero ahora hay otra adición sencilla que además puedo portar al AGNES de NES principal: Que los malos de tipo 7 puedan disparar un coco. En principio vamos a hacer un coco dirigido sencillo. Ahora mismo rdm (el atributo) no se usa en los pursuers. Lo puedo usar para seleccionar un tipo de disparo, que por ahora será 0 (no) o 1 (dirigido). El que pueda o no disparar lo puedo almacenar, por ejemplo, en `_en_x2`.
+
+Habrá que activarlo con `PURSUERS_MAY_FIRE`, con lo que habrá que modificar `config.h` y ademàs `autodefs.h` para que la combinación de `ENABLE_PURSUERS` y esta directiva active los cocos.
+
+So:
+
+en `enems_load (void)`: 
+
+```c
+	#ifdef ENABLE_PURSUERS
+		case 7:
+			// Pursuers
+			_en_ct = DEATH_COUNT_EXPRESSION;	
+			#ifdef ENABLE_GENERATORS
+				en_generator_life [gpit] = GENERATOR_LIFE_GAUGE;
+				gen_was_hit [gpit] = 0;
+			#endif	
+			_en_s = ((TYPE_7_FIXED_SPRITE - 1) << 3);
+			_en_x2 = rdm;     // != 0 means "spawned enemy fires"
+			_en_y2 = rdd|0xf; // Frequency
+			break;
+	#endif		
+```
+
+Vamos a probar así. Attr podrá valer 0, 1, 3, 7 o F. Lo que haré será ponerle otra F detrás, de modo que pueda hacer un AND del valor a `rand8` para determinar si se dispara o no (cuando el resultado sea `== 1`). En este caso tendremos una pseudofrecuencia (you know, randoms are not very random) de 1 cada 16, 32, 64, 128 o 256. A ver qué tal sale. Si no, tweaks y documentar.
+
+en `enem_pursuers.h`, al final del caso 2 (pursuing):
+
+```c 
+#ifdef PURSUERS_MAY_FIRE
+	// Shoot
+	if (_en_x2) {
+		if ((rand8() & _en_y1) == 1) {
+			rdx = _en_x + 4;
+			rdy = _en_y + 4;
+			cocos_shoot_aimed ();
+		}
+	}
+#endif
+```
+
+Vamos a probar en la fase 3.
+
+~~
+
+Todo correcto. Pero creo que necesito una cosa muy util en el futuro. El nuevo sprite para el enemigo con pistola no es más que el sprite de Helmet mirando hacia abajo reaprovechado, en otro color. Necesito que mkts detecte esto y reaproveche el patrón. El gotcha aquí es que hay que buscar cuatro patrones iguales a los encontrados en el pool que estén seguidos en una posición múltiple de cuatro. Voy a darle una vuelta. 
+
+Para guiarnos, ahora mismo se reportan 200 patrones para sprites. Tras la mejora, deberían reportarse 16 menos, 184 (ya que estaríamos reaprovechando esos en los nuevos metasprites pero usando otros colores).
+
+Pero antes voy a pasar los cambios del tipo 7 a wip y a src.
+
+~~
+
