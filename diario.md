@@ -709,3 +709,12 @@ Pero antes voy a pasar los cambios del tipo 7 a wip y a src.
 
 ~~
 
+Tengo: `extractPatternFrom`, `patternToString (pattern ())`, `addPatternToPool (patternS)`, `copyArrayToMainBin (a())`, `findPatternInPoolAndAdd (patternS...)`.
+
+Necesito un sencillo `findPatternInPool`.
+
+~~
+
+Se exporta todo guay, pero sigue sin reaprovechar. HUM. 
+Hecho. No añadía los patrones a un pool de búsqueda (lógico: originalmente no había que buscar). Ok! Reaprovechados :)
+

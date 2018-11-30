@@ -790,7 +790,7 @@ Sub TMS9918DoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integ
 	'     CD => ACBD
 	' 
 
-	Dim As Integer x, y, x0, y0, x1, y1, ct, ctTmaps, xa, ya, i, xMeta, yMeta, xPat, yPat, c
+	Dim As Integer x, y, x0, y0, x1, y1, ct, ctTmaps, xa, ya, i, xMeta, yMeta, xPat, yPat, c, pti, found
 	Dim As Integer xOffs, yOffs
 	Dim As Integer xx, yy
 	Dim As uByte attr 	' will be ignored in this Sub
@@ -801,6 +801,7 @@ Sub TMS9918DoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integ
 	Dim As Integer colours (15), nColours
 	Dim As Integer swapped, curSpriteIndex
 	Dim As uByte pattern (7)
+	Dim As String patternsS (3)
 
 	curIndex = mainIndex
 
@@ -865,28 +866,51 @@ Sub TMS9918DoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integ
 
 						If debug Then Puts "        Colour " & i & "(" & colours (i) & ")"
 
-						' Write sprite data
-						' yOffset, xOffset, patternOffset, colour
-						metaSprites (metaSpritesIndex).sprites (curSpriteIndex).yOffset = yOffs
-						metaSprites (metaSpritesIndex).sprites (curSpriteIndex).xOffset = xOffs
-						metaSprites (metaSpritesIndex).sprites (curSpriteIndex).patternOffset = curSpritePattern
-						metaSprites (metaSpritesIndex).sprites (curSpriteIndex).colour = colours (i)
-
-						curSpriteIndex = curSpriteIndex + 1
-						curSpritePattern = curSpritePattern + 4
-						
-						' Extract four patterns.
+						'' New method: search for patterns and attemt to reuse them
+						' Extract four patterns
 						For xPat = 0 To 1
 							For yPat = 0 To 1
-
-								For yy = 0 To 7
+								For yy = 0 To 7									
 									pattern (yy) = TMS9918GetBitmapFrom (xa + xPat * 8, ya + yPat * 8 + yy, colours (i), img)
 								Next yy
-
-								copyFirstBytesOfArrayToMainBin pattern (), 8
-
+								patternsS (xPat * 2 + yPat) = patternToString (pattern ())
 							Next yPat
 						Next xPat
+
+						' Attempt to find in pool
+						found = 0
+
+						For pti = 0 To cPoolIndex - 1 Step 4
+							If cPool (pti) = patternsS (0) And _
+								cPool (pti + 1) = patternsS (1) And _
+								cPool (pti + 2) = patternsS (2) And _
+								cPool (pti + 3) = patternsS (3) Then
+								found = -1
+								metaSprites (metaSpritesIndex).sprites (curSpriteIndex).patternOffset = pti
+								metaSprites (metaSpritesIndex).sprites (curSpriteIndex).colour = colours (i)
+								Exit For
+							End If
+						Next pti
+
+						If Not found Then 
+							metaSprites (metaSpritesIndex).sprites (curSpriteIndex).patternOffset = curSpritePattern
+							metaSprites (metaSpritesIndex).sprites (curSpriteIndex).colour = colours (i)
+							curSpritePattern = curSpritePattern + 4
+							For xPat = 0 To 1
+								For yPat = 0 To 1
+									For yy = 0 To 7
+										pattern (yy) = TMS9918GetBitmapFrom (xa + xPat * 8, ya + yPat * 8 + yy, colours (i), img)
+									Next yy
+									copyFirstBytesOfArrayToMainBin pattern (), 8
+									addPatternToPool (patternToString (pattern ()))
+								Next yPat
+							Next xPat
+						End If
+
+						metaSprites (metaSpritesIndex).sprites (curSpriteIndex).yOffset = yOffs
+						metaSprites (metaSpritesIndex).sprites (curSpriteIndex).xOffset = xOffs
+						
+						curSpriteIndex = curSpriteIndex + 1
 					Next i
 
 					xa = xa + 16
