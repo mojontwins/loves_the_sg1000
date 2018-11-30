@@ -416,7 +416,7 @@
 #define COCO_V							256
 #define COCO_COLLIDES
 
-#define COCO_PATTERN					180
+#define COCO_PATTERN					164
 #define COCO_COLOUR						15
 #define COCO_FAIR_D						32
 
@@ -476,7 +476,7 @@
 	//#define INITIAL_AMMO 				0	// If defined, ammo = X when entering game.
 
 #define BULLET_COLOUR 					15
-#define BULLET_PATTERN					180	// To paint the bullet. Can be an expresion.
+#define BULLET_PATTERN					164	// To paint the bullet. Can be an expresion.
 
 // Scripting
 // ---------

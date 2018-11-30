@@ -1729,7 +1729,7 @@ Sub zxDoScripted (scriptFile As String)
 							parseCoordinatesString right (tokens (4), len (tokens (4)) - 2), coords ()
 						End If
 						idxFrom = coords (0) * patternWriteSize
-						If coords (1) = 32767 Then 
+						If coords (1) = 32767 Or coords (1) = -1 Then 
 							idxTo = mainIndex - 1
 						Else
 							idxTo = coords (1) * patternWriteSize
