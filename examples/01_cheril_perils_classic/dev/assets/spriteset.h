@@ -27,7 +27,7 @@ extern const unsigned char ss_it_05 [];
 extern const unsigned char ss_it_06 [];
 
 extern const unsigned char ss_fixed_patterns_c [];
-#define SS_FIXED_PATTERNS_C_SIZE 836
+#define SS_FIXED_PATTERNS_C_SIZE 847
 
 extern const unsigned char ss_en_0_00 [];
 extern const unsigned char ss_en_0_01 [];

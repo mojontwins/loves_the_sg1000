@@ -568,7 +568,7 @@
 #define PLAYER_VY_FALLING_MAX	256		// Max. velocity when falling
 #define PLAYER_VY_FALLING_MIN	32		// Use for animating if you need
 #define PLAYER_VY_SINKING		2
-#define PLAYER_G				10		// Gravity
+#define PLAYER_G				12		// Gravity
 
 #define PLAYER_VY_JUMP_INITIAL	64
 #define PLAYER_VY_JUMP_INITIAL_TRAMPOLINE 128
