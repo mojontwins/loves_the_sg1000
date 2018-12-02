@@ -663,6 +663,7 @@
 	#define MUSIC_INGAME1 			m_p_stagea_psg
 	#define MUSIC_INGAME2 			m_p_stageb_psg
 	#define MUSIC_INGAME3 			m_p_stagec_psg
+	#define MUSIC_INGAME4 			m_p_staged_psg
 	#define MUSIC_TITLE				m_p_title_psg
 	#define MUSIC_GOVER 			m_p_gover_psg
 	#define MUSIC_ENDING 			m_p_ending_psg
@@ -672,6 +673,7 @@
 	#define MUSIC_INGAME1 			m_n_stagea_psg
 	#define MUSIC_INGAME2 			m_n_stageb_psg
 	#define MUSIC_INGAME3 			m_n_stagec_psg
+	#define MUSIC_INGAME4 			m_n_staged_psg
 	#define MUSIC_TITLE				m_n_title_psg
 	#define MUSIC_GOVER 			m_n_gover_psg
 	#define MUSIC_ENDING 			m_n_ending_psg
