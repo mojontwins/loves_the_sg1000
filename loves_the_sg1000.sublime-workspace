@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"cP",
+				"cPoolIndex"
+			],
+			[
 				"msc",
 				"msc_sfx"
 			],
@@ -510,38 +514,17 @@
 			[
 				"UNS",
 				"UNSAFE_SG_copySpritestoSAT"
-			],
-			[
-				"MS_",
-				"MS_TYPE_EMPTY"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "wip/cheman/dev/build_assets.bat",
-			"settings":
-			{
-				"buffer_size": 736,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "diario.md",
 			"settings":
 			{
-				"buffer_size": 27766,
+				"buffer_size": 28233,
 				"encoding": "Western (Windows 1252)",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "wip/cheman/dev/game.c",
-			"settings":
-			{
-				"buffer_size": 3501,
-				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -622,15 +605,20 @@
 	},
 	"expanded_folders":
 	[
-		"/D/git/loves_the_sg1000",
-		"/D/git/loves_the_sg1000/ext_utils",
-		"/D/git/loves_the_sg1000/wip",
-		"/D/git/loves_the_sg1000/wip/cheman",
-		"/D/git/loves_the_sg1000/wip/cheman/dev",
-		"/D/git/loves_the_sg1000/wip/cheman/gfx"
+		"/D/git/loves_the_sg1000"
 	],
 	"file_history":
 	[
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/Makefile",
+		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/Makefile",
+		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/murcia.c",
+		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/config.h",
+		"/D/git/loves_the_sg1000/src/utils/mkts_om.bas",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/build_assets.bat",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/assets/tileset.c",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/config.h",
+		"/D/git/loves_the_sg1000/diario.md",
+		"/D/git/loves_the_sg1000/wip/cheman/dev/game.c",
 		"/D/svn-correo/CorreoCorporativo/ConsignaThunderbird/thunderbird-filelink-consigna@juntadeandalucia.es/chrome.manifest",
 		"/D/Google Drive/Maritrini/dev/cpc/Nanako Descends to Hell/trash/test_n.c",
 		"/D/Google Drive/Maritrini/dev/cpc/Nanako Descends to Hell/dev/map.h",
@@ -638,21 +626,17 @@
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/assets/metasprites.h",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/engine/enengine.h",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/engine/enengine.c",
-		"/D/git/loves_the_sg1000/diario.md",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/engine/cocos.c",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/gfx/cut_patterns.spt",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/assets/spriteset.h",
-		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/config.h",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/assets/enems2.c",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/autodefs.h",
 		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/my/map_renderer_customization.h",
-		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/config.h",
 		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/assets/tileset.h",
 		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/my/pres.h",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/engine/enemmods/enem_monococo.h",
 		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/build_assets.bat",
 		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/game.c",
-		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/Makefile",
 		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/assets/behs.h",
 		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/assets/levelset.h",
 		"/D/git/loves_the_sg1000/wip/cheman/dev/lib/SGlib.c",
@@ -663,7 +647,6 @@
 		"/D/git/loves_the_sg1000/wip/cheman/dev/engine/general.c",
 		"/D/git/loves_the_sg1000/wip/cheman/dev/engine/player.c",
 		"/D/git/loves_the_sg1000/wip/cheman/dev/assets/msc_sfx.c",
-		"/D/git/loves_the_sg1000/wip/cheman/dev/game.c",
 		"/D/git/loves_the_sg1000/src/utils/mscmk1.bas",
 		"/D/git/loves_the_sg1000/wip/cheman/dev/ram/globals.h",
 		"/D/git/loves_the_sg1000/wip/cheman/dev/ram/extern_globals.h",
@@ -753,12 +736,7 @@
 		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/engine/player.h",
 		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/game.c",
 		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/Makefile",
-		"/D/Google Drive/Maritrini/dev/SMS/yun/dev/yun.c",
-		"/D/git/newspectrum/ch_N_otro/dev/util/random.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/utils/rand.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/rel/rand.asm",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/peep-rules.txt",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/make.bat"
+		"/D/Google Drive/Maritrini/dev/SMS/yun/dev/yun.c"
 	],
 	"find":
 	{
@@ -788,6 +766,15 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"clean",
+			"MK2",
+			"168",
+			"WRITEPARTIALMAINBINARY",
+			"WRITE",
+			"COPYBINARYfILEtEXT",
+			"COMPRESSED",
+			"487",
+			"curspritepattern",
 			"COCO_",
 			"explosio",
 			"distance",
@@ -906,11 +893,7 @@
 			"cur_y",
 			"|",
 			"=(\\S)",
-			"(\\S)\\(",
-			"(\\S)\\[",
-			" {",
-			"(\\S)\\[",
-			"init"
+			"(\\S)\\("
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -960,78 +943,37 @@
 	"groups":
 	[
 		{
+			"sheets":
+			[
+			]
+		},
+		{
 			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "wip/cheman/dev/build_assets.bat",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 736,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"WordCount":
-							{
-								"changes": 0,
-								"count": 32,
-								"modified": false,
-								"selection": false,
-								"status": -1,
-								"syntax": "plain text"
-							},
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
-						},
-						"translation.x": 158.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 1,
-			"sheets":
-			[
-				{
-					"buffer": 1,
 					"file": "diario.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 27766,
+						"buffer_size": 28233,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								27766,
-								27766
+								28233,
+								28233
 							]
 						],
 						"settings":
 						{
 							"WordCount":
 							{
-								"changes": 753,
-								"count": 4355,
+								"changes": 87,
+								"count": 4411,
 								"modified": false,
 								"selection": false,
 								"status": -1,
@@ -1044,51 +986,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 11542.0,
+						"translation.y": 11854.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "wip/cheman/dev/game.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3501,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								456,
-								456
-							]
-						],
-						"settings":
-						{
-							"WordCount":
-							{
-								"changes": 1,
-								"count": 245,
-								"modified": false,
-								"selection": false,
-								"status": -1,
-								"syntax": "plain text"
-							},
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/C Improved/C Improved.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1178,7 +1079,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},

@@ -718,3 +718,7 @@ Necesito un sencillo `findPatternInPool`.
 Se exporta todo guay, pero sigue sin reaprovechar. HUM. 
 Hecho. No añadía los patrones a un pool de búsqueda (lógico: originalmente no había que buscar). Ok! Reaprovechados :)
 
+Y ahora khe.
+
+Ahora me he quedado a falta de músicas. Puedo ir dando carpetóin.
+
