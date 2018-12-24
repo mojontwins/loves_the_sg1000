@@ -4,16 +4,16 @@ extern const unsigned char	m_p_gover_psg [];
 #define						M_P_GOVER_PSG_SIZE 0x0103
 
 extern const unsigned char	m_p_stagea_psg [];
-#define						M_P_STAGEA_PSG_SIZE 0x08F0
+#define						M_P_STAGEA_PSG_SIZE 0x1166
 
 extern const unsigned char	m_p_stageb_psg [];
 #define						M_P_STAGEB_PSG_SIZE 0x1119
 
 extern const unsigned char	m_p_stagec_psg [];
-#define						M_P_STAGEC_PSG_SIZE 0x0711
+#define						M_P_STAGEC_PSG_SIZE 0x04FE
 
 extern const unsigned char	m_p_title_psg [];
-#define						M_P_TITLE_PSG_SIZE 0x09D8
+#define						M_P_TITLE_PSG_SIZE 0x0647
 
 extern const unsigned char	s_00_start2_psg [];
 #define						S_00_START2_PSG_SIZE 0x0013

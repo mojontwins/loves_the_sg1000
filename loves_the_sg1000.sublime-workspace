@@ -519,6 +519,24 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "examples/02_sgt_helmet_training_day/dev/game.c",
+			"settings":
+			{
+				"buffer_size": 3672,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "examples/04_che_man/dev/engine/player.c",
+			"settings":
+			{
+				"buffer_size": 20783,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -597,14 +615,16 @@
 	"expanded_folders":
 	[
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples"
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/02_sgt_helmet_training_day",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev"
 	],
 	"file_history":
 	[
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/04_che_man/dev/game.c",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/game.c",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/game.c",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/config.h",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/04_che_man/dev/game.c",
+		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/game.c",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/game.c",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/assets/levelset.h",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/config.h",
@@ -732,7 +752,7 @@
 	],
 	"find":
 	{
-		"height": 27.0
+		"height": 40.0
 	},
 	"find_in_files":
 	{
@@ -874,8 +894,67 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "examples/02_sgt_helmet_training_day/dev/game.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3672,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								162,
+								162
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C Improved/C Improved.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "examples/04_che_man/dev/engine/player.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20783,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3131,
+								3131
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C Improved/C Improved.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1694.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		},
 		{
