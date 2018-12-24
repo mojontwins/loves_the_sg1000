@@ -150,7 +150,7 @@ void main(void) {
 	while (1) {	
 		title ();
 		
-		level = 3;
+		level = 0;
 		plife = PLAYER_LIFE;
 
 		// Game loop

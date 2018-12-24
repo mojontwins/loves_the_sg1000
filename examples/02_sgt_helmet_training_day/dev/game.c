@@ -163,7 +163,7 @@ void main(void) {
 			} else {
 				//level ++;
 				//if (level == MAX_LEVELS) {
-					pres (scr_the_end, 0);
+					pres (scr_the_end, MUSIC_GOVER);
 					break;
 				//}
 			}

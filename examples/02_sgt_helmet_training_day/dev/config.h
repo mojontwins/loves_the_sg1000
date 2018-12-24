@@ -659,9 +659,23 @@
 
 // Music
 
-#define MUSIC_INGAME1 			m_yun_psg
-#define MUSIC_TITLE				m_title_psg
-#define MUSIC_GOVER 			m_gover_psg
+#ifdef PAL 
+	#define MUSIC_INGAME1 			m_p_stagea_psg
+	#define MUSIC_INGAME2 			m_p_stageb_psg
+	#define MUSIC_INGAME3 			m_p_stagec_psg
+	#define MUSIC_TITLE				m_p_title_psg
+	#define MUSIC_GOVER 			m_p_gover_psg
+	//#define MUSIC_ENDING 			m_p_ending_psg
+	//#define MUSIC_SCLEAR 			m_p_sclear_psg
+#else
+	#define MUSIC_INGAME1 			m_n_stagea_psg
+	#define MUSIC_INGAME2 			m_n_stageb_psg
+	#define MUSIC_INGAME3 			m_n_stagec_psg
+	#define MUSIC_TITLE				m_n_title_psg
+	#define MUSIC_GOVER 			m_n_gover_psg
+	//#define MUSIC_ENDING 			m_n_ending_psg
+	//#define MUSIC_SCLEAR 			m_n_sclear_psg
+#endif
 
 // SFX
 

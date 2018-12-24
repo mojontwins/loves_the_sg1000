@@ -663,7 +663,7 @@
 	#define MUSIC_INGAME1 			m_p_stagea_psg
 	#define MUSIC_INGAME2 			m_p_stageb_psg
 	#define MUSIC_INGAME3 			m_p_stagec_psg
-	#define MUSIC_INGAME4 			m_p_staged_psg
+	#define MUSIC_INGAME4 			m_p_stagea_psg
 	#define MUSIC_TITLE				m_p_title_psg
 	#define MUSIC_GOVER 			m_p_gover_psg
 	#define MUSIC_ENDING 			m_p_ending_psg
@@ -688,7 +688,7 @@
 #define SFX_OBJECT				s_02_object2_psg
 #define SFX_USE					s_03_use2_psg
 #define SFX_TRAMPOLINE			s_04_trampoline2_psg
-#define SFX_PHIT				s_05_phit3_psg
+#define SFX_PHIT				s_17_breakb3_psg
 #define SFX_DUMMY1				s_06_dummy13_psg
 #define SFX_ENHIT 				s_05_phit3_psg
 #define SFX_DUMMY2				s_07_dummy22_psg

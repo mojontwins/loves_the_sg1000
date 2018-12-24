@@ -1,7 +1,7 @@
-// NTSC version
+// PAL version
 
-extern const unsigned char	m_n_stagea_psg [];
-#define						M_N_STAGEA_PSG_SIZE 0x1546
+extern const unsigned char	m_p_stagea_psg [];
+#define						M_P_STAGEA_PSG_SIZE 0x15A3
 
 extern const unsigned char	s_00_start2_psg [];
 #define						S_00_START2_PSG_SIZE 0x0013

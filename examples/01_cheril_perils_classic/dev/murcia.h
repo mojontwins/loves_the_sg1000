@@ -19,10 +19,10 @@ extern const unsigned char	m_n_stageb_psg [];
 #define						M_N_STAGEB_PSG_SIZE 0x0B18
 
 extern const unsigned char	m_n_stagec_psg [];
-#define						M_N_STAGEC_PSG_SIZE 0x092C
+#define						M_N_STAGEC_PSG_SIZE 0x0DFC
 
 extern const unsigned char	m_n_staged_psg [];
-#define						M_N_STAGED_PSG_SIZE 0x0571
+#define						M_N_STAGED_PSG_SIZE 0x0002
 
 extern const unsigned char	m_n_title_psg [];
 #define						M_N_TITLE_PSG_SIZE 0x0C6D
