@@ -158,6 +158,7 @@ void player_kill (void) {
 			player_stop ();
 			music_pause (0);
 		#endif
+		SG_resetPauseRequest ();
 
 		// May be necessary to find a proper cell later on
 		#if defined (ENABLE_BREAKABLE)

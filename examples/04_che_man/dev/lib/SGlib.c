@@ -490,6 +490,7 @@ unsigned char SMS_VDPType (void) {
 
 #ifdef AUTOMUSIC
 	void music_pause (unsigned char p) {
+		if (p) PSGSilence ();
 		music_on = !p;
 	}
 #endif

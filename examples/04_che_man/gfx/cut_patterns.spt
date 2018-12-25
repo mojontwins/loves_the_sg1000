@@ -17,6 +17,11 @@ open hud.png
 nametablerle
 write nametablerle frame_rle
 
+# Language selection, uses chars from the already available 72.
+open language.png
+nametablerle
+write nametablerle language_rle
+
 # write 72 patterns (64 + 8)
 write patterns tsFONT_patterns_c tsFONT_colours_c packed
 
@@ -89,9 +94,9 @@ reset metasprites
 spriteset 12, 4, 1, 1, 1, 1, 0, 0
 write metasprites ss_plat
 
-# Main objects 2+1+2+2+1+1 = 9 sprites = 36 patterns
+# Main objects 2+1+2+2+1+1+1 = 10 sprites = 40 patterns
 reset metasprites
-spriteset 0, 8, 6, 1, 1, 1, 0, 0
+spriteset 0, 8, 7, 1, 1, 1, 0, 0
 write metasprites ss_it
 
 stats

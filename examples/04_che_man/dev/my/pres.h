@@ -84,13 +84,18 @@ void scr_game_over (void) {
 void scr_the_end (void) {
 	unpack_bg_patterns (tsE_patterns_c, tsE_colours_c, 72*8, 7);
 	gp_gen = ending_rle; unrle ();
-	_x = 4; _y = 13; pr_str ("'CONGRATS, CHERIL'- SAID%%THE MAJOR -'YOU HAVE WON%%LA COPA DEL MEAO!', AND%%THEN CHERIL RETURNED TO%%THE FOREST . . .");
+	_x =3; _y = 13; switch (lang_offs) {
+		case 0:
+			pr_str ("PUTOS BATUCADAS, PENSE QUE%%NO LLEGABA AL CONCIERTO DE%%LOS MAS GRANDES, CAGUEN...%%A VER SI ESTOS SE PORTAN!!");
+			break;
+		case 4:
+			pr_str ("BLOODY BATUCADAS, THEY%%ALMOST MADE ME LATE FOR%%THE GREATEST BAND ON EARTH%%I HOPE THEY ROCK DA PLACE!");
+			break;
+		case 8:
+			pr_str ("KACK BATUCADAS, ICH DACHTE,%%ICH KAEM NICHT ZUM KONZERT%%DER ALLERGROESSTEN, YEAH!!%%MAL SEHEN OB SIE ROCKEN!");
+			break;
+	}
 }
-
-const unsigned char level0name [] = "  THE CITY";
-const unsigned char level1name [] = "THE FACTORY";
-const unsigned char level2name [] = " THE FOREST";
-const unsigned char *const levelnames [] = { level0name, level1name, level2name };
 
 void credits (void) {
 	cls ();
@@ -99,7 +104,7 @@ void credits (void) {
 
 	rds16 = 0; rdy = 240;
 	_x = 0; _y = 18; 
-	pr_str ("     CHERIL PERIL CLASSIC%%         ORIGINAL GAME%     @ 2011 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2018 THE MOJON TWINS");
+	pr_str ("     CHEMAN PUTAS BATUCADAS%%         ORIGINAL GAME%     @ 2011 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2018 THE MOJON TWINS");
 	
 	SG_displayOn ();
 	
@@ -111,4 +116,28 @@ void credits (void) {
 	};
 	
 	SG_displayOff ();
+}
+
+void language_select (void) {
+	gp_gen = language_rle; unrle ();
+	lang_offs = 0;
+
+	bat_in ();
+
+	while (1) {
+		update_cycle ();
+		SG_addMetaSprite1x1 (80, 9*8 + (lang_offs << 2), ss_it_06);
+		pad_read ();
+
+		if (pad_this_frame & PAD_UP) {
+			if (lang_offs) lang_offs -= 4; else lang_offs = 8;
+		}
+		if (pad_this_frame & (PAD_DOWN|PAD_SELECT)) {
+			if (lang_offs < 8) lang_offs += 4; else lang_offs = 0;
+		}
+
+		if (pad_this_frame & (PAD_A|PAD_B|PAD_START)) break;
+	}
+
+	bat_out ();	
 }

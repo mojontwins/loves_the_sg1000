@@ -4,6 +4,9 @@
 extern const unsigned char frame_rle [];
 #define FRAME_RLE_SIZE 84
 
+extern const unsigned char language_rle [];
+#define LANGUAGE_RLE_SIZE 48
+
 extern const unsigned char tsFONT_patterns_c [];
 #define TSFONT_PATTERNS_C_SIZE 349
 

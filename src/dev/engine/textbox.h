@@ -74,6 +74,8 @@ void textbox_do (void) {
 
 	rdm = 0; textbox_frame ();
 	clear_update_list ();
+
+	SG_resetPauseRequest ();
 }
 
 #ifdef TEXT_BOX_DIALOGUES

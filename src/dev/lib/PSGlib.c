@@ -61,17 +61,21 @@ unsigned char PSGSFXLoopFlag;              // the SFX should loop or not (flag)
 unsigned char PSGSFXSubstringLen;          // lenght of the substring we are playing
 void *PSGSFXSubstringRetAddr;              // return to this address when substring is over
 
-void PSGStop (void) {
-/* *********************************************************************
-  stops the music (leaving the SFX on, if it's playing)
-*/
-  if (PSGMusicStatus) {
-    PSGPort=PSGLatch|PSGChannel0|PSGVolumeData|0x0F;   // latch channel 0, volume=0xF (silent)
+void PSGSilence (void) {
+  PSGPort=PSGLatch|PSGChannel0|PSGVolumeData|0x0F;   // latch channel 0, volume=0xF (silent)
     PSGPort=PSGLatch|PSGChannel1|PSGVolumeData|0x0F;   // latch channel 1, volume=0xF (silent)
     if (!(PSGChannel2SFX))
       PSGPort=PSGLatch|PSGChannel2|PSGVolumeData|0x0F;   // latch channel 2, volume=0xF (silent)
     if (!(PSGChannel3SFX))
       PSGPort=PSGLatch|PSGChannel3|PSGVolumeData|0x0F;   // latch channel 3, volume=0xF (silent)
+}
+
+void PSGStop (void) {
+/* *********************************************************************
+  stops the music (leaving the SFX on, if it's playing)
+*/
+  if (PSGMusicStatus) {
+   PSGSilence (); 
     PSGMusicStatus=PSG_STOPPED;
   }
 }

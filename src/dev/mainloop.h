@@ -16,7 +16,7 @@ void game_init (void) {
 
 	// Load patterns
 	#include "my/level_pattern_unpacker.h"
-	
+
 	cls ();
 
 	draw_game_frame ();
@@ -136,9 +136,9 @@ void game_init (void) {
 
 void prepare_scr (void) {
 	if (!ft) {
-	SG_displayOff ();
+		SG_displayOff ();
 
-	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
+		#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 			// Update tile_got persistence
 			// Point to VRAM @ PERSISTENT_TILE_GET_ADDR + on_pant * 24
 			rda = on_pant << 3;
@@ -153,7 +153,7 @@ void prepare_scr (void) {
 			for (gpit = 0; gpit < 24; gpit ++) VDPDataPort = tile_got [gpit];
 
 			ENABLE_INTERRUPTS;		
-	#endif
+		#endif
 	}
 
 	ft = 0;

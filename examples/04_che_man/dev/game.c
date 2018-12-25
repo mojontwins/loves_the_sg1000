@@ -5,7 +5,7 @@
 // 1.- build_assets.bat pal
 // 2.- make clean
 // 3.- uncoment:
-//#define PAL
+#define PAL
 // 4.- compile.bat
 
 /*
@@ -135,13 +135,10 @@ void main(void) {
 		ntsc = 1;
 	#endif
 
-	// Unpack font
 	unpack_bg_patterns (tsFONT_patterns_c, tsFONT_colours_c, 0, 7);
-
 	credits ();
-
-	// Unpack everything else	
 	aPLib_depack_VRAM (SGT_BASE, ssALL_patterns_c);
+	language_select ();
 	
 	while (1) {	
 		title ();
