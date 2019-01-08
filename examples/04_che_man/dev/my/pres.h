@@ -132,11 +132,11 @@ void language_select (void) {
 		if (pad_this_frame & PAD_UP) {
 			if (lang_offs) lang_offs -= 4; else lang_offs = 8;
 		}
-		if (pad_this_frame & (PAD_DOWN|PAD_SELECT)) {
+		if (pad_this_frame & PAD_DOWN) {
 			if (lang_offs < 8) lang_offs += 4; else lang_offs = 0;
 		}
 
-		if (pad_this_frame & (PAD_A|PAD_B|PAD_START)) break;
+		if (pad_this_frame & (PAD_1|PAD_2)) break;
 	}
 
 	bat_out ();	
