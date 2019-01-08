@@ -5,7 +5,7 @@
 // 1.- build_assets.bat pal
 // 2.- make clean
 // 3.- uncoment:
-//#define PAL
+// #define PAL
 // 4.- compile.bat
 
 /*

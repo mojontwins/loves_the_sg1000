@@ -14,5 +14,5 @@ extern const unsigned char hotspots_0 [];
 #define MAX_HOTSPOTS_TYPE_0_0	6
 #define MAX_HOTSPOTS_TYPE_1_0	0
 #define MAX_HOTSPOTS_TYPE_2_0	2
-#define MAX_HOTSPOTS_TYPE_3_0	5
-#define MAX_HOTSPOTS_TYPE_4_0	11
+#define MAX_HOTSPOTS_TYPE_3_0	4
+#define MAX_HOTSPOTS_TYPE_4_0	12

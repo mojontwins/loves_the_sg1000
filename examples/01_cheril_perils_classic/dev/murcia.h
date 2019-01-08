@@ -1,31 +1,31 @@
-// NTSC version
+// PAL version
 
-extern const unsigned char	m_n_ending_psg [];
-#define						M_N_ENDING_PSG_SIZE 0x0309
+extern const unsigned char	m_p_ending_psg [];
+#define						M_P_ENDING_PSG_SIZE 0x02B9
 
-extern const unsigned char	m_n_gover_psg [];
-#define						M_N_GOVER_PSG_SIZE 0x01E1
+extern const unsigned char	m_p_gover_psg [];
+#define						M_P_GOVER_PSG_SIZE 0x01BA
 
-extern const unsigned char	m_n_jingle_psg [];
-#define						M_N_JINGLE_PSG_SIZE 0x014D
+extern const unsigned char	m_p_jingle_psg [];
+#define						M_P_JINGLE_PSG_SIZE 0x012D
 
-extern const unsigned char	m_n_sclear_psg [];
-#define						M_N_SCLEAR_PSG_SIZE 0x0160
+extern const unsigned char	m_p_sclear_psg [];
+#define						M_P_SCLEAR_PSG_SIZE 0x0141
 
-extern const unsigned char	m_n_stagea_psg [];
-#define						M_N_STAGEA_PSG_SIZE 0x0984
+extern const unsigned char	m_p_stagea_psg [];
+#define						M_P_STAGEA_PSG_SIZE 0x086D
 
-extern const unsigned char	m_n_stageb_psg [];
-#define						M_N_STAGEB_PSG_SIZE 0x0B18
+extern const unsigned char	m_p_stageb_psg [];
+#define						M_P_STAGEB_PSG_SIZE 0x091C
 
-extern const unsigned char	m_n_stagec_psg [];
-#define						M_N_STAGEC_PSG_SIZE 0x0DFC
+extern const unsigned char	m_p_stagec_psg [];
+#define						M_P_STAGEC_PSG_SIZE 0x0BE2
 
-extern const unsigned char	m_n_staged_psg [];
-#define						M_N_STAGED_PSG_SIZE 0x0002
+extern const unsigned char	m_p_staged_psg [];
+#define						M_P_STAGED_PSG_SIZE 0x04A4
 
-extern const unsigned char	m_n_title_psg [];
-#define						M_N_TITLE_PSG_SIZE 0x0C6D
+extern const unsigned char	m_p_title_psg [];
+#define						M_P_TITLE_PSG_SIZE 0x0AAB
 
 extern const unsigned char	s_00_start2_psg [];
 #define						S_00_START2_PSG_SIZE 0x0013

@@ -722,3 +722,12 @@ Y ahora khe.
 
 Ahora me he quedado a falta de músicas. Puedo ir dando carpetóin.
 
+20190108
+========
+
+Cosas que arreglar:
+
+[X] Salto modo MK1 responde mal en SG
+[ ] Perils fase 1, resonador muy difícil en la parte superior derecha del mapa.
+[ ] Perils fase 1, imposible subir a la izquierda de la caverna en un punto -> revisar también en NES.
+

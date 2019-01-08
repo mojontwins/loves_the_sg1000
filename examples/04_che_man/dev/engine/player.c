@@ -567,32 +567,35 @@ void player_move (void) {
 				}
 
 			#else
-				
-				if (
-					a_button 
-					&& !pj
-					&& (
-						pgotten || ppossee || hitv
-						#ifdef ENABLE_LADDERS
-							|| ponladder
-						#endif
-					)
-				) {
-					jump_start ();
-					
-					#ifdef DIE_AND_RESPAWN
-						if (!(pgotten || hitv || pnotsafe)) {
-							player_register_safe_spot ();
-						}
-					#endif	
+				if (pad0 & PAD_A) {
+					if (
+						!pjb  
+						&& !pj
+						&& (
+							pgotten || ppossee || hitv
+							#ifdef ENABLE_LADDERS
+								|| ponladder
+							#endif
+						)
+					) {
+						jump_start ();
+						
+						#ifdef DIE_AND_RESPAWN
+							if (!(pgotten || hitv || pnotsafe)) {
+								player_register_safe_spot ();
+							}
+						#endif	
 
-					#ifdef PLAYER_SPINS
-						#ifdef ENABLE_TRAMPOLINES
-							if (!ptrampoline)
+						#ifdef PLAYER_SPINS
+							#ifdef ENABLE_TRAMPOLINES
+								if (!ptrampoline)
+							#endif
+							pspin = 1;
 						#endif
-						pspin = 1;
-					#endif
-				}
+					}
+				
+					pjb = 1;
+				} else pjb = 0;
 				
 				#ifdef ENABLE_TRAMPOLINES
 				if (pj && ptrampoline) {
