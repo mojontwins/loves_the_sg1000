@@ -1,0 +1,69 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+    _IOPortH                                                    =  00DD 
+    _IOPortL                                                    =  00DC 
+    _PSGSFXPlay                                                    **** GX
+    _SG_copySpritestoSAT                                           **** GX
+    _SG_doUpdateList                                               **** GX
+    _SG_finalizeSprites                                            **** GX
+    _SG_getKeysStatus                                              **** GX
+    _SG_initSprites                                                **** GX
+    _SG_waitForVBlank                                              **** GX
+    _VDPControlPort                                             =  00BF 
+    _VDPDataPort                                                =  00BE 
+    _VDPHCounterPort                                            =  007F 
+    _VDPStatusPort                                              =  00BF 
+    _VDPVCounterPort                                            =  007E 
+    __en_x                                                         **** GX
+    __en_y                                                         **** GX
+  0 _add_sign                                                      0156 GR
+    _at1                                                           **** GX
+    _at2                                                           **** GX
+    _c_behs                                                        **** GX
+    _clear_update_list                                             **** GX
+  0 _cm_two_points                                                 0000 GR
+  0 _collide                                                       00E2 GR
+  0 _collide_in                                                    008B GR
+    _cx1                                                           **** GX
+    _cx2                                                           **** GX
+    _cy1                                                           **** GX
+    _cy2                                                           **** GX
+  0 _do_update_list_and_wait                                       01E6 GR
+  0 _jump_start                                                    01AB GR
+    _map_buff                                                      **** GX
+    _pad0                                                          **** GX
+  0 _pad_read                                                      0186 GR
+    _pad_this_frame                                                **** GX
+    _pctj                                                          **** GX
+    _pj                                                            **** GX
+    _prx                                                           **** GX
+    _pry                                                           **** GX
+    _pvy                                                           **** GX
+    _s_08_jump2_psg                                                **** GX
+  0 _update_cycle                                                  01C9 GR
+    _update_index                                                  **** GX
+    _update_list                                                   **** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  1F7   flags    0
+   1 _DATA                                      size    0   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+

@@ -1,0 +1,51 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  0 _m_n_gover_psg                                                 0000 GR
+  0 _m_n_stagea_psg                                                0109 GR
+  0 _m_n_stageb_psg                                                1480 GR
+  0 _m_n_stagec_psg                                                27A2 GR
+  0 _m_n_title_psg                                                 2D85 GR
+  0 _s_00_start2_psg                                               345C GR
+  0 _s_01_tile3_psg                                                346F GR
+  0 _s_02_object2_psg                                              348E GR
+  0 _s_03_use2_psg                                                 34A5 GR
+  0 _s_04_trampoline2_psg                                          3506 GR
+  0 _s_05_phit3_psg                                                351B GR
+  0 _s_06_dummy13_psg                                              3530 GR
+  0 _s_07_dummy22_psg                                              353A GR
+  0 _s_08_jump2_psg                                                3582 GR
+  0 _s_09_bullet2_psg                                              35A7 GR
+  0 _s_10_coco2_psg                                                35C9 GR
+  0 _s_11_spring2_psg                                              35EB GR
+  0 _s_12_count2_psg                                               3600 GR
+  0 _s_13_breakh3_psg                                              3613 GR
+  0 _s_14_hitter3_psg                                              362B GR
+  0 _s_15_stepon3_psg                                              3635 GR
+  0 _s_16_float3_psg                                               3640 GR
+  0 _s_17_breakb3_psg                                              364E GR
+  0 _s_18_ring2_psg                                                365E GR
+  0 _s_19_fanfare2_psg                                             3672 GR
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size 36B6   flags    0
+   1 _DATA                                      size    0   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+

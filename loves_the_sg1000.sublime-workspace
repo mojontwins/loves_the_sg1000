@@ -519,6 +519,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "examples/02_sgt_helmet_training_day/dev/utils/unrle.c",
+			"settings":
+			{
+				"buffer_size": 520,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -599,20 +607,23 @@
 		"/D/git/loves_the_sg1000",
 		"/D/git/loves_the_sg1000/environment",
 		"/D/git/loves_the_sg1000/examples",
-		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic",
-		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev",
-		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/engine",
-		"/D/git/loves_the_sg1000/examples/04_che_man",
-		"/D/git/loves_the_sg1000/examples/04_che_man/dev",
-		"/D/git/loves_the_sg1000/examples/04_che_man/dev/engine",
-		"/D/git/loves_the_sg1000/examples/04_che_man/dev/lib"
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/utils",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/gfx"
 	],
 	"file_history":
 	[
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/my/extra_routines.h",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/README.md",
+		"/D/Google Drive/Maritrini/dev/Speccy/MK2/Leovigildo (eng)/Leovigildo B/dev/mainloop.h",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/utils/rand.c",
+		"/D/git/loves_the_sg1000/diario.md",
+		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/game.c",
+		"/D/git/loves_the_sg1000/examples/04_che_man/dev/game.c",
 		"/D/git/loves_the_sg1000/examples/04_che_man/dev/lib/SGlib.h",
 		"/D/git/loves_the_sg1000/examples/04_che_man/dev/engine/player.c",
 		"/D/git/loves_the_sg1000/examples/04_che_man/dev/lib/SGlib.c",
-		"/D/git/loves_the_sg1000/examples/04_che_man/dev/game.c",
 		"/D/git/loves_the_sg1000/examples/04_che_man/dev/mainloop.h",
 		"/D/git/loves_the_sg1000/examples/04_che_man/dev/my/pres.h",
 		"/D/git/loves_the_sg1000/examples/04_che_man/dev/setenv.bat",
@@ -653,7 +664,6 @@
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.c",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/cheril_perils_classic/utils/mkts_om.bas",
 		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/cheril_perils_classic/dev/setenv.bat",
-		"/D/git/loves_the_sg1000/diario.md",
 		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/general.h",
 		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.c",
 		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/definitions.h",
@@ -731,16 +741,11 @@
 		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/playermods/process_tile.h",
 		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/bolts.h",
 		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/printer.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/enemmods/enem_chac_chac.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/game.c",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/my/pres.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/assets/custom_texts.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/config.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_tile_get/dev/mainloop.h"
+		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/enemmods/enem_chac_chac.h"
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 22.0
 	},
 	"find_in_files":
 	{
@@ -900,14 +905,47 @@
 			]
 		},
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "examples/02_sgt_helmet_training_day/dev/utils/unrle.c",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 520,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/C Improved/C Improved.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 27.0
+		"height": 22.0
 	},
 	"input":
 	{
@@ -955,7 +993,7 @@
 	"project": "loves_the_sg1000.sublime-project",
 	"replace":
 	{
-		"height": 50.0
+		"height": 40.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -997,7 +1035,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 174.0,
+	"side_bar_width": 400.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

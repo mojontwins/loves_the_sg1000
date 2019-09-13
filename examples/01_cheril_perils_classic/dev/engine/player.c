@@ -1,16 +1,23 @@
-// SG-1000 MK1 v0.1
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // player.c
 // Player movement & stuff
 
-#include "../lib/SGlib.h"
+#ifdef SMS
+	#include "../hw_sms.h"
+	#include "../lib/SMSlib.h"
+#else
+	#include "../hw_sg1000.h"
+	#include "../lib/SGlib.h"	
+#endif
 #include "../lib/PSGlib.h"
 #include "../murcia.h"
 
 #include "../definitions.h"
 #include "../config.h"
 #include "../autodefs.h"
+#include "../my/extra_declarations.h"
 
 #include "../ram/extern_globals.h"
 #include "../engine/extern_precalcs.h"
@@ -19,6 +26,7 @@
 
 #include "../engine/printer.h"
 #include "../engine/general.h"
+#include "../engine/breakable.h"
 
 #ifdef DIE_AND_RESPAWN
 	void player_register_safe_spot (void) {
@@ -109,7 +117,7 @@ void player_init (void) {
 
 void player_render (void) {
 	if (0 == pflickering || half_life) 
-		SG_addMetaSprite1x1 (
+		PLAYER_METASPRITE_FUNCTION (
 			prx - 4, pry + SPRITE_ADJUST, 
 			spr_player [psprid]
 		);
@@ -121,11 +129,9 @@ void player_to_pixels (void) {
 }
 
 void player_kill (void) {
-	SG_setStp (cur_stp);
+	HW_setStp (cur_stp);
 	player_render ();
-	//update_cycle ();
-	SG_waitForVBlank ();
-	SG_copySpritestoSAT ();
+	update_cycle ();
 
 	pkill = phit = 0;
 	PSGSFXPlay (SFX_PHIT, 3);
@@ -145,7 +151,7 @@ void player_kill (void) {
 	#endif
 
 	#ifdef DIE_AND_RESPAWN
-		//music_pause (1);
+		music_pause (1);
 		delay (60);
 		
 		#ifdef DIE_AND_REINIT
@@ -156,8 +162,9 @@ void player_kill (void) {
 			player_to_pixels ();
 			n_pant = n_pant_safe;		
 			player_stop ();
-			//music_pause (0);
+			music_pause (0);
 		#endif
+		HW_resetPauseRequest ();
 
 		// May be necessary to find a proper cell later on
 		#if defined (ENABLE_BREAKABLE)
@@ -360,6 +367,9 @@ void player_move (void) {
 		if (vertical_engine_type == ENGINE_TYPE_JET_PAC) {
 			if (pad0 & PAD_A) {
 				pvy -= PLAYER_AY_JETPAC;
+				#ifdef PLAYER_CAN_FLOAT
+					if (!pfloating)
+				#endif
 				if (pvy < -PLAYER_VY_JETPAC_MAX) pvy = -PLAYER_VY_JETPAC_MAX;
 			}
 		}
@@ -407,7 +417,12 @@ void player_move (void) {
 		{
 			cy1 = cy2 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4;			
 			cm_two_points ();
-			if ((at1 & 8) || (at2 & 8)) {
+			#ifdef PLAYER_TOP_DOWN
+				if ((at1 & 12) || (at2 & 12)) 
+			#else
+				if ((at1 & 8) || (at2 & 8)) 
+			#endif
+			{
 				pry = ((cy1 + 1) << 4) + PLAYER_COLLISION_VSTRETCH_BG;
 				pvy = 0; py = pry << FIXBITS;
 				pgotten = 0;
@@ -435,17 +450,17 @@ void player_move (void) {
 			cy1 = cy2 = (pry + 16) >> 4; 
 			cm_two_points (); 
 			#ifdef PLAYER_TOP_DOWN
-			if ((at1 & 8) || (at2 & 8)) 
+				if ((at1 & 12) || (at2 & 12)) 
 			#else
-	 		if (
-				pry < ((cy1 - 1) << 4) + 4 && 
-				(
-					(at1 & 12) || (at2 & 12)
-					#ifdef ENABLE_LADDERS
-						|| (!ponladder && ((at1 & 32) && at2 & 32))
-					#endif					
+		 		if (
+					pry < ((cy1 - 1) << 4) + 4 && 
+					(
+						(at1 & 12) || (at2 & 12)
+						#ifdef ENABLE_LADDERS
+							|| (!ponladder && ((at1 & 32) && at2 & 32))
+						#endif					
+					)
 				)
-			)
 	 		#endif
 			{
 				pvy = 0; pry = ((cy1 - 1) << 4);py = pry << FIXBITS;
@@ -486,8 +501,14 @@ void player_move (void) {
 				#endif
 
 				if ((at1 & 1) || (at2 & 1)) pnotsafe = 1; 
-			} else if ((at1 & 1) || (at2 & 1)) {
-				if ((pry & 15) > 4) hitv = 1;
+			} else {
+				#ifdef PLAYER_SPIKES_BOTTOM_ALLOW
+					cy2 = pry + 15 - PLAYER_SPIKES_BOTTOM_ALLOW;
+					cm_two_points ();
+				#endif
+				if ((at1 & 1) || (at2 & 1)) {
+					if ((pry & 15) > 4) hitv = 1;
+				}
 			}
 			#ifdef ENABLE_QUICKSANDS		
 				else {
@@ -552,32 +573,35 @@ void player_move (void) {
 				}
 
 			#else
-				
-				if (
-					a_button 
-					&& !pj
-					&& (
-						pgotten || ppossee || hitv
-						#ifdef ENABLE_LADDERS
-							|| ponladder
-						#endif
-					)
-				) {
-					jump_start ();
-					
-					#ifdef DIE_AND_RESPAWN
-						if (!(pgotten || hitv || pnotsafe)) {
-							player_register_safe_spot ();
-						}
-					#endif	
+				if (pad0 & PAD_A) {
+					if (
+						!pjb  
+						&& !pj
+						&& (
+							pgotten || ppossee || hitv
+							#ifdef ENABLE_LADDERS
+								|| ponladder
+							#endif
+						)
+					) {
+						jump_start ();
+						
+						#ifdef DIE_AND_RESPAWN
+							if (!(pgotten || hitv || pnotsafe)) {
+								player_register_safe_spot ();
+							}
+						#endif	
 
-					#ifdef PLAYER_SPINS
-						#ifdef ENABLE_TRAMPOLINES
-							if (!ptrampoline)
+						#ifdef PLAYER_SPINS
+							#ifdef ENABLE_TRAMPOLINES
+								if (!ptrampoline)
+							#endif
+							pspin = 1;
 						#endif
-						pspin = 1;
-					#endif
-				}
+					}
+				
+					pjb = 1;
+				} else pjb = 0;
 				
 				#ifdef ENABLE_TRAMPOLINES
 				if (pj && ptrampoline) {
@@ -739,7 +763,12 @@ void player_move (void) {
 		}
 		#if PLAYER_COLLISION_VSTRETCH_BG > 0
 			cm_three_points ();
-			if ((at1 & 8) || (at2 & 8) || (at3 & 8)) {
+			#ifdef PLAYER_TOP_DOWN
+				if ((at1 & 12) || (at2 & 12) || (at3 & 12)) 
+			#else
+				if ((at1 & 8) || (at2 & 8) || (at3 & 8)) 
+			#endif
+			{
 				pvx = 0; prx = rda; px = prx << FIXBITS; pfiring = 1;
 
 				// Special obstacles
@@ -752,7 +781,12 @@ void player_move (void) {
 			}
 		#else
 			cm_two_points ();
-			if ((at1 & 8) || (at2 & 8)) {
+			#ifdef PLAYER_TOP_DOWN
+				if ((at1 & 12) || (at2 & 12)) 
+			#else
+				if ((at1 & 8) || (at2 & 8)) 
+			#endif
+			{
 				pvx = 0; prx = rda; px = prx << FIXBITS; pfiring = 1;
 
 				// Special obstacles
@@ -761,6 +795,10 @@ void player_move (void) {
 					if (cy1 != cy2) if (at2 & 2) player_process_tile (at2, cx1, cy2, rdm, cy2);
 				#endif				
 			} else {
+				#ifdef PLAYER_SPIKES_BOTTOM_ALLOW
+					cy2 = pry + 15 - PLAYER_SPIKES_BOTTOM_ALLOW;
+					cm_two_points ();
+				#endif
 				hith = ((at1 & 1) || (at2 & 1));
 			}
 		#endif
@@ -811,7 +849,7 @@ void player_move (void) {
 
 		#if defined (ENABLE_CHAC_CHAC) || defined (ENABLE_TILE_CHAC_CHAC)
 			cx1 = cx2 = (prx + 4) >> 4;
-			cy1 = pry >> 4; cy2 = (pry + 15) >> 4;
+			cy1 = (pry - PLAYER_COLLISION_VSTRETCH_BG) >> 4; cy2 = (pry + 15) >> 4;
 			cm_two_points ();
 			if ((at1 & 1) || (at2 & 1)) phit = 1;
 		#endif
@@ -939,11 +977,6 @@ void player_move (void) {
 			}
 		}
 	#endif
-
-	// **********
-	// Calc frame
-	// **********
-	#include "../my/player_frame_selector.h"
 
 	prx_old = prx;
 	pry_old = pry;

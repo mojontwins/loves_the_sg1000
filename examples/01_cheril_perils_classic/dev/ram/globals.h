@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.1
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Avoid parameters using these in critical functions.
@@ -73,7 +73,7 @@ signed int _enf_x, _enf_y, _enf_vx, _enf_vy;
 
 // Signals, all purpose, for enemies
 
-unsigned char en_sg_1, en_sg_2;
+volatile unsigned char en_sg_1, en_sg_2;
 
 // Main player
 
@@ -243,8 +243,8 @@ unsigned char c_max_bolts;              // Number of locks in current level
 
 #ifdef ACTIVATE_SCRIPTING
     unsigned char sc_x, sc_y, sc_n, sc_c;
-    unsigned char *next_script;
-    unsigned char *script;
+    const unsigned char *next_script;
+    const unsigned char *script;
     unsigned char script_result, sc_terminado, sc_continuar;
 #endif
     
@@ -333,9 +333,7 @@ unsigned char oam_index_player;         // Index copy
     unsigned char b_slots [MAX_BULLETS];
     unsigned char b_slots_i;            // Array of free slots for active bullets & index.
 
-    #ifdef PLAYER_BULLET_LIFE
     unsigned char bst [MAX_BULLETS];    // Bullets states
-    #endif
     
     unsigned char bx [MAX_BULLETS];     // Bullets, X coordinates.
     unsigned char by [MAX_BULLETS];     // Bullets, Y coordinates.
@@ -371,9 +369,6 @@ unsigned char pctfr;                    // Frame subcounter
 // Breakable walls
 
 #ifdef ENABLE_BREAKABLE
-    #ifndef BREAKABLES_SOFT
-        unsigned char brk_buff [192];   // A "life gauge" for each tile on screen, used when BREAKABLES_SOFT is unset.
-    #endif
     #ifdef BREAKABLE_ANIM
         unsigned char brkf [BREAKABLE_MAX];
         unsigned char brkx [BREAKABLE_MAX];

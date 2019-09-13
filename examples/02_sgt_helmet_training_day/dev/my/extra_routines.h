@@ -4,7 +4,7 @@
 // Extra routines.
 // Add here calls to routines which need to update sprites and/or bg.
 	
-	if (n_pant == 0 && bombs_set == 0 && pry < 128) {
+	if (pobjs == 5 && n_pant == 0 && bombs_set == 0 && pry < 128) {
 		for (gpit = 0; gpit < 5; gpit ++) {
 			_x = bombs_x [gpit]; _y = bombs_y [gpit]; _t = 24; map_set ();	
 			do_update_list_and_wait (); 

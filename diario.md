@@ -3,13 +3,13 @@
 
 project.init ();
 
-Empezamos con esta nueva ida de olla. Voy a empezar con el MK1_NES "Cheril Perils Classic", que tiene muchas cosas chulas y todos los sprites de 16x16. Tendr‚ que componer varios spritesets que se cargar n por separado (remember, VRAM para patrones):
+Empezamos con esta nueva ida de olla. Voy a empezar con el MK1_NES "Cheril Perils Classic", que tiene muchas cosas chulas y todos los sprites de 16x16. Tendré que componer varios spritesets que se cargarán por separado (remember, VRAM para patrones):
 - General: Cheril e items.
-- Levels: uno por nivel, con los enemigos que se empl‚en en cada uno.
+- Levels: uno por nivel, con los enemigos que se empléen en cada uno.
 
-Por lo pronto ya he pasado los sprites a formato SG. Estar¡a bien empezar trabajando en el mkts de mk1 para hacer funcionar con el script el modo SG-1000, o quiz , viendo como es el tema, basarme en el mkts_om por las caracter¡sticas de la plataforma.
+Por lo pronto ya he pasado los sprites a formato SG. Estaría bien empezar trabajando en el mkts de mk1 para hacer funcionar con el script el modo SG-1000, o quizá, viendo como es el tema, basarme en el mkts_om por las características de la plataforma.
 
-Luego tendr‚ que coger la SGLib y darle un laneo para quitar morralla y luego hacerme un rotador de sprites autom tico, en el que yo env¡e sprites a la SAT pero que los vaya ciclando, usando m¢dulo todo el rollo de primos.
+Luego tendré que coger la SGLib y darle un laneo para quitar morralla y luego hacerme un rotador de sprites automático, en el que yo envíe sprites a la SAT pero que los vaya ciclando, usando módulo todo el rollo de primos.
 
 Voy a pasar unos tiles y lo dejo descansar. 8x1, yippie.
 
@@ -730,4 +730,162 @@ Cosas que arreglar:
 [X] Salto modo MK1 responde mal en SG
 [ ] Perils fase 1, resonador muy difícil en la parte superior derecha del mapa.
 [ ] Perils fase 1, imposible subir a la izquierda de la caverna en un punto -> revisar también en NES.
+
+20190909
+========
+
+Ocho meses después, replanteo en palabras una idea difusa que tuve con la esperanza de que cristalice un poco.
+
+La idea es poder generar fácilmente versiónes en modo 4 para Mark III / Master System de los juegos diseñados para SG1000.
+
+Una posibilidad sería tener los gráficos comprimidos en una página extra de 16K, teniendo así cartuchos de 64K. Esta configuración sería fija y además sería el primer paso para un AGNES de SMS más configurable.
+
+El tema sería, por ejemplo:
+
+1.- Generar versiones modo 4 de cada uno de los sets gráficos que existan en gfx.
+2.- Añadir target SMS a mkts que funcione en los mismos modos que el target SG1000, 1:1.
+3.- Hacer que el script genere los mismos assets 1:1 pero para modo 4 sólo cambiando el target en linea de comandos.
+4.- Una directiva de compilación que se pueda establecer desde makefile hará que: 
+4.1. se compile en bancos (*)
+4.2. se incluya los assets de modo 4
+4.3. cambie las funciones que los descomprimen
+4.4. se linke contra una SMSlib modificada.
+
+El show va a ser buscarse la SMSlib modificada, porque lo que hay es muy monolítico y apenas necesito una porción. Estudiaré como van las cosas. Pero antes tengo que pasar assets de un juego a modo 4 y añadir el target SMS al mkts este.
+
+Vaia, esto usa mkts_om! habrá que actualizar con los cambios de cheman. Voy a empezar haciendo un winmergeu lazy mode y luego ya vamos viendo.
+
+~~
+
+Tras algún que otro dolor de cabeza he conseguido extraer tilemaps, que era lo más complejo (por el momento), entre otras cosas porque las entradas son de 16 bits, hay dos paletas, y pueden ir espejados en H, V, o los dos. Lo bueno es que si algún día extiendo a Megadrive tengo la mitad del trabajo hecha :)
+
+Lo mínimo que tengo que soportar es extraer y grabar la paleta, charsets (hecho), tilemaps (hecho), nametables (con y sin RLE), escribir los patrones a demanda correctamente (con aplib), y metasprites.
+
+Cuando tenga esto, me empiezo a mirar SMSlib y a meter mis mierdas de metasprites. Los metasprites (y esto tendré que añadirlo a mkts_om) están formados por tronchos ortogonales, en principio, por lo que solo necesitan almacenar unos offsets (X,Y) iniciales y luego todos los sprites se alinean a rejilla 8x8.
+
+~~ 
+
+A ver, tengo 32K fijos pero luego tengo que hacer bancos. Tendré 4 bancos, 0, 1, 2 y 3. Los bancos 0 y 1 supongo que podré hacer que vayan de corrido con el bloque principal. Los bancos 2 y 3 deben ser intercambiables.
+
+Por supuesto que en el banco 3 meteré todos los gráficos. ¿Qué puedeo meter en el banco 2? Pues se me ocurre que, por ejemplo, datos:
+
+- Mapas
+- Enemigos
+- Tilemaps
+
+Un poner.
+
+Pero lo suyo es que escriba el makefile de nuevo. O no.
+
+Remember bancos: 
+
+- Agregar todo lo que vaya en un banco en un .c (o incluir muchos .h ahí).
+- Compilar ese banco a un .rel pasando --constseg BANK?
+- Durante el linkado, para generar el .ihx, añadir un -Wl-b_BANK?=0x8000 para cada BANK? que hayas creado (en mi caso, BANK2 y BANK3).
+
+Creo que antes de nada debería coger el makefile que me medio apañé para GB y ver si lo puedo usar para compilar los juegos de ejemplo.
+
+20190910
+========
+
+Ayer dejé funcionando un makefile mucho más mejor y menos peor que podré modificar pertinentemente para hacer la versión de SMS. 
+
+Además de todo esto, más que usar SMSlib tal cual tengo que hacerme una que pueda dejar caer como remplazo 1:1 a mi versión de SGlib, con todo el tema del update list y los tiestos varios. Pero además de eso tengo que dibujar gráficos y terminar `mkts_om`. Lo peor de `mkts_om` es que sé que para cheman he hecho algún cambio pero no consigo recordar qué ha sido, y ahora tengo dos versiones paralelas :-/.
+
+~~
+
+Metasprites para Master System
+------------------------------
+
+La estructura de datos que voy a hacer es la siguiente:
+
+```
+	xOff, yOff, w, h, pat1, pat2, pat3, ...
+```
+
+la cual creo que será compacta y fácil de parsear. El generador de esta estructura, smsDoSprites, recibe, como todos los demás doSprites, los siguientes parámetros:
+
+```
+	img As Any Ptr, 
+	xc0 As Integer, 
+	yc0 As Integer, 
+	w As Integer, 
+	h As Integer, 
+	wMeta As Integer, 
+	hMeta As Integer, 
+	max As Integer, 
+	xOffset As Integer, 
+	yOffset As Integer
+```
+
+Y lo que hace es recortar cachos de `wMeta` x `hMeta` de un rectángulo de `w` x `h` metasprites desde `xc0, yc0`, hasta un máximo de `max`, y aplicando los offsets `xOffset, yOffset`.
+
+Tengo que rellenar estructuras de este aspecto:
+
+```bas
+	Type spriteType
+		yOffset As uByte
+		xOffset As uByte
+		patternOffset As uByte
+		colour As uByte
+	End Type
+
+	Type metaSpriteType
+		nSprites As uByte
+		sprites (31) As spriteType
+	End Type
+```
+
+~~
+
+¡Metasprites hechos! Cruzo los dedos para que la integración con el script sea "automática". Yo creo que lo será, o casi. ¿Qué más queda? Las cosas de los nametables, que deberían ser triviales. O NO. Que tenemos bytes, hulio. Y patrones espejados.
+
+~~
+
+Supuestamente ya está todo, aunque esto seguro que peta por todos los lados, pero como ahora no lo voy a poder probar, pues lo dejo reposar tranquilamente. Lo próximo será hacer la SMSlib postiza, pero antes tengo que agnostizar un poco el motor, y llamar de otro modo a las funcione SG_* y que a golpe de define se rebauticen así. Hagamos una lista:
+
+```
+     0000B22F  _SG_setReg                         SGlib
+     0000B25B  _VDPReg_init                       SGlib
+     0000B263  _SG_VDPturnOnFeature               SGlib
+     0000B29D  _SG_VDPturnOffFeature              SGlib
+     0000B2CE  _SG_init                           SGlib
+     0000B315  _SG_setBackdropColor               SGlib
+     0000B329  _SG_setSpriteMode                  SGlib
+     0000B35E  _SG_loadTilePatterns               SGlib
+     0000B39F  _SG_loadTileColours                SGlib
+     0000B3E4  _SG_loadSpritePatterns             SGlib
+     0000B429  _SG_setTileatXY                    SGlib
+     0000B468  _SG_setNextTileatXY                SGlib
+     0000B4A2  _SG_setTile                        SGlib
+     0000B4AA  _SG_fillTile                       SGlib
+     0000B4D2  _SG_loadTileMapArea                SGlib
+     0000B56E  _SG_initSprites                    SGlib
+     0000B599  _SG_addSprite                      SGlib
+     0000B61B  _SG_addMetaSprite1x1               SGlib
+     0000B74F  _SG_addMetaSprite                  SGlib
+     0000B815  _SG_finalizeSprites                SGlib
+     0000B816  _SG_getStp                         SGlib
+     0000B81A  _SG_setStp                         SGlib
+     0000B82B  _SG_waitForVBlank                  SGlib
+     0000B838  _SG_getKeysStatus                  SGlib
+     0000B840  _SG_queryPauseRequested            SGlib
+     0000B848  _SG_resetPauseRequest              SGlib
+     0000B84E  _SG_VRAMmemset                     SGlib
+     0000B87A  _SG_copySpritestoSAT               SGlib
+     0000B88D  _SG_VRAMmemcpy128                  SGlib
+     0000B8B0  _SG_setUpdateList                  SGlib
+     0000B8C1  _SG_doUpdateList                   SGlib
+     0000B907  _SG_isr                            SGlib
+     0000B93C  _SG_nmi_isr                        SGlib
+```
+
+Con un find and replace cambio SG_ por HW_...
+
+20190911
+========
+
+He estado portando los cambios a todos los ejemplos. Ahora mismo me encuentro con que Sgt. Helmet muestra mal la pantalla de título: parece que faltan trozos de "SGT HELMET" que se imprime a doble de alto. Los patrones de PG están bien, pero los colores en CT tienen negros donde no debían y grises equivocados en otros sitios, por alguna misteriosa razón.
+
+No sé si se convirtió mal, si se comprimió mal, o si se cargó mal en VRAM. Ya lo miraré - vale, era un pequeño bug en mkts_om.
 

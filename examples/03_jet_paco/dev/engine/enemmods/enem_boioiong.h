@@ -3,7 +3,7 @@
 
 // Boioiongs bounce around the screen until a timer exhausts.
 
-if (_en_ct) {
+if (_en_ct)  {
 	_en_ct --;		
 
 	// Vertical movement & collision

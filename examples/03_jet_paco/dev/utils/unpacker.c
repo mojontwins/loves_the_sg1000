@@ -4,7 +4,13 @@
 // unpacker.c
 
 #include "../lib/aPLib.h"
-#include "../lib/SGlib.h"
+#ifdef SMS
+	#include "../hw_sms.h"
+	#include "../lib/SMSlib.h"
+#else
+	#include "../hw_sg1000.h"
+	#include "../lib/SGlib.h"	
+#endif
 
 // Use banks_flag = 7 for all three banks (111).
 void unpack_bg_patterns (const unsigned char *c_pgt, const unsigned char *c_cgt, unsigned int byte_offset, unsigned char banks_flag) {

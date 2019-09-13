@@ -1,15 +1,22 @@
-// SG-1000 MK1 v0.1
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // general.c
 // General functions, vars & buffers
 
-#include "../lib/SGlib.h"
+#ifdef SMS
+	#include "../hw_sms.h"
+	#include "../lib/SMSlib.h"
+#else
+	#include "../hw_sg1000.h"
+	#include "../lib/SGlib.h"	
+#endif
 #include "../lib/PSGlib.h"
 
 #include "../definitions.h"
 #include "../config.h"
 #include "../autodefs.h"
+#include "../my/extra_declarations.h"
 
 #include "../ram/extern_globals.h"
 #include "../engine/extern_precalcs.h"
@@ -85,7 +92,7 @@ void pad_read (void) {
 	// Thanks for this, Nicole & nesdev!
 	// https://forums.nesdev.com/viewtopic.php?p=179315#p179315
 	pad_this_frame = pad0;
-	pad0 = SG_getKeysStatus ();			// Read pads here.
+	pad0 = HW_getKeysStatus ();			// Read pads here.
 	pad_this_frame = (pad_this_frame ^ pad0) & pad0;
 }
 
@@ -125,17 +132,17 @@ void pad_read (void) {
 #endif
 
 void update_cycle (void) {
-	SG_finalizeSprites ();
-	SG_waitForVBlank ();
-	SG_copySpritestoSAT ();
+	//HW_finalizeSprites ();
+	HW_waitForVBlank ();
+	HW_copySpritestoSAT ();
 	update_list [update_index] = 0xff;
-	SG_doUpdateList ();
-	SG_initSprites ();
+	HW_doUpdateList ();
+	HW_initSprites ();
 	clear_update_list ();
 }
 
 void do_update_list_and_wait (void) {
-	SG_waitForVBlank ();
 	update_list [update_index] = 0xff;
-	SG_doUpdateList ();
+	HW_waitForVBlank ();	
+	HW_doUpdateList ();
 }

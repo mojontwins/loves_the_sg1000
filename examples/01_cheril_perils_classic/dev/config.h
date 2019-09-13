@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.1
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // For a topmost two-lines status bar
@@ -9,6 +9,12 @@
 #define MAP_CLEAR_LIST_ADDRESS	0x2c40	// To store map persistence in VRAM.
 										// Each screen takes 24 bytes. move it where
 										// It fits. Below 2c40 you may "see" the buffer
+
+// Use SG_addMetaSprite1x1 for 16x16 sprites (faster)
+// Use SG_addMetaSprite otherwise.
+#define PLAYER_METASPRITE_FUNCTION	SG_addMetaSprite1x1
+#define ENEMY_METASPRITE_FUNCTION 	SG_addMetaSprite1x1 
+#define ITEM_METASPRITE_FUNCTION 	SG_addMetaSprite1x1
 
 // ============================================================================
 // I. General configuration
@@ -73,8 +79,6 @@
 //#define MAP_FORMAT_RLE16				// RLE'd by rlemap2. 16 tiles max.
 //#define MAP_FORMAT_RLE53				// RLE'd by rle53mapMK1. 32 tiles max.
 #define MAP_FORMAT_RLE44				// RLE'd by rle44mapMK1. 16 tiles max.
-//#define MAP_FORMAT_RLE53_CHRROM		// RLE'd by rle53mapchrrom and stored in CHR-ROM. 32 tiles max.
-//#define MAP_FORMAT_RLE44_CHRROM		// RLE'd by rle44mapchrrom and stored in CHR-ROM. 16 tiles max.
 
 #define MAP_WITH_DECORATIONS			// Add decorations when use a 16 tiles mode.
 
@@ -98,6 +102,9 @@
 // Player is 8x16 for collision with BG but can be made taller by this amount. Negative values=shorter
 #define PLAYER_COLLISION_VSTRETCH_BG	-4
 
+// Bottom collision. If set, player can bleed a bit into spikes when going down.
+//#define PLAYER_SPIKES_BOTTOM_ALLOW	2
+
 // This defines how the player will collide with enemies. 
 // Player is always 8 pixels wide and 16 pixel tall PLUS the value of this variable.
 // this offset goes to the head. 
@@ -117,6 +124,7 @@
 
 //#define PLAYER_PUSH_BOXES 				// If defined, tile beh 11 is pushable
 #define FIRE_TO_PUSH
+#define PUSH_ERASE						26	// Use this tile to erase
 
 //#define ENABLE_PUSHED_SCRIPT
 #define PUSHED_TILE_FLAG				1
@@ -134,6 +142,7 @@
 	//#define DIE_AND_REINIT				//     ... or start the level over!
 #define PLAYER_FLICKERS 				100	// If defined, collisions make player flicker for N frames
 //#define WALLS_STOP_ENEMIES				// If defined, enemies react to the scenary
+//#define NO_V_BOOST_WHEN_FLICK				// If defined, no -vy boost when moving to the room above
 
 // Extra special tiles
 // -------------------
@@ -156,6 +165,7 @@
 #define BREAKABLE_ERASE					0	// Tile to erase broken tiles
 #define BREAKABLE_BREAKING				8	// Tile to display while breaking
 //#define BREAKABLE_WALKABLE				// If defined (side view), tiles break when stepped on
+#define BREAKABLE_VRAM_ADDR				0x1f40	// If BREAKABLE_LIFE>2 we need 192 bytes
 
 // Conveyors, beh & 32 [+1] (must be & 8!)
 // For player movement values, see section 4
@@ -265,8 +275,6 @@
 // Enemy types and definitions
 // ---------------------------
 
-//#define ENEMS_IN_CHRROM					// Enems are stored somewhere in CHR-ROM
-
 #define ENEMS_LIFE_GAUGE				1	// Amount of shots/punches/kicks needed to kill enemies.
 //#define NEEDS_LIFE_GAUGE_LOGIC			// This is activated automaticly when needed, but you can 
 											// do it yourself if you need it to do customs...
@@ -320,6 +328,7 @@
 //#define ENABLE_PURSUERS				// If defined, type 7 enemies are active
 #define DEATH_COUNT_EXPRESSION			50+(rand8()&63)
 #define TYPE_7_FIXED_SPRITE 			4	// If defined, type 7 enemies are always #
+#define PURSUERS_MAY_FIRE				// If defined, attr = 1 make spawned pursuers shoot
 
 // Saws
 
@@ -340,6 +349,7 @@
 // Chac chacs
 
 #define ENABLE_CHAC_CHAC
+
 #define CHAC_CHAC_BASE_TILE				32
 #define CHAC_CHAC_IDLE_2				16
 #define CHAC_CHAC_IDLE_3				1
@@ -349,7 +359,9 @@
 #define MAX_CHAC_CHACS					4
 #define MAX_CHAC_CHACKS_QUEUED			16 // Make the closest power of 2 >= (MAX_CHAC_CHACS*4)
 #define CHAC_CHAC_DETECT_TILE			39
-#define CHAC_CHACS_CLEAR				// You are placing chac chacks from map but need the path to be clear
+#define CHAC_CHACS_CLEAR				0 // You are placing chac chacks from map but need the path to be clear
+
+//#define USE_CUSTOM_CHAC_CHAC			// Implement your own chac chac (see notes)
 
 // Monococos
 
@@ -688,7 +700,7 @@
 #define SFX_OBJECT				s_02_object2_psg
 #define SFX_USE					s_03_use2_psg
 #define SFX_TRAMPOLINE			s_04_trampoline2_psg
-#define SFX_PHIT				s_17_breakb3_psg
+#define SFX_PHIT				s_05_phit3_psg
 #define SFX_DUMMY1				s_06_dummy13_psg
 #define SFX_ENHIT 				s_05_phit3_psg
 #define SFX_DUMMY2				s_07_dummy22_psg

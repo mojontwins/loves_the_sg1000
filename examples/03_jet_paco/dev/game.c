@@ -18,20 +18,33 @@
 //
 */
 
+#ifdef SMS
+	#include "hw_sms.h"
+	#include "lib/SMSlib.h"
+	/*	
+		SG-1000 MK1 v0.1 M4 needs the custom SMSlibMin-MT configured with
+		#define AUTOCYCLE_SPRITES				// Sprites cycle automaticly
+		#define AUTOCYCLE_PRIME			7		// Prime to 64.
+		#define AUTOCYCLE_INIT_PRIME 	3		// Prime to 64.		
+		#define AUTOMUSIC						// ISR calls PSGPlay and PSGSFXPlay
+		#define ONLY_ONE_CONTROLLER
+	*/
+#else
+	#include "hw_sg1000.h"
+	#include "lib/SGlib.h"
+	/*	
+		SG-1000 MK1 v0.1 needs the custom SGlib-MT configured with
+		#define AUTOCYCLE_SPRITES				// Sprites cycle automaticly
+		#define AUTOCYCLE_PRIME			3		// Prime to 32.
+		#define AUTOCYCLE_INIT_PRIME 	3		// Prime to 32.
+		#define AUTODETECT_ONE_COLOUR			// Detect 1 colour sprites in HW_addMetaSprite1x1
+		#define AUTOMUSIC						// ISR calls PSGPlay and PSGSFXPlay
+		#define ONLY_ONE_CONTROLLER
+	*/
+#endif
+
 #define MAX_BOLTS 16 // max 32, make it as small as possible.
 
-/*	Beware!
-
-	SG-1000 MK1 v0.1 needs the custom SGlib-MT configured with
-	#define AUTOCYCLE_SPRITES				// Sprites cycle automaticly
-	#define AUTOCYCLE_PRIME			3		// Prime to 32.
-	#define AUTOCYCLE_INIT_PRIME 	3		// Prime to 32.
-	#define AUTODETECT_ONE_COLOUR			// Detect 1 colour sprites in SG_addMetaSprite1x1
-	#define AUTOMUSIC						// ISR calls PSGPlay and PSGSFXPlay
-	#define ONLY_ONE_CONTROLLER
-*/
-
-#include "lib/SGlib.h"
 #include "lib/PSGlib.h"
 #include "lib/aPLib.h"
 
@@ -128,9 +141,9 @@
 // *************
 
 void main(void) {
-	SG_displayOff ();
-	SG_setSpriteMode (SG_SPRITEMODE_LARGE);
-	SG_setUpdateList (update_list);
+	HW_displayOff ();
+	HW_setSpriteMode (SG_SPRITEMODE_LARGE);
+	HW_setUpdateList (update_list);
 	first_game = 1;
 
 	#ifdef PAL

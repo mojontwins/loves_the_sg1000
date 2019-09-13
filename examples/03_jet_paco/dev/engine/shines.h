@@ -12,7 +12,7 @@ void shines_do (void) {
 	if (shine_active_ct) {
 		-- shine_active_ct;
 		if (shine_active_ct >= 48) {
-			SG_addSprite (
+			HW_addSprite (
 				shine_active_x, 
 				shine_active_y, 
 				SHINES_BASE_PATTERN + (rand8() & 1), 

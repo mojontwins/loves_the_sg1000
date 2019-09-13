@@ -1,9 +1,9 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Boioiongs bounce around the screen until a timer exhausts.
 
-if (_en_ct) {
+if (_en_ct)  {
 	_en_ct --;		
 
 	// Vertical movement & collision

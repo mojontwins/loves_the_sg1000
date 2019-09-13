@@ -1,5 +1,5 @@
-' mkts_om v0.4.20181113 - Converts graphics
-' Copyleft 2017, 2018 The Mojon Twins
+' mkts_om v0.5.20190909 - Converts graphics
+' Copyleft 2017-2019 The Mojon Twins
 
 ' fbc mkts_om.bas cmdlineparser.bas mtparser.bas
 
@@ -33,12 +33,17 @@ End Type
 
 Type metaSpriteType
 	nSprites As uByte
+	w As uByte
+	h As uByte
+	xOffset As Integer
+	yOffset As Integer
 	sprites (31) As spriteType
 End Type
 
 Const PLATFORM_ZX = 0
 Const PLATFORM_CPC = 1
 Const PLATFORM_SG1000 = 2
+Const PLATFORM_SMS = 3
 
 Dim Shared As Integer silent, flipped, upsideDown, debug
 
@@ -49,9 +54,10 @@ Dim Shared As uByte coloursBin (65535)
 Dim Shared As uByte auxBin (65535)
 
 Dim Shared As String cPool (511)
-Dim Shared As uByte tMaps (511, 255)
-Dim Shared As uByte nametable (1535)
+Dim Shared As uInteger tMaps (511, 255)
+Dim Shared As uInteger nametable (1535)
 Dim Shared As uByte nametablerle (3071)
+Dim Shared As uInteger nametablerle16 (3071)
 Dim Shared As metaSpriteType metaSprites (511)
 Dim Shared As Integer cutOutX0, cutOutY0, cutOutX1, cutOutY1
 
@@ -68,6 +74,8 @@ Dim Shared As Integer patternWidthInPixels
 Dim Shared As Integer fHeaderFile, fMapFile
 
 Dim Shared As uInteger globalPalette (31), HWPalette (31)
+
+Dim Shared As Integer gDx, gDy
 
 ' 255 is an out of bounds value meaning "undefined". 
 Dim Shared As RGBType CPCHWColours (31) => { _
@@ -153,9 +161,10 @@ End Sub
 Sub usage
 	Puts "Usage:"
 	Puts ""
-	Puts "$ mkts_om.exe platform=[zx|cpc|sg1000] [brickInput] [pal=palette.png] [prefix=prefix]"
+	Puts "$ mkts_om.exe platform=[zx|cpc|sg1000|sms] [pal=palette.png] [prefix=prefix]"
 	Puts "              in=file.png out=output.bin mode=mode [offset=x,y] [size=w,h]"
 	Puts "              [metasize=w,h] [tmapoffs=offset] [max=n] [silent] [defaultink=i]"
+	Puts "              [brickInput] [sproffs=x,y]"
 	Puts ""
 	Puts "Supported modes: pals, chars, mapped, sprites, bg, scripted, scr"
 	Puts "In scripted mode, parameter out will be ignored."
@@ -220,7 +229,6 @@ Function cpcHWColour (c As Integer) As Integer
 End Function
 
 Function cpcNormalizeColour (Byval c As Integer) As Integer
-	Dim As Integer res
 	Dim As Integer r, g, b
 
 	r = RGBA_R (c): g = RGBA_G (c): b = RGBA_B (c)
@@ -232,6 +240,17 @@ Function cpcNormalizeColour (Byval c As Integer) As Integer
 	cpcNormalizeColour = RGB (r, g, b)
 End Function
 
+Function smsNormalizeColour (ByVal c As Integer) As Integer
+	' Convert to 6 bits per component (and FC)
+	Dim As uByte r, g, b
+
+	r = (RGBA_R (c) \ 85) * 85
+	g = (RGBA_G (c) \ 85) * 85
+	b = (RGBA_B (c) \ 85) * 85
+
+	smsNormalizeColour = RGB (r, g, b)
+End Function
+
 Function palIndex (Byval c As Integer, pal () As Integer) As Integer
 	Dim As Integer i, res
 	res = &HFF
@@ -240,6 +259,57 @@ Function palIndex (Byval c As Integer, pal () As Integer) As Integer
 	Next i
 	' If res = &HFF Then fiPuts "Colour " & c & " not found in pal!"
 	palIndex = res
+End Function
+
+Function smsSubpalIndex (c As Integer, subPal As Integer) As Integer
+	Dim As Integer i, res
+	res = &HFF
+	For i = subPal*16 To 15+subPal*16
+		If globalPalette (i) = c Then res = i: Exit For
+	Next i
+	' If res = &HFF Then fiPuts "Colour " & c & " not found in pal!"
+	smsSubpalIndex = res And 15
+End Function
+
+Function inArrayFromAtoB (v As Integer, arr () As Integer, lb As Integer, ub As Integer) As Integer
+	Dim As Integer found, i
+
+	found = 0
+	For i = lb To ub
+		If arr (i) = v Then found = -1: Exit For
+	Next i
+
+	inArrayFromAtoB = found
+End Function
+
+Function smsWhichSubPal (Byval c As Integer) As Integer
+	Return palIndex (c, globalPalette ()) \ 16
+End Function
+
+Function smsWhichSubPalPattern (x0 As Integer, y0 As Integer, img As Any Ptr) As Integer
+	Dim As Integer allColoursWereIn, subPal, x, y, c
+	
+	For subPal = 0 To 1
+		allColoursWereIn = -1
+		For y = 0 To 7
+			For x = 0 To 7
+				c = smsNormalizeColour (Point (x0 + x, y0 + y, img))
+				If Not inArrayFromAtoB (c, globalPalette (), subPal*16, 15+subPal*16) Then
+					Goto smsWhichSubPalPatternBreak
+				End If
+			Next x
+		Next y
+		allColoursWereIn = subPal
+		smsWhichSubPalPatternBreak:
+			If allColoursWereIn <> -1 Then
+				smsWhichSubPalPattern = allColoursWereIn
+				Exit Function
+			End If
+	Next subPal
+
+	' If we reach this point...
+	smsWhichSubPalPattern = 0
+	Puts ("Warning! Wrong colours / mixed palettes in pattern @ " & x0 & ", " & y0)
 End Function
 
 Function speccyColour (c As Integer) As Integer
@@ -278,6 +348,11 @@ Function TMS9918Colour (c As Integer) As Integer
 	
 	TMS9918Colour = result	
 End Function
+
+Function smsColour (c As Integer) As uByte
+	' Returns a value 0-63
+	smsColour = ( RGBA_R (CUInt( c )) \ 85) Or ((RGBA_G (CUInt( c )) \ 85) Shl 2) Or ((RGBA_B (CUInt( c )) \ 85) Shl 4 )
+End Function 
 
 Function isBright (c As Integer) As Integer
 	isBright = (c > 7)
@@ -402,8 +477,22 @@ Function TMS9918GetBitmapFrom (x0 As Integer, y0 As Integer, c1 As Integer, img 
 	TMS9918GetBitmapFrom = res
 End Function
 
+
+Function smsGetBitmapPlaneFrom (x0 As Integer, y0 As Integer, bp As Integer, subPal As Integer, img As Any Ptr) As uByte
+	Dim As uByte res, c
+	Dim As Integer x
+	res = 0
+	For x = 0 To 7
+		c = smsSubpalIndex (smsNormalizeColour (Point (x + x0, y0, img)), subPal) ' 0-f
+		'Puts ("Subpal: " & subPal & ", Point: " & Hex (Point (x + x0, y0, img),8) & ", c = " & c)		
+		res = res Or (getBit (c, bp) Shl (7-x))
+	Next x
+
+	return res
+End Function
+
 Sub extractPatternFrom (x0 As Integer, y0 As Integer, img As Any Ptr, pattern () As uByte, ByRef attr as uByte)
-	Dim As Integer c1, c2, i
+	Dim As Integer c1, c2, i, idx
 	Dim As Integer y
 
 	Select Case platform
@@ -421,20 +510,31 @@ Sub extractPatternFrom (x0 As Integer, y0 As Integer, img As Any Ptr, pattern ()
 			Next y
 
 		Case PLATFORM_SG1000:
-			If debug Then fiPuts "New Pattern"
 			For y = 0 To 7
 				pattern (8 + y) = TMS9918GetAttr (x0, y + y0, img, c1, c2)				
 				pattern (y) = TMS9918GetBitmapFrom (x0, y + y0, c1, img)
 			Next y
+
+		Case PLATFORM_SMS:
+			' 32 bytes 4 x 8bytes bitplanes
+			attr = smsWhichSubPalPattern (x0, y0, img)
+			idx = 0
+			For i = 0 To 3
+				For y = 0 To 7
+					pattern (idx) = smsGetBitmapPlaneFrom (x0, y + y0, i, attr, img)
+					idx = idx + 1					
+				Next y
+			Next i
+
 	End Select
-	If debug Then
-		Puts "Pattern extracted from " & x0 & ", " & y0
-		debugString = ""
-		For i = 0 To 15
-			debugString = debugString & Hex (pattern (i), 2) & " "
-		Next i
-		Puts "    " & debugString
-	End If	
+	'If debug Then
+	''	Puts "Pattern extracted from " & x0 & ", " & y0
+	''	debugString = ""
+	''	For i = 0 To 15
+	''		debugString = debugString & Hex (pattern (i), 2) & " "
+	''	Next i
+	''	Puts "    " & debugString
+	'End If	
 End Sub
 
 Function patternToString (pattern () As uByte) As String
@@ -483,31 +583,171 @@ Sub copyArrayToColourBinFrom (array () As uByte, from As Integer)
 	Next i
 End Sub
 
-Function findPatternInPoolAndAdd (patternS As String, ByRef wasNew As Integer) As Integer
+Sub copyArrayToColourBinFromTo (array () As uByte, from As Integer, vto As Integer)
 	Dim As Integer i
+	For i = from To vto
+		cbWrite array (i)
+	Next i
+End Sub
+
+Sub mkPatternFromString (patternS As String, img As Any Ptr)
+	Dim As Integer palCol, x, y
+	Dim As uByte planes (3)
+	Select Case platform
+		Case PLATFORM_SMS:
+			For y = 0 To 7				
+				For x = 0 To 7
+
+					palCol = getBit (Val ("&H" & (Mid (PatternS, 1+2*y, 2))), x) + _
+							 (getBit (Val ("&H" & (Mid (PatternS, 16+1+2*y, 2))), x) Shl 1) + _
+							 (getBit (Val ("&H" & (Mid (PatternS, 32+1+2*y, 2))), x) Shl 2) + _
+							 (getBit (Val ("&H" & (Mid (PatternS, 48+1+2*y, 2))), x) Shl 3)
+
+					pSet img, (7-x, y), globalPalette (palCol)
+
+				Next x
+			Next y
+
+	End Select
+End Sub
+
+Sub patternCopyAndFlipH (imgIn As Any Ptr, imgOut As Any Ptr)
+	Dim As Integer x, y
+	For y = 0 To 7
+		For x = 0 To 7
+			Pset imgOut, (x, y), Point (7 - x, y, imgIn)
+		Next x
+	Next y
+End Sub
+
+Sub patternCopyAndFlipV (imgIn As Any Ptr, imgOut As Any Ptr)
+	Dim As Integer x, y
+	For y = 0 To 7
+		For x = 0 To 7
+			Pset imgOut, (x, y), Point (x, 7 - y, imgIn)
+		Next x
+	Next y
+End Sub
+
+Sub patternCopyAndFlipHV (imgIn As Any Ptr, imgOut As Any Ptr)
+	Dim As Integer x, y
+	For y = 0 To 7
+		For x = 0 To 7
+			Pset imgOut, (x, y), Point (7 - x, 7 - y, imgIn)
+		Next x
+	Next y
+End Sub
+
+Sub putDebugPattern (img As Any Ptr)
+	put (gDx, gDy), img, pSet
+	gDx = gDx + 16: If gDx = 640 Then gDx = 0: gDy = gDy + 16
+End Sub
+
+Function findPatternInPoolAndAdd (patternS As String, ByRef wasNew As Integer, checkMirrors As Integer) As Integer
+	Dim As Integer i
+	Dim As uByte attr
+	Dim As uByte pattern (31)
+	Dim As String patternS2
+	Dim As Integer tRes
+
+	If Debug Then
+		Puts ("·")
+		Puts ("Finding pattern")
+		Puts (patternS)
+	End If
 
 	wasNew = 0
-
 	For i = 0 To cPoolIndex - 1
 		If cPool (i) = patternS Then
 			findPatternInPoolAndAdd = i
+			If Debug Then Puts ("Found -> " & Hex (i, 4))
 			Exit Function
 		End If
 	Next i
 
+	If checkMirrors Then
+		tRes = 0
+		' Not found
+		' Find H-V flipped versions
+		Dim img As Any Ptr = ImageCreate (8, 8)
+		Dim img2 As Any Ptr = ImageCreate (8, 8)
+		mkPatternFromString patternS, img
+		putDebugPattern img
+		gDy = gDy + 16
+
+		If Debug Then Puts "TRYING HFLIPPED"
+		patternCopyAndFlipH img, img2
+		putDebugPattern img2
+		extractpatternFrom 0, 0, img2, pattern (), attr
+		patternS2 = patternToString (pattern ())
+		If Debug Then Puts patternS2
+		For i = 0 To cPoolIndex - 1
+			If cPool (i) = patternS2 Then
+				tRes = i Or &H0200
+				goto findPatternInPoolAndAddExtraDone
+			End If
+		Next i
+
+		If Debug Then Puts "TRYING VFLIPPED"
+		patternCopyAndFlipV img, img2
+		putDebugPattern img2
+		extractpatternFrom 0, 0, img2, pattern (), attr
+		patternS2 = patternToString (pattern ())
+		If Debug Then Puts patternS2
+		For i = 0 To cPoolIndex - 1
+			If cPool (i) = patternS2 Then
+				tRes = i Or &H0400
+				goto findPatternInPoolAndAddExtraDone
+			End If
+		Next i
+
+		If Debug Then Puts "TRYING HVFLIPPED"
+		patternCopyAndFlipHV img, img2
+		putDebugPattern img2
+		extractpatternFrom 0, 0, img2, pattern (), attr
+		patternS2 = patternToString (pattern ())
+		If Debug Then Puts patternS2
+		For i = 0 To cPoolIndex - 1
+			If cPool (i) = patternS2 Then
+				tRes = i Or &H0600
+				goto findPatternInPoolAndAddExtraDone
+			End If
+		Next i
+
+	findPatternInPoolAndAddExtraDone:
+		gDx = 0: gDy = gDy + 16
+
+		ImageDestroy img
+		ImageDestroy img2
+		If tRes Then 
+			If Debug Then Puts ("Found -> " & Hex (tRes, 4))
+			findPatternInPoolAndAdd = tRes
+			Exit Function
+		End If
+	End If
+
 	wasNew = -1
 	findPatternInPoolAndAdd = cPoolIndex
+	If Debug Then Puts ("Not found, Adding " & patternS)
 	addPatternToPool patternS
+
+
 End Function
 
 Sub extractGlobalPalette (img As Any Ptr) 
-	Dim As Integer i
+	Dim As Integer i, j
 	Select Case platform
 		Case PLATFORM_CPC:
 			For i = 0 To 15
 				globalPalette (i) = cpcNormalizeColour (Point (i, 0, img))
 				HWPalette (i) = cpcHWColour (globalPalette (i))
 			Next i
+		Case PLATFORM_SMS:
+			For j = 0 To 1
+				For i = 0 To 15	
+					globalPalette (i + j * 16) = smsNormalizeColour (Point (i, j, img))					
+				Next i
+			Next j
 	End Select
 End Sub
 
@@ -522,8 +762,8 @@ Sub doPals (img As Any Ptr, prefix As String, outputFn As String)
 			f = FreeFile
 			Open outputFn For Output As #f
 			Print #f, "// CPC Palette with HW values"
-			Print #f, "// Generated by mkts_om v0.4.20181113"
-			Print #f, "// Copyleft 2017, 2018 by The Mojon Twins"
+			Print #f, "// Generated by mkts_om v0.5.20190909"
+			Print #f, "// Copyleft 2017-2019 by The Mojon Twins"
 			Print #f, ""
 			Print #f, "const unsigned char " & prefix & " [] = {"
 			For i = 0 To 15
@@ -536,13 +776,30 @@ Sub doPals (img As Any Ptr, prefix As String, outputFn As String)
 			Print #f, "};"
 			Print #f, ""
 			Close #f
+		case PLATFORM_SMS
+			f = FreeFile
+			Open outputFn For Output As #f
+			Print #f, "// SMS mode 4 palette with 6 bits values"
+			Print "// Generated by mkts_om v0.5.20190909"
+			Print #f, "// Copyleft 2017-2019 by The Mojon Twins"
+			Print #f, ""
+			Print #f, "const unsigned char " & prefix & " [] = {"
+			For i = 0 To 31
+				If (i Mod 16) = 0 Then Print #f, "	";
+				Print #f, "0x" & Hex (smsColour (globalPalette (i)), 2);
+				If i < 31 Then Print #f, ", ";
+				If (i Mod 16) = 15 Then Print #f, ""
+			Next i
+			Print #f, "};"
+			Print #f, ""
+			Close #f
 	End Select
 End Sub
 
 Sub doChars (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As Integer, max As Integer)
 	Dim As Integer x, y, x0, y0, x1, y1, ct
 	Dim As uByte attr 	' will be ignored in this Sub
-	Dim As uByte pattern (15)
+	Dim As uByte pattern (31)
 
 	x0 = xc0 * patternWidthInPixels
 	y0 = yc0 * 8
@@ -558,16 +815,19 @@ Sub doChars (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As 
 			Select Case platform
 				Case PLATFORM_ZX, PLATFORM_CPC:
 					copyFirstBytesOfArrayToMainBin pattern (), patternSize
-				Case PLATFORM_SG1000
+				Case PLATFORM_SG1000:
 					copyFirstBytesOfArrayToMainBin pattern (), 8
-					copyArrayToColourBinFrom pattern (), 8
+					copyArrayToColourBinFromTo pattern (), 8, 15
+					rem copyArrayToColourBinFromTo pattern (), 0, 15
+				Case PLATFORM_SMS:
+					copyArrayToMainBin pattern ()
 			End Select
 			ct = ct + 1
 			If max <> -1 And ct = max Then Exit For
 		Next x
 		If max <> -1 And ct = max Then Exit For
 	Next y
-	Puts "mkts_om v0.4.20181113 ~ Chars mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes)."
+	Puts "mkts_om v0.5.20190909 ~ Chars mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes)."
 End Sub
 
 Sub cpcDoSuperBuffer (img As Any Ptr)
@@ -579,7 +839,7 @@ Sub cpcDoSuperBuffer (img As Any Ptr)
 		Next x
 	Next y
 
-	Puts "mkts_om v0.4.20181113 ~ Superbuffer mode (12288 bytes)."
+	Puts "mkts_om v0.5.20190909 ~ Superbuffer mode (12288 bytes)."
 End Sub
 
 Sub cpcDoScr (img As Any Ptr)
@@ -596,7 +856,7 @@ Sub cpcDoScr (img As Any Ptr)
 		For x = 0 To 47: mbWrite 0: Next x
 	Next yy
 
-	Puts "mkts_om v0.4.20181113 ~ Superbuffer mode (16384 bytes)."
+	Puts "mkts_om v0.5.20190909 ~ Superbuffer mode (16384 bytes)."
 	Puts "HW Palette for the ASM loader: "
 	textpal = ""
 	For i = 0 To 15
@@ -621,6 +881,8 @@ Sub doScr (img As Any Ptr)
 			Puts "not supprted yet"
 		Case PLATFORM_SG1000
 			Puts "not supprted yet"
+		Case PLATFORM_SMS
+			Puts "not supprted yet"
 	End Select
 End Sub
 
@@ -628,7 +890,7 @@ Sub doTmaps (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As 
 	Dim As Integer x, y, x0, y0, x1, y1, ct, ctTmaps, xa, ya, i
 	Dim As Integer xx, yy
 	Dim As uByte attr 	' will be ignored in this Sub
-	Dim As uByte pattern (15)
+	Dim As uByte pattern (31)
 	Dim As Integer cTMapIndex
 	Dim As Integer wasNew, pIndex	
 
@@ -641,10 +903,10 @@ Sub doTmaps (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As 
 	y1 = x0 + h * hMeta * 8 - 1
 	ct = 0
 	ctTmaps = 0
-	
+
 	For y = y0 To y1 Step 8 * wMeta
 		For x = x0 To x1 Step patternWidthInPixels * hMeta
-			
+
 			' Read chars in current metatile
 			cTMapIndex = 0
 			ya = y
@@ -652,23 +914,30 @@ Sub doTmaps (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As 
 				xa = x
 				For xx = 0 To wMeta - 1
 					extractPatternFrom xa, ya, img, pattern (), attr
-					pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew)
-
+					
 					Select Case platform
 						Case PLATFORM_ZX:
+							pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew, 0)
 							If wasNew Then copyFirstBytesOfArrayToMainBin pattern (), patternSize: ct = ct + 1
 							tMaps (tMapsIndex, cTMapIndex) = attr: cTMapIndex = cTMapIndex + 1
 							tMaps (tMapsIndex, cTMapIndex) = pIndex: cTMapIndex = cTMapIndex + 1
 						Case PLATFORM_CPC:
+							pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew, 0)
 							If wasNew Then copyFirstBytesOfArrayToMainBin pattern (), patternSize: ct = ct + 1
 							tMaps (tMapsIndex, cTMapIndex) = pIndex: cTMapIndex = cTMapIndex + 1
 						Case PLATFORM_SG1000
+							pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew, 0)
 							If wasNew Then 
 								copyFirstBytesOfArrayToMainBin pattern (), 8
-								copyArrayToColourBinFrom pattern (), 8
+								copyArrayToColourBinFromTo pattern (), 8, 15
 								ct = ct + 1
 							End If
 							tMaps (tMapsIndex, cTMapIndex) = pIndex: cTMapIndex = cTMapIndex + 1
+						Case PLATFORM_SMS
+							pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew, -1)
+							If attr = 1 Then pIndex = pIndex Or &H0800
+							If wasNew Then copyArrayToMainBin pattern (): ct = ct + 1
+							tmaps (tMapsIndex, cTMapIndex) = pIndex: cTMapIndex = cTMapIndex + 1
 					End Select
 
 					xa = xa + patternWidthInPixels
@@ -684,7 +953,7 @@ Sub doTmaps (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As 
 doTmapsBreak:
 
 	i = 1: If platform = PLATFORM_ZX Then i = 2
-	Puts "mkts_om v0.4.20181113 ~ Tmaps mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes) from " & ctTmaps & " metatiles (" & (ctTmaps * i * wMeta * hMeta) & " bytes)."
+	Puts "mkts_om v0.5.20190909 ~ Tmaps mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes) from " & ctTmaps & " metatiles (" & (ctTmaps * i * wMeta * hMeta) & " bytes)."
 End Sub
 
 Sub zxDoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As Integer, wMeta As Integer, hMeta As Integer, max As Integer)
@@ -741,7 +1010,7 @@ Sub zxDoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h
 	Next y
 zxDoSpritesBreak:
 
-	Puts "mkts_om v0.4.20181113 ~ Sprites mode, " & ct & " " & wMetaPixels & "x" & hMetaPixels & " sprite cells with masks extracted (" & (mainIndex) & " bytes)."
+	Puts "mkts_om v0.5.20190909 ~ Sprites mode, " & ct & " " & wMetaPixels & "x" & hMetaPixels & " sprite cells with masks extracted (" & (mainIndex) & " bytes)."
 End Sub
 
 Sub cpcDoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As Integer, wMeta As Integer, hMeta As Integer, max As Integer)
@@ -779,7 +1048,7 @@ Sub cpcDoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, 
 	Next y
 cpcDoSpritesBreak:
 
-	Puts "mkts_om v0.4.20181113 ~ Sprites mode, " & ct & " " & wMetaPixels & "x" & hMetaPixels & " sprite cells extracted (" & (mainIndex - curIndex) & " bytes)."
+	Puts "mkts_om v0.5.20190909 ~ Sprites mode, " & ct & " " & wMetaPixels & "x" & hMetaPixels & " sprite cells extracted (" & (mainIndex - curIndex) & " bytes)."
 End Sub
 
 Sub TMS9918DoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As Integer, wMeta As Integer, hMeta As Integer, max As Integer, xOffset As Integer, yOffset As Integer)
@@ -930,8 +1199,79 @@ Sub TMS9918DoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integ
 	Next y	
 
 TMS9918DoSpritesBreak:
-	Puts "mkts_om v0.4.20181113 ~ Sprites mode, " & ct & " " & wMetaPixels & "x" & hMetaPixels & " sprite cells extracted (" & (mainIndex - curIndex) & " bytes)."
+	Puts "mkts_om v0.5.20190909 ~ Sprites mode, " & ct & " " & wMetaPixels & "x" & hMetaPixels & " sprite cells extracted (" & (mainIndex - curIndex) & " bytes)."
 
+End Sub
+
+Sub smsDoSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As Integer, wMeta As Integer, hMeta As Integer, max As Integer, xOffset As Integer, yOffset As Integer)
+	
+	Dim As Integer x, y, x0, y0, x1, y1, ct, ctTmaps, xa, ya, i, xMeta, yMeta, xPat, yPat, c, pti, found
+	Dim As Integer xOffs, yOffs
+	Dim As Integer xx, yy
+	Dim As uByte attr 	' will be ignored in this Sub
+	Dim As Integer cTMapIndex
+	Dim As Integer wasNew, pIndex
+	Dim As Integer wMetaPixels, hMetaPixels
+	Dim As Integer curIndex
+	Dim As Integer colours (15), nColours
+	Dim As Integer swapped, curSpriteIndex
+	Dim As uByte pattern (31)
+	Dim As String patternsS (3)
+	Dim As Integer sprStrIdx
+
+	curIndex = mainIndex
+
+	x0 = xc0 * 8
+	y0 = yc0 * 8
+	wMetaPixels = wMeta * 8
+	hMetaPixels = hMeta * 8
+	x1 = x0 + w * wMetaPixels - 1
+	y1 = y0 + h * hMetaPixels - 1
+	ct = 0
+
+	If debug Then Puts "wMeta,hMeta = " & wMetaPixels & ", " & hMetaPixels
+	
+	For y = y0 To y1 Step hMetaPixels
+		For x = x0 To x1 Step wMetaPixels
+
+			' New metasprite:
+			metaSprites (metaSpritesIndex).w = wMeta
+			metaSprites (metaSpritesIndex).h = hMeta
+			metaSprites (metaSpritesIndex).nSprites = hMeta * wMeta
+			metaSprites (metaSpritesIndex).xOffset = xOffset
+			metaSprites (metaSpritesIndex).yOffset = yOffset
+
+			sprStrIdx = 0
+			
+			' Origin coordinates of this metasprite: (xa, ya)
+			ya = y
+			
+			For yMeta = 0 To hMeta - 1
+				xa = x
+			
+				For xMeta = 0 to wMeta - 1
+					
+					' Extract pattern
+					extractPatternFrom xa, ya, img, pattern (), attr
+					pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew, 0)
+					If wasNew Then copyArrayToMainBin pattern ()
+
+					' Add to metasprite
+					metaSprites (metaSpritesIndex).sprites (sprStrIdx).patternOffset = pIndex
+
+					xa = xa + 8
+					sprStrIdx = sprStrIdx + 1
+				Next xMeta
+				ya = ya + 8
+			Next yMeta
+
+			metaSpritesIndex = metaSpritesIndex + 1: ct = ct + 1
+			If max > 0 And metaSpritesIndex = max Then goto smsDoSpritesBreak
+		Next x
+	Next y
+
+	smsDoSpritesBreak:
+	Puts "mkts_om v0.5.20190909 ~ Sprites mode, " & ct & " " & wMetaPixels & "x" & hMetaPixels & " sprite cells extracted (" & (mainIndex - curIndex) & " bytes)."
 End Sub
 
 Sub doSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As Integer, wMeta As Integer, hMeta As Integer, max As Integer, xOffset As Integer, yOffset As Integer)
@@ -942,6 +1282,8 @@ Sub doSprites (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h A
 			cpcDoSprites img, xc0, yc0, w, h, wMeta, hMeta, max
 		Case PLATFORM_SG1000
 			TMS9918DoSprites img, xc0, yc0, w, h, wMeta, hMeta, max, xOffset, yOffset
+		Case PLATFORM_SMS
+			smsDoSprites img, xc0, yc0, w, h, wMeta, hMeta, max, xOffset, yOffset
 	End Select
 End Sub
 
@@ -964,7 +1306,7 @@ Sub zxDoBg (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As I
 	For y = y0 To y1 Step 8
 		For x = x0 To x1 Step 8
 			extractPatternFrom x, y, img, pattern (), attr
-			pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew)
+			pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew, 0)
 			If wasNew Then copyArrayToMainBin pattern (): ct = ct + 1
 		
 			abWrite attr
@@ -985,66 +1327,87 @@ Sub zxDoBg (img As Any Ptr, xc0 As Integer, yc0 As Integer, w As Integer, h As I
 		mbWrite auxBin (i)
 	Next i
 
-	Puts "mkts_om v0.4.20181113 ~ BG mode, " & ct & " patterns (" & (8*ct) & " bytes). NT is " & auxIndex & " bytes."
+	Puts "mkts_om v0.5.20190909 ~ BG mode, " & ct & " patterns (" & (8*ct) & " bytes). NT is " & auxIndex & " bytes."
 End Sub
 
 Sub cpcDoNametable (img As Any Ptr, x0 As Integer, y0 As Integer, x1 As Integer, y1 As Integer)
 	Dim As Integer x, y, ct, wasNew
 	Dim As uByte attr, pIndex
-	Dim As uByte pattern (15)
+	Dim As uByte pattern (31)
 
 	ct = 0
 	For y = y0*8 To y1*8+7 Step 8
 		For x = x0*patternWidthInPixels To (x1+1)*patternWidthInPixels-1 Step patternWidthInPixels
 			extractPatternFrom x, y, img, pattern (), attr
-			pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew)
+			pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew, 0)
 			If wasNew Then copyFirstBytesOfArrayToMainBin pattern (), patternSize: ct = ct + 1
 			nametable ((y\8)*32+(x\patternWidthInPixels)) = pIndex
 		Next x
 	Next y
 
-	Puts "mkts_om v0.4.20181113 ~ Nametable mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes)."
+	Puts "mkts_om v0.5.20190909 ~ Nametable mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes)."
 End Sub
 
 Sub zxDoNametable (img As Any Ptr, x0 As Integer, y0 As Integer, x1 As Integer, y1 As Integer)
 	Dim As Integer x, y, ct, wasNew
 	Dim As uByte attr, pIndex
-	Dim As uByte pattern (15)
+	Dim As uByte pattern (31)
 
 	ct = 0
 	For y = y0*8 To y1*8+7 Step 8
 		For x = x0*8 To x1*8+7 Step 8
 			extractPatternFrom x, y, img, pattern (), attr
-			pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew)
+			pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew, 0)
 			If wasNew Then copyFirstBytesOfArrayToMainBin pattern (), patternSize: ct = ct + 1
 			nametable ((y\8)*32+(x\8)) = pIndex
 			nametable (768 + (y\8)*32+(x\8)) = attr
 		Next x
 	Next y	
 
-	Puts "mkts_om v0.4.20181113 ~ Nametable mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes)."
+	Puts "mkts_om v0.5.20190909 ~ Nametable mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes)."
 End Sub
 
 Sub TMS9918DoNametable (img As Any Ptr, x0 As Integer, y0 As Integer, x1 As Integer, y1 As Integer)
 	Dim As Integer x, y, ct, wasNew
 	Dim As uByte attr, pIndex
-	Dim As uByte pattern (15)
+	Dim As uByte pattern (31)
 
 	ct = 0
 	For y = y0*8 To y1*8+7 Step 8
 		For x = x0*8 To x1*8+7 Step 8
 			extractPatternFrom x, y, img, pattern (), attr
-			pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew)
+			pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew, 0)
 			If wasNew Then 
 				copyFirstBytesOfArrayToMainBin pattern (), 8
-				copyArrayToColourBinFrom pattern (), 8
+				copyArrayToColourBinFromTo pattern (), 8, 15
 				ct = ct + 1
 			End If
 			nametable ((y\8)*32+(x\8)) = pIndex
 		Next x
 	Next y	
 
-	Puts "mkts_om v0.4.20181113 ~ Nametable mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes)."
+	Puts "mkts_om v0.5.20190909 ~ Nametable mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes)."
+End Sub
+
+Sub SMSDoNametable (img As Any Ptr, x0 As Integer, y0 As Integer, x1 As Integer, y1 As Integer)
+	Dim As Integer x, y, ct, wasNew, pIndex
+	Dim As uByte attr
+	Dim As uByte pattern (31)
+
+	ct = 0
+	For y = y0*8 To y1*8+7 Step 8
+		For x = x0*8 To x1*8+7 Step 8
+			extractPatternFrom x, y, img, pattern (), attr
+			pIndex = findPatternInPoolAndAdd (patternToString (pattern ()), wasNew, -1)
+			If wasNew Then 
+				copyArrayToMainBin pattern ()
+				ct = ct + 1
+			End If
+			nametable ((y\8)*32+(x\8)) = pIndex
+		Next x
+	Next y	
+
+	Puts "mkts_om v0.5.20190909 ~ Nametable mode, " & ct & " patterns extracted (" & (ct * patternSize) & " bytes)."
 End Sub
 
 Sub doNametable (img As Any Ptr) 
@@ -1054,6 +1417,8 @@ Sub doNametable (img As Any Ptr)
 		Case PLATFORM_ZX
 			zxDoNametable img, 0, 0, 31, 23
 		Case PLATFORM_SG1000
+			TMS9918DoNametable img, 0, 0, 31, 23
+		Case PLATFORM_SMS
 			TMS9918DoNametable img, 0, 0, 31, 23
 	End Select
 End Sub
@@ -1066,6 +1431,8 @@ Sub doCutOut (img As Any Ptr, x0 As Integer, y0 As Integer, x1 As Integer, y1 As
 			zxDoNametable img, x0, y0, x1, y1
 		Case PLATFORM_SG1000
 			TMS9918DoNametable img, x0, y0, x1, y1
+		Case PLATFORM_SMS
+			TMS9918DoNametable img, x0, y0, x1, y1
 	End Select
 End Sub
 
@@ -1074,7 +1441,59 @@ Sub writeToNametablerle (b As uByte)
 	rleIdx = rleIdx + 1
 End Sub
 
-Sub doRle ()
+Sub writeToNametablerle16 (ui As uInteger)
+	nametablerle16 (rleIdx ) = ui
+	rleIdx = rleIdx + 1
+End Sub
+
+Sub smsDoRle ()
+	Dim As Integer namIdx
+	Dim As uInteger rleWord
+	Dim As uInteger runWord
+	Dim As Integer runMode
+	Dim As uInteger runLength
+
+	' 0xFlll is the run marker, lll = run length
+	rleIdx = 0
+	
+	namIdx = 0: rleWord = &HFFFF: runMode = 0
+	While namIdx < 768
+		If runMode Then
+			' Read byte
+			runWord = nametable (namIdx): namIdx = namIdx + 1
+			If runWord = rleWord Then
+				runLength = runLength + 1
+			Else
+				' Write run marker + runLength
+				writeToNametablerle16 (runLength Or &HF000)
+				runMode = 0
+				' Output word
+				writeToNametablerle16 runWord
+				rleWord = runWord
+			End If
+		Else
+			' Read word
+			runWord = nametable (namIdx): namIdx = namIdx + 1
+			If runWord <> rleWord Then
+				' Output byte
+				writeToNametablerle16 runWord
+				rleWord = runWord
+			Else
+				runLength = 1
+				runMode = -1
+			End If
+		End If
+	Wend
+
+	If runMode Then writeToNametablerle16 (runLength Or &HF000)
+
+	' Write end marker
+	writeToNametablerle16 &HF000	
+
+	Puts "mkts_om v0.5.20190909 ~ Rle encoder, compressed to " & rleIdx*2 & " bytes."
+End Sub
+
+Sub generalDoRle ()
 	Dim As Integer namIdx
 	Dim As uByte rleByte
 	Dim As uByte runByte
@@ -1130,8 +1549,18 @@ Sub doRle ()
 	writeToNametablerle &HFF
 	writeToNametablerle 0
 
-	Puts "mkts_om v0.4.20181113 ~ Rle encoder, compressed to " & rleIdx & " bytes."
+	Puts "mkts_om v0.5.20190909 ~ Rle encoder, compressed to " & rleIdx & " bytes."
 End Sub
+
+Sub doRle ()
+	Select Case platform
+		case PLATFORM_SMS
+			smsDoRle ()
+		case Else
+			generalDoRle ()
+	End Select
+End Sub
+
 
 Sub doNametableRLE (img As Any Ptr)
 	' call doNametable, 
@@ -1384,6 +1813,30 @@ Sub writeTsmaps (fileName As String)
 	fiPuts "+ " & bytes & " bytes written"
 End Sub
 
+Sub writeTsmapsInteger (fileName As String)
+	Dim As Integer fOut
+	Dim As Integer bytes
+	Dim As Integer i, j, mult
+	Dim As uByte d
+
+	If platform = PLATFORM_ZX Then mult = 2 Else mult = 1
+
+	fiPuts "Opening " & fileName & " for output."
+	Kill fileName
+	fOut = FreeFile
+	Open fileName For Binary As #fOut
+	bytes = 0
+	For i = 0 To tMapsIndex - 1
+		For j = 0 To lastwMeta * lasthMeta * mult - 1
+			bytes = bytes + 1
+			d = tMaps (i, j) And &HFF: Put #fOut, , d
+			d = tMaps (i, j) Shr 8: Put #fOut, , d
+		Next j
+	Next i				
+	Close #fOut
+	fiPuts "+ " & bytes & " bytes written"
+End Sub
+
 Sub writeTsmapsText (label As String)
 	Dim As Integer bytes
 	Dim As Integer i, j, mult
@@ -1417,6 +1870,38 @@ Sub writeTsmapsText (label As String)
 	fiPuts "+ " & bytes & " bytes written"
 End Sub
 
+Sub writeTsmapsTextInteger (label As String)
+	Dim As Integer bytes
+	Dim As Integer i, j, mult
+	Dim As uByte d
+
+	If platform = PLATFORM_ZX Then mult = 2 Else mult = 1
+
+	fiPuts "Writing tsmaps to array named " & label
+	
+	Print #fMapFile, "// Metatileset data"
+	Print #fMapFile, "const unsigned int " & label & " [] = {"
+	If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned int " & label & " [];": Print #fHeaderFile, ""
+
+	bytes = 0
+	For i = 0 To tMapsIndex - 1
+		For j = 0 To lastwMeta * lasthMeta * mult - 1			
+			If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
+			Print #fMapFile, "0x" & lCase (Hex (tMaps (i, j), 4));
+			If bytes < tMapsIndex * lastwMeta * lasthMeta * mult - 1 Then Print #fMapFile, ", ";
+			If bytes Mod 8 = 7 Then Print #fMapFile, ""
+			bytes = bytes + 1
+		Next j
+	Next i
+
+	If bytes Mod 8 Then Print #fMapFile, ""
+	Print #fMapFile, "};"
+	Print #fMapFile, "// " & bytes & " bytes."
+	Print #fMapFile, ""
+	
+	fiPuts "+ " & bytes & " bytes written"
+End Sub
+
 Sub writeMetaSprites (fileName As String)
 	Dim As Integer fOut
 	Dim As Integer bytes
@@ -1429,16 +1914,32 @@ Sub writeMetaSprites (fileName As String)
 	fOut = FreeFile
 	Open fileName For Binary As #fOut
 	bytes = 0
-	For i = 0 To metaSpritesIndex - 1
-		For j = 0 To metaSprites (i).nSprites - 1
-			d = metaSprites (i).sprites (j).yOffset: Put #fOut, , d
-			d = metaSprites (i).sprites (j).xOffset: Put #fOut, , d
-			d = metaSprites (i).sprites (j).patternOffset: Put #fOut, , d
-			d = metaSprites (i).sprites (j).colour: Put #fOut, , d
-			bytes = bytes + 4
-		Next j
-		d = &H80: Put #fOut, , d 	' End marker
-	Next i				
+	Select Case platform
+		Case PLATFORM_SG1000:
+			For i = 0 To metaSpritesIndex - 1
+				For j = 0 To metaSprites (i).nSprites - 1
+					d = metaSprites (i).sprites (j).yOffset: Put #fOut, , d
+					d = metaSprites (i).sprites (j).xOffset: Put #fOut, , d
+					d = metaSprites (i).sprites (j).patternOffset: Put #fOut, , d
+					d = metaSprites (i).sprites (j).colour: Put #fOut, , d
+					bytes = bytes + 4
+				Next j
+				d = &H80: Put #fOut, , d 	' End marker
+			Next i				
+		Case PLATFORM_SMS
+			For i = 0 To metaSpritesIndex - 1
+				' Format yOff, xOff, w, h, pats...
+				d = metaSprites (i).yOffset: Put #fOut, , d
+				d = metaSprites (i).xOffset: Put #fOut, , d
+				d = metaSprites (i).w: Put #fOut, , d
+				d = metaSprites (i).h: Put #fOut, , d
+				bytes = bytes + 4
+				For j = 0 To metaSprites (i).nSprites - 1
+					d = metaSprites (i).sprites (j).patternOffset: Put #fOut, , d
+					bytes = bytes + 1
+				Next j
+			Next i
+	End Select
 	Close #fOut
 	fiPuts "+ " & bytes & " bytes written"
 End Sub
@@ -1453,20 +1954,41 @@ Sub writeMetaSpritesText (label As String)
 	Print #fMapFile, "// Metasprite data"
 	
 	bytes = 0
-	For i = 0 To metaSpritesIndex - 1
-		Print #fMapFile, "const unsigned char " & label & "_" & lCase (Hex (i, 2)) & " [] = {"
-		If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & "_" & lCase (Hex (i, 2)) & " [];"
-		For j = 0 To metaSprites (i).nSprites - 1
-			Print #fMapFile, "    ";
-			d = metaSprites (i).sprites (j).yOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
-			d = metaSprites (i).sprites (j).xOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
-			d = metaSprites (i).sprites (j).patternOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
-			d = metaSprites (i).sprites (j).colour: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", "
-			bytes = bytes + 4
-		Next j
-		Print #fMapFile, "    0x80"
-		Print #fMapFile, "};"
-	Next i				
+	Select Case platform
+		Case PLATFORM_SG1000
+			For i = 0 To metaSpritesIndex - 1
+				Print #fMapFile, "const unsigned char " & label & "_" & lCase (Hex (i, 2)) & " [] = {"
+				If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & "_" & lCase (Hex (i, 2)) & " [];"
+				For j = 0 To metaSprites (i).nSprites - 1
+					Print #fMapFile, "    ";
+					d = metaSprites (i).sprites (j).yOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
+					d = metaSprites (i).sprites (j).xOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
+					d = metaSprites (i).sprites (j).patternOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
+					d = metaSprites (i).sprites (j).colour: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", "
+					bytes = bytes + 4
+				Next j
+				Print #fMapFile, "    0x80"
+				Print #fMapFile, "};"
+			Next i				
+		Case PLATFORM_SMS
+			For i = 0 To metaSpritesIndex - 1
+				Print #fMapFile, "const unsigned char " & label & "_" & lCase (Hex (i, 2)) & " [] = {"
+				If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & "_" & lCase (Hex (i, 2)) & " [];"
+				Print #fMapFile, "	";
+				d = metaSprites (i).xOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
+				d = metaSprites (i).yOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
+				d = metaSprites (i).w: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", ";
+				d = metaSprites (i).h: Print #fMapFile, "0x" & lCase (Hex (d, 2)) & ", "
+				Print #fMapFile, "	";
+				bytes = bytes + 4
+				For j = 0 To metaSprites (i).nSprites - 1
+					d = metaSprites (i).sprites (j).patternOffset: Print #fMapFile, "0x" & lCase (Hex (d, 2));
+					If j < metaSprites (i).nSprites - 1 Then Print #fMapFile, ", "; Else Print #fMapFile, ""
+					bytes = bytes + 1
+				Next j
+				Print #fMapFile, "};"
+			Next i
+	End Select
 	
 	Print #fMapFile, "// " & bytes & " bytes."
 	Print #fMapFile, ""
@@ -1479,37 +2001,61 @@ End Sub
 Sub writeNametable (fileName As String)
 	Dim As Integer fOut
 	Dim As Integer i
-	Dim As Integer sizeT
+	Dim As Integer sizeT, bytes
+	Dim As uByte d
 	
 	Select Case platform
 		Case PLATFORM_ZX: sizeT = 1535
-		Case PLATFORM_CPC, PLATFORM_SG1000: sizeT = 767
+		Case PLATFORM_CPC, PLATFORM_SG1000, PLATFORM_SMS: sizeT = 767
 	End Select
 
 	fiPuts "Opening " & fileName & " for output."
 	Kill fileName
 	fOut = FreeFile
 	Open fileName For Binary As #fOut
-	For i = 0 To sizeT
-		Put #fOut, , nametable (i)
-	Next i
+	bytes = 0
+	Select Case platform
+		Case PLATFORM_SMS:
+			For i = 0 To sizeT
+				d = nametable (i) And &HFF: Put #fOut, , d
+				d = nametable (i) Shr 4: Put #fOut, , d
+				bytes = bytes + 2
+			Next i
+		Case Else
+			For i = 0 To sizeT
+				d = nametable (i) And &HFF: Put #fOut, , d
+				bytes = bytes + 1
+			Next i
+	End Select
 	Close #fOut
-	fiPuts "+ " & (sizeT + 1) & " bytes written"
+	fiPuts "+ " & bytes & " bytes written"
 End Sub
 
 Sub writeNametableRle (fileName As String)
-	Dim As Integer fOut
+	Dim As Integer fOut, bytes
 	Dim As Integer i
+	Dim As uByte d
 	
 	fiPuts "Opening " & fileName & " for output."
 	Kill fileName
 	fOut = FreeFile
 	Open fileName For Binary As #fOut
-	For i = 0 To rleIdx - 1
-		Put #fOut, , nametablerle (i)
-	Next i
+	bytes = 0
+	Select Case platform
+		Case PLATFORM_SMS:
+			For i = 0 To rleIdx - 1
+				d = nametablerle16 (i) And &HFF: Put #fOut, , d
+				d = nametablerle16 (i) Shr 4: Put #fOut, , d
+				bytes = bytes + 2
+			Next i
+		Case Else
+			For i = 0 To rleIdx - 1
+				d = nametablerle (i) And &HFF: Put #fOut, , d
+				bytes = bytes + 1
+			Next i
+	End Select
 	Close #fOut
-	fiPuts "+ " & rleIdx & " bytes written"
+	fiPuts "+ " & bytes & " bytes written"
 End Sub
 
 Sub writeNametableText (label As String)
@@ -1519,7 +2065,7 @@ Sub writeNametableText (label As String)
 	
 	Select Case platform
 		Case PLATFORM_ZX: sizeT = 1535
-		Case PLATFORM_CPC, PLATFORM_SG1000: sizeT = 767
+		Case PLATFORM_CPC, PLATFORM_SG1000, PLATFORM_SMS: sizeT = 767
 	End Select
 
 	fiPuts "Writing nametable data to array named " & label
@@ -1530,10 +2076,16 @@ Sub writeNametableText (label As String)
 	bytes = 0
 	For i = 0 To sizeT
 		If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
-		d = nametable (i): Print #fMapFile, "0x" & lCase (Hex (d, 2));
+		Select Case platform
+			Case PLATFORM_SMS
+				Print #fMapFile, "0x" & lCase (Hex (nametable (i), 4));
+				bytes = bytes + 2
+			Case ELSE
+				d = nametable (i) And &HFF: Print #fMapFile, "0x" & lCase (Hex (d, 2));
+				bytes = bytes + 1
+		End Select
 		If i < sizeT Then Print #fMapFile, ", ";
 		If bytes Mod 8 = 7 Then Print #fMapFile, ""
-		bytes = bytes + 1
 	Next i
 
 	If bytes Mod 8 Then Print #fMapFile, ""
@@ -1547,7 +2099,7 @@ Sub writeNametableText (label As String)
 End Sub
 
 Sub writeCutoutText (label As String)
-	Dim As Integer i, bytes, bytes2, x, y
+	Dim As Integer i, bytes, bytes2, x, y, contt
 	Dim As Integer sizeT
 	Dim As uByte d
 
@@ -1559,14 +2111,21 @@ Sub writeCutoutText (label As String)
 		Print #fMapFile, "const unsigned char " & label & " [] = {"
 		If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & " [];"
 	End If
-	bytes = 0: sizeT = (cutOutY1-cutOutY0+1) * (cutOutX1-cutOutx0+1)
+	contt = 0: bytes = 0: sizeT = (cutOutY1-cutOutY0+1) * (cutOutX1-cutOutx0+1)
 	For y = cutOutY0 To cutOutY1
 		For x = cutOutX0 To cutOutX1
-			If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
-			d = nametable (y*32+x): Print #fMapFile, "0x" & lCase (Hex (d, 2));
+			If contt Mod 8 = 0 Then Print #fMapFile, "    ";
+			Select Case platform
+				Case PLATFORM_SMS
+					Print #fMapFile, "0x" & lCase (Hex (nametable (y*32+x), 4));
+					bytes = bytes + 2
+				Case Else
+					d = nametable (y*32+x) And &HFF: Print #fMapFile, "0x" & lCase (Hex (d, 2));
+					bytes = bytes + 1
+				End Select
 			If i < sizeT Then Print #fMapFile, ", ";
-			If bytes Mod 8 = 7 Then Print #fMapFile, ""
-			bytes = bytes + 1
+			If contt Mod 8 = 7 Then Print #fMapFile, ""
+			contt = contt + 1
 	Next x, y
 
 	If bytes Mod 8 Then Print #fMapFile, ""
@@ -1602,7 +2161,7 @@ Sub writeCutoutText (label As String)
 End Sub
 
 Sub writeNametableRleText (label As String)
-	Dim As Integer i, bytes
+	Dim As Integer i, bytes, contt
 	Dim As uByte d
 	
 	fiPuts "Writing nametable RLE data to array named " & label
@@ -1610,13 +2169,20 @@ Sub writeNametableRleText (label As String)
 	Print #fMapFile, "// nametable RLE'd data"
 	Print #fMapFile, "const unsigned char " & label & " [] = {"
 	If fMapFile <> fHeaderFile Then Print #fHeaderFile, "extern const unsigned char " & label & " [];"
-	bytes = 0
+	bytes = 0: contt = 0
 	For i = 0 To rleIdx - 1
-		If bytes Mod 8 = 0 Then Print #fMapFile, "    ";
-		d = nametablerle (i): Print #fMapFile, "0x" & lCase (Hex (d, 2));
+		If contt Mod 8 = 0 Then Print #fMapFile, "    ";
+		Select Case platform
+			Case PLATFORM_SMS
+				Print #fMapFile, "0x" & lCase (Hex (nametablerle16 (i), 4));
+				bytes = bytes + 2
+			Case Else
+				d = nametablerle (i): Print #fMapFile, "0x" & lCase (Hex (d, 2));
+				bytes = bytes + 1
+		End Select
 		If i < rleIdx - 1 Then Print #fMapFile, ", ";
-		If bytes Mod 8 = 7 Then Print #fMapFile, ""
-		bytes = bytes + 1
+		If contt Mod 8 = 7 Then Print #fMapFile, ""
+		contt = contt + 1
 	Next i
 
 	If bytes Mod 8 Then Print #fMapFile, ""
@@ -1665,16 +2231,16 @@ Sub zxDoScripted (scriptFile As String)
 				fMapFile = FreeFile
 				Open tokens (1) For Output As fMapFile
 				If Not headerFileOpen Then fHeaderFile = fMapFile
-				Print #fMapFile, "// Generated by mkts_om v0.4.20181113"
-				Print #fMapFile, "// Copyleft 2017, 2018 The Mojon Twins"
+				Print #fMapFile, "// Generated by mkts_om v0.5.20190909"
+				Print #fMapFile, "// Copyleft 2017-2019 The Mojon Twins"
 				Print #fMapFile, ""
 
 			Case "headerfile"
 				If headerFileOpen Then Close fHeaderFile
 				fHeaderFile = FreeFile
 				Open tokens (1) For Output As fHeaderFile
-				Print #fHeaderFile, "// Generated by mkts_om v0.4.20181113"
-				Print #fHeaderFile, "// Copyleft 2017, 2018 The Mojon Twins"
+				Print #fHeaderFile, "// Generated by mkts_om v0.5.20190909"
+				Print #fHeaderFile, "// Copyleft 2017-2019 The Mojon Twins"
 				Print #fHeaderFile, ""
 
 			Case "brickinput"
@@ -1715,7 +2281,13 @@ Sub zxDoScripted (scriptFile As String)
 						writeColoursBinary tokens (3)
 					End If
 				End If
-				If tokens (1) = "tmaps" Then writeTsmaps tokens (2)
+				If tokens (1) = "tmaps" Then 
+					If platform = PLATFORM_SMS Then
+						writeTsmapsInteger tokens (2)
+					Else
+						writeTsmaps tokens (2)
+					End If
+				End If
 				If tokens (1) = "nametable" Then writeNametable tokens (2)
 				If tokens (1) = "nametablerle" then writeNametableRle tokens (2)
 				If tokens (1) = "metasprites" then writeMetaSprites tokens (2)
@@ -1738,10 +2310,13 @@ Sub zxDoScripted (scriptFile As String)
 						idxFrom = 0: idxTo = mainIndex - 1
 					End If
 
+					If debug Then Puts "idxFrom = " & idxFrom & ", idxTo (=mainIndex-1) = " & idxTo
+
 					If parserFindTokenInTokens ("packed", tokens (), "lcase") Then
 						writePartialMainBinary "temp.tmp", idxFrom, idxTo
 						Shell """" & EXEPATH & "/apack.exe"" temp.tmp temp.cmp > nul"
 						copyBinaryFileText tokens (2), "temp.cmp", "Aplib compressed pattern data"
+						If debug Then Sleep
 						Kill "temp.tmp"
 						Kill "temp.cmp"
 						If tokens (3) <> "" And tokens (3) <> "packed" Then
@@ -1760,7 +2335,13 @@ Sub zxDoScripted (scriptFile As String)
 						End If
 					End If
 				End If
-				If tokens (1) = "tmaps" Then writeTsmapsText tokens (2)
+				If tokens (1) = "tmaps" Then 
+					If platform = PLATFORM_SMS Then
+						writeTsmapsTextInteger tokens (2)
+					Else
+						writeTsmapsText tokens (2)
+					End If
+				End If
 				If tokens (1) = "metasprites" Then writeMetaSpritesText tokens (2)
 				If tokens (1) = "nametable" Then writeNametableText tokens (2)
 				If tokens (1) = "nametablerle" then writeNametableRleText tokens (2)
@@ -1868,9 +2449,10 @@ Dim As Integer xc0, yc0, w, h, wMeta, hMeta, max, i, j
 Dim As Integer coords (9)
 Dim As Integer wIn, hIn
 Dim As String outputBaseFn, fileName, prefix
-Dim As Integer fOut, bytes
+Dim As Integer fOut, bytes, needsPalette
 Dim As Any Ptr img
 Dim As uByte d
+Dim As Integer sprOffsX, sprOffsY
 
 sclpParseAttrs
 cPoolIndex = 0
@@ -1886,7 +2468,7 @@ For i = 0 To uBound (globalPalette)
 Next i
 
 ' Hello
-fiPuts "mkts_om v0.4.20181113"
+fiPuts "mkts_om v0.5.20190909"
 
 ' Mandatory params
 If sclpGetValue ("mode") = "scripted" Then
@@ -1900,11 +2482,12 @@ brickMultiplier = 1
 If sclpGetValue ("brickInput") <> "" Then brickMultiplier = 2
 
 ' We need to read the input image at this point
-'If debug Then
-''	screenres 640,480, 32
-'Else
+If debug Then
+	screenres 640, 480, 32
+	Paint (0,0),RGB(0,0,255)
+Else
 	screenres 640, 480, 32, , -1
-'End If
+End If
 
 ' Select platform
 If sclpGetValue ("platform") = "cpc" Then
@@ -1912,7 +2495,28 @@ If sclpGetValue ("platform") = "cpc" Then
 	patternSize = 16
 	patternWriteSize = 16
 	patternWidthInPixels = 4 * brickMultiplier
+	needsPalette = -1
+ElseIf sclpGetValue ("platform") = "sg1000" Then
+	platform = PLATFORM_SG1000
+	patternSize = 16
+	patternWriteSize = 8
+	patternWidthInPixels = 8
+	needsPalette = 0
+ElseIf sclpGetValue ("platform") = "sms" Then
+	platform = PLATFORM_SMS
+	patternSize = 32
+	patternWriteSize = 8
+	patternWidthInPixels = 8
+	needsPalette = -1
+Else
+	platform = PLATFORM_ZX
+	patternSize = 8
+	patternWriteSize = 32
+	patternWidthInPixels = 8
+	needsPalette = 0
+End If
 
+If needsPalette Then
 	If sclpGetValue ("mode") <> "scripted" And sclpGetValue ("mode") <> "pal" And sclpGetValue ("mode") <> "pals" Then
 		If sclpGetValue ("pal") = "" Then
 			Puts ("** pal file missing **")
@@ -1929,16 +2533,6 @@ If sclpGetValue ("platform") = "cpc" Then
 		
 		extractGlobalPalette img
 	End If
-ElseIf sclpGetValue ("platform") = "sg1000" Then
-	platform = PLATFORM_SG1000
-	patternSize = 16
-	patternWriteSize = 8
-	patternWidthInPixels = 8
-Else
-	platform = PLATFORM_ZX
-	patternSize = 8
-	patternWriteSize = 8
-	patternWidthInPixels = 8
 End If
 
 If sclpGetValue ("mode") <> "scripted" Then
@@ -1951,6 +2545,7 @@ If sclpGetValue ("mode") <> "scripted" Then
 
 	If debug Then 
 		Put (0,0),img,PSET
+		gDy = hIn: gDx = 0
 	End If
 End If
 
@@ -1989,6 +2584,14 @@ fiPuts "Process size (" & w & ", " & h & ")"
 cPoolIndex = Val (sclpGetValue ("tmapoffs"))
 fiPuts "tmapoffs " & cPoolIndex
 
+' sproffs
+If sclpGetValue ("sproffs") <> "" Then
+	parseCoordinatesString sclpGetValue ("sproffs"), coords ()
+	sprOffsX = coords (0): sprOffsY = coords (1)
+Else
+	sprOffsX = 0: sprOffsY = 0
+End If
+
 ' max
 max = Val (sclpGetValue ("max")): If max < 1 Then max = -1	' Which means no limit
 fiPuts "max " & max
@@ -2025,12 +2628,22 @@ Select Case sclpGetValue ("mode")
 	Case "mapped"
 		doTmaps img, xc0, yc0, w, h, wMeta, hMeta, max
 		writeFullBinary outputBaseFn & ".patterns.bin"
-		writeTsmaps outputBaseFn & ".tilemaps.bin" 
+		If platform = PLATFORM_SMS Then
+			writeTsmapsInteger outputBaseFn & ".tilemaps.bin" 
+		Else
+			writeTsmaps outputBaseFn & ".tilemaps.bin" 
+		End If
 		ImageDestroy img
 
 	Case "sprites"
-		doSprites img, xc0, yc0, w, h, wMeta, hMeta, max, 0, 0
-		writeFullBinary outputBaseFn & ".bin"
+		doSprites img, xc0, yc0, w, h, wMeta, hMeta, max, sprOffsX, sprOffsY
+		Select Case platform
+			Case PLATFORM_SMS, PLATFORM_SG1000:
+				writeFullBinary outputBaseFn & ".patterns.bin"
+				writeMetaSprites outputBaseFn & ".metasprites.bin"
+			Case Else:
+				writeFullBinary outputBaseFn & ".bin"
+		End Select
 		ImageDestroy img
 
 	Case "bg"
@@ -2063,4 +2676,4 @@ End Select
 				
 fiPuts "DONE"
 
-' If debug Then Puts "Any key to exit": Sleep: End
+ If debug Then Puts "Any key to exit": Sleep: End

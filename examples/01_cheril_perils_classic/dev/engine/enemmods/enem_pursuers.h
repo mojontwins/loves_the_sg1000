@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.1
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Pursuing enemies
@@ -79,6 +79,17 @@ switch (_en_state) {
 				cm_two_points ();
 				if (at1 || at2) {
 					_en_x = rda;
+				}
+			}
+#endif
+
+#ifdef PURSUERS_MAY_FIRE
+			// Shoot
+			if (_en_x2) {
+				if ((rand8() & _en_y2) == 1) {
+					rdx = _en_x + 4;
+					rdy = _en_y + 4;
+					cocos_shoot_aimed ();
 				}
 			}
 #endif

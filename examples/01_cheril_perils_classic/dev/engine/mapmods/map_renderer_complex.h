@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.1
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Map renderer complex:
@@ -71,7 +71,6 @@ void draw_scr (void) {
 
 		while (rdm < 192) {
 			rdt = *gp_gen ++;
-			gp_gen ++;
 			rda = rdt & 0x1f;
 			
 			rdct = rdt;
@@ -89,40 +88,6 @@ void draw_scr (void) {
 			rdt = *gp_gen ++;
 			rda = rdt & 0x0f;
 			
-			rdct = rdt;
-			while (rdct >= 16) {
-				add_tile (); rdct -= 16;
-			} add_tile ();
-		}
-	#endif
-
-	#ifdef MAP_FORMAT_RLE53_CHRROM
-		bankswitch (c_map_chr_rom_bank);
-		vram_adr (c_map [n_pant]);
-		rda = VRAM_READ; 	// Dummy read.
-		
-		// UNRLE into scr_buff
-		while (rdm < 192) {
-			rdt = VRAM_READ;
-			rda = rdt & 0x1f;
-			
-			rdct = rdt;
-			while (rdct >= 32) {
-				add_tile (); rdct -= 32;
-			} add_tile ();
-		}
-	#endif
-
-	#ifdef MAP_FORMAT_RLE44_CHRROM
-		bankswitch (c_map_chr_rom_bank);
-		vram_adr (c_map [n_pant]);
-		rdt = VRAM_READ; 	// Dummy read.
-		
-		// UNRLE into scr_buff
-		while (rdm < 192) {
-			rdt = VRAM_READ;
-			rda = rdt & 0x0f;
-
 			rdct = rdt;
 			while (rdct >= 16) {
 				add_tile (); rdct -= 16;
@@ -208,10 +173,6 @@ void draw_scr (void) {
 			map_attr [rdm] = c_behs [rdt];
 		#endif
 
-		#if defined (ENABLE_BREAKABLE) && !defined (BREAKABLES_SOFT)
-			brk_buff [rdm] = 1;
-		#endif
-
 		#include "../../engine/mapmods/map_detectors.h"
 
 		DISABLE_INTERRUPTS;
@@ -220,14 +181,27 @@ void draw_scr (void) {
 		ENABLE_INTERRUPTS;
 	}
 
+	#if defined (ENABLE_BREAKABLE) && !defined (BREAKABLES_SOFT)
+		// Set breakable life to 1
+		DISABLE_INTERRUPTS;
+		VDPControlPort = LO (BREAKABLE_VRAM_ADDR);
+		VDPControlPort = HI (BREAKABLE_VRAM_ADDR) | 0x40;
+		for (gpit = 0; gpit < 192; gpit ++) {
+			VDPDataPort = 1;
+		}
+		ENABLE_INTERRUPTS;
+	#endif
+
 	#if defined (ENABLE_TILE_CHAC_CHAC) && defined (CHAC_CHACS_CLEAR)
 		gpit = max_chac_chacs; while (gpit --) {
-			_t = CHAC_CHAC_BASE_TILE + 6;
 			_x = (chac_chacs_yx [gpit] & 0xf) << 1;
 			_y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
+			_t = chac_chacs_t1 [0];
 			draw_tile ();
+			_t = chac_chacs_t2 [0];
 			_y += 2;
 			draw_tile ();
+			_t = chac_chacs_t3 [0];
 			_y += 2;
 			draw_tile ();
 		}

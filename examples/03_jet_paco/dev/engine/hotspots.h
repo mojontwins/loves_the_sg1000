@@ -33,7 +33,7 @@ void hotspots_paint (void) {
 	if (hrt == HOTSPOT_TYPE_RESONATOR && res_on) rda = HOTSPOT_TYPE_RESONATOR_ON;
 #endif
 
-	SG_addMetaSprite1x1 (
+	HW_addMetaSprite1x1 (
 		hrx, hry + SPRITE_ADJUST, 
 		spr_hs [rda]
 	);

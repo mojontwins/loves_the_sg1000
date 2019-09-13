@@ -3,6 +3,8 @@
 
 // For a topmost two-lines status bar
 
+// Platform dependent global configuration
+
 #define TOP_ADJUST 				1		
 #define SPRITE_ADJUST 			-9
 
@@ -95,6 +97,9 @@
 // Player is 8x16 for collision with BG but can be made taller by this amount. Negative values=shorter
 #define PLAYER_COLLISION_VSTRETCH_BG	-8
 
+// Bottom collision. If set, player can bleed a bit into spikes when going down.
+//#define PLAYER_SPIKES_BOTTOM_ALLOW	2
+
 // This defines how the player will collide with enemies. 
 // Player is always 8 pixels wide and 16 pixel tall PLUS the value of this variable.
 // this offset goes to the head. 
@@ -132,6 +137,7 @@
 	//#define DIE_AND_REINIT				//     ... or start the level over!
 #define PLAYER_FLICKERS 				100	// If defined, collisions make player flicker for N frames
 #define WALLS_STOP_ENEMIES					// If defined, enemies react to the scenary
+#define NO_V_BOOST_WHEN_FLICK				// If defined, no -vy boost when moving to the room above
 
 // Extra special tiles
 // -------------------
@@ -264,8 +270,6 @@
 // Enemy types and definitions
 // ---------------------------
 
-//#define ENEMS_IN_CHRROM					// Enems are stored somewhere in CHR-ROM
-
 #define ENEMS_LIFE_GAUGE				2	// Amount of shots/punches/kicks needed to kill enemies.
 //#define NEEDS_LIFE_GAUGE_LOGIC			// This is activated automaticly when needed, but you can 
 											// do it yourself if you need it to do customs...
@@ -340,6 +344,7 @@
 // Chac chacs
 
 //#define ENABLE_CHAC_CHAC
+
 #define CHAC_CHAC_BASE_TILE				16
 #define CHAC_CHAC_IDLE_2				16
 #define CHAC_CHAC_IDLE_3				1
@@ -349,7 +354,9 @@
 #define MAX_CHAC_CHACS					4
 #define MAX_CHAC_CHACKS_QUEUED			16 // Make the closest power of 2 >= (MAX_CHAC_CHACS*4)
 #define CHAC_CHAC_DETECT_TILE			39
-#define CHAC_CHACS_CLEAR				// You are placing chac chacks from map but need the path to be clear
+#define CHAC_CHACS_CLEAR				0 // You are placing chac chacks from map but need the path to be clear
+
+//#define USE_CUSTOM_CHAC_CHAC			// Implement your own chac chac (see notes)
 
 // Monococos
 

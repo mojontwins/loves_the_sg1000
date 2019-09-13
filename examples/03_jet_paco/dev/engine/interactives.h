@@ -6,7 +6,7 @@
 void interactives_paint (void) {
 	gpit = interactives_index; while (gpit --) {
 		rda = interactives_f [gpit];
-		SG_addMetaSprite1x1 (
+		HW_addMetaSprite1x1 (
 			interactives_yx [gpit] << 4, (interactives_yx [gpit] & 0xf0) + SPRITE_ADJUST,
 			spr_hs [rda & 0x80 ? flags [rda & 0x7f] : rda]
 		);

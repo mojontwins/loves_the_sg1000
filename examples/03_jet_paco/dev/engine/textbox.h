@@ -57,8 +57,8 @@ void textbox_do (void) {
 	rdm = TEXT_BOX_FRAME_TILE_OFFSET; textbox_frame ();
 #ifdef TEXT_BOX_WITH_PORTRAITS
 	if (rdd) {
-		SG_initSprites ();
-		SG_addMetaSprite1x1 (
+		HW_initSprites ();
+		HW_addMetaSprite1x1 (
 			44, 103,
 			spr_hs [rdd]);
 		rdm = 8;

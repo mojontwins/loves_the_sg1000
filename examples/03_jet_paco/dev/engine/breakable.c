@@ -4,7 +4,13 @@
 // breakable.c
 // Manages breakable blocks and animations
 
-#include "../lib/SGlib.h"
+#ifdef SMS
+	#include "../hw_sms.h"
+	#include "../lib/SMSlib.h"
+#else
+	#include "../hw_sg1000.h"
+	#include "../lib/SGlib.h"	
+#endif
 #include "../lib/PSGlib.h"
 
 #include "../definitions.h"

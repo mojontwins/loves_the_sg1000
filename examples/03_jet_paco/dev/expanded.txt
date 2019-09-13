@@ -1,0 +1,2671 @@
+# GNU Make 3.81
+# Copyright (C) 2006  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# This program built for i386-pc-mingw32
+sdcc.exe -o cart.ihx -mz80 --no-std-crt0 --data-loc 0xC000 lib/crt0_sg.rel  rel/game.rel rel/murcia.rel rel/assets/enems0.rel rel/assets/enems1.rel rel/assets/enems2.rel rel/assets/enems3.rel rel/assets/map0.rel rel/assets/map1.rel rel/assets/map2.rel rel/assets/map3.rel rel/assets/spriteset.rel rel/assets/tileset.rel rel/engine/breakable.rel rel/engine/cocos.rel rel/engine/enengine.rel rel/engine/general.rel rel/engine/player.rel rel/engine/printer.rel rel/engine/propellers.rel rel/engine/tile_chac_chac.rel rel/utils/delay.rel rel/utils/memfill.rel rel/utils/rand.rel rel/utils/unpacker.rel rel/utils/unrle.rel   lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel
+../../../src/utils/ihx2sms.exe cart.ihx cart.sg
+*** sverx's ihx2sms converter ***
+Info: 47866 bytes used/49152 total [97.38%] - size of output ROM is 48 KB
+
+# Make data base, printed on Tue Sep 10 10:12:45 2019
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+CommonProgramFiles = C:\Program Files (x86)\Common Files
+# makefile (from `makefile', line 18)
+OBJ :=  rel/game.rel  rel/murcia.rel  rel/assets/enems0.rel  rel/assets/enems1.rel  rel/assets/enems2.rel  rel/assets/enems3.rel  rel/assets/map0.rel  rel/assets/map1.rel  rel/assets/map2.rel  rel/assets/map3.rel  rel/assets/spriteset.rel  rel/assets/tileset.rel  rel/engine/breakable.rel  rel/engine/cocos.rel  rel/engine/enengine.rel  rel/engine/general.rel  rel/engine/player.rel  rel/engine/printer.rel  rel/engine/propellers.rel  rel/engine/tile_chac_chac.rel  rel/utils/delay.rel  rel/utils/memfill.rel  rel/utils/rand.rel  rel/utils/unpacker.rel  rel/utils/unrle.rel
+# makefile (from `makefile', line 17)
+SRC := ./game.c ./murcia.c ./assets/enems0.c ./assets/enems1.c ./assets/enems2.c ./assets/enems3.c ./assets/map0.c ./assets/map1.c ./assets/map2.c ./assets/map3.c ./assets/spriteset.c ./assets/tileset.c ./engine/breakable.c ./engine/cocos.c ./engine/enengine.c ./engine/general.c ./engine/player.c ./engine/printer.c ./engine/propellers.c ./engine/tile_chac_chac.c ./utils/delay.c ./utils/memfill.c ./utils/rand.c ./utils/unpacker.c ./utils/unrle.c 
+# makefile
+MAKEFLAGS = p
+# environment
+ConEmuHooks = Enabled
+# default
+CWEAVE = cweave
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# default
+ARFLAGS = rv
+# makefile (from `makefile', line 21)
+define COMPILEC
+$(1): $(2)
+	$(CC) $(CFLAGS) -c $(2) -o $(1)
+endef
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+HOMEDRIVE = C:
+# automatic
+@F = $(notdir $@)
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# makefile
+CURDIR := D:/git/loves_the_sg1000/examples/03_jet_paco/dev
+# default
+SHELL := C:/Program Files/Git/usr/bin/sh.exe
+# default
+RM = rm -f
+# default
+CO = co
+# environment
+ProgramFiles(x86) = C:\Program Files (x86)
+# environment
+VBOX_MSI_INSTALL_PATH = C:\Program Files\Oracle\VirtualBox\
+# environment
+ConEmuWorkDir = D:\git\newspectrum\Rehash\pm2rehash\dev
+# default
+PREPROCESS.F = $(FC) $(FFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -F
+# default
+LINK.o = $(CC) $(LDFLAGS) $(TARGET_ARCH)
+# default
+OUTPUT_OPTION = -o $@
+# default
+COMPILE.cpp = $(COMPILE.cc)
+# environment
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+# makefile (from `rel/utils/unrle.d', line 1)
+MAKEFILE_LIST :=  makefile rel/game.d rel/murcia.d rel/assets/enems0.d rel/assets/enems1.d rel/assets/enems2.d rel/assets/enems3.d rel/assets/map0.d rel/assets/map1.d rel/assets/map2.d rel/assets/map3.d rel/assets/spriteset.d rel/assets/tileset.d rel/engine/breakable.d rel/engine/cocos.d rel/engine/enengine.d rel/engine/general.d rel/engine/player.d rel/engine/printer.d rel/engine/propellers.d rel/engine/tile_chac_chac.d rel/utils/delay.d rel/utils/memfill.d rel/utils/rand.d rel/utils/unpacker.d rel/utils/unrle.d
+# environment
+SystemRoot = C:\Windows
+# environment
+TMP = C:\Users\jcastano\AppData\Local\Temp
+# default
+LINK.p = $(PC) $(PFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# environment
+ConEmuPID = 3732
+# makefile (from `makefile', line 15)
+N_BANKS = 4
+# environment
+Z80_OZFILES = c:\z88dk10-old-pestece\Lib\
+# makefile (from `makefile', line 11)
+CC = sdcc.exe
+# environment
+SystemDrive = C:
+# environment
+CommonProgramFiles(x86) = C:\Program Files (x86)\Common Files
+# environment
+ConEmuWorkDrive = D:
+# environment
+ConEmuDir = C:\Program Files\ConEmu
+# default
+CHECKOUT,v = +$(if $(wildcard $@),,$(CO) $(COFLAGS) $< $@)
+# default
+CPP = $(CC) -E
+# environment
+ConEmuBackHWND = 0x0002054A
+# default
+LINK.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# environment
+PATH = ..\..\..\environment\sdcc-sg1000\bin;c:\z88dk10-old-pestece\bin;C:\Program Files\ConEmu\ConEmu\Scripts;C:\Program Files\ImageMagick-7.0.8-Q16;C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\AutoFirma\AutoFirma;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\TortoiseSVN\bin;C:\Program Files\PuTTY\;C:\Program Files (x86)\WinMerge;C:\Program Files\nodejs\;C:\Program Files\Pandoc\;C:\Program Files (x86)\Microsoft SQL Server\80\Tools\Binn\;C:\Users\jcastano\.windows-build-tools\python27\;C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\jcastano\AppData\Roaming\npm\node_modules\windows-build-tools\node_modules\.bin;C:\Users\jcastano\AppData\Roaming\npm\node_modules\.bin;C:\Program Files\ConEmu\ConEmu\Scripts;C:\Program Files\ConEmu;C:\Program Files\ConEmu\ConEmu;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\AutoFirma\AutoFirma;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\TortoiseSVN\bin;C:\Program Files\PuTTY\;C:\Program Files (x86)\WinMerge;C:\Program Files\nodejs\;C:\Users\jcastano\AppData\Local\Microsoft\WindowsApps;C:\Users\jcastano\AppData\Roaming\npm
+# environment
+ConEmuANSI = ON
+# default
+LD = ld
+# default
+TEXI2DVI = texi2dvi
+# default
+YACC = yacc
+# environment
+ConEmuServerPID = 434448
+# default
+COMPILE.mod = $(M2C) $(M2FLAGS) $(MODFLAGS) $(TARGET_ARCH)
+# environment
+ConEmuDrive = C:
+# makefile (from `makefile', line 12)
+CFLAGS = -mz80 --peep-file lib/peep-rules.txt --peep-asm
+# environment
+PROCESSOR_ARCHITECTURE = x86
+# default
+LINK.r = $(FC) $(FFLAGS) $(RFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# environment
+USERPROFILE = C:\Users\jcastano
+# default
+LINT = lint
+# default
+COMPILE.f = $(FC) $(FFLAGS) $(TARGET_ARCH) -c
+# default
+LINT.c = $(LINT) $(LINTFLAGS) $(CPPFLAGS) $(TARGET_ARCH)
+# environment
+ALLUSERSPROFILE = C:\ProgramData
+# environment
+ComSpec = C:\Windows\system32\cmd.exe
+# environment
+ConEmuDrawHWND = 0x00020544
+# default
+YACC.y = $(YACC) $(YFLAGS)
+# default
+AR = ar
+# environment
+NUMBER_OF_PROCESSORS = 4
+# default
+.FEATURES := target-specific order-only second-expansion else-if archives
+# default
+TANGLE = tangle
+# environment
+ProgramW6432 = C:\Program Files
+# makefile (from `makefile', line 7)
+SRCDIR = .
+# environment
+ConEmuHWND = 0x000604CC
+# automatic
+%F = $(notdir $%)
+# default
+COMPILE.F = $(FC) $(FFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+# environment
+OS = Windows_NT
+# default
+CTANGLE = ctangle
+# environment
+ConEmuAnsiLog = 
+# default
+.LIBPATTERNS = lib%.so lib%.a
+# environment
+COMPUTERNAME = POR133
+# default
+LINK.C = $(LINK.cc)
+# default
+LINK.S = $(CC) $(ASFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_MACH)
+# environment
+USERDNSDOMAIN = INTCDM.SANDETEL.INT
+# default
+PREPROCESS.r = $(FC) $(FFLAGS) $(RFLAGS) $(TARGET_ARCH) -F
+# default
+LINK.c = $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# environment
+USERNAME = jcastano
+# environment
+PUBLIC = C:\Users\Public
+# makefile (from `makefile', line 26)
+define MAKEDEPS
+$(1): $(2)
+	$(CC) $(CFLAGS) -M $(2) -o $(1)
+endef
+# default
+LINK.s = $(CC) $(ASFLAGS) $(LDFLAGS) $(TARGET_MACH)
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+CommonProgramW6432 = C:\Program Files\Common Files
+# environment
+ProgramData = C:\ProgramData
+# environment
+ConEmuArgs = 
+# environment
+LOGONSERVER = \\INTCDM02
+# automatic
++F = $(notdir $+)
+# default
+M2C = m2c
+# environment
+USERDOMAIN = SANDETEL
+# makefile (from `makefile', line 19)
+DEP :=  rel/game.d  rel/murcia.d  rel/assets/enems0.d  rel/assets/enems1.d  rel/assets/enems2.d  rel/assets/enems3.d  rel/assets/map0.d  rel/assets/map1.d  rel/assets/map2.d  rel/assets/map3.d  rel/assets/spriteset.d  rel/assets/tileset.d  rel/engine/breakable.d  rel/engine/cocos.d  rel/engine/enengine.d  rel/engine/general.d  rel/engine/player.d  rel/engine/printer.d  rel/engine/propellers.d  rel/engine/tile_chac_chac.d  rel/utils/delay.d  rel/utils/memfill.d  rel/utils/rand.d  rel/utils/unpacker.d  rel/utils/unrle.d
+# default
+MAKE = $(MAKE_COMMAND)
+# makefile (from `makefile', line 9)
+BINDIR = .
+# default
+AS = as
+# default
+PREPROCESS.S = $(CC) -E $(CPPFLAGS)
+# environment
+ConEmuPalette = <Base16>
+# default
+COMPILE.p = $(PC) $(PFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+# default
+MAKE_VERSION := 3.81
+# default
+FC = f77
+# makefile (from `makefile', line 5)
+.DEFAULT_GOAL := all
+# makefile (from `makefile', line 4)
+UNAME = $(shell uname)
+# environment
+OneDrive = C:\Users\jcastano\OneDrive
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+JD2_HOME = C:\Users\jcastano\AppData\Local\JDownloader 2.0
+# environment
+ConEmuBuild = 190108
+# makefile (from `makefile', line 13)
+LFLAGS = -mz80 --no-std-crt0 --data-loc 0xC000
+# environment
+DriverData = C:\Windows\System32\Drivers\DriverData
+# environment
+LOCALAPPDATA = C:\Users\jcastano\AppData\Local
+# environment
+ANSICON_DEF = 7
+# default
+WEAVE = weave
+# default
+MAKE_COMMAND := make
+# default
+LINK.cpp = $(LINK.cc)
+# environment
+PROCESSOR_ARCHITEW6432 = AMD64
+# default
+F77 = $(FC)
+# default
+COMPILE.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+# default
+.VARIABLES := 
+# default
+PC = pc
+# automatic
+*F = $(notdir $*)
+# environment
+PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 9, GenuineIntel
+# environment
+ConEmuTask = <Startup>
+# default
+COMPILE.def = $(M2C) $(M2FLAGS) $(DEFFLAGS) $(TARGET_ARCH)
+# environment
+Z88DK_PATH = c:\z88dk10-old-pestece
+# default
+LEX = lex
+# environment
+HOMEPATH = \Users\jcastano
+# environment
+PROMPT = $E[m$E[32m$E]9;8;"USERNAME"$E\@$E]9;8;"COMPUTERNAME"$E\$S$E[92m$P$E[90m$_$E[90m$$$E[m$S$E]9;12$E\
+# environment
+MFLAGS = -p
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# default
+LEX.l = $(LEX) $(LFLAGS) -t
+# environment
+PSModulePath = C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+# environment
+ConEmuBaseDirShort = C:\PROGRA~1\ConEmu\ConEmu
+# environment
+windir = C:\Windows
+# default
+COMPILE.r = $(FC) $(FFLAGS) $(RFLAGS) $(TARGET_ARCH) -c
+# environment
+ANSICON = 161x1000 (161x61)
+# environment
+ZCCCFG = c:\z88dk10-old-pestece\Lib\Config\
+# default
+GET = get
+# default
+SUFFIXES := .out .a .ln .o .c .cc .C .cpp .p .f .F .r .y .l .s .S .mod .sym .def .h .info .dvi .tex .texinfo .texi .txinfo .w .ch .web .sh .elc .el
+# environment
+APPDATA = C:\Users\jcastano\AppData\Roaming
+# environment
+TEMP = C:\Users\jcastano\AppData\Local\Temp
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# environment
+ConEmuCfgDir = C:\Users\jcastano\AppData\Roaming
+# makefile (from `makefile', line 8)
+OBJDIR = rel
+# default
+CXX = g++
+# default
+COFLAGS = 
+# environment
+ConEmuConfig = 
+# default
+COMPILE.C = $(COMPILE.cc)
+# environment
+ConEmuArgs2 = 
+# environment
+ConEmuBaseDir = C:\Program Files\ConEmu\ConEmu
+# automatic
+^F = $(notdir $^)
+# default
+COMPILE.S = $(CC) $(ASFLAGS) $(CPPFLAGS) $(TARGET_MACH) -c
+# default
+LINK.F = $(FC) $(FFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# environment
+ProgramFiles = C:\Program Files (x86)
+# default
+COMPILE.c = $(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+# environment
+SESSIONNAME = Console
+# environment
+PROCESSOR_REVISION = 8e09
+# default
+COMPILE.s = $(AS) $(ASFLAGS) $(TARGET_MACH)
+# environment
+MAKELEVEL := 0
+# default
+MAKEINFO = makeinfo
+# default
+TEX = tex
+# environment
+PROCESSOR_LEVEL = 6
+# default
+F77FLAGS = $(FFLAGS)
+# default
+LINK.f = $(FC) $(FFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# environment
+USERDOMAIN_ROAMINGPROFILE = SANDETEL
+# variable set hash-table stats:
+# Load=166/1024=16%, Rehash=0, Collisions=130/568=23%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# C:\Python27\ (key C:/Python27/, mtime 1553854277): 15 files, no impossibilities.
+# ./utils (key D:/git/loves_the_sg1000/examples/03_jet_paco/dev/utils, mtime 1568033632): 12 files, 15 impossibilities.
+# ./engine (key D:/git/loves_the_sg1000/examples/03_jet_paco/dev/engine, mtime 1568033632): 31 files, 24 impossibilities.
+# C:\Program Files\Intel\iCLS Client\ (key C:/Program Files/Intel/iCLS Client/, mtime 1533121418): 11 files, no impossibilities.
+# RCS: could not be stat'd.
+# utils (key D:/git/loves_the_sg1000/examples/03_jet_paco/dev/utils, mtime 1568033632): 12 files, 15 impossibilities.
+# C:\Python27\Scripts (key C:/Python27/Scripts, mtime 1553854353): 11 files, no impossibilities.
+# engine (key D:/git/loves_the_sg1000/examples/03_jet_paco/dev/engine, mtime 1568033632): 31 files, 24 impossibilities.
+# C:\Windows\System32\WindowsPowerShell\v1.0\ (key C:/Windows/System32/WindowsPowerShell/v1.0/, mtime 1536140192): 30 files, no impossibilities.
+# C:\Windows\System32\Wbem (key C:/Windows/System32/Wbem, mtime 1536140192): 175 files, no impossibilities.
+# . (key D:/git/loves_the_sg1000/examples/03_jet_paco/dev, mtime 1568103155): 26 files, 34 impossibilities.
+# C:\Program Files\ConEmu\ConEmu\Scripts (key C:/Program Files/ConEmu/ConEmu/Scripts, mtime 1548891167): 4 files, no impossibilities.
+# SCCS: could not be stat'd.
+# C:\Program Files\Git\mingw64\bin (key C:/Program Files/Git/mingw64/bin, mtime 1548891118): 121 files, no impossibilities.
+# utils/SCCS: could not be stat'd.
+# C:\Program Files\ImageMagick-7.0.8-Q16 (key C:/Program Files/ImageMagick-7.0.8-Q16, mtime 1559542674): 72 files, no impossibilities.
+# C:\Program Files\Intel\Intel(R) Management Engine Components\IPT (key C:/Program Files/Intel/Intel(R) Management Engine Components/IPT, mtime 1533121414): 5 files, no impossibilities.
+# C:\Windows\System32\OpenSSH\: could not be stat'd.
+# C:\Program Files (x86)\Common Files\Oracle\Java\javapath (key C:/Program Files (x86)/Common Files/Oracle/Java/javapath, mtime 1549633438): 5 files, no impossibilities.
+# utils/RCS: could not be stat'd.
+# C:\Program Files\Intel\Intel(R) Management Engine Components\DAL (key C:/Program Files/Intel/Intel(R) Management Engine Components/DAL, mtime 1533121414): 4 files, no impossibilities.
+# C:\Windows (key C:/Windows, mtime 1563180248): 130 files, no impossibilities.
+# C:\ProgramData\Oracle\Java\javapath (key C:/ProgramData/Oracle/Java/javapath, mtime 1536139493): 5 files, no impossibilities.
+# ..\..\..\environment\sdcc-sg1000\bin (key D:/git/loves_the_sg1000/environment/sdcc-sg1000/bin, mtime 1548765901): 34 files, no impossibilities.
+# C:\Program Files\Git\usr\bin (key C:/Program Files/Git/usr/bin, mtime 1553078904): 373 files, no impossibilities so far.
+# engine/RCS: could not be stat'd.
+# assets/SCCS: could not be stat'd.
+# c:\z88dk10-old-pestece\bin (key c:/z88dk10-old-pestece/bin, mtime 1525693855): 26 files, no impossibilities.
+# engine/SCCS: could not be stat'd.
+# ./assets (key D:/git/loves_the_sg1000/examples/03_jet_paco/dev/assets, mtime 1568033632): 27 files, 30 impossibilities.
+# assets (key D:/git/loves_the_sg1000/examples/03_jet_paco/dev/assets, mtime 1568033632): 27 files, 30 impossibilities.
+# assets/RCS: could not be stat'd.
+# C:\Program Files (x86)\AutoFirma\AutoFirma (key C:/Program Files (x86)/AutoFirma/AutoFirma, mtime 1536144716): 11 files, no impossibilities.
+# C:\Program Files (x86)\Intel\iCLS Client\ (key C:/Program Files (x86)/Intel/iCLS Client/, mtime 1533121419): 8 files, no impossibilities.
+# C:\Program Files\Git\cmd (key C:/Program Files/Git/cmd, mtime 1548891118): 8 files, no impossibilities.
+# C:\Windows\system32 (key C:/Windows/system32, mtime 1567759081): 3175 files, no impossibilities.
+# C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT (key C:/Program Files (x86)/Intel/Intel(R) Management Engine Components/IPT, mtime 1533121414): 6 files, no impossibilities.
+# C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL (key C:/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL, mtime 1533121414): 10 files, no impossibilities.
+
+# 4405 files, 172 impossibilities in 38 directories.
+
+# Implicit Rules
+
+%.out:
+
+%.a:
+
+%.ln:
+
+%.o:
+
+%: %.o
+#  commands to execute (built-in):
+	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.c:
+
+%: %.c
+#  commands to execute (built-in):
+	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.ln: %.c
+#  commands to execute (built-in):
+	$(LINT.c) -C$* $<
+
+%.o: %.c
+#  commands to execute (built-in):
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
+
+%.cc:
+
+%: %.cc
+#  commands to execute (built-in):
+	$(LINK.cc) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.cc
+#  commands to execute (built-in):
+	$(COMPILE.cc) $(OUTPUT_OPTION) $<
+
+%.cpp:
+
+%: %.cpp
+#  commands to execute (built-in):
+	$(LINK.cpp) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.cpp
+#  commands to execute (built-in):
+	$(COMPILE.cpp) $(OUTPUT_OPTION) $<
+
+%.p:
+
+%: %.p
+#  commands to execute (built-in):
+	$(LINK.p) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.p
+#  commands to execute (built-in):
+	$(COMPILE.p) $(OUTPUT_OPTION) $<
+
+%.f:
+
+%: %.f
+#  commands to execute (built-in):
+	$(LINK.f) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.f
+#  commands to execute (built-in):
+	$(COMPILE.f) $(OUTPUT_OPTION) $<
+
+%.r:
+
+%: %.r
+#  commands to execute (built-in):
+	$(LINK.r) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.r
+#  commands to execute (built-in):
+	$(COMPILE.r) $(OUTPUT_OPTION) $<
+
+%.f: %.r
+#  commands to execute (built-in):
+	$(PREPROCESS.r) $(OUTPUT_OPTION) $<
+
+%.y:
+
+%.ln: %.y
+#  commands to execute (built-in):
+	$(YACC.y) $< 
+	$(LINT.c) -C$* y.tab.c 
+	$(RM) y.tab.c
+
+%.c: %.y
+#  commands to execute (built-in):
+	$(YACC.y) $< 
+	mv -f y.tab.c $@
+
+%.l:
+
+%.ln: %.l
+#  commands to execute (built-in):
+	@$(RM) $*.c
+	$(LEX.l) $< > $*.c
+	$(LINT.c) -i $*.c -o $@
+	$(RM) $*.c
+
+%.c: %.l
+#  commands to execute (built-in):
+	@$(RM) $@ 
+	$(LEX.l) $< > $@
+
+%.r: %.l
+#  commands to execute (built-in):
+	$(LEX.l) $< > $@ 
+	mv -f lex.yy.r $@
+
+%.s:
+
+%: %.s
+#  commands to execute (built-in):
+	$(LINK.s) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.s
+#  commands to execute (built-in):
+	$(COMPILE.s) -o $@ $<
+
+%.mod:
+
+%: %.mod
+#  commands to execute (built-in):
+	$(COMPILE.mod) -o $@ -e $@ $^
+
+%.o: %.mod
+#  commands to execute (built-in):
+	$(COMPILE.mod) -o $@ $<
+
+%.sym:
+
+%.def:
+
+%.sym: %.def
+#  commands to execute (built-in):
+	$(COMPILE.def) -o $@ $<
+
+%.h:
+
+%.info:
+
+%.dvi:
+
+%.tex:
+
+%.dvi: %.tex
+#  commands to execute (built-in):
+	$(TEX) $<
+
+%.texinfo:
+
+%.info: %.texinfo
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+%.dvi: %.texinfo
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+%.texi:
+
+%.info: %.texi
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+%.dvi: %.texi
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+%.txinfo:
+
+%.info: %.txinfo
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+%.dvi: %.txinfo
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+%.w:
+
+%.c: %.w
+#  commands to execute (built-in):
+	$(CTANGLE) $< - $@
+
+%.tex: %.w
+#  commands to execute (built-in):
+	$(CWEAVE) $< - $@
+
+%.ch:
+
+%.web:
+
+%.p: %.web
+#  commands to execute (built-in):
+	$(TANGLE) $<
+
+%.tex: %.web
+#  commands to execute (built-in):
+	$(WEAVE) $<
+
+%.sh:
+
+%: %.sh
+#  commands to execute (built-in):
+	cat $< >$@ 
+	chmod a+x $@
+
+%.elc:
+
+%.el:
+
+(%): %
+#  commands to execute (built-in):
+	$(AR) $(ARFLAGS) $@ $<
+
+%.out: %
+#  commands to execute (built-in):
+	@rm -f $@ 
+	cp $< $@
+
+%.c: %.w %.ch
+#  commands to execute (built-in):
+	$(CTANGLE) $^ $@
+
+%.tex: %.w %.ch
+#  commands to execute (built-in):
+	$(CWEAVE) $^ $@
+
+%:: %,v
+#  commands to execute (built-in):
+	$(CHECKOUT,v)
+
+%:: RCS/%,v
+#  commands to execute (built-in):
+	$(CHECKOUT,v)
+
+%:: RCS/%
+#  commands to execute (built-in):
+	$(CHECKOUT,v)
+
+%:: s.%
+#  commands to execute (built-in):
+	$(GET) $(GFLAGS) $(SCCS_OUTPUT_OPTION) $<
+
+%:: SCCS/s.%
+#  commands to execute (built-in):
+	$(GET) $(GFLAGS) $(SCCS_OUTPUT_OPTION) $<
+
+# 75 implicit rules, 5 (6,7%) terminal.
+
+# Files
+
+# Not a target:
+engine/../utils/delay.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../engine/mapmods/../../my/map_renderer_customization.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.web.p:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(TANGLE) $<
+
+# Not a target:
+mainloop/flickscreen.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+printer.rel: engine/printer.c engine/../lib/SGlib.h engine/../definitions.h engine/../config.h engine/../autodefs.h engine/../my/extra_declarations.h engine/../ram/extern_globals.h engine/../engine/extern_precalcs.h engine/../utils/rand.h engine/../utils/memfill.h engine/../utils/delay.h engine/../engine/propellers.h engine/../engine/tile_chac_chac.h engine/printer.h engine/../engine/mapmods/map_renderer_complex.h engine/../engine/mapmods/../../my/map_renderer_customization.h engine/../engine/mapmods/../../engine/mapmods/map_detectors.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../engine/mapmods/../../engine/mapmods/map_detectors.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+map3.rel: assets/map3.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+ram/../my/extra_vars.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+enems3.rel: assets/enems3.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/propellers.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/custom_texts.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.l.r:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LEX.l) $< > $@ 
+	mv -f lex.yy.r $@
+
+# Not a target:
+engine/../my/extra_hud_update.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/enems0.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-23 12:27:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+game.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-26 10:50:56
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+memfill.rel: utils/memfill.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.dvi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/assets/enems0.d: assets/enems0.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:25
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./assets/enems0.c -o  rel/assets/enems0.d
+	
+
+# Not a target:
+engine/player.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-23 12:26:10
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+assets/map2.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/enems1.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/utils/delay.d: utils/delay.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:14
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./utils/delay.c -o  rel/utils/delay.d
+	
+
+all: rel cart.sg
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/12=0%
+
+rel/assets/enems0.rel: assets/enems0.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:49
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./assets/enems0.c -o  rel/assets/enems0.rel
+	
+
+# Not a target:
+.y.ln:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(YACC.y) $< 
+	$(LINT.c) -C$* y.tab.c 
+	$(RM) y.tab.c
+
+# Not a target:
+.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.y:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/utils/delay.rel: utils/delay.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:47:05
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./utils/delay.c -o  rel/utils/delay.rel
+	
+
+# Not a target:
+.def.sym:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.def) -o $@ $<
+
+# Not a target:
+utils/unpacker.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/enengine.d: engine/enengine.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:59:14
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./engine/enengine.c -o  rel/engine/enengine.d
+	
+
+# Not a target:
+my/extra_checks.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.p.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.p) $(OUTPUT_OPTION) $<
+
+# Not a target:
+.p:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.p) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.txinfo.dvi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+# Not a target:
+engine/tile_chac_chac.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-16 13:57:24
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+rel/engine/enengine.rel: engine/enengine.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:59:21
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./engine/enengine.c -o  rel/engine/enengine.rel
+	
+
+.PHONY: clean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+lib/SGlib.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+ram/globals.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/enems1.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-23 12:27:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+engine/../engine/mapmods/map_renderer_complex.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../engine/tile_chac_chac.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+tileset.rel: assets/tileset.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.a:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+cart.sg: cart.ihx
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  Last modified 2019-09-10 10:12:45
+#  File has been updated.
+#  Successfully updated.
+# automatic
+# @ := cart.sg
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := cart.ihx
+# automatic
+# | := 
+# automatic
+# < := cart.ihx
+# automatic
+# ^ := cart.ihx
+# automatic
+# ? := cart.ihx
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/20=5%
+#  commands to execute (from `makefile', line 45):
+	../../../src/utils/ihx2sms.exe cart.ihx cart.sg
+	@rm -r *.ihx
+	@rm -r *.lk
+	@rm -r *.noi
+	
+
+# Not a target:
+engine/../engine/propellers.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.l.ln:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	@$(RM) $*.c
+	$(LEX.l) $< > $*.c
+	$(LINT.c) -i $*.c -o $@
+	$(RM) $*.c
+
+# Not a target:
+.w.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(CTANGLE) $< - $@
+
+# Not a target:
+.texi.dvi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+# Not a target:
+engine/prototypes.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../autodefs.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.sh:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	cat $< >$@ 
+	chmod a+x $@
+
+rel/assets/enems1.rel: assets/enems1.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:50
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./assets/enems1.c -o  rel/assets/enems1.rel
+	
+
+# Not a target:
+engine/player.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+mainloop/pause.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.cc:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.cc) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+engine/../my/game_frame.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.cc.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.cc) $(OUTPUT_OPTION) $<
+
+# Not a target:
+assets/behs.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+enems0.rel: assets/enems0.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+utils/rand.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-13 18:36:07
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+engine/frame.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.def:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+murcia.c:
+#  Implicit rule search has been done.
+#  Last modified 2019-01-08 11:04:13
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+assets/tileset.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-26 10:50:56
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+map0.rel: assets/map0.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+my/extra_routines.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+mainloop/win_level_condition.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/assets/tileset.d: assets/tileset.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:20
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./assets/tileset.c -o  rel/assets/tileset.d
+	
+
+# Not a target:
+utils/../lib/aPLib.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/propellers.d: engine/propellers.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:15
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./engine/propellers.c -o  rel/engine/propellers.d
+	
+
+# Not a target:
+.r.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.r) $(OUTPUT_OPTION) $<
+
+# Not a target:
+.r:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.r) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+engine/general.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-16 13:57:25
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+engine/tile_chac_chac.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/assets/tileset.rel: assets/tileset.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:56
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./assets/tileset.c -o  rel/assets/tileset.rel
+	
+
+rel/engine/propellers.rel: engine/propellers.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:47:03
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./engine/propellers.c -o  rel/engine/propellers.rel
+	
+
+# Not a target:
+assets/spriteset.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-23 12:27:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+mainloop/../my/extra_hotspots.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+makefile:
+#  Implicit rule search has been done.
+#  Last modified 2019-09-10 10:05:04
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+utils/memfill.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-13 18:36:07
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+rel/assets/spriteset.d: assets/spriteset.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:20
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./assets/spriteset.c -o  rel/assets/spriteset.d
+	
+
+# Not a target:
+mainloop/relocate_player.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/assets/enems1.d: assets/enems1.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:25
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./assets/enems1.c -o  rel/assets/enems1.d
+	
+
+enems1.rel: assets/enems1.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/printer.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-16 13:57:25
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.info:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/map3.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-26 10:50:56
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+map1.rel: assets/map1.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.elc:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/assets/spriteset.rel: assets/spriteset.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:55
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./assets/spriteset.c -o  rel/assets/spriteset.rel
+	
+
+# Not a target:
+.l.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	@$(RM) $@ 
+	$(LEX.l) $< > $@
+
+rel/assets/map3.d: assets/map3.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:21
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./assets/map3.c -o  rel/assets/map3.d
+	
+
+# Not a target:
+my/extra_modules.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/enems2.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-23 12:27:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+utils/rand.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+general.rel: engine/general.c engine/../lib/SGlib.h engine/../lib/PSGlib.h engine/../definitions.h engine/../config.h engine/../autodefs.h engine/../my/extra_declarations.h engine/../ram/extern_globals.h engine/../engine/extern_precalcs.h engine/../engine/printer.h engine/../murcia.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+utils/unrle.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-13 18:36:07
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+engine/../lib/PSGlib.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/tileset.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.out:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/assets/enems2.d: assets/enems2.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:24
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./assets/enems2.c -o  rel/assets/enems2.d
+	
+
+# Not a target:
+my/extra_inits.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/assets/map3.rel: assets/map3.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:54
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./assets/map3.c -o  rel/assets/map3.rel
+	
+
+# Not a target:
+murcia.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+autodefs.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/hotspots.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.r.f:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(PREPROCESS.r) $(OUTPUT_OPTION) $<
+
+# Not a target:
+engine/general.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/assets/enems2.rel: assets/enems2.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:50
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./assets/enems2.c -o  rel/assets/enems2.rel
+	
+
+rel/assets/map1.d: assets/map1.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:22
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./assets/map1.c -o  rel/assets/map1.d
+	
+
+# Not a target:
+.texinfo.info:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+game.rel: game.c lib/SGlib.h lib/PSGlib.h lib/aPLib.h utils/rand.h utils/delay.h utils/memfill.h utils/unpacker.h utils/unrle.h definitions.h config.h autodefs.h my/extra_declarations.h murcia.h engine/precalcs.h engine/../my/chac_chacs_config.h assets/behs.h assets/map0.h assets/enems0.h assets/map1.h assets/enems1.h assets/map2.h assets/enems2.h assets/map3.h assets/enems3.h assets/spriteset.h assets/tileset.h assets/metasprites.h assets/custom_texts.h assets/levelset.h ram/globals.h ram/../my/extra_vars.h engine/prototypes.h engine/printer.h engine/general.h my/extra_modules.h engine/hotspots.h engine/propellers.h engine/tile_chac_chac.h engine/player.h engine/enengine.h engine/frame.h engine/../my/game_frame.h engine/../my/extra_hud_update.h my/pres.h mainloop/flickscreen.h mainloop.h my/player_frame_selector.h mainloop/asset_setup.h my/level_pattern_unpacker.h my/extra_inits.h my/on_entering_screen.h my/custom_flickscreen.h mainloop/relocate_player.h mainloop/shaker.h my/effects.h mainloop/hotspots.h mainloop/../my/extra_hotspots.h my/extra_checks.h mainloop/win_level_condition.h my/extra_routines.h mainloop/cheat.h mainloop/pause.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.w.tex:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(CWEAVE) $< - $@
+
+# Not a target:
+.c.ln:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINT.c) -C$* $<
+
+# Not a target:
+.s.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.s) -o $@ $<
+
+# Not a target:
+.s:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.s) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+rel/assets/enems3.rel: assets/enems3.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:51
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./assets/enems3.c -o  rel/assets/enems3.rel
+	
+
+# Not a target:
+assets/spriteset.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+mainloop/shaker.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+utils/../lib/SGlib.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+utils/memfill.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/player.rel: engine/player.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:47:00
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./engine/player.c -o  rel/engine/player.rel
+	
+
+# Not a target:
+mainloop/cheat.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/printer.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/map3.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.texinfo:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../engine/cocos.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+definitions.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.texinfo.dvi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+# Not a target:
+.SUFFIXES: .out .a .ln .o .c .cc .c .cpp .p .f .f .r .y .l .s .s .mod .sym .def .h .info .dvi .tex .texinfo .texi .txinfo .w .ch .web .sh .elc .el
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.el:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+utils/unrle.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/tile_chac_chac.d: engine/tile_chac_chac.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:15
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./engine/tile_chac_chac.c -o  rel/engine/tile_chac_chac.d
+	
+
+propellers.rel: engine/propellers.c engine/../lib/SGlib.h engine/../definitions.h engine/../config.h engine/../autodefs.h engine/../my/extra_declarations.h engine/../ram/extern_globals.h engine/printer.h engine/propellers.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../utils/rand.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.y.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(YACC.y) $< 
+	mv -f y.tab.c $@
+
+# Not a target:
+mainloop/hotspots.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.web.tex:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(WEAVE) $<
+
+# Not a target:
+.texi.info:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+# Not a target:
+engine/../engine/breakable.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/tile_chac_chac.rel: engine/tile_chac_chac.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:47:04
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./engine/tile_chac_chac.c -o  rel/engine/tile_chac_chac.rel
+	
+
+tile_chac_chac.rel: engine/tile_chac_chac.c engine/../lib/PSGlib.h engine/../murcia.h engine/../definitions.h engine/../config.h engine/../autodefs.h engine/../my/extra_declarations.h engine/../ram/extern_globals.h engine/../engine/extern_precalcs.h engine/../engine/printer.h engine/../engine/tile_chac_chac.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+enems2.rel: assets/enems2.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+map2.rel: assets/map2.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../engine/general.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../engine/enemmods/enems_recoiling.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/enems2.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/map0.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-23 12:27:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+lib/aPLib.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+vars:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `makefile', line 54):
+	@echo $(SRC)
+	@echo $(OBJ)
+	@echo $(DEP)
+	
+
+rel/assets/map0.d: assets/map0.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:23
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./assets/map0.c -o  rel/assets/map0.d
+	
+
+spriteset.rel: assets/spriteset.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/cocos.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-16 13:57:26
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+engine/../engine/extern_metasprites.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/cocos.d: engine/cocos.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./engine/cocos.c -o  rel/engine/cocos.d
+	
+
+rel/utils/rand.d: utils/rand.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:13
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./utils/rand.c -o  rel/utils/rand.d
+	
+
+# Not a target:
+engine/../utils/memfill.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+unrle.rel: utils/unrle.c utils/../lib/SGlib.h utils/../ram/extern_globals.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/assets/map0.rel: assets/map0.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:52
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./assets/map0.c -o  rel/assets/map0.rel
+	
+
+# Not a target:
+engine/../config.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.tex.dvi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(TEX) $<
+
+# Not a target:
+engine/../engine/printer.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/cocos.rel: engine/cocos.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:57
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./engine/cocos.c -o  rel/engine/cocos.rel
+	
+
+unpacker.rel: utils/unpacker.c utils/../lib/aPLib.h utils/../lib/SGlib.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.cpp.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.cpp) $(OUTPUT_OPTION) $<
+
+# Not a target:
+.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.cpp) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+rel/utils/rand.rel: utils/rand.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:47:07
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./utils/rand.c -o  rel/utils/rand.rel
+	
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `makefile', line 61):
+	@rm -rf $(OBJDIR) cart.sg
+	
+
+cocos.rel: engine/cocos.c engine/../lib/SGlib.h engine/../lib/PSGlib.h engine/../murcia.h engine/../definitions.h engine/../config.h engine/../autodefs.h engine/../my/extra_declarations.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/general.d: engine/general.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:17
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./engine/general.c -o  rel/engine/general.d
+	
+
+# Not a target:
+.ln:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+my/effects.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.texi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+utils/delay.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-13 18:36:07
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.txinfo:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.tex:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/general.rel: engine/general.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:58
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./engine/general.c -o  rel/engine/general.rel
+	
+
+# Not a target:
+my/on_entering_screen.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/map1.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-23 12:27:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+lib/PSGlib.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+cart.ihx: rel/game.rel rel/murcia.rel rel/assets/enems0.rel rel/assets/enems1.rel rel/assets/enems2.rel rel/assets/enems3.rel rel/assets/map0.rel rel/assets/map1.rel rel/assets/map2.rel rel/assets/map3.rel rel/assets/spriteset.rel rel/assets/tileset.rel rel/engine/breakable.rel rel/engine/cocos.rel rel/engine/enengine.rel rel/engine/general.rel rel/engine/player.rel rel/engine/printer.rel rel/engine/propellers.rel rel/engine/tile_chac_chac.rel rel/utils/delay.rel rel/utils/memfill.rel rel/utils/rand.rel rel/utils/unpacker.rel rel/utils/unrle.rel
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  Last modified 2019-09-10 10:12:44
+#  File has been updated.
+#  Successfully updated.
+# automatic
+# @ := cart.ihx
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := rel/game.rel rel/murcia.rel rel/assets/enems0.rel rel/assets/enems1.rel rel/assets/enems2.rel rel/assets/enems3.rel rel/assets/map0.rel rel/assets/map1.rel rel/assets/map2.rel rel/assets/map3.rel rel/assets/spriteset.rel rel/assets/tileset.rel rel/engine/breakable.rel rel/engine/cocos.rel rel/engine/enengine.rel rel/engine/general.rel rel/engine/player.rel rel/engine/printer.rel rel/engine/propellers.rel rel/engine/tile_chac_chac.rel rel/utils/delay.rel rel/utils/memfill.rel rel/utils/rand.rel rel/utils/unpacker.rel rel/utils/unrle.rel
+# automatic
+# | := 
+# automatic
+# < := rel/game.rel
+# automatic
+# ^ := rel/game.rel rel/murcia.rel rel/assets/enems0.rel rel/assets/enems1.rel rel/assets/enems2.rel rel/assets/enems3.rel rel/assets/map0.rel rel/assets/map1.rel rel/assets/map2.rel rel/assets/map3.rel rel/assets/spriteset.rel rel/assets/tileset.rel rel/engine/breakable.rel rel/engine/cocos.rel rel/engine/enengine.rel rel/engine/general.rel rel/engine/player.rel rel/engine/printer.rel rel/engine/propellers.rel rel/engine/tile_chac_chac.rel rel/utils/delay.rel rel/utils/memfill.rel rel/utils/rand.rel rel/utils/unpacker.rel rel/utils/unrle.rel
+# automatic
+# ? := rel/game.rel rel/murcia.rel rel/assets/enems0.rel rel/assets/enems1.rel rel/assets/enems2.rel rel/assets/enems3.rel rel/assets/map0.rel rel/assets/map1.rel rel/assets/map2.rel rel/assets/map3.rel rel/assets/spriteset.rel rel/assets/tileset.rel rel/engine/breakable.rel rel/engine/cocos.rel rel/engine/enengine.rel rel/engine/general.rel rel/engine/player.rel rel/engine/printer.rel rel/engine/propellers.rel rel/engine/tile_chac_chac.rel rel/utils/delay.rel rel/utils/memfill.rel rel/utils/rand.rel rel/utils/unpacker.rel rel/utils/unrle.rel
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/13=8%
+#  commands to execute (from `makefile', line 51):
+	$(CC) -o cart.ihx $(LFLAGS) lib/crt0_sg.rel  $^   lib/PSGlib.rel lib/SGlib.rel lib/aPLib.rel
+	
+
+# Not a target:
+assets/levelset.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.txinfo.info:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+player.rel: engine/player.c engine/../lib/SGlib.h engine/../lib/PSGlib.h engine/../murcia.h engine/../definitions.h engine/../config.h engine/../autodefs.h engine/../my/extra_declarations.h engine/../ram/extern_globals.h engine/../engine/extern_precalcs.h engine/../engine/extern_metasprites.h engine/../utils/delay.h engine/../engine/printer.h engine/../engine/general.h engine/../engine/breakable.h engine/../my/on_player_spike.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+mainloop.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/enengine.c:
+#  Implicit rule search has been done.
+#  Last modified 2019-09-10 08:59:11
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+rel/utils/memfill.d: utils/memfill.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:14
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./utils/memfill.c -o  rel/utils/memfill.d
+	
+
+# Not a target:
+engine/../murcia.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../engine/extern_precalcs.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/map0.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/printer.d: engine/printer.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:16
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./engine/printer.c -o  rel/engine/printer.d
+	
+
+rel/assets/map1.rel: assets/map1.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:53
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./assets/map1.c -o  rel/assets/map1.rel
+	
+
+# Not a target:
+.ch:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/utils/memfill.rel: utils/memfill.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:47:06
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./utils/memfill.c -o  rel/utils/memfill.rel
+	
+
+delay.rel: utils/delay.c utils/../lib/SGlib.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/player.d: engine/player.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:17
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./engine/player.c -o  rel/engine/player.d
+	
+
+# Not a target:
+engine/../engine/enemmods/enem_linear.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/printer.rel: engine/printer.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:47:02
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./engine/printer.c -o  rel/engine/printer.rel
+	
+
+rand.rel: utils/rand.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/utils/unrle.d: utils/unrle.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:12
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./utils/unrle.c -o  rel/utils/unrle.d
+	
+
+# Not a target:
+config.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/enems0.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../ram/extern_globals.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/utils/unpacker.d: utils/unpacker.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:12
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./utils/unpacker.c -o  rel/utils/unpacker.d
+	
+
+# Not a target:
+utils/../ram/extern_globals.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/breakable.d: engine/breakable.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./engine/breakable.c -o  rel/engine/breakable.d
+	
+
+# Not a target:
+engine/../engine/player.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.S.s:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(PREPROCESS.S) $< > $@
+
+# Not a target:
+.mod:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.mod) -o $@ -e $@ $^
+
+rel/assets/enems3.d: assets/enems3.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:23
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./assets/enems3.c -o  rel/assets/enems3.d
+	
+
+# Not a target:
+engine/../my/chac_chacs_config.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/murcia.d: murcia.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:26
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./murcia.c -o  rel/murcia.d
+	
+
+rel/utils/unpacker.rel: utils/unpacker.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:47:08
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./utils/unpacker.c -o  rel/utils/unpacker.rel
+	
+
+# Not a target:
+.mod.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.mod) -o $@ $<
+
+# Not a target:
+utils/delay.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/enems3.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-26 10:50:56
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.F.f:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(PREPROCESS.F) $(OUTPUT_OPTION) $<
+
+# Not a target:
+engine/../lib/SGlib.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/engine/breakable.rel: engine/breakable.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:56
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./engine/breakable.c -o  rel/engine/breakable.rel
+	
+
+cleandep:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `makefile', line 64):
+	@rm -rf $(DEP)
+	
+
+rel/game.d: game.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:26
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./game.c -o  rel/game.d
+	
+
+# Not a target:
+assets/map1.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.w:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/murcia.rel: murcia.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:48
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./murcia.c -o  rel/murcia.rel
+	
+
+# Not a target:
+my/custom_flickscreen.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.c.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
+
+# Not a target:
+engine/enengine.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+my/player_frame_selector.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/game.rel: game.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:47
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./game.c -o  rel/game.rel
+	
+
+# Not a target:
+engine/propellers.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-16 13:57:24
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+engine/../my/extra_declarations.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/breakable.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-16 13:57:27
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+utils/unpacker.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-13 18:36:07
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+assets/metasprites.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel:
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:26
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 39):
+	@mkdir $(OBJDIR)
+	@mkdir $(OBJDIR)/assets
+	@mkdir $(OBJDIR)/engine
+	@mkdir $(OBJDIR)/utils
+	
+
+# Not a target:
+my/level_pattern_unpacker.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.l:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/precalcs.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+assets/map2.c:
+#  Implicit rule search has been done.
+#  Last modified 2018-11-23 12:27:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+my/pres.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+murcia.rel: murcia.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/assets/map2.d: assets/map2.c
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 08:54:22
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 31):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -M   ./assets/map2.c -o  rel/assets/map2.d
+	
+
+breakable.rel: engine/breakable.c engine/../lib/SGlib.h engine/../lib/PSGlib.h engine/../definitions.h engine/../config.h engine/../autodefs.h engine/../murcia.h engine/../my/extra_declarations.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+rel/utils/unrle.rel: utils/unrle.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:47:09
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./utils/unrle.c -o  rel/utils/unrle.rel
+	
+
+# Not a target:
+my/extra_declarations.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.web:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../definitions.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.sym:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+engine/../my/on_player_spike.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+enengine.rel: engine/enengine.c engine/../lib/SGlib.h engine/../lib/PSGlib.h engine/../murcia.h engine/../definitions.h engine/../config.h engine/../autodefs.h engine/../my/extra_declarations.h engine/../ram/extern_globals.h engine/../engine/extern_precalcs.h engine/../engine/extern_metasprites.h engine/../utils/memfill.h engine/../utils/rand.h engine/../engine/player.h engine/../engine/general.h engine/../engine/cocos.h engine/../engine/enemmods/enems_recoiling.h engine/../engine/enemmods/enem_linear.h engine/../my/on_player_hit.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.f:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.f) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+rel/assets/map2.rel: assets/map2.c
+#  Implicit rule search has not been done.
+#  Last modified 2019-09-10 09:46:53
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 32):
+	sdcc.exe -mz80 --peep-file lib/peep-rules.txt --peep-asm -c   ./assets/map2.c -o  rel/assets/map2.rel
+	
+
+# Not a target:
+engine/../my/on_player_hit.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.f.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.f) $(OUTPUT_OPTION) $<
+
+# Not a target:
+assets/enems3.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+mainloop/asset_setup.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# files hash-table stats:
+# Load=261/1024=25%, Rehash=0, Collisions=1023/2486=41%
+# VPATH Search Paths
+
+# No `vpath' search paths.
+
+# No general (`VPATH' variable) search path.
+
+# # of strings in strcache: 26
+# # of strcache buffers: 1
+# strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
+# strcache free: total = 3595 / max = 3595 / min = 3595 / avg = 3595
+
+# Finished Make data base on Tue Sep 10 10:12:45 2019
+

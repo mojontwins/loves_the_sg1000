@@ -4,15 +4,15 @@
 // Cutscenes, title screen, etc.
 
 void bat_in (void) {
-	SG_displayOn ();
-	while (SG_getKeysStatus ());
+	HW_displayOn ();
+	while (HW_getKeysStatus ());
 }
 
 void bat_out (void) {
 	PSGStop ();
-	SG_displayOff ();
-	SG_initSprites ();
-	SG_copySpritestoSAT ();	
+	HW_displayOff ();
+	HW_initSprites ();
+	HW_copySpritestoSAT ();	
 }
 
 void pres (void (*func) (void), unsigned char *music) {
@@ -35,7 +35,7 @@ void snip (void) {
 	gp_addr = PNTADDRESS + (rdy << 5);
 	VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
 	while (rda --) {
-		SG_waitForVBlank ();
+		HW_waitForVBlank ();
 		gpit = 32; while (gpit --) {
 			VDPDataPort = *gp_tmap ++;
 		}
@@ -56,14 +56,14 @@ void title (void) {
 	_x = 5; _y = 23; pr_str ("@ 2018 THE MOJON TWINS");
 
 	for (gpit = 0; gpit < 3; gpit ++) 
-		if (level_done [gpit]) SG_setTileatXY (21, (gpit << 1) + 15, 10);
+		if (level_done [gpit]) HW_setTileatXY (21, (gpit << 1) + 15, 10);
 
 	bat_in ();
 
 	PSGPlay (MUSIC_TITLE);
 	while (1) {
 		update_cycle ();
-		SG_addMetaSprite1x1 (80, 116 + (level << 4), spr_player [game_puri]);
+		HW_addMetaSprite1x1 (80, 116 + (level << 4), spr_player [game_puri]);
 		pad_read ();
 		rda = level;
 		if (pad_this_frame & PAD_DOWN) {
@@ -146,14 +146,14 @@ void credits (void) {
 	_x = 0; _y = 18; 
 	pr_str ("       JET PACO & JET PURI%%         ORIGINAL GAME:%     @ 2013 THE MOJON TWINS%       REPROGRAMMED GAME:%     @ 2018 THE MOJON TWINS");
 	
-	SG_displayOn ();
+	HW_displayOn ();
 	
-	while (!(SG_getKeysStatus () & PAD_START) && rds16 < 300) {
+	while (!(HW_getKeysStatus () & PAD_START) && rds16 < 300) {
 		/*oam_meta_spr (102, rdy, 0, logo_00);
 		if (rdy > 112) rdy --;*/
 		update_cycle ();
 		rds16 ++;
 	};
 	
-	SG_displayOff ();
+	HW_displayOff ();
 }

@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Interactives definition
@@ -6,7 +6,7 @@
 void interactives_paint (void) {
 	gpit = interactives_index; while (gpit --) {
 		rda = interactives_f [gpit];
-		SG_addMetaSprite1x1 (
+		HW_addMetaSprite1x1 (
 			interactives_yx [gpit] << 4, (interactives_yx [gpit] & 0xf0) + SPRITE_ADJUST,
 			spr_hs [rda & 0x80 ? flags [rda & 0x7f] : rda]
 		);

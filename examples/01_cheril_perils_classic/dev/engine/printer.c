@@ -1,16 +1,24 @@
-// SG-1000 MK1 v0.1
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // printer.c
 // Draw map, print text, etcetera.
 
-#include "../lib/SGlib.h"
+#ifdef SMS
+	#include "../hw_sms.h"
+	#include "../lib/SMSlib.h"
+#else
+	#include "../hw_sg1000.h"
+	#include "../lib/SGlib.h"	
+#endif
 
 #include "../definitions.h"
 #include "../config.h"
 #include "../autodefs.h"
+#include "../my/extra_declarations.h"
 
 #include "../ram/extern_globals.h"
+#include "../engine/extern_precalcs.h"
 
 #include "../utils/rand.h"
 #include "../utils/memfill.h"
@@ -27,8 +35,8 @@ void clear_update_list (void) {
 }
 
 void cls (void) {
-	SG_setNextTileatXY (0, 0);
-	SG_fillTile (0, 768);
+	HW_setNextTileatXY (0, 0);
+	HW_fillTile (0, 768);
 }
 
 // Needs gp_addr, _n set.
@@ -46,8 +54,8 @@ void p_t (void) {
 }
 
 void p_tf (void) {
-	SG_setTileatXY (_x, _y, (_n / 10) + 16);
-	SG_setTile ((_n % 10) + 16);
+	HW_setTileatXY (_x, _y, (_n / 10) + 16);
+	HW_setTile ((_n % 10) + 16);
 }
 
 // Needs _x, _y, _t set.
@@ -112,12 +120,12 @@ unsigned char get_byte (void) {
 
 // Needs _x, _y set.
 void pr_str (const unsigned char *s) {
-	SG_setNextTileatXY (_x, _y);
+	HW_setNextTileatXY (_x, _y);
 	while (gpit = *s++) {
 		if (gpit == '%') {
-			++ _y; SG_setNextTileatXY (_x, _y);
+			++ _y; HW_setNextTileatXY (_x, _y);
 		}
-		else SG_setTile (gpit - 32); 
+		else HW_setTile (gpit - 32); 
 	}
 }
 

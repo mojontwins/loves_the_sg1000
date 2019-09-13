@@ -1,7 +1,7 @@
 @echo off
 
 cd ..\gfx
-..\..\..\src\utils\mkts_om.exe platform=sg1000 mode=scripted in=cut_patterns.spt 
+..\..\..\src\utils\mkts_om.exe platform=sg1000 mode=scripted in=cut_patterns.spt silent
 
 cd ..\enems
 ..\..\..\src\utils\eneexp3.exe level0.ene ..\dev\assets\enems0 0 1 gencounter cwithheader

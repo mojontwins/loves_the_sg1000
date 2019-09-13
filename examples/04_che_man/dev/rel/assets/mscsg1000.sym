@@ -1,0 +1,59 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+    _IOPortH                                                    =  00DD 
+    _IOPortL                                                    =  00DC 
+    _PSGSFXPlay                                                    **** GX
+    _VDPControlPort                                             =  00BF 
+    _VDPDataPort                                                =  00BE 
+    _VDPHCounterPort                                            =  007F 
+    _VDPStatusPort                                              =  00BF 
+    _VDPVCounterPort                                            =  007E 
+    _fire_script_success                                           **** GX
+    _flags                                                         **** GX
+    _gp_gen                                                        **** GX
+    _level                                                         **** GX
+    _msc_sfx                                                       **** GX
+    _next_script                                                   **** GX
+    _pobjs                                                         **** GX
+    _prx                                                           **** GX
+    _pry                                                           **** GX
+    _rda                                                           **** GX
+    _rdb                                                           **** GX
+  0 _read_byte                                                     0000 GR
+  0 _read_vbyte                                                    0100 GR
+  0 _readxy                                                        012E GR
+  0 _run_script                                                    0143 GR
+    _sc_c                                                          **** GX
+    _sc_continuar                                                  **** GX
+    _sc_terminado                                                  **** GX
+    _sc_x                                                          **** GX
+    _sc_y                                                          **** GX
+    _script                                                        **** GX
+  0 _script_pool                                                   00FC GR
+  0 _script_pool_0                                                 0010 GR
+  0 _script_pool_1                                                 0086 GR
+    _script_result                                                 **** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  349   flags    0
+   1 _DATA                                      size    0   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+

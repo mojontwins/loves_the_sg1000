@@ -1,0 +1,125 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+    _IOPortH                                                    =  00DD 
+    _IOPortL                                                    =  00DC 
+    _PSGSFXPlay                                                    **** GX
+    _SG_addMetaSprite                                              **** GX
+    _VDPControlPort                                             =  00BF 
+    _VDPDataPort                                                =  00BE 
+    _VDPHCounterPort                                            =  007F 
+    _VDPStatusPort                                              =  00BF 
+    _VDPVCounterPort                                            =  007E 
+    __en_ct                                                        **** GX
+    __en_facing                                                    **** GX
+    __en_mx                                                        **** GX
+    __en_my                                                        **** GX
+    __en_s                                                         **** GX
+    __en_state                                                     **** GX
+    __en_t                                                         **** GX
+    __en_x                                                         **** GX
+    __en_x1                                                        **** GX
+    __en_x2                                                        **** GX
+    __en_y                                                         **** GX
+    __en_y1                                                        **** GX
+    __en_y2                                                        **** GX
+    __enf_vx                                                       **** GX
+    __enf_vy                                                       **** GX
+    __enf_x                                                        **** GX
+    __enf_y                                                        **** GX
+    _c_enems                                                       **** GX
+    _collide                                                       **** GX
+    _en_ct                                                         **** GX
+    _en_cttouched                                                  **** GX
+    _en_facing                                                     **** GX
+    _en_flags                                                      **** GX
+    _en_fr                                                         **** GX
+    _en_initial                                                    **** GX
+    _en_is_alive                                                   **** GX
+    _en_life                                                       **** GX
+    _en_mx                                                         **** GX
+    _en_my                                                         **** GX
+    _en_offs                                                       **** GX
+    _en_s                                                          **** GX
+    _en_sg_1                                                       **** GX
+    _en_sg_2                                                       **** GX
+    _en_spr                                                        **** GX
+    _en_spr_id                                                     **** GX
+    _en_spr_x_mod                                                  **** GX
+    _en_state                                                      **** GX
+    _en_status                                                     **** GX
+    _en_t                                                          **** GX
+    _en_x                                                          **** GX
+    _en_x1                                                         **** GX
+    _en_x2                                                         **** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    _en_y                                                          **** GX
+    _en_y1                                                         **** GX
+    _en_y2                                                         **** GX
+  0 _enems_boioiong_init                                           00EA GR
+  0 _enems_facing                                                  00BC GR
+  0 _enems_hit                                                     0397 GR
+  0 _enems_init_fp                                                 00C5 GR
+  0 _enems_kill                                                    0368 GR
+  0 _enems_load                                                    0131 GR
+  0 _enems_move                                                    03CC GR
+  0 _enems_persistent_deaths_load                                  0000 GR
+  0 _enems_update_unsigned_char_arrays                             0012 GR
+    _ep_dead                                                       **** GX
+    _frame_counter                                                 **** GX
+    _gp_gen                                                        **** GX
+    _gpit                                                          **** GX
+    _gpjt                                                          **** GX
+    _half_life                                                     **** GX
+    _jitter                                                        **** GX
+    _jump_start                                                    **** GX
+    _memfill                                                       **** GX
+    _n_pant                                                        **** GX
+    _pad0                                                          **** GX
+    _pflickering                                                   **** GX
+    _pgotten                                                       **** GX
+    _pgtmx                                                         **** GX
+    _pgtmy                                                         **** GX
+    _pj                                                            **** GX
+    _pkill                                                         **** GX
+    _pkilled                                                       **** GX
+    _ppossee                                                       **** GX
+    _pregotten                                                     **** GX
+    _prx                                                           **** GX
+    _pry                                                           **** GX
+    _pvy                                                           **** GX
+    _py                                                            **** GX
+    _rda                                                           **** GX
+    _rdc                                                           **** GX
+    _rdd                                                           **** GX
+    _rdm                                                           **** GX
+    _run_script                                                    **** GX
+    _s_15_stepon3_psg                                              **** GX
+    _spr_enems                                                     **** GX
+    _touched                                                       **** GX
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  A98   flags    0
+   1 _DATA                                      size    0   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+

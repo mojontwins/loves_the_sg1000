@@ -4,7 +4,13 @@
 // player.c
 // Player movement & stuff
 
-#include "../lib/SGlib.h"
+#ifdef SMS
+	#include "../hw_sms.h"
+	#include "../lib/SMSlib.h"
+#else
+	#include "../hw_sg1000.h"
+	#include "../lib/SGlib.h"	
+#endif
 #include "../lib/PSGlib.h"
 #include "../murcia.h"
 
@@ -123,7 +129,7 @@ void player_to_pixels (void) {
 }
 
 void player_kill (void) {
-	SG_setStp (cur_stp);
+	HW_setStp (cur_stp);
 	player_render ();
 	update_cycle ();
 
@@ -158,7 +164,7 @@ void player_kill (void) {
 			player_stop ();
 			music_pause (0);
 		#endif
-		SG_resetPauseRequest ();
+		HW_resetPauseRequest ();
 
 		// May be necessary to find a proper cell later on
 		#if defined (ENABLE_BREAKABLE)

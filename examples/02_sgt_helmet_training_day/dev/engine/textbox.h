@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Simple text box which works with ppu_on.
@@ -57,8 +57,8 @@ void textbox_do (void) {
 	rdm = TEXT_BOX_FRAME_TILE_OFFSET; textbox_frame ();
 #ifdef TEXT_BOX_WITH_PORTRAITS
 	if (rdd) {
-		SG_initSprites ();
-		SG_addMetaSprite1x1 (
+		HW_initSprites ();
+		HW_addMetaSprite1x1 (
 			44, 103,
 			spr_hs [rdd]);
 		rdm = 8;

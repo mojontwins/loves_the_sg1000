@@ -1,0 +1,36 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  0 _cuts_rle                                                      0526 GR
+  0 _frame_rle                                                     064F GR
+  0 _title_rle                                                     0310 GR
+  0 _ts0_tmaps                                                     01B4 GR
+  0 _ts1_tmaps                                                     0228 GR
+  0 _ts2_tmaps                                                     029C GR
+  0 _tsALL_colours_c                                               0ADA GR
+  0 _tsALL_patterns_c                                              06A6 GR
+  0 _tsFONT_colours_c                                              0171 GR
+  0 _tsFONT_patterns_c                                             0000 GR
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  D9A   flags    0
+   1 _DATA                                      size    0   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+

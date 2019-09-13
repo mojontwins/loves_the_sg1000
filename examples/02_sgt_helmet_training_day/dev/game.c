@@ -1,11 +1,11 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // To generate a PAL version, 
 // 1.- build_assets.bat pal
 // 2.- make clean
 // 3.- uncoment:
-#define PAL
+//#define PAL
 // 4.- compile.bat
 
 /*
@@ -20,18 +20,33 @@
 
 #define MAX_BOLTS 16 // max 32, make it as small as possible.
 
-/*	Beware!
+#ifdef SMS
+	#include "hw_sms.h"
+	#include "lib/SMSlib.h"
+	/*	
+		SG-1000 MK1 v0.1 M4 needs the custom SMSlibMin-MT configured with
+		#define AUTOCYCLE_SPRITES				// Sprites cycle automaticly
+		#define AUTOCYCLE_PRIME			7		// Prime to 64.
+		#define AUTOCYCLE_INIT_PRIME 	3		// Prime to 64.		
+		#define AUTOMUSIC						// ISR calls PSGPlay and PSGSFXPlay
+		#define ONLY_ONE_CONTROLLER
+	*/
+#else
+	#include "hw_sg1000.h"
+	#include "lib/SGlib.h"
+	/*	
+		SG-1000 MK1 v0.1 needs the custom SGlib-MT configured with
+		#define AUTOCYCLE_SPRITES				// Sprites cycle automaticly
+		#define AUTOCYCLE_PRIME			3		// Prime to 32.
+		#define AUTOCYCLE_INIT_PRIME 	3		// Prime to 32.
+			#define AUTODETECT_ONE_COLOUR			// Detect 1 colour sprites in HW_addMetaSprite1x1
+		#define AUTOMUSIC						// ISR calls PSGPlay and PSGSFXPlay
+		#define ONLY_ONE_CONTROLLER
+	*/
+#endif
 
-	SG-1000 MK1 v0.1 needs the custom SGlib-MT configured with
-	#define AUTOCYCLE_SPRITES				// Sprites cycle automaticly
-	#define AUTOCYCLE_PRIME			3		// Prime to 32.
-	#define AUTOCYCLE_INIT_PRIME 	3		// Prime to 32.
-	#define AUTODETECT_ONE_COLOUR			// Detect 1 colour sprites in SG_addMetaSprite1x1
-	#define AUTOMUSIC						// ISR calls PSGPlay and PSGSFXPlay
-	#define ONLY_ONE_CONTROLLER
-*/
+#define MAX_BOLTS 16 // max 32, make it as small as possible.
 
-#include "lib/SGlib.h"
 #include "lib/PSGlib.h"
 #include "lib/aPLib.h"
 
@@ -44,6 +59,7 @@
 #include "definitions.h"
 #include "config.h"
 #include "autodefs.h"
+#include "my/extra_declarations.h"
 
 // **************
 // * const data *
@@ -125,9 +141,9 @@
 // *************
 
 void main(void) {
-	SG_displayOff ();
-	SG_setSpriteMode (SG_SPRITEMODE_LARGE);
-	SG_setUpdateList (update_list);
+	HW_displayOff ();
+	HW_setSpriteMode (SG_SPRITEMODE_LARGE);
+	HW_setUpdateList (update_list);
 	first_game = 1;
 
 	#ifdef PAL

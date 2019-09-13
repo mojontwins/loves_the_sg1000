@@ -124,7 +124,7 @@ void game_init (void) {
 }
 
 void prepare_scr (void) {
-	SG_displayOff ();
+	HW_displayOff ();
 
 	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 		if (!ft) {
@@ -137,7 +137,7 @@ void prepare_scr (void) {
 	ft = 0;
 
 	update_list [update_index] = 0xff;
-	SG_doUpdateList ();
+	HW_doUpdateList ();
 	clear_update_list ();
 
 	#ifdef ENABLE_PROPELLERS
@@ -217,7 +217,7 @@ void prepare_scr (void) {
 		// bankswitch (l_chr_rom_bank [level]);
 	#endif
 
-	SG_initSprites ();
+	HW_initSprites ();
 
 	#ifdef ACTIVATE_SCRIPTING
 		#if defined (ENABLE_PUSHED_SCRIPT)
@@ -262,11 +262,11 @@ void prepare_scr (void) {
 	#endif
 
 	hud_update ();
-	SG_copySpritestoSAT ();
+	HW_copySpritestoSAT ();
 	update_list [update_index] = 0xff;
-	SG_doUpdateList ();
+	HW_doUpdateList ();
 	clear_update_list ();	
-	SG_displayOn ();
+	HW_displayOn ();
 
 	pad0 = 0;
 }
@@ -278,7 +278,7 @@ void game_loop (void) {
 
 	// MAIN LOOP
 
-	SG_displayOn ();
+	HW_displayOn ();
 	
 	#ifdef ACTIVATE_SCRIPTING
 		#ifdef CLEAR_FLAGS
@@ -298,7 +298,7 @@ void game_loop (void) {
 		PSGPlay (MUSIC_INGAME);
 	#endif
 
-	paused = 0; SG_resetPauseRequest ();
+	paused = 0; HW_resetPauseRequest ();
 
 	while (1) {
 
@@ -349,10 +349,10 @@ void game_loop (void) {
 
 		// Finish frame and wait for NMI
 
-		SG_waitForVBlank ();
-		SG_copySpritestoSAT ();
+		HW_waitForVBlank ();
+		HW_copySpritestoSAT ();
 		update_list [update_index] = 0xff;
-		SG_doUpdateList ();
+		HW_doUpdateList ();
 		clear_update_list ();
 
 		// Poll pads
@@ -366,7 +366,7 @@ void game_loop (void) {
 		ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
 
 		if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
-			SG_initSprites ();
+			HW_initSprites ();
 			
 			// Count frames		
 			if (ticker) -- ticker; else ticker = 50;
@@ -430,7 +430,7 @@ void game_loop (void) {
 
 			// Paint player
 
-			cur_stp = SG_getStp (); 
+			cur_stp = HW_getStp (); 
 			if (!warp_to_level)	player_render ();
 
 			// Update enemies
@@ -497,7 +497,7 @@ void game_loop (void) {
 
 	PSGStop ();
 	PSGSFXStop ();
-	SG_displayOff ();
-	SG_initSprites ();
-	SG_copySpritestoSAT ();	
+	HW_displayOff ();
+	HW_initSprites ();
+	HW_copySpritestoSAT ();	
 }

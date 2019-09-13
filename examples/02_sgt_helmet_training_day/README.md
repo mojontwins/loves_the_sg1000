@@ -57,7 +57,7 @@ Adding code to draw the bombs if `bombs_set` is set (!) is easy. Just put this n
 Last thing to do is the "set bombs" animation when approaching the computer. This is detected when `pry` goes below 128. Then, the bombs are set with delays and sounds after each one. We can do this in `extra_routines.h`:
 
 ```c
-	if (n_pant == 0 && bombs_set == 0 && pry < 128) {
+	if (pobjs == 5 && n_pant == 0 && bombs_set == 0 && pry < 128) {
 		_x = 4; _y = 5; _t = 24; map_set (); do_update_list_and_wait (); clear_update_list (); PSGSFXPlay (SFX_HITTER, 3); delay (20); 
 		_x = 4; _y = 3; _t = 24; map_set (); do_update_list_and_wait (); clear_update_list (); PSGSFXPlay (SFX_HITTER, 3); delay (20);
 		_x = 7; _y = 2; _t = 24; map_set (); do_update_list_and_wait (); clear_update_list (); PSGSFXPlay (SFX_HITTER, 3); delay (20);
@@ -100,7 +100,7 @@ And modify the code we wrote in `my/on_entering_screen.h` and `extra_routines.h`
 ```
 
 ```c
-	if (n_pant == 0 && bombs_set == 0 && pry < 128) {
+	if (pobjs == 5 && n_pant == 0 && bombs_set == 0 && pry < 128) {
 		for (gpit = 0; gpit < 5; gpit ++) {
 			_x = bombs_x [gpit]; _y = bombs_y [gpit]; _t = 24; map_set ();	
 			do_update_list_and_wait (); 

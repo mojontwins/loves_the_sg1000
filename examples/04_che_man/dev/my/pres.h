@@ -52,7 +52,7 @@ void title (void) {
 	_x = 12; _y = 16; pr_str ("MISSION 1");
 	         _y = 18; pr_str ("MISSION 2");
 
-	_x = 5; _y = 23; pr_str ("@ 2018 THE MOJON TWINS");
+	_x = 5; _y = 23; pr_str ("@ 2019 THE MOJON TWINS");
 
 	bat_in ();
 
@@ -104,7 +104,7 @@ void credits (void) {
 
 	rds16 = 0; rdy = 240;
 	_x = 0; _y = 18; 
-	pr_str ("     CHEMAN PUTAS BATUCADAS%%         ORIGINAL GAME%     @ 2011 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2018 THE MOJON TWINS");
+	pr_str ("     CHEMAN PUTAS BATUCADAS%%         ORIGINAL GAME%     @ 2018 THE MOJON TWINS%       REPROGRAMMED GAME%     @ 2019 THE MOJON TWINS");
 	
 	SG_displayOn ();
 	

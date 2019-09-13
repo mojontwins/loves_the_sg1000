@@ -1,0 +1,142 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.2 #9293 (MINGW32)
+                              4 ; This file was generated Tue Sep 10 14:20:23 2019
+                              5 ;--------------------------------------------------------
+                              6 	.module propellers
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _ul_putc
+                             13 	.globl _propellers_add
+                             14 	.globl _propellers_do
+                             15 ;--------------------------------------------------------
+                             16 ; special function registers
+                             17 ;--------------------------------------------------------
+                     00BF    18 _VDPControlPort	=	0x00bf
+                     00BF    19 _VDPStatusPort	=	0x00bf
+                     00BE    20 _VDPDataPort	=	0x00be
+                     007E    21 _VDPVCounterPort	=	0x007e
+                     007F    22 _VDPHCounterPort	=	0x007f
+                     00DC    23 _IOPortL	=	0x00dc
+                     00DD    24 _IOPortH	=	0x00dd
+                             25 ;--------------------------------------------------------
+                             26 ; ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DATA
+                             29 ;--------------------------------------------------------
+                             30 ; ram data
+                             31 ;--------------------------------------------------------
+                             32 	.area _INITIALIZED
+                             33 ;--------------------------------------------------------
+                             34 ; absolute external ram data
+                             35 ;--------------------------------------------------------
+                             36 	.area _DABS (ABS)
+                             37 ;--------------------------------------------------------
+                             38 ; global & static initialisations
+                             39 ;--------------------------------------------------------
+                             40 	.area _HOME
+                             41 	.area _GSINIT
+                             42 	.area _GSFINAL
+                             43 	.area _GSINIT
+                             44 ;--------------------------------------------------------
+                             45 ; Home
+                             46 ;--------------------------------------------------------
+                             47 	.area _HOME
+                             48 	.area _HOME
+                             49 ;--------------------------------------------------------
+                             50 ; code
+                             51 ;--------------------------------------------------------
+                             52 	.area _CODE
+                             53 ;./engine/propellers.c:25: void propellers_add (void) {
+                             54 ;	---------------------------------
+                             55 ; Function propellers_add
+                             56 ; ---------------------------------
+   0000                      57 _propellers_add::
+                             58 ;./engine/propellers.c:27: prp_yx [prp_idx ++] = rdm;
+   0000 21r00r00      [10]   59 	ld	hl,#_prp_idx + 0
+   0003 5E            [ 7]   60 	ld	e, (hl)
+   0004 21r00r00      [10]   61 	ld	hl, #_prp_idx+0
+   0007 34            [11]   62 	inc	(hl)
+   0008 21r00r00      [10]   63 	ld	hl,#_prp_yx
+   000B 16 00         [ 7]   64 	ld	d,#0x00
+   000D 19            [11]   65 	add	hl, de
+   000E 3Ar00r00      [13]   66 	ld	a,(#_rdm + 0)
+   0011 77            [ 7]   67 	ld	(hl),a
+   0012 C9            [10]   68 	ret
+                             69 ;./engine/propellers.c:30: void propellers_do (void) {
+                             70 ;	---------------------------------
+                             71 ; Function propellers_do
+                             72 ; ---------------------------------
+   0013                      73 _propellers_do::
+                             74 ;./engine/propellers.c:31: rdb = half_life << 1;
+   0013 3Ar00r00      [13]   75 	ld	a,(#_half_life + 0)
+   0016 87            [ 4]   76 	add	a, a
+   0017 32r00r00      [13]   77 	ld	(#_rdb + 0),a
+                             78 ;./engine/propellers.c:32: gpit = prp_idx; while (gpit --) {
+   001A 3Ar00r00      [13]   79 	ld	a,(#_prp_idx + 0)
+   001D 32r00r00      [13]   80 	ld	(#_gpit + 0),a
+   0020                      81 00101$:
+   0020 21r00r00      [10]   82 	ld	hl,#_gpit + 0
+   0023 56            [ 7]   83 	ld	d, (hl)
+   0024 21r00r00      [10]   84 	ld	hl, #_gpit+0
+   0027 35            [11]   85 	dec	(hl)
+   0028 7A            [ 4]   86 	ld	a,d
+   0029 B7            [ 4]   87 	or	a, a
+   002A C8            [11]   88 	ret	Z
+                             89 ;./engine/propellers.c:33: rda = prp_yx [gpit];
+   002B 3Er00         [ 7]   90 	ld	a,#<(_prp_yx)
+   002D 21r00r00      [10]   91 	ld	hl,#_gpit
+   0030 86            [ 7]   92 	add	a, (hl)
+   0031 5F            [ 4]   93 	ld	e,a
+   0032 3Es00         [ 7]   94 	ld	a,#>(_prp_yx)
+   0034 CE 00         [ 7]   95 	adc	a, #0x00
+   0036 57            [ 4]   96 	ld	d,a
+   0037 1A            [ 7]   97 	ld	a,(de)
+                             98 ;./engine/propellers.c:35: ((rda & 0xf) << 1) | 
+   0038 32r00r00      [13]   99 	ld	(#_rda + 0),a
+   003B E6 0F         [ 7]  100 	and	a, #0x0F
+   003D 6F            [ 4]  101 	ld	l,a
+   003E 26 00         [ 7]  102 	ld	h,#0x00
+   0040 29            [11]  103 	add	hl, hl
+   0041 EB            [ 4]  104 	ex	de,hl
+                            105 ;./engine/propellers.c:36: ((((rda >> 3) & 0xfe) + TOP_ADJUST) << 5)
+   0042 3Ar00r00      [13]  106 	ld	a,(#_rda + 0)
+   0045 0F            [ 4]  107 	rrca
+   0046 0F            [ 4]  108 	rrca
+   0047 0F            [ 4]  109 	rrca
+   0048 E6 1F         [ 7]  110 	and	a,#0x1F
+   004A E6 FE         [ 7]  111 	and	a, #0xFE
+   004C 6F            [ 4]  112 	ld	l,a
+   004D 26 00         [ 7]  113 	ld	h,#0x00
+   004F 23            [ 6]  114 	inc	hl
+   0050 29            [11]  115 	add	hl, hl
+   0051 29            [11]  116 	add	hl, hl
+   0052 29            [11]  117 	add	hl, hl
+   0053 29            [11]  118 	add	hl, hl
+   0054 29            [11]  119 	add	hl, hl
+   0055 7B            [ 4]  120 	ld	a,e
+   0056 B5            [ 4]  121 	or	a, l
+   0057 5F            [ 4]  122 	ld	e,a
+   0058 7A            [ 4]  123 	ld	a,d
+   0059 B4            [ 4]  124 	or	a, h
+   005A 57            [ 4]  125 	ld	d,a
+   005B 21 00 18      [10]  126 	ld	hl,#0x1800
+   005E 19            [11]  127 	add	hl,de
+   005F 22r00r00      [16]  128 	ld	(_gp_addr),hl
+                            129 ;./engine/propellers.c:38: _n = rdb + PROPELLERS_BASE_PATTERN; ul_putc ();
+   0062 21r00r00      [10]  130 	ld	hl,#__n
+   0065 3Ar00r00      [13]  131 	ld	a,(#_rdb + 0)
+   0068 C6 3C         [ 7]  132 	add	a, #0x3C
+   006A 77            [ 7]  133 	ld	(hl),a
+   006B CDr00r00      [17]  134 	call	_ul_putc
+                            135 ;./engine/propellers.c:39: ++ _n; ul_putc ();
+   006E 21r00r00      [10]  136 	ld	hl, #__n+0
+   0071 34            [11]  137 	inc	(hl)
+   0072 CDr00r00      [17]  138 	call	_ul_putc
+   0075 18 A9         [12]  139 	jr	00101$
+                            140 	.area _CODE
+                            141 	.area _INITIALIZER
+                            142 	.area _CABS (ABS)

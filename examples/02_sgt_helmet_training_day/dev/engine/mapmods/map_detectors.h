@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Map detectors.
@@ -21,13 +21,15 @@
 		#endif
 		{
 			rda -= 16;
-			if (map_attr [rda]) break; else {
-				#ifdef SG1000
+			#ifdef SG1000
+				if (c_behs [map_buff [rda]]) break; else {
 					map_buff [rda] = PROPELLER_FLOATABLE_TILE;
-				#else
-					map_attr [rda] = 64;
-				#endif
-			}
+				}
+			#else
+				if (map_attr [rda]) break; else {
+					map_attr [rda] = 64;				
+				}
+			#endif
 		}
 	}
 #endif
@@ -37,7 +39,10 @@
 #endif
 
 #ifdef ENABLE_TILE_CHAC_CHAC
-	if (rdt >= CHAC_CHAC_DETECT_TILE && rdt <= CHAC_CHAC_DETECT_TILE + 2) {
+	#ifndef CHAC_CHAC_DETECT_TILES
+	#define CHAC_CHAC_DETECT_TILES 3
+	#endif
+	if (rdt >= CHAC_CHAC_DETECT_TILE && rdt <= CHAC_CHAC_DETECT_TILE + CHAC_CHAC_DETECT_TILES-1) {
 		chac_chacs_add ();
 		#ifdef SG1000
 			rdt = map_buff [rdm] = 0;

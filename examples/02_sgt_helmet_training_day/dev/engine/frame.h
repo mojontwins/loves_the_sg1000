@@ -1,5 +1,5 @@
-// SG-1000 MK1 v0.2
-// Copyleft Mojon Twins 2013, 2015, 2017, 2018
+// SG-1000 MK1 v0.3
+// Copyleft Mojon Twins 2013, 2015, 2017, 2018 
 
 // frame.h
 // Custom game frame
@@ -51,12 +51,12 @@ void hud_update (void) {
 
 #if defined (HS_INV_X)
 	#if (defined (ENABLE_INTERACTIVES) && defined (FLAG_INVENTORY)) || (defined (ENABLE_ONLY_ONE_OBJECT) && defined (ONLY_ONE_OBJECT_FLAG))
-		SG_addMetaSprite1x1 (
+		HW_addMetaSprite1x1 (
 			HS_INV_X, HS_INV_Y,
 			spr_hs [flags [FLAG_INVENTORY]]
 		);
 	#else
-		SG_addMetaSprite1x1 (
+		HW_addMetaSprite1x1 (
 			HS_INV_X, HS_INV_Y,
 			spr_hs [pinv]
 		);

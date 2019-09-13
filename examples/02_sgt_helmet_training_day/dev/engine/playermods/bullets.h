@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 void fire_bullet (void) {
@@ -100,7 +100,7 @@ void bullets_move (void) {
 			#ifdef PLAYER_BULLET_FLICKERS
 			if (bst [bi] > PLAYER_BULLET_FLICKERS || half_life)
 			#endif
-			SG_addSprite (
+			HW_addSprite (
 				bx [bi], SPRITE_ADJUST + by [bi], 
 				BULLET_PATTERN, BULLET_COLOUR
 			);

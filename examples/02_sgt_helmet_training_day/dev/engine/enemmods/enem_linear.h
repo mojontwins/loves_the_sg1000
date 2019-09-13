@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.2
+// SG-1000 MK1 v0.3
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Good ol' patrollers
@@ -24,7 +24,7 @@ if (!en_status [gpit] || half_life) {
 			cx1 = cx2 = (_en_x + 15) >> 4;
 		}
 		cm_two_points ();
-		en_collx = at1 | at2;
+		en_collx = (at1 | at2) & 13; 
 	#endif
 
 	// Vertical
@@ -41,7 +41,7 @@ if (!en_status [gpit] || half_life) {
 			cy1 = cy2 = (_en_y + 15) >> 4;
 		}
 		cm_two_points ();
-		en_colly = at1 | at2;
+		en_colly = (at1 | at2) & 13;
 	#endif
 
 	// Change direction ?

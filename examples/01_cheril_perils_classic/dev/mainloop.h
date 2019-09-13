@@ -1,7 +1,11 @@
-// SG-1000 MK1 v0.1
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Main loop & helpers
+
+void player_frame_selector (void) {
+	#include "my/player_frame_selector.h"
+}
 
 void game_init (void) {
 
@@ -12,7 +16,7 @@ void game_init (void) {
 
 	// Load patterns
 	#include "my/level_pattern_unpacker.h"
-	
+
 	cls ();
 
 	draw_game_frame ();
@@ -97,8 +101,19 @@ void game_init (void) {
 
 	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 		// Clear tile_got persistence
-		// vram_adr (MAP_CLEAR_LIST_ADDRESS);
-		// vram_fill (0, MAP_SIZE*24);
+		// Point to VRAM @ PERSISTENT_TILE_GET_ADDR + n_pant * 24
+		rda = n_pant << 3;
+		gp_addr = PERSISTENT_TILE_GET_ADDR + (rda << 1) + rda;
+
+		DISABLE_INTERRUPTS;
+
+		VDPControlPort = LO (PERSISTENT_TILE_GET_ADDR);
+		VDPControlPort = HI (PERSISTENT_TILE_GET_ADDR) | 0x40;
+
+		// Write MAP_SIZE*24 zeroes
+		for (rds16 = 0; rds16 < MAP_SIZE*24; rds16 ++) VDPDataPort = 0;
+			
+		ENABLE_INTERRUPTS;
 	#endif
 
 	half_life = 0;
@@ -111,23 +126,40 @@ void game_init (void) {
 	#if defined (ENABLE_INTERACTIVES) && defined (INTERACTIVES_FROM_CODE)
 		#include "my/interactives_setup.h"
 	#endif
+
+// Tester
+	/*
+	n_pant = 2; pkeys = 2; pobjs = 5;
+	py = 10<<10;px = 7<<10;
+	*/
 }
 
 void prepare_scr (void) {
-	SG_displayOff ();
+	if (!ft) {
+		HW_displayOff ();
 
-	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
-		if (!ft) {
+		#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 			// Update tile_got persistence
+			// Point to VRAM @ PERSISTENT_TILE_GET_ADDR + on_pant * 24
 			rda = on_pant << 3;
-			vram_write (tile_got, MAP_CLEAR_LIST_ADDRESS + (rda << 1) + rda, 24);
-		}
-	#endif
+			gp_addr = PERSISTENT_TILE_GET_ADDR + (rda << 1) + rda;
+
+			DISABLE_INTERRUPTS;
+
+			VDPControlPort = LO (gp_addr);
+			VDPControlPort = HI (gp_addr) | 0x40;
+
+			// Write 24 bytes
+			for (gpit = 0; gpit < 24; gpit ++) VDPDataPort = tile_got [gpit];
+
+			ENABLE_INTERRUPTS;		
+		#endif
+	}
 
 	ft = 0;
 
 	update_list [update_index] = 0xff;
-	SG_doUpdateList ();
+	HW_doUpdateList ();
 	clear_update_list ();
 
 	#ifdef ENABLE_PROPELLERS
@@ -164,8 +196,19 @@ void prepare_scr (void) {
 
 	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 		// Read tile_got persistence
+		// Point to VRAM @ PERSISTENT_TILE_GET_ADDR + n_pant * 24
 		rda = n_pant << 3;
-		//vram_read (tile_got, MAP_CLEAR_LIST_ADDRESS + (rda << 1) + rda, 24);
+		gp_addr = PERSISTENT_TILE_GET_ADDR + (rda << 1) + rda;
+
+		DISABLE_INTERRUPTS;
+
+		VDPControlPort = LO (gp_addr);
+		VDPControlPort = HI (gp_addr);
+
+		// Read 24 bytes
+		for (gpit = 0; gpit < 24; gpit ++) tile_got [gpit] = VDPDataPort;
+
+		ENABLE_INTERRUPTS;
 	#endif
 
 		draw_scr ();
@@ -187,9 +230,7 @@ void prepare_scr (void) {
 	#ifdef PLAYER_CAN_FIRE
 		for (gpit = 0; gpit < MAX_BULLETS; gpit ++) {
 			b_slots [gpit] = gpit; 
-			#ifdef PLAYER_BULLET_LIFE
-				bst [gpit] = 0;
-			#endif
+			bst [gpit] = 0;
 		}
 		b_slots_i = MAX_BULLETS;
 	#endif
@@ -209,7 +250,7 @@ void prepare_scr (void) {
 		// bankswitch (l_chr_rom_bank [level]);
 	#endif
 
-	SG_initSprites ();
+	HW_initSprites ();
 
 	#ifdef ACTIVATE_SCRIPTING
 		#if defined (ENABLE_PUSHED_SCRIPT)
@@ -234,6 +275,8 @@ void prepare_scr (void) {
 	#endif	
 
 	player_move ();
+	player_frame_selector ();
+
 	enems_move ();
 
 	if (hrt) hotspots_paint ();
@@ -252,11 +295,11 @@ void prepare_scr (void) {
 	#endif
 
 	hud_update ();
-	SG_copySpritestoSAT ();
+	HW_copySpritestoSAT ();
 	update_list [update_index] = 0xff;
-	SG_doUpdateList ();
+	HW_doUpdateList ();
 	clear_update_list ();	
-	SG_displayOn ();
+	HW_displayOn ();
 
 	pad0 = 0;
 }
@@ -267,8 +310,6 @@ void game_loop (void) {
 	on_pant = 99; ft = 1; fade_delay = 1;
 
 	// MAIN LOOP
-
-	SG_displayOn ();
 	
 	#ifdef ACTIVATE_SCRIPTING
 		#ifdef CLEAR_FLAGS
@@ -288,8 +329,8 @@ void game_loop (void) {
 		PSGPlay (MUSIC_INGAME);
 	#endif
 
-	paused = 0; SG_resetPauseRequest ();
-	
+	paused = 0; HW_resetPauseRequest ();
+
 	while (1) {
 
 		// Update hud
@@ -339,10 +380,10 @@ void game_loop (void) {
 
 		// Finish frame and wait for NMI
 
-		SG_waitForVBlank ();
-		SG_copySpritestoSAT ();
+		HW_waitForVBlank ();
+		HW_copySpritestoSAT ();
 		update_list [update_index] = 0xff;
-		SG_doUpdateList ();
+		HW_doUpdateList ();
 		clear_update_list ();
 
 		// Poll pads
@@ -356,7 +397,7 @@ void game_loop (void) {
 		ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
 
 		if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
-			SG_initSprites ();
+			HW_initSprites ();
 			
 			// Count frames		
 			if (ticker) -- ticker; else ticker = 50;
@@ -383,6 +424,7 @@ void game_loop (void) {
 
 			if (!warp_to_level) {
 				player_move ();
+				player_frame_selector ();
 			}
 
 			// Timer
@@ -419,7 +461,7 @@ void game_loop (void) {
 
 			// Paint player
 
-			cur_stp = SG_getStp (); 
+			cur_stp = HW_getStp (); 
 			if (!warp_to_level)	player_render ();
 
 			// Update enemies
@@ -486,7 +528,7 @@ void game_loop (void) {
 
 	PSGStop ();
 	PSGSFXStop ();
-	SG_displayOff ();
-	SG_initSprites ();
-	SG_copySpritestoSAT ();	
+	HW_displayOff ();
+	HW_initSprites ();
+	HW_copySpritestoSAT ();	
 }

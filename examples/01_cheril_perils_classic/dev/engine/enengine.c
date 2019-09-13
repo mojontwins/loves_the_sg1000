@@ -1,16 +1,23 @@
-// SG-1000 MK1 v0.1
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // enengine.c
 // Enemies Engine & stuff
 
-#include "../lib/SGlib.h"
+#ifdef SMS
+	#include "../hw_sms.h"
+	#include "../lib/SMSlib.h"
+#else
+	#include "../hw_sg1000.h"
+	#include "../lib/SGlib.h"	
+#endif
 #include "../lib/PSGlib.h"
 #include "../murcia.h"
 
 #include "../definitions.h"
 #include "../config.h"
 #include "../autodefs.h"
+#include "../my/extra_declarations.h"
 
 #include "../ram/extern_globals.h"
 #include "../engine/extern_precalcs.h"
@@ -18,7 +25,9 @@
 #include "../utils/memfill.h"
 #include "../utils/rand.h"
 
+#include "../engine/player.h"
 #include "../engine/general.h"
+#include "../engine/cocos.h"
 
 #ifdef ENABLE_CHAC_CHAC
 	void enems_draw_chac_chac (unsigned char a1, unsigned char a2, unsigned char a3) {
@@ -273,6 +282,8 @@ void enems_load (void) {
 							gen_was_hit [gpit] = 0;
 						#endif	
 						_en_s = ((TYPE_7_FIXED_SPRITE - 1) << 3);
+						_en_x2 = rdm;     // != 0 means "spawned enemy fires"
+						_en_y2 = rdd|0xf; // Frequency
 						break;
 				#endif	
 
@@ -509,7 +520,7 @@ void enems_move (void) {
 					} 
 				#else
 					rda = frame_counter & 0xf;
-					SG_addMetaSprite1x1 (
+					ENEMY_METASPRITE_FUNCTION (
 						_en_x + jitter [rda],
 						_en_y + jitter [15 - rda] + SPRITE_ADJUST, 
 						spr_enems [ENEMS_EXPLODING_CELL]
@@ -857,9 +868,13 @@ void enems_move (void) {
 
 				#include "../my/on_player_hit.h"
 
+#pragma save
+#pragma disable_warning 126
 				#ifdef ENEMS_MAY_DIE
 					if (en_sg_1) enems_hit ();
 				#endif
+#pragma restore
+					
 				if (en_sg_2) { 
 					pkill = 1; 
 					#if defined (PLAYER_BOUNCES) && !defined (DIE_AND_RESPAWN)
@@ -1001,7 +1016,7 @@ skipdo:
 		// Render enemy metasprite en_spr
 
 		if (en_spr != 0xff) {
-			SG_addMetaSprite1x1 (
+			ENEMY_METASPRITE_FUNCTION (
 				_en_x + en_spr_x_mod, _en_y + SPRITE_ADJUST, 
 				spr_enems [en_spr]
 			);

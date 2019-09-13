@@ -4,7 +4,13 @@
 // player.c
 // Player movement & stuff
 
-#include "../lib/SGlib.h"
+#ifdef SMS
+	#include "../hw_sms.h"
+	#include "../lib/SMSlib.h"
+#else
+	#include "../hw_sg1000.h"
+	#include "../lib/SGlib.h"	
+#endif
 #include "../lib/PSGlib.h"
 #include "../murcia.h"
 
@@ -111,7 +117,7 @@ void player_init (void) {
 
 void player_render (void) {
 	if (0 == pflickering || half_life) 
-		SG_addMetaSprite1x1 (
+		HW_addMetaSprite1x1 (
 			prx - 4, pry + SPRITE_ADJUST, 
 			spr_player [psprid]
 		);
@@ -123,7 +129,7 @@ void player_to_pixels (void) {
 }
 
 void player_kill (void) {
-	SG_setStp (cur_stp);
+	HW_setStp (cur_stp);
 	player_render ();
 	update_cycle ();
 

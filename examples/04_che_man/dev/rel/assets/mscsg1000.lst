@@ -1,0 +1,682 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.2 #9293 (MINGW32)
+                              4 ; This file was generated Wed Sep 11 14:34:52 2019
+                              5 ;--------------------------------------------------------
+                              6 	.module mscsg1000
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _readxy
+                             13 	.globl _read_vbyte
+                             14 	.globl _read_byte
+                             15 	.globl _PSGSFXPlay
+                             16 	.globl _script_pool
+                             17 	.globl _script_pool_1
+                             18 	.globl _script_pool_0
+                             19 	.globl _run_script
+                             20 ;--------------------------------------------------------
+                             21 ; special function registers
+                             22 ;--------------------------------------------------------
+                     00BF    23 _VDPControlPort	=	0x00bf
+                     00BF    24 _VDPStatusPort	=	0x00bf
+                     00BE    25 _VDPDataPort	=	0x00be
+                     007E    26 _VDPVCounterPort	=	0x007e
+                     007F    27 _VDPHCounterPort	=	0x007f
+                     00DC    28 _IOPortL	=	0x00dc
+                     00DD    29 _IOPortH	=	0x00dd
+                             30 ;--------------------------------------------------------
+                             31 ; ram data
+                             32 ;--------------------------------------------------------
+                             33 	.area _DATA
+                             34 ;--------------------------------------------------------
+                             35 ; ram data
+                             36 ;--------------------------------------------------------
+                             37 	.area _INITIALIZED
+                             38 ;--------------------------------------------------------
+                             39 ; absolute external ram data
+                             40 ;--------------------------------------------------------
+                             41 	.area _DABS (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; global & static initialisations
+                             44 ;--------------------------------------------------------
+                             45 	.area _HOME
+                             46 	.area _GSINIT
+                             47 	.area _GSFINAL
+                             48 	.area _GSINIT
+                             49 ;--------------------------------------------------------
+                             50 ; Home
+                             51 ;--------------------------------------------------------
+                             52 	.area _HOME
+                             53 	.area _HOME
+                             54 ;--------------------------------------------------------
+                             55 ; code
+                             56 ;--------------------------------------------------------
+                             57 	.area _CODE
+                             58 ;./assets/mscsg1000.c:55: unsigned char read_byte (void) {
+                             59 ;	---------------------------------
+                             60 ; Function read_byte
+                             61 ; ---------------------------------
+   0000                      62 _read_byte::
+                             63 ;./assets/mscsg1000.c:56: return *script ++;
+   0000 2Ar00r00      [16]   64 	ld	hl,(_script)
+   0003 56            [ 7]   65 	ld	d,(hl)
+   0004 21r00r00      [10]   66 	ld	hl, #_script+0
+   0007 34            [11]   67 	inc	(hl)
+   0008 20 04         [12]   68 	jr	NZ,00103$
+   000A 21r01r00      [10]   69 	ld	hl, #_script+1
+   000D 34            [11]   70 	inc	(hl)
+   000E                      71 00103$:
+   000E 6A            [ 4]   72 	ld	l,d
+   000F C9            [10]   73 	ret
+   0010                      74 _script_pool_0:
+   0010 00                   75 	.db #0x00	; 0
+   0011 00                   76 	.db #0x00	; 0
+   0012 00                   77 	.db #0x00	; 0
+   0013 00                   78 	.db #0x00	; 0
+   0014 00                   79 	.db #0x00	; 0
+   0015 00                   80 	.db #0x00	; 0
+   0016 00                   81 	.db #0x00	; 0
+   0017 00                   82 	.db #0x00	; 0
+   0018 00                   83 	.db #0x00	; 0
+   0019 00                   84 	.db #0x00	; 0
+   001A 5C                   85 	.db #0x5C	; 92
+   001B 00                   86 	.db #0x00	; 0
+   001C 00                   87 	.db #0x00	; 0
+   001D 00                   88 	.db #0x00	; 0
+   001E 00                   89 	.db #0x00	; 0
+   001F 00                   90 	.db #0x00	; 0
+   0020 00                   91 	.db #0x00	; 0
+   0021 00                   92 	.db #0x00	; 0
+   0022 00                   93 	.db #0x00	; 0
+   0023 00                   94 	.db #0x00	; 0
+   0024 00                   95 	.db #0x00	; 0
+   0025 00                   96 	.db #0x00	; 0
+   0026 00                   97 	.db #0x00	; 0
+   0027 00                   98 	.db #0x00	; 0
+   0028 00                   99 	.db #0x00	; 0
+   0029 00                  100 	.db #0x00	; 0
+   002A 00                  101 	.db #0x00	; 0
+   002B 00                  102 	.db #0x00	; 0
+   002C 00                  103 	.db #0x00	; 0
+   002D 00                  104 	.db #0x00	; 0
+   002E 5C                  105 	.db #0x5C	; 92
+   002F 00                  106 	.db #0x00	; 0
+   0030 00                  107 	.db #0x00	; 0
+   0031 00                  108 	.db #0x00	; 0
+   0032 00                  109 	.db #0x00	; 0
+   0033 00                  110 	.db #0x00	; 0
+   0034 00                  111 	.db #0x00	; 0
+   0035 00                  112 	.db #0x00	; 0
+   0036 00                  113 	.db #0x00	; 0
+   0037 00                  114 	.db #0x00	; 0
+   0038 00                  115 	.db #0x00	; 0
+   0039 00                  116 	.db #0x00	; 0
+   003A 00                  117 	.db #0x00	; 0
+   003B 00                  118 	.db #0x00	; 0
+   003C 00                  119 	.db #0x00	; 0
+   003D 00                  120 	.db #0x00	; 0
+   003E 00                  121 	.db #0x00	; 0
+   003F 00                  122 	.db #0x00	; 0
+   0040 00                  123 	.db #0x00	; 0
+   0041 00                  124 	.db #0x00	; 0
+   0042 5C                  125 	.db #0x5C	; 92
+   0043 00                  126 	.db #0x00	; 0
+   0044 00                  127 	.db #0x00	; 0
+   0045 00                  128 	.db #0x00	; 0
+   0046 00                  129 	.db #0x00	; 0
+   0047 00                  130 	.db #0x00	; 0
+   0048 00                  131 	.db #0x00	; 0
+   0049 00                  132 	.db #0x00	; 0
+   004A 00                  133 	.db #0x00	; 0
+   004B 00                  134 	.db #0x00	; 0
+   004C 00                  135 	.db #0x00	; 0
+   004D 00                  136 	.db #0x00	; 0
+   004E 00                  137 	.db #0x00	; 0
+   004F 00                  138 	.db #0x00	; 0
+   0050 00                  139 	.db #0x00	; 0
+   0051 00                  140 	.db #0x00	; 0
+   0052 00                  141 	.db #0x00	; 0
+   0053 00                  142 	.db #0x00	; 0
+   0054 00                  143 	.db #0x00	; 0
+   0055 00                  144 	.db #0x00	; 0
+   0056 5C                  145 	.db #0x5C	; 92
+   0057 00                  146 	.db #0x00	; 0
+   0058 00                  147 	.db #0x00	; 0
+   0059 00                  148 	.db #0x00	; 0
+   005A 00                  149 	.db #0x00	; 0
+   005B 00                  150 	.db #0x00	; 0
+   005C 00                  151 	.db #0x00	; 0
+   005D 00                  152 	.db #0x00	; 0
+   005E 00                  153 	.db #0x00	; 0
+   005F 00                  154 	.db #0x00	; 0
+   0060 6E                  155 	.db #0x6E	; 110	'n'
+   0061 00                  156 	.db #0x00	; 0
+   0062 00                  157 	.db #0x00	; 0
+   0063 00                  158 	.db #0x00	; 0
+   0064 00                  159 	.db #0x00	; 0
+   0065 00                  160 	.db #0x00	; 0
+   0066 00                  161 	.db #0x00	; 0
+   0067 00                  162 	.db #0x00	; 0
+   0068 00                  163 	.db #0x00	; 0
+   0069 00                  164 	.db #0x00	; 0
+   006A 00                  165 	.db #0x00	; 0
+   006B 00                  166 	.db #0x00	; 0
+   006C 10                  167 	.db #0x10	; 16
+   006D 20                  168 	.db #0x20	; 32
+   006E 07                  169 	.db #0x07	; 7
+   006F 0A                  170 	.db #0x0A	; 10
+   0070 10                  171 	.db #0x10	; 16
+   0071 00                  172 	.db #0x00	; 0
+   0072 01                  173 	.db #0x01	; 1
+   0073 FF                  174 	.db #0xFF	; 255
+   0074 01                  175 	.db #0x01	; 1
+   0075 00                  176 	.db #0x00	; 0
+   0076 00                  177 	.db #0x00	; 0
+   0077 40                  178 	.db #0x40	; 64
+   0078 01                  179 	.db #0x01	; 1
+   0079 E0                  180 	.db #0xE0	; 224
+   007A 02                  181 	.db #0x02	; 2
+   007B 00                  182 	.db #0x00	; 0
+   007C FF                  183 	.db #0xFF	; 255
+   007D FF                  184 	.db #0xFF	; 255
+   007E 06                  185 	.db #0x06	; 6
+   007F F0                  186 	.db #0xF0	; 240
+   0080 FF                  187 	.db #0xFF	; 255
+   0081 01                  188 	.db #0x01	; 1
+   0082 00                  189 	.db #0x00	; 0
+   0083 00                  190 	.db #0x00	; 0
+   0084 FF                  191 	.db #0xFF	; 255
+   0085 FF                  192 	.db #0xFF	; 255
+   0086                     193 _script_pool_1:
+   0086 00                  194 	.db #0x00	; 0
+   0087 00                  195 	.db #0x00	; 0
+   0088 00                  196 	.db #0x00	; 0
+   0089 00                  197 	.db #0x00	; 0
+   008A 00                  198 	.db #0x00	; 0
+   008B 00                  199 	.db #0x00	; 0
+   008C 00                  200 	.db #0x00	; 0
+   008D 00                  201 	.db #0x00	; 0
+   008E 00                  202 	.db #0x00	; 0
+   008F 00                  203 	.db #0x00	; 0
+   0090 00                  204 	.db #0x00	; 0
+   0091 00                  205 	.db #0x00	; 0
+   0092 00                  206 	.db #0x00	; 0
+   0093 00                  207 	.db #0x00	; 0
+   0094 00                  208 	.db #0x00	; 0
+   0095 00                  209 	.db #0x00	; 0
+   0096 00                  210 	.db #0x00	; 0
+   0097 00                  211 	.db #0x00	; 0
+   0098 00                  212 	.db #0x00	; 0
+   0099 00                  213 	.db #0x00	; 0
+   009A 00                  214 	.db #0x00	; 0
+   009B 00                  215 	.db #0x00	; 0
+   009C 00                  216 	.db #0x00	; 0
+   009D 00                  217 	.db #0x00	; 0
+   009E 00                  218 	.db #0x00	; 0
+   009F 00                  219 	.db #0x00	; 0
+   00A0 00                  220 	.db #0x00	; 0
+   00A1 00                  221 	.db #0x00	; 0
+   00A2 00                  222 	.db #0x00	; 0
+   00A3 00                  223 	.db #0x00	; 0
+   00A4 00                  224 	.db #0x00	; 0
+   00A5 00                  225 	.db #0x00	; 0
+   00A6 00                  226 	.db #0x00	; 0
+   00A7 00                  227 	.db #0x00	; 0
+   00A8 00                  228 	.db #0x00	; 0
+   00A9 00                  229 	.db #0x00	; 0
+   00AA 00                  230 	.db #0x00	; 0
+   00AB 00                  231 	.db #0x00	; 0
+   00AC 00                  232 	.db #0x00	; 0
+   00AD 00                  233 	.db #0x00	; 0
+   00AE 00                  234 	.db #0x00	; 0
+   00AF 00                  235 	.db #0x00	; 0
+   00B0 00                  236 	.db #0x00	; 0
+   00B1 00                  237 	.db #0x00	; 0
+   00B2 00                  238 	.db #0x00	; 0
+   00B3 00                  239 	.db #0x00	; 0
+   00B4 00                  240 	.db #0x00	; 0
+   00B5 00                  241 	.db #0x00	; 0
+   00B6 00                  242 	.db #0x00	; 0
+   00B7 00                  243 	.db #0x00	; 0
+   00B8 00                  244 	.db #0x00	; 0
+   00B9 00                  245 	.db #0x00	; 0
+   00BA 00                  246 	.db #0x00	; 0
+   00BB 00                  247 	.db #0x00	; 0
+   00BC 00                  248 	.db #0x00	; 0
+   00BD 00                  249 	.db #0x00	; 0
+   00BE 00                  250 	.db #0x00	; 0
+   00BF 00                  251 	.db #0x00	; 0
+   00C0 00                  252 	.db #0x00	; 0
+   00C1 00                  253 	.db #0x00	; 0
+   00C2 00                  254 	.db #0x00	; 0
+   00C3 00                  255 	.db #0x00	; 0
+   00C4 00                  256 	.db #0x00	; 0
+   00C5 00                  257 	.db #0x00	; 0
+   00C6 00                  258 	.db #0x00	; 0
+   00C7 00                  259 	.db #0x00	; 0
+   00C8 00                  260 	.db #0x00	; 0
+   00C9 00                  261 	.db #0x00	; 0
+   00CA 00                  262 	.db #0x00	; 0
+   00CB 00                  263 	.db #0x00	; 0
+   00CC 00                  264 	.db #0x00	; 0
+   00CD 00                  265 	.db #0x00	; 0
+   00CE 00                  266 	.db #0x00	; 0
+   00CF 00                  267 	.db #0x00	; 0
+   00D0 5C                  268 	.db #0x5C	; 92
+   00D1 00                  269 	.db #0x00	; 0
+   00D2 00                  270 	.db #0x00	; 0
+   00D3 00                  271 	.db #0x00	; 0
+   00D4 00                  272 	.db #0x00	; 0
+   00D5 00                  273 	.db #0x00	; 0
+   00D6 6E                  274 	.db #0x6E	; 110	'n'
+   00D7 00                  275 	.db #0x00	; 0
+   00D8 00                  276 	.db #0x00	; 0
+   00D9 00                  277 	.db #0x00	; 0
+   00DA 00                  278 	.db #0x00	; 0
+   00DB 00                  279 	.db #0x00	; 0
+   00DC 00                  280 	.db #0x00	; 0
+   00DD 00                  281 	.db #0x00	; 0
+   00DE 00                  282 	.db #0x00	; 0
+   00DF 00                  283 	.db #0x00	; 0
+   00E0 00                  284 	.db #0x00	; 0
+   00E1 00                  285 	.db #0x00	; 0
+   00E2 10                  286 	.db #0x10	; 16
+   00E3 20                  287 	.db #0x20	; 32
+   00E4 07                  288 	.db #0x07	; 7
+   00E5 07                  289 	.db #0x07	; 7
+   00E6 10                  290 	.db #0x10	; 16
+   00E7 00                  291 	.db #0x00	; 0
+   00E8 01                  292 	.db #0x01	; 1
+   00E9 FF                  293 	.db #0xFF	; 255
+   00EA 01                  294 	.db #0x01	; 1
+   00EB 00                  295 	.db #0x00	; 0
+   00EC 00                  296 	.db #0x00	; 0
+   00ED 40                  297 	.db #0x40	; 64
+   00EE 01                  298 	.db #0x01	; 1
+   00EF E0                  299 	.db #0xE0	; 224
+   00F0 02                  300 	.db #0x02	; 2
+   00F1 00                  301 	.db #0x00	; 0
+   00F2 FF                  302 	.db #0xFF	; 255
+   00F3 FF                  303 	.db #0xFF	; 255
+   00F4 06                  304 	.db #0x06	; 6
+   00F5 F0                  305 	.db #0xF0	; 240
+   00F6 FF                  306 	.db #0xFF	; 255
+   00F7 01                  307 	.db #0x01	; 1
+   00F8 00                  308 	.db #0x00	; 0
+   00F9 00                  309 	.db #0x00	; 0
+   00FA FF                  310 	.db #0xFF	; 255
+   00FB FF                  311 	.db #0xFF	; 255
+   00FC                     312 _script_pool:
+   00FCr10r00               313 	.dw _script_pool_0
+   00FEr86r00               314 	.dw _script_pool_1
+                            315 ;./assets/mscsg1000.c:59: unsigned char read_vbyte (void) {
+                            316 ;	---------------------------------
+                            317 ; Function read_vbyte
+                            318 ; ---------------------------------
+   0100                     319 _read_vbyte::
+                            320 ;./assets/mscsg1000.c:60: sc_c = *script ++;
+   0100 2Ar00r00      [16]  321 	ld	hl,(_script)
+   0103 7E            [ 7]  322 	ld	a,(hl)
+   0104 32r00r00      [13]  323 	ld	(#_sc_c + 0),a
+   0107 21r00r00      [10]  324 	ld	hl, #_script+0
+   010A 34            [11]  325 	inc	(hl)
+   010B 20 04         [12]  326 	jr	NZ,00109$
+   010D 21r01r00      [10]  327 	ld	hl, #_script+1
+   0110 34            [11]  328 	inc	(hl)
+   0111                     329 00109$:
+                            330 ;./assets/mscsg1000.c:61: if (sc_c & 128) return flags [sc_c & 127];
+   0111 21r00r00      [10]  331 	ld	hl,#_sc_c+0
+   0114 CB 7E         [12]  332 	bit	7, (hl)
+   0116 28 0E         [12]  333 	jr	Z,00102$
+   0118 21r00r00      [10]  334 	ld	hl,#_sc_c + 0
+   011B 5E            [ 7]  335 	ld	e, (hl)
+   011C CB BB         [ 8]  336 	res	7, e
+   011E 21r00r00      [10]  337 	ld	hl,#_flags
+   0121 16 00         [ 7]  338 	ld	d,#0x00
+   0123 19            [11]  339 	add	hl, de
+   0124 6E            [ 7]  340 	ld	l,(hl)
+   0125 C9            [10]  341 	ret
+   0126                     342 00102$:
+                            343 ;./assets/mscsg1000.c:62: return sc_c;
+   0126 FD 21r00r00   [14]  344 	ld	iy,#_sc_c
+   012A FD 6E 00      [19]  345 	ld	l,0 (iy)
+   012D C9            [10]  346 	ret
+                            347 ;./assets/mscsg1000.c:65: void readxy (void) {
+                            348 ;	---------------------------------
+                            349 ; Function readxy
+                            350 ; ---------------------------------
+   012E                     351 _readxy::
+                            352 ;./assets/mscsg1000.c:66: sc_x = read_vbyte ();
+   012E CDr00r01      [17]  353 	call	_read_vbyte
+   0131 FD 21r00r00   [14]  354 	ld	iy,#_sc_x
+   0135 FD 75 00      [19]  355 	ld	0 (iy),l
+                            356 ;./assets/mscsg1000.c:67: sc_y = read_vbyte ();
+   0138 CDr00r01      [17]  357 	call	_read_vbyte
+   013B FD 21r00r00   [14]  358 	ld	iy,#_sc_y
+   013F FD 75 00      [19]  359 	ld	0 (iy),l
+   0142 C9            [10]  360 	ret
+                            361 ;./assets/mscsg1000.c:70: void run_script (unsigned char whichs) {
+                            362 ;	---------------------------------
+                            363 ; Function run_script
+                            364 ; ---------------------------------
+   0143                     365 _run_script::
+   0143 DD E5         [15]  366 	push	ix
+   0145 DD 21 00 00   [14]  367 	ld	ix,#0
+   0149 DD 39         [15]  368 	add	ix,sp
+   014B F5            [11]  369 	push	af
+   014C 3B            [ 6]  370 	dec	sp
+                            371 ;./assets/mscsg1000.c:72: gp_gen = (unsigned char *) script_pool [level] + (whichs << 1);
+   014D FD 21r00r00   [14]  372 	ld	iy,#_level
+   0151 FD 6E 00      [19]  373 	ld	l,0 (iy)
+   0154 26 00         [ 7]  374 	ld	h,#0x00
+   0156 29            [11]  375 	add	hl, hl
+   0157 11rFCr00      [10]  376 	ld	de,#_script_pool
+   015A 19            [11]  377 	add	hl,de
+   015B 4E            [ 7]  378 	ld	c,(hl)
+   015C 23            [ 6]  379 	inc	hl
+   015D 46            [ 7]  380 	ld	b,(hl)
+   015E DD 6E 04      [19]  381 	ld	l,4 (ix)
+   0161 26 00         [ 7]  382 	ld	h,#0x00
+   0163 29            [11]  383 	add	hl, hl
+   0164 55            [ 4]  384 	ld	d,l
+   0165 5C            [ 4]  385 	ld	e,h
+   0166 79            [ 4]  386 	ld	a,c
+   0167 21r00r00      [10]  387 	ld	hl,#_gp_gen
+   016A 82            [ 4]  388 	add	a, d
+   016B 77            [ 7]  389 	ld	(hl),a
+   016C 78            [ 4]  390 	ld	a,b
+   016D 8B            [ 4]  391 	adc	a, e
+   016E 23            [ 6]  392 	inc	hl
+   016F 77            [ 7]  393 	ld	(hl),a
+                            394 ;./assets/mscsg1000.c:73: rda = *gp_gen ++; rdb = *gp_gen;
+   0170 2Ar00r00      [16]  395 	ld	hl,(_gp_gen)
+   0173 7E            [ 7]  396 	ld	a,(hl)
+   0174 32r00r00      [13]  397 	ld	(#_rda + 0),a
+   0177 21r00r00      [10]  398 	ld	hl, #_gp_gen+0
+   017A 34            [11]  399 	inc	(hl)
+   017B 20 04         [12]  400 	jr	NZ,00209$
+   017D 21r01r00      [10]  401 	ld	hl, #_gp_gen+1
+   0180 34            [11]  402 	inc	(hl)
+   0181                     403 00209$:
+   0181 2Ar00r00      [16]  404 	ld	hl,(_gp_gen)
+   0184 7E            [ 7]  405 	ld	a,(hl)
+   0185 32r00r00      [13]  406 	ld	(#_rdb + 0),a
+                            407 ;./assets/mscsg1000.c:74: script_result = 0;
+   0188 21r00r00      [10]  408 	ld	hl,#_script_result + 0
+   018B 36 00         [10]  409 	ld	(hl), #0x00
+                            410 ;./assets/mscsg1000.c:75: if (!(rda | rdb)) return;
+   018D 3Ar00r00      [13]  411 	ld	a,(#_rda + 0)
+   0190 21r00r00      [10]  412 	ld	hl,#_rdb + 0
+   0193 B6            [ 7]  413 	or	a,(hl)
+   0194 CAr44r03      [10]  414 	jp	Z,00124$
+                            415 ;./assets/mscsg1000.c:76: script = (unsigned char *) script_pool [level] + rda + (rdb << 8);
+   0197 3Ar00r00      [13]  416 	ld	a,(#_rda + 0)
+   019A 81            [ 4]  417 	add	a, c
+   019B 5F            [ 4]  418 	ld	e,a
+   019C 3E 00         [ 7]  419 	ld	a,#0x00
+   019E 88            [ 4]  420 	adc	a, b
+   019F 57            [ 4]  421 	ld	d,a
+   01A0 21r00r00      [10]  422 	ld	hl,#_rdb + 0
+   01A3 46            [ 7]  423 	ld	b, (hl)
+   01A4 0E 00         [ 7]  424 	ld	c,#0x00
+   01A6 7B            [ 4]  425 	ld	a,e
+   01A7 21r00r00      [10]  426 	ld	hl,#_script
+   01AA 81            [ 4]  427 	add	a, c
+   01AB 77            [ 7]  428 	ld	(hl),a
+   01AC 7A            [ 4]  429 	ld	a,d
+   01AD 88            [ 4]  430 	adc	a, b
+   01AE 23            [ 6]  431 	inc	hl
+   01AF 77            [ 7]  432 	ld	(hl),a
+                            433 ;./assets/mscsg1000.c:78: while ((sc_c = read_byte ()) != 0xff) {
+   01B0                     434 00121$:
+   01B0 CDr00r00      [17]  435 	call	_read_byte
+   01B3 7D            [ 4]  436 	ld	a,l
+   01B4 32r00r00      [13]  437 	ld	(#_sc_c + 0),a
+   01B7 3C            [ 4]  438 	inc	a
+   01B8 CAr44r03      [10]  439 	jp	Z,00124$
+                            440 ;./assets/mscsg1000.c:79: next_script = script + sc_c;
+   01BB 21r00r00      [10]  441 	ld	hl,#_sc_c
+   01BE D5            [11]  442 	push	de
+   01BF FD 21r00r00   [14]  443 	ld	iy,#_next_script
+   01C3 FD E5         [15]  444 	push	iy
+   01C5 D1            [10]  445 	pop	de
+   01C6 3Ar00r00      [13]  446 	ld	a,(#_script + 0)
+   01C9 86            [ 7]  447 	add	a, (hl)
+   01CA 12            [ 7]  448 	ld	(de),a
+   01CB 3Ar01r00      [13]  449 	ld	a,(#_script + 1)
+   01CE CE 00         [ 7]  450 	adc	a, #0x00
+   01D0 13            [ 6]  451 	inc	de
+   01D1 12            [ 7]  452 	ld	(de),a
+   01D2 D1            [10]  453 	pop	de
+                            454 ;./assets/mscsg1000.c:80: sc_terminado = sc_continuar = 0;
+   01D3 21r00r00      [10]  455 	ld	hl,#_sc_continuar + 0
+   01D6 36 00         [10]  456 	ld	(hl), #0x00
+   01D8 21r00r00      [10]  457 	ld	hl,#_sc_terminado + 0
+   01DB 36 00         [10]  458 	ld	(hl), #0x00
+                            459 ;./assets/mscsg1000.c:81: while (!sc_terminado) {
+   01DD                     460 00108$:
+   01DD 3Ar00r00      [13]  461 	ld	a,(#_sc_terminado + 0)
+   01E0 B7            [ 4]  462 	or	a, a
+   01E1 C2rCAr02      [10]  463 	jp	NZ,00110$
+                            464 ;./assets/mscsg1000.c:82: switch (read_byte ()) {
+   01E4 CDr00r00      [17]  465 	call	_read_byte
+   01E7 4D            [ 4]  466 	ld	c,l
+   01E8 79            [ 4]  467 	ld	a,c
+   01E9 FE 10         [ 7]  468 	cp	a,#0x10
+   01EB 28 0E         [12]  469 	jr	Z,00103$
+   01ED FE 20         [ 7]  470 	cp	a,#0x20
+   01EF 28 2C         [12]  471 	jr	Z,00104$
+   01F1 D6 F0         [ 7]  472 	sub	a, #0xF0
+   01F3 28 E8         [12]  473 	jr	Z,00108$
+   01F5 0C            [ 4]  474 	inc	c
+   01F6 CArBDr02      [10]  475 	jp	Z,00106$
+   01F9 18 E2         [12]  476 	jr	00108$
+                            477 ;./assets/mscsg1000.c:83: case 0x10: readxy (); sc_terminado = (flags [sc_x] != sc_y); break;
+   01FB                     478 00103$:
+   01FB CDr2Er01      [17]  479 	call	_readxy
+   01FE FD 21r00r00   [14]  480 	ld	iy,#_flags
+   0202 ED 5Br00r00   [20]  481 	ld	de,(_sc_x)
+   0206 16 00         [ 7]  482 	ld	d,#0x00
+   0208 FD 19         [15]  483 	add	iy, de
+   020A FD 56 00      [19]  484 	ld	d, 0 (iy)
+   020D 3Ar00r00      [13]  485 	ld	a,(#_sc_y + 0)
+   0210 92            [ 4]  486 	sub	a, d
+   0211 20 03         [12]  487 	jr	NZ,00215$
+   0213 AF            [ 4]  488 	xor	a,a
+   0214 18 02         [12]  489 	jr	00216$
+   0216                     490 00215$:
+   0216 3E 01         [ 7]  491 	ld	a,#0x01
+   0218                     492 00216$:
+   0218 32r00r00      [13]  493 	ld	(#_sc_terminado + 0),a
+   021B 18 C0         [12]  494 	jr	00108$
+                            495 ;./assets/mscsg1000.c:84: case 0x20: readxy (); sc_x <<= 4; sc_y = 16 + (sc_y << 4); sc_terminado = (!(prx + 7 >= sc_x && prx <= sc_x + 15 && pry + 15 >= sc_y && pry <= sc_y + 15)); break;
+   021D                     496 00104$:
+   021D CDr2Er01      [17]  497 	call	_readxy
+   0220 3Ar00r00      [13]  498 	ld	a,(#_sc_x + 0)
+   0223 07            [ 4]  499 	rlca
+   0224 07            [ 4]  500 	rlca
+   0225 07            [ 4]  501 	rlca
+   0226 07            [ 4]  502 	rlca
+   0227 E6 F0         [ 7]  503 	and	a,#0xF0
+   0229 32r00r00      [13]  504 	ld	(#_sc_x + 0),a
+   022C 3Ar00r00      [13]  505 	ld	a,(#_sc_y + 0)
+   022F 07            [ 4]  506 	rlca
+   0230 07            [ 4]  507 	rlca
+   0231 07            [ 4]  508 	rlca
+   0232 07            [ 4]  509 	rlca
+   0233 E6 F0         [ 7]  510 	and	a,#0xF0
+   0235 21r00r00      [10]  511 	ld	hl,#_sc_y
+   0238 C6 10         [ 7]  512 	add	a, #0x10
+   023A 77            [ 7]  513 	ld	(hl),a
+   023B 3Ar00r00      [13]  514 	ld	a,(#_prx + 0)
+   023E DD 77 FE      [19]  515 	ld	-2 (ix),a
+   0241 DD 36 FF 00   [19]  516 	ld	-1 (ix),#0x00
+   0245 DD 7E FE      [19]  517 	ld	a,-2 (ix)
+   0248 C6 07         [ 7]  518 	add	a, #0x07
+   024A 57            [ 4]  519 	ld	d,a
+   024B DD 7E FF      [19]  520 	ld	a,-1 (ix)
+   024E CE 00         [ 7]  521 	adc	a, #0x00
+   0250 5F            [ 4]  522 	ld	e,a
+   0251 FD 21r00r00   [14]  523 	ld	iy,#_sc_x
+   0255 FD 6E 00      [19]  524 	ld	l,0 (iy)
+   0258 26 00         [ 7]  525 	ld	h,#0x00
+   025A 7A            [ 4]  526 	ld	a,d
+   025B 95            [ 4]  527 	sub	a, l
+   025C 7B            [ 4]  528 	ld	a,e
+   025D 9C            [ 4]  529 	sbc	a, h
+   025E E2r63r02      [10]  530 	jp	PO, 00217$
+   0261 EE 80         [ 7]  531 	xor	a, #0x80
+   0263                     532 00217$:
+   0263 FArABr02      [10]  533 	jp	M,00126$
+   0266 01 0F 00      [10]  534 	ld	bc,#0x000F
+   0269 09            [11]  535 	add	hl,bc
+   026A 7D            [ 4]  536 	ld	a,l
+   026B DD 96 FE      [19]  537 	sub	a, -2 (ix)
+   026E 7C            [ 4]  538 	ld	a,h
+   026F DD 9E FF      [19]  539 	sbc	a, -1 (ix)
+   0272 E2r77r02      [10]  540 	jp	PO, 00218$
+   0275 EE 80         [ 7]  541 	xor	a, #0x80
+   0277                     542 00218$:
+   0277 FArABr02      [10]  543 	jp	M,00126$
+   027A 21r00r00      [10]  544 	ld	hl,#_pry + 0
+   027D 5E            [ 7]  545 	ld	e, (hl)
+   027E 16 00         [ 7]  546 	ld	d,#0x00
+   0280 21 0F 00      [10]  547 	ld	hl,#0x000F
+   0283 19            [11]  548 	add	hl,de
+   0284 45            [ 4]  549 	ld	b,l
+   0285 4C            [ 4]  550 	ld	c,h
+   0286 FD 21r00r00   [14]  551 	ld	iy,#_sc_y
+   028A FD 6E 00      [19]  552 	ld	l,0 (iy)
+   028D 26 00         [ 7]  553 	ld	h,#0x00
+   028F 78            [ 4]  554 	ld	a,b
+   0290 95            [ 4]  555 	sub	a, l
+   0291 79            [ 4]  556 	ld	a,c
+   0292 9C            [ 4]  557 	sbc	a, h
+   0293 E2r98r02      [10]  558 	jp	PO, 00219$
+   0296 EE 80         [ 7]  559 	xor	a, #0x80
+   0298                     560 00219$:
+   0298 FArABr02      [10]  561 	jp	M,00126$
+   029B 01 0F 00      [10]  562 	ld	bc,#0x000F
+   029E 09            [11]  563 	add	hl,bc
+   029F 7D            [ 4]  564 	ld	a,l
+   02A0 93            [ 4]  565 	sub	a, e
+   02A1 7C            [ 4]  566 	ld	a,h
+   02A2 9A            [ 4]  567 	sbc	a, d
+   02A3 E2rA8r02      [10]  568 	jp	PO, 00220$
+   02A6 EE 80         [ 7]  569 	xor	a, #0x80
+   02A8                     570 00220$:
+   02A8 F2rAFr02      [10]  571 	jp	P,00127$
+   02AB                     572 00126$:
+   02AB 1E 00         [ 7]  573 	ld	e,#0x00
+   02AD 18 02         [12]  574 	jr	00128$
+   02AF                     575 00127$:
+   02AF 1E 01         [ 7]  576 	ld	e,#0x01
+   02B1                     577 00128$:
+   02B1 7B            [ 4]  578 	ld	a,e
+   02B2 D6 01         [ 7]  579 	sub	a,#0x01
+   02B4 3E 00         [ 7]  580 	ld	a,#0x00
+   02B6 17            [ 4]  581 	rla
+   02B7 32r00r00      [13]  582 	ld	(#_sc_terminado + 0),a
+   02BA C3rDDr01      [10]  583 	jp	00108$
+                            584 ;./assets/mscsg1000.c:86: case 0xff: sc_terminado = sc_continuar = 1; break;
+   02BD                     585 00106$:
+   02BD 21r00r00      [10]  586 	ld	hl,#_sc_continuar + 0
+   02C0 36 01         [10]  587 	ld	(hl), #0x01
+   02C2 21r00r00      [10]  588 	ld	hl,#_sc_terminado + 0
+   02C5 36 01         [10]  589 	ld	(hl), #0x01
+                            590 ;./assets/mscsg1000.c:87: }
+   02C7 C3rDDr01      [10]  591 	jp	00108$
+   02CA                     592 00110$:
+                            593 ;./assets/mscsg1000.c:90: if (sc_continuar) {
+   02CA 3Ar00r00      [13]  594 	ld	a,(#_sc_continuar + 0)
+   02CD B7            [ 4]  595 	or	a, a
+   02CE 28 6B         [12]  596 	jr	Z,00120$
+                            597 ;./assets/mscsg1000.c:91: fire_script_success = 1;
+   02D0 21r00r00      [10]  598 	ld	hl,#_fire_script_success + 0
+   02D3 36 01         [10]  599 	ld	(hl), #0x01
+                            600 ;./assets/mscsg1000.c:92: sc_terminado = 0;
+   02D5 21r00r00      [10]  601 	ld	hl,#_sc_terminado + 0
+   02D8 36 00         [10]  602 	ld	(hl), #0x00
+                            603 ;./assets/mscsg1000.c:93: while (!sc_terminado) {
+   02DA                     604 00116$:
+   02DA 3Ar00r00      [13]  605 	ld	a,(#_sc_terminado + 0)
+   02DD B7            [ 4]  606 	or	a, a
+   02DE 20 5B         [12]  607 	jr	NZ,00120$
+                            608 ;./assets/mscsg1000.c:94: switch (read_byte ()) {
+   02E0 CDr00r00      [17]  609 	call	_read_byte
+   02E3 7D            [ 4]  610 	ld	a,l
+   02E4 3D            [ 4]  611 	dec	a
+   02E5 28 0E         [12]  612 	jr	Z,00111$
+   02E7 7D            [ 4]  613 	ld	a,l
+   02E8 FE 40         [ 7]  614 	cp	a,#0x40
+   02EA 28 1E         [12]  615 	jr	Z,00112$
+   02EC D6 E0         [ 7]  616 	sub	a, #0xE0
+   02EE 28 26         [12]  617 	jr	Z,00113$
+   02F0 2C            [ 4]  618 	inc	l
+   02F1 28 41         [12]  619 	jr	Z,00114$
+   02F3 18 E5         [12]  620 	jr	00116$
+                            621 ;./assets/mscsg1000.c:95: case 0x01: readxy (); flags [sc_x] = sc_y; break;
+   02F5                     622 00111$:
+   02F5 CDr2Er01      [17]  623 	call	_readxy
+   02F8 3Er00         [ 7]  624 	ld	a,#<(_flags)
+   02FA 21r00r00      [10]  625 	ld	hl,#_sc_x
+   02FD 86            [ 7]  626 	add	a, (hl)
+   02FE 5F            [ 4]  627 	ld	e,a
+   02FF 3Es00         [ 7]  628 	ld	a,#>(_flags)
+   0301 CE 00         [ 7]  629 	adc	a, #0x00
+   0303 57            [ 4]  630 	ld	d,a
+   0304 3Ar00r00      [13]  631 	ld	a,(#_sc_y + 0)
+   0307 12            [ 7]  632 	ld	(de),a
+   0308 18 D0         [12]  633 	jr	00116$
+                            634 ;./assets/mscsg1000.c:96: case 0x40: pobjs += read_vbyte (); break;
+   030A                     635 00112$:
+   030A CDr00r01      [17]  636 	call	_read_vbyte
+   030D 55            [ 4]  637 	ld	d,l
+   030E 21r00r00      [10]  638 	ld	hl,#_pobjs
+   0311 7E            [ 7]  639 	ld	a,(hl)
+   0312 82            [ 4]  640 	add	a, d
+   0313 77            [ 7]  641 	ld	(hl),a
+   0314 18 C4         [12]  642 	jr	00116$
+                            643 ;./assets/mscsg1000.c:97: case 0xe0: PSGSFXPlay (msc_sfx [read_vbyte ()], read_vbyte ()); break;
+   0316                     644 00113$:
+   0316 CDr00r01      [17]  645 	call	_read_vbyte
+   0319 4D            [ 4]  646 	ld	c,l
+   031A C5            [11]  647 	push	bc
+   031B CDr00r01      [17]  648 	call	_read_vbyte
+   031E C1            [10]  649 	pop	bc
+   031F 26 00         [ 7]  650 	ld	h,#0x00
+   0321 29            [11]  651 	add	hl, hl
+   0322 11r00r00      [10]  652 	ld	de,#_msc_sfx
+   0325 19            [11]  653 	add	hl,de
+   0326 5E            [ 7]  654 	ld	e,(hl)
+   0327 23            [ 6]  655 	inc	hl
+   0328 56            [ 7]  656 	ld	d,(hl)
+   0329 79            [ 4]  657 	ld	a,c
+   032A F5            [11]  658 	push	af
+   032B 33            [ 6]  659 	inc	sp
+   032C D5            [11]  660 	push	de
+   032D CDr00r00      [17]  661 	call	_PSGSFXPlay
+   0330 F1            [10]  662 	pop	af
+   0331 33            [ 6]  663 	inc	sp
+   0332 18 A6         [12]  664 	jr	00116$
+                            665 ;./assets/mscsg1000.c:98: case 0xff: sc_terminado = 1; break;
+   0334                     666 00114$:
+   0334 21r00r00      [10]  667 	ld	hl,#_sc_terminado + 0
+   0337 36 01         [10]  668 	ld	(hl), #0x01
+                            669 ;./assets/mscsg1000.c:99: }
+   0339 18 9F         [12]  670 	jr	00116$
+   033B                     671 00120$:
+                            672 ;./assets/mscsg1000.c:102: script = next_script;
+   033B 2Ar00r00      [16]  673 	ld	hl,(_next_script)
+   033E 22r00r00      [16]  674 	ld	(_script),hl
+   0341 C3rB0r01      [10]  675 	jp	00121$
+   0344                     676 00124$:
+   0344 DD F9         [10]  677 	ld	sp, ix
+   0346 DD E1         [14]  678 	pop	ix
+   0348 C9            [10]  679 	ret
+                            680 	.area _CODE
+                            681 	.area _INITIALIZER
+                            682 	.area _CABS (ABS)

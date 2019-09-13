@@ -3,7 +3,14 @@
 
 // Simple multidirectional fixed point cocos
 
-#include "../lib/SGlib.h"
+#ifdef SMS
+	#include "../hw_sms.h"
+	#include "../lib/SMSlib.h"
+#else
+	#include "../hw_sg1000.h"
+	#include "../lib/SGlib.h"	
+#endif
+
 #include "../lib/PSGlib.h"
 #include "../murcia.h"
 
@@ -11,6 +18,7 @@
 #include "../config.h"
 #include "../autodefs.h"
 #include "../my/extra_declarations.h"
+
 
 #ifdef ENABLE_COCOS
 
@@ -96,7 +104,7 @@
 			rdy = coco_y [coco_it] >> 6;
 
 			// Render
-			SG_addSprite (rdx, rdy + SPRITE_ADJUST, COCO_PATTERN, COCO_COLOUR);
+			HW_addSprite (rdx, rdy + SPRITE_ADJUST, COCO_PATTERN, COCO_COLOUR);
 
 			#ifdef COCO_COLLIDES
 				#ifdef SG1000
