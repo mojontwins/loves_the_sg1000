@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Wed Sep 11 14:09:37 2019
+; This file was generated Fri Sep 13 12:59:53 2019
 ;--------------------------------------------------------
 	.module game
 	.optsdcc -mz80
@@ -60,6 +60,7 @@
 	.globl _PSGSFXPlay
 	.globl _PSGStop
 	.globl _PSGPlay
+	.globl _music_pause
 	.globl _SG_doUpdateList
 	.globl _SG_setUpdateList
 	.globl _SG_copySpritestoSAT
@@ -1900,13 +1901,13 @@ _game_init::
 ;./mainloop.h:56: pkeys = 0;
 	ld	hl,#_pkeys + 0
 	ld	(hl), #0x00
-;./mainloop.h:108: half_life = 0;
+;./mainloop.h:119: half_life = 0;
 	ld	hl,#_half_life + 0
 	ld	(hl), #0x00
-;./mainloop.h:109: frame_counter = 0;
+;./mainloop.h:120: frame_counter = 0;
 	ld	hl,#_frame_counter + 0
 	ld	(hl), #0x00
-;./mainloop.h:110: olife = oammo = oobjs = okeys = 0xff;
+;./mainloop.h:121: olife = oammo = oobjs = okeys = 0xff;
 	ld	hl,#_okeys + 0
 	ld	(hl), #0xFF
 	ld	hl,#_oobjs + 0
@@ -1915,27 +1916,32 @@ _game_init::
 	ld	(hl), #0xFF
 	ld	hl,#_olife + 0
 	ld	(hl), #0xFF
-;./mainloop.h:111: okilled = 0xff;
+;./mainloop.h:122: okilled = 0xff;
 	ld	hl,#_okilled + 0
 	ld	(hl), #0xFF
 ;./my/extra_inits.h:7: bombs_set = 0;
 	ld	hl,#_bombs_set + 0
 	ld	(hl), #0x00
 	ret
-;./mainloop.h:126: void prepare_scr (void) {
+;./mainloop.h:137: void prepare_scr (void) {
 ;	---------------------------------
 ; Function prepare_scr
 ; ---------------------------------
 _prepare_scr::
-;./mainloop.h:127: HW_displayOff ();
+;./mainloop.h:138: if (!ft) {
+	ld	a,(#_ft + 0)
+	or	a, a
+	jr	NZ,00102$
+;./mainloop.h:139: HW_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
 	pop	af
-;./mainloop.h:137: ft = 0;
+00102$:
+;./mainloop.h:159: ft = 0;
 	ld	iy,#_ft
 	ld	0 (iy),#0x00
-;./mainloop.h:139: update_list [update_index] = 0xff;
+;./mainloop.h:161: update_list [update_index] = 0xff;
 	ld	a,(#_update_index + 0)
 	add	a, #<(_update_list)
 	ld	l, a
@@ -1943,47 +1949,47 @@ _prepare_scr::
 	adc	a, #>(_update_list)
 	ld	h, a
 	ld	(hl),#0xFF
-;./mainloop.h:140: HW_doUpdateList ();
+;./mainloop.h:162: HW_doUpdateList ();
 	call	_SG_doUpdateList
-;./mainloop.h:141: clear_update_list ();
+;./mainloop.h:163: clear_update_list ();
 	call	_clear_update_list
-;./mainloop.h:150: enems_persistent_update ();
+;./mainloop.h:172: enems_persistent_update ();
 	call	_enems_persistent_update
-;./mainloop.h:153: enems_load ();
+;./mainloop.h:175: enems_load ();
 	call	_enems_load
-;./mainloop.h:154: hotspots_create ();	
+;./mainloop.h:176: hotspots_create ();	
 	call	_hotspots_create
-;./mainloop.h:157: cocos_init ();
+;./mainloop.h:179: cocos_init ();
 	call	_cocos_init
-;./mainloop.h:181: draw_scr ();
+;./mainloop.h:214: draw_scr ();
 	call	_draw_scr
-;./mainloop.h:184: do_process_breakable = 0;
+;./mainloop.h:217: do_process_breakable = 0;
 	ld	hl,#_do_process_breakable + 0
 	ld	(hl), #0x00
-;./mainloop.h:185: gpit = BREAKABLE_MAX; while (gpit --) brkf [gpit] = 0;
+;./mainloop.h:218: gpit = BREAKABLE_MAX; while (gpit --) brkf [gpit] = 0;
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x04
 	ld	de,#_brkf+0
-00101$:
+00103$:
 	ld	hl,#_gpit + 0
 	ld	b, (hl)
 	ld	hl, #_gpit+0
 	dec	(hl)
 	ld	a,b
 	or	a, a
-	jr	Z,00103$
+	jr	Z,00105$
 	ld	hl,(_gpit)
 	ld	h,#0x00
 	add	hl,de
 	ld	(hl),#0x00
-	jr	00101$
-00103$:
-;./mainloop.h:198: for (gpit = 0; gpit < MAX_BULLETS; gpit ++) {
+	jr	00103$
+00105$:
+;./mainloop.h:231: for (gpit = 0; gpit < MAX_BULLETS; gpit ++) {
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x00
 	ld	de,#_bst+0
-00120$:
-;./mainloop.h:199: b_slots [gpit] = gpit; 
+00122$:
+;./mainloop.h:232: b_slots [gpit] = gpit; 
 	ld	a,#<(_b_slots)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -1993,26 +1999,26 @@ _prepare_scr::
 	ld	b,a
 	ld	a,(#_gpit + 0)
 	ld	(bc),a
-;./mainloop.h:200: bst [gpit] = 0;
+;./mainloop.h:233: bst [gpit] = 0;
 	ld	hl,(_gpit)
 	ld	h,#0x00
 	add	hl,de
 	ld	(hl),#0x00
-;./mainloop.h:198: for (gpit = 0; gpit < MAX_BULLETS; gpit ++) {
+;./mainloop.h:231: for (gpit = 0; gpit < MAX_BULLETS; gpit ++) {
 	ld	hl, #_gpit+0
 	inc	(hl)
 	ld	a,(#_gpit + 0)
 	sub	a, #0x04
-	jr	C,00120$
-;./mainloop.h:202: b_slots_i = MAX_BULLETS;
+	jr	C,00122$
+;./mainloop.h:235: b_slots_i = MAX_BULLETS;
 	ld	hl,#_b_slots_i + 0
 	ld	(hl), #0x04
-;./mainloop.h:220: HW_initSprites ();
+;./mainloop.h:253: HW_initSprites ();
 	call	_SG_initSprites
 ;./my/on_entering_screen.h:8: if (n_pant == 0) {
 	ld	a,(#_n_pant + 0)
 	or	a, a
-	jp	NZ,00114$
+	jp	NZ,00116$
 ;./my/on_entering_screen.h:10: do_update_list_and_wait ();
 	call	_do_update_list_and_wait
 ;./my/on_entering_screen.h:13: clear_update_list ();
@@ -2026,14 +2032,14 @@ _prepare_scr::
 	ld	(hl), #0x10
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x06
-00107$:
+00109$:
 	ld	hl,#_gpit + 0
 	ld	d, (hl)
 	ld	hl, #_gpit+0
 	dec	(hl)
 	ld	a,d
 	or	a, a
-	jr	Z,00109$
+	jr	Z,00111$
 ;./my/on_entering_screen.h:15: _x = rdx; _y = rdy; _t = rdt; map_set ();
 	ld	a,(#_rdx + 0)
 	ld	(#__x + 0),a
@@ -2049,17 +2055,17 @@ _prepare_scr::
 	inc	(hl)
 	ld	a,(#_rdx + 0)
 	sub	a, #0x09
-	jr	NZ,00107$
+	jr	NZ,00109$
 	ld	hl,#_rdx + 0
 	ld	(hl), #0x06
 	ld	hl, #_rdy+0
 	inc	(hl)
-	jr	00107$
-00109$:
+	jr	00109$
+00111$:
 ;./my/on_entering_screen.h:20: if (bombs_set) {
 	ld	a,(#_bombs_set + 0)
 	or	a, a
-	jr	Z,00112$
+	jr	Z,00114$
 ;./my/on_entering_screen.h:21: do_update_list_and_wait ();
 	call	_do_update_list_and_wait
 ;./my/on_entering_screen.h:22: clear_update_list ();
@@ -2068,7 +2074,7 @@ _prepare_scr::
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x00
 	ld	de,#_bombs_y+0
-00122$:
+00124$:
 ;./my/on_entering_screen.h:24: _x = bombs_x [gpit]; _y = bombs_y [gpit]; _t = 24; map_set ();
 	ld	a,#<(_bombs_x)
 	ld	hl,#_gpit
@@ -2094,24 +2100,24 @@ _prepare_scr::
 	inc	(hl)
 	ld	a,(#_gpit + 0)
 	sub	a, #0x05
-	jr	C,00122$
-00112$:
+	jr	C,00124$
+00114$:
 ;./my/on_entering_screen.h:28: do_update_list_and_wait ();
 	call	_do_update_list_and_wait
 ;./my/on_entering_screen.h:29: clear_update_list ();
 	call	_clear_update_list
-00114$:
-;./mainloop.h:237: gpit = 3; while (gpit --) en_spr_id [gpit] = en_s [gpit];
+00116$:
+;./mainloop.h:270: gpit = 3; while (gpit --) en_spr_id [gpit] = en_s [gpit];
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x03
-00115$:
+00117$:
 	ld	hl,#_gpit + 0
 	ld	e, (hl)
 	ld	hl, #_gpit+0
 	dec	(hl)
 	ld	a,e
 	or	a, a
-	jr	Z,00117$
+	jr	Z,00119$
 	ld	a,#<(_en_spr_id)
 	ld	hl,#_gpit
 	add	a, (hl)
@@ -2125,9 +2131,9 @@ _prepare_scr::
 	add	iy, bc
 	ld	a, 0 (iy)
 	ld	(de),a
-	jr	00115$
-00117$:
-;./mainloop.h:239: prx = px >> FIXBITS; pry = py >> FIXBITS;
+	jr	00117$
+00119$:
+;./mainloop.h:272: prx = px >> FIXBITS; pry = py >> FIXBITS;
 	ld	hl,(_px)
 	sra	h
 	rr	l
@@ -2158,23 +2164,23 @@ _prepare_scr::
 	rr	l
 	ld	iy,#_pry
 	ld	0 (iy),l
-;./mainloop.h:244: player_move ();
+;./mainloop.h:277: player_move ();
 	call	_player_move
-;./mainloop.h:245: player_frame_selector ();
+;./mainloop.h:278: player_frame_selector ();
 	call	_player_frame_selector
-;./mainloop.h:247: enems_move ();
+;./mainloop.h:280: enems_move ();
 	call	_enems_move
-;./mainloop.h:249: if (hrt) hotspots_paint ();
+;./mainloop.h:282: if (hrt) hotspots_paint ();
 	ld	a,(#_hrt + 0)
 	or	a, a
-	jr	Z,00119$
+	jr	Z,00121$
 	call	_hotspots_paint
-00119$:
-;./mainloop.h:264: hud_update ();
+00121$:
+;./mainloop.h:297: hud_update ();
 	call	_hud_update
-;./mainloop.h:265: HW_copySpritestoSAT ();
+;./mainloop.h:298: HW_copySpritestoSAT ();
 	call	_SG_copySpritestoSAT
-;./mainloop.h:266: update_list [update_index] = 0xff;
+;./mainloop.h:299: update_list [update_index] = 0xff;
 	ld	a,(#_update_index + 0)
 	add	a, #<(_update_list)
 	ld	l, a
@@ -2182,49 +2188,44 @@ _prepare_scr::
 	adc	a, #>(_update_list)
 	ld	h, a
 	ld	(hl),#0xFF
-;./mainloop.h:267: HW_doUpdateList ();
+;./mainloop.h:300: HW_doUpdateList ();
 	call	_SG_doUpdateList
-;./mainloop.h:268: clear_update_list ();	
+;./mainloop.h:301: clear_update_list ();	
 	call	_clear_update_list
-;./mainloop.h:269: HW_displayOn ();
+;./mainloop.h:302: HW_displayOn ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOnFeature
 	pop	af
-;./mainloop.h:271: pad0 = 0;
+;./mainloop.h:304: pad0 = 0;
 	ld	hl,#_pad0 + 0
 	ld	(hl), #0x00
 	ret
-;./mainloop.h:274: void game_loop (void) {
+;./mainloop.h:307: void game_loop (void) {
 ;	---------------------------------
 ; Function game_loop
 ; ---------------------------------
 _game_loop::
-;./mainloop.h:275: clear_update_list ();
+;./mainloop.h:308: clear_update_list ();
 	call	_clear_update_list
-;./mainloop.h:277: on_pant = 99; ft = 1; fade_delay = 1;
+;./mainloop.h:310: on_pant = 99; ft = 1; fade_delay = 1;
 	ld	hl,#_on_pant + 0
 	ld	(hl), #0x63
 	ld	hl,#_ft + 0
 	ld	(hl), #0x01
 	ld	hl,#_fade_delay + 0
 	ld	(hl), #0x01
-;./mainloop.h:281: HW_displayOn ();
-	ld	hl,#0x0140
-	push	hl
-	call	_SG_VDPturnOnFeature
-	pop	af
-;./mainloop.h:292: ntsc_frame = level_reset = warp_to_level = 0; 
+;./mainloop.h:323: ntsc_frame = level_reset = warp_to_level = 0; 
 	ld	hl,#_warp_to_level + 0
 	ld	(hl), #0x00
 	ld	hl,#_level_reset + 0
 	ld	(hl), #0x00
 	ld	hl,#_ntsc_frame + 0
 	ld	(hl), #0x00
-;./mainloop.h:293: ticker = 50;
+;./mainloop.h:324: ticker = 50;
 	ld	hl,#_ticker + 0
 	ld	(hl), #0x32
-;./mainloop.h:296: PSGPlay (l_music [level]);
+;./mainloop.h:327: PSGPlay (l_music [level]);
 	ld	iy,#_level
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2237,50 +2238,50 @@ _game_loop::
 	push	de
 	call	_PSGPlay
 	pop	af
-;./mainloop.h:301: paused = 0; HW_resetPauseRequest ();
+;./mainloop.h:332: paused = 0; HW_resetPauseRequest ();
 	ld	hl,#_paused + 0
 	ld	(hl), #0x00
 	call	_SG_resetPauseRequest
-;./mainloop.h:303: while (1) {
+;./mainloop.h:334: while (1) {
 00159$:
-;./mainloop.h:310: hud_update ();
+;./mainloop.h:341: hud_update ();
 	call	_hud_update
-;./mainloop.h:314: if (pkill) player_kill ();
+;./mainloop.h:345: if (pkill) player_kill ();
 	ld	a,(#_pkill + 0)
 	or	a, a
 	jr	Z,00102$
 	call	_player_kill
 00102$:
-;./mainloop.h:315: if (game_over || level_reset) break;			
+;./mainloop.h:346: if (game_over || level_reset) break;			
 	ld	a,(#_game_over + 0)
 	or	a, a
 	jp	NZ,00160$
 	ld	a,(#_level_reset + 0)
 	or	a, a
 	jp	NZ,00160$
-;./mainloop.h:321: flick_override = 0;
+;./mainloop.h:352: flick_override = 0;
 	ld	hl,#_flick_override + 0
 	ld	(hl), #0x00
-;./mainloop.h:324: flickscreen_do_horizontal ();
+;./mainloop.h:355: flickscreen_do_horizontal ();
 	call	_flickscreen_do_horizontal
-;./mainloop.h:325: flickscreen_do_vertical ();
+;./mainloop.h:356: flickscreen_do_vertical ();
 	call	_flickscreen_do_vertical
-;./mainloop.h:331: if (on_pant != n_pant) {
+;./mainloop.h:362: if (on_pant != n_pant) {
 	ld	a,(#_on_pant + 0)
 	ld	iy,#_n_pant
 	sub	a, 0 (iy)
 	jr	Z,00109$
-;./mainloop.h:332: prepare_scr ();
+;./mainloop.h:363: prepare_scr ();
 	call	_prepare_scr
-;./mainloop.h:333: on_pant = n_pant;
+;./mainloop.h:364: on_pant = n_pant;
 	ld	a,(#_n_pant + 0)
 	ld	(#_on_pant + 0),a
 00109$:
-;./mainloop.h:352: HW_waitForVBlank ();
+;./mainloop.h:383: HW_waitForVBlank ();
 	call	_SG_waitForVBlank
-;./mainloop.h:353: HW_copySpritestoSAT ();
+;./mainloop.h:384: HW_copySpritestoSAT ();
 	call	_SG_copySpritestoSAT
-;./mainloop.h:354: update_list [update_index] = 0xff;
+;./mainloop.h:385: update_list [update_index] = 0xff;
 	ld	a,#<(_update_list)
 	ld	hl,#_update_index
 	add	a, (hl)
@@ -2289,21 +2290,21 @@ _game_loop::
 	adc	a, #0x00
 	ld	h, a
 	ld	(hl),#0xFF
-;./mainloop.h:355: HW_doUpdateList ();
+;./mainloop.h:386: HW_doUpdateList ();
 	call	_SG_doUpdateList
-;./mainloop.h:356: clear_update_list ();
+;./mainloop.h:387: clear_update_list ();
 	call	_clear_update_list
-;./mainloop.h:360: pad_read ();
+;./mainloop.h:391: pad_read ();
 	call	_pad_read
-;./mainloop.h:361: a_button = (pad_this_frame & PAD_A);
+;./mainloop.h:392: a_button = (pad_this_frame & PAD_A);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x20
 	ld	(#_a_button + 0),a
-;./mainloop.h:362: b_button = (pad_this_frame & PAD_B);
+;./mainloop.h:393: b_button = (pad_this_frame & PAD_B);
 	ld	a,(#_pad_this_frame + 0)
 	and	a, #0x10
 	ld	(#_b_button + 0),a
-;./mainloop.h:366: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
+;./mainloop.h:397: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
 	ld	hl, #_ntsc_frame+0
 	inc	(hl)
 	ld	a,(#_ntsc_frame + 0)
@@ -2312,7 +2313,7 @@ _game_loop::
 	ld	hl,#_ntsc_frame + 0
 	ld	(hl), #0x00
 00111$:
-;./mainloop.h:368: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
+;./mainloop.h:399: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
 	ld	a,(#_paused + 0)
 	or	a, a
 	jp	NZ,00151$
@@ -2323,9 +2324,9 @@ _game_loop::
 	or	a, a
 	jp	Z,00151$
 00150$:
-;./mainloop.h:369: HW_initSprites ();
+;./mainloop.h:400: HW_initSprites ();
 	call	_SG_initSprites
-;./mainloop.h:372: if (ticker) -- ticker; else ticker = 50;
+;./mainloop.h:403: if (ticker) -- ticker; else ticker = 50;
 	ld	a,(#_ticker + 0)
 	or	a, a
 	jr	Z,00113$
@@ -2336,11 +2337,11 @@ _game_loop::
 	ld	hl,#_ticker + 0
 	ld	(hl), #0x32
 00114$:
-;./mainloop.h:373: half_life ^= 1;
+;./mainloop.h:404: half_life ^= 1;
 	ld	a,(#_half_life + 0)
 	xor	a, #0x01
 	ld	(#_half_life + 0),a
-;./mainloop.h:374: ++ frame_counter;
+;./mainloop.h:405: ++ frame_counter;
 	ld	hl, #_frame_counter+0
 	inc	(hl)
 ;./mainloop/hotspots.h:6: if (hrt) {
@@ -2501,13 +2502,13 @@ _game_loop::
 	xor	a, a
 	ld	(de),a
 00128$:
-;./mainloop.h:394: if (!warp_to_level) {
+;./mainloop.h:425: if (!warp_to_level) {
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00130$
-;./mainloop.h:395: player_move ();
+;./mainloop.h:426: player_move ();
 	call	_player_move
-;./mainloop.h:396: player_frame_selector ();
+;./mainloop.h:427: player_frame_selector ();
 	call	_player_frame_selector
 00130$:
 ;./my/extra_checks.h:14: if (n_pant == 23 && bombs_set) {
@@ -2553,37 +2554,37 @@ _game_loop::
 ;./mainloop/win_level_condition.h:25: break;
 	jp	00160$
 00135$:
-;./mainloop.h:422: bullets_move ();
+;./mainloop.h:453: bullets_move ();
 	call	_bullets_move
-;./mainloop.h:428: cocos_do ();
+;./mainloop.h:459: cocos_do ();
 	call	_cocos_do
-;./mainloop.h:433: cur_stp = HW_getStp (); 
+;./mainloop.h:464: cur_stp = HW_getStp (); 
 	call	_SG_getStp
 	ld	(_cur_stp),hl
-;./mainloop.h:434: if (!warp_to_level)	player_render ();
+;./mainloop.h:465: if (!warp_to_level)	player_render ();
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	NZ,00137$
 	call	_player_render
 00137$:
-;./mainloop.h:438: enems_move ();
+;./mainloop.h:469: enems_move ();
 	call	_enems_move
-;./mainloop.h:442: if (warp_to_level) {
+;./mainloop.h:473: if (warp_to_level) {
 	ld	a,(#_warp_to_level + 0)
 	or	a, a
 	jr	Z,00139$
-;./mainloop.h:443: update_cycle (); PSGStop (); break;
+;./mainloop.h:474: update_cycle (); PSGStop (); break;
 	call	_update_cycle
 	call	_PSGStop
 	jp	00160$
 00139$:
-;./mainloop.h:454: if (hrt) hotspots_paint ();
+;./mainloop.h:485: if (hrt) hotspots_paint ();
 	ld	a,(#_hrt + 0)
 	or	a, a
 	jr	Z,00141$
 	call	_hotspots_paint
 00141$:
-;./mainloop.h:465: if (do_process_breakable) breakable_do_anim ();
+;./mainloop.h:496: if (do_process_breakable) breakable_do_anim ();
 	ld	a,(#_do_process_breakable + 0)
 	or	a, a
 	jr	Z,00143$
@@ -2671,20 +2672,26 @@ _game_loop::
 	ld	a,(#_paused + 0)
 	xor	a, #0x01
 	ld	(#_paused + 0),a
+;./mainloop/pause.h:8: music_pause (paused);
+	ld	a,(_paused)
+	push	af
+	inc	sp
+	call	_music_pause
+	inc	sp
 	jp	00159$
 00160$:
-;./mainloop.h:498: PSGStop ();
+;./mainloop.h:529: PSGStop ();
 	call	_PSGStop
-;./mainloop.h:499: PSGSFXStop ();
+;./mainloop.h:530: PSGSFXStop ();
 	call	_PSGSFXStop
-;./mainloop.h:500: HW_displayOff ();
+;./mainloop.h:531: HW_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
 	pop	af
-;./mainloop.h:501: HW_initSprites ();
+;./mainloop.h:532: HW_initSprites ();
 	call	_SG_initSprites
-;./mainloop.h:502: HW_copySpritestoSAT ();	
+;./mainloop.h:533: HW_copySpritestoSAT ();	
 	jp  _SG_copySpritestoSAT
 ;./game.c:143: void main(void) {
 ;	---------------------------------

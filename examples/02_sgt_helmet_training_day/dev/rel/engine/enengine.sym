@@ -45,6 +45,7 @@ Symbol Table
     _by                                                            **** GX
     _c_enems                                                       **** GX
     _cm_two_points                                                 **** GX
+    _cocos_shoot_aimed                                             **** GX
     _cocos_shoot_linear                                            **** GX
     _collide                                                       **** GX
     _collide_in                                                    **** GX
@@ -57,12 +58,12 @@ Symbol Table
     _en_ct                                                         **** GX
     _en_cttouched                                                  **** GX
     _en_facing                                                     **** GX
-    _en_flags                                                      **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
+    _en_flags                                                      **** GX
     _en_fr                                                         **** GX
     _en_initial                                                    **** GX
     _en_is_alive                                                   **** GX
@@ -89,11 +90,11 @@ Symbol Table
     _en_y2                                                         **** GX
   0 _enems_boioiong_init                                           024E GR
   0 _enems_facing                                                  0220 GR
-  0 _enems_hit                                                     04F7 GR
+  0 _enems_hit                                                     0505 GR
   0 _enems_init_fp                                                 0229 GR
-  0 _enems_kill                                                    04E0 GR
+  0 _enems_kill                                                    04EE GR
   0 _enems_load                                                    0295 GR
-  0 _enems_move                                                    0550 GR
+  0 _enems_move                                                    055E GR
   0 _enems_persistent_load                                         0000 GR
   0 _enems_persistent_update                                       00F2 GR
   0 _enems_update_unsigned_char_arrays                             0176 GR
@@ -117,12 +118,12 @@ Symbol Table
     _pvy                                                           **** GX
     _rand8                                                         **** GX
     _rda                                                           **** GX
-    _rdb                                                           **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
+    _rdb                                                           **** GX
     _rdc                                                           **** GX
     _rdd                                                           **** GX
     _rdm                                                           **** GX
@@ -133,13 +134,12 @@ Symbol Table
     _ticker                                                        **** GX
     _touched                                                       **** GX
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size 1252   flags    0
+   0 _CODE                                      size 129A   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

@@ -194,7 +194,7 @@ Symbol Table
     _frame_rle                                                     **** GX
   1 _ft                                                            0083 GR
   0 _game_init                                                     06BD GR
-  0 _game_loop                                                     0A24 GR
+  0 _game_loop                                                     0A2A GR
   1 _game_over                                                     01C4 GR
   1 _gp_addr                                                       0010 GR
   1 _gp_gen                                                        000A GR
@@ -246,7 +246,7 @@ Symbol Table
     _m_n_stageb_psg                                                **** GX
     _m_n_stagec_psg                                                **** GX
     _m_n_title_psg                                                 **** GX
-  0 _main                                                          0D3C GR
+  0 _main                                                          0D43 GR
     _map_0                                                         **** GX
     _map_0_locks                                                   **** GX
     _map_1                                                         **** GX
@@ -256,6 +256,7 @@ Symbol Table
   1 _map_buff                                                      00FB GR
     _map_set                                                       **** GX
     _memfill                                                       **** GX
+    _music_pause                                                   **** GX
   1 _n_pant                                                        01BE GR
   1 _ntsc                                                          0096 GR
   1 _ntsc_frame                                                    0097 GR
@@ -297,12 +298,12 @@ Symbol Table
   1 _pkill                                                         0073 GR
   1 _pkilled                                                       007B GR
   0 _player_frame_selector                                         0680 GR
-    _player_init                                                   **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
+    _player_init                                                   **** GX
     _player_kill                                                   **** GX
     _player_move                                                   **** GX
     _player_render                                                 **** GX
@@ -357,12 +358,12 @@ Symbol Table
     _ss_en_05                                                      **** GX
     _ss_en_06                                                      **** GX
     _ss_en_07                                                      **** GX
-    _ss_en_08                                                      **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
+    _ss_en_08                                                      **** GX
     _ss_en_09                                                      **** GX
     _ss_it_00                                                      **** GX
     _ss_it_01                                                      **** GX
@@ -407,7 +408,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  DD4   flags    0
+   0 _CODE                                      size  DDB   flags    0
    1 _DATA                                      size  291   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

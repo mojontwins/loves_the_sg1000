@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Wed Sep 11 14:10:15 2019
+; This file was generated Fri Sep 13 13:03:03 2019
 ;--------------------------------------------------------
 	.module cocos
 	.optsdcc -mz80
@@ -12,7 +12,9 @@
 	.globl _cocos_do
 	.globl _cocos_destroy
 	.globl _cocos_shoot_linear
+	.globl _cocos_shoot_aimed
 	.globl _cocos_init
+	.globl _distance
 	.globl _PSGSFXPlay
 	.globl _SG_addSprite
 ;--------------------------------------------------------
@@ -90,6 +92,232 @@ _cocos_init::
 ;./engine/cocos.c:34: coco_slots_i = COCOS_MAX;
 	ld	hl,#_coco_slots_i + 0
 	ld	(hl), #0x04
+	ret
+;./engine/cocos.c:40: void cocos_shoot_aimed (void) {		
+;	---------------------------------
+; Function cocos_shoot_aimed
+; ---------------------------------
+_cocos_shoot_aimed::
+;./engine/cocos.c:41: rdct = distance ();
+	call	_distance
+	ld	iy,#_rdct
+	ld	0 (iy),l
+;./engine/cocos.c:44: if (rdct > COCO_FAIR_D && coco_slots_i) 
+	ld	a,#0x20
+	ld	iy,#_rdct
+	sub	a, 0 (iy)
+	ret	NC
+	ld	a,(#_coco_slots_i + 0)
+	or	a, a
+	ret	Z
+;./engine/cocos.c:49: -- coco_slots_i; coco_it = coco_slots [coco_slots_i];
+	ld	hl, #_coco_slots_i+0
+	dec	(hl)
+	ld	de,#_coco_slots+0
+	ld	hl,(_coco_slots_i)
+	ld	h,#0x00
+	add	hl,de
+	ld	a,(hl)
+	ld	(#_coco_it + 0),a
+;./engine/cocos.c:51: coco_x [coco_it] = rdx << 6;
+	ld	iy,#_coco_it
+	ld	l,0 (iy)
+	ld	h,#0x00
+	add	hl, hl
+	ld	a,#<(_coco_x)
+	add	a, l
+	ld	d,a
+	ld	a,#>(_coco_x)
+	adc	a, h
+	ld	e,a
+	ld	iy,#_rdx
+	ld	l,0 (iy)
+	ld	h,#0x00
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	ld	c, l
+	ld	b, h
+	ld	l, d
+	ld	h, e
+	ld	(hl),c
+	inc	hl
+	ld	(hl),b
+;./engine/cocos.c:52: coco_y [coco_it] = rdy << 6;
+	ld	iy,#_coco_it
+	ld	l,0 (iy)
+	ld	h,#0x00
+	add	hl, hl
+	ld	a,#<(_coco_y)
+	add	a, l
+	ld	d,a
+	ld	a,#>(_coco_y)
+	adc	a, h
+	ld	e,a
+	ld	iy,#_rdy
+	ld	l,0 (iy)
+	ld	h,#0x00
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	ld	c, l
+	ld	b, h
+	ld	l, d
+	ld	h, e
+	ld	(hl),c
+	inc	hl
+	ld	(hl),b
+;./engine/cocos.c:55: rds16 = COCO_V * rda / rdct; coco_vx [coco_it] = ADD_SIGN2 (px, coco_x [coco_it], rds16);
+	ld	hl,#_rda + 0
+	ld	d, (hl)
+	ld	e,#0x00
+	ld	iy,#_rdct
+	ld	l,0 (iy)
+	ld	h,#0x00
+	push	hl
+	push	de
+	call	__divsint
+	pop	af
+	pop	af
+	ld	(_rds16),hl
+	ld	iy,#_coco_it
+	ld	l,0 (iy)
+	ld	h,#0x00
+	add	hl, hl
+	ld	a,#<(_coco_vx)
+	add	a, l
+	ld	c,a
+	ld	a,#>(_coco_vx)
+	adc	a, h
+	ld	b,a
+	ld	de,#_coco_x
+	add	hl,de
+	ld	d,(hl)
+	inc	hl
+	ld	e,(hl)
+	ld	a,(#_px + 0)
+	sub	a, d
+	jr	NZ,00106$
+	ld	a,(#_px + 1)
+	sub	a, e
+	jr	NZ,00106$
+	ld	de,#0x0000
+	jr	00107$
+00106$:
+	ld	a,d
+	ld	iy,#_px
+	sub	a, 0 (iy)
+	ld	a,e
+	ld	iy,#_px
+	sbc	a, 1 (iy)
+	jp	PO, 00140$
+	xor	a, #0x80
+00140$:
+	jp	P,00108$
+	ld	de,(_rds16)
+	jr	00109$
+00108$:
+	xor	a, a
+	ld	iy,#_rds16
+	sub	a, 0 (iy)
+	ld	e,a
+	ld	a, #0x00
+	ld	iy,#_rds16
+	sbc	a, 1 (iy)
+	ld	d,a
+00109$:
+00107$:
+	ld	a,e
+	ld	(bc),a
+	inc	bc
+	ld	a,d
+	ld	(bc),a
+;./engine/cocos.c:56: rds16 = COCO_V * rdb / rdct; coco_vy [coco_it] = ADD_SIGN2 (py, coco_y [coco_it], rds16);
+	ld	hl,#_rdb + 0
+	ld	d, (hl)
+	ld	e,#0x00
+	ld	iy,#_rdct
+	ld	l,0 (iy)
+	ld	h,#0x00
+	push	hl
+	push	de
+	call	__divsint
+	pop	af
+	pop	af
+	ld	(_rds16),hl
+	ld	iy,#_coco_it
+	ld	l,0 (iy)
+	ld	h,#0x00
+	add	hl, hl
+	ld	a,#<(_coco_vy)
+	add	a, l
+	ld	c,a
+	ld	a,#>(_coco_vy)
+	adc	a, h
+	ld	b,a
+	ld	de,#_coco_y
+	add	hl,de
+	ld	e,(hl)
+	inc	hl
+	ld	d,(hl)
+	ld	a,(#_py + 0)
+	sub	a, e
+	jr	NZ,00110$
+	ld	a,(#_py + 1)
+	sub	a, d
+	jr	NZ,00110$
+	ld	de,#0x0000
+	jr	00111$
+00110$:
+	ld	a,e
+	ld	iy,#_py
+	sub	a, 0 (iy)
+	ld	a,d
+	ld	iy,#_py
+	sbc	a, 1 (iy)
+	jp	PO, 00143$
+	xor	a, #0x80
+00143$:
+	jp	P,00112$
+	ld	de,(_rds16)
+	jr	00113$
+00112$:
+	xor	a, a
+	ld	iy,#_rds16
+	sub	a, 0 (iy)
+	ld	e,a
+	ld	a, #0x00
+	ld	iy,#_rds16
+	sbc	a, 1 (iy)
+	ld	d,a
+00113$:
+00111$:
+	ld	a,e
+	ld	(bc),a
+	inc	bc
+	ld	a,d
+	ld	(bc),a
+;./engine/cocos.c:58: coco_on [coco_it] = 1;
+	ld	de,#_coco_on+0
+	ld	hl,(_coco_it)
+	ld	h,#0x00
+	add	hl,de
+	ld	(hl),#0x01
+;./engine/cocos.c:60: PSGSFXPlay (SFX_COCO, 1);
+	ld	de,#_s_10_coco2_psg+0
+	ld	a,#0x01
+	push	af
+	inc	sp
+	push	de
+	call	_PSGSFXPlay
+	pop	af
+	inc	sp
 	ret
 ;./engine/cocos.c:68: void cocos_shoot_linear (void) {
 ;	---------------------------------
@@ -265,10 +493,10 @@ _cocos_do::
 	ld	(hl), #0x04
 00116$:
 	ld	a,(#_coco_it + 0)
-	ld	-9 (ix),a
+	ld	-3 (ix),a
 	ld	hl, #_coco_it+0
 	dec	(hl)
-	ld	a,-9 (ix)
+	ld	a,-3 (ix)
 	or	a, a
 	jp	Z,00119$
 	ld	a,#<(_coco_on)
@@ -433,12 +661,12 @@ _cocos_do::
 	sra	d
 	rr	e
 	ld	a,(#_rdy + 0)
-	ld	-6 (ix),a
-	ld	-5 (ix),#0x00
-	ld	a,-6 (ix)
+	ld	-5 (ix),a
+	ld	-4 (ix),#0x00
+	ld	a,-5 (ix)
 	add	a, #0xF4
 	ld	h,a
-	ld	a,-5 (ix)
+	ld	a,-4 (ix)
 	adc	a, #0xFF
 	ld	a,h
 	and	a, #0xF0
@@ -474,67 +702,67 @@ _cocos_do::
 ;./engine/cocos.c:122: rdx + 7 >= prx && 
 	ld	a,-2 (ix)
 	add	a, #0x07
-	ld	-8 (ix),a
+	ld	-7 (ix),a
 	ld	a,-1 (ix)
 	adc	a, #0x00
-	ld	-7 (ix),a
+	ld	-6 (ix),a
 	ld	iy,#_prx
 	ld	a,0 (iy)
-	ld	-4 (ix),a
-	ld	-3 (ix),#0x00
-	ld	a,-8 (ix)
-	sub	a, -4 (ix)
+	ld	-9 (ix),a
+	ld	-8 (ix),#0x00
 	ld	a,-7 (ix)
-	sbc	a, -3 (ix)
+	sub	a, -9 (ix)
+	ld	a,-6 (ix)
+	sbc	a, -8 (ix)
 	jp	PO, 00174$
 	xor	a, #0x80
 00174$:
 	jp	M,00116$
 ;./engine/cocos.c:123: rdx <= prx + 7 && 
-	ld	a,-4 (ix)
+	ld	a,-9 (ix)
 	add	a, #0x07
-	ld	-4 (ix),a
-	ld	a,-3 (ix)
+	ld	-9 (ix),a
+	ld	a,-8 (ix)
 	adc	a, #0x00
-	ld	-3 (ix),a
-	ld	a,-4 (ix)
+	ld	-8 (ix),a
+	ld	a,-9 (ix)
 	sub	a, -2 (ix)
-	ld	a,-3 (ix)
+	ld	a,-8 (ix)
 	sbc	a, -1 (ix)
 	jp	PO, 00175$
 	xor	a, #0x80
 00175$:
 	jp	M,00116$
 ;./engine/cocos.c:124: rdy + 7 + PLAYER_COLLISION_VSTRETCH_FG >= pry && 
-	ld	a,-6 (ix)
-	add	a, #0x03
-	ld	-4 (ix),a
 	ld	a,-5 (ix)
+	add	a, #0x03
+	ld	-9 (ix),a
+	ld	a,-4 (ix)
 	adc	a, #0x00
-	ld	-3 (ix),a
+	ld	-8 (ix),a
 	ld	iy,#_pry
 	ld	a,0 (iy)
-	ld	-8 (ix),a
-	ld	-7 (ix),#0x00
-	ld	a,-4 (ix)
-	sub	a, -8 (ix)
-	ld	a,-3 (ix)
-	sbc	a, -7 (ix)
+	ld	-7 (ix),a
+	ld	-6 (ix),#0x00
+	ld	a,-9 (ix)
+	sub	a, -7 (ix)
+	ld	a,-8 (ix)
+	sbc	a, -6 (ix)
 	jp	PO, 00176$
 	xor	a, #0x80
 00176$:
 	jp	M,00116$
 ;./engine/cocos.c:125: rdy <= pry + 12
-	ld	a,-8 (ix)
-	add	a, #0x0C
-	ld	-4 (ix),a
 	ld	a,-7 (ix)
+	add	a, #0x0C
+	ld	-9 (ix),a
+	ld	a,-6 (ix)
 	adc	a, #0x00
-	ld	-3 (ix),a
-	ld	a,-4 (ix)
-	sub	a, -6 (ix)
-	ld	a,-3 (ix)
-	sbc	a, -5 (ix)
+	ld	-8 (ix),a
+	ld	a,-9 (ix)
+	sub	a, -5 (ix)
+	ld	a,-8 (ix)
+	sbc	a, -4 (ix)
 	jp	PO, 00177$
 	xor	a, #0x80
 00177$:

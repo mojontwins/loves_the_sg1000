@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // general.c
@@ -132,7 +132,7 @@ void pad_read (void) {
 #endif
 
 void update_cycle (void) {
-	HW_finalizeSprites ();
+	//HW_finalizeSprites ();
 	HW_waitForVBlank ();
 	HW_copySpritestoSAT ();
 	update_list [update_index] = 0xff;

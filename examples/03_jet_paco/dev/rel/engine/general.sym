@@ -12,7 +12,6 @@ Symbol Table
     _PSGSFXPlay                                                    **** GX
     _SG_copySpritestoSAT                                           **** GX
     _SG_doUpdateList                                               **** GX
-    _SG_finalizeSprites                                            **** GX
     _SG_getKeysStatus                                              **** GX
     _SG_initSprites                                                **** GX
     _SG_waitForVBlank                                              **** GX
@@ -35,7 +34,7 @@ Symbol Table
     _cx2                                                           **** GX
     _cy1                                                           **** GX
     _cy2                                                           **** GX
-  0 _do_update_list_and_wait                                       01E6 GR
+  0 _do_update_list_and_wait                                       01E3 GR
   0 _jump_start                                                    01AB GR
     _map_buff                                                      **** GX
     _pad0                                                          **** GX
@@ -57,7 +56,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  1F7   flags    0
+   0 _CODE                                      size  1F4   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

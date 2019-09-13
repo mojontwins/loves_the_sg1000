@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Wed Sep 11 14:10:10 2019
+; This file was generated Fri Sep 13 13:00:04 2019
 ;--------------------------------------------------------
 	.module breakable
 	.optsdcc -mz80
@@ -158,14 +158,14 @@ _breakable_break::
 ;./engine/breakable.c:51: VDPControlPort = LO (gp_addr);
 	ld	hl,#_gp_addr + 0
 	ld	h, (hl)
-	ld	-3 (ix), h
+	ld	-1 (ix), h
 	ld	a, h
 	out	(_VDPControlPort),a
 ;./engine/breakable.c:52: VDPControlPort = HI (gp_addr);	// Set up for reading. Note there's no | 0x40!
 	ld	a,(#_gp_addr + 1)
-	ld	-2 (ix),a
-	ld	-1 (ix),#0x00
-	ld	a,-2 (ix)
+	ld	-3 (ix),a
+	ld	-2 (ix),#0x00
+	ld	a,-3 (ix)
 	out	(_VDPControlPort),a
 ;./engine/breakable.c:53: rda = VDPDataPort;
 	in	a,(_VDPDataPort)
@@ -182,10 +182,10 @@ _breakable_break::
 ;./engine/breakable.c:58: DISABLE_INTERRUPTS;
 	di 
 ;./engine/breakable.c:59: VDPControlPort = LO (gp_addr);
-	ld	a,-3 (ix)
+	ld	a,-1 (ix)
 	out	(_VDPControlPort),a
 ;./engine/breakable.c:60: VDPControlPort = HI (gp_addr) | 0x40;
-	ld	a,-2 (ix)
+	ld	a,-3 (ix)
 	set	6, a
 	out	(_VDPControlPort),a
 ;./engine/breakable.c:61: VDPDataPort = rda;
@@ -209,32 +209,32 @@ _breakable_break::
 	ld	(hl), #0x04
 00103$:
 	ld	a,(#_gpit + 0)
-	ld	-2 (ix),a
+	ld	-3 (ix),a
 	ld	hl, #_gpit+0
 	dec	(hl)
-	ld	a,-2 (ix)
+	ld	a,-3 (ix)
 	or	a, a
 	jr	Z,00109$
 ;./engine/breakable.c:70: if (!brkf [gpit]) {
 	ld	a,#<(_brkf)
 	ld	hl,#_gpit
 	add	a, (hl)
-	ld	-2 (ix),a
+	ld	-3 (ix),a
 	ld	a,#>(_brkf)
 	adc	a, #0x00
-	ld	-1 (ix),a
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	-2 (ix),a
+	pop	hl
+	push	hl
 	ld	a,(hl)
-	ld	-3 (ix), a
+	ld	-1 (ix), a
 	or	a, a
 	jr	NZ,00103$
 ;./engine/breakable.c:71: do_process_breakable = 1;
 	ld	hl,#_do_process_breakable + 0
 	ld	(hl), #0x01
 ;./engine/breakable.c:72: brkf [gpit] = 1;
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	pop	hl
+	push	hl
 	ld	(hl),#0x01
 ;./engine/breakable.c:73: _x = brkx [gpit] = x;
 	ld	de,#_brkx+0

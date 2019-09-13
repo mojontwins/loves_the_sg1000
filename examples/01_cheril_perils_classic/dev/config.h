@@ -3,6 +3,8 @@
 
 // For a topmost two-lines status bar
 
+// Platform dependent global configuration
+
 #define TOP_ADJUST 				1		
 #define SPRITE_ADJUST 			-9
 

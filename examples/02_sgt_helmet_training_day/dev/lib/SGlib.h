@@ -152,3 +152,5 @@ __sfr __at 0xDD IOPortH;
 
 void SG_setUpdateList (unsigned char *ul);
 void SG_doUpdateList (void);
+
+void music_pause (unsigned char p);

@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Main loop & helpers
@@ -16,7 +16,7 @@ void game_init (void) {
 
 	// Load patterns
 	#include "my/level_pattern_unpacker.h"
-	
+
 	cls ();
 
 	draw_game_frame ();
@@ -101,8 +101,19 @@ void game_init (void) {
 
 	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 		// Clear tile_got persistence
-		// vram_adr (MAP_CLEAR_LIST_ADDRESS);
-		// vram_fill (0, MAP_SIZE*24);
+		// Point to VRAM @ PERSISTENT_TILE_GET_ADDR + n_pant * 24
+		rda = n_pant << 3;
+		gp_addr = PERSISTENT_TILE_GET_ADDR + (rda << 1) + rda;
+
+		DISABLE_INTERRUPTS;
+
+		VDPControlPort = LO (PERSISTENT_TILE_GET_ADDR);
+		VDPControlPort = HI (PERSISTENT_TILE_GET_ADDR) | 0x40;
+
+		// Write MAP_SIZE*24 zeroes
+		for (rds16 = 0; rds16 < MAP_SIZE*24; rds16 ++) VDPDataPort = 0;
+			
+		ENABLE_INTERRUPTS;
 	#endif
 
 	half_life = 0;
@@ -124,15 +135,26 @@ void game_init (void) {
 }
 
 void prepare_scr (void) {
-	HW_displayOff ();
+	if (!ft) {
+		HW_displayOff ();
 
-	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
-		if (!ft) {
+		#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 			// Update tile_got persistence
+			// Point to VRAM @ PERSISTENT_TILE_GET_ADDR + on_pant * 24
 			rda = on_pant << 3;
-			vram_write (tile_got, MAP_CLEAR_LIST_ADDRESS + (rda << 1) + rda, 24);
-		}
-	#endif
+			gp_addr = PERSISTENT_TILE_GET_ADDR + (rda << 1) + rda;
+
+			DISABLE_INTERRUPTS;
+
+			VDPControlPort = LO (gp_addr);
+			VDPControlPort = HI (gp_addr) | 0x40;
+
+			// Write 24 bytes
+			for (gpit = 0; gpit < 24; gpit ++) VDPDataPort = tile_got [gpit];
+
+			ENABLE_INTERRUPTS;		
+		#endif
+	}
 
 	ft = 0;
 
@@ -174,8 +196,19 @@ void prepare_scr (void) {
 
 	#if defined (ENABLE_TILE_GET) && defined (PERSISTENT_TILE_GET)
 		// Read tile_got persistence
+		// Point to VRAM @ PERSISTENT_TILE_GET_ADDR + n_pant * 24
 		rda = n_pant << 3;
-		//vram_read (tile_got, MAP_CLEAR_LIST_ADDRESS + (rda << 1) + rda, 24);
+		gp_addr = PERSISTENT_TILE_GET_ADDR + (rda << 1) + rda;
+
+		DISABLE_INTERRUPTS;
+
+		VDPControlPort = LO (gp_addr);
+		VDPControlPort = HI (gp_addr);
+
+		// Read 24 bytes
+		for (gpit = 0; gpit < 24; gpit ++) tile_got [gpit] = VDPDataPort;
+
+		ENABLE_INTERRUPTS;
 	#endif
 
 		draw_scr ();
@@ -197,7 +230,7 @@ void prepare_scr (void) {
 	#ifdef PLAYER_CAN_FIRE
 		for (gpit = 0; gpit < MAX_BULLETS; gpit ++) {
 			b_slots [gpit] = gpit; 
-				bst [gpit] = 0;
+			bst [gpit] = 0;
 		}
 		b_slots_i = MAX_BULLETS;
 	#endif
@@ -277,8 +310,6 @@ void game_loop (void) {
 	on_pant = 99; ft = 1; fade_delay = 1;
 
 	// MAIN LOOP
-
-	HW_displayOn ();
 	
 	#ifdef ACTIVATE_SCRIPTING
 		#ifdef CLEAR_FLAGS
@@ -299,7 +330,7 @@ void game_loop (void) {
 	#endif
 
 	paused = 0; HW_resetPauseRequest ();
-	
+
 	while (1) {
 
 		// Update hud

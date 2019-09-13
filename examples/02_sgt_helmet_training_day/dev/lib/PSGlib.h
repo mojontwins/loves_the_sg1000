@@ -10,6 +10,8 @@
 #define SFX_CHANNEL3        #0x02
 #define SFX_CHANNELS2AND3   SFX_CHANNEL2|SFX_CHANNEL3
 
+void PSGSilence (void);
+
 void PSGPlay (void *song);
 void PSGCancelLoop (void);
 void PSGPlayNoRepeat (void *song);

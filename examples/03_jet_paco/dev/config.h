@@ -1,7 +1,9 @@
-// SG-1000 MK1 v0.1
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // For a topmost two-lines status bar
+
+// Platform dependent global configuration
 
 #define TOP_ADJUST 				1		
 #define SPRITE_ADJUST 			-9
@@ -9,6 +11,12 @@
 #define MAP_CLEAR_LIST_ADDRESS	0x2c40	// To store map persistence in VRAM.
 										// Each screen takes 24 bytes. move it where
 										// It fits. Below 2c40 you may "see" the buffer
+
+// Use SG_addMetaSprite1x1 for 16x16 sprites (faster)
+// Use SG_addMetaSprite otherwise.
+#define PLAYER_METASPRITE_FUNCTION	SG_addMetaSprite1x1
+#define ENEMY_METASPRITE_FUNCTION 	SG_addMetaSprite1x1 
+#define ITEM_METASPRITE_FUNCTION 	SG_addMetaSprite1x1
 
 // ============================================================================
 // I. General configuration

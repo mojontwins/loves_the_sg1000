@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Global externs for including in all modules.
@@ -249,8 +249,8 @@ extern unsigned char c_max_bolts;              // Number of locks in current lev
 
 #ifdef ACTIVATE_SCRIPTING
     extern unsigned char sc_x, sc_y, sc_n, sc_c;
-    extern unsigned char *next_script;
-    extern unsigned char *script;
+    extern const unsigned char *next_script;
+    extern const unsigned char *script;
     extern unsigned char script_result, sc_terminado, sc_continuar;
 #endif
 

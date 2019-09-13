@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // To generate a PAL version, 
@@ -17,8 +17,6 @@
 #define DEBUG_INI_Y		5
 //
 */
-
-#define MAX_BOLTS 16 // max 32, make it as small as possible.
 
 #ifdef SMS
 	#include "hw_sms.h"
@@ -131,7 +129,7 @@
 #include "engine/frame.h"
 #include "my/pres.h"
 #ifdef ACTIVATE_SCRIPTING
-	#include "assets/mscnes.h"
+	#include "assets/mscsg1000.h"
 #endif
 #include "mainloop/flickscreen.h"
 #include "mainloop.h"

@@ -16,6 +16,7 @@ Symbol Table
     _VDPHCounterPort                                            =  007F 
     _VDPStatusPort                                              =  00BF 
     _VDPVCounterPort                                            =  007E 
+    __divsint                                                      **** GX
     _c_behs                                                        **** GX
     _coco_dx                                                       **** GX
     _coco_dy                                                       **** GX
@@ -27,30 +28,36 @@ Symbol Table
     _coco_vy                                                       **** GX
     _coco_x                                                        **** GX
     _coco_y                                                        **** GX
-  0 _cocos_destroy                                                 00F9 GR
-  0 _cocos_do                                                      0123 GR
+  0 _cocos_destroy                                                 027E GR
+  0 _cocos_do                                                      02A8 GR
   0 _cocos_init                                                    0000 GR
-  0 _cocos_shoot_linear                                            0034 GR
+  0 _cocos_shoot_aimed                                             0034 GR
+  0 _cocos_shoot_linear                                            01B9 GR
+    _distance                                                      **** GX
     _en_sg_2                                                       **** GX
     _map_buff                                                      **** GX
     _pflickering                                                   **** GX
     _pkill                                                         **** GX
     _prx                                                           **** GX
     _pry                                                           **** GX
+    _px                                                            **** GX
+    _py                                                            **** GX
     _rda                                                           **** GX
+    _rdb                                                           **** GX
+    _rdct                                                          **** GX
     _rdm                                                           **** GX
+    _rds16                                                         **** GX
     _rdx                                                           **** GX
     _rdy                                                           **** GX
     _s_06_dummy13_psg                                              **** GX
     _s_10_coco2_psg                                                **** GX
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  37E   flags    0
+   0 _CODE                                      size  503   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

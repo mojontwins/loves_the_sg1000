@@ -24,6 +24,7 @@
 	#include "../ram/extern_globals.h"
 	#include "../engine/extern_precalcs.h"
 	#include "../engine/extern_metasprites.h"
+	#include "../engine/general.h"
 
 	void cocos_init (void) {
 		coco_it = COCOS_MAX; while (coco_it --) {

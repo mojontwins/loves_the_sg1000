@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.2 #9293 (MINGW32)
-                              4 ; This file was generated Wed Sep 11 14:10:15 2019
+                              4 ; This file was generated Fri Sep 13 13:03:03 2019
                               5 ;--------------------------------------------------------
                               6 	.module cocos
                               7 	.optsdcc -mz80
@@ -12,546 +12,774 @@
                              12 	.globl _cocos_do
                              13 	.globl _cocos_destroy
                              14 	.globl _cocos_shoot_linear
-                             15 	.globl _cocos_init
-                             16 	.globl _PSGSFXPlay
-                             17 	.globl _SG_addSprite
-                             18 ;--------------------------------------------------------
-                             19 ; special function registers
+                             15 	.globl _cocos_shoot_aimed
+                             16 	.globl _cocos_init
+                             17 	.globl _distance
+                             18 	.globl _PSGSFXPlay
+                             19 	.globl _SG_addSprite
                              20 ;--------------------------------------------------------
-                     00BF    21 _VDPControlPort	=	0x00bf
-                     00BF    22 _VDPStatusPort	=	0x00bf
-                     00BE    23 _VDPDataPort	=	0x00be
-                     007E    24 _VDPVCounterPort	=	0x007e
-                     007F    25 _VDPHCounterPort	=	0x007f
-                     00DC    26 _IOPortL	=	0x00dc
-                     00DD    27 _IOPortH	=	0x00dd
-                             28 ;--------------------------------------------------------
-                             29 ; ram data
+                             21 ; special function registers
+                             22 ;--------------------------------------------------------
+                     00BF    23 _VDPControlPort	=	0x00bf
+                     00BF    24 _VDPStatusPort	=	0x00bf
+                     00BE    25 _VDPDataPort	=	0x00be
+                     007E    26 _VDPVCounterPort	=	0x007e
+                     007F    27 _VDPHCounterPort	=	0x007f
+                     00DC    28 _IOPortL	=	0x00dc
+                     00DD    29 _IOPortH	=	0x00dd
                              30 ;--------------------------------------------------------
-                             31 	.area _DATA
+                             31 ; ram data
                              32 ;--------------------------------------------------------
-                             33 ; ram data
+                             33 	.area _DATA
                              34 ;--------------------------------------------------------
-                             35 	.area _INITIALIZED
+                             35 ; ram data
                              36 ;--------------------------------------------------------
-                             37 ; absolute external ram data
+                             37 	.area _INITIALIZED
                              38 ;--------------------------------------------------------
-                             39 	.area _DABS (ABS)
+                             39 ; absolute external ram data
                              40 ;--------------------------------------------------------
-                             41 ; global & static initialisations
+                             41 	.area _DABS (ABS)
                              42 ;--------------------------------------------------------
-                             43 	.area _HOME
-                             44 	.area _GSINIT
-                             45 	.area _GSFINAL
+                             43 ; global & static initialisations
+                             44 ;--------------------------------------------------------
+                             45 	.area _HOME
                              46 	.area _GSINIT
-                             47 ;--------------------------------------------------------
-                             48 ; Home
+                             47 	.area _GSFINAL
+                             48 	.area _GSINIT
                              49 ;--------------------------------------------------------
-                             50 	.area _HOME
-                             51 	.area _HOME
-                             52 ;--------------------------------------------------------
-                             53 ; code
+                             50 ; Home
+                             51 ;--------------------------------------------------------
+                             52 	.area _HOME
+                             53 	.area _HOME
                              54 ;--------------------------------------------------------
-                             55 	.area _CODE
-                             56 ;./engine/cocos.c:29: void cocos_init (void) {
-                             57 ;	---------------------------------
-                             58 ; Function cocos_init
-                             59 ; ---------------------------------
-   0000                      60 _cocos_init::
-                             61 ;./engine/cocos.c:30: coco_it = COCOS_MAX; while (coco_it --) {
-   0000 21r00r00      [10]   62 	ld	hl,#_coco_it + 0
-   0003 36 04         [10]   63 	ld	(hl), #0x04
-   0005 11r00r00      [10]   64 	ld	de,#_coco_on+0
-   0008                      65 00101$:
-   0008 21r00r00      [10]   66 	ld	hl,#_coco_it + 0
-   000B 46            [ 7]   67 	ld	b, (hl)
-   000C 21r00r00      [10]   68 	ld	hl, #_coco_it+0
-   000F 35            [11]   69 	dec	(hl)
-   0010 78            [ 4]   70 	ld	a,b
-   0011 B7            [ 4]   71 	or	a, a
-   0012 28 1A         [12]   72 	jr	Z,00103$
-                             73 ;./engine/cocos.c:31: coco_slots [coco_it] = coco_it;
-   0014 3Er00         [ 7]   74 	ld	a,#<(_coco_slots)
-   0016 21r00r00      [10]   75 	ld	hl,#_coco_it
-   0019 86            [ 7]   76 	add	a, (hl)
-   001A 4F            [ 4]   77 	ld	c,a
-   001B 3Es00         [ 7]   78 	ld	a,#>(_coco_slots)
-   001D CE 00         [ 7]   79 	adc	a, #0x00
-   001F 47            [ 4]   80 	ld	b,a
-   0020 3Ar00r00      [13]   81 	ld	a,(#_coco_it + 0)
-   0023 02            [ 7]   82 	ld	(bc),a
-                             83 ;./engine/cocos.c:32: coco_on [coco_it] = 0;
-   0024 2Ar00r00      [16]   84 	ld	hl,(_coco_it)
-   0027 26 00         [ 7]   85 	ld	h,#0x00
-   0029 19            [11]   86 	add	hl,de
-   002A 36 00         [10]   87 	ld	(hl),#0x00
-   002C 18 DA         [12]   88 	jr	00101$
-   002E                      89 00103$:
-                             90 ;./engine/cocos.c:34: coco_slots_i = COCOS_MAX;
-   002E 21r00r00      [10]   91 	ld	hl,#_coco_slots_i + 0
-   0031 36 04         [10]   92 	ld	(hl), #0x04
-   0033 C9            [10]   93 	ret
-                             94 ;./engine/cocos.c:68: void cocos_shoot_linear (void) {
-                             95 ;	---------------------------------
-                             96 ; Function cocos_shoot_linear
-                             97 ; ---------------------------------
-   0034                      98 _cocos_shoot_linear::
-                             99 ;./engine/cocos.c:69: if (coco_slots_i == 0) return;
-   0034 3Ar00r00      [13]  100 	ld	a,(#_coco_slots_i + 0)
-   0037 B7            [ 4]  101 	or	a, a
-   0038 C8            [11]  102 	ret	Z
-                            103 ;./engine/cocos.c:71: -- coco_slots_i; coco_it = coco_slots [coco_slots_i];
-   0039 21r00r00      [10]  104 	ld	hl, #_coco_slots_i+0
-   003C 35            [11]  105 	dec	(hl)
-   003D 11r00r00      [10]  106 	ld	de,#_coco_slots+0
-   0040 2Ar00r00      [16]  107 	ld	hl,(_coco_slots_i)
-   0043 26 00         [ 7]  108 	ld	h,#0x00
-   0045 19            [11]  109 	add	hl,de
-   0046 7E            [ 7]  110 	ld	a,(hl)
-   0047 32r00r00      [13]  111 	ld	(#_coco_it + 0),a
-                            112 ;./engine/cocos.c:73: coco_x [coco_it] = rdx << 6;
-   004A 01r00r00      [10]  113 	ld	bc,#_coco_x+0
-   004D FD 21r00r00   [14]  114 	ld	iy,#_coco_it
-   0051 FD 6E 00      [19]  115 	ld	l,0 (iy)
-   0054 26 00         [ 7]  116 	ld	h,#0x00
-   0056 29            [11]  117 	add	hl, hl
-   0057 09            [11]  118 	add	hl,bc
-   0058 55            [ 4]  119 	ld	d,l
-   0059 5C            [ 4]  120 	ld	e,h
-   005A FD 21r00r00   [14]  121 	ld	iy,#_rdx
-   005E FD 6E 00      [19]  122 	ld	l,0 (iy)
-   0061 26 00         [ 7]  123 	ld	h,#0x00
-   0063 29            [11]  124 	add	hl, hl
-   0064 29            [11]  125 	add	hl, hl
-   0065 29            [11]  126 	add	hl, hl
-   0066 29            [11]  127 	add	hl, hl
-   0067 29            [11]  128 	add	hl, hl
-   0068 29            [11]  129 	add	hl, hl
-   0069 4D            [ 4]  130 	ld	c, l
-   006A 44            [ 4]  131 	ld	b, h
-   006B 6A            [ 4]  132 	ld	l, d
-   006C 63            [ 4]  133 	ld	h, e
-   006D 71            [ 7]  134 	ld	(hl),c
-   006E 23            [ 6]  135 	inc	hl
-   006F 70            [ 7]  136 	ld	(hl),b
-                            137 ;./engine/cocos.c:74: coco_y [coco_it] = rdy << 6;
-   0070 01r00r00      [10]  138 	ld	bc,#_coco_y+0
-   0073 FD 21r00r00   [14]  139 	ld	iy,#_coco_it
-   0077 FD 6E 00      [19]  140 	ld	l,0 (iy)
-   007A 26 00         [ 7]  141 	ld	h,#0x00
-   007C 29            [11]  142 	add	hl, hl
-   007D 09            [11]  143 	add	hl,bc
-   007E 55            [ 4]  144 	ld	d,l
-   007F 5C            [ 4]  145 	ld	e,h
-   0080 FD 21r00r00   [14]  146 	ld	iy,#_rdy
-   0084 FD 6E 00      [19]  147 	ld	l,0 (iy)
-   0087 26 00         [ 7]  148 	ld	h,#0x00
-   0089 29            [11]  149 	add	hl, hl
-   008A 29            [11]  150 	add	hl, hl
-   008B 29            [11]  151 	add	hl, hl
-   008C 29            [11]  152 	add	hl, hl
-   008D 29            [11]  153 	add	hl, hl
-   008E 29            [11]  154 	add	hl, hl
-   008F 4D            [ 4]  155 	ld	c, l
-   0090 44            [ 4]  156 	ld	b, h
-   0091 6A            [ 4]  157 	ld	l, d
-   0092 63            [ 4]  158 	ld	h, e
-   0093 71            [ 7]  159 	ld	(hl),c
-   0094 23            [ 6]  160 	inc	hl
-   0095 70            [ 7]  161 	ld	(hl),b
-                            162 ;./engine/cocos.c:76: coco_vx [coco_it] = coco_dx [rda];
-   0096 11r00r00      [10]  163 	ld	de,#_coco_vx+0
-   0099 FD 21r00r00   [14]  164 	ld	iy,#_coco_it
-   009D FD 6E 00      [19]  165 	ld	l,0 (iy)
-   00A0 26 00         [ 7]  166 	ld	h,#0x00
-   00A2 29            [11]  167 	add	hl, hl
-   00A3 19            [11]  168 	add	hl,de
-   00A4 EB            [ 4]  169 	ex	de,hl
-   00A5 FD 21r00r00   [14]  170 	ld	iy,#_rda
-   00A9 FD 6E 00      [19]  171 	ld	l,0 (iy)
-   00AC 26 00         [ 7]  172 	ld	h,#0x00
-   00AE 29            [11]  173 	add	hl, hl
-   00AF 01r00r00      [10]  174 	ld	bc,#_coco_dx
-   00B2 09            [11]  175 	add	hl,bc
-   00B3 46            [ 7]  176 	ld	b,(hl)
-   00B4 23            [ 6]  177 	inc	hl
-   00B5 4E            [ 7]  178 	ld	c,(hl)
-   00B6 78            [ 4]  179 	ld	a,b
-   00B7 12            [ 7]  180 	ld	(de),a
-   00B8 13            [ 6]  181 	inc	de
-   00B9 79            [ 4]  182 	ld	a,c
-   00BA 12            [ 7]  183 	ld	(de),a
-                            184 ;./engine/cocos.c:77: coco_vy [coco_it] = coco_dy [rda];
-   00BB 11r00r00      [10]  185 	ld	de,#_coco_vy+0
-   00BE FD 21r00r00   [14]  186 	ld	iy,#_coco_it
-   00C2 FD 6E 00      [19]  187 	ld	l,0 (iy)
-   00C5 26 00         [ 7]  188 	ld	h,#0x00
-   00C7 29            [11]  189 	add	hl, hl
-   00C8 19            [11]  190 	add	hl,de
-   00C9 EB            [ 4]  191 	ex	de,hl
-   00CA FD 21r00r00   [14]  192 	ld	iy,#_rda
-   00CE FD 6E 00      [19]  193 	ld	l,0 (iy)
-   00D1 26 00         [ 7]  194 	ld	h,#0x00
-   00D3 29            [11]  195 	add	hl, hl
-   00D4 01r00r00      [10]  196 	ld	bc,#_coco_dy
-   00D7 09            [11]  197 	add	hl,bc
-   00D8 46            [ 7]  198 	ld	b,(hl)
-   00D9 23            [ 6]  199 	inc	hl
-   00DA 4E            [ 7]  200 	ld	c,(hl)
-   00DB 78            [ 4]  201 	ld	a,b
-   00DC 12            [ 7]  202 	ld	(de),a
-   00DD 13            [ 6]  203 	inc	de
-   00DE 79            [ 4]  204 	ld	a,c
-   00DF 12            [ 7]  205 	ld	(de),a
-                            206 ;./engine/cocos.c:79: coco_on [coco_it] = 1;
-   00E0 11r00r00      [10]  207 	ld	de,#_coco_on+0
-   00E3 2Ar00r00      [16]  208 	ld	hl,(_coco_it)
-   00E6 26 00         [ 7]  209 	ld	h,#0x00
-   00E8 19            [11]  210 	add	hl,de
-   00E9 36 01         [10]  211 	ld	(hl),#0x01
-                            212 ;./engine/cocos.c:81: PSGSFXPlay (SFX_COCO, 1);
-   00EB 11r00r00      [10]  213 	ld	de,#_s_10_coco2_psg
-   00EE 3E 01         [ 7]  214 	ld	a,#0x01
-   00F0 F5            [11]  215 	push	af
-   00F1 33            [ 6]  216 	inc	sp
-   00F2 D5            [11]  217 	push	de
-   00F3 CDr00r00      [17]  218 	call	_PSGSFXPlay
-   00F6 F1            [10]  219 	pop	af
-   00F7 33            [ 6]  220 	inc	sp
-   00F8 C9            [10]  221 	ret
-                            222 ;./engine/cocos.c:85: void cocos_destroy (void) {
-                            223 ;	---------------------------------
-                            224 ; Function cocos_destroy
-                            225 ; ---------------------------------
-   00F9                     226 _cocos_destroy::
-                            227 ;./engine/cocos.c:86: coco_on [coco_it] = 0;
-   00F9 11r00r00      [10]  228 	ld	de,#_coco_on+0
-   00FC 2Ar00r00      [16]  229 	ld	hl,(_coco_it)
-   00FF 26 00         [ 7]  230 	ld	h,#0x00
-   0101 19            [11]  231 	add	hl,de
-   0102 36 00         [10]  232 	ld	(hl),#0x00
-                            233 ;./engine/cocos.c:87: coco_slots [coco_slots_i] = coco_it; coco_slots_i ++;
-   0104 11r00r00      [10]  234 	ld	de,#_coco_slots+0
-   0107 2Ar00r00      [16]  235 	ld	hl,(_coco_slots_i)
-   010A 26 00         [ 7]  236 	ld	h,#0x00
-   010C 19            [11]  237 	add	hl,de
-   010D 3Ar00r00      [13]  238 	ld	a,(#_coco_it + 0)
-   0110 77            [ 7]  239 	ld	(hl),a
-   0111 21r00r00      [10]  240 	ld	hl, #_coco_slots_i+0
-   0114 34            [11]  241 	inc	(hl)
-                            242 ;./engine/cocos.c:88: PSGSFXPlay (SFX_DUMMY1, 3);
-   0115 11r00r00      [10]  243 	ld	de,#_s_06_dummy13_psg
-   0118 3E 03         [ 7]  244 	ld	a,#0x03
-   011A F5            [11]  245 	push	af
-   011B 33            [ 6]  246 	inc	sp
-   011C D5            [11]  247 	push	de
-   011D CDr00r00      [17]  248 	call	_PSGSFXPlay
-   0120 F1            [10]  249 	pop	af
-   0121 33            [ 6]  250 	inc	sp
-   0122 C9            [10]  251 	ret
-                            252 ;./engine/cocos.c:91: void cocos_do (void) {
-                            253 ;	---------------------------------
-                            254 ; Function cocos_do
-                            255 ; ---------------------------------
-   0123                     256 _cocos_do::
-   0123 DD E5         [15]  257 	push	ix
-   0125 DD 21 00 00   [14]  258 	ld	ix,#0
-   0129 DD 39         [15]  259 	add	ix,sp
-   012B 21 F7 FF      [10]  260 	ld	hl,#-9
-   012E 39            [11]  261 	add	hl,sp
-   012F F9            [ 6]  262 	ld	sp,hl
-                            263 ;./engine/cocos.c:92: coco_it = COCOS_MAX; while (coco_it --) if (coco_on [coco_it]) {
-   0130 21r00r00      [10]  264 	ld	hl,#_coco_it + 0
-   0133 36 04         [10]  265 	ld	(hl), #0x04
-   0135                     266 00116$:
-   0135 3Ar00r00      [13]  267 	ld	a,(#_coco_it + 0)
-   0138 DD 77 F7      [19]  268 	ld	-9 (ix),a
-   013B 21r00r00      [10]  269 	ld	hl, #_coco_it+0
-   013E 35            [11]  270 	dec	(hl)
-   013F DD 7E F7      [19]  271 	ld	a,-9 (ix)
-   0142 B7            [ 4]  272 	or	a, a
-   0143 CAr79r03      [10]  273 	jp	Z,00119$
-   0146 3Er00         [ 7]  274 	ld	a,#<(_coco_on)
-   0148 21r00r00      [10]  275 	ld	hl,#_coco_it
-   014B 86            [ 7]  276 	add	a, (hl)
-   014C DD 77 FE      [19]  277 	ld	-2 (ix),a
-   014F 3Es00         [ 7]  278 	ld	a,#>(_coco_on)
-   0151 CE 00         [ 7]  279 	adc	a, #0x00
-   0153 DD 77 FF      [19]  280 	ld	-1 (ix),a
-   0156 DD 6E FE      [19]  281 	ld	l,-2 (ix)
-   0159 DD 66 FF      [19]  282 	ld	h,-1 (ix)
-   015C 7E            [ 7]  283 	ld	a,(hl)
-   015D DD 77 FE      [19]  284 	ld	-2 (ix), a
-   0160 B7            [ 4]  285 	or	a, a
-   0161 28 D2         [12]  286 	jr	Z,00116$
-                            287 ;./engine/cocos.c:94: coco_x [coco_it] += coco_vx [coco_it];
-   0163 3Ar00r00      [13]  288 	ld	a,(#_coco_it + 0)
-   0166 DD 77 FE      [19]  289 	ld	-2 (ix),a
-   0169 DD 36 FF 00   [19]  290 	ld	-1 (ix),#0x00
-   016D DD 4E FE      [19]  291 	ld	c,-2 (ix)
-   0170 DD 46 FF      [19]  292 	ld	b,-1 (ix)
-   0173 CB 21         [ 8]  293 	sla	c
-   0175 CB 10         [ 8]  294 	rl	b
-   0177 FD 21r00r00   [14]  295 	ld	iy,#_coco_x
-   017B FD 09         [15]  296 	add	iy, bc
-   017D FD 5E 00      [19]  297 	ld	e,0 (iy)
-   0180 FD 56 01      [19]  298 	ld	d,1 (iy)
-   0183 21r00r00      [10]  299 	ld	hl,#_coco_vx
-   0186 09            [11]  300 	add	hl,bc
-   0187 7E            [ 7]  301 	ld	a, (hl)
-   0188 23            [ 6]  302 	inc	hl
-   0189 66            [ 7]  303 	ld	h,(hl)
-   018A 6F            [ 4]  304 	ld	l,a
-   018B 19            [11]  305 	add	hl,de
-   018C FD 75 00      [19]  306 	ld	0 (iy),l
-   018F FD 74 01      [19]  307 	ld	1 (iy),h
-                            308 ;./engine/cocos.c:95: coco_y [coco_it] += coco_vy [coco_it];
-   0192 FD 21r00r00   [14]  309 	ld	iy,#_coco_it
-   0196 FD 6E 00      [19]  310 	ld	l,0 (iy)
-   0199 26 00         [ 7]  311 	ld	h,#0x00
-   019B 29            [11]  312 	add	hl, hl
-   019C 4D            [ 4]  313 	ld	c, l
-   019D 44            [ 4]  314 	ld	b, h
-   019E FD 21r00r00   [14]  315 	ld	iy,#_coco_y
-   01A2 FD 09         [15]  316 	add	iy, bc
-   01A4 FD 5E 00      [19]  317 	ld	e,0 (iy)
-   01A7 FD 56 01      [19]  318 	ld	d,1 (iy)
-   01AA 21r00r00      [10]  319 	ld	hl,#_coco_vy
-   01AD 09            [11]  320 	add	hl,bc
-   01AE 7E            [ 7]  321 	ld	a, (hl)
-   01AF 23            [ 6]  322 	inc	hl
-   01B0 66            [ 7]  323 	ld	h,(hl)
-   01B1 6F            [ 4]  324 	ld	l,a
-   01B2 19            [11]  325 	add	hl,de
-   01B3 FD 75 00      [19]  326 	ld	0 (iy),l
-   01B6 FD 74 01      [19]  327 	ld	1 (iy),h
-                            328 ;./engine/cocos.c:98: if (coco_x [coco_it] < 0 || coco_x [coco_it] > 248<<FIXBITS || coco_y [coco_it] < 16<<FIXBITS || coco_y [coco_it] > 200<<FIXBITS) {
-   01B9 FD 21r00r00   [14]  329 	ld	iy,#_coco_it
-   01BD FD 6E 00      [19]  330 	ld	l,0 (iy)
-   01C0 26 00         [ 7]  331 	ld	h,#0x00
-   01C2 29            [11]  332 	add	hl, hl
-   01C3 4D            [ 4]  333 	ld	c, l
-   01C4 44            [ 4]  334 	ld	b, h
-   01C5 21r00r00      [10]  335 	ld	hl,#_coco_x
-   01C8 09            [11]  336 	add	hl,bc
-   01C9 5E            [ 7]  337 	ld	e,(hl)
-   01CA 23            [ 6]  338 	inc	hl
-   01CB 56            [ 7]  339 	ld	d,(hl)
-   01CC CB 7A         [ 8]  340 	bit	7, d
-   01CE 20 28         [12]  341 	jr	NZ,00101$
-   01D0 AF            [ 4]  342 	xor	a, a
-   01D1 BB            [ 4]  343 	cp	a, e
-   01D2 3E 3E         [ 7]  344 	ld	a,#0x3E
-   01D4 9A            [ 4]  345 	sbc	a, d
-   01D5 E2rDAr01      [10]  346 	jp	PO, 00171$
-   01D8 EE 80         [ 7]  347 	xor	a, #0x80
-   01DA                     348 00171$:
-   01DA FArF8r01      [10]  349 	jp	M,00101$
-   01DD 21r00r00      [10]  350 	ld	hl,#_coco_y
-   01E0 09            [11]  351 	add	hl,bc
-   01E1 4E            [ 7]  352 	ld	c,(hl)
-   01E2 23            [ 6]  353 	inc	hl
-   01E3 46            [ 7]  354 	ld	b,(hl)
-   01E4 78            [ 4]  355 	ld	a,b
-   01E5 EE 80         [ 7]  356 	xor	a, #0x80
-   01E7 D6 84         [ 7]  357 	sub	a, #0x84
-   01E9 38 0D         [12]  358 	jr	C,00101$
-   01EB AF            [ 4]  359 	xor	a, a
-   01EC B9            [ 4]  360 	cp	a, c
-   01ED 3E 32         [ 7]  361 	ld	a,#0x32
-   01EF 98            [ 4]  362 	sbc	a, b
-   01F0 E2rF5r01      [10]  363 	jp	PO, 00172$
-   01F3 EE 80         [ 7]  364 	xor	a, #0x80
-   01F5                     365 00172$:
-   01F5 F2rFEr01      [10]  366 	jp	P,00102$
-   01F8                     367 00101$:
-                            368 ;./engine/cocos.c:99: cocos_destroy ();
-   01F8 CDrF9r00      [17]  369 	call	_cocos_destroy
-                            370 ;./engine/cocos.c:100: continue;
-   01FB C3r35r01      [10]  371 	jp	00116$
-   01FE                     372 00102$:
-                            373 ;./engine/cocos.c:103: rdx = coco_x [coco_it] >> 6;
-   01FE CB 2A         [ 8]  374 	sra	d
-   0200 CB 1B         [ 8]  375 	rr	e
-   0202 CB 2A         [ 8]  376 	sra	d
-   0204 CB 1B         [ 8]  377 	rr	e
-   0206 CB 2A         [ 8]  378 	sra	d
-   0208 CB 1B         [ 8]  379 	rr	e
-   020A CB 2A         [ 8]  380 	sra	d
-   020C CB 1B         [ 8]  381 	rr	e
-   020E CB 2A         [ 8]  382 	sra	d
-   0210 CB 1B         [ 8]  383 	rr	e
-   0212 CB 2A         [ 8]  384 	sra	d
-   0214 CB 1B         [ 8]  385 	rr	e
-   0216 21r00r00      [10]  386 	ld	hl,#_rdx + 0
-   0219 73            [ 7]  387 	ld	(hl), e
-                            388 ;./engine/cocos.c:104: rdy = coco_y [coco_it] >> 6;
-   021A CB 28         [ 8]  389 	sra	b
-   021C CB 19         [ 8]  390 	rr	c
-   021E CB 28         [ 8]  391 	sra	b
-   0220 CB 19         [ 8]  392 	rr	c
-   0222 CB 28         [ 8]  393 	sra	b
-   0224 CB 19         [ 8]  394 	rr	c
-   0226 CB 28         [ 8]  395 	sra	b
-   0228 CB 19         [ 8]  396 	rr	c
-   022A CB 28         [ 8]  397 	sra	b
-   022C CB 19         [ 8]  398 	rr	c
-   022E CB 28         [ 8]  399 	sra	b
-   0230 CB 19         [ 8]  400 	rr	c
-   0232 21r00r00      [10]  401 	ld	hl,#_rdy + 0
-   0235 71            [ 7]  402 	ld	(hl), c
-                            403 ;./engine/cocos.c:107: HW_addSprite (rdx, rdy + SPRITE_ADJUST, COCO_PATTERN, COCO_COLOUR);
-   0236 3Ar00r00      [13]  404 	ld	a,(#_rdy + 0)
-   0239 C6 F7         [ 7]  405 	add	a, #0xF7
-   023B 57            [ 4]  406 	ld	d,a
-   023C 21 A4 0F      [10]  407 	ld	hl,#0x0FA4
-   023F E5            [11]  408 	push	hl
-   0240 D5            [11]  409 	push	de
-   0241 33            [ 6]  410 	inc	sp
-   0242 3Ar00r00      [13]  411 	ld	a,(_rdx)
-   0245 F5            [11]  412 	push	af
-   0246 33            [ 6]  413 	inc	sp
-   0247 CDr00r00      [17]  414 	call	_SG_addSprite
-   024A F1            [10]  415 	pop	af
-   024B F1            [10]  416 	pop	af
-                            417 ;./engine/cocos.c:111: rdm = c_behs [map_buff [((rdx + 4) >> 4) | ((rdy + 4 - 16) & 0xf0)]];
-   024C 3Ar00r00      [13]  418 	ld	a,(#_rdx + 0)
-   024F DD 77 FE      [19]  419 	ld	-2 (ix),a
-   0252 DD 36 FF 00   [19]  420 	ld	-1 (ix),#0x00
-   0256 DD 7E FE      [19]  421 	ld	a,-2 (ix)
-   0259 C6 04         [ 7]  422 	add	a, #0x04
-   025B 5F            [ 4]  423 	ld	e,a
-   025C DD 7E FF      [19]  424 	ld	a,-1 (ix)
-   025F CE 00         [ 7]  425 	adc	a, #0x00
-   0261 57            [ 4]  426 	ld	d,a
-   0262 CB 2A         [ 8]  427 	sra	d
-   0264 CB 1B         [ 8]  428 	rr	e
-   0266 CB 2A         [ 8]  429 	sra	d
-   0268 CB 1B         [ 8]  430 	rr	e
-   026A CB 2A         [ 8]  431 	sra	d
-   026C CB 1B         [ 8]  432 	rr	e
-   026E CB 2A         [ 8]  433 	sra	d
-   0270 CB 1B         [ 8]  434 	rr	e
-   0272 3Ar00r00      [13]  435 	ld	a,(#_rdy + 0)
-   0275 DD 77 FA      [19]  436 	ld	-6 (ix),a
-   0278 DD 36 FB 00   [19]  437 	ld	-5 (ix),#0x00
-   027C DD 7E FA      [19]  438 	ld	a,-6 (ix)
-   027F C6 F4         [ 7]  439 	add	a, #0xF4
-   0281 67            [ 4]  440 	ld	h,a
-   0282 DD 7E FB      [19]  441 	ld	a,-5 (ix)
-   0285 CE FF         [ 7]  442 	adc	a, #0xFF
-   0287 7C            [ 4]  443 	ld	a,h
-   0288 E6 F0         [ 7]  444 	and	a, #0xF0
-   028A 4F            [ 4]  445 	ld	c,a
-   028B 06 00         [ 7]  446 	ld	b,#0x00
-   028D 7B            [ 4]  447 	ld	a,e
-   028E B1            [ 4]  448 	or	a, c
-   028F 6F            [ 4]  449 	ld	l,a
-   0290 7A            [ 4]  450 	ld	a,d
-   0291 B0            [ 4]  451 	or	a, b
-   0292 67            [ 4]  452 	ld	h,a
-   0293 11r00r00      [10]  453 	ld	de,#_map_buff
-   0296 19            [11]  454 	add	hl,de
-   0297 5E            [ 7]  455 	ld	e,(hl)
-   0298 2Ar00r00      [16]  456 	ld	hl,(_c_behs)
-   029B 16 00         [ 7]  457 	ld	d,#0x00
-   029D 19            [11]  458 	add	hl, de
-   029E 7E            [ 7]  459 	ld	a,(hl)
-   029F FD 21r00r00   [14]  460 	ld	iy,#_rdm
-   02A3 FD 77 00      [19]  461 	ld	0 (iy),a
-                            462 ;./engine/cocos.c:115: if (rdm & 8) {
-   02A6 FD 21r00r00   [14]  463 	ld	iy,#_rdm
-   02AA FD CB 00 5E   [20]  464 	bit	3, 0 (iy)
-   02AE 28 06         [12]  465 	jr	Z,00107$
-                            466 ;./engine/cocos.c:116: cocos_destroy (); continue;
-   02B0 CDrF9r00      [17]  467 	call	_cocos_destroy
-   02B3 C3r35r01      [10]  468 	jp	00116$
-   02B6                     469 00107$:
-                            470 ;./engine/cocos.c:121: if (pflickering == 0 && 
-   02B6 3Ar00r00      [13]  471 	ld	a,(#_pflickering + 0)
-   02B9 B7            [ 4]  472 	or	a, a
-   02BA C2r35r01      [10]  473 	jp	NZ,00116$
-                            474 ;./engine/cocos.c:122: rdx + 7 >= prx && 
-   02BD DD 7E FE      [19]  475 	ld	a,-2 (ix)
-   02C0 C6 07         [ 7]  476 	add	a, #0x07
-   02C2 DD 77 F8      [19]  477 	ld	-8 (ix),a
-   02C5 DD 7E FF      [19]  478 	ld	a,-1 (ix)
-   02C8 CE 00         [ 7]  479 	adc	a, #0x00
-   02CA DD 77 F9      [19]  480 	ld	-7 (ix),a
-   02CD FD 21r00r00   [14]  481 	ld	iy,#_prx
-   02D1 FD 7E 00      [19]  482 	ld	a,0 (iy)
-   02D4 DD 77 FC      [19]  483 	ld	-4 (ix),a
-   02D7 DD 36 FD 00   [19]  484 	ld	-3 (ix),#0x00
-   02DB DD 7E F8      [19]  485 	ld	a,-8 (ix)
-   02DE DD 96 FC      [19]  486 	sub	a, -4 (ix)
-   02E1 DD 7E F9      [19]  487 	ld	a,-7 (ix)
-   02E4 DD 9E FD      [19]  488 	sbc	a, -3 (ix)
-   02E7 E2rECr02      [10]  489 	jp	PO, 00174$
-   02EA EE 80         [ 7]  490 	xor	a, #0x80
-   02EC                     491 00174$:
-   02EC FAr35r01      [10]  492 	jp	M,00116$
-                            493 ;./engine/cocos.c:123: rdx <= prx + 7 && 
-   02EF DD 7E FC      [19]  494 	ld	a,-4 (ix)
-   02F2 C6 07         [ 7]  495 	add	a, #0x07
-   02F4 DD 77 FC      [19]  496 	ld	-4 (ix),a
-   02F7 DD 7E FD      [19]  497 	ld	a,-3 (ix)
-   02FA CE 00         [ 7]  498 	adc	a, #0x00
-   02FC DD 77 FD      [19]  499 	ld	-3 (ix),a
-   02FF DD 7E FC      [19]  500 	ld	a,-4 (ix)
-   0302 DD 96 FE      [19]  501 	sub	a, -2 (ix)
-   0305 DD 7E FD      [19]  502 	ld	a,-3 (ix)
-   0308 DD 9E FF      [19]  503 	sbc	a, -1 (ix)
-   030B E2r10r03      [10]  504 	jp	PO, 00175$
-   030E EE 80         [ 7]  505 	xor	a, #0x80
-   0310                     506 00175$:
-   0310 FAr35r01      [10]  507 	jp	M,00116$
-                            508 ;./engine/cocos.c:124: rdy + 7 + PLAYER_COLLISION_VSTRETCH_FG >= pry && 
-   0313 DD 7E FA      [19]  509 	ld	a,-6 (ix)
-   0316 C6 03         [ 7]  510 	add	a, #0x03
-   0318 DD 77 FC      [19]  511 	ld	-4 (ix),a
-   031B DD 7E FB      [19]  512 	ld	a,-5 (ix)
-   031E CE 00         [ 7]  513 	adc	a, #0x00
-   0320 DD 77 FD      [19]  514 	ld	-3 (ix),a
-   0323 FD 21r00r00   [14]  515 	ld	iy,#_pry
-   0327 FD 7E 00      [19]  516 	ld	a,0 (iy)
-   032A DD 77 F8      [19]  517 	ld	-8 (ix),a
-   032D DD 36 F9 00   [19]  518 	ld	-7 (ix),#0x00
-   0331 DD 7E FC      [19]  519 	ld	a,-4 (ix)
-   0334 DD 96 F8      [19]  520 	sub	a, -8 (ix)
-   0337 DD 7E FD      [19]  521 	ld	a,-3 (ix)
-   033A DD 9E F9      [19]  522 	sbc	a, -7 (ix)
-   033D E2r42r03      [10]  523 	jp	PO, 00176$
-   0340 EE 80         [ 7]  524 	xor	a, #0x80
-   0342                     525 00176$:
-   0342 FAr35r01      [10]  526 	jp	M,00116$
-                            527 ;./engine/cocos.c:125: rdy <= pry + 12
-   0345 DD 7E F8      [19]  528 	ld	a,-8 (ix)
-   0348 C6 0C         [ 7]  529 	add	a, #0x0C
-   034A DD 77 FC      [19]  530 	ld	-4 (ix),a
-   034D DD 7E F9      [19]  531 	ld	a,-7 (ix)
-   0350 CE 00         [ 7]  532 	adc	a, #0x00
-   0352 DD 77 FD      [19]  533 	ld	-3 (ix),a
-   0355 DD 7E FC      [19]  534 	ld	a,-4 (ix)
-   0358 DD 96 FA      [19]  535 	sub	a, -6 (ix)
-   035B DD 7E FD      [19]  536 	ld	a,-3 (ix)
-   035E DD 9E FB      [19]  537 	sbc	a, -5 (ix)
-   0361 E2r66r03      [10]  538 	jp	PO, 00177$
-   0364 EE 80         [ 7]  539 	xor	a, #0x80
-   0366                     540 00177$:
-   0366 FAr35r01      [10]  541 	jp	M,00116$
-                            542 ;./engine/cocos.c:127: en_sg_2 = 1;
-   0369 21r00r00      [10]  543 	ld	hl,#_en_sg_2 + 0
-   036C 36 01         [10]  544 	ld	(hl), #0x01
-                            545 ;./engine/cocos.c:129: pkill = en_sg_2;
-   036E 21r00r00      [10]  546 	ld	hl,#_pkill + 0
-   0371 36 01         [10]  547 	ld	(hl), #0x01
-                            548 ;./engine/cocos.c:130: cocos_destroy ();
-   0373 CDrF9r00      [17]  549 	call	_cocos_destroy
-   0376 C3r35r01      [10]  550 	jp	00116$
-   0379                     551 00119$:
-   0379 DD F9         [10]  552 	ld	sp, ix
-   037B DD E1         [14]  553 	pop	ix
-   037D C9            [10]  554 	ret
-                            555 	.area _CODE
-                            556 	.area _INITIALIZER
-                            557 	.area _CABS (ABS)
+                             55 ; code
+                             56 ;--------------------------------------------------------
+                             57 	.area _CODE
+                             58 ;./engine/cocos.c:29: void cocos_init (void) {
+                             59 ;	---------------------------------
+                             60 ; Function cocos_init
+                             61 ; ---------------------------------
+   0000                      62 _cocos_init::
+                             63 ;./engine/cocos.c:30: coco_it = COCOS_MAX; while (coco_it --) {
+   0000 21r00r00      [10]   64 	ld	hl,#_coco_it + 0
+   0003 36 04         [10]   65 	ld	(hl), #0x04
+   0005 11r00r00      [10]   66 	ld	de,#_coco_on+0
+   0008                      67 00101$:
+   0008 21r00r00      [10]   68 	ld	hl,#_coco_it + 0
+   000B 46            [ 7]   69 	ld	b, (hl)
+   000C 21r00r00      [10]   70 	ld	hl, #_coco_it+0
+   000F 35            [11]   71 	dec	(hl)
+   0010 78            [ 4]   72 	ld	a,b
+   0011 B7            [ 4]   73 	or	a, a
+   0012 28 1A         [12]   74 	jr	Z,00103$
+                             75 ;./engine/cocos.c:31: coco_slots [coco_it] = coco_it;
+   0014 3Er00         [ 7]   76 	ld	a,#<(_coco_slots)
+   0016 21r00r00      [10]   77 	ld	hl,#_coco_it
+   0019 86            [ 7]   78 	add	a, (hl)
+   001A 4F            [ 4]   79 	ld	c,a
+   001B 3Es00         [ 7]   80 	ld	a,#>(_coco_slots)
+   001D CE 00         [ 7]   81 	adc	a, #0x00
+   001F 47            [ 4]   82 	ld	b,a
+   0020 3Ar00r00      [13]   83 	ld	a,(#_coco_it + 0)
+   0023 02            [ 7]   84 	ld	(bc),a
+                             85 ;./engine/cocos.c:32: coco_on [coco_it] = 0;
+   0024 2Ar00r00      [16]   86 	ld	hl,(_coco_it)
+   0027 26 00         [ 7]   87 	ld	h,#0x00
+   0029 19            [11]   88 	add	hl,de
+   002A 36 00         [10]   89 	ld	(hl),#0x00
+   002C 18 DA         [12]   90 	jr	00101$
+   002E                      91 00103$:
+                             92 ;./engine/cocos.c:34: coco_slots_i = COCOS_MAX;
+   002E 21r00r00      [10]   93 	ld	hl,#_coco_slots_i + 0
+   0031 36 04         [10]   94 	ld	(hl), #0x04
+   0033 C9            [10]   95 	ret
+                             96 ;./engine/cocos.c:40: void cocos_shoot_aimed (void) {		
+                             97 ;	---------------------------------
+                             98 ; Function cocos_shoot_aimed
+                             99 ; ---------------------------------
+   0034                     100 _cocos_shoot_aimed::
+                            101 ;./engine/cocos.c:41: rdct = distance ();
+   0034 CDr00r00      [17]  102 	call	_distance
+   0037 FD 21r00r00   [14]  103 	ld	iy,#_rdct
+   003B FD 75 00      [19]  104 	ld	0 (iy),l
+                            105 ;./engine/cocos.c:44: if (rdct > COCO_FAIR_D && coco_slots_i) 
+   003E 3E 20         [ 7]  106 	ld	a,#0x20
+   0040 FD 21r00r00   [14]  107 	ld	iy,#_rdct
+   0044 FD 96 00      [19]  108 	sub	a, 0 (iy)
+   0047 D0            [11]  109 	ret	NC
+   0048 3Ar00r00      [13]  110 	ld	a,(#_coco_slots_i + 0)
+   004B B7            [ 4]  111 	or	a, a
+   004C C8            [11]  112 	ret	Z
+                            113 ;./engine/cocos.c:49: -- coco_slots_i; coco_it = coco_slots [coco_slots_i];
+   004D 21r00r00      [10]  114 	ld	hl, #_coco_slots_i+0
+   0050 35            [11]  115 	dec	(hl)
+   0051 11r00r00      [10]  116 	ld	de,#_coco_slots+0
+   0054 2Ar00r00      [16]  117 	ld	hl,(_coco_slots_i)
+   0057 26 00         [ 7]  118 	ld	h,#0x00
+   0059 19            [11]  119 	add	hl,de
+   005A 7E            [ 7]  120 	ld	a,(hl)
+   005B 32r00r00      [13]  121 	ld	(#_coco_it + 0),a
+                            122 ;./engine/cocos.c:51: coco_x [coco_it] = rdx << 6;
+   005E FD 21r00r00   [14]  123 	ld	iy,#_coco_it
+   0062 FD 6E 00      [19]  124 	ld	l,0 (iy)
+   0065 26 00         [ 7]  125 	ld	h,#0x00
+   0067 29            [11]  126 	add	hl, hl
+   0068 3Er00         [ 7]  127 	ld	a,#<(_coco_x)
+   006A 85            [ 4]  128 	add	a, l
+   006B 57            [ 4]  129 	ld	d,a
+   006C 3Es00         [ 7]  130 	ld	a,#>(_coco_x)
+   006E 8C            [ 4]  131 	adc	a, h
+   006F 5F            [ 4]  132 	ld	e,a
+   0070 FD 21r00r00   [14]  133 	ld	iy,#_rdx
+   0074 FD 6E 00      [19]  134 	ld	l,0 (iy)
+   0077 26 00         [ 7]  135 	ld	h,#0x00
+   0079 29            [11]  136 	add	hl, hl
+   007A 29            [11]  137 	add	hl, hl
+   007B 29            [11]  138 	add	hl, hl
+   007C 29            [11]  139 	add	hl, hl
+   007D 29            [11]  140 	add	hl, hl
+   007E 29            [11]  141 	add	hl, hl
+   007F 4D            [ 4]  142 	ld	c, l
+   0080 44            [ 4]  143 	ld	b, h
+   0081 6A            [ 4]  144 	ld	l, d
+   0082 63            [ 4]  145 	ld	h, e
+   0083 71            [ 7]  146 	ld	(hl),c
+   0084 23            [ 6]  147 	inc	hl
+   0085 70            [ 7]  148 	ld	(hl),b
+                            149 ;./engine/cocos.c:52: coco_y [coco_it] = rdy << 6;
+   0086 FD 21r00r00   [14]  150 	ld	iy,#_coco_it
+   008A FD 6E 00      [19]  151 	ld	l,0 (iy)
+   008D 26 00         [ 7]  152 	ld	h,#0x00
+   008F 29            [11]  153 	add	hl, hl
+   0090 3Er00         [ 7]  154 	ld	a,#<(_coco_y)
+   0092 85            [ 4]  155 	add	a, l
+   0093 57            [ 4]  156 	ld	d,a
+   0094 3Es00         [ 7]  157 	ld	a,#>(_coco_y)
+   0096 8C            [ 4]  158 	adc	a, h
+   0097 5F            [ 4]  159 	ld	e,a
+   0098 FD 21r00r00   [14]  160 	ld	iy,#_rdy
+   009C FD 6E 00      [19]  161 	ld	l,0 (iy)
+   009F 26 00         [ 7]  162 	ld	h,#0x00
+   00A1 29            [11]  163 	add	hl, hl
+   00A2 29            [11]  164 	add	hl, hl
+   00A3 29            [11]  165 	add	hl, hl
+   00A4 29            [11]  166 	add	hl, hl
+   00A5 29            [11]  167 	add	hl, hl
+   00A6 29            [11]  168 	add	hl, hl
+   00A7 4D            [ 4]  169 	ld	c, l
+   00A8 44            [ 4]  170 	ld	b, h
+   00A9 6A            [ 4]  171 	ld	l, d
+   00AA 63            [ 4]  172 	ld	h, e
+   00AB 71            [ 7]  173 	ld	(hl),c
+   00AC 23            [ 6]  174 	inc	hl
+   00AD 70            [ 7]  175 	ld	(hl),b
+                            176 ;./engine/cocos.c:55: rds16 = COCO_V * rda / rdct; coco_vx [coco_it] = ADD_SIGN2 (px, coco_x [coco_it], rds16);
+   00AE 21r00r00      [10]  177 	ld	hl,#_rda + 0
+   00B1 56            [ 7]  178 	ld	d, (hl)
+   00B2 1E 00         [ 7]  179 	ld	e,#0x00
+   00B4 FD 21r00r00   [14]  180 	ld	iy,#_rdct
+   00B8 FD 6E 00      [19]  181 	ld	l,0 (iy)
+   00BB 26 00         [ 7]  182 	ld	h,#0x00
+   00BD E5            [11]  183 	push	hl
+   00BE D5            [11]  184 	push	de
+   00BF CDr00r00      [17]  185 	call	__divsint
+   00C2 F1            [10]  186 	pop	af
+   00C3 F1            [10]  187 	pop	af
+   00C4 22r00r00      [16]  188 	ld	(_rds16),hl
+   00C7 FD 21r00r00   [14]  189 	ld	iy,#_coco_it
+   00CB FD 6E 00      [19]  190 	ld	l,0 (iy)
+   00CE 26 00         [ 7]  191 	ld	h,#0x00
+   00D0 29            [11]  192 	add	hl, hl
+   00D1 3Er00         [ 7]  193 	ld	a,#<(_coco_vx)
+   00D3 85            [ 4]  194 	add	a, l
+   00D4 4F            [ 4]  195 	ld	c,a
+   00D5 3Es00         [ 7]  196 	ld	a,#>(_coco_vx)
+   00D7 8C            [ 4]  197 	adc	a, h
+   00D8 47            [ 4]  198 	ld	b,a
+   00D9 11r00r00      [10]  199 	ld	de,#_coco_x
+   00DC 19            [11]  200 	add	hl,de
+   00DD 56            [ 7]  201 	ld	d,(hl)
+   00DE 23            [ 6]  202 	inc	hl
+   00DF 5E            [ 7]  203 	ld	e,(hl)
+   00E0 3Ar00r00      [13]  204 	ld	a,(#_px + 0)
+   00E3 92            [ 4]  205 	sub	a, d
+   00E4 20 0B         [12]  206 	jr	NZ,00106$
+   00E6 3Ar01r00      [13]  207 	ld	a,(#_px + 1)
+   00E9 93            [ 4]  208 	sub	a, e
+   00EA 20 05         [12]  209 	jr	NZ,00106$
+   00EC 11 00 00      [10]  210 	ld	de,#0x0000
+   00EF 18 31         [12]  211 	jr	00107$
+   00F1                     212 00106$:
+   00F1 7A            [ 4]  213 	ld	a,d
+   00F2 FD 21r00r00   [14]  214 	ld	iy,#_px
+   00F6 FD 96 00      [19]  215 	sub	a, 0 (iy)
+   00F9 7B            [ 4]  216 	ld	a,e
+   00FA FD 21r00r00   [14]  217 	ld	iy,#_px
+   00FE FD 9E 01      [19]  218 	sbc	a, 1 (iy)
+   0101 E2r06r01      [10]  219 	jp	PO, 00140$
+   0104 EE 80         [ 7]  220 	xor	a, #0x80
+   0106                     221 00140$:
+   0106 F2r0Fr01      [10]  222 	jp	P,00108$
+   0109 ED 5Br00r00   [20]  223 	ld	de,(_rds16)
+   010D 18 13         [12]  224 	jr	00109$
+   010F                     225 00108$:
+   010F AF            [ 4]  226 	xor	a, a
+   0110 FD 21r00r00   [14]  227 	ld	iy,#_rds16
+   0114 FD 96 00      [19]  228 	sub	a, 0 (iy)
+   0117 5F            [ 4]  229 	ld	e,a
+   0118 3E 00         [ 7]  230 	ld	a, #0x00
+   011A FD 21r00r00   [14]  231 	ld	iy,#_rds16
+   011E FD 9E 01      [19]  232 	sbc	a, 1 (iy)
+   0121 57            [ 4]  233 	ld	d,a
+   0122                     234 00109$:
+   0122                     235 00107$:
+   0122 7B            [ 4]  236 	ld	a,e
+   0123 02            [ 7]  237 	ld	(bc),a
+   0124 03            [ 6]  238 	inc	bc
+   0125 7A            [ 4]  239 	ld	a,d
+   0126 02            [ 7]  240 	ld	(bc),a
+                            241 ;./engine/cocos.c:56: rds16 = COCO_V * rdb / rdct; coco_vy [coco_it] = ADD_SIGN2 (py, coco_y [coco_it], rds16);
+   0127 21r00r00      [10]  242 	ld	hl,#_rdb + 0
+   012A 56            [ 7]  243 	ld	d, (hl)
+   012B 1E 00         [ 7]  244 	ld	e,#0x00
+   012D FD 21r00r00   [14]  245 	ld	iy,#_rdct
+   0131 FD 6E 00      [19]  246 	ld	l,0 (iy)
+   0134 26 00         [ 7]  247 	ld	h,#0x00
+   0136 E5            [11]  248 	push	hl
+   0137 D5            [11]  249 	push	de
+   0138 CDr00r00      [17]  250 	call	__divsint
+   013B F1            [10]  251 	pop	af
+   013C F1            [10]  252 	pop	af
+   013D 22r00r00      [16]  253 	ld	(_rds16),hl
+   0140 FD 21r00r00   [14]  254 	ld	iy,#_coco_it
+   0144 FD 6E 00      [19]  255 	ld	l,0 (iy)
+   0147 26 00         [ 7]  256 	ld	h,#0x00
+   0149 29            [11]  257 	add	hl, hl
+   014A 3Er00         [ 7]  258 	ld	a,#<(_coco_vy)
+   014C 85            [ 4]  259 	add	a, l
+   014D 4F            [ 4]  260 	ld	c,a
+   014E 3Es00         [ 7]  261 	ld	a,#>(_coco_vy)
+   0150 8C            [ 4]  262 	adc	a, h
+   0151 47            [ 4]  263 	ld	b,a
+   0152 11r00r00      [10]  264 	ld	de,#_coco_y
+   0155 19            [11]  265 	add	hl,de
+   0156 5E            [ 7]  266 	ld	e,(hl)
+   0157 23            [ 6]  267 	inc	hl
+   0158 56            [ 7]  268 	ld	d,(hl)
+   0159 3Ar00r00      [13]  269 	ld	a,(#_py + 0)
+   015C 93            [ 4]  270 	sub	a, e
+   015D 20 0B         [12]  271 	jr	NZ,00110$
+   015F 3Ar01r00      [13]  272 	ld	a,(#_py + 1)
+   0162 92            [ 4]  273 	sub	a, d
+   0163 20 05         [12]  274 	jr	NZ,00110$
+   0165 11 00 00      [10]  275 	ld	de,#0x0000
+   0168 18 31         [12]  276 	jr	00111$
+   016A                     277 00110$:
+   016A 7B            [ 4]  278 	ld	a,e
+   016B FD 21r00r00   [14]  279 	ld	iy,#_py
+   016F FD 96 00      [19]  280 	sub	a, 0 (iy)
+   0172 7A            [ 4]  281 	ld	a,d
+   0173 FD 21r00r00   [14]  282 	ld	iy,#_py
+   0177 FD 9E 01      [19]  283 	sbc	a, 1 (iy)
+   017A E2r7Fr01      [10]  284 	jp	PO, 00143$
+   017D EE 80         [ 7]  285 	xor	a, #0x80
+   017F                     286 00143$:
+   017F F2r88r01      [10]  287 	jp	P,00112$
+   0182 ED 5Br00r00   [20]  288 	ld	de,(_rds16)
+   0186 18 13         [12]  289 	jr	00113$
+   0188                     290 00112$:
+   0188 AF            [ 4]  291 	xor	a, a
+   0189 FD 21r00r00   [14]  292 	ld	iy,#_rds16
+   018D FD 96 00      [19]  293 	sub	a, 0 (iy)
+   0190 5F            [ 4]  294 	ld	e,a
+   0191 3E 00         [ 7]  295 	ld	a, #0x00
+   0193 FD 21r00r00   [14]  296 	ld	iy,#_rds16
+   0197 FD 9E 01      [19]  297 	sbc	a, 1 (iy)
+   019A 57            [ 4]  298 	ld	d,a
+   019B                     299 00113$:
+   019B                     300 00111$:
+   019B 7B            [ 4]  301 	ld	a,e
+   019C 02            [ 7]  302 	ld	(bc),a
+   019D 03            [ 6]  303 	inc	bc
+   019E 7A            [ 4]  304 	ld	a,d
+   019F 02            [ 7]  305 	ld	(bc),a
+                            306 ;./engine/cocos.c:58: coco_on [coco_it] = 1;
+   01A0 11r00r00      [10]  307 	ld	de,#_coco_on+0
+   01A3 2Ar00r00      [16]  308 	ld	hl,(_coco_it)
+   01A6 26 00         [ 7]  309 	ld	h,#0x00
+   01A8 19            [11]  310 	add	hl,de
+   01A9 36 01         [10]  311 	ld	(hl),#0x01
+                            312 ;./engine/cocos.c:60: PSGSFXPlay (SFX_COCO, 1);
+   01AB 11r00r00      [10]  313 	ld	de,#_s_10_coco2_psg+0
+   01AE 3E 01         [ 7]  314 	ld	a,#0x01
+   01B0 F5            [11]  315 	push	af
+   01B1 33            [ 6]  316 	inc	sp
+   01B2 D5            [11]  317 	push	de
+   01B3 CDr00r00      [17]  318 	call	_PSGSFXPlay
+   01B6 F1            [10]  319 	pop	af
+   01B7 33            [ 6]  320 	inc	sp
+   01B8 C9            [10]  321 	ret
+                            322 ;./engine/cocos.c:68: void cocos_shoot_linear (void) {
+                            323 ;	---------------------------------
+                            324 ; Function cocos_shoot_linear
+                            325 ; ---------------------------------
+   01B9                     326 _cocos_shoot_linear::
+                            327 ;./engine/cocos.c:69: if (coco_slots_i == 0) return;
+   01B9 3Ar00r00      [13]  328 	ld	a,(#_coco_slots_i + 0)
+   01BC B7            [ 4]  329 	or	a, a
+   01BD C8            [11]  330 	ret	Z
+                            331 ;./engine/cocos.c:71: -- coco_slots_i; coco_it = coco_slots [coco_slots_i];
+   01BE 21r00r00      [10]  332 	ld	hl, #_coco_slots_i+0
+   01C1 35            [11]  333 	dec	(hl)
+   01C2 11r00r00      [10]  334 	ld	de,#_coco_slots+0
+   01C5 2Ar00r00      [16]  335 	ld	hl,(_coco_slots_i)
+   01C8 26 00         [ 7]  336 	ld	h,#0x00
+   01CA 19            [11]  337 	add	hl,de
+   01CB 7E            [ 7]  338 	ld	a,(hl)
+   01CC 32r00r00      [13]  339 	ld	(#_coco_it + 0),a
+                            340 ;./engine/cocos.c:73: coco_x [coco_it] = rdx << 6;
+   01CF 01r00r00      [10]  341 	ld	bc,#_coco_x+0
+   01D2 FD 21r00r00   [14]  342 	ld	iy,#_coco_it
+   01D6 FD 6E 00      [19]  343 	ld	l,0 (iy)
+   01D9 26 00         [ 7]  344 	ld	h,#0x00
+   01DB 29            [11]  345 	add	hl, hl
+   01DC 09            [11]  346 	add	hl,bc
+   01DD 55            [ 4]  347 	ld	d,l
+   01DE 5C            [ 4]  348 	ld	e,h
+   01DF FD 21r00r00   [14]  349 	ld	iy,#_rdx
+   01E3 FD 6E 00      [19]  350 	ld	l,0 (iy)
+   01E6 26 00         [ 7]  351 	ld	h,#0x00
+   01E8 29            [11]  352 	add	hl, hl
+   01E9 29            [11]  353 	add	hl, hl
+   01EA 29            [11]  354 	add	hl, hl
+   01EB 29            [11]  355 	add	hl, hl
+   01EC 29            [11]  356 	add	hl, hl
+   01ED 29            [11]  357 	add	hl, hl
+   01EE 4D            [ 4]  358 	ld	c, l
+   01EF 44            [ 4]  359 	ld	b, h
+   01F0 6A            [ 4]  360 	ld	l, d
+   01F1 63            [ 4]  361 	ld	h, e
+   01F2 71            [ 7]  362 	ld	(hl),c
+   01F3 23            [ 6]  363 	inc	hl
+   01F4 70            [ 7]  364 	ld	(hl),b
+                            365 ;./engine/cocos.c:74: coco_y [coco_it] = rdy << 6;
+   01F5 01r00r00      [10]  366 	ld	bc,#_coco_y+0
+   01F8 FD 21r00r00   [14]  367 	ld	iy,#_coco_it
+   01FC FD 6E 00      [19]  368 	ld	l,0 (iy)
+   01FF 26 00         [ 7]  369 	ld	h,#0x00
+   0201 29            [11]  370 	add	hl, hl
+   0202 09            [11]  371 	add	hl,bc
+   0203 55            [ 4]  372 	ld	d,l
+   0204 5C            [ 4]  373 	ld	e,h
+   0205 FD 21r00r00   [14]  374 	ld	iy,#_rdy
+   0209 FD 6E 00      [19]  375 	ld	l,0 (iy)
+   020C 26 00         [ 7]  376 	ld	h,#0x00
+   020E 29            [11]  377 	add	hl, hl
+   020F 29            [11]  378 	add	hl, hl
+   0210 29            [11]  379 	add	hl, hl
+   0211 29            [11]  380 	add	hl, hl
+   0212 29            [11]  381 	add	hl, hl
+   0213 29            [11]  382 	add	hl, hl
+   0214 4D            [ 4]  383 	ld	c, l
+   0215 44            [ 4]  384 	ld	b, h
+   0216 6A            [ 4]  385 	ld	l, d
+   0217 63            [ 4]  386 	ld	h, e
+   0218 71            [ 7]  387 	ld	(hl),c
+   0219 23            [ 6]  388 	inc	hl
+   021A 70            [ 7]  389 	ld	(hl),b
+                            390 ;./engine/cocos.c:76: coco_vx [coco_it] = coco_dx [rda];
+   021B 11r00r00      [10]  391 	ld	de,#_coco_vx+0
+   021E FD 21r00r00   [14]  392 	ld	iy,#_coco_it
+   0222 FD 6E 00      [19]  393 	ld	l,0 (iy)
+   0225 26 00         [ 7]  394 	ld	h,#0x00
+   0227 29            [11]  395 	add	hl, hl
+   0228 19            [11]  396 	add	hl,de
+   0229 EB            [ 4]  397 	ex	de,hl
+   022A FD 21r00r00   [14]  398 	ld	iy,#_rda
+   022E FD 6E 00      [19]  399 	ld	l,0 (iy)
+   0231 26 00         [ 7]  400 	ld	h,#0x00
+   0233 29            [11]  401 	add	hl, hl
+   0234 01r00r00      [10]  402 	ld	bc,#_coco_dx
+   0237 09            [11]  403 	add	hl,bc
+   0238 46            [ 7]  404 	ld	b,(hl)
+   0239 23            [ 6]  405 	inc	hl
+   023A 4E            [ 7]  406 	ld	c,(hl)
+   023B 78            [ 4]  407 	ld	a,b
+   023C 12            [ 7]  408 	ld	(de),a
+   023D 13            [ 6]  409 	inc	de
+   023E 79            [ 4]  410 	ld	a,c
+   023F 12            [ 7]  411 	ld	(de),a
+                            412 ;./engine/cocos.c:77: coco_vy [coco_it] = coco_dy [rda];
+   0240 11r00r00      [10]  413 	ld	de,#_coco_vy+0
+   0243 FD 21r00r00   [14]  414 	ld	iy,#_coco_it
+   0247 FD 6E 00      [19]  415 	ld	l,0 (iy)
+   024A 26 00         [ 7]  416 	ld	h,#0x00
+   024C 29            [11]  417 	add	hl, hl
+   024D 19            [11]  418 	add	hl,de
+   024E EB            [ 4]  419 	ex	de,hl
+   024F FD 21r00r00   [14]  420 	ld	iy,#_rda
+   0253 FD 6E 00      [19]  421 	ld	l,0 (iy)
+   0256 26 00         [ 7]  422 	ld	h,#0x00
+   0258 29            [11]  423 	add	hl, hl
+   0259 01r00r00      [10]  424 	ld	bc,#_coco_dy
+   025C 09            [11]  425 	add	hl,bc
+   025D 46            [ 7]  426 	ld	b,(hl)
+   025E 23            [ 6]  427 	inc	hl
+   025F 4E            [ 7]  428 	ld	c,(hl)
+   0260 78            [ 4]  429 	ld	a,b
+   0261 12            [ 7]  430 	ld	(de),a
+   0262 13            [ 6]  431 	inc	de
+   0263 79            [ 4]  432 	ld	a,c
+   0264 12            [ 7]  433 	ld	(de),a
+                            434 ;./engine/cocos.c:79: coco_on [coco_it] = 1;
+   0265 11r00r00      [10]  435 	ld	de,#_coco_on+0
+   0268 2Ar00r00      [16]  436 	ld	hl,(_coco_it)
+   026B 26 00         [ 7]  437 	ld	h,#0x00
+   026D 19            [11]  438 	add	hl,de
+   026E 36 01         [10]  439 	ld	(hl),#0x01
+                            440 ;./engine/cocos.c:81: PSGSFXPlay (SFX_COCO, 1);
+   0270 11r00r00      [10]  441 	ld	de,#_s_10_coco2_psg
+   0273 3E 01         [ 7]  442 	ld	a,#0x01
+   0275 F5            [11]  443 	push	af
+   0276 33            [ 6]  444 	inc	sp
+   0277 D5            [11]  445 	push	de
+   0278 CDr00r00      [17]  446 	call	_PSGSFXPlay
+   027B F1            [10]  447 	pop	af
+   027C 33            [ 6]  448 	inc	sp
+   027D C9            [10]  449 	ret
+                            450 ;./engine/cocos.c:85: void cocos_destroy (void) {
+                            451 ;	---------------------------------
+                            452 ; Function cocos_destroy
+                            453 ; ---------------------------------
+   027E                     454 _cocos_destroy::
+                            455 ;./engine/cocos.c:86: coco_on [coco_it] = 0;
+   027E 11r00r00      [10]  456 	ld	de,#_coco_on+0
+   0281 2Ar00r00      [16]  457 	ld	hl,(_coco_it)
+   0284 26 00         [ 7]  458 	ld	h,#0x00
+   0286 19            [11]  459 	add	hl,de
+   0287 36 00         [10]  460 	ld	(hl),#0x00
+                            461 ;./engine/cocos.c:87: coco_slots [coco_slots_i] = coco_it; coco_slots_i ++;
+   0289 11r00r00      [10]  462 	ld	de,#_coco_slots+0
+   028C 2Ar00r00      [16]  463 	ld	hl,(_coco_slots_i)
+   028F 26 00         [ 7]  464 	ld	h,#0x00
+   0291 19            [11]  465 	add	hl,de
+   0292 3Ar00r00      [13]  466 	ld	a,(#_coco_it + 0)
+   0295 77            [ 7]  467 	ld	(hl),a
+   0296 21r00r00      [10]  468 	ld	hl, #_coco_slots_i+0
+   0299 34            [11]  469 	inc	(hl)
+                            470 ;./engine/cocos.c:88: PSGSFXPlay (SFX_DUMMY1, 3);
+   029A 11r00r00      [10]  471 	ld	de,#_s_06_dummy13_psg
+   029D 3E 03         [ 7]  472 	ld	a,#0x03
+   029F F5            [11]  473 	push	af
+   02A0 33            [ 6]  474 	inc	sp
+   02A1 D5            [11]  475 	push	de
+   02A2 CDr00r00      [17]  476 	call	_PSGSFXPlay
+   02A5 F1            [10]  477 	pop	af
+   02A6 33            [ 6]  478 	inc	sp
+   02A7 C9            [10]  479 	ret
+                            480 ;./engine/cocos.c:91: void cocos_do (void) {
+                            481 ;	---------------------------------
+                            482 ; Function cocos_do
+                            483 ; ---------------------------------
+   02A8                     484 _cocos_do::
+   02A8 DD E5         [15]  485 	push	ix
+   02AA DD 21 00 00   [14]  486 	ld	ix,#0
+   02AE DD 39         [15]  487 	add	ix,sp
+   02B0 21 F7 FF      [10]  488 	ld	hl,#-9
+   02B3 39            [11]  489 	add	hl,sp
+   02B4 F9            [ 6]  490 	ld	sp,hl
+                            491 ;./engine/cocos.c:92: coco_it = COCOS_MAX; while (coco_it --) if (coco_on [coco_it]) {
+   02B5 21r00r00      [10]  492 	ld	hl,#_coco_it + 0
+   02B8 36 04         [10]  493 	ld	(hl), #0x04
+   02BA                     494 00116$:
+   02BA 3Ar00r00      [13]  495 	ld	a,(#_coco_it + 0)
+   02BD DD 77 FD      [19]  496 	ld	-3 (ix),a
+   02C0 21r00r00      [10]  497 	ld	hl, #_coco_it+0
+   02C3 35            [11]  498 	dec	(hl)
+   02C4 DD 7E FD      [19]  499 	ld	a,-3 (ix)
+   02C7 B7            [ 4]  500 	or	a, a
+   02C8 CArFEr04      [10]  501 	jp	Z,00119$
+   02CB 3Er00         [ 7]  502 	ld	a,#<(_coco_on)
+   02CD 21r00r00      [10]  503 	ld	hl,#_coco_it
+   02D0 86            [ 7]  504 	add	a, (hl)
+   02D1 DD 77 FE      [19]  505 	ld	-2 (ix),a
+   02D4 3Es00         [ 7]  506 	ld	a,#>(_coco_on)
+   02D6 CE 00         [ 7]  507 	adc	a, #0x00
+   02D8 DD 77 FF      [19]  508 	ld	-1 (ix),a
+   02DB DD 6E FE      [19]  509 	ld	l,-2 (ix)
+   02DE DD 66 FF      [19]  510 	ld	h,-1 (ix)
+   02E1 7E            [ 7]  511 	ld	a,(hl)
+   02E2 DD 77 FE      [19]  512 	ld	-2 (ix), a
+   02E5 B7            [ 4]  513 	or	a, a
+   02E6 28 D2         [12]  514 	jr	Z,00116$
+                            515 ;./engine/cocos.c:94: coco_x [coco_it] += coco_vx [coco_it];
+   02E8 3Ar00r00      [13]  516 	ld	a,(#_coco_it + 0)
+   02EB DD 77 FE      [19]  517 	ld	-2 (ix),a
+   02EE DD 36 FF 00   [19]  518 	ld	-1 (ix),#0x00
+   02F2 DD 4E FE      [19]  519 	ld	c,-2 (ix)
+   02F5 DD 46 FF      [19]  520 	ld	b,-1 (ix)
+   02F8 CB 21         [ 8]  521 	sla	c
+   02FA CB 10         [ 8]  522 	rl	b
+   02FC FD 21r00r00   [14]  523 	ld	iy,#_coco_x
+   0300 FD 09         [15]  524 	add	iy, bc
+   0302 FD 5E 00      [19]  525 	ld	e,0 (iy)
+   0305 FD 56 01      [19]  526 	ld	d,1 (iy)
+   0308 21r00r00      [10]  527 	ld	hl,#_coco_vx
+   030B 09            [11]  528 	add	hl,bc
+   030C 7E            [ 7]  529 	ld	a, (hl)
+   030D 23            [ 6]  530 	inc	hl
+   030E 66            [ 7]  531 	ld	h,(hl)
+   030F 6F            [ 4]  532 	ld	l,a
+   0310 19            [11]  533 	add	hl,de
+   0311 FD 75 00      [19]  534 	ld	0 (iy),l
+   0314 FD 74 01      [19]  535 	ld	1 (iy),h
+                            536 ;./engine/cocos.c:95: coco_y [coco_it] += coco_vy [coco_it];
+   0317 FD 21r00r00   [14]  537 	ld	iy,#_coco_it
+   031B FD 6E 00      [19]  538 	ld	l,0 (iy)
+   031E 26 00         [ 7]  539 	ld	h,#0x00
+   0320 29            [11]  540 	add	hl, hl
+   0321 4D            [ 4]  541 	ld	c, l
+   0322 44            [ 4]  542 	ld	b, h
+   0323 FD 21r00r00   [14]  543 	ld	iy,#_coco_y
+   0327 FD 09         [15]  544 	add	iy, bc
+   0329 FD 5E 00      [19]  545 	ld	e,0 (iy)
+   032C FD 56 01      [19]  546 	ld	d,1 (iy)
+   032F 21r00r00      [10]  547 	ld	hl,#_coco_vy
+   0332 09            [11]  548 	add	hl,bc
+   0333 7E            [ 7]  549 	ld	a, (hl)
+   0334 23            [ 6]  550 	inc	hl
+   0335 66            [ 7]  551 	ld	h,(hl)
+   0336 6F            [ 4]  552 	ld	l,a
+   0337 19            [11]  553 	add	hl,de
+   0338 FD 75 00      [19]  554 	ld	0 (iy),l
+   033B FD 74 01      [19]  555 	ld	1 (iy),h
+                            556 ;./engine/cocos.c:98: if (coco_x [coco_it] < 0 || coco_x [coco_it] > 248<<FIXBITS || coco_y [coco_it] < 16<<FIXBITS || coco_y [coco_it] > 200<<FIXBITS) {
+   033E FD 21r00r00   [14]  557 	ld	iy,#_coco_it
+   0342 FD 6E 00      [19]  558 	ld	l,0 (iy)
+   0345 26 00         [ 7]  559 	ld	h,#0x00
+   0347 29            [11]  560 	add	hl, hl
+   0348 4D            [ 4]  561 	ld	c, l
+   0349 44            [ 4]  562 	ld	b, h
+   034A 21r00r00      [10]  563 	ld	hl,#_coco_x
+   034D 09            [11]  564 	add	hl,bc
+   034E 5E            [ 7]  565 	ld	e,(hl)
+   034F 23            [ 6]  566 	inc	hl
+   0350 56            [ 7]  567 	ld	d,(hl)
+   0351 CB 7A         [ 8]  568 	bit	7, d
+   0353 20 28         [12]  569 	jr	NZ,00101$
+   0355 AF            [ 4]  570 	xor	a, a
+   0356 BB            [ 4]  571 	cp	a, e
+   0357 3E 3E         [ 7]  572 	ld	a,#0x3E
+   0359 9A            [ 4]  573 	sbc	a, d
+   035A E2r5Fr03      [10]  574 	jp	PO, 00171$
+   035D EE 80         [ 7]  575 	xor	a, #0x80
+   035F                     576 00171$:
+   035F FAr7Dr03      [10]  577 	jp	M,00101$
+   0362 21r00r00      [10]  578 	ld	hl,#_coco_y
+   0365 09            [11]  579 	add	hl,bc
+   0366 4E            [ 7]  580 	ld	c,(hl)
+   0367 23            [ 6]  581 	inc	hl
+   0368 46            [ 7]  582 	ld	b,(hl)
+   0369 78            [ 4]  583 	ld	a,b
+   036A EE 80         [ 7]  584 	xor	a, #0x80
+   036C D6 84         [ 7]  585 	sub	a, #0x84
+   036E 38 0D         [12]  586 	jr	C,00101$
+   0370 AF            [ 4]  587 	xor	a, a
+   0371 B9            [ 4]  588 	cp	a, c
+   0372 3E 32         [ 7]  589 	ld	a,#0x32
+   0374 98            [ 4]  590 	sbc	a, b
+   0375 E2r7Ar03      [10]  591 	jp	PO, 00172$
+   0378 EE 80         [ 7]  592 	xor	a, #0x80
+   037A                     593 00172$:
+   037A F2r83r03      [10]  594 	jp	P,00102$
+   037D                     595 00101$:
+                            596 ;./engine/cocos.c:99: cocos_destroy ();
+   037D CDr7Er02      [17]  597 	call	_cocos_destroy
+                            598 ;./engine/cocos.c:100: continue;
+   0380 C3rBAr02      [10]  599 	jp	00116$
+   0383                     600 00102$:
+                            601 ;./engine/cocos.c:103: rdx = coco_x [coco_it] >> 6;
+   0383 CB 2A         [ 8]  602 	sra	d
+   0385 CB 1B         [ 8]  603 	rr	e
+   0387 CB 2A         [ 8]  604 	sra	d
+   0389 CB 1B         [ 8]  605 	rr	e
+   038B CB 2A         [ 8]  606 	sra	d
+   038D CB 1B         [ 8]  607 	rr	e
+   038F CB 2A         [ 8]  608 	sra	d
+   0391 CB 1B         [ 8]  609 	rr	e
+   0393 CB 2A         [ 8]  610 	sra	d
+   0395 CB 1B         [ 8]  611 	rr	e
+   0397 CB 2A         [ 8]  612 	sra	d
+   0399 CB 1B         [ 8]  613 	rr	e
+   039B 21r00r00      [10]  614 	ld	hl,#_rdx + 0
+   039E 73            [ 7]  615 	ld	(hl), e
+                            616 ;./engine/cocos.c:104: rdy = coco_y [coco_it] >> 6;
+   039F CB 28         [ 8]  617 	sra	b
+   03A1 CB 19         [ 8]  618 	rr	c
+   03A3 CB 28         [ 8]  619 	sra	b
+   03A5 CB 19         [ 8]  620 	rr	c
+   03A7 CB 28         [ 8]  621 	sra	b
+   03A9 CB 19         [ 8]  622 	rr	c
+   03AB CB 28         [ 8]  623 	sra	b
+   03AD CB 19         [ 8]  624 	rr	c
+   03AF CB 28         [ 8]  625 	sra	b
+   03B1 CB 19         [ 8]  626 	rr	c
+   03B3 CB 28         [ 8]  627 	sra	b
+   03B5 CB 19         [ 8]  628 	rr	c
+   03B7 21r00r00      [10]  629 	ld	hl,#_rdy + 0
+   03BA 71            [ 7]  630 	ld	(hl), c
+                            631 ;./engine/cocos.c:107: HW_addSprite (rdx, rdy + SPRITE_ADJUST, COCO_PATTERN, COCO_COLOUR);
+   03BB 3Ar00r00      [13]  632 	ld	a,(#_rdy + 0)
+   03BE C6 F7         [ 7]  633 	add	a, #0xF7
+   03C0 57            [ 4]  634 	ld	d,a
+   03C1 21 A4 0F      [10]  635 	ld	hl,#0x0FA4
+   03C4 E5            [11]  636 	push	hl
+   03C5 D5            [11]  637 	push	de
+   03C6 33            [ 6]  638 	inc	sp
+   03C7 3Ar00r00      [13]  639 	ld	a,(_rdx)
+   03CA F5            [11]  640 	push	af
+   03CB 33            [ 6]  641 	inc	sp
+   03CC CDr00r00      [17]  642 	call	_SG_addSprite
+   03CF F1            [10]  643 	pop	af
+   03D0 F1            [10]  644 	pop	af
+                            645 ;./engine/cocos.c:111: rdm = c_behs [map_buff [((rdx + 4) >> 4) | ((rdy + 4 - 16) & 0xf0)]];
+   03D1 3Ar00r00      [13]  646 	ld	a,(#_rdx + 0)
+   03D4 DD 77 FE      [19]  647 	ld	-2 (ix),a
+   03D7 DD 36 FF 00   [19]  648 	ld	-1 (ix),#0x00
+   03DB DD 7E FE      [19]  649 	ld	a,-2 (ix)
+   03DE C6 04         [ 7]  650 	add	a, #0x04
+   03E0 5F            [ 4]  651 	ld	e,a
+   03E1 DD 7E FF      [19]  652 	ld	a,-1 (ix)
+   03E4 CE 00         [ 7]  653 	adc	a, #0x00
+   03E6 57            [ 4]  654 	ld	d,a
+   03E7 CB 2A         [ 8]  655 	sra	d
+   03E9 CB 1B         [ 8]  656 	rr	e
+   03EB CB 2A         [ 8]  657 	sra	d
+   03ED CB 1B         [ 8]  658 	rr	e
+   03EF CB 2A         [ 8]  659 	sra	d
+   03F1 CB 1B         [ 8]  660 	rr	e
+   03F3 CB 2A         [ 8]  661 	sra	d
+   03F5 CB 1B         [ 8]  662 	rr	e
+   03F7 3Ar00r00      [13]  663 	ld	a,(#_rdy + 0)
+   03FA DD 77 FB      [19]  664 	ld	-5 (ix),a
+   03FD DD 36 FC 00   [19]  665 	ld	-4 (ix),#0x00
+   0401 DD 7E FB      [19]  666 	ld	a,-5 (ix)
+   0404 C6 F4         [ 7]  667 	add	a, #0xF4
+   0406 67            [ 4]  668 	ld	h,a
+   0407 DD 7E FC      [19]  669 	ld	a,-4 (ix)
+   040A CE FF         [ 7]  670 	adc	a, #0xFF
+   040C 7C            [ 4]  671 	ld	a,h
+   040D E6 F0         [ 7]  672 	and	a, #0xF0
+   040F 4F            [ 4]  673 	ld	c,a
+   0410 06 00         [ 7]  674 	ld	b,#0x00
+   0412 7B            [ 4]  675 	ld	a,e
+   0413 B1            [ 4]  676 	or	a, c
+   0414 6F            [ 4]  677 	ld	l,a
+   0415 7A            [ 4]  678 	ld	a,d
+   0416 B0            [ 4]  679 	or	a, b
+   0417 67            [ 4]  680 	ld	h,a
+   0418 11r00r00      [10]  681 	ld	de,#_map_buff
+   041B 19            [11]  682 	add	hl,de
+   041C 5E            [ 7]  683 	ld	e,(hl)
+   041D 2Ar00r00      [16]  684 	ld	hl,(_c_behs)
+   0420 16 00         [ 7]  685 	ld	d,#0x00
+   0422 19            [11]  686 	add	hl, de
+   0423 7E            [ 7]  687 	ld	a,(hl)
+   0424 FD 21r00r00   [14]  688 	ld	iy,#_rdm
+   0428 FD 77 00      [19]  689 	ld	0 (iy),a
+                            690 ;./engine/cocos.c:115: if (rdm & 8) {
+   042B FD 21r00r00   [14]  691 	ld	iy,#_rdm
+   042F FD CB 00 5E   [20]  692 	bit	3, 0 (iy)
+   0433 28 06         [12]  693 	jr	Z,00107$
+                            694 ;./engine/cocos.c:116: cocos_destroy (); continue;
+   0435 CDr7Er02      [17]  695 	call	_cocos_destroy
+   0438 C3rBAr02      [10]  696 	jp	00116$
+   043B                     697 00107$:
+                            698 ;./engine/cocos.c:121: if (pflickering == 0 && 
+   043B 3Ar00r00      [13]  699 	ld	a,(#_pflickering + 0)
+   043E B7            [ 4]  700 	or	a, a
+   043F C2rBAr02      [10]  701 	jp	NZ,00116$
+                            702 ;./engine/cocos.c:122: rdx + 7 >= prx && 
+   0442 DD 7E FE      [19]  703 	ld	a,-2 (ix)
+   0445 C6 07         [ 7]  704 	add	a, #0x07
+   0447 DD 77 F9      [19]  705 	ld	-7 (ix),a
+   044A DD 7E FF      [19]  706 	ld	a,-1 (ix)
+   044D CE 00         [ 7]  707 	adc	a, #0x00
+   044F DD 77 FA      [19]  708 	ld	-6 (ix),a
+   0452 FD 21r00r00   [14]  709 	ld	iy,#_prx
+   0456 FD 7E 00      [19]  710 	ld	a,0 (iy)
+   0459 DD 77 F7      [19]  711 	ld	-9 (ix),a
+   045C DD 36 F8 00   [19]  712 	ld	-8 (ix),#0x00
+   0460 DD 7E F9      [19]  713 	ld	a,-7 (ix)
+   0463 DD 96 F7      [19]  714 	sub	a, -9 (ix)
+   0466 DD 7E FA      [19]  715 	ld	a,-6 (ix)
+   0469 DD 9E F8      [19]  716 	sbc	a, -8 (ix)
+   046C E2r71r04      [10]  717 	jp	PO, 00174$
+   046F EE 80         [ 7]  718 	xor	a, #0x80
+   0471                     719 00174$:
+   0471 FArBAr02      [10]  720 	jp	M,00116$
+                            721 ;./engine/cocos.c:123: rdx <= prx + 7 && 
+   0474 DD 7E F7      [19]  722 	ld	a,-9 (ix)
+   0477 C6 07         [ 7]  723 	add	a, #0x07
+   0479 DD 77 F7      [19]  724 	ld	-9 (ix),a
+   047C DD 7E F8      [19]  725 	ld	a,-8 (ix)
+   047F CE 00         [ 7]  726 	adc	a, #0x00
+   0481 DD 77 F8      [19]  727 	ld	-8 (ix),a
+   0484 DD 7E F7      [19]  728 	ld	a,-9 (ix)
+   0487 DD 96 FE      [19]  729 	sub	a, -2 (ix)
+   048A DD 7E F8      [19]  730 	ld	a,-8 (ix)
+   048D DD 9E FF      [19]  731 	sbc	a, -1 (ix)
+   0490 E2r95r04      [10]  732 	jp	PO, 00175$
+   0493 EE 80         [ 7]  733 	xor	a, #0x80
+   0495                     734 00175$:
+   0495 FArBAr02      [10]  735 	jp	M,00116$
+                            736 ;./engine/cocos.c:124: rdy + 7 + PLAYER_COLLISION_VSTRETCH_FG >= pry && 
+   0498 DD 7E FB      [19]  737 	ld	a,-5 (ix)
+   049B C6 03         [ 7]  738 	add	a, #0x03
+   049D DD 77 F7      [19]  739 	ld	-9 (ix),a
+   04A0 DD 7E FC      [19]  740 	ld	a,-4 (ix)
+   04A3 CE 00         [ 7]  741 	adc	a, #0x00
+   04A5 DD 77 F8      [19]  742 	ld	-8 (ix),a
+   04A8 FD 21r00r00   [14]  743 	ld	iy,#_pry
+   04AC FD 7E 00      [19]  744 	ld	a,0 (iy)
+   04AF DD 77 F9      [19]  745 	ld	-7 (ix),a
+   04B2 DD 36 FA 00   [19]  746 	ld	-6 (ix),#0x00
+   04B6 DD 7E F7      [19]  747 	ld	a,-9 (ix)
+   04B9 DD 96 F9      [19]  748 	sub	a, -7 (ix)
+   04BC DD 7E F8      [19]  749 	ld	a,-8 (ix)
+   04BF DD 9E FA      [19]  750 	sbc	a, -6 (ix)
+   04C2 E2rC7r04      [10]  751 	jp	PO, 00176$
+   04C5 EE 80         [ 7]  752 	xor	a, #0x80
+   04C7                     753 00176$:
+   04C7 FArBAr02      [10]  754 	jp	M,00116$
+                            755 ;./engine/cocos.c:125: rdy <= pry + 12
+   04CA DD 7E F9      [19]  756 	ld	a,-7 (ix)
+   04CD C6 0C         [ 7]  757 	add	a, #0x0C
+   04CF DD 77 F7      [19]  758 	ld	-9 (ix),a
+   04D2 DD 7E FA      [19]  759 	ld	a,-6 (ix)
+   04D5 CE 00         [ 7]  760 	adc	a, #0x00
+   04D7 DD 77 F8      [19]  761 	ld	-8 (ix),a
+   04DA DD 7E F7      [19]  762 	ld	a,-9 (ix)
+   04DD DD 96 FB      [19]  763 	sub	a, -5 (ix)
+   04E0 DD 7E F8      [19]  764 	ld	a,-8 (ix)
+   04E3 DD 9E FC      [19]  765 	sbc	a, -4 (ix)
+   04E6 E2rEBr04      [10]  766 	jp	PO, 00177$
+   04E9 EE 80         [ 7]  767 	xor	a, #0x80
+   04EB                     768 00177$:
+   04EB FArBAr02      [10]  769 	jp	M,00116$
+                            770 ;./engine/cocos.c:127: en_sg_2 = 1;
+   04EE 21r00r00      [10]  771 	ld	hl,#_en_sg_2 + 0
+   04F1 36 01         [10]  772 	ld	(hl), #0x01
+                            773 ;./engine/cocos.c:129: pkill = en_sg_2;
+   04F3 21r00r00      [10]  774 	ld	hl,#_pkill + 0
+   04F6 36 01         [10]  775 	ld	(hl), #0x01
+                            776 ;./engine/cocos.c:130: cocos_destroy ();
+   04F8 CDr7Er02      [17]  777 	call	_cocos_destroy
+   04FB C3rBAr02      [10]  778 	jp	00116$
+   04FE                     779 00119$:
+   04FE DD F9         [10]  780 	ld	sp, ix
+   0500 DD E1         [14]  781 	pop	ix
+   0502 C9            [10]  782 	ret
+                            783 	.area _CODE
+                            784 	.area _INITIALIZER
+                            785 	.area _CABS (ABS)

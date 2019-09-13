@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Simple multidirectional fixed point cocos
@@ -19,12 +19,12 @@
 #include "../autodefs.h"
 #include "../my/extra_declarations.h"
 
-
 #ifdef ENABLE_COCOS
 
 	#include "../ram/extern_globals.h"
 	#include "../engine/extern_precalcs.h"
 	#include "../engine/extern_metasprites.h"
+	#include "../engine/general.h"
 
 	void cocos_init (void) {
 		coco_it = COCOS_MAX; while (coco_it --) {

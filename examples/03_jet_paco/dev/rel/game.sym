@@ -192,7 +192,7 @@ Symbol Table
   1 _ft                                                            007B GR
   0 _game_ending                                                   062A GR
   0 _game_init                                                     096A GR
-  0 _game_loop                                                     0BBF GR
+  0 _game_loop                                                     0BC5 GR
   1 _game_over                                                     01BD GR
   1 _game_puri                                                     025C GR
   1 _gp_addr                                                       0010 GR
@@ -248,13 +248,14 @@ Symbol Table
     _m_n_stageb_psg                                                **** GX
     _m_n_stagec_psg                                                **** GX
     _m_n_title_psg                                                 **** GX
-  0 _main                                                          0E20 GR
+  0 _main                                                          0E27 GR
     _map_0                                                         **** GX
     _map_1                                                         **** GX
     _map_2                                                         **** GX
     _map_3                                                         **** GX
   1 _map_buff                                                      00F4 GR
   1 _max_chac_chacs                                                0238 GR
+    _music_pause                                                   **** GX
   1 _n_pant                                                        01B7 GR
   1 _ntsc                                                          008F GR
   1 _ntsc_frame                                                    0090 GR
@@ -297,12 +298,12 @@ Symbol Table
     _player_init                                                   **** GX
     _player_kill                                                   **** GX
     _player_move                                                   **** GX
-    _player_render                                                 **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
+    _player_render                                                 **** GX
     _player_to_pixels                                              **** GX
   1 _plife                                                         0072 GR
   1 _pnotsafe                                                      0070 GR
@@ -357,12 +358,12 @@ Symbol Table
     _ss_en0_04                                                     **** GX
     _ss_en0_05                                                     **** GX
     _ss_en1_00                                                     **** GX
-    _ss_en1_01                                                     **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
+    _ss_en1_01                                                     **** GX
     _ss_en1_02                                                     **** GX
     _ss_en1_03                                                     **** GX
     _ss_en1_04                                                     **** GX
@@ -411,13 +412,12 @@ Symbol Table
   1 _warp_to_level                                                 01BE GR
   1 _win_level                                                     01BC GR
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  EDB   flags    0
+   0 _CODE                                      size  EE2   flags    0
    1 _DATA                                      size  268   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

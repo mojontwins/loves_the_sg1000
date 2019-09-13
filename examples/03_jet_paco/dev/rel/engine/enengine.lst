@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.2 #9293 (MINGW32)
-                              4 ; This file was generated Tue Sep 10 14:20:11 2019
+                              4 ; This file was generated Fri Sep 13 13:08:06 2019
                               5 ;--------------------------------------------------------
                               6 	.module enengine
                               7 	.optsdcc -mz80
@@ -713,9 +713,9 @@
    040D 32r00r00      [13]  713 	ld	(#__en_y1 + 0),a
    0410 3Ar00r00      [13]  714 	ld	a,(#_rda + 0)
    0413 32r00r00      [13]  715 	ld	(#__en_y2 + 0),a
-                            716 ;./engine/enengine.c:393: }
+                            716 ;./engine/enengine.c:395: }
    0416                     717 00112$:
-                            718 ;./engine/enengine.c:403: en_cttouched [gpit] = 0;
+                            718 ;./engine/enengine.c:405: en_cttouched [gpit] = 0;
    0416 3Er00         [ 7]  719 	ld	a,#<(_en_cttouched)
    0418 21r00r00      [10]  720 	ld	hl,#_gpit
    041B 86            [ 7]  721 	add	a, (hl)
@@ -725,13 +725,13 @@
    0421 57            [ 4]  725 	ld	d,a
    0422 AF            [ 4]  726 	xor	a, a
    0423 12            [ 7]  727 	ld	(de),a
-                            728 ;./engine/enengine.c:404: en_flags [gpit] = 0;
+                            728 ;./engine/enengine.c:406: en_flags [gpit] = 0;
    0424 FD 21r00r00   [14]  729 	ld	iy,#_en_flags
    0428 ED 5Br00r00   [20]  730 	ld	de,(_gpit)
    042C 16 00         [ 7]  731 	ld	d,#0x00
    042E FD 19         [15]  732 	add	iy, de
    0430 FD 36 00 00   [19]  733 	ld	0 (iy), #0x00
-                            734 ;./engine/enengine.c:410: enems_update_unsigned_char_arrays ();
+                            734 ;./engine/enengine.c:412: enems_update_unsigned_char_arrays ();
    0434 CDr76r01      [17]  735 	call	_enems_update_unsigned_char_arrays
                             736 ;./engine/enengine.c:149: for (gpit = 0; gpit < 3; gpit ++) {
    0437 21r00r00      [10]  737 	ld	hl, #_gpit+0
@@ -742,28 +742,28 @@
    0443 DD F9         [10]  742 	ld	sp, ix
    0445 DD E1         [14]  743 	pop	ix
    0447 C9            [10]  744 	ret
-                            745 ;./engine/enengine.c:415: void enems_kill () {
+                            745 ;./engine/enengine.c:417: void enems_kill () {
                             746 ;	---------------------------------
                             747 ; Function enems_kill
                             748 ; ---------------------------------
    0448                     749 _enems_kill::
-                            750 ;./engine/enengine.c:416: en_flags [gpit] |= EN_STATE_DEAD;
+                            750 ;./engine/enengine.c:418: en_flags [gpit] |= EN_STATE_DEAD;
    0448 11r00r00      [10]  751 	ld	de,#_en_flags+0
    044B 2Ar00r00      [16]  752 	ld	hl,(_gpit)
    044E 26 00         [ 7]  753 	ld	h,#0x00
    0450 19            [11]  754 	add	hl,de
    0451 CB C6         [15]  755 	set	0, (hl)
    0453 7E            [ 7]  756 	ld	a, (hl)
-                            757 ;./engine/enengine.c:433: ++ pkilled;
+                            757 ;./engine/enengine.c:435: ++ pkilled;
    0454 21r00r00      [10]  758 	ld	hl, #_pkilled+0
    0457 34            [11]  759 	inc	(hl)
    0458 C9            [10]  760 	ret
-                            761 ;./engine/enengine.c:440: void enems_hit (void) {
+                            761 ;./engine/enengine.c:442: void enems_hit (void) {
                             762 ;	---------------------------------
                             763 ; Function enems_hit
                             764 ; ---------------------------------
    0459                     765 _enems_hit::
-                            766 ;./engine/enengine.c:441: _en_facing = ((_en_x < prx) ? 0 : 4);
+                            766 ;./engine/enengine.c:443: _en_facing = ((_en_x < prx) ? 0 : 4);
    0459 21r00r00      [10]  767 	ld	hl,#_prx
    045C 3Ar00r00      [13]  768 	ld	a,(#__en_x + 0)
    045F 96            [ 7]  769 	sub	a, (hl)
@@ -774,15 +774,15 @@
    0466 3E 04         [ 7]  774 	ld	a,#0x04
    0468                     775 00104$:
    0468 32r00r00      [13]  776 	ld	(#__en_facing + 0),a
-                            777 ;./engine/enengine.c:442: en_cttouched [gpit] = ENEMS_TOUCHED_FRAMES;
+                            777 ;./engine/enengine.c:444: en_cttouched [gpit] = ENEMS_TOUCHED_FRAMES;
    046B 11r00r00      [10]  778 	ld	de,#_en_cttouched+0
    046E 2Ar00r00      [16]  779 	ld	hl,(_gpit)
    0471 26 00         [ 7]  780 	ld	h,#0x00
    0473 19            [11]  781 	add	hl,de
    0474 36 08         [10]  782 	ld	(hl),#0x08
-                            783 ;./engine/enengine.c:458: enems_kill ();
+                            783 ;./engine/enengine.c:460: enems_kill ();
    0476 C3r48r04      [10]  784 	jp  _enems_kill
-                            785 ;./engine/enengine.c:464: void enems_move (void) {
+                            785 ;./engine/enengine.c:466: void enems_move (void) {
                             786 ;	---------------------------------
                             787 ; Function enems_move
                             788 ; ---------------------------------
@@ -793,17 +793,17 @@
    0481 21 F5 FF      [10]  793 	ld	hl,#-11
    0484 39            [11]  794 	add	hl,sp
    0485 F9            [ 6]  795 	ld	sp,hl
-                            796 ;./engine/enengine.c:466: pgotten = pgtmx = pgtmy = 0;
+                            796 ;./engine/enengine.c:468: pgotten = pgtmx = pgtmy = 0;
    0486 21 00 00      [10]  797 	ld	hl,#0x0000
    0489 22r00r00      [16]  798 	ld	(_pgtmy),hl
    048C 2E 00         [ 7]  799 	ld	l, #0x00
    048E 22r00r00      [16]  800 	ld	(_pgtmx),hl
    0491 21r00r00      [10]  801 	ld	hl,#_pgotten + 0
    0494 36 00         [10]  802 	ld	(hl), #0x00
-                            803 ;./engine/enengine.c:470: touched = 0;
+                            803 ;./engine/enengine.c:472: touched = 0;
    0496 21r00r00      [10]  804 	ld	hl,#_touched + 0
    0499 36 00         [10]  805 	ld	(hl), #0x00
-                            806 ;./engine/enengine.c:471: ++ en_initial; if (en_initial >= 3) en_initial = 0;
+                            806 ;./engine/enengine.c:473: ++ en_initial; if (en_initial >= 3) en_initial = 0;
    049B 21r00r00      [10]  807 	ld	hl, #_en_initial+0
    049E 34            [11]  808 	inc	(hl)
    049F 3Ar00r00      [13]  809 	ld	a,(#_en_initial + 0)
@@ -812,10 +812,10 @@
    04A6 21r00r00      [10]  812 	ld	hl,#_en_initial + 0
    04A9 36 00         [10]  813 	ld	(hl), #0x00
    04AB                     814 00102$:
-                            815 ;./engine/enengine.c:472: gpit = en_initial;
+                            815 ;./engine/enengine.c:474: gpit = en_initial;
    04AB 3Ar00r00      [13]  816 	ld	a,(#_en_initial + 0)
    04AE 32r00r00      [13]  817 	ld	(#_gpit + 0),a
-                            818 ;./engine/enengine.c:473: gpjt = 3; while (gpjt --) {
+                            818 ;./engine/enengine.c:475: gpjt = 3; while (gpjt --) {
    04B1 21r00r00      [10]  819 	ld	hl,#_gpjt + 0
    04B4 36 03         [10]  820 	ld	(hl), #0x03
    04B6                     821 00177$:
@@ -825,8 +825,8 @@
    04BD 35            [11]  825 	dec	(hl)
    04BE 7A            [ 4]  826 	ld	a,d
    04BF B7            [ 4]  827 	or	a, a
-   04C0 CAr55r0D      [10]  828 	jp	Z,00180$
-                            829 ;./engine/enengine.c:474: gpit += 2; if (gpit > 2) gpit -=3;
+   04C0 CAr5Dr0D      [10]  828 	jp	Z,00180$
+                            829 ;./engine/enengine.c:476: gpit += 2; if (gpit > 2) gpit -=3;
    04C3 21r00r00      [10]  830 	ld	hl, #_gpit+0
    04C6 34            [11]  831 	inc	(hl)
    04C7 21r00r00      [10]  832 	ld	hl, #_gpit+0
@@ -840,7 +840,7 @@
    04DA C6 FD         [ 7]  840 	add	a,#0xFD
    04DC 77            [ 7]  841 	ld	(hl),a
    04DD                     842 00104$:
-                            843 ;./engine/enengine.c:477: _en_t = en_t [gpit];
+                            843 ;./engine/enengine.c:479: _en_t = en_t [gpit];
    04DD 3Er00         [ 7]  844 	ld	a,#<(_en_t)
    04DF 21r00r00      [10]  845 	ld	hl,#_gpit
    04E2 86            [ 7]  846 	add	a, (hl)
@@ -850,7 +850,7 @@
    04E8 57            [ 4]  850 	ld	d,a
    04E9 1A            [ 7]  851 	ld	a,(de)
    04EA 32r00r00      [13]  852 	ld	(#__en_t + 0),a
-                            853 ;./engine/enengine.c:478: _en_s = en_s [gpit];
+                            853 ;./engine/enengine.c:480: _en_s = en_s [gpit];
    04ED 3Er00         [ 7]  854 	ld	a,#<(_en_s)
    04EF 21r00r00      [10]  855 	ld	hl,#_gpit
    04F2 86            [ 7]  856 	add	a, (hl)
@@ -860,7 +860,7 @@
    04F8 57            [ 4]  860 	ld	d,a
    04F9 1A            [ 7]  861 	ld	a,(de)
    04FA 32r00r00      [13]  862 	ld	(#__en_s + 0),a
-                            863 ;./engine/enengine.c:479: _en_x = en_x [gpit]; _en_y = en_y [gpit];
+                            863 ;./engine/enengine.c:481: _en_x = en_x [gpit]; _en_y = en_y [gpit];
    04FD 3Er00         [ 7]  864 	ld	a,#<(_en_x)
    04FF 21r00r00      [10]  865 	ld	hl,#_gpit
    0502 86            [ 7]  866 	add	a, (hl)
@@ -879,7 +879,7 @@
    0518 57            [ 4]  879 	ld	d,a
    0519 1A            [ 7]  880 	ld	a,(de)
    051A 32r00r00      [13]  881 	ld	(#__en_y + 0),a
-                            882 ;./engine/enengine.c:480: _en_x1 = en_x1 [gpit]; _en_y1 = en_y1 [gpit];
+                            882 ;./engine/enengine.c:482: _en_x1 = en_x1 [gpit]; _en_y1 = en_y1 [gpit];
    051D 3Er00         [ 7]  883 	ld	a,#<(_en_x1)
    051F 21r00r00      [10]  884 	ld	hl,#_gpit
    0522 86            [ 7]  885 	add	a, (hl)
@@ -898,7 +898,7 @@
    0538 57            [ 4]  898 	ld	d,a
    0539 1A            [ 7]  899 	ld	a,(de)
    053A 32r00r00      [13]  900 	ld	(#__en_y1 + 0),a
-                            901 ;./engine/enengine.c:481: _en_x2 = en_x2 [gpit]; _en_y2 = en_y2 [gpit];
+                            901 ;./engine/enengine.c:483: _en_x2 = en_x2 [gpit]; _en_y2 = en_y2 [gpit];
    053D 3Er00         [ 7]  902 	ld	a,#<(_en_x2)
    053F 21r00r00      [10]  903 	ld	hl,#_gpit
    0542 86            [ 7]  904 	add	a, (hl)
@@ -917,7 +917,7 @@
    0558 57            [ 4]  917 	ld	d,a
    0559 1A            [ 7]  918 	ld	a,(de)
    055A 32r00r00      [13]  919 	ld	(#__en_y2 + 0),a
-                            920 ;./engine/enengine.c:482: _en_mx = en_mx [gpit]; _en_my = en_my [gpit];
+                            920 ;./engine/enengine.c:484: _en_mx = en_mx [gpit]; _en_my = en_my [gpit];
    055D 3Er00         [ 7]  921 	ld	a,#<(_en_mx)
    055F 21r00r00      [10]  922 	ld	hl,#_gpit
    0562 86            [ 7]  923 	add	a, (hl)
@@ -936,7 +936,7 @@
    0578 57            [ 4]  936 	ld	d,a
    0579 1A            [ 7]  937 	ld	a,(de)
    057A 32r00r00      [13]  938 	ld	(#__en_my + 0),a
-                            939 ;./engine/enengine.c:483: _en_ct = en_ct [gpit];
+                            939 ;./engine/enengine.c:485: _en_ct = en_ct [gpit];
    057D 3Er00         [ 7]  940 	ld	a,#<(_en_ct)
    057F 21r00r00      [10]  941 	ld	hl,#_gpit
    0582 86            [ 7]  942 	add	a, (hl)
@@ -946,7 +946,7 @@
    0588 57            [ 4]  946 	ld	d,a
    0589 1A            [ 7]  947 	ld	a,(de)
    058A 32r00r00      [13]  948 	ld	(#__en_ct + 0),a
-                            949 ;./engine/enengine.c:484: _en_facing = en_facing [gpit];
+                            949 ;./engine/enengine.c:486: _en_facing = en_facing [gpit];
    058D 3Er00         [ 7]  950 	ld	a,#<(_en_facing)
    058F 21r00r00      [10]  951 	ld	hl,#_gpit
    0592 86            [ 7]  952 	add	a, (hl)
@@ -956,7 +956,7 @@
    0598 57            [ 4]  956 	ld	d,a
    0599 1A            [ 7]  957 	ld	a,(de)
    059A 32r00r00      [13]  958 	ld	(#__en_facing + 0),a
-                            959 ;./engine/enengine.c:485: _en_state = en_state [gpit];
+                            959 ;./engine/enengine.c:487: _en_state = en_state [gpit];
    059D 3Er00         [ 7]  960 	ld	a,#<(_en_state)
    059F 21r00r00      [10]  961 	ld	hl,#_gpit
    05A2 86            [ 7]  962 	add	a, (hl)
@@ -966,11 +966,11 @@
    05A8 57            [ 4]  966 	ld	d,a
    05A9 1A            [ 7]  967 	ld	a,(de)
    05AA 32r00r00      [13]  968 	ld	(#__en_state + 0),a
-                            969 ;./engine/enengine.c:492: if (_en_t == 0) continue;
+                            969 ;./engine/enengine.c:494: if (_en_t == 0) continue;
    05AD 3Ar00r00      [13]  970 	ld	a,(#__en_t + 0)
    05B0 B7            [ 4]  971 	or	a, a
    05B1 CArB6r04      [10]  972 	jp	Z,00177$
-                            973 ;./engine/enengine.c:493: en_is_alive = !(en_flags [gpit] & EN_STATE_DEAD);
+                            973 ;./engine/enengine.c:495: en_is_alive = !(en_flags [gpit] & EN_STATE_DEAD);
    05B4 FD 21r00r00   [14]  974 	ld	iy,#_en_flags
    05B8 ED 5Br00r00   [20]  975 	ld	de,(_gpit)
    05BC 16 00         [ 7]  976 	ld	d,#0x00
@@ -979,73 +979,73 @@
    05C3 E6 01         [ 7]  979 	and	a,#0x01
    05C5 EE 01         [ 7]  980 	xor	a,#0x01
    05C7 32r00r00      [13]  981 	ld	(#_en_is_alive + 0),a
-                            982 ;./engine/enengine.c:497: en_spr = 0xff;
+                            982 ;./engine/enengine.c:499: en_spr = 0xff;
    05CA 21r00r00      [10]  983 	ld	hl,#_en_spr + 0
    05CD 36 FF         [10]  984 	ld	(hl), #0xFF
-                            985 ;./engine/enengine.c:500: en_spr_x_mod = 0;
+                            985 ;./engine/enengine.c:502: en_spr_x_mod = 0;
    05CF 21r00r00      [10]  986 	ld	hl,#_en_spr_x_mod + 0
    05D2 36 00         [10]  987 	ld	(hl), #0x00
-                            988 ;./engine/enengine.c:503: if (en_cttouched [gpit]) {
+                            988 ;./engine/enengine.c:505: if (en_cttouched [gpit]) {
    05D4 3Er00         [ 7]  989 	ld	a,#<(_en_cttouched)
    05D6 21r00r00      [10]  990 	ld	hl,#_gpit
    05D9 86            [ 7]  991 	add	a, (hl)
-   05DA DD 77 FC      [19]  992 	ld	-4 (ix),a
+   05DA DD 77 F8      [19]  992 	ld	-8 (ix),a
    05DD 3Es00         [ 7]  993 	ld	a,#>(_en_cttouched)
    05DF CE 00         [ 7]  994 	adc	a, #0x00
-   05E1 DD 77 FD      [19]  995 	ld	-3 (ix),a
-   05E4 DD 6E FC      [19]  996 	ld	l,-4 (ix)
-   05E7 DD 66 FD      [19]  997 	ld	h,-3 (ix)
+   05E1 DD 77 F9      [19]  995 	ld	-7 (ix),a
+   05E4 DD 6E F8      [19]  996 	ld	l,-8 (ix)
+   05E7 DD 66 F9      [19]  997 	ld	h,-7 (ix)
    05EA 7E            [ 7]  998 	ld	a,(hl)
-   05EB DD 77 F7      [19]  999 	ld	-9 (ix), a
+   05EB DD 77 F5      [19]  999 	ld	-11 (ix), a
    05EE B7            [ 4] 1000 	or	a, a
    05EF CAr74r07      [10] 1001 	jp	Z,00172$
-                           1002 ;./engine/enengine.c:504: -- en_cttouched [gpit];
-   05F2 DD 56 F7      [19] 1003 	ld	d,-9 (ix)
+                           1002 ;./engine/enengine.c:506: -- en_cttouched [gpit];
+   05F2 DD 56 F5      [19] 1003 	ld	d,-11 (ix)
    05F5 15            [ 4] 1004 	dec	d
-   05F6 DD 6E FC      [19] 1005 	ld	l,-4 (ix)
-   05F9 DD 66 FD      [19] 1006 	ld	h,-3 (ix)
+   05F6 DD 6E F8      [19] 1005 	ld	l,-8 (ix)
+   05F9 DD 66 F9      [19] 1006 	ld	h,-7 (ix)
    05FC 72            [ 7] 1007 	ld	(hl),d
-                           1008 ;./engine/enengine.c:520: rda = frame_counter & 0xf;
+                           1008 ;./engine/enengine.c:522: rda = frame_counter & 0xf;
    05FD 3Ar00r00      [13] 1009 	ld	a,(#_frame_counter + 0)
    0600 E6 0F         [ 7] 1010 	and	a, #0x0F
    0602 32r00r00      [13] 1011 	ld	(#_rda + 0),a
-                           1012 ;./engine/enengine.c:524: spr_enems [ENEMS_EXPLODING_CELL]
+                           1012 ;./engine/enengine.c:526: spr_enems [ENEMS_EXPLODING_CELL]
    0605 2Ar00r00      [16] 1013 	ld	hl,(_spr_enems)
-   0608 DD 75 FC      [19] 1014 	ld	-4 (ix),l
-   060B DD 74 FD      [19] 1015 	ld	-3 (ix),h
-   060E DD 6E FC      [19] 1016 	ld	l,-4 (ix)
-   0611 DD 66 FD      [19] 1017 	ld	h,-3 (ix)
+   0608 DD 75 F8      [19] 1014 	ld	-8 (ix),l
+   060B DD 74 F9      [19] 1015 	ld	-7 (ix),h
+   060E DD 6E F8      [19] 1016 	ld	l,-8 (ix)
+   0611 DD 66 F9      [19] 1017 	ld	h,-7 (ix)
    0614 11 40 00      [10] 1018 	ld	de, #0x0040
    0617 19            [11] 1019 	add	hl, de
    0618 7E            [ 7] 1020 	ld	a,(hl)
-   0619 DD 77 FC      [19] 1021 	ld	-4 (ix),a
+   0619 DD 77 F8      [19] 1021 	ld	-8 (ix),a
    061C 23            [ 6] 1022 	inc	hl
    061D 7E            [ 7] 1023 	ld	a,(hl)
-   061E DD 77 FD      [19] 1024 	ld	-3 (ix),a
-                           1025 ;./engine/enengine.c:523: _en_y + jitter [15 - rda] + SPRITE_ADJUST, 
+   061E DD 77 F9      [19] 1024 	ld	-7 (ix),a
+                           1025 ;./engine/enengine.c:525: _en_y + jitter [15 - rda] + SPRITE_ADJUST, 
    0621 3Ar00r00      [13] 1026 	ld	a,(#_rda + 0)
-   0624 DD 77 FE      [19] 1027 	ld	-2 (ix),a
-   0627 DD 36 FF 00   [19] 1028 	ld	-1 (ix),#0x00
+   0624 DD 77 FA      [19] 1027 	ld	-6 (ix),a
+   0627 DD 36 FB 00   [19] 1028 	ld	-5 (ix),#0x00
    062B 3E 0F         [ 7] 1029 	ld	a,#0x0F
-   062D DD 96 FE      [19] 1030 	sub	a, -2 (ix)
-   0630 DD 77 FE      [19] 1031 	ld	-2 (ix),a
+   062D DD 96 FA      [19] 1030 	sub	a, -6 (ix)
+   0630 DD 77 FA      [19] 1031 	ld	-6 (ix),a
    0633 3E 00         [ 7] 1032 	ld	a,#0x00
-   0635 DD 9E FF      [19] 1033 	sbc	a, -1 (ix)
-   0638 DD 77 FF      [19] 1034 	ld	-1 (ix),a
+   0635 DD 9E FB      [19] 1033 	sbc	a, -5 (ix)
+   0638 DD 77 FB      [19] 1034 	ld	-5 (ix),a
    063B 3Er00         [ 7] 1035 	ld	a,#<(_jitter)
-   063D DD 86 FE      [19] 1036 	add	a, -2 (ix)
-   0640 DD 77 FE      [19] 1037 	ld	-2 (ix),a
+   063D DD 86 FA      [19] 1036 	add	a, -6 (ix)
+   0640 DD 77 FA      [19] 1037 	ld	-6 (ix),a
    0643 3Es00         [ 7] 1038 	ld	a,#>(_jitter)
-   0645 DD 8E FF      [19] 1039 	adc	a, -1 (ix)
-   0648 DD 77 FF      [19] 1040 	ld	-1 (ix),a
-   064B DD 6E FE      [19] 1041 	ld	l,-2 (ix)
-   064E DD 66 FF      [19] 1042 	ld	h,-1 (ix)
+   0645 DD 8E FB      [19] 1039 	adc	a, -5 (ix)
+   0648 DD 77 FB      [19] 1040 	ld	-5 (ix),a
+   064B DD 6E FA      [19] 1041 	ld	l,-6 (ix)
+   064E DD 66 FB      [19] 1042 	ld	h,-5 (ix)
    0651 66            [ 7] 1043 	ld	h,(hl)
    0652 3Ar00r00      [13] 1044 	ld	a,(#__en_y + 0)
    0655 84            [ 4] 1045 	add	a, h
    0656 C6 F7         [ 7] 1046 	add	a, #0xF7
    0658 47            [ 4] 1047 	ld	b,a
-                           1048 ;./engine/enengine.c:522: _en_x + jitter [rda],
+                           1048 ;./engine/enengine.c:524: _en_x + jitter [rda],
    0659 3Er00         [ 7] 1049 	ld	a,#<(_jitter)
    065B 21r00r00      [10] 1050 	ld	hl,#_rda
    065E 86            [ 7] 1051 	add	a, (hl)
@@ -1058,8 +1058,8 @@
    0667 3Ar00r00      [13] 1058 	ld	a,(#__en_x + 0)
    066A 84            [ 4] 1059 	add	a, h
    066B 57            [ 4] 1060 	ld	d,a
-   066C DD 6E FC      [19] 1061 	ld	l,-4 (ix)
-   066F DD 66 FD      [19] 1062 	ld	h,-3 (ix)
+   066C DD 6E F8      [19] 1061 	ld	l,-8 (ix)
+   066F DD 66 F9      [19] 1062 	ld	h,-7 (ix)
    0672 E5            [11] 1063 	push	hl
    0673 4A            [ 4] 1064 	ld	c, d
    0674 C5            [11] 1065 	push	bc
@@ -1074,10 +1074,10 @@
    0688 16 00         [ 7] 1074 	ld	d,#0x00
    068A FD 19         [15] 1075 	add	iy, de
    068C FD 7E 00      [19] 1076 	ld	a, 0 (iy)
-   068F DD 77 FE      [19] 1077 	ld	-2 (ix),a
+   068F DD 77 FA      [19] 1077 	ld	-6 (ix),a
    0692 3Ar00r00      [13] 1078 	ld	a,(#__en_x + 0)
    0695 21r00r00      [10] 1079 	ld	hl,#__en_x
-   0698 DD 86 FE      [19] 1080 	add	a, -2 (ix)
+   0698 DD 86 FA      [19] 1080 	add	a, -6 (ix)
    069B 77            [ 7] 1081 	ld	(hl),a
                            1082 ;./engine/../engine/enemmods/enems_recoiling.h:16: cy1 = _en_y >> 4;
    069C 3Ar00r00      [13] 1083 	ld	a,(#__en_y + 0)
@@ -1089,26 +1089,26 @@
    06A5 32r00r00      [13] 1089 	ld	(#_cy1 + 0),a
                            1090 ;./engine/../engine/enemmods/enems_recoiling.h:17: cy2 = (_en_y + 15) >> 4;
    06A8 3Ar00r00      [13] 1091 	ld	a,(#__en_y + 0)
-   06AB DD 77 FC      [19] 1092 	ld	-4 (ix),a
-   06AE DD 36 FD 00   [19] 1093 	ld	-3 (ix),#0x00
-   06B2 DD 7E FC      [19] 1094 	ld	a,-4 (ix)
+   06AB DD 77 F8      [19] 1092 	ld	-8 (ix),a
+   06AE DD 36 F9 00   [19] 1093 	ld	-7 (ix),#0x00
+   06B2 DD 7E F8      [19] 1094 	ld	a,-8 (ix)
    06B5 C6 0F         [ 7] 1095 	add	a, #0x0F
-   06B7 DD 77 FC      [19] 1096 	ld	-4 (ix),a
-   06BA DD 7E FD      [19] 1097 	ld	a,-3 (ix)
+   06B7 DD 77 F8      [19] 1096 	ld	-8 (ix),a
+   06BA DD 7E F9      [19] 1097 	ld	a,-7 (ix)
    06BD CE 00         [ 7] 1098 	adc	a, #0x00
-   06BF DD 77 FD      [19] 1099 	ld	-3 (ix),a
-   06C2 DD CB FD 2E   [23] 1100 	sra	-3 (ix)
-   06C6 DD CB FC 1E   [23] 1101 	rr	-4 (ix)
-   06CA DD CB FD 2E   [23] 1102 	sra	-3 (ix)
-   06CE DD CB FC 1E   [23] 1103 	rr	-4 (ix)
-   06D2 DD CB FD 2E   [23] 1104 	sra	-3 (ix)
-   06D6 DD CB FC 1E   [23] 1105 	rr	-4 (ix)
-   06DA DD CB FD 2E   [23] 1106 	sra	-3 (ix)
-   06DE DD CB FC 1E   [23] 1107 	rr	-4 (ix)
-   06E2 DD 7E FC      [19] 1108 	ld	a,-4 (ix)
+   06BF DD 77 F9      [19] 1099 	ld	-7 (ix),a
+   06C2 DD CB F9 2E   [23] 1100 	sra	-7 (ix)
+   06C6 DD CB F8 1E   [23] 1101 	rr	-8 (ix)
+   06CA DD CB F9 2E   [23] 1102 	sra	-7 (ix)
+   06CE DD CB F8 1E   [23] 1103 	rr	-8 (ix)
+   06D2 DD CB F9 2E   [23] 1104 	sra	-7 (ix)
+   06D6 DD CB F8 1E   [23] 1105 	rr	-8 (ix)
+   06DA DD CB F9 2E   [23] 1106 	sra	-7 (ix)
+   06DE DD CB F8 1E   [23] 1107 	rr	-8 (ix)
+   06E2 DD 7E F8      [19] 1108 	ld	a,-8 (ix)
    06E5 32r00r00      [13] 1109 	ld	(#_cy2 + 0),a
                            1110 ;./engine/../engine/enemmods/enems_recoiling.h:19: if (en_rmx [gpit] < 0) {
-   06E8 DD CB FE 7E   [20] 1111 	bit	7, -2 (ix)
+   06E8 DD CB FA 7E   [20] 1111 	bit	7, -6 (ix)
    06EC 28 11         [12] 1112 	jr	Z,00108$
                            1113 ;./engine/../engine/enemmods/enems_recoiling.h:20: cx1 = cx2 = _en_x >> 4;
    06EE 3Ar00r00      [13] 1114 	ld	a,(#__en_x + 0)
@@ -1123,23 +1123,23 @@
    06FF                    1123 00108$:
                            1124 ;./engine/../engine/enemmods/enems_recoiling.h:22: cx1 = cx2 = (_en_x + 15) >> 4;
    06FF 3Ar00r00      [13] 1125 	ld	a,(#__en_x + 0)
-   0702 DD 77 FE      [19] 1126 	ld	-2 (ix),a
-   0705 DD 36 FF 00   [19] 1127 	ld	-1 (ix),#0x00
-   0709 DD 7E FE      [19] 1128 	ld	a,-2 (ix)
+   0702 DD 77 FA      [19] 1126 	ld	-6 (ix),a
+   0705 DD 36 FB 00   [19] 1127 	ld	-5 (ix),#0x00
+   0709 DD 7E FA      [19] 1128 	ld	a,-6 (ix)
    070C C6 0F         [ 7] 1129 	add	a, #0x0F
-   070E DD 77 FE      [19] 1130 	ld	-2 (ix),a
-   0711 DD 7E FF      [19] 1131 	ld	a,-1 (ix)
+   070E DD 77 FA      [19] 1130 	ld	-6 (ix),a
+   0711 DD 7E FB      [19] 1131 	ld	a,-5 (ix)
    0714 CE 00         [ 7] 1132 	adc	a, #0x00
-   0716 DD 77 FF      [19] 1133 	ld	-1 (ix),a
-   0719 DD CB FF 2E   [23] 1134 	sra	-1 (ix)
-   071D DD CB FE 1E   [23] 1135 	rr	-2 (ix)
-   0721 DD CB FF 2E   [23] 1136 	sra	-1 (ix)
-   0725 DD CB FE 1E   [23] 1137 	rr	-2 (ix)
-   0729 DD CB FF 2E   [23] 1138 	sra	-1 (ix)
-   072D DD CB FE 1E   [23] 1139 	rr	-2 (ix)
-   0731 DD CB FF 2E   [23] 1140 	sra	-1 (ix)
-   0735 DD CB FE 1E   [23] 1141 	rr	-2 (ix)
-   0739 DD 7E FE      [19] 1142 	ld	a,-2 (ix)
+   0716 DD 77 FB      [19] 1133 	ld	-5 (ix),a
+   0719 DD CB FB 2E   [23] 1134 	sra	-5 (ix)
+   071D DD CB FA 1E   [23] 1135 	rr	-6 (ix)
+   0721 DD CB FB 2E   [23] 1136 	sra	-5 (ix)
+   0725 DD CB FA 1E   [23] 1137 	rr	-6 (ix)
+   0729 DD CB FB 2E   [23] 1138 	sra	-5 (ix)
+   072D DD CB FA 1E   [23] 1139 	rr	-6 (ix)
+   0731 DD CB FB 2E   [23] 1140 	sra	-5 (ix)
+   0735 DD CB FA 1E   [23] 1141 	rr	-6 (ix)
+   0739 DD 7E FA      [19] 1142 	ld	a,-6 (ix)
    073C 32r00r00      [13] 1143 	ld	(#_cx2 + 0),a
    073F 32r00r00      [13] 1144 	ld	(#_cx1 + 0),a
    0742                    1145 00109$:
@@ -1162,18 +1162,18 @@
                            1162 ;./engine/../engine/enemmods/enems_recoiling.h:45: || en_collx
    0764 3Ar00r00      [13] 1163 	ld	a,(#_en_collx + 0)
    0767 B7            [ 4] 1164 	or	a, a
-   0768 CAr20r0D      [10] 1165 	jp	Z,00174$
+   0768 CAr28r0D      [10] 1165 	jp	Z,00174$
    076B                    1166 00110$:
                            1167 ;./engine/../engine/enemmods/enems_recoiling.h:47: ) _en_x = rdx;
    076B 3Ar00r00      [13] 1168 	ld	a,(#_rdx + 0)
    076E 32r00r00      [13] 1169 	ld	(#__en_x + 0),a
-   0771 C3r20r0D      [10] 1170 	jp	00174$
+   0771 C3r28r0D      [10] 1170 	jp	00174$
    0774                    1171 00172$:
-                           1172 ;./engine/enengine.c:543: if (en_is_alive) {
+                           1172 ;./engine/enengine.c:545: if (en_is_alive) {
    0774 3Ar00r00      [13] 1173 	ld	a,(#_en_is_alive + 0)
    0777 B7            [ 4] 1174 	or	a, a
-   0778 CAr20r0D      [10] 1175 	jp	Z,00174$
-                           1176 ;./engine/enengine.c:546: pregotten = (prx + 7 >= _en_x && prx <= _en_x + 15);
+   0778 CAr28r0D      [10] 1175 	jp	Z,00174$
+                           1176 ;./engine/enengine.c:548: pregotten = (prx + 7 >= _en_x && prx <= _en_x + 15);
    077B 21r00r00      [10] 1177 	ld	hl,#_prx + 0
    077E 4E            [ 7] 1178 	ld	c, (hl)
    077F 06 00         [ 7] 1179 	ld	b,#0x00
@@ -1183,20 +1183,20 @@
    0786 5C            [ 4] 1183 	ld	e,h
    0787 FD 21r00r00   [14] 1184 	ld	iy,#__en_x
    078B FD 7E 00      [19] 1185 	ld	a,0 (iy)
-   078E DD 77 FE      [19] 1186 	ld	-2 (ix),a
-   0791 DD 36 FF 00   [19] 1187 	ld	-1 (ix),#0x00
+   078E DD 77 FA      [19] 1186 	ld	-6 (ix),a
+   0791 DD 36 FB 00   [19] 1187 	ld	-5 (ix),#0x00
    0795 7A            [ 4] 1188 	ld	a,d
-   0796 DD 96 FE      [19] 1189 	sub	a, -2 (ix)
+   0796 DD 96 FA      [19] 1189 	sub	a, -6 (ix)
    0799 7B            [ 4] 1190 	ld	a,e
-   079A DD 9E FF      [19] 1191 	sbc	a, -1 (ix)
+   079A DD 9E FB      [19] 1191 	sbc	a, -5 (ix)
    079D E2rA2r07      [10] 1192 	jp	PO, 00427$
    07A0 EE 80         [ 7] 1193 	xor	a, #0x80
    07A2                    1194 00427$:
    07A2 FArBDr07      [10] 1195 	jp	M,00182$
-   07A5 DD 7E FE      [19] 1196 	ld	a,-2 (ix)
+   07A5 DD 7E FA      [19] 1196 	ld	a,-6 (ix)
    07A8 C6 0F         [ 7] 1197 	add	a, #0x0F
    07AA 67            [ 4] 1198 	ld	h,a
-   07AB DD 7E FF      [19] 1199 	ld	a,-1 (ix)
+   07AB DD 7E FB      [19] 1199 	ld	a,-5 (ix)
    07AE CE 00         [ 7] 1200 	adc	a, #0x00
    07B0 6F            [ 4] 1201 	ld	l,a
    07B1 7C            [ 4] 1202 	ld	a,h
@@ -1214,7 +1214,7 @@
    07C1 3E 01         [ 7] 1214 	ld	a,#0x01
    07C3                    1215 00184$:
    07C3 32r00r00      [13] 1216 	ld	(#_pregotten + 0),a
-                           1217 ;./engine/enengine.c:549: en_fr = ((((_en_mx) ? _en_x : _en_y)+4) >> 3) & 1;
+                           1217 ;./engine/enengine.c:551: en_fr = ((((_en_mx) ? _en_x : _en_y)+4) >> 3) & 1;
    07C6 3Ar00r00      [13] 1218 	ld	a,(#__en_mx + 0)
    07C9 B7            [ 4] 1219 	or	a, a
    07CA 28 06         [12] 1220 	jr	Z,00185$
@@ -1241,7 +1241,7 @@
    07EB 67            [ 4] 1241 	ld	h,a
    07EC FD 21r00r00   [14] 1242 	ld	iy,#_en_fr
    07F0 FD 74 00      [19] 1243 	ld	0 (iy),h
-                           1244 ;./engine/enengine.c:570: switch (_en_t & 63) {
+                           1244 ;./engine/enengine.c:572: switch (_en_t & 63) {
    07F3 FD 21r00r00   [14] 1245 	ld	iy,#__en_t
    07F7 FD 7E 00      [19] 1246 	ld	a,0 (iy)
    07FA E6 3F         [ 7] 1247 	and	a, #0x3F
@@ -1256,7 +1256,7 @@
    080B 21r11r08      [10] 1256 	ld	hl,#00429$
    080E 19            [11] 1257 	add	hl,de
    080F 19            [11] 1258 	add	hl,de
-                           1259 ;./engine/enengine.c:571: case 1:
+                           1259 ;./engine/enengine.c:573: case 1:
    0810 E9            [ 4] 1260 	jp	(hl)
    0811                    1261 00429$:
    0811 18 06         [12] 1262 	jr	00114$
@@ -1264,11 +1264,11 @@
    0815 18 02         [12] 1264 	jr	00116$
    0817 18 00         [12] 1265 	jr	00117$
    0819                    1266 00114$:
-                           1267 ;./engine/enengine.c:572: case 2:
+                           1267 ;./engine/enengine.c:574: case 2:
    0819                    1268 00115$:
-                           1269 ;./engine/enengine.c:573: case 3:
+                           1269 ;./engine/enengine.c:575: case 3:
    0819                    1270 00116$:
-                           1271 ;./engine/enengine.c:574: case 4:
+                           1271 ;./engine/enengine.c:576: case 4:
    0819                    1272 00117$:
                            1273 ;./engine/../engine/enemmods/enem_linear.h:11: if (!en_status [gpit] || half_life) {
    0819 FD 21r00r00   [14] 1274 	ld	iy,#_en_status
@@ -1347,7 +1347,7 @@
    08AC                    1347 00120$:
                            1348 ;./engine/../engine/enemmods/enem_linear.h:26: cm_two_points ();
    08AC CDr00r00      [17] 1349 	call	_cm_two_points
-                           1350 ;./engine/../engine/enemmods/enem_linear.h:27: en_collx = (at1 | at2) & 13; 
+                           1350 ;./engine/../engine/enemmods/enem_linear.h:27: en_collx = (at1 | at2) & 13;
    08AF 3Ar00r00      [13] 1351 	ld	a,(#_at1 + 0)
    08B2 21r00r00      [10] 1352 	ld	hl,#_at2 + 0
    08B5 B6            [ 7] 1353 	or	a,(hl)
@@ -1400,12 +1400,12 @@
    0911                    1400 00122$:
                            1401 ;./engine/../engine/enemmods/enem_linear.h:41: cy1 = cy2 = (_en_y + 15) >> 4;
    0911 3Ar00r00      [13] 1402 	ld	a,(#__en_y + 0)
-   0914 DD 77 FE      [19] 1403 	ld	-2 (ix),a
-   0917 DD 36 FF 00   [19] 1404 	ld	-1 (ix),#0x00
-   091B DD 7E FE      [19] 1405 	ld	a,-2 (ix)
+   0914 DD 77 FA      [19] 1403 	ld	-6 (ix),a
+   0917 DD 36 FB 00   [19] 1404 	ld	-5 (ix),#0x00
+   091B DD 7E FA      [19] 1405 	ld	a,-6 (ix)
    091E C6 0F         [ 7] 1406 	add	a, #0x0F
    0920 5F            [ 4] 1407 	ld	e,a
-   0921 DD 7E FF      [19] 1408 	ld	a,-1 (ix)
+   0921 DD 7E FB      [19] 1408 	ld	a,-5 (ix)
    0924 CE 00         [ 7] 1409 	adc	a, #0x00
    0926 57            [ 4] 1410 	ld	d,a
    0927 CB 2A         [ 8] 1411 	sra	d
@@ -1488,9 +1488,9 @@
    09C4 FD 21r00r00   [14] 1488 	ld	iy,#_en_spr
    09C8 86            [ 7] 1489 	add	a, (hl)
    09C9 FD 77 00      [19] 1490 	ld	0 (iy),a
-                           1491 ;./engine/enengine.c:662: }
+                           1491 ;./engine/enengine.c:664: }
    09CC                    1492 00135$:
-                           1493 ;./engine/enengine.c:666: en_spr_id [gpit] = en_spr;
+                           1493 ;./engine/enengine.c:668: en_spr_id [gpit] = en_spr;
    09CC 3Er00         [ 7] 1494 	ld	a,#<(_en_spr_id)
    09CE 21r00r00      [10] 1495 	ld	hl,#_gpit
    09D1 86            [ 7] 1496 	add	a, (hl)
@@ -1500,7 +1500,7 @@
    09D7 57            [ 4] 1500 	ld	d,a
    09D8 3Ar00r00      [13] 1501 	ld	a,(#_en_spr + 0)
    09DB 12            [ 7] 1502 	ld	(de),a
-                           1503 ;./engine/enengine.c:703: if (_en_t == 4 && pregotten && !pgotten && !pj) {
+                           1503 ;./engine/enengine.c:705: if (_en_t == 4 && pregotten && !pgotten && !pj) {
    09DC 3Ar00r00      [13] 1504 	ld	a,(#__en_t + 0)
    09DF D6 04         [ 7] 1505 	sub	a, #0x04
    09E1 20 04         [12] 1506 	jr	NZ,00434$
@@ -1509,35 +1509,35 @@
    09E7                    1509 00434$:
    09E7 AF            [ 4] 1510 	xor	a,a
    09E8                    1511 00435$:
-   09E8 DD 77 FE      [19] 1512 	ld	-2 (ix), a
+   09E8 DD 77 FA      [19] 1512 	ld	-6 (ix), a
    09EB B7            [ 4] 1513 	or	a, a
-   09EC CArBCr0B      [10] 1514 	jp	Z,00149$
+   09EC CArC4r0B      [10] 1514 	jp	Z,00149$
    09EF 3Ar00r00      [13] 1515 	ld	a,(#_pregotten + 0)
    09F2 B7            [ 4] 1516 	or	a, a
-   09F3 CArBCr0B      [10] 1517 	jp	Z,00149$
+   09F3 CArC4r0B      [10] 1517 	jp	Z,00149$
    09F6 3Ar00r00      [13] 1518 	ld	a,(#_pgotten + 0)
    09F9 B7            [ 4] 1519 	or	a, a
-   09FA C2rBCr0B      [10] 1520 	jp	NZ,00149$
+   09FA C2rC4r0B      [10] 1520 	jp	NZ,00149$
    09FD 3Ar00r00      [13] 1521 	ld	a,(#_pj + 0)
    0A00 B7            [ 4] 1522 	or	a, a
-   0A01 C2rBCr0B      [10] 1523 	jp	NZ,00149$
+   0A01 C2rC4r0B      [10] 1523 	jp	NZ,00149$
                            1524 ;./engine/../engine/enemmods/enems_recoiling.h:17: cy2 = (_en_y + 15) >> 4;
    0A04 3Ar00r00      [13] 1525 	ld	a,(#__en_y + 0)
-   0A07 DD 77 FC      [19] 1526 	ld	-4 (ix),a
-   0A0A DD 36 FD 00   [19] 1527 	ld	-3 (ix),#0x00
+   0A07 DD 77 F8      [19] 1526 	ld	-8 (ix),a
+   0A0A DD 36 F9 00   [19] 1527 	ld	-7 (ix),#0x00
                            1528 ;./engine/../engine/enemmods/enem_linear.h:11: if (!en_status [gpit] || half_life) {
    0A0E 3Er00         [ 7] 1529 	ld	a,#<(_en_status)
    0A10 21r00r00      [10] 1530 	ld	hl,#_gpit
    0A13 86            [ 7] 1531 	add	a, (hl)
-   0A14 DD 77 F5      [19] 1532 	ld	-11 (ix),a
+   0A14 DD 77 F6      [19] 1532 	ld	-10 (ix),a
    0A17 3Es00         [ 7] 1533 	ld	a,#>(_en_status)
    0A19 CE 00         [ 7] 1534 	adc	a, #0x00
-   0A1B DD 77 F6      [19] 1535 	ld	-10 (ix),a
-                           1536 ;./engine/enengine.c:711: py = (_en_y - 16) << 6; pry = py >> 6;
-   0A1E DD 7E FC      [19] 1537 	ld	a,-4 (ix)
+   0A1B DD 77 F7      [19] 1535 	ld	-9 (ix),a
+                           1536 ;./engine/enengine.c:713: py = (_en_y - 16) << 6; pry = py >> 6;
+   0A1E DD 7E F8      [19] 1537 	ld	a,-8 (ix)
    0A21 C6 F0         [ 7] 1538 	add	a,#0xF0
    0A23 6F            [ 4] 1539 	ld	l,a
-   0A24 DD 7E FD      [19] 1540 	ld	a,-3 (ix)
+   0A24 DD 7E F9      [19] 1540 	ld	a,-7 (ix)
    0A27 CE FF         [ 7] 1541 	adc	a,#0xFF
    0A29 67            [ 4] 1542 	ld	h,a
    0A2A 29            [11] 1543 	add	hl, hl
@@ -1546,456 +1546,456 @@
    0A2D 29            [11] 1546 	add	hl, hl
    0A2E 29            [11] 1547 	add	hl, hl
    0A2F 29            [11] 1548 	add	hl, hl
-   0A30 DD 75 F8      [19] 1549 	ld	-8 (ix),l
-   0A33 DD 74 F9      [19] 1550 	ld	-7 (ix),h
-                           1551 ;./engine/enengine.c:707: if (_en_mx) {
+   0A30 DD 75 FC      [19] 1549 	ld	-4 (ix),l
+   0A33 DD 74 FD      [19] 1550 	ld	-3 (ix),h
+                           1551 ;./engine/enengine.c:709: if (_en_mx) {
    0A36 3Ar00r00      [13] 1552 	ld	a,(#__en_mx + 0)
    0A39 B7            [ 4] 1553 	or	a, a
-   0A3A CArD5r0A      [10] 1554 	jp	Z,00140$
-                           1555 ;./engine/enengine.c:708: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
+   0A3A CArD9r0A      [10] 1554 	jp	Z,00140$
+                           1555 ;./engine/enengine.c:710: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
    0A3D FD 21r00r00   [14] 1556 	ld	iy,#_pry
    0A41 FD 5E 00      [19] 1557 	ld	e,0 (iy)
    0A44 16 00         [ 7] 1558 	ld	d,#0x00
    0A46 21 10 00      [10] 1559 	ld	hl,#0x0010
    0A49 19            [11] 1560 	add	hl,de
    0A4A 7D            [ 4] 1561 	ld	a,l
-   0A4B DD 96 FC      [19] 1562 	sub	a, -4 (ix)
+   0A4B DD 96 F8      [19] 1562 	sub	a, -8 (ix)
    0A4E 7C            [ 4] 1563 	ld	a,h
-   0A4F DD 9E FD      [19] 1564 	sbc	a, -3 (ix)
+   0A4F DD 9E F9      [19] 1564 	sbc	a, -7 (ix)
    0A52 E2r57r0A      [10] 1565 	jp	PO, 00436$
    0A55 EE 80         [ 7] 1566 	xor	a, #0x80
    0A57                    1567 00436$:
-   0A57 FArD5r0A      [10] 1568 	jp	M,00140$
+   0A57 FArD9r0A      [10] 1568 	jp	M,00140$
    0A5A 21 0C 00      [10] 1569 	ld	hl,#0x000C
    0A5D 19            [11] 1570 	add	hl,de
-   0A5E DD 7E FC      [19] 1571 	ld	a,-4 (ix)
+   0A5E DD 7E F8      [19] 1571 	ld	a,-8 (ix)
    0A61 95            [ 4] 1572 	sub	a, l
-   0A62 DD 7E FD      [19] 1573 	ld	a,-3 (ix)
+   0A62 DD 7E F9      [19] 1573 	ld	a,-7 (ix)
    0A65 9C            [ 4] 1574 	sbc	a, h
    0A66 E2r6Br0A      [10] 1575 	jp	PO, 00437$
    0A69 EE 80         [ 7] 1576 	xor	a, #0x80
    0A6B                    1577 00437$:
-   0A6B FArD5r0A      [10] 1578 	jp	M,00140$
-                           1579 ;./engine/enengine.c:709: pgotten = 1;
+   0A6B FArD9r0A      [10] 1578 	jp	M,00140$
+                           1579 ;./engine/enengine.c:711: pgotten = 1;
    0A6E 21r00r00      [10] 1580 	ld	hl,#_pgotten + 0
    0A71 36 01         [10] 1581 	ld	(hl), #0x01
-                           1582 ;./engine/enengine.c:710: pgtmx = _en_mx << (6 - en_status [gpit]);
+                           1582 ;./engine/enengine.c:712: pgtmx = _en_mx << (6 - en_status [gpit]);
    0A73 21r00r00      [10] 1583 	ld	hl,#__en_mx + 0
    0A76 5E            [ 7] 1584 	ld	e, (hl)
    0A77 3Ar00r00      [13] 1585 	ld	a,(#__en_mx + 0)
    0A7A 17            [ 4] 1586 	rla
    0A7B 9F            [ 4] 1587 	sbc	a, a
    0A7C 57            [ 4] 1588 	ld	d,a
-   0A7D E1            [10] 1589 	pop	hl
-   0A7E E5            [11] 1590 	push	hl
-   0A7F 66            [ 7] 1591 	ld	h,(hl)
-   0A80 2E 00         [ 7] 1592 	ld	l,#0x00
-   0A82 3E 06         [ 7] 1593 	ld	a,#0x06
-   0A84 94            [ 4] 1594 	sub	a, h
-   0A85 4F            [ 4] 1595 	ld	c,a
-   0A86 3E 00         [ 7] 1596 	ld	a,#0x00
-   0A88 9D            [ 4] 1597 	sbc	a, l
-   0A89 79            [ 4] 1598 	ld	a,c
-   0A8A F5            [11] 1599 	push	af
-   0A8B 21r00r00      [10] 1600 	ld	hl,#_pgtmx + 0
-   0A8E 73            [ 7] 1601 	ld	(hl), e
-   0A8F 21r01r00      [10] 1602 	ld	hl,#_pgtmx + 1
-   0A92 72            [ 7] 1603 	ld	(hl), d
-   0A93 F1            [10] 1604 	pop	af
-   0A94 3C            [ 4] 1605 	inc	a
-   0A95 18 10         [12] 1606 	jr	00439$
-   0A97                    1607 00438$:
-   0A97 FD 21r00r00   [14] 1608 	ld	iy,#_pgtmx
-   0A9B FD CB 00 26   [23] 1609 	sla	0 (iy)
-   0A9F FD 21r00r00   [14] 1610 	ld	iy,#_pgtmx
-   0AA3 FD CB 01 16   [23] 1611 	rl	1 (iy)
-   0AA7                    1612 00439$:
-   0AA7 3D            [ 4] 1613 	dec	a
-   0AA8 20 ED         [12] 1614 	jr	NZ,00438$
-                           1615 ;./engine/enengine.c:711: py = (_en_y - 16) << 6; pry = py >> 6;
-   0AAA DD 6E F8      [19] 1616 	ld	l,-8 (ix)
-   0AAD DD 66 F9      [19] 1617 	ld	h,-7 (ix)
-   0AB0 22r00r00      [16] 1618 	ld	(_py),hl
-   0AB3 2Ar00r00      [16] 1619 	ld	hl,(_py)
-   0AB6 CB 2C         [ 8] 1620 	sra	h
-   0AB8 CB 1D         [ 8] 1621 	rr	l
-   0ABA CB 2C         [ 8] 1622 	sra	h
-   0ABC CB 1D         [ 8] 1623 	rr	l
-   0ABE CB 2C         [ 8] 1624 	sra	h
-   0AC0 CB 1D         [ 8] 1625 	rr	l
-   0AC2 CB 2C         [ 8] 1626 	sra	h
-   0AC4 CB 1D         [ 8] 1627 	rr	l
-   0AC6 CB 2C         [ 8] 1628 	sra	h
-   0AC8 CB 1D         [ 8] 1629 	rr	l
-   0ACA CB 2C         [ 8] 1630 	sra	h
-   0ACC CB 1D         [ 8] 1631 	rr	l
-   0ACE FD 21r00r00   [14] 1632 	ld	iy,#_pry
-   0AD2 FD 75 00      [19] 1633 	ld	0 (iy),l
-   0AD5                    1634 00140$:
-                           1635 ;./engine/enengine.c:708: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
-   0AD5 21r00r00      [10] 1636 	ld	hl,#_pry + 0
-   0AD8 5E            [ 7] 1637 	ld	e, (hl)
-   0AD9 16 00         [ 7] 1638 	ld	d,#0x00
-                           1639 ;./engine/enengine.c:719: (_en_my > 0 && pry + 16 + _en_my >= _en_y && pry + 12 <= _en_y)
-   0ADB 21r00r00      [10] 1640 	ld	hl,#__en_my + 0
-   0ADE 4E            [ 7] 1641 	ld	c, (hl)
-   0ADF FD 21r00r00   [14] 1642 	ld	iy,#__en_my
-   0AE3 FD 7E 00      [19] 1643 	ld	a,0 (iy)
-   0AE6 17            [ 4] 1644 	rla
-   0AE7 9F            [ 4] 1645 	sbc	a, a
-   0AE8 47            [ 4] 1646 	ld	b,a
-                           1647 ;./engine/enengine.c:718: (_en_my < 0 && pry + 17 >= _en_y && pry + 12 <= _en_y) ||
-   0AE9 21 0C 00      [10] 1648 	ld	hl,#0x000C
-   0AEC 19            [11] 1649 	add	hl,de
-   0AED DD 7E FC      [19] 1650 	ld	a,-4 (ix)
-   0AF0 95            [ 4] 1651 	sub	a, l
-   0AF1 DD 7E FD      [19] 1652 	ld	a,-3 (ix)
-   0AF4 9C            [ 4] 1653 	sbc	a, h
-   0AF5 E2rFAr0A      [10] 1654 	jp	PO, 00440$
-   0AF8 EE 80         [ 7] 1655 	xor	a, #0x80
-   0AFA                    1656 00440$:
-   0AFA 07            [ 4] 1657 	rlca
-   0AFB E6 01         [ 7] 1658 	and	a,#0x01
-   0AFD DD 77 F7      [19] 1659 	ld	-9 (ix),a
-   0B00 FD 21r00r00   [14] 1660 	ld	iy,#__en_my
-   0B04 FD CB 00 7E   [20] 1661 	bit	7,0 (iy)
-   0B08 28 1A         [12] 1662 	jr	Z,00147$
-   0B0A 21 11 00      [10] 1663 	ld	hl,#0x0011
-   0B0D 19            [11] 1664 	add	hl,de
-   0B0E 7D            [ 4] 1665 	ld	a,l
-   0B0F DD 96 FC      [19] 1666 	sub	a, -4 (ix)
-   0B12 7C            [ 4] 1667 	ld	a,h
-   0B13 DD 9E FD      [19] 1668 	sbc	a, -3 (ix)
-   0B16 E2r1Br0B      [10] 1669 	jp	PO, 00441$
-   0B19 EE 80         [ 7] 1670 	xor	a, #0x80
-   0B1B                    1671 00441$:
-   0B1B FAr24r0B      [10] 1672 	jp	M,00147$
-   0B1E DD 7E F7      [19] 1673 	ld	a,-9 (ix)
-   0B21 B7            [ 4] 1674 	or	a, a
-   0B22 28 35         [12] 1675 	jr	Z,00141$
-   0B24                    1676 00147$:
-                           1677 ;./engine/enengine.c:719: (_en_my > 0 && pry + 16 + _en_my >= _en_y && pry + 12 <= _en_y)
-   0B24 AF            [ 4] 1678 	xor	a, a
-   0B25 FD 21r00r00   [14] 1679 	ld	iy,#__en_my
-   0B29 FD 96 00      [19] 1680 	sub	a, 0 (iy)
-   0B2C E2r31r0B      [10] 1681 	jp	PO, 00442$
-   0B2F EE 80         [ 7] 1682 	xor	a, #0x80
-   0B31                    1683 00442$:
-   0B31 F2rBCr0B      [10] 1684 	jp	P,00149$
-   0B34 21 10 00      [10] 1685 	ld	hl,#0x0010
-   0B37 19            [11] 1686 	add	hl,de
-   0B38 09            [11] 1687 	add	hl,bc
-   0B39 DD 75 FA      [19] 1688 	ld	-6 (ix),l
-   0B3C DD 74 FB      [19] 1689 	ld	-5 (ix),h
-   0B3F DD 7E FA      [19] 1690 	ld	a,-6 (ix)
-   0B42 DD 96 FC      [19] 1691 	sub	a, -4 (ix)
-   0B45 DD 7E FB      [19] 1692 	ld	a,-5 (ix)
-   0B48 DD 9E FD      [19] 1693 	sbc	a, -3 (ix)
-   0B4B E2r50r0B      [10] 1694 	jp	PO, 00443$
-   0B4E EE 80         [ 7] 1695 	xor	a, #0x80
-   0B50                    1696 00443$:
-   0B50 FArBCr0B      [10] 1697 	jp	M,00149$
-   0B53 DD 7E F7      [19] 1698 	ld	a,-9 (ix)
-   0B56 B7            [ 4] 1699 	or	a, a
-   0B57 20 63         [12] 1700 	jr	NZ,00149$
-   0B59                    1701 00141$:
-                           1702 ;./engine/enengine.c:721: pgotten = 1;
-   0B59 21r00r00      [10] 1703 	ld	hl,#_pgotten + 0
-   0B5C 36 01         [10] 1704 	ld	(hl), #0x01
-                           1705 ;./engine/enengine.c:722: pgtmy = _en_my << (6 - en_status [gpit]);
-   0B5E E1            [10] 1706 	pop	hl
-   0B5F E5            [11] 1707 	push	hl
-   0B60 6E            [ 7] 1708 	ld	l,(hl)
-   0B61 26 00         [ 7] 1709 	ld	h,#0x00
-   0B63 3E 06         [ 7] 1710 	ld	a,#0x06
-   0B65 95            [ 4] 1711 	sub	a, l
-   0B66 6F            [ 4] 1712 	ld	l,a
-   0B67 3E 00         [ 7] 1713 	ld	a,#0x00
-   0B69 9C            [ 4] 1714 	sbc	a, h
-   0B6A 7D            [ 4] 1715 	ld	a,l
-   0B6B F5            [11] 1716 	push	af
-   0B6C 21r00r00      [10] 1717 	ld	hl,#_pgtmy + 0
-   0B6F 71            [ 7] 1718 	ld	(hl), c
-   0B70 21r01r00      [10] 1719 	ld	hl,#_pgtmy + 1
-   0B73 70            [ 7] 1720 	ld	(hl), b
-   0B74 F1            [10] 1721 	pop	af
-   0B75 3C            [ 4] 1722 	inc	a
-   0B76 18 10         [12] 1723 	jr	00445$
-   0B78                    1724 00444$:
-   0B78 FD 21r00r00   [14] 1725 	ld	iy,#_pgtmy
-   0B7C FD CB 00 26   [23] 1726 	sla	0 (iy)
-   0B80 FD 21r00r00   [14] 1727 	ld	iy,#_pgtmy
-   0B84 FD CB 01 16   [23] 1728 	rl	1 (iy)
-   0B88                    1729 00445$:
-   0B88 3D            [ 4] 1730 	dec	a
-   0B89 20 ED         [12] 1731 	jr	NZ,00444$
-                           1732 ;./engine/enengine.c:723: py = (_en_y - 16) << 6; pry = py >> 6;
-   0B8B DD 6E F8      [19] 1733 	ld	l,-8 (ix)
-   0B8E DD 66 F9      [19] 1734 	ld	h,-7 (ix)
-   0B91 22r00r00      [16] 1735 	ld	(_py),hl
-   0B94 2Ar00r00      [16] 1736 	ld	hl,(_py)
-   0B97 CB 2C         [ 8] 1737 	sra	h
-   0B99 CB 1D         [ 8] 1738 	rr	l
-   0B9B CB 2C         [ 8] 1739 	sra	h
-   0B9D CB 1D         [ 8] 1740 	rr	l
-   0B9F CB 2C         [ 8] 1741 	sra	h
-   0BA1 CB 1D         [ 8] 1742 	rr	l
-   0BA3 CB 2C         [ 8] 1743 	sra	h
-   0BA5 CB 1D         [ 8] 1744 	rr	l
-   0BA7 CB 2C         [ 8] 1745 	sra	h
-   0BA9 CB 1D         [ 8] 1746 	rr	l
-   0BAB CB 2C         [ 8] 1747 	sra	h
-   0BAD CB 1D         [ 8] 1748 	rr	l
-   0BAF FD 21r00r00   [14] 1749 	ld	iy,#_pry
-   0BB3 FD 75 00      [19] 1750 	ld	0 (iy),l
-                           1751 ;./engine/enengine.c:724: pvy = 0;
-   0BB6 21 00 00      [10] 1752 	ld	hl,#0x0000
-   0BB9 22r00r00      [16] 1753 	ld	(_pvy),hl
-   0BBC                    1754 00149$:
-                           1755 ;./engine/enengine.c:736: en_is_alive == 0	// General condition.
-   0BBC 3Ar00r00      [13] 1756 	ld	a,(#_en_is_alive + 0)
-   0BBF B7            [ 4] 1757 	or	a, a
-   0BC0 CAr20r0D      [10] 1758 	jp	Z,00174$
-                           1759 ;./engine/enengine.c:738: || en_cttouched [gpit]
-   0BC3 FD 21r00r00   [14] 1760 	ld	iy,#_en_cttouched
-   0BC7 ED 5Br00r00   [20] 1761 	ld	de,(_gpit)
-   0BCB 16 00         [ 7] 1762 	ld	d,#0x00
-   0BCD FD 19         [15] 1763 	add	iy, de
-   0BCF FD 7E 00      [19] 1764 	ld	a, 0 (iy)
-   0BD2 B7            [ 4] 1765 	or	a, a
-   0BD3 C2r20r0D      [10] 1766 	jp	NZ,00174$
-                           1767 ;./engine/enengine.c:764: ) goto skipdo;
-   0BD6 DD 7E FE      [19] 1768 	ld	a,-2 (ix)
-   0BD9 B7            [ 4] 1769 	or	a, a
-   0BDA C2r20r0D      [10] 1770 	jp	NZ,00174$
-                           1771 ;./engine/enengine.c:826: touched == 0 &&
-   0BDD 3Ar00r00      [13] 1772 	ld	a,(#_touched + 0)
-   0BE0 B7            [ 4] 1773 	or	a, a
-   0BE1 C2r20r0D      [10] 1774 	jp	NZ,00174$
-                           1775 ;./engine/enengine.c:827: collide ()
-   0BE4 CDr00r00      [17] 1776 	call	_collide
-   0BE7 7D            [ 4] 1777 	ld	a,l
-   0BE8 B7            [ 4] 1778 	or	a, a
-   0BE9 CAr20r0D      [10] 1779 	jp	Z,00174$
-                           1780 ;./engine/enengine.c:833: en_sg_1 = 0;
-   0BEC FD 21r00r00   [14] 1781 	ld	iy,#_en_sg_1
-   0BF0 FD 36 00 00   [19] 1782 	ld	0 (iy),#0x00
-                           1783 ;./engine/enengine.c:837: en_sg_2 = (pflickering == 0);
-   0BF4 3Ar00r00      [13] 1784 	ld	a,(#_pflickering + 0)
-   0BF7 B7            [ 4] 1785 	or	a, a
-   0BF8 20 04         [12] 1786 	jr	NZ,00446$
-   0BFA 3E 01         [ 7] 1787 	ld	a,#0x01
-   0BFC 18 01         [12] 1788 	jr	00447$
-   0BFE                    1789 00446$:
-   0BFE AF            [ 4] 1790 	xor	a,a
-   0BFF                    1791 00447$:
-   0BFF FD 21r00r00   [14] 1792 	ld	iy,#_en_sg_2
-   0C03 FD 77 00      [19] 1793 	ld	0 (iy),a
-                           1794 ;./engine/enengine.c:876: if (en_sg_2) { 
-   0C06 3Ar00r00      [13] 1795 	ld	a,(#_en_sg_2 + 0)
-   0C09 B7            [ 4] 1796 	or	a, a
-   0C0A CAr1Br0D      [10] 1797 	jp	Z,00162$
-                           1798 ;./engine/enengine.c:877: pkill = 1; 
-   0C0D FD 21r00r00   [14] 1799 	ld	iy,#_pkill
-   0C11 FD 36 00 01   [19] 1800 	ld	0 (iy),#0x01
-                           1801 ;./engine/enengine.c:879: pvx = ADD_SIGN (_en_mx, PLAYER_V_REBOUND); 
-   0C15 3Ar00r00      [13] 1802 	ld	a,(#__en_mx + 0)
-   0C18 B7            [ 4] 1803 	or	a, a
-   0C19 28 1A         [12] 1804 	jr	Z,00189$
-   0C1B AF            [ 4] 1805 	xor	a, a
-   0C1C FD 21r00r00   [14] 1806 	ld	iy,#__en_mx
-   0C20 FD 96 00      [19] 1807 	sub	a, 0 (iy)
-   0C23 E2r28r0C      [10] 1808 	jp	PO, 00448$
-   0C26 EE 80         [ 7] 1809 	xor	a, #0x80
-   0C28                    1810 00448$:
-   0C28 F2r30r0C      [10] 1811 	jp	P,00191$
-   0C2B 11 E0 00      [10] 1812 	ld	de,#0x00E0
-   0C2E 18 08         [12] 1813 	jr	00190$
-   0C30                    1814 00191$:
-   0C30 11 20 FF      [10] 1815 	ld	de,#0xFF20
-   0C33 18 03         [12] 1816 	jr	00190$
-   0C35                    1817 00189$:
-   0C35 11 00 00      [10] 1818 	ld	de,#0x0000
-   0C38                    1819 00190$:
-   0C38 ED 53r00r00   [20] 1820 	ld	(_pvx),de
-                           1821 ;./engine/enengine.c:880: pvy = ADD_SIGN (_en_my, PLAYER_V_REBOUND); 
-   0C3C 3Ar00r00      [13] 1822 	ld	a,(#__en_my + 0)
-   0C3F B7            [ 4] 1823 	or	a, a
-   0C40 28 1A         [12] 1824 	jr	Z,00193$
-   0C42 AF            [ 4] 1825 	xor	a, a
-   0C43 FD 21r00r00   [14] 1826 	ld	iy,#__en_my
-   0C47 FD 96 00      [19] 1827 	sub	a, 0 (iy)
-   0C4A E2r4Fr0C      [10] 1828 	jp	PO, 00449$
-   0C4D EE 80         [ 7] 1829 	xor	a, #0x80
-   0C4F                    1830 00449$:
-   0C4F F2r57r0C      [10] 1831 	jp	P,00195$
-   0C52 21 E0 00      [10] 1832 	ld	hl,#0x00E0
-   0C55 18 08         [12] 1833 	jr	00194$
-   0C57                    1834 00195$:
-   0C57 21 20 FF      [10] 1835 	ld	hl,#0xFF20
-   0C5A 18 03         [12] 1836 	jr	00194$
-   0C5C                    1837 00193$:
-   0C5C 21 00 00      [10] 1838 	ld	hl,#0x0000
-   0C5F                    1839 00194$:
-   0C5F 22r00r00      [16] 1840 	ld	(_pvy),hl
-                           1841 ;./engine/enengine.c:886: if (!_en_mx) _en_my = ADD_SIGN (_en_y - pry, ABS (_en_my));
-   0C62 3Ar00r00      [13] 1842 	ld	a,(#__en_mx + 0)
-   0C65 B7            [ 4] 1843 	or	a, a
-   0C66 20 58         [12] 1844 	jr	NZ,00160$
-   0C68 21r00r00      [10] 1845 	ld	hl,#__en_y + 0
-   0C6B 56            [ 7] 1846 	ld	d, (hl)
-   0C6C 1E 00         [ 7] 1847 	ld	e,#0x00
-   0C6E 21r00r00      [10] 1848 	ld	hl,#_pry + 0
-   0C71 66            [ 7] 1849 	ld	h, (hl)
-   0C72 2E 00         [ 7] 1850 	ld	l,#0x00
-   0C74 7A            [ 4] 1851 	ld	a,d
-   0C75 94            [ 4] 1852 	sub	a, h
-   0C76 DD 77 FA      [19] 1853 	ld	-6 (ix),a
-   0C79 7B            [ 4] 1854 	ld	a,e
-   0C7A 9D            [ 4] 1855 	sbc	a, l
-   0C7B DD 77 FB      [19] 1856 	ld	-5 (ix), a
-   0C7E DD B6 FA      [19] 1857 	or	a,-6 (ix)
-   0C81 28 37         [12] 1858 	jr	Z,00197$
+   0A7D DD 6E F6      [19] 1589 	ld	l,-10 (ix)
+   0A80 DD 66 F7      [19] 1590 	ld	h,-9 (ix)
+   0A83 66            [ 7] 1591 	ld	h,(hl)
+   0A84 2E 00         [ 7] 1592 	ld	l,#0x00
+   0A86 3E 06         [ 7] 1593 	ld	a,#0x06
+   0A88 94            [ 4] 1594 	sub	a, h
+   0A89 4F            [ 4] 1595 	ld	c,a
+   0A8A 3E 00         [ 7] 1596 	ld	a,#0x00
+   0A8C 9D            [ 4] 1597 	sbc	a, l
+   0A8D 79            [ 4] 1598 	ld	a,c
+   0A8E F5            [11] 1599 	push	af
+   0A8F 21r00r00      [10] 1600 	ld	hl,#_pgtmx + 0
+   0A92 73            [ 7] 1601 	ld	(hl), e
+   0A93 21r01r00      [10] 1602 	ld	hl,#_pgtmx + 1
+   0A96 72            [ 7] 1603 	ld	(hl), d
+   0A97 F1            [10] 1604 	pop	af
+   0A98 3C            [ 4] 1605 	inc	a
+   0A99 18 10         [12] 1606 	jr	00439$
+   0A9B                    1607 00438$:
+   0A9B FD 21r00r00   [14] 1608 	ld	iy,#_pgtmx
+   0A9F FD CB 00 26   [23] 1609 	sla	0 (iy)
+   0AA3 FD 21r00r00   [14] 1610 	ld	iy,#_pgtmx
+   0AA7 FD CB 01 16   [23] 1611 	rl	1 (iy)
+   0AAB                    1612 00439$:
+   0AAB 3D            [ 4] 1613 	dec	a
+   0AAC 20 ED         [12] 1614 	jr	NZ,00438$
+                           1615 ;./engine/enengine.c:713: py = (_en_y - 16) << 6; pry = py >> 6;
+   0AAE DD 6E FC      [19] 1616 	ld	l,-4 (ix)
+   0AB1 DD 66 FD      [19] 1617 	ld	h,-3 (ix)
+   0AB4 22r00r00      [16] 1618 	ld	(_py),hl
+   0AB7 2Ar00r00      [16] 1619 	ld	hl,(_py)
+   0ABA CB 2C         [ 8] 1620 	sra	h
+   0ABC CB 1D         [ 8] 1621 	rr	l
+   0ABE CB 2C         [ 8] 1622 	sra	h
+   0AC0 CB 1D         [ 8] 1623 	rr	l
+   0AC2 CB 2C         [ 8] 1624 	sra	h
+   0AC4 CB 1D         [ 8] 1625 	rr	l
+   0AC6 CB 2C         [ 8] 1626 	sra	h
+   0AC8 CB 1D         [ 8] 1627 	rr	l
+   0ACA CB 2C         [ 8] 1628 	sra	h
+   0ACC CB 1D         [ 8] 1629 	rr	l
+   0ACE CB 2C         [ 8] 1630 	sra	h
+   0AD0 CB 1D         [ 8] 1631 	rr	l
+   0AD2 FD 21r00r00   [14] 1632 	ld	iy,#_pry
+   0AD6 FD 75 00      [19] 1633 	ld	0 (iy),l
+   0AD9                    1634 00140$:
+                           1635 ;./engine/enengine.c:710: if (pry + 16 >= _en_y && pry + 12 <= _en_y) {
+   0AD9 21r00r00      [10] 1636 	ld	hl,#_pry + 0
+   0ADC 5E            [ 7] 1637 	ld	e, (hl)
+   0ADD 16 00         [ 7] 1638 	ld	d,#0x00
+                           1639 ;./engine/enengine.c:721: (_en_my > 0 && pry + 16 + _en_my >= _en_y && pry + 12 <= _en_y)
+   0ADF 21r00r00      [10] 1640 	ld	hl,#__en_my + 0
+   0AE2 4E            [ 7] 1641 	ld	c, (hl)
+   0AE3 FD 21r00r00   [14] 1642 	ld	iy,#__en_my
+   0AE7 FD 7E 00      [19] 1643 	ld	a,0 (iy)
+   0AEA 17            [ 4] 1644 	rla
+   0AEB 9F            [ 4] 1645 	sbc	a, a
+   0AEC 47            [ 4] 1646 	ld	b,a
+                           1647 ;./engine/enengine.c:720: (_en_my < 0 && pry + 17 >= _en_y && pry + 12 <= _en_y) ||
+   0AED 21 0C 00      [10] 1648 	ld	hl,#0x000C
+   0AF0 19            [11] 1649 	add	hl,de
+   0AF1 DD 7E F8      [19] 1650 	ld	a,-8 (ix)
+   0AF4 95            [ 4] 1651 	sub	a, l
+   0AF5 DD 7E F9      [19] 1652 	ld	a,-7 (ix)
+   0AF8 9C            [ 4] 1653 	sbc	a, h
+   0AF9 E2rFEr0A      [10] 1654 	jp	PO, 00440$
+   0AFC EE 80         [ 7] 1655 	xor	a, #0x80
+   0AFE                    1656 00440$:
+   0AFE 07            [ 4] 1657 	rlca
+   0AFF E6 01         [ 7] 1658 	and	a,#0x01
+   0B01 DD 77 F5      [19] 1659 	ld	-11 (ix),a
+   0B04 FD 21r00r00   [14] 1660 	ld	iy,#__en_my
+   0B08 FD CB 00 7E   [20] 1661 	bit	7,0 (iy)
+   0B0C 28 1A         [12] 1662 	jr	Z,00147$
+   0B0E 21 11 00      [10] 1663 	ld	hl,#0x0011
+   0B11 19            [11] 1664 	add	hl,de
+   0B12 7D            [ 4] 1665 	ld	a,l
+   0B13 DD 96 F8      [19] 1666 	sub	a, -8 (ix)
+   0B16 7C            [ 4] 1667 	ld	a,h
+   0B17 DD 9E F9      [19] 1668 	sbc	a, -7 (ix)
+   0B1A E2r1Fr0B      [10] 1669 	jp	PO, 00441$
+   0B1D EE 80         [ 7] 1670 	xor	a, #0x80
+   0B1F                    1671 00441$:
+   0B1F FAr28r0B      [10] 1672 	jp	M,00147$
+   0B22 DD 7E F5      [19] 1673 	ld	a,-11 (ix)
+   0B25 B7            [ 4] 1674 	or	a, a
+   0B26 28 35         [12] 1675 	jr	Z,00141$
+   0B28                    1676 00147$:
+                           1677 ;./engine/enengine.c:721: (_en_my > 0 && pry + 16 + _en_my >= _en_y && pry + 12 <= _en_y)
+   0B28 AF            [ 4] 1678 	xor	a, a
+   0B29 FD 21r00r00   [14] 1679 	ld	iy,#__en_my
+   0B2D FD 96 00      [19] 1680 	sub	a, 0 (iy)
+   0B30 E2r35r0B      [10] 1681 	jp	PO, 00442$
+   0B33 EE 80         [ 7] 1682 	xor	a, #0x80
+   0B35                    1683 00442$:
+   0B35 F2rC4r0B      [10] 1684 	jp	P,00149$
+   0B38 21 10 00      [10] 1685 	ld	hl,#0x0010
+   0B3B 19            [11] 1686 	add	hl,de
+   0B3C 09            [11] 1687 	add	hl,bc
+   0B3D DD 75 FE      [19] 1688 	ld	-2 (ix),l
+   0B40 DD 74 FF      [19] 1689 	ld	-1 (ix),h
+   0B43 DD 7E FE      [19] 1690 	ld	a,-2 (ix)
+   0B46 DD 96 F8      [19] 1691 	sub	a, -8 (ix)
+   0B49 DD 7E FF      [19] 1692 	ld	a,-1 (ix)
+   0B4C DD 9E F9      [19] 1693 	sbc	a, -7 (ix)
+   0B4F E2r54r0B      [10] 1694 	jp	PO, 00443$
+   0B52 EE 80         [ 7] 1695 	xor	a, #0x80
+   0B54                    1696 00443$:
+   0B54 FArC4r0B      [10] 1697 	jp	M,00149$
+   0B57 DD 7E F5      [19] 1698 	ld	a,-11 (ix)
+   0B5A B7            [ 4] 1699 	or	a, a
+   0B5B 20 67         [12] 1700 	jr	NZ,00149$
+   0B5D                    1701 00141$:
+                           1702 ;./engine/enengine.c:723: pgotten = 1;
+   0B5D 21r00r00      [10] 1703 	ld	hl,#_pgotten + 0
+   0B60 36 01         [10] 1704 	ld	(hl), #0x01
+                           1705 ;./engine/enengine.c:724: pgtmy = _en_my << (6 - en_status [gpit]);
+   0B62 DD 6E F6      [19] 1706 	ld	l,-10 (ix)
+   0B65 DD 66 F7      [19] 1707 	ld	h,-9 (ix)
+   0B68 6E            [ 7] 1708 	ld	l,(hl)
+   0B69 26 00         [ 7] 1709 	ld	h,#0x00
+   0B6B 3E 06         [ 7] 1710 	ld	a,#0x06
+   0B6D 95            [ 4] 1711 	sub	a, l
+   0B6E 6F            [ 4] 1712 	ld	l,a
+   0B6F 3E 00         [ 7] 1713 	ld	a,#0x00
+   0B71 9C            [ 4] 1714 	sbc	a, h
+   0B72 7D            [ 4] 1715 	ld	a,l
+   0B73 F5            [11] 1716 	push	af
+   0B74 21r00r00      [10] 1717 	ld	hl,#_pgtmy + 0
+   0B77 71            [ 7] 1718 	ld	(hl), c
+   0B78 21r01r00      [10] 1719 	ld	hl,#_pgtmy + 1
+   0B7B 70            [ 7] 1720 	ld	(hl), b
+   0B7C F1            [10] 1721 	pop	af
+   0B7D 3C            [ 4] 1722 	inc	a
+   0B7E 18 10         [12] 1723 	jr	00445$
+   0B80                    1724 00444$:
+   0B80 FD 21r00r00   [14] 1725 	ld	iy,#_pgtmy
+   0B84 FD CB 00 26   [23] 1726 	sla	0 (iy)
+   0B88 FD 21r00r00   [14] 1727 	ld	iy,#_pgtmy
+   0B8C FD CB 01 16   [23] 1728 	rl	1 (iy)
+   0B90                    1729 00445$:
+   0B90 3D            [ 4] 1730 	dec	a
+   0B91 20 ED         [12] 1731 	jr	NZ,00444$
+                           1732 ;./engine/enengine.c:725: py = (_en_y - 16) << 6; pry = py >> 6;
+   0B93 DD 6E FC      [19] 1733 	ld	l,-4 (ix)
+   0B96 DD 66 FD      [19] 1734 	ld	h,-3 (ix)
+   0B99 22r00r00      [16] 1735 	ld	(_py),hl
+   0B9C 2Ar00r00      [16] 1736 	ld	hl,(_py)
+   0B9F CB 2C         [ 8] 1737 	sra	h
+   0BA1 CB 1D         [ 8] 1738 	rr	l
+   0BA3 CB 2C         [ 8] 1739 	sra	h
+   0BA5 CB 1D         [ 8] 1740 	rr	l
+   0BA7 CB 2C         [ 8] 1741 	sra	h
+   0BA9 CB 1D         [ 8] 1742 	rr	l
+   0BAB CB 2C         [ 8] 1743 	sra	h
+   0BAD CB 1D         [ 8] 1744 	rr	l
+   0BAF CB 2C         [ 8] 1745 	sra	h
+   0BB1 CB 1D         [ 8] 1746 	rr	l
+   0BB3 CB 2C         [ 8] 1747 	sra	h
+   0BB5 CB 1D         [ 8] 1748 	rr	l
+   0BB7 FD 21r00r00   [14] 1749 	ld	iy,#_pry
+   0BBB FD 75 00      [19] 1750 	ld	0 (iy),l
+                           1751 ;./engine/enengine.c:726: pvy = 0;
+   0BBE 21 00 00      [10] 1752 	ld	hl,#0x0000
+   0BC1 22r00r00      [16] 1753 	ld	(_pvy),hl
+   0BC4                    1754 00149$:
+                           1755 ;./engine/enengine.c:738: en_is_alive == 0	// General condition.
+   0BC4 3Ar00r00      [13] 1756 	ld	a,(#_en_is_alive + 0)
+   0BC7 B7            [ 4] 1757 	or	a, a
+   0BC8 CAr28r0D      [10] 1758 	jp	Z,00174$
+                           1759 ;./engine/enengine.c:740: || en_cttouched [gpit]
+   0BCB FD 21r00r00   [14] 1760 	ld	iy,#_en_cttouched
+   0BCF ED 5Br00r00   [20] 1761 	ld	de,(_gpit)
+   0BD3 16 00         [ 7] 1762 	ld	d,#0x00
+   0BD5 FD 19         [15] 1763 	add	iy, de
+   0BD7 FD 7E 00      [19] 1764 	ld	a, 0 (iy)
+   0BDA B7            [ 4] 1765 	or	a, a
+   0BDB C2r28r0D      [10] 1766 	jp	NZ,00174$
+                           1767 ;./engine/enengine.c:766: ) goto skipdo;
+   0BDE DD 7E FA      [19] 1768 	ld	a,-6 (ix)
+   0BE1 B7            [ 4] 1769 	or	a, a
+   0BE2 C2r28r0D      [10] 1770 	jp	NZ,00174$
+                           1771 ;./engine/enengine.c:828: touched == 0 &&
+   0BE5 3Ar00r00      [13] 1772 	ld	a,(#_touched + 0)
+   0BE8 B7            [ 4] 1773 	or	a, a
+   0BE9 C2r28r0D      [10] 1774 	jp	NZ,00174$
+                           1775 ;./engine/enengine.c:829: collide ()
+   0BEC CDr00r00      [17] 1776 	call	_collide
+   0BEF 7D            [ 4] 1777 	ld	a,l
+   0BF0 B7            [ 4] 1778 	or	a, a
+   0BF1 CAr28r0D      [10] 1779 	jp	Z,00174$
+                           1780 ;./engine/enengine.c:835: en_sg_1 = 0;
+   0BF4 FD 21r00r00   [14] 1781 	ld	iy,#_en_sg_1
+   0BF8 FD 36 00 00   [19] 1782 	ld	0 (iy),#0x00
+                           1783 ;./engine/enengine.c:839: en_sg_2 = (pflickering == 0);
+   0BFC 3Ar00r00      [13] 1784 	ld	a,(#_pflickering + 0)
+   0BFF B7            [ 4] 1785 	or	a, a
+   0C00 20 04         [12] 1786 	jr	NZ,00446$
+   0C02 3E 01         [ 7] 1787 	ld	a,#0x01
+   0C04 18 01         [12] 1788 	jr	00447$
+   0C06                    1789 00446$:
+   0C06 AF            [ 4] 1790 	xor	a,a
+   0C07                    1791 00447$:
+   0C07 FD 21r00r00   [14] 1792 	ld	iy,#_en_sg_2
+   0C0B FD 77 00      [19] 1793 	ld	0 (iy),a
+                           1794 ;./engine/enengine.c:878: if (en_sg_2) { 
+   0C0E 3Ar00r00      [13] 1795 	ld	a,(#_en_sg_2 + 0)
+   0C11 B7            [ 4] 1796 	or	a, a
+   0C12 CAr23r0D      [10] 1797 	jp	Z,00162$
+                           1798 ;./engine/enengine.c:879: pkill = 1; 
+   0C15 FD 21r00r00   [14] 1799 	ld	iy,#_pkill
+   0C19 FD 36 00 01   [19] 1800 	ld	0 (iy),#0x01
+                           1801 ;./engine/enengine.c:881: pvx = ADD_SIGN (_en_mx, PLAYER_V_REBOUND); 
+   0C1D 3Ar00r00      [13] 1802 	ld	a,(#__en_mx + 0)
+   0C20 B7            [ 4] 1803 	or	a, a
+   0C21 28 1A         [12] 1804 	jr	Z,00189$
+   0C23 AF            [ 4] 1805 	xor	a, a
+   0C24 FD 21r00r00   [14] 1806 	ld	iy,#__en_mx
+   0C28 FD 96 00      [19] 1807 	sub	a, 0 (iy)
+   0C2B E2r30r0C      [10] 1808 	jp	PO, 00448$
+   0C2E EE 80         [ 7] 1809 	xor	a, #0x80
+   0C30                    1810 00448$:
+   0C30 F2r38r0C      [10] 1811 	jp	P,00191$
+   0C33 11 E0 00      [10] 1812 	ld	de,#0x00E0
+   0C36 18 08         [12] 1813 	jr	00190$
+   0C38                    1814 00191$:
+   0C38 11 20 FF      [10] 1815 	ld	de,#0xFF20
+   0C3B 18 03         [12] 1816 	jr	00190$
+   0C3D                    1817 00189$:
+   0C3D 11 00 00      [10] 1818 	ld	de,#0x0000
+   0C40                    1819 00190$:
+   0C40 ED 53r00r00   [20] 1820 	ld	(_pvx),de
+                           1821 ;./engine/enengine.c:882: pvy = ADD_SIGN (_en_my, PLAYER_V_REBOUND); 
+   0C44 3Ar00r00      [13] 1822 	ld	a,(#__en_my + 0)
+   0C47 B7            [ 4] 1823 	or	a, a
+   0C48 28 1A         [12] 1824 	jr	Z,00193$
+   0C4A AF            [ 4] 1825 	xor	a, a
+   0C4B FD 21r00r00   [14] 1826 	ld	iy,#__en_my
+   0C4F FD 96 00      [19] 1827 	sub	a, 0 (iy)
+   0C52 E2r57r0C      [10] 1828 	jp	PO, 00449$
+   0C55 EE 80         [ 7] 1829 	xor	a, #0x80
+   0C57                    1830 00449$:
+   0C57 F2r5Fr0C      [10] 1831 	jp	P,00195$
+   0C5A 21 E0 00      [10] 1832 	ld	hl,#0x00E0
+   0C5D 18 08         [12] 1833 	jr	00194$
+   0C5F                    1834 00195$:
+   0C5F 21 20 FF      [10] 1835 	ld	hl,#0xFF20
+   0C62 18 03         [12] 1836 	jr	00194$
+   0C64                    1837 00193$:
+   0C64 21 00 00      [10] 1838 	ld	hl,#0x0000
+   0C67                    1839 00194$:
+   0C67 22r00r00      [16] 1840 	ld	(_pvy),hl
+                           1841 ;./engine/enengine.c:888: if (!_en_mx) _en_my = ADD_SIGN (_en_y - pry, ABS (_en_my));
+   0C6A 3Ar00r00      [13] 1842 	ld	a,(#__en_mx + 0)
+   0C6D B7            [ 4] 1843 	or	a, a
+   0C6E 20 58         [12] 1844 	jr	NZ,00160$
+   0C70 21r00r00      [10] 1845 	ld	hl,#__en_y + 0
+   0C73 56            [ 7] 1846 	ld	d, (hl)
+   0C74 1E 00         [ 7] 1847 	ld	e,#0x00
+   0C76 21r00r00      [10] 1848 	ld	hl,#_pry + 0
+   0C79 66            [ 7] 1849 	ld	h, (hl)
+   0C7A 2E 00         [ 7] 1850 	ld	l,#0x00
+   0C7C 7A            [ 4] 1851 	ld	a,d
+   0C7D 94            [ 4] 1852 	sub	a, h
+   0C7E DD 77 FE      [19] 1853 	ld	-2 (ix),a
+   0C81 7B            [ 4] 1854 	ld	a,e
+   0C82 9D            [ 4] 1855 	sbc	a, l
+   0C83 DD 77 FF      [19] 1856 	ld	-1 (ix), a
+   0C86 DD B6 FE      [19] 1857 	or	a,-2 (ix)
+   0C89 28 37         [12] 1858 	jr	Z,00197$
                            1859 ;./engine/../engine/enemmods/enem_linear.h:38: if (_en_my < 0) {
-   0C83 3Ar00r00      [13] 1860 	ld	a,(#__en_my + 0)
-   0C86 07            [ 4] 1861 	rlca
-   0C87 E6 01         [ 7] 1862 	and	a,#0x01
-   0C89 4F            [ 4] 1863 	ld	c,a
+   0C8B 3Ar00r00      [13] 1860 	ld	a,(#__en_my + 0)
+   0C8E 07            [ 4] 1861 	rlca
+   0C8F E6 01         [ 7] 1862 	and	a,#0x01
+   0C91 4F            [ 4] 1863 	ld	c,a
                            1864 ;./engine/../engine/enemmods/enem_linear.h:66: if (_en_y == _en_y1 || _en_y == _en_y2 || en_colly) _en_my = -_en_my;
-   0C8A AF            [ 4] 1865 	xor	a, a
-   0C8B FD 21r00r00   [14] 1866 	ld	iy,#__en_my
-   0C8F FD 96 00      [19] 1867 	sub	a, 0 (iy)
-   0C92 57            [ 4] 1868 	ld	d,a
-                           1869 ;./engine/enengine.c:886: if (!_en_mx) _en_my = ADD_SIGN (_en_y - pry, ABS (_en_my));
-   0C93 FD 21r00r00   [14] 1870 	ld	iy,#__en_my
-   0C97 FD 5E 00      [19] 1871 	ld	e,0 (iy)
-   0C9A AF            [ 4] 1872 	xor	a, a
-   0C9B DD BE FA      [19] 1873 	cp	a, -6 (ix)
-   0C9E DD 9E FB      [19] 1874 	sbc	a, -5 (ix)
-   0CA1 E2rA6r0C      [10] 1875 	jp	PO, 00450$
-   0CA4 EE 80         [ 7] 1876 	xor	a, #0x80
-   0CA6                    1877 00450$:
-   0CA6 F2rB0r0C      [10] 1878 	jp	P,00199$
-   0CA9 79            [ 4] 1879 	ld	a,c
-   0CAA B7            [ 4] 1880 	or	a, a
-   0CAB 20 0F         [12] 1881 	jr	NZ,00198$
-   0CAD 53            [ 4] 1882 	ld	d,e
-   0CAE 18 0C         [12] 1883 	jr	00198$
-   0CB0                    1884 00199$:
-   0CB0 79            [ 4] 1885 	ld	a,c
-   0CB1 B7            [ 4] 1886 	or	a, a
-   0CB2 28 01         [12] 1887 	jr	Z,00203$
-   0CB4 5A            [ 4] 1888 	ld	e,d
-   0CB5                    1889 00203$:
-   0CB5 AF            [ 4] 1890 	xor	a, a
-   0CB6 93            [ 4] 1891 	sub	a, e
-   0CB7 57            [ 4] 1892 	ld	d,a
-   0CB8 18 02         [12] 1893 	jr	00198$
-   0CBA                    1894 00197$:
-   0CBA 16 00         [ 7] 1895 	ld	d,#0x00
-   0CBC                    1896 00198$:
-   0CBC 21r00r00      [10] 1897 	ld	hl,#__en_my + 0
-   0CBF 72            [ 7] 1898 	ld	(hl), d
-   0CC0                    1899 00160$:
-                           1900 ;./engine/enengine.c:887: _en_mx = ADD_SIGN (_en_x - prx, ABS (_en_mx));
-   0CC0 21r00r00      [10] 1901 	ld	hl,#__en_x + 0
-   0CC3 56            [ 7] 1902 	ld	d, (hl)
-   0CC4 1E 00         [ 7] 1903 	ld	e,#0x00
-   0CC6 FD 21r00r00   [14] 1904 	ld	iy,#_prx
-   0CCA FD 6E 00      [19] 1905 	ld	l,0 (iy)
-   0CCD 26 00         [ 7] 1906 	ld	h,#0x00
-   0CCF 7A            [ 4] 1907 	ld	a,d
-   0CD0 95            [ 4] 1908 	sub	a, l
-   0CD1 DD 77 FA      [19] 1909 	ld	-6 (ix),a
-   0CD4 7B            [ 4] 1910 	ld	a,e
-   0CD5 9C            [ 4] 1911 	sbc	a, h
-   0CD6 DD 77 FB      [19] 1912 	ld	-5 (ix), a
-   0CD9 DD B6 FA      [19] 1913 	or	a,-6 (ix)
-   0CDC 28 37         [12] 1914 	jr	Z,00205$
+   0C92 AF            [ 4] 1865 	xor	a, a
+   0C93 FD 21r00r00   [14] 1866 	ld	iy,#__en_my
+   0C97 FD 96 00      [19] 1867 	sub	a, 0 (iy)
+   0C9A 57            [ 4] 1868 	ld	d,a
+                           1869 ;./engine/enengine.c:888: if (!_en_mx) _en_my = ADD_SIGN (_en_y - pry, ABS (_en_my));
+   0C9B FD 21r00r00   [14] 1870 	ld	iy,#__en_my
+   0C9F FD 5E 00      [19] 1871 	ld	e,0 (iy)
+   0CA2 AF            [ 4] 1872 	xor	a, a
+   0CA3 DD BE FE      [19] 1873 	cp	a, -2 (ix)
+   0CA6 DD 9E FF      [19] 1874 	sbc	a, -1 (ix)
+   0CA9 E2rAEr0C      [10] 1875 	jp	PO, 00450$
+   0CAC EE 80         [ 7] 1876 	xor	a, #0x80
+   0CAE                    1877 00450$:
+   0CAE F2rB8r0C      [10] 1878 	jp	P,00199$
+   0CB1 79            [ 4] 1879 	ld	a,c
+   0CB2 B7            [ 4] 1880 	or	a, a
+   0CB3 20 0F         [12] 1881 	jr	NZ,00198$
+   0CB5 53            [ 4] 1882 	ld	d,e
+   0CB6 18 0C         [12] 1883 	jr	00198$
+   0CB8                    1884 00199$:
+   0CB8 79            [ 4] 1885 	ld	a,c
+   0CB9 B7            [ 4] 1886 	or	a, a
+   0CBA 28 01         [12] 1887 	jr	Z,00203$
+   0CBC 5A            [ 4] 1888 	ld	e,d
+   0CBD                    1889 00203$:
+   0CBD AF            [ 4] 1890 	xor	a, a
+   0CBE 93            [ 4] 1891 	sub	a, e
+   0CBF 57            [ 4] 1892 	ld	d,a
+   0CC0 18 02         [12] 1893 	jr	00198$
+   0CC2                    1894 00197$:
+   0CC2 16 00         [ 7] 1895 	ld	d,#0x00
+   0CC4                    1896 00198$:
+   0CC4 21r00r00      [10] 1897 	ld	hl,#__en_my + 0
+   0CC7 72            [ 7] 1898 	ld	(hl), d
+   0CC8                    1899 00160$:
+                           1900 ;./engine/enengine.c:889: _en_mx = ADD_SIGN (_en_x - prx, ABS (_en_mx));
+   0CC8 21r00r00      [10] 1901 	ld	hl,#__en_x + 0
+   0CCB 56            [ 7] 1902 	ld	d, (hl)
+   0CCC 1E 00         [ 7] 1903 	ld	e,#0x00
+   0CCE FD 21r00r00   [14] 1904 	ld	iy,#_prx
+   0CD2 FD 6E 00      [19] 1905 	ld	l,0 (iy)
+   0CD5 26 00         [ 7] 1906 	ld	h,#0x00
+   0CD7 7A            [ 4] 1907 	ld	a,d
+   0CD8 95            [ 4] 1908 	sub	a, l
+   0CD9 DD 77 FE      [19] 1909 	ld	-2 (ix),a
+   0CDC 7B            [ 4] 1910 	ld	a,e
+   0CDD 9C            [ 4] 1911 	sbc	a, h
+   0CDE DD 77 FF      [19] 1912 	ld	-1 (ix), a
+   0CE1 DD B6 FE      [19] 1913 	or	a,-2 (ix)
+   0CE4 28 37         [12] 1914 	jr	Z,00205$
                            1915 ;./engine/../engine/enemmods/enem_linear.h:21: if (_en_mx < 0) {
-   0CDE 3Ar00r00      [13] 1916 	ld	a,(#__en_mx + 0)
-   0CE1 07            [ 4] 1917 	rlca
-   0CE2 E6 01         [ 7] 1918 	and	a,#0x01
-   0CE4 4F            [ 4] 1919 	ld	c,a
+   0CE6 3Ar00r00      [13] 1916 	ld	a,(#__en_mx + 0)
+   0CE9 07            [ 4] 1917 	rlca
+   0CEA E6 01         [ 7] 1918 	and	a,#0x01
+   0CEC 4F            [ 4] 1919 	ld	c,a
                            1920 ;./engine/../engine/enemmods/enem_linear.h:65: if (_en_x == _en_x1 || _en_x == _en_x2 || en_collx) _en_mx = -_en_mx;
-   0CE5 AF            [ 4] 1921 	xor	a, a
-   0CE6 FD 21r00r00   [14] 1922 	ld	iy,#__en_mx
-   0CEA FD 96 00      [19] 1923 	sub	a, 0 (iy)
-   0CED 57            [ 4] 1924 	ld	d,a
-                           1925 ;./engine/enengine.c:887: _en_mx = ADD_SIGN (_en_x - prx, ABS (_en_mx));
-   0CEE FD 21r00r00   [14] 1926 	ld	iy,#__en_mx
-   0CF2 FD 5E 00      [19] 1927 	ld	e,0 (iy)
-   0CF5 AF            [ 4] 1928 	xor	a, a
-   0CF6 DD BE FA      [19] 1929 	cp	a, -6 (ix)
-   0CF9 DD 9E FB      [19] 1930 	sbc	a, -5 (ix)
-   0CFC E2r01r0D      [10] 1931 	jp	PO, 00451$
-   0CFF EE 80         [ 7] 1932 	xor	a, #0x80
-   0D01                    1933 00451$:
-   0D01 F2r0Br0D      [10] 1934 	jp	P,00207$
-   0D04 79            [ 4] 1935 	ld	a,c
-   0D05 B7            [ 4] 1936 	or	a, a
-   0D06 20 0F         [12] 1937 	jr	NZ,00206$
-   0D08 53            [ 4] 1938 	ld	d,e
-   0D09 18 0C         [12] 1939 	jr	00206$
-   0D0B                    1940 00207$:
-   0D0B 79            [ 4] 1941 	ld	a,c
-   0D0C B7            [ 4] 1942 	or	a, a
-   0D0D 28 01         [12] 1943 	jr	Z,00211$
-   0D0F 5A            [ 4] 1944 	ld	e,d
-   0D10                    1945 00211$:
-   0D10 AF            [ 4] 1946 	xor	a, a
-   0D11 93            [ 4] 1947 	sub	a, e
-   0D12 57            [ 4] 1948 	ld	d,a
-   0D13 18 02         [12] 1949 	jr	00206$
-   0D15                    1950 00205$:
-   0D15 16 00         [ 7] 1951 	ld	d,#0x00
-   0D17                    1952 00206$:
-   0D17 21r00r00      [10] 1953 	ld	hl,#__en_mx + 0
-   0D1A 72            [ 7] 1954 	ld	(hl), d
-   0D1B                    1955 00162$:
-                           1956 ;./engine/enengine.c:892: touched = 1; 
-   0D1B 21r00r00      [10] 1957 	ld	hl,#_touched + 0
-   0D1E 36 01         [10] 1958 	ld	(hl), #0x01
-                           1959 ;./engine/enengine.c:1013: skipdo: 
-   0D20                    1960 00174$:
-                           1961 ;./engine/enengine.c:1016: if (en_spr != 0xff) {
-   0D20 3Ar00r00      [13] 1962 	ld	a,(#_en_spr + 0)
-   0D23 3C            [ 4] 1963 	inc	a
-   0D24 28 29         [12] 1964 	jr	Z,00176$
-                           1965 ;./engine/enengine.c:1019: spr_enems [en_spr]
-   0D26 FD 21r00r00   [14] 1966 	ld	iy,#_en_spr
-   0D2A FD 6E 00      [19] 1967 	ld	l,0 (iy)
-   0D2D 26 00         [ 7] 1968 	ld	h,#0x00
-   0D2F 29            [11] 1969 	add	hl, hl
-   0D30 EB            [ 4] 1970 	ex	de,hl
-   0D31 2Ar00r00      [16] 1971 	ld	hl,(_spr_enems)
-   0D34 19            [11] 1972 	add	hl,de
-   0D35 4E            [ 7] 1973 	ld	c,(hl)
-   0D36 23            [ 6] 1974 	inc	hl
-   0D37 46            [ 7] 1975 	ld	b,(hl)
-                           1976 ;./engine/enengine.c:1018: _en_x + en_spr_x_mod, _en_y + SPRITE_ADJUST, 
-   0D38 3Ar00r00      [13] 1977 	ld	a,(#__en_y + 0)
-   0D3B C6 F7         [ 7] 1978 	add	a, #0xF7
-   0D3D 57            [ 4] 1979 	ld	d,a
-   0D3E 21r00r00      [10] 1980 	ld	hl,#_en_spr_x_mod
-   0D41 3Ar00r00      [13] 1981 	ld	a,(#__en_x + 0)
-   0D44 86            [ 7] 1982 	add	a, (hl)
-   0D45 C5            [11] 1983 	push	bc
-   0D46 D5            [11] 1984 	push	de
-   0D47 33            [ 6] 1985 	inc	sp
-   0D48 F5            [11] 1986 	push	af
-   0D49 33            [ 6] 1987 	inc	sp
-   0D4A CDr00r00      [17] 1988 	call	_SG_addMetaSprite1x1
-   0D4D F1            [10] 1989 	pop	af
-   0D4E F1            [10] 1990 	pop	af
-   0D4F                    1991 00176$:
-                           1992 ;./engine/enengine.c:1025: enems_update_unsigned_char_arrays ();
-   0D4F CDr76r01      [17] 1993 	call	_enems_update_unsigned_char_arrays
-   0D52 C3rB6r04      [10] 1994 	jp	00177$
-   0D55                    1995 00180$:
-   0D55 DD F9         [10] 1996 	ld	sp, ix
-   0D57 DD E1         [14] 1997 	pop	ix
-   0D59 C9            [10] 1998 	ret
+   0CED AF            [ 4] 1921 	xor	a, a
+   0CEE FD 21r00r00   [14] 1922 	ld	iy,#__en_mx
+   0CF2 FD 96 00      [19] 1923 	sub	a, 0 (iy)
+   0CF5 57            [ 4] 1924 	ld	d,a
+                           1925 ;./engine/enengine.c:889: _en_mx = ADD_SIGN (_en_x - prx, ABS (_en_mx));
+   0CF6 FD 21r00r00   [14] 1926 	ld	iy,#__en_mx
+   0CFA FD 5E 00      [19] 1927 	ld	e,0 (iy)
+   0CFD AF            [ 4] 1928 	xor	a, a
+   0CFE DD BE FE      [19] 1929 	cp	a, -2 (ix)
+   0D01 DD 9E FF      [19] 1930 	sbc	a, -1 (ix)
+   0D04 E2r09r0D      [10] 1931 	jp	PO, 00451$
+   0D07 EE 80         [ 7] 1932 	xor	a, #0x80
+   0D09                    1933 00451$:
+   0D09 F2r13r0D      [10] 1934 	jp	P,00207$
+   0D0C 79            [ 4] 1935 	ld	a,c
+   0D0D B7            [ 4] 1936 	or	a, a
+   0D0E 20 0F         [12] 1937 	jr	NZ,00206$
+   0D10 53            [ 4] 1938 	ld	d,e
+   0D11 18 0C         [12] 1939 	jr	00206$
+   0D13                    1940 00207$:
+   0D13 79            [ 4] 1941 	ld	a,c
+   0D14 B7            [ 4] 1942 	or	a, a
+   0D15 28 01         [12] 1943 	jr	Z,00211$
+   0D17 5A            [ 4] 1944 	ld	e,d
+   0D18                    1945 00211$:
+   0D18 AF            [ 4] 1946 	xor	a, a
+   0D19 93            [ 4] 1947 	sub	a, e
+   0D1A 57            [ 4] 1948 	ld	d,a
+   0D1B 18 02         [12] 1949 	jr	00206$
+   0D1D                    1950 00205$:
+   0D1D 16 00         [ 7] 1951 	ld	d,#0x00
+   0D1F                    1952 00206$:
+   0D1F 21r00r00      [10] 1953 	ld	hl,#__en_mx + 0
+   0D22 72            [ 7] 1954 	ld	(hl), d
+   0D23                    1955 00162$:
+                           1956 ;./engine/enengine.c:894: touched = 1; 
+   0D23 21r00r00      [10] 1957 	ld	hl,#_touched + 0
+   0D26 36 01         [10] 1958 	ld	(hl), #0x01
+                           1959 ;./engine/enengine.c:1015: skipdo: 
+   0D28                    1960 00174$:
+                           1961 ;./engine/enengine.c:1018: if (en_spr != 0xff) {
+   0D28 3Ar00r00      [13] 1962 	ld	a,(#_en_spr + 0)
+   0D2B 3C            [ 4] 1963 	inc	a
+   0D2C 28 29         [12] 1964 	jr	Z,00176$
+                           1965 ;./engine/enengine.c:1021: spr_enems [en_spr]
+   0D2E FD 21r00r00   [14] 1966 	ld	iy,#_en_spr
+   0D32 FD 6E 00      [19] 1967 	ld	l,0 (iy)
+   0D35 26 00         [ 7] 1968 	ld	h,#0x00
+   0D37 29            [11] 1969 	add	hl, hl
+   0D38 EB            [ 4] 1970 	ex	de,hl
+   0D39 2Ar00r00      [16] 1971 	ld	hl,(_spr_enems)
+   0D3C 19            [11] 1972 	add	hl,de
+   0D3D 4E            [ 7] 1973 	ld	c,(hl)
+   0D3E 23            [ 6] 1974 	inc	hl
+   0D3F 46            [ 7] 1975 	ld	b,(hl)
+                           1976 ;./engine/enengine.c:1020: _en_x + en_spr_x_mod, _en_y + SPRITE_ADJUST, 
+   0D40 3Ar00r00      [13] 1977 	ld	a,(#__en_y + 0)
+   0D43 C6 F7         [ 7] 1978 	add	a, #0xF7
+   0D45 57            [ 4] 1979 	ld	d,a
+   0D46 21r00r00      [10] 1980 	ld	hl,#_en_spr_x_mod
+   0D49 3Ar00r00      [13] 1981 	ld	a,(#__en_x + 0)
+   0D4C 86            [ 7] 1982 	add	a, (hl)
+   0D4D C5            [11] 1983 	push	bc
+   0D4E D5            [11] 1984 	push	de
+   0D4F 33            [ 6] 1985 	inc	sp
+   0D50 F5            [11] 1986 	push	af
+   0D51 33            [ 6] 1987 	inc	sp
+   0D52 CDr00r00      [17] 1988 	call	_SG_addMetaSprite1x1
+   0D55 F1            [10] 1989 	pop	af
+   0D56 F1            [10] 1990 	pop	af
+   0D57                    1991 00176$:
+                           1992 ;./engine/enengine.c:1027: enems_update_unsigned_char_arrays ();
+   0D57 CDr76r01      [17] 1993 	call	_enems_update_unsigned_char_arrays
+   0D5A C3rB6r04      [10] 1994 	jp	00177$
+   0D5D                    1995 00180$:
+   0D5D DD F9         [10] 1996 	ld	sp, ix
+   0D5F DD E1         [14] 1997 	pop	ix
+   0D61 C9            [10] 1998 	ret
                            1999 	.area _CODE
                            2000 	.area _INITIALIZER
                            2001 	.area _CABS (ABS)

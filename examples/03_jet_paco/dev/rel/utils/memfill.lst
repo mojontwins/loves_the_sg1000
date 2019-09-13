@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.2 #9293 (MINGW32)
-                              4 ; This file was generated Tue Sep 10 14:20:58 2019
+                              4 ; This file was generated Fri Sep 13 13:08:16 2019
                               5 ;--------------------------------------------------------
                               6 	.module memfill
                               7 	.optsdcc -mz80
@@ -46,24 +46,30 @@
                              46 ; Function memfill
                              47 ; ---------------------------------
    0000                      48 _memfill::
-                             49 ;./utils/memfill.c:27: __endasm;
-   0000 21 02 00      [10]   50 	ld hl, #2
-   0003 39            [11]   51 	add hl, sp
-   0004 5E            [ 7]   52 	ld e, (hl)
-   0005 23            [ 6]   53 	inc hl
-   0006 56            [ 7]   54 	ld d, (hl) ; DE = *ptr
-   0007 23            [ 6]   55 	inc hl
-   0008 7E            [ 7]   56 	ld a, (hl) ; A = value
-   0009 23            [ 6]   57 	inc hl
-   000A 4E            [ 7]   58 	ld c, (hl)
-   000B 23            [ 6]   59 	inc hl
-   000C 46            [ 7]   60 	ld b, (hl) ; BC = length
-   000D 62            [ 4]   61 	ld h, d
-   000E 6B            [ 4]   62 	ld l, e
-   000F 13            [ 6]   63 	inc de
-   0010 77            [ 7]   64 	ld (hl), a
-   0011 ED B0         [21]   65 	ldir
-   0013 C9            [10]   66 	ret
-                             67 	.area _CODE
-                             68 	.area _INITIALIZER
-                             69 	.area _CABS (ABS)
+                             49 ;./utils/memfill.c:9: if (length) {
+   0000 FD 21 05 00   [14]   50 	ld	iy,#5
+   0004 FD 39         [15]   51 	add	iy,sp
+   0006 FD 7E 01      [19]   52 	ld	a,1 (iy)
+   0009 FD B6 00      [19]   53 	or	a,0 (iy)
+   000C C8            [11]   54 	ret	Z
+                             55 ;./utils/memfill.c:28: __endasm;
+   000D 21 02 00      [10]   56 	ld hl, #2
+   0010 39            [11]   57 	add hl, sp
+   0011 5E            [ 7]   58 	ld e, (hl)
+   0012 23            [ 6]   59 	inc hl
+   0013 56            [ 7]   60 	ld d, (hl) ; DE = *ptr
+   0014 23            [ 6]   61 	inc hl
+   0015 7E            [ 7]   62 	ld a, (hl) ; A = value
+   0016 23            [ 6]   63 	inc hl
+   0017 4E            [ 7]   64 	ld c, (hl)
+   0018 23            [ 6]   65 	inc hl
+   0019 46            [ 7]   66 	ld b, (hl) ; BC = length
+   001A 62            [ 4]   67 	ld h, d
+   001B 6B            [ 4]   68 	ld l, e
+   001C 13            [ 6]   69 	inc de
+   001D 77            [ 7]   70 	ld (hl), a
+   001E ED B0         [21]   71 	ldir
+   0020 C9            [10]   72 	ret
+                             73 	.area _CODE
+                             74 	.area _INITIALIZER
+                             75 	.area _CABS (ABS)

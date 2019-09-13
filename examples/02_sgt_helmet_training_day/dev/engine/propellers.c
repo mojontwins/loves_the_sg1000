@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // Simple propellers
@@ -8,7 +8,7 @@
 	#include "../lib/SMSlib.h"
 #else
 	#include "../hw_sg1000.h"
-	#include "../lib/SGlib.h"	
+	#include "../lib/SGlib.h"
 #endif
 #include "../definitions.h"
 #include "../config.h"

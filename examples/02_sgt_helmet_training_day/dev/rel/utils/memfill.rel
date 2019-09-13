@@ -3,7 +3,7 @@ H 9 areas 2 global symbols
 M memfill
 O -mz80
 S .__.ABS. Def0000
-A _CODE size 14 flags 0 addr 0
+A _CODE size 21 flags 0 addr 0
 S _memfill Def0000
 A _DATA size 0 flags 0 addr 0
 A _INITIALIZED size 0 flags 0 addr 0
@@ -15,7 +15,9 @@ A _INITIALIZER size 0 flags 0 addr 0
 A _CABS size 0 flags 8 addr 0
 T 00 00
 R 00 00 00 00
-T 00 00 21 02 00 39 5E 23 56 23 7E 23 4E 23 46 62
+T 00 00 FD 21 05 00 FD 39 FD 7E 01 FD B6 00 C8 21
 R 00 00 00 00
-T 0E 00 6B 13 77 ED B0 C9
+T 0E 00 02 00 39 5E 23 56 23 7E 23 4E 23 46 62 6B
+R 00 00 00 00
+T 1C 00 13 77 ED B0 C9
 R 00 00 00 00

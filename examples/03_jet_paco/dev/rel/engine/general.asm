@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Tue Sep 10 14:20:14 2019
+; This file was generated Fri Sep 13 13:08:07 2019
 ;--------------------------------------------------------
 	.module general
 	.optsdcc -mz80
@@ -22,7 +22,6 @@
 	.globl _SG_doUpdateList
 	.globl _SG_copySpritestoSAT
 	.globl _SG_getKeysStatus
-	.globl _SG_finalizeSprites
 	.globl _SG_initSprites
 	.globl _SG_waitForVBlank
 ;--------------------------------------------------------
@@ -368,8 +367,6 @@ _jump_start::
 ; Function update_cycle
 ; ---------------------------------
 _update_cycle::
-;./engine/general.c:135: HW_finalizeSprites ();
-	call	_SG_finalizeSprites
 ;./engine/general.c:136: HW_waitForVBlank ();
 	call	_SG_waitForVBlank
 ;./engine/general.c:137: HW_copySpritestoSAT ();

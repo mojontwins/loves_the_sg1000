@@ -1,4 +1,4 @@
-// SG-1000 MK1 v0.3
+// SG-1000 MK1 v0.4
 // Copyleft Mojon Twins 2013, 2015, 2017, 2018
 
 // player.c
@@ -117,7 +117,7 @@ void player_init (void) {
 
 void player_render (void) {
 	if (0 == pflickering || half_life) 
-		HW_addMetaSprite1x1 (
+		PLAYER_METASPRITE_FUNCTION (
 			prx - 4, pry + SPRITE_ADJUST, 
 			spr_player [psprid]
 		);
@@ -151,7 +151,7 @@ void player_kill (void) {
 	#endif
 
 	#ifdef DIE_AND_RESPAWN
-		//music_pause (1);
+		music_pause (1);
 		delay (60);
 		
 		#ifdef DIE_AND_REINIT
@@ -162,8 +162,9 @@ void player_kill (void) {
 			player_to_pixels ();
 			n_pant = n_pant_safe;		
 			player_stop ();
-			//music_pause (0);
+			music_pause (0);
 		#endif
+		HW_resetPauseRequest ();
 
 		// May be necessary to find a proper cell later on
 		#if defined (ENABLE_BREAKABLE)
@@ -572,32 +573,35 @@ void player_move (void) {
 				}
 
 			#else
-				
-				if (
-					a_button 
-					&& !pj
-					&& (
-						pgotten || ppossee || hitv
-						#ifdef ENABLE_LADDERS
-							|| ponladder
-						#endif
-					)
-				) {
-					jump_start ();
-					
-					#ifdef DIE_AND_RESPAWN
-						if (!(pgotten || hitv || pnotsafe)) {
-							player_register_safe_spot ();
-						}
-					#endif	
+				if (pad0 & PAD_A) {
+					if (
+						!pjb  
+						&& !pj
+						&& (
+							pgotten || ppossee || hitv
+							#ifdef ENABLE_LADDERS
+								|| ponladder
+							#endif
+						)
+					) {
+						jump_start ();
+						
+						#ifdef DIE_AND_RESPAWN
+							if (!(pgotten || hitv || pnotsafe)) {
+								player_register_safe_spot ();
+							}
+						#endif	
 
-					#ifdef PLAYER_SPINS
-						#ifdef ENABLE_TRAMPOLINES
-							if (!ptrampoline)
+						#ifdef PLAYER_SPINS
+							#ifdef ENABLE_TRAMPOLINES
+								if (!ptrampoline)
+							#endif
+							pspin = 1;
 						#endif
-						pspin = 1;
-					#endif
-				}
+					}
+				
+					pjb = 1;
+				} else pjb = 0;
 				
 				#ifdef ENABLE_TRAMPOLINES
 				if (pj && ptrampoline) {

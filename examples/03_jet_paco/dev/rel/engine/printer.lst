@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.2 #9293 (MINGW32)
-                              4 ; This file was generated Tue Sep 10 14:20:21 2019
+                              4 ; This file was generated Fri Sep 13 13:08:11 2019
                               5 ;--------------------------------------------------------
                               6 	.module printer
                               7 	.optsdcc -mz80
@@ -537,7 +537,7 @@
                             537 ;./engine/../engine/mapmods/map_renderer_complex.h:20: rdm = 0;
    02AE 21r00r00      [10]  538 	ld	hl,#_rdm + 0
    02B1 36 00         [10]  539 	ld	(hl), #0x00
-                            540 ;./engine/../engine/mapmods/map_renderer_complex.h:86: gp_gen = c_map [n_pant];
+                            540 ;./engine/../engine/mapmods/map_renderer_complex.h:85: gp_gen = c_map [n_pant];
    02B3 FD 21r00r00   [14]  541 	ld	iy,#_n_pant
    02B7 FD 6E 00      [19]  542 	ld	l,0 (iy)
    02BA 26 00         [ 7]  543 	ld	h,#0x00
@@ -551,33 +551,33 @@
    02CA 23            [ 6]  551 	inc	hl
    02CB 7E            [ 7]  552 	ld	a,(hl)
    02CC 32r01r00      [13]  553 	ld	(#_gp_gen + 1),a
-                            554 ;./engine/../engine/mapmods/map_renderer_complex.h:88: while (rdm < 192) {
+                            554 ;./engine/../engine/mapmods/map_renderer_complex.h:87: while (rdm < 192) {
    02CF                     555 00104$:
-                            556 ;./engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
+                            556 ;./engine/../engine/mapmods/map_renderer_complex.h:88: rdt = *gp_gen ++;
    02CF ED 5Br00r00   [20]  557 	ld	de,(_gp_gen)
    02D3 ED 4Br00r00   [20]  558 	ld	bc,(_gp_gen)
    02D7 03            [ 6]  559 	inc	bc
-                            560 ;./engine/../engine/mapmods/map_renderer_complex.h:88: while (rdm < 192) {
+                            560 ;./engine/../engine/mapmods/map_renderer_complex.h:87: while (rdm < 192) {
    02D8 3Ar00r00      [13]  561 	ld	a,(#_rdm + 0)
    02DB D6 C0         [ 7]  562 	sub	a, #0xC0
    02DD 30 2E         [12]  563 	jr	NC,00106$
-                            564 ;./engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
+                            564 ;./engine/../engine/mapmods/map_renderer_complex.h:88: rdt = *gp_gen ++;
    02DF 1A            [ 7]  565 	ld	a,(de)
    02E0 32r00r00      [13]  566 	ld	(#_rdt + 0),a
    02E3 ED 43r00r00   [20]  567 	ld	(_gp_gen),bc
-                            568 ;./engine/../engine/mapmods/map_renderer_complex.h:90: rda = rdt & 0x0f;
+                            568 ;./engine/../engine/mapmods/map_renderer_complex.h:89: rda = rdt & 0x0f;
    02E7 3Ar00r00      [13]  569 	ld	a,(#_rdt + 0)
    02EA E6 0F         [ 7]  570 	and	a, #0x0F
    02EC 32r00r00      [13]  571 	ld	(#_rda + 0),a
-                            572 ;./engine/../engine/mapmods/map_renderer_complex.h:92: rdct = rdt;
+                            572 ;./engine/../engine/mapmods/map_renderer_complex.h:91: rdct = rdt;
    02EF 3Ar00r00      [13]  573 	ld	a,(#_rdt + 0)
    02F2 32r00r00      [13]  574 	ld	(#_rdct + 0),a
-                            575 ;./engine/../engine/mapmods/map_renderer_complex.h:93: while (rdct >= 16) {
+                            575 ;./engine/../engine/mapmods/map_renderer_complex.h:92: while (rdct >= 16) {
    02F5                     576 00101$:
    02F5 3Ar00r00      [13]  577 	ld	a,(#_rdct + 0)
    02F8 D6 10         [ 7]  578 	sub	a, #0x10
    02FA 38 0C         [12]  579 	jr	C,00103$
-                            580 ;./engine/../engine/mapmods/map_renderer_complex.h:94: add_tile (); rdct -= 16;
+                            580 ;./engine/../engine/mapmods/map_renderer_complex.h:93: add_tile (); rdct -= 16;
    02FC CDr93r02      [17]  581 	call	_add_tile
    02FF 21r00r00      [10]  582 	ld	hl,#_rdct
    0302 7E            [ 7]  583 	ld	a,(hl)
@@ -585,15 +585,15 @@
    0305 77            [ 7]  585 	ld	(hl),a
    0306 18 ED         [12]  586 	jr	00101$
    0308                     587 00103$:
-                            588 ;./engine/../engine/mapmods/map_renderer_complex.h:95: } add_tile ();
+                            588 ;./engine/../engine/mapmods/map_renderer_complex.h:94: } add_tile ();
    0308 CDr93r02      [17]  589 	call	_add_tile
    030B 18 C2         [12]  590 	jr	00104$
    030D                     591 00106$:
-                            592 ;./engine/../engine/mapmods/map_renderer_complex.h:140: if (c_decos) {
+                            592 ;./engine/../engine/mapmods/map_renderer_complex.h:105: if (c_decos) {
    030D 3Ar00r00      [13]  593 	ld	a,(#_c_decos + 0)
    0310 B7            [ 4]  594 	or	a, a
    0311 28 5B         [12]  595 	jr	Z,00117$
-                            596 ;./engine/../engine/mapmods/map_renderer_complex.h:162: while (rda = *gp_gen ++) {
+                            596 ;./engine/../engine/mapmods/map_renderer_complex.h:127: while (rda = *gp_gen ++) {
    0313                     597 00113$:
    0313 1A            [ 7]  598 	ld	a,(de)
    0314 57            [ 4]  599 	ld	d,a
@@ -603,20 +603,20 @@
    031D 7A            [ 4]  603 	ld	a,d
    031E B7            [ 4]  604 	or	a, a
    031F 28 4D         [12]  605 	jr	Z,00117$
-                            606 ;./engine/../engine/mapmods/map_renderer_complex.h:163: if (rda & 0x80) {
+                            606 ;./engine/../engine/mapmods/map_renderer_complex.h:128: if (rda & 0x80) {
    0321 21r00r00      [10]  607 	ld	hl,#_rda+0
    0324 CB 7E         [12]  608 	bit	7, (hl)
    0326 28 0F         [12]  609 	jr	Z,00108$
-                            610 ;./engine/../engine/mapmods/map_renderer_complex.h:164: rda &= 0x7F;
+                            610 ;./engine/../engine/mapmods/map_renderer_complex.h:129: rda &= 0x7F;
    0328 3Ar00r00      [13]  611 	ld	a,(#_rda + 0)
    032B CB BF         [ 8]  612 	res	7, a
    032D 32r00r00      [13]  613 	ld	(#_rda + 0),a
-                            614 ;./engine/../engine/mapmods/map_renderer_complex.h:165: rdct = 1;
+                            614 ;./engine/../engine/mapmods/map_renderer_complex.h:130: rdct = 1;
    0330 21r00r00      [10]  615 	ld	hl,#_rdct + 0
    0333 36 01         [10]  616 	ld	(hl), #0x01
    0335 18 11         [12]  617 	jr	00110$
    0337                     618 00108$:
-                            619 ;./engine/../engine/mapmods/map_renderer_complex.h:167: rdct = *gp_gen ++;
+                            619 ;./engine/../engine/mapmods/map_renderer_complex.h:132: rdct = *gp_gen ++;
    0337 2Ar00r00      [16]  620 	ld	hl,(_gp_gen)
    033A 7E            [ 7]  621 	ld	a,(hl)
    033B 32r00r00      [13]  622 	ld	(#_rdct + 0),a
@@ -626,40 +626,40 @@
    0344 21r01r00      [10]  626 	ld	hl, #_gp_gen+1
    0347 34            [11]  627 	inc	(hl)
    0348                     628 00230$:
-                            629 ;./engine/../engine/mapmods/map_renderer_complex.h:169: while (rdct --) {
+                            629 ;./engine/../engine/mapmods/map_renderer_complex.h:134: while (rdct --) {
    0348                     630 00110$:
    0348 3Ar00r00      [13]  631 	ld	a,(#_rdct + 0)
    034B DD 77 FF      [19]  632 	ld	-1 (ix),a
    034E 21r00r00      [10]  633 	ld	hl, #_rdct+0
    0351 35            [11]  634 	dec	(hl)
-                            635 ;./engine/../engine/mapmods/map_renderer_complex.h:89: rdt = *gp_gen ++;
+                            635 ;./engine/../engine/mapmods/map_renderer_complex.h:88: rdt = *gp_gen ++;
    0352 ED 5Br00r00   [20]  636 	ld	de,(_gp_gen)
    0356 ED 4Br00r00   [20]  637 	ld	bc,(_gp_gen)
    035A 03            [ 6]  638 	inc	bc
-                            639 ;./engine/../engine/mapmods/map_renderer_complex.h:169: while (rdct --) {
+                            639 ;./engine/../engine/mapmods/map_renderer_complex.h:134: while (rdct --) {
    035B DD 7E FF      [19]  640 	ld	a,-1 (ix)
    035E B7            [ 4]  641 	or	a, a
    035F 28 B2         [12]  642 	jr	Z,00113$
-                            643 ;./engine/../engine/mapmods/map_renderer_complex.h:170: rdm = *gp_gen ++;
+                            643 ;./engine/../engine/mapmods/map_renderer_complex.h:135: rdm = *gp_gen ++;
    0361 1A            [ 7]  644 	ld	a,(de)
    0362 32r00r00      [13]  645 	ld	(#_rdm + 0),a
    0365 ED 43r00r00   [20]  646 	ld	(_gp_gen),bc
-                            647 ;./engine/../engine/mapmods/map_renderer_complex.h:171: add_tile ();
+                            647 ;./engine/../engine/mapmods/map_renderer_complex.h:136: add_tile ();
    0369 CDr93r02      [17]  648 	call	_add_tile
    036C 18 DA         [12]  649 	jr	00110$
    036E                     650 00117$:
-                            651 ;./engine/../engine/mapmods/map_renderer_complex.h:198: _x = 0; _y = TOP_ADJUST; gp_ram = map_buff;
+                            651 ;./engine/../engine/mapmods/map_renderer_complex.h:163: _x = 0; _y = TOP_ADJUST; gp_ram = map_buff;
    036E 21r00r00      [10]  652 	ld	hl,#__x + 0
    0371 36 00         [10]  653 	ld	(hl), #0x00
    0373 21r00r00      [10]  654 	ld	hl,#__y + 0
    0376 36 01         [10]  655 	ld	(hl), #0x01
    0378 01r00r00      [10]  656 	ld	bc,#_map_buff+0
    037B ED 43r00r00   [20]  657 	ld	(_gp_ram),bc
-                            658 ;./engine/../engine/mapmods/map_renderer_complex.h:199: for (rdm = 0; rdm < 192; rdm ++) {
+                            658 ;./engine/../engine/mapmods/map_renderer_complex.h:164: for (rdm = 0; rdm < 192; rdm ++) {
    037F 21r00r00      [10]  659 	ld	hl,#_rdm + 0
    0382 36 00         [10]  660 	ld	(hl), #0x00
    0384                     661 00137$:
-                            662 ;./engine/../engine/mapmods/map_renderer_complex.h:200: rdt = *gp_ram ++;
+                            662 ;./engine/../engine/mapmods/map_renderer_complex.h:165: rdt = *gp_ram ++;
    0384 2Ar00r00      [16]  663 	ld	hl,(_gp_ram)
    0387 7E            [ 7]  664 	ld	a,(hl)
    0388 32r00r00      [13]  665 	ld	(#_rdt + 0),a
@@ -746,15 +746,15 @@
    0410 21r00r00      [10]  746 	ld	hl,#_rdt + 0
    0413 36 00         [10]  747 	ld	(hl), #0x00
    0415                     748 00129$:
-                            749 ;./engine/../engine/mapmods/map_renderer_complex.h:213: DISABLE_INTERRUPTS;
+                            749 ;./engine/../engine/mapmods/map_renderer_complex.h:178: DISABLE_INTERRUPTS;
    0415 F3            [ 4]  750 	di 
-                            751 ;./engine/../engine/mapmods/map_renderer_complex.h:214: _t = rdt; draw_tile ();
+                            751 ;./engine/../engine/mapmods/map_renderer_complex.h:179: _t = rdt; draw_tile ();
    0416 3Ar00r00      [13]  752 	ld	a,(#_rdt + 0)
    0419 32r00r00      [13]  753 	ld	(#__t + 0),a
    041C C5            [11]  754 	push	bc
    041D CDr02r01      [17]  755 	call	_draw_tile
    0420 C1            [10]  756 	pop	bc
-                            757 ;./engine/../engine/mapmods/map_renderer_complex.h:215: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
+                            757 ;./engine/../engine/mapmods/map_renderer_complex.h:180: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
    0421 3Ar00r00      [13]  758 	ld	a,(#__x + 0)
    0424 C6 02         [ 7]  759 	add	a, #0x02
    0426 E6 1F         [ 7]  760 	and	a, #0x1F
@@ -766,15 +766,15 @@
    0432 21r00r00      [10]  766 	ld	hl, #__y+0
    0435 34            [11]  767 	inc	(hl)
    0436                     768 00132$:
-                            769 ;./engine/../engine/mapmods/map_renderer_complex.h:216: ENABLE_INTERRUPTS;
+                            769 ;./engine/../engine/mapmods/map_renderer_complex.h:181: ENABLE_INTERRUPTS;
    0436 FB            [ 4]  770 	ei 
-                            771 ;./engine/../engine/mapmods/map_renderer_complex.h:199: for (rdm = 0; rdm < 192; rdm ++) {
+                            771 ;./engine/../engine/mapmods/map_renderer_complex.h:164: for (rdm = 0; rdm < 192; rdm ++) {
    0437 21r00r00      [10]  772 	ld	hl, #_rdm+0
    043A 34            [11]  773 	inc	(hl)
    043B 3Ar00r00      [13]  774 	ld	a,(#_rdm + 0)
    043E D6 C0         [ 7]  775 	sub	a, #0xC0
    0440 DAr84r03      [10]  776 	jp	C,00137$
-                            777 ;./engine/../engine/mapmods/map_renderer_complex.h:231: gpit = max_chac_chacs; while (gpit --) {
+                            777 ;./engine/../engine/mapmods/map_renderer_complex.h:196: gpit = max_chac_chacs; while (gpit --) {
    0443 3Ar00r00      [13]  778 	ld	a,(#_max_chac_chacs + 0)
    0446 32r00r00      [13]  779 	ld	(#_gpit + 0),a
    0449                     780 00134$:
@@ -785,7 +785,7 @@
    0451 7B            [ 4]  785 	ld	a,e
    0452 B7            [ 4]  786 	or	a, a
    0453 28 54         [12]  787 	jr	Z,00136$
-                            788 ;./engine/../engine/mapmods/map_renderer_complex.h:232: _x = (chac_chacs_yx [gpit] & 0xf) << 1;
+                            788 ;./engine/../engine/mapmods/map_renderer_complex.h:197: _x = (chac_chacs_yx [gpit] & 0xf) << 1;
    0455 FD 21r00r00   [14]  789 	ld	iy,#_chac_chacs_yx
    0459 ED 5Br00r00   [20]  790 	ld	de,(_gpit)
    045D 16 00         [ 7]  791 	ld	d,#0x00
@@ -796,7 +796,7 @@
    0467 87            [ 4]  796 	add	a, a
    0468 FD 21r00r00   [14]  797 	ld	iy,#__x
    046C FD 77 00      [19]  798 	ld	0 (iy),a
-                            799 ;./engine/../engine/mapmods/map_renderer_complex.h:233: _y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
+                            799 ;./engine/../engine/mapmods/map_renderer_complex.h:198: _y = ((chac_chacs_yx [gpit] & 0xf0) >> 3) + TOP_ADJUST;
    046F 7D            [ 4]  800 	ld	a,l
    0470 E6 F0         [ 7]  801 	and	a, #0xF0
    0472 0F            [ 4]  802 	rrca
@@ -806,34 +806,34 @@
    0477 21r00r00      [10]  806 	ld	hl,#__y
    047A 3C            [ 4]  807 	inc	a
    047B 77            [ 7]  808 	ld	(hl),a
-                            809 ;./engine/../engine/mapmods/map_renderer_complex.h:234: _t = chac_chacs_t1 [0];
+                            809 ;./engine/../engine/mapmods/map_renderer_complex.h:199: _t = chac_chacs_t1 [0];
    047C 3Ar00r00      [13]  810 	ld	a,(#_chac_chacs_t1 + 0)
    047F 32r00r00      [13]  811 	ld	(#__t + 0),a
-                            812 ;./engine/../engine/mapmods/map_renderer_complex.h:235: draw_tile ();
+                            812 ;./engine/../engine/mapmods/map_renderer_complex.h:200: draw_tile ();
    0482 CDr02r01      [17]  813 	call	_draw_tile
-                            814 ;./engine/../engine/mapmods/map_renderer_complex.h:236: _t = chac_chacs_t2 [0];
+                            814 ;./engine/../engine/mapmods/map_renderer_complex.h:201: _t = chac_chacs_t2 [0];
    0485 3Ar00r00      [13]  815 	ld	a,(#_chac_chacs_t2 + 0)
    0488 32r00r00      [13]  816 	ld	(#__t + 0),a
-                            817 ;./engine/../engine/mapmods/map_renderer_complex.h:237: _y += 2;
+                            817 ;./engine/../engine/mapmods/map_renderer_complex.h:202: _y += 2;
    048B 21r00r00      [10]  818 	ld	hl, #__y+0
    048E 34            [11]  819 	inc	(hl)
    048F 21r00r00      [10]  820 	ld	hl, #__y+0
    0492 34            [11]  821 	inc	(hl)
-                            822 ;./engine/../engine/mapmods/map_renderer_complex.h:238: draw_tile ();
+                            822 ;./engine/../engine/mapmods/map_renderer_complex.h:203: draw_tile ();
    0493 CDr02r01      [17]  823 	call	_draw_tile
-                            824 ;./engine/../engine/mapmods/map_renderer_complex.h:239: _t = chac_chacs_t3 [0];
+                            824 ;./engine/../engine/mapmods/map_renderer_complex.h:204: _t = chac_chacs_t3 [0];
    0496 3Ar00r00      [13]  825 	ld	a,(#_chac_chacs_t3 + 0)
    0499 32r00r00      [13]  826 	ld	(#__t + 0),a
-                            827 ;./engine/../engine/mapmods/map_renderer_complex.h:240: _y += 2;
+                            827 ;./engine/../engine/mapmods/map_renderer_complex.h:205: _y += 2;
    049C 21r00r00      [10]  828 	ld	hl, #__y+0
    049F 34            [11]  829 	inc	(hl)
    04A0 21r00r00      [10]  830 	ld	hl, #__y+0
    04A3 34            [11]  831 	inc	(hl)
-                            832 ;./engine/../engine/mapmods/map_renderer_complex.h:241: draw_tile ();
+                            832 ;./engine/../engine/mapmods/map_renderer_complex.h:206: draw_tile ();
    04A4 CDr02r01      [17]  833 	call	_draw_tile
    04A7 18 A0         [12]  834 	jr	00134$
    04A9                     835 00136$:
-                            836 ;./engine/../engine/mapmods/map_renderer_complex.h:245: ENABLE_INTERRUPTS;
+                            836 ;./engine/../engine/mapmods/map_renderer_complex.h:210: ENABLE_INTERRUPTS;
    04A9 FB            [ 4]  837 	ei 
    04AA 33            [ 6]  838 	inc	sp
    04AB DD E1         [14]  839 	pop	ix

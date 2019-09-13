@@ -889,3 +889,8 @@ He estado portando los cambios a todos los ejemplos. Ahora mismo me encuentro co
 
 No sé si se convirtió mal, si se comprimió mal, o si se cargó mal en VRAM. Ya lo miraré - vale, era un pequeño bug en mkts_om.
 
+20190913
+========
+
+Con todos los ejemplos actualizados y funcionando con el nuevo makefile y las funciones HW agnósticas, es el momento de generar una SMSlib custom que tenga las mismas funciones que SGlib y esté estructurada de la misma manera.
+

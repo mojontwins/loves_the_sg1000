@@ -11,7 +11,6 @@ Symbol Table
     _IOPortL                                                    =  00DC 
     _SG_copySpritestoSAT                                           **** GX
     _SG_doUpdateList                                               **** GX
-    _SG_finalizeSprites                                            **** GX
     _SG_getKeysStatus                                              **** GX
     _SG_initSprites                                                **** GX
     _SG_waitForVBlank                                              **** GX
@@ -35,7 +34,7 @@ Symbol Table
     _cy1                                                           **** GX
     _cy2                                                           **** GX
   0 _distance                                                      01AB GR
-  0 _do_update_list_and_wait                                       023D GR
+  0 _do_update_list_and_wait                                       023A GR
     _map_buff                                                      **** GX
     _pad0                                                          **** GX
   0 _pad_read                                                      0186 GR
@@ -57,7 +56,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  24E   flags    0
+   0 _CODE                                      size  24B   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
