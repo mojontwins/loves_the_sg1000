@@ -1,11 +1,13 @@
 # This makefile was created looking several examples,
 # for instance ZGB's or CPCTelera's
 
+TARGET = NTSC
+
 SRCDIR = .
 OBJDIR = rel
 
 CC = sdcc.exe
-CFLAGS = -mz80 --peep-file lib/peep-rules.txt --peep-asm
+CFLAGS = -mz80 --peep-file lib/peep-rules.txt --peep-asm -D$(TARGET)
 LFLAGS = -mz80 --no-std-crt0 --data-loc 0xC000
 
 SRC:=$(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/assets/*.c) $(wildcard $(SRCDIR)/engine/*.c) $(wildcard $(SRCDIR)/utils/*.c) 
@@ -23,7 +25,7 @@ endef
 all: cart.sg
 
 cart.sg: cart.ihx
-	../../../src/utils/ihx2sms.exe cart.ihx cart.sg
+	../../../src/utils/ihx2sms.exe cart.ihx cart-$(TARGET).sg
 	@rm -r *.ihx
 	@rm -r *.lk
 	@rm -r *.noi

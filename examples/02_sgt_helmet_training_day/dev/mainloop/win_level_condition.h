@@ -1,5 +1,5 @@
 // SG-1000 MK1 v0.4
-// Copyleft Mojon Twins 2013, 2015, 2017, 2018
+// Copyleft Mojon Twins 2013, 2015, 2017-2019
 
 // Win level condition. Note the precedence if severan items are
 // #defined: first, WIN_LEVEL_CUSTOM, then ACTIVATE_SCRIPTING (by WIN LEVEL),

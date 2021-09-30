@@ -1,5 +1,5 @@
 // SG-1000 MK1 v0.4
-// Copyleft Mojon Twins 2013, 2015, 2017, 2018
+// Copyleft Mojon Twins 2013, 2015, 2017-2019
 
 void player_process_tile (unsigned char at, unsigned char x0, unsigned char y0, unsigned char x1, unsigned char y1) {
 	if (y0) -- y0;

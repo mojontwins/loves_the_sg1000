@@ -1,7 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Sep 13 13:00:35 2019
+; Version 3.6.0 #9615 (MINGW64)
 ;--------------------------------------------------------
 	.module memfill
 	.optsdcc -mz80
@@ -47,27 +46,28 @@
 ; ---------------------------------
 _memfill::
 ;./utils/memfill.c:9: if (length) {
-	ld	iy,#5
-	add	iy,sp
-	ld	a,1 (iy)
-	or	a,0 (iy)
+	ld	hl, #5+1
+	add	hl, sp
+	ld	a, (hl)
+	dec	hl
+	or	a,(hl)
 	ret	Z
 ;./utils/memfill.c:28: __endasm;
-	ld hl, #2
-	add hl, sp
-	ld e, (hl)
-	inc hl
-	ld d, (hl) ; DE = *ptr
-	inc hl
-	ld a, (hl) ; A = value
-	inc hl
-	ld c, (hl)
-	inc hl
-	ld b, (hl) ; BC = length
-	ld h, d
-	ld l, e
-	inc de
-	ld (hl), a
+	ld	hl, #2
+	add	hl, sp
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl) ; DE = *ptr
+	inc	hl
+	ld	a, (hl) ; A = value
+	inc	hl
+	ld	c, (hl)
+	inc	hl
+	ld	b, (hl) ; BC = length
+	ld	h, d
+	ld	l, e
+	inc	de
+	ld	(hl), a
 	ldir
 	ret
 	.area _CODE

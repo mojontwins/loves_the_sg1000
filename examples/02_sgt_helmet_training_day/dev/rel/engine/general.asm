@@ -1,7 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Sep 13 13:00:26 2019
+; Version 3.6.0 #9615 (MINGW64)
 ;--------------------------------------------------------
 	.module general
 	.optsdcc -mz80
@@ -67,11 +66,11 @@ _IOPortH	=	0x00dd
 ; ---------------------------------
 _cm_two_points::
 ;./engine/general.c:30: if (cy1 > 12 || cy2 > 12) { at1 = at2 = 0; return; }
-	ld	a,#0x0C
+	ld	a,#0x0c
 	ld	iy,#_cy1
 	sub	a, 0 (iy)
 	jr	C,00101$
-	ld	a,#0x0C
+	ld	a,#0x0c
 	ld	iy,#_cy2
 	sub	a, 0 (iy)
 	jr	NC,00102$
@@ -84,10 +83,10 @@ _cm_two_points::
 00102$:
 ;./engine/general.c:31: at1 = ATTR (cx1, cy1 ? cy1 - 1 : 0);
 	ld	bc,#_map_buff+0
-	ld	a,(#_cy1 + 0)
+	ld	iy,#_cy1
+	ld	a,0 (iy)
 	or	a, a
 	jr	Z,00106$
-	ld	iy,#_cy1
 	ld	l,0 (iy)
 	ld	h,#0x00
 	dec	hl
@@ -99,30 +98,30 @@ _cm_two_points::
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
-	ld	d,l
-	ld	e,h
+	ex	de,hl
 	ld	a,(#_cx1 + 0)
 	ld	h, #0x00
-	or	a, d
+	or	a, e
 	ld	l,a
 	ld	a,h
-	or	a, e
+	or	a, d
 	ld	h,a
 	add	hl,bc
-	ld	d,(hl)
-	ld	a,(#_c_behs + 0)
-	add	a, d
+	ld	e,(hl)
+	ld	iy,#_c_behs
+	ld	a,0 (iy)
+	add	a, e
 	ld	e,a
-	ld	a,(#_c_behs + 1)
+	ld	a,1 (iy)
 	adc	a, #0x00
 	ld	d,a
 	ld	a,(de)
 	ld	(#_at1 + 0),a
 ;./engine/general.c:32: at2 = ATTR (cx2, cy2 ? cy2 - 1 : 0);
-	ld	a,(#_cy2 + 0)
+	ld	iy,#_cy2
+	ld	a,0 (iy)
 	or	a, a
 	jr	Z,00108$
-	ld	iy,#_cy2
 	ld	l,0 (iy)
 	ld	h,#0x00
 	dec	hl
@@ -143,10 +142,10 @@ _cm_two_points::
 	or	a, d
 	ld	h,a
 	add	hl,bc
-	ld	e,(hl)
+	ld	c,(hl)
 	ld	hl,(_c_behs)
-	ld	d,#0x00
-	add	hl, de
+	ld	b,#0x00
+	add	hl, bc
 	ld	a,(hl)
 	ld	(#_at2 + 0),a
 	ret
@@ -163,16 +162,16 @@ _collide_in::
 	ld	a,4 (ix)
 	sub	a, 6 (ix)
 	jr	C,00103$
-	ld	l,6 (ix)
-	ld	h,#0x00
-	ld	bc,#0x000F
+	ld	c,6 (ix)
+	ld	b,#0x00
+	ld	hl,#0x000f
 	add	hl,bc
-	ld	d,4 (ix)
-	ld	e,#0x00
+	ld	c,4 (ix)
+	ld	b,#0x00
 	ld	a,l
-	sub	a, d
+	sub	a, c
 	ld	a,h
-	sbc	a, e
+	sbc	a, b
 	jp	PO, 00122$
 	xor	a, #0x80
 00122$:
@@ -180,16 +179,16 @@ _collide_in::
 	ld	a,5 (ix)
 	sub	a, 7 (ix)
 	jr	C,00103$
-	ld	l,7 (ix)
-	ld	h,#0x00
-	ld	bc,#0x000F
+	ld	c,7 (ix)
+	ld	b,#0x00
+	ld	hl,#0x000f
 	add	hl,bc
-	ld	d,5 (ix)
-	ld	e,#0x00
+	ld	c,5 (ix)
+	ld	b,#0x00
 	ld	a,l
-	sub	a, d
+	sub	a, c
 	ld	a,h
-	sbc	a, e
+	sbc	a, b
 	jp	PO, 00123$
 	xor	a, #0x80
 00123$:
@@ -209,66 +208,63 @@ _collide_in::
 ; ---------------------------------
 _collide::
 	push	ix
-	ld	ix,#0
-	add	ix,sp
 	dec	sp
 ;./engine/general.c:61: prx + 3 >= _en_x && 
 	ld	hl,#_prx + 0
-	ld	e, (hl)
-	ld	d,#0x00
-	ld	c, e
-	ld	b, d
-	inc	bc
-	inc	bc
-	inc	bc
+	ld	c, (hl)
+	ld	b,#0x00
+	ld	e, c
+	ld	d, b
+	inc	de
+	inc	de
+	inc	de
 	ld	iy,#__en_x
 	ld	l,0 (iy)
 	ld	h,#0x00
-	ld	a,c
+	ld	a,e
 	sub	a, l
-	ld	a,b
+	ld	a,d
 	sbc	a, h
 	jp	PO, 00122$
 	xor	a, #0x80
 00122$:
 	jp	M,00103$
 ;./engine/general.c:62: prx <= _en_x + 11 && 
-	ld	bc,#0x000B
-	add	hl,bc
+	ld	de,#0x000b
+	add	hl,de
 	ld	a,l
-	sub	a, e
+	sub	a, c
 	ld	a,h
-	sbc	a, d
+	sbc	a, b
 	jp	PO, 00123$
 	xor	a, #0x80
 00123$:
 	jp	M,00103$
 ;./engine/general.c:63: pry + 13 + ENEMS_COLLISION_VSTRETCH_FG >= _en_y &&
 	ld	hl,#_pry + 0
-	ld	e, (hl)
-	ld	d,#0x00
-	ld	hl,#0x000D
-	add	hl,de
-	ld	c,l
-	ld	b,h
+	ld	c, (hl)
+	ld	b,#0x00
+	ld	hl,#0x000d
+	add	hl,bc
+	ex	de,hl
 	ld	iy,#__en_y
 	ld	l,0 (iy)
 	ld	h,#0x00
-	ld	a,c
+	ld	a,e
 	sub	a, l
-	ld	a,b
+	ld	a,d
 	sbc	a, h
 	jp	PO, 00124$
 	xor	a, #0x80
 00124$:
 	jp	M,00103$
 ;./engine/general.c:64: pry <= _en_y + 13 + PLAYER_COLLISION_VSTRETCH_FG
-	ld	bc,#0x0009
-	add	hl,bc
+	ld	de,#0x0009
+	add	hl,de
 	ld	a,l
-	sub	a, e
+	sub	a, c
 	ld	a,h
-	sbc	a, d
+	sbc	a, b
 	jp	PO, 00125$
 	xor	a, #0x80
 00125$:
@@ -334,7 +330,6 @@ _pad_read::
 	ld	a,(#_pad_this_frame + 0)
 	ld	iy,#_pad0
 	xor	a, 0 (iy)
-	ld	iy,#_pad0
 	and	a, 0 (iy)
 	ld	(#_pad_this_frame + 0),a
 	ret
@@ -375,36 +370,41 @@ _distance::
 	ld	(#_rdb + 0),a
 ;./engine/general.c:105: rdc = MIN (rda, rdb);
 	ld	hl,#_rdb
-	ld	a,(#_rda + 0)
-	cp	a,(hl)
-	jr	C,00108$
-	ld	a,(#_rdb + 0)
+	ld	iy,#_rda
+	ld	a,0 (iy)
+	sub	a, (hl)
+	jr	NC,00107$
+	ld	c,0 (iy)
+	jr	00108$
+00107$:
+	ld	hl,#_rdb + 0
+	ld	c, (hl)
 00108$:
-	ld	(#_rdc + 0),a
+	ld	hl,#_rdc + 0
+	ld	(hl), c
 ;./engine/general.c:106: return (rda + rdb - (rdc >> 1) - (rdc >> 2) + (rdc >> 4));
 	ld	hl,#_rdb
 	ld	a,(#_rda + 0)
 	add	a, (hl)
-	ld	d,a
-	ld	iy,#_rdc
-	ld	e,0 (iy)
-	srl	e
-	ld	a,d
-	sub	a, e
-	ld	d,a
-	ld	iy,#_rdc
-	ld	e,0 (iy)
-	srl	e
-	srl	e
-	ld	a,d
-	sub	a, e
 	ld	c,a
-	ld	a,(#_rdc + 0)
+	ld	iy,#_rdc
+	ld	b,0 (iy)
+	srl	b
+	ld	a,c
+	sub	a, b
+	ld	c,a
+	ld	b,0 (iy)
+	srl	b
+	srl	b
+	ld	a,c
+	sub	a, b
+	ld	c,a
+	ld	a,0 (iy)
 	rlca
 	rlca
 	rlca
 	rlca
-	and	a,#0x0F
+	and	a,#0x0f
 	ld	l,a
 	add	hl, bc
 	ret
@@ -418,11 +418,11 @@ _update_cycle::
 ;./engine/general.c:137: HW_copySpritestoSAT ();
 	call	_SG_copySpritestoSAT
 ;./engine/general.c:138: update_list [update_index] = 0xff;
-	ld	de,#_update_list+0
+	ld	bc,#_update_list+0
 	ld	hl,(_update_index)
 	ld	h,#0x00
-	add	hl,de
-	ld	(hl),#0xFF
+	add	hl,bc
+	ld	(hl),#0xff
 ;./engine/general.c:139: HW_doUpdateList ();
 	call	_SG_doUpdateList
 ;./engine/general.c:140: HW_initSprites ();
@@ -435,11 +435,11 @@ _update_cycle::
 ; ---------------------------------
 _do_update_list_and_wait::
 ;./engine/general.c:145: update_list [update_index] = 0xff;
-	ld	de,#_update_list+0
+	ld	bc,#_update_list+0
 	ld	hl,(_update_index)
 	ld	h,#0x00
-	add	hl,de
-	ld	(hl),#0xFF
+	add	hl,bc
+	ld	(hl),#0xff
 ;./engine/general.c:146: HW_waitForVBlank ();	
 	call	_SG_waitForVBlank
 ;./engine/general.c:147: HW_doUpdateList ();

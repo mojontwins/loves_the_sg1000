@@ -1,7 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Sep 13 12:59:56 2019
+; Version 3.6.0 #9615 (MINGW64)
 ;--------------------------------------------------------
 	.module enems1
 	.optsdcc -mz80
@@ -73,12 +72,12 @@ _enems_1:
 	.db #0x47	; 71	'G'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x7A	; 122	'z'
-	.db #0x6A	; 106	'j'
+	.db #0x7a	; 122	'z'
+	.db #0x6a	; 106	'j'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0xB7	; 183
-	.db #0xB6	; 182
+	.db #0xb7	; 183
+	.db #0xb6	; 182
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x94	; 148
@@ -89,20 +88,20 @@ _enems_1:
 	.db #0x37	; 55	'7'
 	.db #0x11	; 17
 	.db #0x07	; 7
-	.db #0xBD	; 189
-	.db #0xAD	; 173
+	.db #0xbd	; 189
+	.db #0xad	; 173
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x2E	; 46
-	.db #0x3E	; 62
+	.db #0x2e	; 46
+	.db #0x3e	; 62
 	.db #0x11	; 17
 	.db #0x07	; 7
 	.db #0x51	; 81	'Q'
 	.db #0x52	; 82	'R'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x8B	; 139
-	.db #0x7B	; 123
+	.db #0x8b	; 139
+	.db #0x7b	; 123
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x88	; 136
@@ -121,28 +120,28 @@ _enems_1:
 	.db #0x32	; 50	'2'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x5B	; 91
-	.db #0x6B	; 107	'k'
+	.db #0x5b	; 91
+	.db #0x6b	; 107	'k'
 	.db #0x31	; 49	'1'
 	.db #0x07	; 7
 	.db #0x95	; 149
 	.db #0x96	; 150
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x6A	; 106	'j'
-	.db #0x5A	; 90	'Z'
+	.db #0x6a	; 106	'j'
+	.db #0x5a	; 90	'Z'
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x62	; 98	'b'
 	.db #0x52	; 82	'R'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0xAC	; 172
-	.db #0xAB	; 171
+	.db #0xac	; 172
+	.db #0xab	; 171
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0xA7	; 167
-	.db #0xA6	; 166
+	.db #0xa7	; 167
+	.db #0xa6	; 166
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x49	; 73	'I'
@@ -161,8 +160,8 @@ _enems_1:
 	.db #0x73	; 115	's'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x6E	; 110	'n'
-	.db #0x6D	; 109	'm'
+	.db #0x6e	; 110	'n'
+	.db #0x6d	; 109	'm'
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x42	; 66	'B'
@@ -173,8 +172,8 @@ _enems_1:
 	.db #0x59	; 89	'Y'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x4B	; 75	'K'
-	.db #0x3B	; 59
+	.db #0x4b	; 75	'K'
+	.db #0x3b	; 59
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x81	; 129
@@ -182,7 +181,7 @@ _enems_1:
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x59	; 89	'Y'
-	.db #0x5A	; 90	'Z'
+	.db #0x5a	; 90	'Z'
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x37	; 55	'7'
@@ -193,8 +192,8 @@ _enems_1:
 	.db #0x62	; 98	'b'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x6A	; 106	'j'
-	.db #0x6B	; 107	'k'
+	.db #0x6a	; 106	'j'
+	.db #0x6b	; 107	'k'
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x56	; 86	'V'
@@ -205,8 +204,8 @@ _enems_1:
 	.db #0x46	; 70	'F'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x7E	; 126
-	.db #0x7D	; 125
+	.db #0x7e	; 126
+	.db #0x7d	; 125
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x58	; 88	'X'
@@ -233,31 +232,31 @@ _enems_1:
 	.db #0x68	; 104	'h'
 	.db #0x04	; 4
 	.db #0x02	; 2
-	.db #0x6D	; 109	'm'
-	.db #0x2D	; 45
+	.db #0x6d	; 109	'm'
+	.db #0x2d	; 45
 	.db #0x04	; 4
 	.db #0x07	; 7
 	.db #0x75	; 117	'u'
 	.db #0x65	; 101	'e'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x6D	; 109	'm'
-	.db #0x7D	; 125
+	.db #0x6d	; 109	'm'
+	.db #0x7d	; 125
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x69	; 105	'i'
-	.db #0x6A	; 106	'j'
+	.db #0x6a	; 106	'j'
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x44	; 68	'D'
 	.db #0x45	; 69	'E'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x8C	; 140
-	.db #0x7C	; 124
+	.db #0x8c	; 140
+	.db #0x7c	; 124
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x8A	; 138
+	.db #0x8a	; 138
 	.db #0x89	; 137
 	.db #0x00	; 0
 	.db #0x07	; 7
@@ -265,16 +264,16 @@ _enems_1:
 	.db #0x76	; 118	'v'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x7B	; 123
-	.db #0x6B	; 107	'k'
+	.db #0x7b	; 123
+	.db #0x6b	; 107	'k'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0xB8	; 184
-	.db #0xB7	; 183
+	.db #0xb8	; 184
+	.db #0xb7	; 183
 	.db #0x00	; 0
 	.db #0x02	; 2
-	.db #0x2A	; 42
-	.db #0x4A	; 74	'J'
+	.db #0x2a	; 42
+	.db #0x4a	; 74	'J'
 	.db #0x04	; 4
 	.db #0x02	; 2
 	.db #0x46	; 70	'F'
@@ -289,20 +288,20 @@ _enems_1:
 	.db #0x82	; 130
 	.db #0x00	; 0
 	.db #0x03	; 3
-	.db #0x2A	; 42
-	.db #0xBB	; 187
+	.db #0x2a	; 42
+	.db #0xbb	; 187
 	.db #0x04	; 4
 	.db #0x03	; 3
-	.db #0x2E	; 46
-	.db #0xAD	; 173
+	.db #0x2e	; 46
+	.db #0xad	; 173
 	.db #0x04	; 4
 	.db #0x07	; 7
 	.db #0x46	; 70	'F'
 	.db #0x45	; 69	'E'
 	.db #0x00	; 0
 	.db #0x07	; 7
-	.db #0x4A	; 74	'J'
-	.db #0x4B	; 75	'K'
+	.db #0x4a	; 74	'J'
+	.db #0x4b	; 75	'K'
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x68	; 104	'h'
@@ -313,16 +312,16 @@ _enems_1:
 	.db #0x53	; 83	'S'
 	.db #0x04	; 4
 	.db #0x01	; 1
-	.db #0x5E	; 94
-	.db #0x5C	; 92
+	.db #0x5e	; 94
+	.db #0x5c	; 92
 	.db #0x04	; 4
 	.db #0x07	; 7
 	.db #0x77	; 119	'w'
 	.db #0x67	; 103	'g'
 	.db #0x31	; 49	'1'
 	.db #0x07	; 7
-	.db #0x5C	; 92
-	.db #0x4C	; 76	'L'
+	.db #0x5c	; 92
+	.db #0x4c	; 76	'L'
 	.db #0x00	; 0
 	.db #0x07	; 7
 	.db #0x73	; 115	's'
@@ -330,7 +329,7 @@ _enems_1:
 	.db #0x00	; 0
 	.db #0x01	; 1
 	.db #0x44	; 68	'D'
-	.db #0x4B	; 75	'K'
+	.db #0x4b	; 75	'K'
 	.db #0x08	; 8
 _hotspots_1:
 	.db #0x00	; 0
@@ -340,17 +339,17 @@ _hotspots_1:
 	.db #0x00	; 0
 	.db #0x10	; 16
 	.db #0x02	; 2
-	.db #0xAD	; 173
+	.db #0xad	; 173
 	.db #0x02	; 2
-	.db #0x2D	; 45
+	.db #0x2d	; 45
 	.db #0x01	; 1
 	.db #0x79	; 121	'y'
 	.db #0x04	; 4
 	.db #0x21	; 33
 	.db #0x04	; 4
-	.db #0x8E	; 142
+	.db #0x8e	; 142
 	.db #0x01	; 1
-	.db #0xAC	; 172
+	.db #0xac	; 172
 	.db #0x01	; 1
 	.db #0x62	; 98	'b'
 	.db #0x02	; 2
@@ -360,23 +359,23 @@ _hotspots_1:
 	.db #0x02	; 2
 	.db #0x66	; 102	'f'
 	.db #0x02	; 2
-	.db #0x4B	; 75	'K'
+	.db #0x4b	; 75	'K'
 	.db #0x02	; 2
-	.db #0xB1	; 177
+	.db #0xb1	; 177
 	.db #0x01	; 1
 	.db #0x83	; 131
 	.db #0x04	; 4
 	.db #0x59	; 89	'Y'
 	.db #0x04	; 4
-	.db #0xB3	; 179
+	.db #0xb3	; 179
 	.db #0x01	; 1
-	.db #0xB3	; 179
+	.db #0xb3	; 179
 	.db #0x04	; 4
 	.db #0x23	; 35
 	.db #0x02	; 2
 	.db #0x94	; 148
 	.db #0x02	; 2
-	.db #0x2B	; 43
+	.db #0x2b	; 43
 	.db #0x04	; 4
 	.db #0x68	; 104	'h'
 	.db #0x00	; 0

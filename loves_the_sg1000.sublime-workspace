@@ -4,6 +4,54 @@
 		"selected_items":
 		[
 			[
+				"HW_addSPrite",
+				"HW_addMetaSprite1x1\t(game.c)"
+			],
+			[
+				"general",
+				"generalDoRle\tabc"
+			],
+			[
+				"smsDoSprites",
+				"smsDoSpritesBreak\tabc"
+			],
+			[
+				"metas",
+				"metaSpritesIndex\tabc"
+			],
+			[
+				"findPatternIn",
+				"findPatternInPoolAndAdd\tabc"
+			],
+			[
+				"gd",
+				"gDx\tabc"
+			],
+			[
+				"PLAT",
+				"PLATFORM_SMS"
+			],
+			[
+				"PLA",
+				"PLATFORM_SMS"
+			],
+			[
+				"Sms",
+				"smsSubpalIndex"
+			],
+			[
+				"smsW",
+				"smsWhichSubPalPatternBreak\tabc"
+			],
+			[
+				"smsWhich",
+				"smsWhichSubPalPattern\tabc"
+			],
+			[
+				"sms",
+				"smsColour\tabc"
+			],
+			[
 				"MUSIC",
 				"MUSIC_JINGLE\t(config.h)"
 			],
@@ -14,10 +62,6 @@
 			[
 				"He",
 				"fOutHeader"
-			],
-			[
-				"PLAT",
-				"PLATFORM_SG1000"
 			],
 			[
 				"metaSpri",
@@ -436,10 +480,6 @@
 				"music_play"
 			],
 			[
-				"PLA",
-				"PLAYER_VX_MIN"
-			],
-			[
 				"pobjs",
 				"pobjs_starter"
 			],
@@ -474,56 +514,33 @@
 			[
 				"PSGSFX",
 				"PSGSFXPlay"
-			],
-			[
-				"PSG",
-				"PSGSFXPlay"
-			],
-			[
-				"MS_TYPE_",
-				"MS_TYPE_SINGLE"
-			],
-			[
-				"SG",
-				"SG_setTile"
-			],
-			[
-				"SG_",
-				"SG_setNextTileatXY"
-			],
-			[
-				"MS",
-				"MS_MAX"
-			],
-			[
-				"UNSA",
-				"UNSAFE_SG_copySpritestoSAT"
-			],
-			[
-				"UNS",
-				"UNSAFE_SG_copySpritestoSAT"
-			],
-			[
-				"MS_",
-				"MS_TYPE_EMPTY"
-			],
-			[
-				"pgo",
-				"pgotten_uwol"
-			],
-			[
-				"pgt",
-				"pgtmx_meemaid"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "examples/02_sgt_helmet_training_day/dev/utils/unrle.c",
+			"file": "examples/02_sgt_helmet_training_day/dev/assets/behs.h",
 			"settings":
 			{
-				"buffer_size": 520,
+				"buffer_size": 1050,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "examples/02_sgt_helmet_training_day/dev/compile.bat",
+			"settings":
+			{
+				"buffer_size": 537,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "examples/02_sgt_helmet_training_day/dev/build_assets.bat",
+			"settings":
+			{
+				"buffer_size": 1030,
 				"line_ending": "Windows"
 			}
 		}
@@ -605,20 +622,130 @@
 	"expanded_folders":
 	[
 		"/D/git/loves_the_sg1000",
-		"/D/git/loves_the_sg1000/environment",
 		"/D/git/loves_the_sg1000/examples",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev",
-		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/utils",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/assets",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/gfx"
 	],
 	"file_history":
 	[
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/Makefile",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/build_assets.bat",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/compile.bat",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/gfx/cut_patterns.spt",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/hw_sms.h",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/hw_sg1000.h",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/lib/SGlib.h",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib.h",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib.c",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/lib/SMSlib.h",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/lib/make.bat",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/lib/SMSlib.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_common.c",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/lib/SGlib.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_VRAMmemset.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_spriteAdv.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_loadTileMap.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_loadTiles.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_loadTileMapArea.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_MTfuncs.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_PSGaiden.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_spriteClip.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_UNSAFE.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_VRAMmemcpy.c",
+		"/D/Google Drive/Maritrini/dev/SMS/lib/20160331/devkitSMS-yun/SMSlib/src/SMSlib_STMcomp.c",
+		"/C/Users/jcastano/Desktop/cortinilla.html",
+		"/C/Users/jcastano/Desktop/cortinilla_inlined.html",
+		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/assets/tileset.c",
+		"/D/git/loves_the_sg1000/src/utils/mkts_om.bas",
+		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/build_assets.bat",
+		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/gfx/cut_patterns.spt",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/tile_chac_chac.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/hw_sg1000.h",
+		"/D/Proyectos/2019/20190705 - Revisión instalación Webmail V3 sobre ccobuz/instrucciones.txt",
+		"/D/git/loves_the_sg1000/src/dev/build_assets.bat",
+		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/assets/levelset.h",
+		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/config.h",
+		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/game.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/utils/delay.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/utils/unpacker.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/utils/unrle.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/propellers.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/printer.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/player.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/general.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/enengine.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/breakable.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/cocos.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/frame.h",
+		"/D/git/loves_the_sg1000/diario.md",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/game.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/cart.map",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/hotspots.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/interactives.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/playermods/bullets.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/shines.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/textbox.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/lib/crt0_sg.rel",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/lib/crt0_sg.s",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/lib/PSGlib.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/lib/PSGlib.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/lib/SGlib.c",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/lib/SGlib.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/lib/SGlib.rel",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/mainloop.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/mainloop/no.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/mainloop/pause.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/murcia.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/my/pres.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/enengine.asm",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/enengine.lst",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/enengine.rel",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/enengine.sym",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/general.asm",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/general.lst",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/general.rel",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/general.sym",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/player.asm",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/player.lst",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/player.rel",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/player.sym",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/printer.asm",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/printer.lst",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/printer.rel",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/printer.sym",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/game.asm",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/game.lst",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/game.rel",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/game.sym",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/utils/delay.asm",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/utils/delay.lst",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/utils/delay.rel",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/utils/delay.sym",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/compile.bat",
+		"/D/git/gbdev/moggy/dev/Makefile",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/Makefile",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/expanded.txt",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/enemmods/enem_linear.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/autodefs.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/engine/enemmods/enem_boioiong.h",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/assets/enems2.d",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/printer.d",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/engine/player.d",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/rel/utils/unrle.d",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/cart.noi",
+		"/D/git/newspectrum/utils/cpc2cdt/Makefile",
+		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/Makefile",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/lib/make.bat",
+		"/D/git/loves_the_sg1000/examples/03_jet_paco/dev/Makefile-old",
+		"/D/Google Drive/Maritrini/dev/SMS/yun/dev/Makefile",
+		"/D/Google Drive/Maritrini/dev/SMS/yun/dev/build.bat",
+		"/D/git/loves_the_sg1000/wip/sms_tests/gfx/output.txt",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/my/extra_routines.h",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/README.md",
 		"/D/Google Drive/Maritrini/dev/Speccy/MK2/Leovigildo (eng)/Leovigildo B/dev/mainloop.h",
 		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/utils/rand.c",
-		"/D/git/loves_the_sg1000/diario.md",
 		"/D/git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/game.c",
 		"/D/git/loves_the_sg1000/examples/04_che_man/dev/game.c",
 		"/D/git/loves_the_sg1000/examples/04_che_man/dev/lib/SGlib.h",
@@ -630,118 +757,7 @@
 		"/D/git/loves_the_sg1000/examples/04_che_man/dev/config.h",
 		"/D/git/loves_the_sg1000/examples/04_che_man/dev/murcia.c",
 		"/D/git/loves_the_sg1000/examples/04_che_man/dev/lib/PSGlib.c",
-		"/D/git/loves_the_sg1000/examples/04_che_man/dev/lib/PSGlib.h",
-		"/D/git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/game.c",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/game.c",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/config.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/04_che_man/dev/game.c",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/game.c",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/game.c",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/assets/levelset.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/config.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/mainloop.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/02_sgt_helmet_training_day/dev/mainloop.h",
-		"/C/Users/NaThan/AppData/Local/Temp/7zOC7DEFBFF/Leeme.txt",
-		"/C/Users/NaThan/AppData/Local/Temp/7zO434AF948/INSTRUCCIONES.txt",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/assets/levelset.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/01_cheril_perils_classic/dev/my/pres.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/gfx/cut_patterns.spt",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/assets/behs.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/my/pres.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/Makefile",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/engine/player.c",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/build_assets.bat",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/assets/levelset.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/wip/cheman/dev/config.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/wip/cheman/dev/my/pres.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/wip/cheman/dev/my/game_frame.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/wip/cheman/dev/assets/tileset.c",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/config.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/my/extra_vars.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/mainloop.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/mainloop/flickscreen.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/examples/03_jet_paco/dev/engine/enemmods/enem_linear.h",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.c",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/cheril_perils_classic/utils/mkts_om.bas",
-		"/C/Users/NaThan/Desktop/Git/loves_the_sg1000/cheril_perils_classic/dev/setenv.bat",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/engine/general.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/definitions.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/SGlib.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/mainloop.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/ram/zp.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/clean.bat",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/definitions.h",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/engine/game_loop.h",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/engine/general.h",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/engine/player.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/game.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/Makefile",
-		"/D/Google Drive/Maritrini/dev/SMS/yun/dev/yun.c",
-		"/D/git/newspectrum/ch_N_otro/dev/util/random.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/utils/rand.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/rel/rand.asm",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/peep-rules.txt",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/make.bat",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/murcia.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/murcia.h",
-		"/D/Google Drive/Maritrini/dev/SMS/yun/dev/Makefile",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/compile.bat",
-		"/D/git/loves_the_sg1000/environment/sdcc-sg1000/setenv.bat",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/build_assets.bat",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/setenv.bat",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/lib/crt0_sg.s",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/cut_patterns.spt",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/trash/map0.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/assets/tileset.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/trash/map0.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/utils/eneexp3.bas",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/utils/rle44mapMK1.bas",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/enems/ponedor.bat",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/mapfile.h",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/assets/tm_ss_en.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/utils/mkts_om_notes.md",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/utils/mkts_om.bas",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/mtks_test.spt",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/tileset.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/dev/compile.bat",
-		"/D/git/newspectrum/SirAbabol_project/SirAbabol_2_zx_packed_tape/t2_128/dev/loader.inc",
-		"/D/git/newspectrum/SirAbabol_project/SirAbabol_2_zx_packed_tape/t2_128/dev/loader.txt",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/spriteset.h",
-		"/D/Google Drive/Maritrini/dev/SMS/moggy_sms/bank2.h",
-		"/D/Google Drive/Maritrini/dev/SMS/moggy_sms/bank2.c",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/tileset.h",
-		"/D/Google Drive/Maritrini/dev/sg-1000/SuperUwol/dev/assets/metaspriteset.h",
-		"/D/git/loves_the_sg1000/cheril_perils_classic/gfx/out",
-		"/D/git/nes_work/D'Veel'NgR/utils/mkts.bas",
-		"/D/Proyectos/CIs.txt",
-		"/D/Proyectos/2018/20181016a--Actualización total p3s/instrucciones.txt",
-		"/D/Proyectos/2018/20181019a--Actualizacion del certificado de APNS para P3S/instrucciones.txt",
-		"/D/Proyectos/2016/20161011--Actualizacion del certificado de APNS para P3S/instrucciones.txt",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/05_tester_double_width/dev/engine/cocos.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/enemmods/enem_monococo.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/enengine.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/wip/diario.md",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/mainloop.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/general.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/config.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/compile.bat",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/ram/bss.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/hotspots.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/playermods/bullets.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/assets/enems0.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/mainloop/hotspots.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/my/on_object_used.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/autodefs.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/ram/zp.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/my/extra_checks.h",
-		"/C/Users/na_th/Desktop/git/nes_work/gokumal/poc/neslib-pantanow.s",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/my/extra_inits.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/player.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/playermods/process_tile.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/bolts.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/printer.h",
-		"/C/Users/na_th/Desktop/git/MK1_NES/testers/00_tester_sideview/dev/engine/enemmods/enem_chac_chac.h"
+		"/D/git/loves_the_sg1000/examples/04_che_man/dev/lib/PSGlib.h"
 	],
 	"find":
 	{
@@ -752,6 +768,8 @@
 		"height": 135.0,
 		"where_history":
 		[
+			"D:\\git\\loves_the_sg1000\\examples\\03_jet_paco\\dev",
+			"D:\\git\\loves_the_sg1000\\examples\\01_cheril_perils_classic\\dev",
 			"D:\\git\\loves_the_sg1000\\examples\\04_che_man\\dev",
 			"D:\\git\\loves_the_sg1000\\examples\\04_che_man\\dev\\engine",
 			"D:\\git\\loves_the_sg1000\\examples\\04_che_man",
@@ -771,6 +789,76 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"open ",
+			"SG_",
+			"sat_Address",
+			"SMS_SATAddress",
+			"SMS_Sataddress",
+			"349",
+			"spritetableyend",
+			"spritetableend",
+			"setaddr",
+			"vdpturnonf",
+			"SG_",
+			"vdpdataport",
+			"VDPDataPort",
+			"__preserves_regs",
+			"SG_",
+			"isr",
+			"SG_",
+			"MAXSPRITES",
+			"SG_",
+			"memcpy",
+			"memset",
+			"```",
+			"HW_",
+			"setBackdropColor",
+			"sg_init",
+			"setspritemode",
+			"setbackdrop",
+			"sg_init",
+			"HW_",
+			"SG_",
+			"nametablerle",
+			"nametable",
+			"Puts",
+			"debug",
+			"dosprites",
+			"dosprtes",
+			"writemetasprites",
+			"findpatternInPoolAndAdd",
+			"sg1000",
+			"dep",
+			"sdasgb",
+			"gDx",
+			"gfx",
+			"findpatternInPoolAndAdd",
+			"extractgloba",
+			"smsnormalize",
+			"normalize",
+			"globalpalette",
+			"extractglobalpalette",
+			"globalpalette",
+			"dotmaps",
+			"smssubpal",
+			"smssU",
+			"extractPatterNFrom",
+			"dotmaps",
+			"If platform = platform_SMS",
+			"extractPatternFrom",
+			"If platform = platform_SMS",
+			"writeTsmaps",
+			"writetsmaps",
+			"tMaps (",
+			"tmaps",
+			"findPatternInPoolAndAdd",
+			"globalpalet",
+			"smsColour",
+			"patternWriteSize",
+			"copyFirstBytesOfArrayToMainBin",
+			"dochars",
+			"copyArrayToColourBinFrom",
+			"extractPatternFrom",
 			"keysstatus",
 			"IOPortL",
 			"a_button",
@@ -828,37 +916,7 @@
 			"extractPatternFrom",
 			"dotmaps",
 			"addpatterntopool",
-			"curspriteindex",
-			"writeTsMaps",
-			"writeTsmaps",
-			"metaspritesindex",
-			"metaSpriteIndex",
-			"tmapsindex",
-			"tmaps",
-			"TMS9918GetBitmapFrom",
-			"sprites",
-			"sg1000",
-			"copyArrayToMainBinTo",
-			"copyPartialArrayToMainBin",
-			"ZXgetAttr",
-			"getAttr",
-			"zxgetbitmapfrom",
-			"sg1000colour",
-			"sgPal",
-			"sg1000",
-			"auxbin",
-			"v0.2.20180904",
-			"2017",
-			"v0.1",
-			"init",
-			"cur_y",
-			"|",
-			"=(\\S)",
-			"(\\S)\\(",
-			"(\\S)\\[",
-			" {",
-			"(\\S)\\[",
-			"init"
+			"curspriteindex"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -866,6 +924,10 @@
 		"regex": false,
 		"replace_history":
 		[
+			"open sg1000/",
+			"SMS_",
+			"",
+			"HW_",
 			"",
 			"stp",
 			"map",
@@ -900,21 +962,16 @@
 	"groups":
 	[
 		{
-			"sheets":
-			[
-			]
-		},
-		{
 			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "examples/02_sgt_helmet_training_day/dev/utils/unrle.c",
+					"file": "examples/02_sgt_helmet_training_day/dev/assets/behs.h",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 520,
+						"buffer_size": 1050,
 						"regions":
 						{
 						},
@@ -930,8 +987,7 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/C Improved/C Improved.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/C++/C++.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -940,6 +996,79 @@
 					"stack_index": 0,
 					"type": "text"
 				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"file": "examples/02_sgt_helmet_training_day/dev/compile.bat",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 537,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								473,
+								473
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "examples/02_sgt_helmet_training_day/dev/build_assets.bat",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1030,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"sheets":
+			[
 			]
 		}
 	],
@@ -966,12 +1095,19 @@
 				0,
 				2,
 				1
+			],
+			[
+				2,
+				0,
+				3,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.5,
+			0.333333333333,
+			0.66,
 			1.0
 		],
 		"rows":
@@ -1027,7 +1163,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
@@ -1035,7 +1171,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 400.0,
+	"side_bar_width": 226.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

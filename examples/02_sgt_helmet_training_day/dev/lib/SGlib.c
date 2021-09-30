@@ -402,7 +402,7 @@ void SG_VRAMmemset (unsigned int dst, unsigned char value, unsigned int size) {
 	SG_set_address_VRAM (dst);
 	while (size>0) {
 		SG_byte_to_VDP_data (value);
-		size--;
+		--size;
 	}
 }
 

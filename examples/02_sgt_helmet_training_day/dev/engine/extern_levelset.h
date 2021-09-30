@@ -1,5 +1,5 @@
-// SG-1000 MK1 v0.3
-// Copyleft Mojon Twins 2013, 2015, 2017, 2018
+// SG-1000 MK1 v0.4
+// Copyleft Mojon Twins 2013, 2015, 2017-2019
 
 extern const unsigned char l_scr_ini [];
 extern const unsigned char l_ini_x [];

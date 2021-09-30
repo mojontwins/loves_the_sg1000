@@ -1,7 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Sep 13 13:00:36 2019
+; Version 3.6.0 #9615 (MINGW64)
 ;--------------------------------------------------------
 	.module rand
 	.optsdcc -mz80
@@ -59,28 +58,28 @@ _randres::
 _rand8::
 ;./utils/rand.c:39: __endasm;
 	  rnd:
-	ld hl, (_seed1)
-	ld de, (_seed2)
-	ld a,h ; t = x ^ (x << 1)
-	add a,a
-	xor h
-	ld h,l ; x = y
-	ld l,d ; y = z
-	ld d,e ; z = w
-	ld e,a
-	rra ; t = t ^ (t >> 1)
-	xor e
-	ld e,a
-	ld a,d ; w = w ^ ( w << 3 ) ^ t
-	add a,a
-	add a,a
-	add a,a
-	xor d
-	xor e
-	ld e,a
-	ld (_seed1),hl
-	ld (_seed2),de
-	ld (_randres), a
+	ld	hl, (_seed1)
+	ld	de, (_seed2)
+	ld	a,h ; t = x ^ (x << 1)
+	add	a,a
+	xor	h
+	ld	h,l ; x = y
+	ld	l,d ; y = z
+	ld	d,e ; z = w
+	ld	e,a
+	rra	; t = t ^ (t >> 1)
+	xor	e
+	ld	e,a
+	ld	a,d ; w = w ^ ( w << 3 ) ^ t
+	add	a,a
+	add	a,a
+	add	a,a
+	xor	d
+	xor	e
+	ld	e,a
+	ld	(_seed1),hl
+	ld	(_seed2),de
+	ld	(_randres), a
 ;./utils/rand.c:40: return randres;
 	ld	iy,#_randres
 	ld	l,0 (iy)
@@ -91,10 +90,10 @@ _rand8::
 ; ---------------------------------
 _srand::
 ;./utils/rand.c:49: __endasm;
-	ld hl, (_seed1)
-	ld (rnd+1), hl
-	ld hl, (_seed2)
-	ld (rnd+4), hl
+	ld	hl, (_seed1)
+	ld	(rnd+1), hl
+	ld	hl, (_seed2)
+	ld	(rnd+4), hl
 	ret
 ;./utils/rand.c:53: void set_rand (unsigned char rdum) {
 ;	---------------------------------
@@ -104,13 +103,12 @@ _set_rand::
 ;./utils/rand.c:54: seed1 = rdum; seed2 = 0xff00 & rdum;
 	ld	hl, #2+0
 	add	hl, sp
-	ld	e, (hl)
-	ld	d,#0x00
-	ld	(_seed1),de
-	ld	hl,#_seed2 + 0
-	ld	(hl), #0x00
-	ld	hl,#_seed2 + 1
-	ld	(hl), d
+	ld	c, (hl)
+	ld	b,#0x00
+	ld	(_seed1),bc
+	ld	iy,#_seed2
+	ld	0 (iy),#0x00
+	ld	1 (iy),b
 ;./utils/rand.c:55: srand ();
 	jp  _srand
 	.area _CODE

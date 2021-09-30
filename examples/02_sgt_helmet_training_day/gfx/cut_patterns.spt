@@ -6,7 +6,7 @@ mapfile ../dev/assets/tileset.c
 headerfile ../dev/assets/tileset.h
 
 reset patterns
-open font.png
+open sg1000/font.png
 charset 0, 0, 32, 2
 
 write patterns tsFONT_patterns_c tsFONT_colours_c packed
@@ -15,33 +15,33 @@ write patterns tsFONT_patterns_c tsFONT_colours_c packed
 set patterns 64
 
 # Metatiles level 0
-open ts0.png
+open sg1000/ts0.png
 reset tmaps
 metatileset 0, 0, 16, 2, 2, 2, 29
 write tmaps ts0_tmaps
 
 # Metatiles level 1
-open ts1.png
+open sg1000/ts1.png
 reset tmaps
 metatileset 0, 0, 16, 2, 2, 2, 29
 write tmaps ts1_tmaps
 
 # Metatiles level 2
-open ts2.png
+open sg1000/ts2.png
 reset tmaps
 metatileset 0, 0, 16, 2, 2, 2, 29
 write tmaps ts2_tmaps
 
 # Fixed screens
-open title.png
+open sg1000/title.png
 nametablerle
 write nametablerle title_rle
 
-open cuts.png
+open sg1000/cuts.png
 nametablerle
 write nametablerle cuts_rle
 
-open frame.png
+open sg1000/frame.png
 nametablerle
 write nametablerle frame_rle
 
@@ -53,7 +53,7 @@ write patterns tsALL_patterns_c tsALL_colours_c r:64:* packed
 
 mapfile ../dev/assets/spriteset.c
 headerfile ../dev/assets/spriteset.h
-open ss.png
+open sg1000/ss.png
 
 reset patterns
 reset sprite_pattern_index

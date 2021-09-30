@@ -1,7 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Sep 13 13:00:38 2019
+; Version 3.6.0 #9615 (MINGW64)
 ;--------------------------------------------------------
 	.module unrle
 	.optsdcc -mz80
@@ -58,11 +57,10 @@ _unrle_adv::
 	ld	a,(#_rdb + 0)
 	out	(_VDPDataPort),a
 ;./utils/unrle.c:15: rds16 ++;
-	ld	hl, #_rds16+0
-	inc	(hl)
+	ld	iy,#_rds16
+	inc	0 (iy)
 	ret	NZ
-	ld	hl, #_rds16+1
-	inc	(hl)
+	inc	1 (iy)
 	ret
 ;./utils/unrle.c:18: void unrle (void) {
 ;	---------------------------------
@@ -78,11 +76,10 @@ _unrle::
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rdc + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
+	ld	iy,#_gp_gen
+	inc	0 (iy)
 	jr	NZ,00134$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
+	inc	1 (iy)
 00134$:
 ;./utils/unrle.c:22: rds16 = 0; while (rds16 < 768) {
 	ld	hl,#0x0000
@@ -96,11 +93,10 @@ _unrle::
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rda + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
+	ld	iy,#_gp_gen
+	inc	0 (iy)
 	jr	NZ,00135$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
+	inc	1 (iy)
 00135$:
 ;./utils/unrle.c:24: if (rda == rdc) {
 	ld	a,(#_rda + 0)
@@ -111,11 +107,10 @@ _unrle::
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rda + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
+	ld	iy,#_gp_gen
+	inc	0 (iy)
 	jr	NZ,00138$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
+	inc	1 (iy)
 00138$:
 ;./utils/unrle.c:26: if (rda == 0) break;
 	ld	a,(#_rda + 0)
@@ -123,11 +118,10 @@ _unrle::
 	ret	Z
 ;./utils/unrle.c:27: while (rda --) unrle_adv ();
 00103$:
-	ld	hl,#_rda + 0
-	ld	d, (hl)
-	ld	hl, #_rda+0
-	dec	(hl)
-	ld	a,d
+	ld	iy,#_rda
+	ld	c,0 (iy)
+	dec	0 (iy)
+	ld	a,c
 	or	a, a
 	jr	Z,00109$
 	call	_unrle_adv

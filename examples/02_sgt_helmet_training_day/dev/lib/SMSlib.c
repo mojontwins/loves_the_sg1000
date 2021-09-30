@@ -66,16 +66,21 @@ volatile bool 	PauseRequested; 		// used by NMI
 unsigned char SpriteTableY[MAXSPRITES];
 unsigned char SpriteTableXN[MAXSPRITES*2];
 
-unsigned char *stpY, *stpXN 			// Pointers to spritetables
+unsigned char *stpY, *stpXN; 			// Pointers to spritetables
 
 #ifdef AUTOCYCLE_SPRITES
-	unsigned char *SpriteTableYEnd;
-	unsigned char *SpriteTableXNEnd;	// Pointers to the end of spriteables
-	unsigned char first_sprite 			// First sprite slot for each loop
+	unsigned char *SpriteTableYEnd;		// Pointers to the end of spriteables
+	unsigned char first_sprite;			// First sprite slot for each loop
 #endif
 
 unsigned char   libgpit;
 unsigned char   VDPType;
+
+// Update list support: blast bg updates in VBLANK 
+// (simple, preliminary version, mimicks old neslib's)
+unsigned char   *updateList;
+unsigned char   *ulp;
+unsigned char   ulpMsb;
 
 #ifdef AUTOMUSIC
 	unsigned char music_on;
@@ -85,7 +90,7 @@ unsigned char   VDPType;
 	// macro definitions (no nested DI/EI support)
 	#define SMS_write_to_VDPRegister(VDPReg,value)	{ DISABLE_INTERRUPTS; VDPControlPort = (value); VDPControlPort = (VDPReg) | 0x80; ENABLE_INTERRUPTS; }
 	#define SMS_set_address_VRAM(address)			{ DISABLE_INTERRUPTS; VDPControlPort = LO (address); VDPControlPort = HI (address) | 0x40; ENABLE_INTERRUPTS; }
-	#define SMS_set_address_CRAM(address)			{ DISABLE_INTERRUPTS; VDPControlPort = (a); VDPControlPort = 0xC0; ENABLE_INTERRUPTS; }
+	#define SMS_set_address_CRAM(address)			{ DISABLE_INTERRUPTS; VDPControlPort = (address); VDPControlPort = 0xC0; ENABLE_INTERRUPTS; }
 #else
 	// inline __critical functions (nested DI/EI supported!) */
 	inline void SMS_write_to_VDPRegister (unsigned char VDPReg, unsigned char value) {
@@ -144,13 +149,13 @@ void SMS_setReg (unsigned char reg, unsigned char v) {
 	SMS_write_to_VDPRegister (reg, v);
 }
 
-void SMS_VDPturnOnFeature (unsigned int feature) __z88dk_fastcall {
+void SMS_VDPturnOnFeature (unsigned int feature) {
   // turns on a VDP feature
   VDPReg[HI(feature)]|=LO(feature);
   SMS_write_to_VDPRegister (HI(feature),VDPReg[HI(feature)]);
 }
 
-void SMS_VDPturnOffFeature (unsigned int feature) __z88dk_fastcall {
+void SMS_VDPturnOffFeature (unsigned int feature) {
   // turns off a VDP feature
   unsigned char val=~LO(feature);
   VDPReg[HI(feature)]&=val;
@@ -163,8 +168,7 @@ void SMS_init (void) {
 
 	#ifdef AUTOCYCLE_SPRITES
 		first_sprite = 0;
-		SpriteTableYEnd = SpriteTableY + 64;
-		SpriteTableXNEnd = SpriteTableXN + 128;
+		SpriteTableYEnd = SpriteTableY + 64;		
 	#endif
 
 	SMS_initSprites ();
@@ -181,6 +185,10 @@ void SMS_init (void) {
 
 void SMS_setBackdropColor (unsigned char entry) {
   SMS_write_to_VDPRegister (0x07, entry);
+}
+
+void SMS_useFirstHalfTilesforSprites (_Bool usefirsthalf) {
+  SMS_write_to_VDPRegister(0x06,usefirsthalf?0xFB:0xFF);
 }
 
 void SMS_setSpriteMode (unsigned char mode) {
@@ -331,14 +339,14 @@ void SMS_setColor (unsigned char color) __z88dk_fastcall __preserves_regs(b,c,d,
 			ldir
 		__endasm;
 		stpY = SpriteTableY + first_sprite;
-		sptXN = SpriteTableXN + (first_sprite << 1);
+		stpXN = SpriteTableXN + (first_sprite << 1);
 		first_sprite = (first_sprite + AUTOCYCLE_INIT_PRIME) & 63;
 	}
 
 	inline void nextSprite (void) {
 		libgpit = AUTOCYCLE_PRIME-1;
 		stpY += libgpit; stpXN += libgpit << 1;
-		if (stpY >= SpriteTableEnd) {
+		if (stpY >= SpriteTableYEnd) {
 			stpY -= 64; 
 			stpXN -= 128;
 		}
@@ -351,7 +359,7 @@ void SMS_setColor (unsigned char color) __z88dk_fastcall __preserves_regs(b,c,d,
 		nextSprite ();
 	}
 
-	unsigned char _lgpx, _lgpx0, _lgpy, _lgpw, _lgph, _lgpw0, _lgph0
+	unsigned char _lgpx, _lgpx0, _lgpy, _lgpw, _lgph, _lgpw0, _lgph0;
 	void SMS_addMetaSprite (unsigned char x, unsigned char y, const unsigned char *mt) {
 		// x0, y0, w, h, data
 		_lgpx0 = x + *mt ++;
@@ -361,9 +369,9 @@ void SMS_setColor (unsigned char color) __z88dk_fastcall __preserves_regs(b,c,d,
 		while (_lgph) { -- _lgph;
 			_lgpx = _lgpx0;
 			_lgpw = _lgpw0;
-			while (_lgpw) { -- lgpw;
-				*stpY ++ = lgpy;
-				*stpXN ++ = lgpx;
+			while (_lgpw) { -- _lgpw;
+				*stpY ++ = _lgpy;
+				*stpXN ++ = _lgpx;
 				*stpXN ++ = *mt ++;
 				nextSprite ();
 				_lgpx += 8;
@@ -375,20 +383,170 @@ void SMS_setColor (unsigned char color) __z88dk_fastcall __preserves_regs(b,c,d,
 	void SMS_finalizeSprites (void) {
 		// NOP
 	}
-
-	unsigned char *SMS_getStpY (void) {
-		return stpY;
+#else
+	void SMS_initSprites (void) { 		
+		stpY = SpriteTableY;
+		stpXN = SpriteTableXN;
 	}
 
-	void SMS_setStpY (unsigned char *s) {
-		stpY = s;
+	void SMS_addSprite (unsigned char x, unsigned char y, unsigned char tile) {
+		*stpY ++ = y;
+		*stpXN ++ = x;
+		*stpXN ++ = tile;
 	}
 
-	unsigned char *SMS_getStpXN (void) {
-		return stpY;
+	unsigned char _lgpx, _lgpx0, _lgpy, _lgpw, _lgph, _lgpw0, _lgph0;
+	void SMS_addMetaSprite (unsigned char x, unsigned char y, const unsigned char *mt) {
+		// x0, y0, w, h, data
+		_lgpx0 = x + *mt ++;
+		_lgpy = y + *mt ++;
+		_lgpw0 = *mt ++; 
+		_lgph = *mt ++;
+		while (_lgph) { -- _lgph;
+			_lgpx = _lgpx0;
+			_lgpw = _lgpw0;
+			while (_lgpw) { -- _lgpw;
+				*stpY ++ = _lgpy;
+				*stpXN ++ = _lgpx;
+				*stpXN ++ = *mt ++;				
+				_lgpx += 8;
+			}
+			_lgpy += 8;
+		}
 	}
 
-	void SMS_setStpXN (unsigned char *s) {
-		stpY = s;
+	void SMS_finalizeSprites (void) {
+		*stpY = 0xd0;
 	}
-#else	
+#endif
+
+unsigned char *SMS_getStpY (void) {
+	return stpY;
+}
+
+void SMS_setStpY (unsigned char *s) {
+	stpY = s;
+}
+
+unsigned char *SMS_getStpXN (void) {
+	return stpY;
+}
+
+void SMS_setStpXN (unsigned char *s) {
+	stpY = s;
+}
+
+void SMS_waitForVBlank (void) {
+	VDPBlank = false;
+	while (!VDPBlank);
+}
+
+#ifdef ONLY_ONE_CONTROLLER
+	unsigned char SMS_getKeysStatus (void) {
+		return (KeysStatus);
+	}
+#else
+	unsigned int SMS_getKeysStatus (void) {
+		return (KeysStatus);
+	}
+#endif
+
+_Bool SMS_queryPauseRequested (void) {
+	return (PauseRequested);
+}
+
+void SMS_resetPauseRequest (void) {
+	PauseRequested = false;
+}
+
+void SMS_VRAMmemset (unsigned int dst, unsigned char value, unsigned int size) {
+	SMS_set_address_VRAM (dst);
+	while (size>0) {
+		SMS_byte_to_VDP_data (value);
+		--size;
+	}
+}
+
+#pragma save
+#pragma disable_warning 85
+
+// Call those during vBlank!
+
+void SMS_copySpritestoSAT (void) {
+  SMS_set_address_VRAM(SMS_SATAddress);
+  __asm
+    ld c,#_VDPDataPort
+    ld hl,#_SpriteTableY
+    call _outi_block-MAXSPRITES*2
+  __endasm;
+  SMS_set_address_VRAM(SMS_SATAddress+128);
+  __asm
+    ld c,#_VDPDataPort
+    ld hl,#_SpriteTableXN
+    call _outi_block-MAXSPRITES*4
+  __endasm;
+}
+
+void SMS_VRAMmemcpy128 (unsigned int dst, void *src) {
+	SMS_set_address_VRAM (dst);
+	__asm
+		ld c,#_VDPDataPort
+		ld l, 2 (iy)
+		ld h, 3 (iy)
+		call _outi_block-128*2
+	__endasm;
+}
+
+// Update list functions:
+// Nametable updates during frame time are slow.
+// So we buffer them and send them to VRAM during VBlank
+void SMS_setUpdateList (unsigned char *ul) {
+	updateList = ul;
+}
+
+void SMS_doUpdateList (void) {
+	ulp = updateList;
+	while (1) {
+		ulpMsb = *ulp; ++ ulp;
+		if (ulpMsb == 0xff) break;
+		VDPControlPort = *ulp ++; 
+		VDPControlPort = ulpMsb | 0x40;
+		VDPDataPort = *ulp ++;
+	}
+}
+
+#pragma restore
+
+void SMS_isr (void) __interrupt __naked {
+	volatile unsigned char VDPStatus = VDPStatusPort;	// Aknowledges interrupt at the VDP
+	if (VDPStatus & 0x80) {
+		VDPBlank = true;								// Frame Interrupt
+		
+		#ifdef ONLY_ONE_CONTROLLER
+			KeysStatus = (~ IOPortL) & 0x3f;
+		#else
+			KeysStatus = ~ (( (IOPortH)<<8)|IOPortL);		// Update key status
+		#endif
+
+		#ifdef AUTOMUSIC
+			// Call music
+			PSGSFXFrame ();
+			if (music_on) PSGFrame ();
+		#endif
+
+	}
+
+	// Z80s perform an auto-di when aknowledging ints, so:
+	ENABLE_INTERRUPTS;
+}
+
+void SMS_nmi_isr (void) __critical __interrupt {
+	PauseRequested = true;
+}
+
+#ifdef AUTOMUSIC
+	void music_pause (unsigned char p) {
+		if (p) PSGSilence ();
+		music_on = !p;
+	}
+#endif

@@ -1,7 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Sep 13 13:00:34 2019
+; Version 3.6.0 #9615 (MINGW64)
 ;--------------------------------------------------------
 	.module delay
 	.optsdcc -mz80
@@ -57,16 +56,16 @@ _delay::
 ;./utils/delay.c:15: while (frames --) HW_waitForVBlank ();
 	ld	hl, #2+0
 	add	hl, sp
-	ld	d, (hl)
+	ld	c, (hl)
 00101$:
-	ld	e,d
-	dec	d
-	ld	a,e
+	ld	b,c
+	dec	c
+	ld	a,b
 	or	a, a
 	ret	Z
-	push	de
+	push	bc
 	call	_SG_waitForVBlank
-	pop	de
+	pop	bc
 	jr	00101$
 	.area _CODE
 	.area _INITIALIZER

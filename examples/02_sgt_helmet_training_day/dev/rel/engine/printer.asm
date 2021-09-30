@@ -1,7 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Sep 13 13:00:31 2019
+; Version 3.6.0 #9615 (MINGW64)
 ;--------------------------------------------------------
 	.module printer
 	.optsdcc -mz80
@@ -72,13 +71,13 @@ _IOPortH	=	0x00dd
 ; ---------------------------------
 _clear_update_list::
 ;./engine/printer.c:33: memfill (update_list, 0, UPDATE_LIST_SIZE*3);
-	ld	de,#_update_list
 	ld	hl,#0x0060
 	push	hl
 	xor	a, a
 	push	af
 	inc	sp
-	push	de
+	ld	hl,#_update_list
+	push	hl
 	call	_memfill
 	pop	af
 	pop	af
@@ -112,44 +111,40 @@ _cls::
 ; ---------------------------------
 _ul_putc::
 ;./engine/printer.c:44: update_list [update_index++] = MSB (gp_addr);
-	ld	hl,#_update_index + 0
-	ld	e, (hl)
-	ld	hl, #_update_index+0
-	inc	(hl)
+	ld	iy,#_update_index
+	ld	c,0 (iy)
+	inc	0 (iy)
 	ld	hl,#_update_list
-	ld	d,#0x00
-	add	hl, de
+	ld	b,#0x00
+	add	hl, bc
 	ld	iy,#_gp_addr
-	ld	d,1 (iy)
-	ld	(hl),d
+	ld	c,1 (iy)
+	ld	(hl),c
 ;./engine/printer.c:45: update_list [update_index++] = LSB (gp_addr++);
-	ld	hl,#_update_index + 0
-	ld	d, (hl)
-	ld	hl, #_update_index+0
-	inc	(hl)
+	ld	iy,#_update_index
+	ld	c,0 (iy)
+	inc	0 (iy)
 	ld	a,#<(_update_list)
-	add	a, d
-	ld	e,a
+	add	a, c
+	ld	c,a
 	ld	a,#>(_update_list)
 	adc	a, #0x00
-	ld	d,a
-	ld	bc,(_gp_addr)
-	ld	hl, #_gp_addr+0
-	inc	(hl)
+	ld	b,a
+	ld	de,(_gp_addr)
+	ld	iy,#_gp_addr
+	inc	0 (iy)
 	jr	NZ,00103$
-	ld	hl, #_gp_addr+1
-	inc	(hl)
+	inc	1 (iy)
 00103$:
-	ld	a,c
-	ld	(de),a
+	ld	a,e
+	ld	(bc),a
 ;./engine/printer.c:46: update_list [update_index++] = _n;
-	ld	hl,#_update_index + 0
-	ld	e, (hl)
-	ld	hl, #_update_index+0
-	inc	(hl)
+	ld	iy,#_update_index
+	ld	c,0 (iy)
+	inc	0 (iy)
 	ld	hl,#_update_list
-	ld	d,#0x00
-	add	hl, de
+	ld	b,#0x00
+	add	hl, bc
 	ld	a,(#__n + 0)
 	ld	(hl),a
 	ret
@@ -169,17 +164,17 @@ _p_t::
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
-	ex	de,hl
+	ld	c, l
+	ld	b, h
 	ld	iy,#__x
 	ld	l,0 (iy)
 	ld	h,#0x00
-	add	hl,de
-	ex	de,hl
-	ld	hl,#0x1800
-	add	hl,de
+	add	hl,bc
+	ld	bc,#0x1800
+	add	hl,bc
 	ld	(_gp_addr),hl
 ;./engine/printer.c:52: _n = ((rda/10)+16); ul_putc ();
-	ld	a,#0x0A
+	ld	a,#0x0a
 	push	af
 	inc	sp
 	ld	a,(_rda)
@@ -193,7 +188,7 @@ _p_t::
 	ld	(hl),a
 	call	_ul_putc
 ;./engine/printer.c:53: _n = ((rda%10)+16); ul_putc ();
-	ld	a,#0x0A
+	ld	a,#0x0a
 	push	af
 	inc	sp
 	ld	a,(_rda)
@@ -212,7 +207,7 @@ _p_t::
 ; ---------------------------------
 _p_tf::
 ;./engine/printer.c:57: HW_setTileatXY (_x, _y, (_n / 10) + 16);
-	ld	a,#0x0A
+	ld	a,#0x0a
 	push	af
 	inc	sp
 	ld	a,(__n)
@@ -222,7 +217,8 @@ _p_tf::
 	pop	af
 	ld	a,l
 	add	a, #0x10
-	push	af
+	ld	b,a
+	push	bc
 	inc	sp
 	ld	a,(__y)
 	push	af
@@ -234,7 +230,7 @@ _p_tf::
 	pop	af
 	inc	sp
 ;./engine/printer.c:58: HW_setTile ((_n % 10) + 16);
-	ld	a,#0x0A
+	ld	a,#0x0a
 	push	af
 	inc	sp
 	ld	a,(__n)
@@ -244,7 +240,8 @@ _p_tf::
 	pop	af
 	ld	a,l
 	add	a, #0x10
-	push	af
+	ld	b,a
+	push	bc
 	inc	sp
 	call	_SG_setTile
 	inc	sp
@@ -260,14 +257,15 @@ _draw_tile::
 	ld	h,#0x00
 	add	hl, hl
 	add	hl, hl
-	ld	d,l
-	ld	e,h
+	ld	c, l
+	ld	b, h
 	ld	hl,#_gp_tmap
-	ld	a,(#_c_ts_tmaps + 0)
-	add	a, d
+	ld	iy,#_c_ts_tmaps
+	ld	a,0 (iy)
+	add	a, c
 	ld	(hl),a
-	ld	a,(#_c_ts_tmaps + 1)
-	adc	a, e
+	ld	a,1 (iy)
+	adc	a, b
 	inc	hl
 	ld	(hl),a
 ;./engine/printer.c:68: gp_addr = (_y << 5) + _x + PNTADDRESS;
@@ -279,14 +277,14 @@ _draw_tile::
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
-	ex	de,hl
+	ld	c, l
+	ld	b, h
 	ld	iy,#__x
 	ld	l,0 (iy)
 	ld	h,#0x00
-	add	hl,de
-	ex	de,hl
-	ld	hl,#0x1800
-	add	hl,de
+	add	hl,bc
+	ld	bc,#0x1800
+	add	hl,bc
 	ld	(_gp_addr),hl
 ;./engine/printer.c:70: if (_y == TOP_ADJUST) {
 	ld	a,(#__y + 0)
@@ -304,30 +302,28 @@ _draw_tile::
 	jr	00103$
 00102$:
 ;./engine/printer.c:73: VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
-	ld	a,(#_gp_addr + 0)
+	ld	iy,#_gp_addr
+	ld	a, 0 (iy)
 	out	(_VDPControlPort),a
-	ld	a,(#_gp_addr + 1)
+	ld	a, 1 (iy)
 	set	6, a
 	out	(_VDPControlPort),a
 ;./engine/printer.c:74: VDPDataPort = *gp_tmap ++;
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	out	(_VDPDataPort),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
+	ld	iy,#_gp_tmap
+	inc	0 (iy)
 	jr	NZ,00118$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
+	inc	1 (iy)
 00118$:
 ;./engine/printer.c:75: VDPDataPort = *gp_tmap ++;
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	out	(_VDPDataPort),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
+	inc	0 (iy)
 	jr	NZ,00119$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
+	inc	1 (iy)
 00119$:
 00103$:
 ;./engine/printer.c:78: if (_y < TOP_ADJUST + 22) {
@@ -344,30 +340,28 @@ _draw_tile::
 	adc	a, #0x00
 	ld	(hl),a
 ;./engine/printer.c:80: VDPControlPort = LO (gp_addr); VDPControlPort = HI (gp_addr) | 0x40;
-	ld	a,(#_gp_addr + 0)
+	ld	iy,#_gp_addr
+	ld	a, 0 (iy)
 	out	(_VDPControlPort),a
-	ld	a,(#_gp_addr + 1)
+	ld	a, 1 (iy)
 	set	6, a
 	out	(_VDPControlPort),a
 ;./engine/printer.c:81: VDPDataPort = *gp_tmap ++;
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	out	(_VDPDataPort),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
+	ld	iy,#_gp_tmap
+	inc	0 (iy)
 	jr	NZ,00120$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
+	inc	1 (iy)
 00120$:
 ;./engine/printer.c:82: VDPDataPort = *gp_tmap ++;
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	out	(_VDPDataPort),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
+	inc	0 (iy)
 	ret	NZ
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
+	inc	1 (iy)
 	ret
 ;./engine/printer.c:88: void update_list_tile (void) {
 ;	---------------------------------
@@ -380,14 +374,15 @@ _update_list_tile::
 	ld	h,#0x00
 	add	hl, hl
 	add	hl, hl
-	ld	d,l
-	ld	e,h
+	ld	c, l
+	ld	b, h
 	ld	hl,#_gp_tmap
-	ld	a,(#_c_ts_tmaps + 0)
-	add	a, d
+	ld	iy,#_c_ts_tmaps
+	ld	a,0 (iy)
+	add	a, c
 	ld	(hl),a
-	ld	a,(#_c_ts_tmaps + 1)
-	adc	a, e
+	ld	a,1 (iy)
+	adc	a, b
 	inc	hl
 	ld	(hl),a
 ;./engine/printer.c:90: gp_addr = ((_y << 5) + _x + PNTADDRESS);
@@ -399,41 +394,39 @@ _update_list_tile::
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
-	ex	de,hl
+	ld	c, l
+	ld	b, h
 	ld	iy,#__x
 	ld	l,0 (iy)
 	ld	h,#0x00
-	add	hl,de
-	ex	de,hl
-	ld	hl,#0x1800
-	add	hl,de
+	add	hl,bc
+	ld	bc,#0x1800
+	add	hl,bc
 	ld	(_gp_addr),hl
 ;./engine/printer.c:92: _n = *gp_tmap ++; ul_putc ();
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	ld	(#__n + 0),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
+	ld	iy,#_gp_tmap
+	inc	0 (iy)
 	jr	NZ,00103$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
+	inc	1 (iy)
 00103$:
 	call	_ul_putc
 ;./engine/printer.c:93: _n = *gp_tmap ++; ul_putc ();
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	ld	(#__n + 0),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
+	ld	iy,#_gp_tmap
+	inc	0 (iy)
 	jr	NZ,00104$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
+	inc	1 (iy)
 00104$:
 	call	_ul_putc
 ;./engine/printer.c:94: gp_addr += 30;
 	ld	hl,#_gp_addr
 	ld	a,(hl)
-	add	a, #0x1E
+	add	a, #0x1e
 	ld	(hl),a
 	inc	hl
 	ld	a,(hl)
@@ -443,11 +436,10 @@ _update_list_tile::
 	ld	hl,(_gp_tmap)
 	ld	a,(hl)
 	ld	(#__n + 0),a
-	ld	hl, #_gp_tmap+0
-	inc	(hl)
+	ld	iy,#_gp_tmap
+	inc	0 (iy)
 	jr	NZ,00105$
-	ld	hl, #_gp_tmap+1
-	inc	(hl)
+	inc	1 (iy)
 00105$:
 	call	_ul_putc
 ;./engine/printer.c:97: _n = *gp_tmap   ; ul_putc ();
@@ -461,7 +453,6 @@ _update_list_tile::
 ; ---------------------------------
 _map_set::
 ;./engine/printer.c:103: map_buff [COORDS (_x, _y)] = _t;
-	ld	de,#_map_buff+0
 	ld	iy,#__y
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -471,14 +462,17 @@ _map_set::
 	add	hl, hl
 	ld	c, l
 	ld	b, h
-	ld	a,(#__x + 0)
-	ld	h, #0x00
-	or	a, c
-	ld	l,a
-	ld	a,h
-	or	a, b
-	ld	h,a
-	add	hl,de
+	ld	hl,#__x + 0
+	ld	e, (hl)
+	ld	d,#0x00
+	ld	a,c
+	or	a, e
+	ld	c,a
+	ld	a,b
+	or	a, d
+	ld	b,a
+	ld	hl,#_map_buff
+	add	hl,bc
 	ld	a,(#__t + 0)
 	ld	(hl),a
 ;./engine/printer.c:107: _x = _x << 1; _y = TOP_ADJUST + (_y << 1);
@@ -500,14 +494,13 @@ _get_byte::
 	ld	hl, #_rdit+0
 	dec	(hl)
 	ld	hl,(_gp_gen)
-	ld	d,(hl)
-	ld	hl, #_gp_gen+0
-	inc	(hl)
+	ld	c,(hl)
+	ld	iy,#_gp_gen
+	inc	0 (iy)
 	jr	NZ,00103$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
+	inc	1 (iy)
 00103$:
-	ld	l,d
+	ld	l,c
 	ret
 ;./engine/../engine/mapmods/map_renderer_complex.h:11: void add_tile (void) {
 ;	---------------------------------
@@ -515,10 +508,10 @@ _get_byte::
 ; ---------------------------------
 _add_tile::
 ;./engine/../engine/mapmods/map_renderer_complex.h:12: map_buff [rdm] = rda;
-	ld	de,#_map_buff+0
+	ld	bc,#_map_buff+0
 	ld	hl,(_rdm)
 	ld	h,#0x00
-	add	hl,de
+	add	hl,bc
 	ld	a,(#_rda + 0)
 	ld	(hl),a
 ;./engine/../engine/mapmods/map_renderer_complex.h:13: ++ rdm;
@@ -538,34 +531,33 @@ _draw_scr::
 	ld	l,0 (iy)
 	ld	h,#0x00
 	add	hl, hl
-	ex	de,hl
+	ld	c, l
+	ld	b, h
 	ld	hl,(_c_map)
-	add	hl,de
+	add	hl,bc
 	ld	a,(hl)
 	ld	iy,#_gp_gen
 	ld	0 (iy),a
 	inc	hl
 	ld	a,(hl)
-	ld	iy,#_gp_gen
 	ld	1 (iy),a
 ;./engine/../engine/mapmods/map_renderer_complex.h:87: while (rdm < 192) {
 00104$:
 	ld	a,(#_rdm + 0)
-	sub	a, #0xC0
+	sub	a, #0xc0
 	jr	NC,00106$
 ;./engine/../engine/mapmods/map_renderer_complex.h:88: rdt = *gp_gen ++;
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rdt + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
+	ld	iy,#_gp_gen
+	inc	0 (iy)
 	jr	NZ,00255$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
+	inc	1 (iy)
 00255$:
 ;./engine/../engine/mapmods/map_renderer_complex.h:89: rda = rdt & 0x0f;
 	ld	a,(#_rdt + 0)
-	and	a, #0x0F
+	and	a, #0x0f
 	ld	(#_rda + 0),a
 ;./engine/../engine/mapmods/map_renderer_complex.h:91: rdct = rdt;
 	ld	a,(#_rdt + 0)
@@ -579,7 +571,7 @@ _draw_scr::
 	call	_add_tile
 	ld	hl,#_rdct
 	ld	a,(hl)
-	add	a,#0xF0
+	add	a,#0xf0
 	ld	(hl),a
 	jr	00101$
 00103$:
@@ -588,33 +580,32 @@ _draw_scr::
 	jr	00104$
 00106$:
 ;./engine/../engine/mapmods/../../my/map_renderer_customization.h:23: set_rand (1 + n_pant);
-	ld	iy,#_n_pant
-	ld	h,0 (iy)
-	inc	h
-	push	hl
+	ld	hl,#_n_pant + 0
+	ld	b, (hl)
+	inc	b
+	push	bc
 	inc	sp
 	call	_set_rand
 	inc	sp
 ;./engine/../engine/mapmods/../../my/map_renderer_customization.h:24: gpit = 192; while (gpit --) {
 	ld	hl,#_gpit + 0
-	ld	(hl), #0xC0
+	ld	(hl), #0xc0
 00131$:
-	ld	hl,#_gpit + 0
-	ld	d, (hl)
-	ld	hl, #_gpit+0
-	dec	(hl)
-	ld	a,d
+	ld	iy,#_gpit
+	ld	c,0 (iy)
+	dec	0 (iy)
+	ld	a,c
 	or	a, a
 	jp	Z,00133$
 ;./engine/../engine/mapmods/../../my/map_renderer_customization.h:25: rda = map_buff [gpit];
 	ld	a,#<(_map_buff)
 	ld	hl,#_gpit
 	add	a, (hl)
-	ld	e,a
+	ld	c,a
 	ld	a,#>(_map_buff)
 	adc	a, #0x00
-	ld	d,a
-	ld	a,(de)
+	ld	b,a
+	ld	a,(bc)
 	ld	(#_rda + 0),a
 ;./engine/../engine/mapmods/../../my/map_renderer_customization.h:29: rdb = map_buff [gpit - 16];
 	ld	hl,#_gpit + 0
@@ -626,13 +617,13 @@ _draw_scr::
 	jr	NZ,00125$
 ;./engine/../engine/mapmods/../../my/map_renderer_customization.h:29: rdb = map_buff [gpit - 16];
 	ld	a,c
-	add	a,#0xF0
-	ld	l,a
+	add	a,#0xf0
+	ld	c,a
 	ld	a,b
-	adc	a,#0xFF
-	ld	h,a
-	ld	de,#_map_buff
-	add	hl,de
+	adc	a,#0xff
+	ld	b,a
+	ld	hl,#_map_buff
+	add	hl,bc
 	ld	a,(hl)
 	ld	(#_rdb + 0),a
 ;./engine/../engine/mapmods/../../my/map_renderer_customization.h:31: if (gpit >= 16 && c_behs [rdb] == 8)
@@ -658,7 +649,7 @@ _draw_scr::
 	dec	a
 	jr	NZ,00126$
 	ld	hl,#_rda + 0
-	ld	(hl), #0x1B
+	ld	(hl), #0x1b
 	jr	00126$
 00125$:
 ;./engine/../engine/mapmods/../../my/map_renderer_customization.h:34: } else if (rda == 8) {
@@ -666,9 +657,10 @@ _draw_scr::
 	sub	a, #0x08
 	jr	NZ,00126$
 ;./engine/../engine/mapmods/../../my/map_renderer_customization.h:35: rdc = map_buff [gpit + 1]; rdb = map_buff [gpit - 1];
-	ld	l, c
-	ld	h, b
-	ld	de,#_map_buff+1
+	ld	e, c
+	ld	d, b
+	inc	de
+	ld	hl,#_map_buff
 	add	hl,de
 	ld	a,(hl)
 	ld	(#_rdc + 0),a
@@ -686,7 +678,7 @@ _draw_scr::
 00262$:
 	xor	a,a
 00263$:
-	ld	e,a
+	ld	b,a
 	ld	a,(#_rdb + 0)
 	sub	a, #0x08
 	jr	NZ,00264$
@@ -695,16 +687,14 @@ _draw_scr::
 00264$:
 	xor	a,a
 00265$:
-	ld	d,a
-	ld	a,e
-	or	a,a
+	ld	c,a
+	bit	0,b
 	jr	NZ,00119$
-	or	a,d
+	bit	0,c
 	jr	Z,00126$
 00119$:
 ;./engine/../engine/mapmods/../../my/map_renderer_customization.h:39: if (rdc != 8 && rdc != 9) rda = 9;
-	ld	a,e
-	or	a, a
+	bit	0,b
 	jr	NZ,00114$
 	ld	a,(#_rdc + 0)
 	sub	a, #0x09
@@ -713,8 +703,7 @@ _draw_scr::
 	ld	(hl), #0x09
 00114$:
 ;./engine/../engine/mapmods/../../my/map_renderer_customization.h:40: if (rdb != 8) rda = 7;
-	ld	a,d
-	or	a, a
+	bit	0,c
 	jr	NZ,00126$
 	ld	hl,#_rda + 0
 	ld	(hl), #0x07
@@ -736,12 +725,12 @@ _draw_scr::
 	ld	a,#<(_map_buff)
 	ld	hl,#_gpit
 	add	a, (hl)
-	ld	e,a
+	ld	c,a
 	ld	a,#>(_map_buff)
 	adc	a, #0x00
-	ld	d,a
+	ld	b,a
 	ld	a,(#_rda + 0)
-	ld	(de),a
+	ld	(bc),a
 	jp	00131$
 00133$:
 ;./engine/../engine/mapmods/map_renderer_complex.h:147: gp_gen = c_locks; rda = 0;
@@ -753,32 +742,29 @@ _draw_scr::
 	ld	a,(#_c_max_bolts + 0)
 	ld	(#_gpit + 0),a
 00138$:
-	ld	hl,#_gpit + 0
-	ld	d, (hl)
-	ld	hl, #_gpit+0
-	dec	(hl)
-	ld	a,d
+	ld	iy,#_gpit
+	ld	c,0 (iy)
+	dec	0 (iy)
+	ld	a,c
 	or	a, a
 	jr	Z,00140$
 ;./engine/../engine/mapmods/map_renderer_complex.h:149: rdb = *gp_gen ++;
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rdb + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
+	ld	iy,#_gp_gen
+	inc	0 (iy)
 	jr	NZ,00267$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
+	inc	1 (iy)
 00267$:
 ;./engine/../engine/mapmods/map_renderer_complex.h:150: rdm = *gp_gen ++;
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_rdm + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
+	ld	iy,#_gp_gen
+	inc	0 (iy)
 	jr	NZ,00268$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
+	inc	1 (iy)
 00268$:
 ;./engine/../engine/mapmods/map_renderer_complex.h:151: if (n_pant == rdb) {
 	ld	a,(#_n_pant + 0)
@@ -789,11 +775,11 @@ _draw_scr::
 	ld	a,#<(_lkact)
 	ld	hl,#_gpit
 	add	a, (hl)
-	ld	e,a
+	ld	c,a
 	ld	a,#>(_lkact)
 	adc	a, #0x00
-	ld	d,a
-	ld	a,(de)
+	ld	b,a
+	ld	a,(bc)
 	or	a, a
 	jr	NZ,00138$
 	call	_add_tile
@@ -814,45 +800,45 @@ _draw_scr::
 	ld	hl,(_gp_ram)
 	ld	a,(hl)
 	ld	(#_rdt + 0),a
-	ld	hl, #_gp_ram+0
-	inc	(hl)
+	ld	iy,#_gp_ram
+	inc	0 (iy)
 	jr	NZ,00271$
-	ld	hl, #_gp_ram+1
-	inc	(hl)
+	inc	1 (iy)
 00271$:
 ;./engine/../engine/mapmods/map_renderer_complex.h:178: DISABLE_INTERRUPTS;
-	di 
+	di	
 ;./engine/../engine/mapmods/map_renderer_complex.h:179: _t = rdt; draw_tile ();
 	ld	a,(#_rdt + 0)
 	ld	(#__t + 0),a
 	call	_draw_tile
 ;./engine/../engine/mapmods/map_renderer_complex.h:180: _x = (_x + 2) & 0x1f; if (!_x) _y += 2;
-	ld	a,(#__x + 0)
+	ld	iy,#__x
+	ld	a,0 (iy)
 	add	a, #0x02
-	and	a, #0x1F
-	ld	(#__x + 0),a
+	and	a, #0x1f
+	ld	0 (iy),a
+	ld	a,0 (iy)
 	or	a, a
 	jr	NZ,00142$
-	ld	hl, #__y+0
-	inc	(hl)
-	ld	hl, #__y+0
-	inc	(hl)
+	ld	iy,#__y
+	inc	0 (iy)
+	inc	0 (iy)
 00142$:
 ;./engine/../engine/mapmods/map_renderer_complex.h:181: ENABLE_INTERRUPTS;
-	ei 
+	ei	
 ;./engine/../engine/mapmods/map_renderer_complex.h:164: for (rdm = 0; rdm < 192; rdm ++) {
-	ld	hl, #_rdm+0
-	inc	(hl)
-	ld	a,(#_rdm + 0)
-	sub	a, #0xC0
+	ld	iy,#_rdm
+	inc	0 (iy)
+	ld	a,0 (iy)
+	sub	a, #0xc0
 	jr	C,00145$
 ;./engine/../engine/mapmods/map_renderer_complex.h:186: DISABLE_INTERRUPTS;
-	di 
+	di	
 ;./engine/../engine/mapmods/map_renderer_complex.h:187: VDPControlPort = LO (BREAKABLE_VRAM_ADDR);
 	ld	a,#0x40
 	out	(_VDPControlPort),a
 ;./engine/../engine/mapmods/map_renderer_complex.h:188: VDPControlPort = HI (BREAKABLE_VRAM_ADDR) | 0x40;
-	ld	a,#0x5F
+	ld	a,#0x5f
 	out	(_VDPControlPort),a
 ;./engine/../engine/mapmods/map_renderer_complex.h:189: for (gpit = 0; gpit < 192; gpit ++) {
 	ld	hl,#_gpit + 0
@@ -862,15 +848,15 @@ _draw_scr::
 	ld	a,#0x01
 	out	(_VDPDataPort),a
 ;./engine/../engine/mapmods/map_renderer_complex.h:189: for (gpit = 0; gpit < 192; gpit ++) {
-	ld	hl, #_gpit+0
-	inc	(hl)
-	ld	a,(#_gpit + 0)
-	sub	a, #0xC0
+	ld	iy,#_gpit
+	inc	0 (iy)
+	ld	a,0 (iy)
+	sub	a, #0xc0
 	jr	C,00147$
 ;./engine/../engine/mapmods/map_renderer_complex.h:192: ENABLE_INTERRUPTS;
-	ei 
+	ei	
 ;./engine/../engine/mapmods/map_renderer_complex.h:210: ENABLE_INTERRUPTS;
-	ei 
+	ei	
 	ret
 ;./engine/printer.c:122: void pr_str (const unsigned char *s) {
 ;	---------------------------------
@@ -887,23 +873,25 @@ _pr_str::
 	call	_SG_setNextTileatXY
 	pop	af
 ;./engine/printer.c:124: while (gpit = *s++) {
-	pop	bc
 	pop	de
-	push	de
+	pop	bc
 	push	bc
+	push	de
 00104$:
-	ld	a,(de)
-	inc	de
-;./engine/printer.c:125: if (gpit == '%') {
-	ld	(#_gpit + 0),a
-	or	a,a
+	ld	a,(bc)
+	inc	bc
+	ld	iy,#_gpit
+	ld	0 (iy),a
+	or	a, a
 	ret	Z
+;./engine/printer.c:125: if (gpit == '%') {
+	ld	a,0 (iy)
 	sub	a, #0x25
 	jr	NZ,00102$
 ;./engine/printer.c:126: ++ _y; HW_setNextTileatXY (_x, _y);
 	ld	hl, #__y+0
 	inc	(hl)
-	push	de
+	push	bc
 	ld	a,(__y)
 	push	af
 	inc	sp
@@ -912,18 +900,19 @@ _pr_str::
 	inc	sp
 	call	_SG_setNextTileatXY
 	pop	af
-	pop	de
+	pop	bc
 	jr	00104$
 00102$:
 ;./engine/printer.c:128: else HW_setTile (gpit - 32); 
 	ld	a,(#_gpit + 0)
-	add	a,#0xE0
+	add	a,#0xe0
+	ld	d,a
+	push	bc
 	push	de
-	push	af
 	inc	sp
 	call	_SG_setTile
 	inc	sp
-	pop	de
+	pop	bc
 	jr	00104$
 	.area _CODE
 	.area _INITIALIZER

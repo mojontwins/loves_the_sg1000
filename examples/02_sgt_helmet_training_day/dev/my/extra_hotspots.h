@@ -1,5 +1,5 @@
 // SG-1000 MK1 v0.2
-// Copyleft Mojon Twins 2013, 2015, 2017, 2018
+// Copyleft Mojon Twins 2013, 2015, 2017-2019
 
 // Add support for custom hotspots types here. Support for each
 // new type of hotspot should be coded in a 'case', like this:

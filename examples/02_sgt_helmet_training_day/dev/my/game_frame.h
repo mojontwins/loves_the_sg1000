@@ -1,5 +1,5 @@
 // SG-1000 MK1 v0.2
-// Copyleft Mojon Twins 2013, 2015, 2017, 2018
+// Copyleft Mojon Twins 2013, 2015, 2017-2019
 
 // game_frame.h
 // Custom code to draw the frame around your HUD

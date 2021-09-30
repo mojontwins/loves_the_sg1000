@@ -1,7 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.2 #9293 (MINGW32)
-; This file was generated Fri Sep 13 12:59:53 2019
+; Version 3.6.0 #9615 (MINGW64)
 ;--------------------------------------------------------
 	.module game
 	.optsdcc -mz80
@@ -726,28 +725,28 @@ _hotspots_load::
 ;./engine/hotspots.h:11: for (gpit = 0; gpit < MAP_SIZE; gpit ++) {
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x00
-	ld	de,#_hact+0
+	ld	bc,#_hact+0
 00102$:
 ;./engine/hotspots.h:16: hact [gpit] = 1;
 	ld	hl,(_gpit)
 	ld	h,#0x00
-	add	hl,de
+	add	hl,bc
 	ld	(hl),#0x01
 ;./engine/hotspots.h:11: for (gpit = 0; gpit < MAP_SIZE; gpit ++) {
-	ld	hl, #_gpit+0
-	inc	(hl)
-	ld	a,(#_gpit + 0)
+	ld	iy,#_gpit
+	inc	0 (iy)
+	ld	a,0 (iy)
 	sub	a, #0x18
 	jr	C,00102$
 	ret
 _coco_dx:
-	.dw #0xFF00
+	.dw #0xff00
 	.dw #0x0000
 	.dw #0x0100
 	.dw #0x0000
 _coco_dy:
 	.dw #0x0000
-	.dw #0xFF00
+	.dw #0xff00
 	.dw #0x0000
 	.dw #0x0100
 _bits:
@@ -791,8 +790,8 @@ _behs0:
 	.db #0x08	; 8
 	.db #0x08	; 8
 	.db #0x08	; 8
-	.db #0x0B	; 11
-	.db #0x0A	; 10
+	.db #0x0b	; 11
+	.db #0x0a	; 10
 	.db #0x08	; 8
 	.db #0x08	; 8
 	.db #0x08	; 8
@@ -824,8 +823,8 @@ _behs2:
 	.db #0x08	; 8
 	.db #0x08	; 8
 	.db #0x08	; 8
-	.db #0x0B	; 11
-	.db #0x0A	; 10
+	.db #0x0b	; 11
+	.db #0x0a	; 10
 	.db #0x08	; 8
 	.db #0x08	; 8
 	.db #0x08	; 8
@@ -908,13 +907,13 @@ _l_scr_ini:
 	.db #0x17	; 23
 	.db #0x17	; 23
 _l_ini_x:
-	.db #0x0C	; 12
-	.db #0x0C	; 12
+	.db #0x0c	; 12
+	.db #0x0c	; 12
 	.db #0x07	; 7
 _l_ini_y:
 	.db #0x09	; 9
 	.db #0x09	; 9
-	.db #0x0A	; 10
+	.db #0x0a	; 10
 _l_map_w:
 	.db #0x01	; 1
 	.db #0x01	; 1
@@ -928,9 +927,9 @@ _l_player_max_objects:
 	.db #0x05	; 5
 	.db #0x05	; 5
 _l_player_max_enems:
-	.db #0x1E	; 30
-	.db #0x0B	; 11
-	.db #0x0D	; 13
+	.db #0x1e	; 30
+	.db #0x0b	; 11
+	.db #0x0d	; 13
 _l_ts_tmaps:
 	.dw _ts0_tmaps
 	.dw _ts1_tmaps
@@ -964,15 +963,15 @@ _l_hotspots:
 	.dw _hotspots_1
 	.dw _hotspots_2
 _l_music:
-	.dw _m_n_stagea_psg
-	.dw _m_n_stageb_psg
-	.dw _m_n_stagec_psg
+	.dw _m_p_stagea_psg
+	.dw _m_p_stageb_psg
+	.dw _m_p_stagec_psg
 _bombs_x:
 	.db #0x04	; 4
 	.db #0x04	; 4
 	.db #0x07	; 7
-	.db #0x0A	; 10
-	.db #0x0A	; 10
+	.db #0x0a	; 10
+	.db #0x0a	; 10
 _bombs_y:
 	.db #0x05	; 5
 	.db #0x03	; 3
@@ -986,23 +985,23 @@ _bombs_y:
 _hotspots_paint::
 ;./engine/hotspots.h:30: rda = hrt;
 	ld	a,(#_hrt + 0)
-	ld	(#_rda + 0),a
 ;./engine/hotspots.h:38: spr_hs [rda]
-	ld	de,#_spr_hs+0
-	ld	iy,#_rda
-	ld	l,0 (iy)
+	ld	hl,#_rda + 0
+	ld	(hl),a
+	ld	l,(hl)
 	ld	h,#0x00
 	add	hl, hl
+	ld	de,#_spr_hs
 	add	hl,de
-	ld	e,(hl)
+	ld	c,(hl)
 	inc	hl
-	ld	d,(hl)
+	ld	b,(hl)
 ;./engine/hotspots.h:37: hrx, hry + SPRITE_ADJUST, 
 	ld	a,(#_hry + 0)
-	add	a, #0xF7
-	ld	h,a
+	add	a, #0xf7
+	ld	d,a
+	push	bc
 	push	de
-	push	hl
 	inc	sp
 	ld	a,(_hrx)
 	push	af
@@ -1021,25 +1020,25 @@ _hotspots_create::
 	ld	l,0 (iy)
 	ld	h,#0x00
 	add	hl, hl
-	ld	d,l
-	ld	e,h
+	ld	c, l
+	ld	b, h
 	ld	hl,#_gp_gen
-	ld	a,(#_c_hotspots + 0)
-	add	a, d
+	ld	iy,#_c_hotspots
+	ld	a,0 (iy)
+	add	a, c
 	ld	(hl),a
-	ld	a,(#_c_hotspots + 1)
-	adc	a, e
+	ld	a,1 (iy)
+	adc	a, b
 	inc	hl
 	ld	(hl),a
 ;./engine/hotspots.h:55: hrt = *gp_gen ++; rda = *gp_gen; 
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
 	ld	(#_hrt + 0),a
-	ld	hl, #_gp_gen+0
-	inc	(hl)
+	ld	iy,#_gp_gen
+	inc	0 (iy)
 	jr	NZ,00115$
-	ld	hl, #_gp_gen+1
-	inc	(hl)
+	inc	1 (iy)
 00115$:
 	ld	hl,(_gp_gen)
 	ld	a,(hl)
@@ -1048,23 +1047,23 @@ _hotspots_create::
 	ld	a,(#_hrt + 0)
 	or	a, a
 	jr	Z,00102$
-	ld	de,#_hact+0
+	ld	bc,#_hact+0
 	ld	hl,(_n_pant)
 	ld	h,#0x00
-	add	hl,de
+	add	hl,bc
 	ld	a,(hl)
 	or	a, a
 	jr	Z,00102$
 ;./engine/hotspots.h:57: hry = rda & 0xf0; hrx = rda << 4;
 	ld	a,(#_rda + 0)
-	and	a, #0xF0
+	and	a, #0xf0
 	ld	(#_hry + 0),a
 	ld	a,(#_rda + 0)
 	rlca
 	rlca
 	rlca
 	rlca
-	and	a,#0xF0
+	and	a,#0xf0
 	ld	(#_hrx + 0),a
 	ret
 00102$:
@@ -1092,18 +1091,17 @@ _hud_update::
 	sub	a, 0 (iy)
 	jr	Z,00102$
 ;./engine/frame.h:20: oobjs = pobjs;
-	ld	hl,#_pobjs + 0
-	ld	d, (hl)
+	ld	c,0 (iy)
 	ld	hl,#_oobjs + 0
-	ld	(hl), d
+	ld	(hl), c
 ;./engine/frame.h:21: _x = OBJECTS_X; _y = OBJECTS_Y; 
 	ld	hl,#__x + 0
-	ld	(hl), #0x1B
+	ld	(hl), #0x1b
 	ld	hl,#__y + 0
 	ld	(hl), #0x00
 ;./engine/frame.h:25: _n = pobjs; 
 	ld	hl,#__n + 0
-	ld	(hl), d
+	ld	(hl), c
 ;./engine/frame.h:27: p_t ();
 	call	_p_t
 00102$:
@@ -1113,17 +1111,16 @@ _hud_update::
 	sub	a, 0 (iy)
 	jr	Z,00104$
 ;./engine/frame.h:33: okeys = pkeys;
-	ld	hl,#_pkeys + 0
-	ld	d, (hl)
+	ld	c,0 (iy)
 	ld	hl,#_okeys + 0
-	ld	(hl), d
+	ld	(hl), c
 ;./engine/frame.h:34: _x = KEYS_X; _y = KEYS_Y; _n = pkeys; p_t ();
 	ld	hl,#__x + 0
 	ld	(hl), #0x14
 	ld	hl,#__y + 0
 	ld	(hl), #0x00
 	ld	hl,#__n + 0
-	ld	(hl), d
+	ld	(hl), c
 	call	_p_t
 00104$:
 ;./engine/frame.h:39: if (olife != plife) {
@@ -1132,17 +1129,16 @@ _hud_update::
 	sub	a, 0 (iy)
 	jr	Z,00106$
 ;./engine/frame.h:40: olife = plife;
-	ld	hl,#_plife + 0
-	ld	d, (hl)
+	ld	c,0 (iy)
 	ld	hl,#_olife + 0
-	ld	(hl), d
+	ld	(hl), c
 ;./engine/frame.h:41: _x = LIFE_X; _y = LIFE_Y; _n = plife; p_t ();
 	ld	hl,#__x + 0
 	ld	(hl), #0x05
 	ld	hl,#__y + 0
 	ld	(hl), #0x00
 	ld	hl,#__n + 0
-	ld	(hl), d
+	ld	(hl), c
 	call	_p_t
 00106$:
 ;./engine/frame.h:46: if (oammo != pammo) {
@@ -1151,17 +1147,16 @@ _hud_update::
 	sub	a, 0 (iy)
 	ret	Z
 ;./engine/frame.h:47: oammo = pammo;
-	ld	hl,#_pammo + 0
-	ld	d, (hl)
+	ld	c,0 (iy)
 	ld	hl,#_oammo + 0
-	ld	(hl), d
+	ld	(hl), c
 ;./engine/frame.h:48: _x = AMMO_X; _y = AMMO_Y; _n = pammo; p_t ();
 	ld	hl,#__x + 0
-	ld	(hl), #0x0C
+	ld	(hl), #0x0c
 	ld	hl,#__y + 0
 	ld	(hl), #0x00
 	ld	hl,#__n + 0
-	ld	(hl), d
+	ld	(hl), c
 	jp  _p_t
 ;./my/pres.h:6: void bat_in (void) {
 ;	---------------------------------
@@ -1217,9 +1212,9 @@ _pres::
 	ld	a,1 (iy)
 	or	a,0 (iy)
 	jr	Z,00106$
-	ld	l,0 (iy)
-	ld	h,1 (iy)
-	push	hl
+	ld	c,0 (iy)
+	ld	b,1 (iy)
+	push	bc
 	call	_PSGPlay
 	pop	af
 ;./my/pres.h:23: while (1) {
@@ -1253,7 +1248,7 @@ _title::
 ;./my/pres.h:35: bat_in ();
 	call	_bat_in
 ;./my/pres.h:37: PSGPlay (MUSIC_TITLE);
-	ld	hl,#_m_n_title_psg
+	ld	hl,#_m_p_title_psg
 	push	hl
 	call	_PSGPlay
 	pop	af
@@ -1262,18 +1257,21 @@ _title::
 ;./my/pres.h:39: update_cycle ();
 	call	_update_cycle
 ;./my/pres.h:40: SG_addMetaSprite1x1 (80, 108 + (level << 4), ss_pl_00);
-	ld	hl,#_ss_pl_00
+	ld	de,#_ss_pl_00
 	ld	a,(#_level + 0)
 	rlca
 	rlca
 	rlca
 	rlca
-	and	a,#0xF0
-	add	a, #0x6C
-	push	hl
-	ld	d,a
-	ld	e,#0x50
+	and	a,#0xf0
+	add	a, #0x6c
+	ld	b,a
 	push	de
+	push	bc
+	inc	sp
+	ld	a,#0x50
+	push	af
+	inc	sp
 	call	_SG_addMetaSprite1x1
 	pop	af
 	pop	af
@@ -1287,24 +1285,23 @@ _title::
 	bit	1, (hl)
 	jr	Z,00104$
 ;./my/pres.h:44: ++ level; if (level == 3) level = 0;
-	ld	hl, #_level+0
-	inc	(hl)
-	ld	a,(#_level + 0)
+	ld	iy,#_level
+	inc	0 (iy)
+	ld	a,0 (iy)
 	sub	a, #0x03
 	jr	NZ,00104$
-	ld	hl,#_level + 0
-	ld	(hl), #0x00
+	ld	0 (iy),#0x00
 00104$:
 ;./my/pres.h:46: if (pad_this_frame & PAD_UP) {
 	ld	hl,#_pad_this_frame+0
 	bit	0, (hl)
 	jr	Z,00109$
 ;./my/pres.h:47: if (level) -- level; else level = 2;
-	ld	a,(#_level + 0)
+	ld	iy,#_level
+	ld	a,0 (iy)
 	or	a, a
 	jr	Z,00106$
-	ld	hl, #_level+0
-	dec	(hl)
+	dec	0 (iy)
 	jr	00109$
 00106$:
 	ld	hl,#_level + 0
@@ -1315,11 +1312,11 @@ _title::
 	ld	iy,#_rda
 	sub	a, 0 (iy)
 	jr	Z,00111$
-	ld	de,#_s_03_use2_psg
 	ld	a,#0x01
 	push	af
 	inc	sp
-	push	de
+	ld	hl,#_s_03_use2_psg
+	push	hl
 	call	_PSGSFXPlay
 	pop	af
 	inc	sp
@@ -1329,11 +1326,11 @@ _title::
 	bit	4, (hl)
 	jr	Z,00115$
 ;./my/pres.h:53: PSGSFXPlay (SFX_START, 1); delay (20);
-	ld	de,#_s_00_start2_psg+0
 	ld	a,#0x01
 	push	af
 	inc	sp
-	push	de
+	ld	hl,#_s_00_start2_psg
+	push	hl
 	call	_PSGSFXPlay
 	pop	af
 	inc	sp
@@ -1358,7 +1355,7 @@ _scr_game_over::
 	call	_unrle
 ;./my/pres.h:60: _x = 10; _y = 8; pr_str ("GAME OVER!");
 	ld	hl,#__x + 0
-	ld	(hl), #0x0A
+	ld	(hl), #0x0a
 	ld	hl,#__y + 0
 	ld	(hl), #0x08
 	ld	hl,#___str_1
@@ -1369,7 +1366,7 @@ _scr_game_over::
 	ld	hl,#__x + 0
 	ld	(hl), #0x04
 	ld	hl,#__y + 0
-	ld	(hl), #0x0A
+	ld	(hl), #0x0a
 	ld	hl,#___str_2
 	push	hl
 	call	_pr_str
@@ -1378,7 +1375,7 @@ _scr_game_over::
 	ld	hl,#__x + 0
 	ld	(hl), #0x05
 	ld	hl,#__y + 0
-	ld	(hl), #0x0C
+	ld	(hl), #0x0c
 	ld	hl,#___str_3
 	push	hl
 	call	_pr_str
@@ -1387,7 +1384,7 @@ _scr_game_over::
 	ld	hl,#__x + 0
 	ld	(hl), #0x09
 	ld	hl,#__y + 0
-	ld	(hl), #0x0E
+	ld	(hl), #0x0e
 	ld	hl,#___str_4
 	push	hl
 	call	_pr_str
@@ -1427,7 +1424,7 @@ _scr_the_end::
 	ld	hl,#__x + 0
 	ld	(hl), #0x02
 	ld	hl,#__y + 0
-	ld	(hl), #0x0A
+	ld	(hl), #0x0a
 	ld	hl,#___str_6
 	push	hl
 	call	_pr_str
@@ -1436,7 +1433,7 @@ _scr_the_end::
 	ld	hl,#__x + 0
 	ld	(hl), #0x04
 	ld	hl,#__y + 0
-	ld	(hl), #0x0C
+	ld	(hl), #0x0c
 	ld	hl,#___str_7
 	push	hl
 	call	_pr_str
@@ -1445,7 +1442,7 @@ _scr_the_end::
 	ld	hl,#__x + 0
 	ld	(hl), #0x05
 	ld	hl,#__y + 0
-	ld	(hl), #0x0E
+	ld	(hl), #0x0e
 	ld	hl,#___str_8
 	push	hl
 	call	_pr_str
@@ -1493,14 +1490,14 @@ _credits::
 	ld	hl,#0x0000
 	ld	(_rds16),hl
 	ld	hl,#_rdy + 0
-	ld	(hl), #0xF0
+	ld	(hl), #0xf0
 ;./my/pres.h:80: _x = 0; _y = 18; 
 	ld	hl,#__x + 0
 	ld	(hl), #0x00
 	ld	hl,#__y + 0
 	ld	(hl), #0x12
 ;./my/pres.h:81: pr_str ("   SGT. HELMET - TRAINING DAY%%         ORIGINAL GAME:%     @ 2013 THE MOJON TWINS%       REPROGRAMMED GAME:%     @ 2018 THE MOJON TWINS");
-	ld	hl,#___str_11+0
+	ld	hl,#___str_11
 	push	hl
 	call	_pr_str
 ;./my/pres.h:83: SG_displayOn ();
@@ -1513,9 +1510,10 @@ _credits::
 	call	_SG_getKeysStatus
 	bit	4, l
 	jr	NZ,00107$
-	ld	a,(#_rds16 + 0)
-	sub	a, #0x2C
-	ld	a,(#_rds16 + 1)
+	ld	iy,#_rds16
+	ld	a,0 (iy)
+	sub	a, #0x2c
+	ld	a,1 (iy)
 	rla
 	ccf
 	rra
@@ -1524,11 +1522,10 @@ _credits::
 ;./my/pres.h:88: update_cycle ();
 	call	_update_cycle
 ;./my/pres.h:89: rds16 ++;
-	ld	hl, #_rds16+0
-	inc	(hl)
+	ld	iy,#_rds16
+	inc	0 (iy)
 	jr	NZ,00105$
-	ld	hl, #_rds16+1
-	inc	(hl)
+	inc	1 (iy)
 	jr	00105$
 00107$:
 ;./my/pres.h:92: SG_displayOff ();
@@ -1565,19 +1562,18 @@ _flickscreen_do_horizontal::
 	ld	hl, #_n_pant+0
 	dec	(hl)
 ;./mainloop/flickscreen.h:16: px = 244 << FIXBITS;
-	ld	hl,#0x3D00
+	ld	hl,#0x3d00
 	ld	(_px),hl
 	ret
 00105$:
 ;./mainloop/flickscreen.h:17: } else if (prx == 244 && 
 	ld	a,(#_prx + 0)
-	sub	a, #0xF4
+	sub	a, #0xf4
 	ret	NZ
 ;./mainloop/flickscreen.h:23: ) {
 	xor	a, a
 	ld	iy,#_pvx
 	cp	a, 0 (iy)
-	ld	iy,#_pvx
 	sbc	a, 1 (iy)
 	jp	PO, 00130$
 	xor	a, #0x80
@@ -1620,12 +1616,11 @@ _flickscreen_do_vertical::
 00105$:
 ;./mainloop/flickscreen.h:35: } else if (pry >= 192 && pvy > 0) {
 	ld	a,(#_pry + 0)
-	sub	a, #0xC0
+	sub	a, #0xc0
 	ret	C
 	xor	a, a
 	ld	iy,#_pvy
 	cp	a, 0 (iy)
-	ld	iy,#_pvy
 	sbc	a, 1 (iy)
 	jp	PO, 00126$
 	xor	a, #0x80
@@ -1651,31 +1646,31 @@ _flickscreen_do_vertical::
 ; ---------------------------------
 _player_frame_selector::
 ;./my/player_frame_selector.h:15: if (pvx != 0 || pvy != 0) {
-	ld	a,(#_pvx + 1)
-	ld	hl,#_pvx + 0
-	or	a,(hl)
+	ld	iy,#_pvx
+	ld	a,1 (iy)
+	or	a,0 (iy)
 	jr	NZ,00103$
-	ld	a,(#_pvy + 1)
-	ld	hl,#_pvy + 0
-	or	a,(hl)
+	ld	iy,#_pvy
+	ld	a,1 (iy)
+	or	a,0 (iy)
 	ret	Z
 00103$:
 ;./my/player_frame_selector.h:16: ++ pctfr;
-	ld	hl, #_pctfr+0
-	inc	(hl)
+	ld	iy,#_pctfr
+	inc	0 (iy)
 ;./my/player_frame_selector.h:17: if (pctfr == 4) {
-	ld	a,(#_pctfr + 0)
+	ld	a,0 (iy)
 	sub	a, #0x04
 	ret	NZ
 ;./my/player_frame_selector.h:18: pctfr = 0;
-	ld	hl,#_pctfr + 0
-	ld	(hl), #0x00
+	ld	0 (iy),#0x00
 ;./my/player_frame_selector.h:19: pfr = !pfr;
-	ld	a,(#_pfr + 0)
+	ld	iy,#_pfr
+	ld	a,0 (iy)
 	sub	a,#0x01
 	ld	a,#0x00
 	rla
-	ld	(#_pfr + 0),a
+	ld	0 (iy), a
 ;./my/player_frame_selector.h:20: psprid = pfacing + pfr;
 	ld	hl,#_pfr
 	push	de
@@ -1702,110 +1697,111 @@ _game_init::
 	ld	l,0 (iy)
 	ld	h,#0x00
 	add	hl, hl
-	ex	de,hl
+	ld	c, l
+	ld	b, h
 	ld	hl,#_l_ts_tmaps
-	add	hl,de
+	add	hl,bc
 	ld	a,(hl)
 	ld	iy,#_c_ts_tmaps
 	ld	0 (iy),a
 	inc	hl
 	ld	a,(hl)
-	ld	(#_c_ts_tmaps + 1),a
+	ld	1 (iy),a
 ;./mainloop/asset_setup.h:10: c_behs = 		l_behs [level];
-	ld	hl,#_l_behs
-	add	hl,de
+	ld	hl,#_l_behs+0
+	add	hl,bc
 	ld	a,(hl)
 	ld	iy,#_c_behs
 	ld	0 (iy),a
 	inc	hl
 	ld	a,(hl)
-	ld	(#_c_behs + 1),a
+	ld	1 (iy),a
 ;./mainloop/asset_setup.h:11: spr_enems = 	l_spr_enems [level];
-	ld	hl,#_l_spr_enems
-	add	hl,de
+	ld	hl,#_l_spr_enems+0
+	add	hl,bc
 	ld	a,(hl)
 	ld	iy,#_spr_enems
 	ld	0 (iy),a
 	inc	hl
 	ld	a,(hl)
-	ld	(#_spr_enems + 1),a
+	ld	1 (iy),a
 ;./mainloop/asset_setup.h:13: c_map = 		l_map [level];
-	ld	hl,#_l_map
-	add	hl,de
+	ld	hl,#_l_map+0
+	add	hl,bc
 	ld	a,(hl)
 	ld	iy,#_c_map
 	ld	0 (iy),a
 	inc	hl
 	ld	a,(hl)
-	ld	(#_c_map + 1),a
+	ld	1 (iy),a
 ;./mainloop/asset_setup.h:23: c_locks = 	l_locks [level];
-	ld	hl,#_l_locks
-	add	hl,de
+	ld	hl,#_l_locks+0
+	add	hl,bc
 	ld	a,(hl)
 	ld	iy,#_c_locks
 	ld	0 (iy),a
 	inc	hl
 	ld	a,(hl)
-	ld	iy,#_c_locks
 	ld	1 (iy),a
 ;./mainloop/asset_setup.h:25: l_n_bolts [level];
 	ld	a,(#_level + 0)
 	add	a, #<(_l_n_bolts)
-	ld	c,a
+	ld	e,a
 	ld	a,#0x00
 	adc	a, #>(_l_n_bolts)
-	ld	b,a
-	ld	a,(bc)
+	ld	d,a
+	ld	a,(de)
 	ld	(#_c_max_bolts + 0),a
 ;./mainloop/asset_setup.h:28: c_enems = 		l_enems [level];
-	ld	hl,#_l_enems
-	add	hl,de
+	ld	hl,#_l_enems+0
+	add	hl,bc
 	ld	a,(hl)
 	ld	iy,#_c_enems
 	ld	0 (iy),a
 	inc	hl
 	ld	a,(hl)
-	ld	(#_c_enems + 1),a
+	ld	1 (iy),a
 ;./mainloop/asset_setup.h:29: c_hotspots = 	l_hotspots [level];	
-	ld	hl,#_l_hotspots
-	add	hl,de
+	ld	hl,#_l_hotspots+0
+	add	hl,bc
 	ld	a,(hl)
 	ld	iy,#_c_hotspots
 	ld	0 (iy),a
 	inc	hl
 	ld	a,(hl)
-	ld	(#_c_hotspots + 1),a
+	ld	1 (iy),a
 ;./mainloop/asset_setup.h:31: c_max_enems = 	l_player_max_enems [level];
-	ld	de,#_l_player_max_enems+0
+	ld	bc,#_l_player_max_enems+0
 	ld	hl,(_level)
 	ld	h,#0x00
-	add	hl,de
+	add	hl,bc
 	ld	a,(hl)
 	ld	(#_c_max_enems + 0),a
 ;./mainloop/asset_setup.h:33: c_map_w = 		l_map_w [level];
-	ld	de,#_l_map_w+0
+	ld	bc,#_l_map_w+0
 	ld	hl,(_level)
 	ld	h,#0x00
-	add	hl,de
+	add	hl,bc
 	ld	a,(hl)
 	ld	(#_c_map_w + 0),a
 ;./mainloop/asset_setup.h:34: c_map_h = 		l_map_h [level];
-	ld	de,#_l_map_h+0
+	ld	bc,#_l_map_h+0
 	ld	hl,(_level)
 	ld	h,#0x00
-	add	hl,de
+	add	hl,bc
 	ld	a,(hl)
+	ld	iy,#_c_map_h
+	ld	0 (iy),a
 ;./mainloop/asset_setup.h:84: rda = c_map_h; c_map_size = 0; while (rda --) c_map_size += c_map_w;
-	ld	(#_c_map_h + 0),a
+	ld	a,0 (iy)
 	ld	(#_rda + 0),a
 	ld	hl,#_c_map_size + 0
 	ld	(hl), #0x00
 00101$:
-	ld	hl,#_rda + 0
-	ld	d, (hl)
-	ld	hl, #_rda+0
-	dec	(hl)
-	ld	a,d
+	ld	iy,#_rda
+	ld	c,0 (iy)
+	dec	0 (iy)
+	ld	a,c
 	or	a, a
 	jr	Z,00103$
 	ld	hl,#_c_map_w
@@ -1829,12 +1825,12 @@ _game_init::
 	ld	hl,#_c_max_bolts + 0
 	ld	c, (hl)
 	ld	b,#0x00
-	ld	de,#_lkact
 	push	bc
 	ld	a,#0x01
 	push	af
 	inc	sp
-	push	de
+	ld	hl,#_lkact
+	push	hl
 	call	_memfill
 	pop	af
 	pop	af
@@ -1844,17 +1840,17 @@ _game_init::
 	or	a, a
 	jr	NZ,00105$
 ;./mainloop.h:32: n_pant = SCR_INI;
-	ld	de,#_l_scr_ini+0
+	ld	bc,#_l_scr_ini+0
 	ld	hl,(_level)
 	ld	h,#0x00
-	add	hl,de
+	add	hl,bc
 	ld	a,(hl)
 	ld	(#_n_pant + 0),a
 ;./mainloop.h:33: px = (4 + (PLAYER_INI_X << 4)) << FIXBITS;
-	ld	de,#_l_ini_x+0
+	ld	bc,#_l_ini_x+0
 	ld	hl,(_level)
 	ld	h,#0x00
-	add	hl,de
+	add	hl,bc
 	ld	l,(hl)
 	ld	h,#0x00
 	add	hl, hl
@@ -1871,10 +1867,10 @@ _game_init::
 	add	hl, hl
 	ld	(_px),hl
 ;./mainloop.h:34: py = (PLAYER_INI_Y << 4) << FIXBITS;
-	ld	de,#_l_ini_y+0
+	ld	bc,#_l_ini_y+0
 	ld	hl,(_level)
 	ld	h,#0x00
-	add	hl,de
+	add	hl,bc
 	ld	l,(hl)
 	ld	h,#0x00
 	add	hl, hl
@@ -1909,16 +1905,16 @@ _game_init::
 	ld	(hl), #0x00
 ;./mainloop.h:121: olife = oammo = oobjs = okeys = 0xff;
 	ld	hl,#_okeys + 0
-	ld	(hl), #0xFF
+	ld	(hl), #0xff
 	ld	hl,#_oobjs + 0
-	ld	(hl), #0xFF
+	ld	(hl), #0xff
 	ld	hl,#_oammo + 0
-	ld	(hl), #0xFF
+	ld	(hl), #0xff
 	ld	hl,#_olife + 0
-	ld	(hl), #0xFF
+	ld	(hl), #0xff
 ;./mainloop.h:122: okilled = 0xff;
 	ld	hl,#_okilled + 0
-	ld	(hl), #0xFF
+	ld	(hl), #0xff
 ;./my/extra_inits.h:7: bombs_set = 0;
 	ld	hl,#_bombs_set + 0
 	ld	(hl), #0x00
@@ -1944,11 +1940,12 @@ _prepare_scr::
 ;./mainloop.h:161: update_list [update_index] = 0xff;
 	ld	a,(#_update_index + 0)
 	add	a, #<(_update_list)
-	ld	l, a
-	ld	a, #0x00
+	ld	c,a
+	ld	a,#0x00
 	adc	a, #>(_update_list)
-	ld	h, a
-	ld	(hl),#0xFF
+	ld	b,a
+	ld	a,#0xff
+	ld	(bc),a
 ;./mainloop.h:162: HW_doUpdateList ();
 	call	_SG_doUpdateList
 ;./mainloop.h:163: clear_update_list ();
@@ -1969,45 +1966,45 @@ _prepare_scr::
 ;./mainloop.h:218: gpit = BREAKABLE_MAX; while (gpit --) brkf [gpit] = 0;
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x04
-	ld	de,#_brkf+0
+	ld	bc,#_brkf+0
 00103$:
-	ld	hl,#_gpit + 0
-	ld	b, (hl)
-	ld	hl, #_gpit+0
-	dec	(hl)
-	ld	a,b
+	ld	iy,#_gpit
+	ld	e,0 (iy)
+	dec	0 (iy)
+	ld	a,e
 	or	a, a
 	jr	Z,00105$
 	ld	hl,(_gpit)
 	ld	h,#0x00
-	add	hl,de
+	add	hl,bc
 	ld	(hl),#0x00
 	jr	00103$
 00105$:
 ;./mainloop.h:231: for (gpit = 0; gpit < MAX_BULLETS; gpit ++) {
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x00
-	ld	de,#_bst+0
+	ld	bc,#_b_slots+0
 00122$:
 ;./mainloop.h:232: b_slots [gpit] = gpit; 
-	ld	a,#<(_b_slots)
-	ld	hl,#_gpit
-	add	a, (hl)
-	ld	c,a
-	ld	a,#>(_b_slots)
-	adc	a, #0x00
-	ld	b,a
-	ld	a,(#_gpit + 0)
-	ld	(bc),a
-;./mainloop.h:233: bst [gpit] = 0;
 	ld	hl,(_gpit)
 	ld	h,#0x00
-	add	hl,de
-	ld	(hl),#0x00
+	add	hl,bc
+	ld	iy,#_gpit
+	ld	a,0 (iy)
+	ld	(hl),a
+;./mainloop.h:233: bst [gpit] = 0;
+	ld	a,#<(_bst)
+	ld	hl,#_gpit
+	add	a, (hl)
+	ld	e,a
+	ld	a,#>(_bst)
+	adc	a, #0x00
+	ld	d,a
+	xor	a, a
+	ld	(de),a
 ;./mainloop.h:231: for (gpit = 0; gpit < MAX_BULLETS; gpit ++) {
-	ld	hl, #_gpit+0
-	inc	(hl)
-	ld	a,(#_gpit + 0)
+	inc	0 (iy)
+	ld	a,0 (iy)
 	sub	a, #0x04
 	jr	C,00122$
 ;./mainloop.h:235: b_slots_i = MAX_BULLETS;
@@ -2033,11 +2030,10 @@ _prepare_scr::
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x06
 00109$:
-	ld	hl,#_gpit + 0
-	ld	d, (hl)
-	ld	hl, #_gpit+0
-	dec	(hl)
-	ld	a,d
+	ld	iy,#_gpit
+	ld	c,0 (iy)
+	dec	0 (iy)
+	ld	a,c
 	or	a, a
 	jr	Z,00111$
 ;./my/on_entering_screen.h:15: _x = rdx; _y = rdy; _t = rdt; map_set ();
@@ -2051,13 +2047,12 @@ _prepare_scr::
 ;./my/on_entering_screen.h:16: rdt ++; rdx ++; if (rdx == 9) { rdx = 6; rdy ++; }
 	ld	hl, #_rdt+0
 	inc	(hl)
-	ld	hl, #_rdx+0
-	inc	(hl)
-	ld	a,(#_rdx + 0)
+	ld	iy,#_rdx
+	inc	0 (iy)
+	ld	a,0 (iy)
 	sub	a, #0x09
 	jr	NZ,00109$
-	ld	hl,#_rdx + 0
-	ld	(hl), #0x06
+	ld	0 (iy),#0x06
 	ld	hl, #_rdy+0
 	inc	(hl)
 	jr	00109$
@@ -2073,32 +2068,32 @@ _prepare_scr::
 ;./my/on_entering_screen.h:23: for (gpit = 0; gpit < 5; gpit ++) {
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x00
-	ld	de,#_bombs_y+0
+	ld	bc,#_bombs_x+0
 00124$:
 ;./my/on_entering_screen.h:24: _x = bombs_x [gpit]; _y = bombs_y [gpit]; _t = 24; map_set ();
-	ld	a,#<(_bombs_x)
-	ld	hl,#_gpit
-	add	a, (hl)
-	ld	c,a
-	ld	a,#>(_bombs_x)
-	adc	a, #0x00
-	ld	b,a
-	ld	a,(bc)
-	ld	(#__x + 0),a
 	ld	hl,(_gpit)
 	ld	h,#0x00
-	add	hl,de
+	add	hl,bc
 	ld	a,(hl)
+	ld	(#__x + 0),a
+	ld	a,#<(_bombs_y)
+	ld	hl,#_gpit
+	add	a, (hl)
+	ld	e,a
+	ld	a,#>(_bombs_y)
+	adc	a, #0x00
+	ld	d,a
+	ld	a,(de)
 	ld	(#__y + 0),a
 	ld	hl,#__t + 0
 	ld	(hl), #0x18
-	push	de
+	push	bc
 	call	_map_set
-	pop	de
+	pop	bc
 ;./my/on_entering_screen.h:23: for (gpit = 0; gpit < 5; gpit ++) {
-	ld	hl, #_gpit+0
-	inc	(hl)
-	ld	a,(#_gpit + 0)
+	ld	iy,#_gpit
+	inc	0 (iy)
+	ld	a,0 (iy)
 	sub	a, #0x05
 	jr	C,00124$
 00114$:
@@ -2111,26 +2106,28 @@ _prepare_scr::
 	ld	hl,#_gpit + 0
 	ld	(hl), #0x03
 00117$:
-	ld	hl,#_gpit + 0
-	ld	e, (hl)
-	ld	hl, #_gpit+0
-	dec	(hl)
-	ld	a,e
+	ld	iy,#_gpit
+	ld	b,0 (iy)
+	dec	0 (iy)
+	ld	a,b
 	or	a, a
 	jr	Z,00119$
 	ld	a,#<(_en_spr_id)
 	ld	hl,#_gpit
 	add	a, (hl)
-	ld	e,a
+	ld	c,a
 	ld	a,#>(_en_spr_id)
 	adc	a, #0x00
+	ld	b,a
+	ld	a,#<(_en_s)
+	ld	hl,#_gpit
+	add	a, (hl)
+	ld	e,a
+	ld	a,#>(_en_s)
+	adc	a, #0x00
 	ld	d,a
-	ld	iy,#_en_s
-	ld	bc,(_gpit)
-	ld	b,#0x00
-	add	iy, bc
-	ld	a, 0 (iy)
-	ld	(de),a
+	ld	a,(de)
+	ld	(bc),a
 	jr	00117$
 00119$:
 ;./mainloop.h:272: prx = px >> FIXBITS; pry = py >> FIXBITS;
@@ -2183,11 +2180,12 @@ _prepare_scr::
 ;./mainloop.h:299: update_list [update_index] = 0xff;
 	ld	a,(#_update_index + 0)
 	add	a, #<(_update_list)
-	ld	l, a
-	ld	a, #0x00
+	ld	c,a
+	ld	a,#0x00
 	adc	a, #>(_update_list)
-	ld	h, a
-	ld	(hl),#0xFF
+	ld	b,a
+	ld	a,#0xff
+	ld	(bc),a
 ;./mainloop.h:300: HW_doUpdateList ();
 	call	_SG_doUpdateList
 ;./mainloop.h:301: clear_update_list ();	
@@ -2226,16 +2224,16 @@ _game_loop::
 	ld	hl,#_ticker + 0
 	ld	(hl), #0x32
 ;./mainloop.h:327: PSGPlay (l_music [level]);
+	ld	bc,#_l_music+0
 	ld	iy,#_level
 	ld	l,0 (iy)
 	ld	h,#0x00
 	add	hl, hl
-	ld	de,#_l_music
-	add	hl,de
-	ld	e,(hl)
+	add	hl,bc
+	ld	c,(hl)
 	inc	hl
-	ld	d,(hl)
-	push	de
+	ld	b,(hl)
+	push	bc
 	call	_PSGPlay
 	pop	af
 ;./mainloop.h:332: paused = 0; HW_resetPauseRequest ();
@@ -2285,11 +2283,12 @@ _game_loop::
 	ld	a,#<(_update_list)
 	ld	hl,#_update_index
 	add	a, (hl)
-	ld	l, a
-	ld	a, #>(_update_list)
+	ld	c,a
+	ld	a,#>(_update_list)
 	adc	a, #0x00
-	ld	h, a
-	ld	(hl),#0xFF
+	ld	b,a
+	ld	a,#0xff
+	ld	(bc),a
 ;./mainloop.h:386: HW_doUpdateList ();
 	call	_SG_doUpdateList
 ;./mainloop.h:387: clear_update_list ();
@@ -2305,13 +2304,12 @@ _game_loop::
 	and	a, #0x10
 	ld	(#_b_button + 0),a
 ;./mainloop.h:397: ntsc_frame ++; if (ntsc_frame == 6) ntsc_frame = 0;
-	ld	hl, #_ntsc_frame+0
-	inc	(hl)
-	ld	a,(#_ntsc_frame + 0)
+	ld	iy,#_ntsc_frame
+	inc	0 (iy)
+	ld	a,0 (iy)
 	sub	a, #0x06
 	jr	NZ,00111$
-	ld	hl,#_ntsc_frame + 0
-	ld	(hl), #0x00
+	ld	0 (iy),#0x00
 00111$:
 ;./mainloop.h:399: if (paused == 0 && (ntsc == 0 || ntsc_frame)) {
 	ld	a,(#_paused + 0)
@@ -2327,20 +2325,21 @@ _game_loop::
 ;./mainloop.h:400: HW_initSprites ();
 	call	_SG_initSprites
 ;./mainloop.h:403: if (ticker) -- ticker; else ticker = 50;
-	ld	a,(#_ticker + 0)
+	ld	iy,#_ticker
+	ld	a,0 (iy)
 	or	a, a
 	jr	Z,00113$
-	ld	hl, #_ticker+0
-	dec	(hl)
+	dec	0 (iy)
 	jr	00114$
 00113$:
 	ld	hl,#_ticker + 0
 	ld	(hl), #0x32
 00114$:
 ;./mainloop.h:404: half_life ^= 1;
-	ld	a,(#_half_life + 0)
+	ld	iy,#_half_life
+	ld	a,0 (iy)
 	xor	a, #0x01
-	ld	(#_half_life + 0),a
+	ld	0 (iy),a
 ;./mainloop.h:405: ++ frame_counter;
 	ld	hl, #_frame_counter+0
 	inc	(hl)
@@ -2351,21 +2350,23 @@ _game_loop::
 ;./mainloop/hotspots.h:7: if (collide_in (prx + 4, pry + 8, hrx, hry)) {
 	ld	a,(#_pry + 0)
 	add	a, #0x08
-	ld	b,a
+	ld	d,a
 	ld	hl,#_prx + 0
-	ld	d, (hl)
-	inc	d
-	inc	d
-	inc	d
-	inc	d
+	ld	b, (hl)
+	inc	b
+	inc	b
+	inc	b
+	inc	b
 	ld	a,(_hry)
 	push	af
 	inc	sp
 	ld	a,(_hrx)
 	push	af
 	inc	sp
-	ld	c, d
+	push	de
+	inc	sp
 	push	bc
+	inc	sp
 	call	_collide_in
 	pop	af
 	pop	af
@@ -2378,14 +2379,13 @@ _game_loop::
 	ld	hl,#_rdm + 0
 	ld	(hl), #0x01
 ;./mainloop/hotspots.h:129: switch (hrt) {
-	ld	a,(#_hrt + 0)
+	ld	iy,#_hrt
+	ld	a,0 (iy)
 	sub	a, #0x01
 	jp	C,00122$
 	ld	a,#0x04
-	ld	iy,#_hrt
 	sub	a, 0 (iy)
 	jp	C,00122$
-	ld	iy,#_hrt
 	ld	e,0 (iy)
 	dec	e
 	ld	d,#0x00
@@ -2404,10 +2404,9 @@ _game_loop::
 	ld	hl, #_pobjs+0
 	inc	(hl)
 ;./mainloop/hotspots.h:146: gp_gen = SFX_OBJECT;
-	ld	hl,#_gp_gen + 0
-	ld	(hl), #<(_s_02_object2_psg)
-	ld	hl,#_gp_gen + 1
-	ld	(hl), #>(_s_02_object2_psg)
+	ld	iy,#_gp_gen
+	ld	0 (iy),#<(_s_02_object2_psg)
+	ld	1 (iy),#>(_s_02_object2_psg)
 ;./mainloop/hotspots.h:148: break;
 	jr	00122$
 ;./mainloop/hotspots.h:151: case HOTSPOT_TYPE_KEYS:
@@ -2416,10 +2415,9 @@ _game_loop::
 	ld	hl, #_pkeys+0
 	inc	(hl)
 ;./mainloop/hotspots.h:153: gp_gen = SFX_OBJECT;
-	ld	hl,#_gp_gen + 0
-	ld	(hl), #<(_s_02_object2_psg)
-	ld	hl,#_gp_gen + 1
-	ld	(hl), #>(_s_02_object2_psg)
+	ld	iy,#_gp_gen
+	ld	0 (iy),#<(_s_02_object2_psg)
+	ld	1 (iy),#>(_s_02_object2_psg)
 ;./mainloop/hotspots.h:154: break;
 	jr	00122$
 ;./mainloop/hotspots.h:156: case HOTSPOT_TYPE_REFILL:
@@ -2428,10 +2426,9 @@ _game_loop::
 	ld	hl, #_plife+0
 	inc	(hl)
 ;./mainloop/hotspots.h:161: gp_gen = SFX_USE;
-	ld	hl,#_gp_gen + 0
-	ld	(hl), #<(_s_03_use2_psg)
-	ld	hl,#_gp_gen + 1
-	ld	(hl), #>(_s_03_use2_psg)
+	ld	iy,#_gp_gen
+	ld	0 (iy),#<(_s_03_use2_psg)
+	ld	1 (iy),#>(_s_03_use2_psg)
 ;./mainloop/hotspots.h:162: rdm = 2;
 	ld	hl,#_rdm + 0
 	ld	(hl), #0x02
@@ -2440,24 +2437,23 @@ _game_loop::
 ;./mainloop/hotspots.h:165: case HOTSPOT_TYPE_AMMO:
 00118$:
 ;./mainloop/hotspots.h:166: gp_gen = SFX_OBJECT;
-	ld	hl,#_gp_gen + 0
-	ld	(hl), #<(_s_02_object2_psg)
-	ld	hl,#_gp_gen + 1
-	ld	(hl), #>(_s_02_object2_psg)
+	ld	iy,#_gp_gen
+	ld	0 (iy),#<(_s_02_object2_psg)
+	ld	1 (iy),#>(_s_02_object2_psg)
 ;./mainloop/hotspots.h:167: if (MAX_AMMO - pammo > AMMO_REFILL)
-	ld	iy,#_pammo
-	ld	h,0 (iy)
-	ld	l,#0x00
+	ld	hl,#_pammo + 0
+	ld	c, (hl)
+	ld	b,#0x00
 	ld	a,#0x63
-	sub	a, h
-	ld	h,a
+	sub	a, c
+	ld	c,a
 	ld	a,#0x00
-	sbc	a, l
-	ld	l,a
+	sbc	a, b
+	ld	b,a
 	ld	a,#0x32
-	cp	a, h
+	cp	a, c
 	ld	a,#0x00
-	sbc	a, l
+	sbc	a, b
 	jp	PO, 00294$
 	xor	a, #0x80
 00294$:
@@ -2475,16 +2471,16 @@ _game_loop::
 ;./mainloop/hotspots.h:192: }
 00122$:
 ;./mainloop/hotspots.h:193: if (gp_gen) {
-	ld	a,(#_gp_gen + 1)
-	ld	hl,#_gp_gen + 0
-	or	a,(hl)
+	ld	iy,#_gp_gen
+	ld	a,1 (iy)
+	or	a,0 (iy)
 	jr	Z,00128$
 ;./mainloop/hotspots.h:194: PSGSFXPlay (gp_gen, rdm);
-	ld	de,(_gp_gen)
+	ld	bc,(_gp_gen)
 	ld	a,(_rdm)
 	push	af
 	inc	sp
-	push	de
+	push	bc
 	call	_PSGSFXPlay
 	pop	af
 	inc	sp
@@ -2495,12 +2491,12 @@ _game_loop::
 	ld	a,#<(_hact)
 	ld	hl,#_n_pant
 	add	a, (hl)
-	ld	e,a
+	ld	c,a
 	ld	a,#>(_hact)
 	adc	a, #0x00
-	ld	d,a
+	ld	b,a
 	xor	a, a
-	ld	(de),a
+	ld	(bc),a
 00128$:
 ;./mainloop.h:425: if (!warp_to_level) {
 	ld	a,(#_warp_to_level + 0)
@@ -2521,11 +2517,11 @@ _game_loop::
 ;./my/extra_checks.h:15: update_cycle ();
 	call	_update_cycle
 ;./my/extra_checks.h:16: PSGSFXPlay (SFX_FANFARE, 2);
-	ld	de,#_s_19_fanfare2_psg
 	ld	a,#0x02
 	push	af
 	inc	sp
-	push	de
+	ld	hl,#_s_19_fanfare2_psg
+	push	hl
 	call	_PSGSFXPlay
 	pop	af
 	inc	sp
@@ -2611,20 +2607,20 @@ _game_loop::
 	ld	a,#<(_bombs_x)
 	ld	hl,#_gpit
 	add	a, (hl)
-	ld	e,a
+	ld	c,a
 	ld	a,#>(_bombs_x)
 	adc	a, #0x00
-	ld	d,a
-	ld	a,(de)
+	ld	b,a
+	ld	a,(bc)
 	ld	(#__x + 0),a
 	ld	a,#<(_bombs_y)
 	ld	hl,#_gpit
 	add	a, (hl)
-	ld	e,a
+	ld	c,a
 	ld	a,#>(_bombs_y)
 	adc	a, #0x00
-	ld	d,a
-	ld	a,(de)
+	ld	b,a
+	ld	a,(bc)
 	ld	(#__y + 0),a
 	ld	hl,#__t + 0
 	ld	(hl), #0x18
@@ -2634,11 +2630,11 @@ _game_loop::
 ;./my/extra_routines.h:11: clear_update_list (); 
 	call	_clear_update_list
 ;./my/extra_routines.h:12: PSGSFXPlay (SFX_HITTER, 3); 
-	ld	de,#_s_14_hitter3_psg
 	ld	a,#0x03
 	push	af
 	inc	sp
-	push	de
+	ld	hl,#_s_14_hitter3_psg
+	push	hl
 	call	_PSGSFXPlay
 	pop	af
 	inc	sp
@@ -2649,9 +2645,9 @@ _game_loop::
 	call	_delay
 	inc	sp
 ;./my/extra_routines.h:8: for (gpit = 0; gpit < 5; gpit ++) {
-	ld	hl, #_gpit+0
-	inc	(hl)
-	ld	a,(#_gpit + 0)
+	ld	iy,#_gpit
+	inc	0 (iy)
+	ld	a,0 (iy)
 	sub	a, #0x05
 	jr	C,00161$
 ;./my/extra_routines.h:16: bombs_set = 1;
@@ -2669,9 +2665,10 @@ _game_loop::
 ;./mainloop/pause.h:6: HW_resetPauseRequest ();
 	call	_SG_resetPauseRequest
 ;./mainloop/pause.h:7: paused ^= 1;
-	ld	a,(#_paused + 0)
+	ld	iy,#_paused
+	ld	a,0 (iy)
 	xor	a, #0x01
-	ld	(#_paused + 0),a
+	ld	0 (iy),a
 ;./mainloop/pause.h:8: music_pause (paused);
 	ld	a,(_paused)
 	push	af
@@ -2693,34 +2690,33 @@ _game_loop::
 	call	_SG_initSprites
 ;./mainloop.h:533: HW_copySpritestoSAT ();	
 	jp  _SG_copySpritestoSAT
-;./game.c:143: void main(void) {
+;./game.c:141: void main(void) {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;./game.c:144: HW_displayOff ();
+;./game.c:142: HW_displayOff ();
 	ld	hl,#0x0140
 	push	hl
 	call	_SG_VDPturnOffFeature
-;./game.c:145: HW_setSpriteMode (SG_SPRITEMODE_LARGE);
+;./game.c:143: HW_setSpriteMode (SG_SPRITEMODE_LARGE);
 	ld	h,#0x01
 	ex	(sp),hl
 	inc	sp
 	call	_SG_setSpriteMode
 	inc	sp
-;./game.c:146: HW_setUpdateList (update_list);
+;./game.c:144: HW_setUpdateList (update_list);
 	ld	hl,#_update_list
 	push	hl
 	call	_SG_setUpdateList
 	pop	af
-;./game.c:147: first_game = 1;
+;./game.c:145: first_game = 1;
 	ld	hl,#_first_game + 0
 	ld	(hl), #0x01
-;./game.c:152: ntsc = 1;
+;./game.c:148: ntsc = 0;
 	ld	hl,#_ntsc + 0
-	ld	(hl), #0x01
-;./game.c:156: unpack_bg_patterns (tsFONT_patterns_c, tsFONT_colours_c, 0, 7);
-	ld	de,#_tsFONT_patterns_c
+	ld	(hl), #0x00
+;./game.c:154: unpack_bg_patterns (tsFONT_patterns_c, tsFONT_colours_c, 0, 7);
 	ld	a,#0x07
 	push	af
 	inc	sp
@@ -2728,15 +2724,15 @@ _main::
 	push	hl
 	ld	hl,#_tsFONT_colours_c
 	push	hl
-	push	de
+	ld	hl,#_tsFONT_patterns_c
+	push	hl
 	call	_unpack_bg_patterns
 	ld	hl,#7
 	add	hl,sp
 	ld	sp,hl
-;./game.c:158: credits ();
+;./game.c:156: credits ();
 	call	_credits
-;./game.c:161: unpack_bg_patterns (tsALL_patterns_c, tsALL_colours_c, 64*8, 7);
-	ld	de,#_tsALL_patterns_c
+;./game.c:159: unpack_bg_patterns (tsALL_patterns_c, tsALL_colours_c, 64*8, 7);
 	ld	a,#0x07
 	push	af
 	inc	sp
@@ -2744,12 +2740,13 @@ _main::
 	push	hl
 	ld	hl,#_tsALL_colours_c
 	push	hl
-	push	de
+	ld	hl,#_tsALL_patterns_c
+	push	hl
 	call	_unpack_bg_patterns
 	ld	hl,#7
 	add	hl,sp
 	ld	sp,hl
-;./game.c:162: aPLib_depack_VRAM (SGT_BASE, ssALL_patterns_c);
+;./game.c:160: aPLib_depack_VRAM (SGT_BASE, ssALL_patterns_c);
 	ld	hl,#_ssALL_patterns_c
 	push	hl
 	ld	hl,#0x3800
@@ -2757,43 +2754,43 @@ _main::
 	call	_aPLib_depack_VRAM
 	pop	af
 	pop	af
-;./game.c:164: while (1) {	
+;./game.c:162: while (1) {	
 00108$:
-;./game.c:165: title ();
+;./game.c:163: title ();
 	call	_title
-;./game.c:168: plife = PLAYER_LIFE;
+;./game.c:166: plife = PLAYER_LIFE;
 	ld	hl,#_plife + 0
-	ld	(hl), #0x0F
-;./game.c:173: game_init (); 
+	ld	(hl), #0x0f
+;./game.c:171: game_init (); 
 	call	_game_init
-;./game.c:174: game_loop ();
+;./game.c:172: game_loop ();
 	call	_game_loop
-;./game.c:176: if (game_over) {
+;./game.c:174: if (game_over) {
 	ld	a,(#_game_over + 0)
 	or	a, a
 	jr	Z,00102$
-;./game.c:177: pres (scr_game_over, MUSIC_GOVER);
-	ld	hl,#_m_n_gover_psg
+;./game.c:175: pres (scr_game_over, MUSIC_GOVER);
+	ld	hl,#_m_p_gover_psg
 	push	hl
 	ld	hl,#_scr_game_over
 	push	hl
 	call	_pres
 	pop	af
 	pop	af
-;./game.c:178: break;
+;./game.c:176: break;
 	jr	00106$
 00102$:
-;./game.c:182: pres (scr_the_end, MUSIC_GOVER);
-	ld	hl,#_m_n_gover_psg
+;./game.c:180: pres (scr_the_end, MUSIC_GOVER);
+	ld	hl,#_m_p_gover_psg
 	push	hl
 	ld	hl,#_scr_the_end
 	push	hl
 	call	_pres
 	pop	af
 	pop	af
-;./game.c:183: break;
+;./game.c:181: break;
 00106$:
-;./game.c:188: first_game = 0;
+;./game.c:186: first_game = 0;
 	ld	hl,#_first_game + 0
 	ld	(hl), #0x00
 	jr	00108$
